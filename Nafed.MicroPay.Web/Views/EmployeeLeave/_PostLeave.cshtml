@@ -1,0 +1,95 @@
+﻿@model Nafed.MicroPay.Model.EmployeeLeave
+@using (Ajax.BeginForm("_PostLeave", "EmployeeLeave", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "div-leave-post",OnSuccess="OnsuccessData"}, new { defaultbutton = "btnApply" }))
+{
+    <div class="row">
+        <div class="form-group col-lg-4 col-md-4 col-sm-12 col-xs-12">
+            @Html.LabelFor(model => model.LeaveCategoryID, htmlAttributes: new { @class = "control-label  required" })
+            <div class="">
+                @Html.DropDownListFor(model => model.LeaveCategoryID, (IEnumerable<SelectListItem>
+                            )ViewBag.LeaveCategory, new { @class = "custom-select", onchange = "BindLeavePupose(this)" })
+                @Html.ValidationMessageFor(model => model.LeaveCategoryID, "", new { @class = "text-danger" })
+                @Html.ValidationMessage("LeaveCategoryRequired", "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group col-lg-4 col-md-4 col-sm-12 col-xs-12">
+            @Html.LabelFor(model => model.DateFrom, htmlAttributes: new { @class = "control-label  required" })
+            <div class="">
+                @Html.EditorFor(model => model.DateFrom, new { htmlAttributes = new { @class = "form-control", @placeholder = "From Date", min = DateTime.Now.AddMonths(-1).ToString("yyyy-MM-dd"), onchange = "DaysDifference()" } })
+                @Html.ValidationMessageFor(model => model.DateFrom, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group col-lg-4 col-md-4 col-sm-12 col-xs-12">
+            @Html.LabelFor(model => model.DateTo, htmlAttributes: new { @class = "control-label required" })
+            <div class="">
+                @Html.EditorFor(model => model.DateTo, new { htmlAttributes = new { @class = "form-control", @placeholder = "To Date", @type = "date", onchange = "DaysDifference()" } })
+                @Html.ValidationMessageFor(model => model.DateTo, "", new { @class = "text-danger" })
+                @Html.ValidationMessage("DateToValidation", "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-lg-4 col-md-4 col-sm-12 col-xs-12">
+            @Html.LabelFor(model => model.LeavePurposeID, htmlAttributes: new { @class = "control-label required" })
+            <div>
+                @Html.DropDownListFor(model => model.LeavePurposeID, (IEnumerable<SelectListItem>
+                            )ViewBag.LeavePurpose, new { @class = "custom-select col-lg-12" })
+                @Html.ValidationMessageFor(model => model.LeavePurposeID, "", new { @class = "text-danger" })
+                @Html.ValidationMessage("PurposeRequired", "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group col-lg-4 col-md-4 col-sm-12 col-xs-12">
+            @Html.LabelFor(model => model.Reason, htmlAttributes: new { @class = "control-label" })
+
+            <div>
+                @Html.EditorFor(model => model.Reason, new { htmlAttributes = new { @class = "form-control", @placeholder = "Please Enter Reason" } })
+            </div>
+        </div>
+    </div>
+        <div class="row p-4" id="Rdocument">
+
+
+            <label>(Upload Document if you applying for Medical/Maternity leave.) {FileType=.pdf,.jpg, Size=2mb, single document}</label>
+            <div class="custom-file">
+
+                @Html.TextBox("file", "", new { type = "file", @class = "custom-file-input", @id = "inputGroupFile01", @accept = ".pdf,.jpeg,.jpg" })
+                <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+            </div>
+
+            <input type="hidden" id="hdnFlag" />
+        </div>
+
+
+        <div class="row">
+            <div class="form-group col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                @Html.LabelFor(model => model.DateFrom, htmlAttributes: new { @class = "control-label ", @id = "lblDateFrom" })
+                <div>
+                    @Html.EnumDropDownListFor(x => x.FromdayType, new { @class = "custom-select", @id = "ddlfromDate", onchange = "DaysDifference()" })
+
+                </div>
+            </div>
+            <div class="form-group col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                @Html.LabelFor(model => model.DateTo, htmlAttributes: new { @class = "control-label", @id = "lblDateTo" })
+                <div>
+                    @Html.EnumDropDownListFor(x => x.TodayType, new { @class = "custom-select", @id = "ddlToDate", onchange = "DaysDifference()" })
+
+                </div>
+            </div>
+            <div class="form-group col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                @Html.LabelFor(model => model.Unit, htmlAttributes: new { @class = "control-label", @id = "lblUnit" })
+                <div>
+                    @Html.EditorFor(model => model.Unit, new { htmlAttributes = new { @class = "form-control", @id = "lblUnitVal", @placeholder = "Please Enter Unit", @readonly = true } })
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12" style="margin-top:10px">
+
+                <input type="submit" value="Apply" id="btnApply" class="btn btn-info btn pull-right" title="Click here, to save current record" />
+            </div>
+        </div>
+}
+
+
+
+

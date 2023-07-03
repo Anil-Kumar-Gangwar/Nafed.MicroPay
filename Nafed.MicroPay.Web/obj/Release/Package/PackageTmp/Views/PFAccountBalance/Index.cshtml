@@ -1,0 +1,108 @@
+﻿@model MicroPay.Web.Models.PFAccountBalanceViewModel
+@{
+    ViewBag.Title = "PF ACCOUNT BALANCES";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@using (Ajax.BeginForm("_PostPFAccountBalance", "PFAccountBalance", new AjaxOptions
+{
+    HttpMethod = "POST",
+    OnSuccess = "OnSuccess"
+}))
+{
+    @Html.Action("_PFAccountBalance", Model.EmpPFOPBalance)
+    <div id="dvpfbalancegrid">
+        @Html.Action("_PFAccountBalanceGridView", Model.EmpPFOPBalance)
+    </div>
+    <div class="row">
+        <fieldset class="border col-md-12 col-xs-12 col-lg-12 col-xl-12 mb-2">
+            <legend style="font-size:1.3rem !important;" class="w-auto"></legend>
+
+            <div class="form-group">
+                <div class="row text-right">
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                        @*<input type="button" class="btn btn-secondary btn-md"  name="ButtonType" value="Add" />*@
+                        @*</div>
+                            <div class="col-lg-1 col-md-1 col-sm-1">*@
+                        @*<input type="submit" class="btn btn-primary btn-md" name="ButtonType" value="Save" />*@
+                        @*</div>
+                            <div class="col-lg-3 col-md-3 col-sm-3">*@
+                        <input type="submit" class="btn btn-primary btn-md" name="ButtonType" value="Update OB for new Employee" />
+                        <input type="submit" class="btn btn-primary btn-md" name="ButtonType" value="Update Interest" />
+                    </div>
+                </div>
+            </div>
+
+        </fieldset>
+    </div>
+}
+
+<script>
+    $(document).on('change', '#EmployeeID', function () {
+
+        var employeeid = $("#EmployeeID").val();
+        var salmonth = $("#Salmonth").val();
+        var salyear = $("#Salyear").val();
+        if (employeeid > 0) {
+            jQuery.post("@Url.Action("EmployeePFDetail", "PFAccountBalance")", {
+                employeeID: employeeid,
+                month: salmonth,
+                year: salyear
+            }).done(function (data) {
+
+                if (data != "") {
+                    $("#dvpfbalancegrid").html("");
+                    $("#ErrorPFA").html("");
+                    $("#dvpfbalancegrid").html(data.htmlData);
+                    $("#PFAcNo").val(data.pfno);
+                    $("#TotalPFOpeningEmpl").html(data.empOPNxt);
+                    $("#TotalPFOpeningEmplr").html(data.emprOPNxt);
+
+                }
+            });
+        }
+    })
+
+
+    $(document).on('click', '#btnfind', function () {
+
+        var pfno = $("#PFAcNo").val();
+        var salmonth = $("#Salmonth").val();
+        var salyear = $("#Salyear").val();
+        if (pfno > 0) {
+            $("#ErrorPFA").html("");
+            jQuery.post("@Url.Action("SearchPFAccountBalance", "PFAccountBalance")", {
+                pfNo: pfno,
+                month: salmonth,
+                year: salyear
+            }).done(function (data) {
+
+                if (data != "") {
+                    $("#dvpfbalancegrid").html("");
+                    $("#dvpfbalancegrid").html(data.htmlData);
+                    $("#TotalPFOpeningEmpl").html(data.empOPNxt);
+                    $("#TotalPFOpeningEmplr").html(data.emprOPNxt);
+                    $("#EmployeeID").val(data.emp);
+                }
+            });
+        }
+        else {
+            $("#ErrorPFA").html("Please enter PF Account No.");
+        }
+    })
+
+
+    function OnSuccess(data) {
+        if (data.res == true) {
+            commonMessage("success", "Successfully inserted.")
+            $("#dvpfbalancegrid").html("");
+            $("#dvpfbalancegrid").html(data.htmlData);
+            $("#TotalPFOpeningEmpl").html(data.empOPNxt);
+            $("#TotalPFOpeningEmplr").html(data.emprOPNxt);
+        }
+        else {
+            commonMessage("error", "Error while inserting")
+        }
+    }
+</script>

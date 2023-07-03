@@ -1,0 +1,211 @@
+﻿@model Nafed.MicroPay.Model.InventoryManagement
+@{
+    ViewBag.Title = "Asset Management";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var employeeOfcMail = "";
+    if (!string.IsNullOrEmpty(Model.empEmail))
+    {
+
+        employeeOfcMail = Model.empEmail;
+    }
+}
+
+
+<div class="card_new_header alert alert-danger">
+    <div class="col-sm-6">
+        NOTE : Fields marked with (*) are compulsory fields
+    </div>
+    <div class="col-sm-6 text-right">
+        <b>@*[ Characters < > # ^ ; | $ are not allowed ]*@</b>
+    </div>
+</div>
+@using (Html.BeginForm("Create", "Assetmanagementdetails", FormMethod.Post))
+{
+    @Html.HiddenFor(model => model.empEmail)
+    @Html.HiddenFor(model => model.domain)
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <div class="card_new_body">
+        <div class="row">
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 mb-2">
+
+                <div class="row">
+                    @Html.LabelFor(model => model.AssetTypeID, htmlAttributes: new { @class = "control-label col-lg-6 col-md-6 col-sm-6 col-xs-12 mb-2 required" })
+
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 mb-2">
+                        @Html.DropDownListFor(model => model.AssetTypeID, (IEnumerable<SelectListItem>)ViewBag.AssetTypeList, "Select", new { @class = "custom-select", @id = "ddlAssetType", onchange = "BindAssetName(this)" })
+                        @Html.ValidationMessageFor(model => model.AssetTypeID, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="row">
+                    @Html.LabelFor(model => model.IMID, htmlAttributes: new { @class = "control-label col-lg-6 col-md-6 col-sm-6 col-xs-12 mb-2 required" })
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 mb-2">
+                        @Html.DropDownListFor(model => model.IMID, (IEnumerable<SelectListItem>)ViewBag.AssetName, "Select", new { @class = "custom-select", @id = "ddlAssetname" })
+                        @Html.ValidationMessageFor(model => model.IMID, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    @Html.LabelFor(model => model.EmployeeID, htmlAttributes: new { @class = "control-label col-lg-6 col-md-6 col-sm-6 col-xs-12 mb-2 required" })
+
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 mb-2">
+                        @Html.DropDownListFor(model => model.EmployeeID, (IEnumerable<SelectListItem>)ViewBag.Employee, new { @class = "custom-select", @onchange = "BindEmailOnEmp(this)" })
+                        @Html.ValidationMessageFor(model => model.EmployeeID, "", new { @class = "text-danger" })
+                    </div>
+
+                </div>
+
+                <div class="row" id="div-email">
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 mb-2">
+                        Current Email ID
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 mb-2">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
+
+                                <span id="empEmailID">@employeeOfcMail</span>
+
+                                <br />
+                                @Html.ValidationMessage("empEmailIDValidator", "", new { @class = "text-danger" })
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" id="div-email-input">
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 mb-2 required">
+                        Please Provide <br />nafed-india.com domain Email ID.
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 mb-2">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
+                                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                               
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    @Html.LabelFor(model => model.AllocationDate, htmlAttributes: new { @class = "control-label col-lg-6 col-md-6 col-sm-6 col-xs-12 mb-2 required" })
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 mb-2">
+                        @Html.EditorFor(model => model.AllocationDate, new { htmlAttributes = new { @class = "form-control", @placeholder = "Allocation Date", @type = "date", max = DateTime.Now.ToString("yyyy-MM-dd") } })
+                        @Html.ValidationMessageFor(model => model.AllocationDate, "", new { @class = "text-danger" })
+
+                    </div>
+                </div>
+
+                @*<div class="row">
+                    @Html.LabelFor(model => model.DeAllocationDate, htmlAttributes: new { @class = "control-label col-lg-6 col-md-6 col-sm-6 col-xs-12 mb-2" })
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 mb-2">
+                        @Html.EditorFor(model => model.DeAllocationDate, new { htmlAttributes = new { @class = "form-control", @placeholder = "Deallocation Date", max = DateTime.Now.ToString("yyyy-MM-dd"), @type = "date" } })
+                        @Html.ValidationMessageFor(model => model.DeAllocationDate, "", new { @class = "text-danger" })
+
+                    </div>
+                </div>*@
+
+                <div class="row">
+                    @Html.LabelFor(model => model.StatusID, htmlAttributes: new { @class = "control-label col-lg-6 col-md-6 col-sm-6 col-xs-12 mb-2 required" })
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 mb-2">
+                        @Html.DropDownListFor(model => model.StatusID, (IEnumerable<SelectListItem>)ViewBag.Status, new { @class = "custom-select" })
+                        @Html.ValidationMessageFor(model => model.StatusID, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+
+                <div class="divider-chevron"></div>
+                <span class="pull-right">
+                    @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-light btn-md toggle-tooltip", @title = "Click here, to redirect on list page" })
+                    <input type="submit" value="Create" class="btn btn-info btn-md pull-center toggle-tooltip" title="Click here, to save current record" />
+                </span>
+            </div>
+        </div>
+
+    </div>
+}
+
+
+<script type="text/javascript">
+    debugger;
+    if ($("#EmployeeID").val() != "" && $("#EmployeeID").val() > 0) {
+        debugger;
+        $("#div-email").removeClass('hide');
+        if ($("#domain").val() != "nafed-india.com") {
+            $("#div-email-input").removeClass('hide');
+        }
+        else {
+            $("#div-email-input").addClass('hide');
+        }
+    }
+    else {
+        debugger;
+        $("#div-email").addClass('hide');
+        $("#div-email-input").addClass('hide');
+    }
+    function BindAssetName(e) {
+
+        var assettypeId = 0;
+
+        if ($("#ddlAssetType").val() > 0) {
+
+            jQuery.post("@Url.Action("GetAssetName", "AssetManagementDetails")", {
+                StatusID: 1,
+                AssetTypeID: $("#ddlAssetType").val(),
+            }).done(function (data) {
+                debugger;
+                if (data.assetname != "") {
+
+                    $("#ddlAssetname").html("");
+                    $.each(data.assetname, function (key, value) {
+                        $("#ddlAssetname").append($("<option></option>").val(value.Value).html(value.Text));
+                    });
+                }
+            });
+        }
+    }
+    function BindEmailOnEmp(e) {
+
+        if ($("#EmployeeID").val() != "") {
+            debugger;
+            var empId = 0;
+            empId = $("#EmployeeID").val();
+
+            if (empId > 0) {
+                jQuery.post("@Url.Action("GetEmployeeEmail", "Assetmanagementdetails")", {
+                    employeeID: empId
+                }).done(function (data) {
+                    $("#div-email").removeClass('hide');
+                    $("#div-email-input").addClass('hide');
+                    //$("#Email").removeClass('hide');
+                    //$("#empEmail").removeClass('hide');
+                   
+                    if (data.empEmailID != null) {
+                        $("#empEmailID").html(data.empEmailID);
+                        $("#empEmail").val(data.empEmailID);
+                        $("#domain").val(data.domainname);
+                        if (data.domainname != "nafed-india.com") {
+                            $("#div-email-input").removeClass('hide');
+                        }
+                    }
+                    else {
+                        $("#empEmailID").html("Not Available");
+                        $("#empEmail").val("Not Available");
+
+                        if ($("#empEmail").val() = "Not Available") {
+                            $("#div-email-input").removeClass('hide');
+                        }
+                    }
+                });
+            }
+            else {
+                $("#empEmail").html('');
+                $("#Email").value = "";
+                //$("#Email").removeClass('hide');
+                $("#div-email").addClass('hide');
+            }
+        }
+    }
+</script>

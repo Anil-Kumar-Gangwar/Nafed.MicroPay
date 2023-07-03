@@ -1,0 +1,505 @@
+﻿@using fileHelper = Nafed.MicroPay.Common.ExtensionMethods;
+@using Nafed.MicroPay.Model;
+@model Nafed.MicroPay.Model.ConveyanceBillForm
+
+@{
+    Model.conveyanceBillDetails.CombineDetails = Model.conveyanceBillDetails.EmployeeCode + " - " + Model.conveyanceBillDetails.EmployeeName;
+    Model.conveyanceBillDetails.Section = Model.conveyanceBillDetails.DepartmentName;
+
+    Model.conveyanceBillDetails.ReportingToCombine = Model.conveyanceBillDetails.ReportingTo + " , " + Model.conveyanceBillDetails.ReportingDesignation;
+
+    var empSectionClass = (Model.ReportingTo == Model.loggedInEmpID || Model.ReviewingTo == Model.loggedInEmpID || Model.AcceptanceAuthorityTo == Model.loggedInEmpID) ? "noselect" : null;
+
+    var reportingSectionClass = (Model.ApprovalHierarchy == 1 && (Model.ReviewingTo == Model.loggedInEmpID || Model.AcceptanceAuthorityTo == Model.loggedInEmpID)) ? "noselect" :
+      (Model.ApprovalHierarchy == 1 && (Model.ReportingTo == Model.loggedInEmpID)) ? null :
+       (Model.ApprovalHierarchy == 2.0) ? null : (Model.ApprovalHierarchy == 2.1) ? "noselect" :
+       (Model.ApprovalHierarchy == 3 && (Model.AcceptanceAuthorityTo == Model.loggedInEmpID)) ? null : "";
+
+    var reviewingSectionClass = (Model.ApprovalHierarchy == 1 && (Model.AcceptanceAuthorityTo == Model.loggedInEmpID)) ? "noselect" :
+        (Model.ApprovalHierarchy == 2 && (Model.AcceptanceAuthorityTo == Model.loggedInEmpID)) ? null : "";
+
+    if (Model.frmAttributes != null && Model.frmAttributes.EmployeeSection && !Model.isAdmin) { empSectionClass = null; }
+    if (Model.frmAttributes != null && Model.frmAttributes.ReportingSection && !Model.isAdmin) { reportingSectionClass = null; }
+    if (Model.frmAttributes != null && Model.frmAttributes.ReviewerSection && !Model.isAdmin) { reviewingSectionClass = null; }
+}
+
+<div id="div-main-form" class="">
+    <div class="row mb-2">
+        <div class="col-lg-12 col-md-12 col-xl-12 col-sm-12 col-xs-12 text-center">
+            <img class="" src="~/Images/logo.png" />
+        </div>
+    </div>
+
+
+    <div class="row mb-2">
+        <div class="col-lg-12 col-md-12 col-xl-12 col-sm-12 col-xs-12 text-center">
+            <h4 class="font-weight-bold">
+                National Agricultural Cooperative Marketing Federation of India Ltd.<br />
+                Nafed House, Sidhartha Enclave, Ashram Chowk, Ring Road,<br />
+                <span style="text-decoration:underline">New Delhi - 110 014</span>
+            </h4>
+        </div>
+    </div>
+
+    <div class="row mb-4">
+        <div class="col-lg-12 col-md-12 col-xl-12 col-sm-12 col-xs-12 text-center">
+            <h3 style="text-decoration:underline">
+                <b>Local Conveyance Bill</b>
+            </h3>
+        </div>
+    </div>
+
+    <div class="mt-4">
+        @using (Ajax.BeginForm("_PostConveyanceBillFormData", "ConveyanceBill", new AjaxOptions { HttpMethod = "POST", OnSuccess = "OnSuccess" }, new { id = "frmConveyanceBill" }))
+        {
+            @Html.ValidationSummary(true)
+            @Html.HiddenFor(model => Model.ReportingYr)
+            @Html.HiddenFor(model => Model.conveyanceBillDetails.EmployeeName)
+            @Html.HiddenFor(model => Model.conveyanceBillDetails.DesignationName)
+            @Html.HiddenFor(model => Model.conveyanceBillDetails.DepartmentName)
+            @Html.HiddenFor(model => Model.ApprovalHierarchy)
+            @Html.HiddenFor(model => Model.EmployeeID)
+            @Html.HiddenFor(model => Model.conveyanceBillDetails.CreatedBy)
+            @Html.HiddenFor(model => Model.conveyanceBillDetails.CreatedOn)
+            @Html.HiddenFor(model => Model.conveyanceBillDetails.ConveyanceBillDetailID)
+            @Html.HiddenFor(model => Model.conveyanceBillDetails.EmployeeID)
+            @Html.HiddenFor(model => Model.loggedInEmpID)
+            @Html.HiddenFor(model => Model.ReportingTo)
+            @Html.HiddenFor(model => Model.ReviewingTo)
+            @Html.HiddenFor(model => Model.AcceptanceAuthorityTo)
+            @Html.HiddenFor(model => Model.conveyanceBillDetails.DepartmentID)
+            @Html.HiddenFor(model => Model.conveyanceBillDetails.DesignationID)
+            @Html.HiddenFor(model => Model.conveyanceBillDetails.FormState)
+            @Html.HiddenFor(model => Model.FormName)
+            @Html.HiddenFor(model => Model.conveyanceBillDetails.ReportingDesignation)
+            @Html.HiddenFor(model => Model.conveyanceBillDetails.ReviewerDesignation)
+            @Html.HiddenFor(model => Model.conveyanceBillDetails.AcceptanceDesignation)
+            @Html.HiddenFor(model => Model.conveyanceBillDetails.ReportingTo)
+            @Html.HiddenFor(model => Model.conveyanceBillDetails.ReviewerTo)
+            @Html.HiddenFor(model => Model.conveyanceBillDetails.AcceptanceAuth)
+            @Html.HiddenFor(model => Model.conveyanceBillDetails.EmployeeCode)
+            @Html.HiddenFor(model => Model.conveyanceBillDetails.Branch)
+            @Html.HiddenFor(model => Model.conveyanceBillDetails.Section)
+            @Html.HiddenFor(model => Model.conveyanceBillDetails.ReportingYear)
+            @Html.HiddenFor(model => Model.ConveyanceDetailID)
+            @Html.HiddenFor(model => Model.conveyanceBillDetails.VehicleProv)
+            @Html.HiddenFor(model => Model.conveyanceBillDetails.IsReportingRejected)
+            @Html.HiddenFor(model => Model.conveyanceBillDetails.IsReviewingRejected)
+            @*@Html.HiddenFor(model => Model.conveyanceBillDetails.ReportingRemarks)
+                @Html.HiddenFor(model => Model.conveyanceBillDetails.ReviewingRemarks)*@
+
+            <div id="div-Employee" class="@empSectionClass @reportingSectionClass">
+                <div class="form-group">
+
+                    <div class="row  mb-2">
+                        <label class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                            Name
+                        </label>
+                        <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
+                            @Html.EditorFor(model => model.conveyanceBillDetails.CombineDetails, new { htmlAttributes = new { @class = "form-control bottamboarder font-weight-bold", @placeholder = "", @disabled = "disabled" } })
+                        </div>
+                    </div>
+                    <div class="row  mb-2">
+                        <label class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                            Designation
+                        </label>
+                        <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
+                            @Html.EditorFor(model => model.conveyanceBillDetails.DesignationName, new { htmlAttributes = new { @class = "form-control bottamboarder font-weight-bold", @placeholder = "", @disabled = "disabled" } })
+                        </div>
+                    </div>
+
+                    <div class="row">
+
+                        <label class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                            Dated
+                        </label>
+                        <div class="col-lg-2 col-md-4 col-sm-12 col-xs-12 mb-2">
+                            @Html.EditorFor(model => model.conveyanceBillDetails.Dated, new { htmlAttributes = new { @class = "form-control bottamboarder font-weight-bold", @placeholder = "", @type = "date", max = DateTime.Now.ToString("yyyy-MM-dd") } })
+                            @Html.ValidationMessage("dateRequired", "", new { @class = "text-danger" })
+                        </div>
+                        <label class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                            Section
+                        </label>
+                        <div class="col-lg-2 col-md-4 col-sm-12 col-xs-12 mb-2">
+                            @Html.EditorFor(model => model.conveyanceBillDetails.Section, new { htmlAttributes = new { @class = "form-control bottamboarder font-weight-bold", @placeholder = "", @disabled = "disabled" } })
+                        </div>
+
+                    </div>
+                    <hr />
+                    <div class="row mt-4">
+                        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 mb-2">
+                            <h5 class="pull-left">
+                                Description
+                            </h5>
+                        </div>
+                        <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12 text-right">
+
+                            <input type="submit" value="Add Row" id="btnAddRow" name="ButtonType" class="btn btn-info btn-md pull-right toggle-tooltip btn-sectionAddRow" title="Click here, to add new row." />
+
+
+                        </div>
+                    </div>
+                    <div class="" id="div-form-Conveyance-grid">
+                        @Html.Partial("_ConveyanceDescriptionGridView", Model)
+                    </div>
+                    @Html.ValidationMessage("ConveyanceDescription", "", new { @class = "text-danger" })
+
+
+
+                    <div class="row mb-3 mt-3">
+                        <label class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                            Total Rs.
+                        </label>
+                        @Html.HiddenFor(model => model.conveyanceBillDetails.TotalAmountClaimed)
+                        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 text-right underlineinput font-weight-bold" id="totalAmountClaim">
+                        </div>
+                    </div>
+
+
+
+                    <div class="row mb-4">
+                        <label class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+                            (Rupees
+                        </label>
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2 underlineinput font-weight-bold" id="totalAmountInWords">
+                        </div>
+                        <label class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+                            only)
+                        </label>
+                    </div>
+
+                    <div class="form-group mb-4 mt-4">
+                        <div class="row">
+                            <h5 class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                Certified that I have incurred the above amount towards  Conveyance for Official Work.
+                                Staff  Vehicle was not available.
+                            </h5>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <label class="pull-right m-4 font-weight-bold underlineinput">@Model.conveyanceBillDetails.EmployeeName</label>
+                            </div>
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <label class="pull-right m-4 font-weight-bold">Name of Claimant</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    @if ((Model.EmployeeID == Model.loggedInEmpID))
+                    {
+                        if (!Model.isAdmin)
+                        {
+                            <div class="pull-right div-action pl-1">
+                                @Html.ActionLink("Back", "Index", "ConveyanceBill", null, new { @class = "btn btn-light btn-md", title = "Click here, to go to back on previous screen.", @data_toggle = "tooltip" })
+                            </div>
+                            if (Model.conveyanceBillDetails.FormState == (int)ConveyanceFormState.SavedByEmployee || (Model.conveyanceBillDetails.FormState == 0))
+                            {
+                                <div class="pull-right div-action">
+
+                                    <input type="submit" value="Save" id="btnESave" name="ButtonType" class="btn btn-info  toggle-tooltip " title="Click here, to save the data." />
+                                    <input type="submit" value="Save & Submit" id="btnESaveSubmit" name="ButtonType" class="btn btn-info  toggle-tooltip " title="Click here, to save & submit the data." />
+                                </div>
+                            }
+                        }
+                        else
+                        {
+                            <div class="pull-right div-action pl-1">
+                                @Html.ActionLink("Back", "Index", "ConveyanceBillHistory", null, new { @class = "btn btn-light btn-md", title = "Click here, to go to back on previous screen.", @data_toggle = "tooltip" })
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+
+            <div id="div-RO" class="@reportingSectionClass">
+                @if ((Model.ReportingTo == Model.loggedInEmpID) || (Model.ReviewingTo == Model.loggedInEmpID) || (Model.AcceptanceAuthorityTo == Model.loggedInEmpID))
+                {
+                    <div class="form-group">
+                        <div class="row">
+                            <label class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                <h5> Certified that Shri</h5>
+                            </label>
+                            <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                                @Html.EditorFor(model => Model.conveyanceBillDetails.ReportingToCombine, new { htmlAttributes = new { @class = "form-control bottamboarder font-weight-bold", @placeholder = "", @readonly = "readonly" } })
+                            </div>
+                            <label class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                                <h5>
+                                    was
+                                    @if (!Model.conveyanceBillDetails.VehicleProv)
+                                    {
+                                        @Html.RadioButtonFor(model => Model.conveyanceBillDetails.vehicleProvided, "Provided", new { @class = "radio-section", id = "radProvided" })
+                                    }
+                                    else
+                                    {
+                                        @Html.RadioButtonFor(model => Model.conveyanceBillDetails.vehicleProvided, "Provided", new { @class = "radio-section", id = "radProvided1", @checked = true })
+                                    }
+                                    provided/
+                                    @if (Model.conveyanceBillDetails.VehicleProv)
+                                    {
+                                        @Html.RadioButtonFor(model => Model.conveyanceBillDetails.vehicleProvided, "NotProvided", new { @class = "radio-section", id = "radNotProvided" })
+                                    }
+                                    else
+                                    {
+                                        @Html.RadioButtonFor(model => Model.conveyanceBillDetails.vehicleProvided, "NotProvided", new { @class = "radio-section", id = "radNotProvided1", @checked = true })
+                                    }
+                                    not provided office vehicle car/scooter/taxi.
+                                </h5>
+                            </label>
+                        </div>
+
+                        @if (Model.ReportingTo != Model.ReviewingTo)
+                        {
+                            <div class="row mt-4">
+                                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                    <h5>
+                                        Form accepted by sectional head
+                                    </h5>
+                                </div>
+
+                                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                    @if (!Model.conveyanceBillDetails.IsReportingRejected)
+                                    {
+                                        @Html.RadioButtonFor(model => Model.conveyanceBillDetails.ReportingAcceptedRejected, "Accepted", new { @class = "radio-section", id = "radAccepted", @checked = true })
+                                        <b>Yes</b>
+                                    }
+                                    else
+                                    {
+                                        @Html.RadioButtonFor(model => Model.conveyanceBillDetails.ReportingAcceptedRejected, "Accepted", new { @class = "radio-section", id = "radAccepted" })
+                                        <b>Yes</b>
+                                    }
+
+                                    @if (Model.conveyanceBillDetails.IsReportingRejected)
+                                    {
+                                        @Html.RadioButtonFor(model => Model.conveyanceBillDetails.ReportingAcceptedRejected, "Rejected", new { @class = "radio-section", id = "radRejected", @checked = true })
+                                        <b>No</b>
+                                    }
+                                    else
+                                    {
+                                        @Html.RadioButtonFor(model => Model.conveyanceBillDetails.ReportingAcceptedRejected, "Rejected", new { @class = "radio-section", id = "radRejected" })
+                                        <b>No</b>
+                                    }
+
+                                </div>
+                            </div>
+
+                            <div class="row mt-4">
+                                <div class="col-lg-8 col-md-12 col-sm-12 col-xs-12">
+                                    <h5>Remarks</h5>
+                                </div>
+                                <div class="col-lg-8 col-md-12 col-sm-12 col-xs-12">
+                                    @Html.TextAreaFor(model => model.conveyanceBillDetails.ReportingRemarks, new { @class = "form-control lg-textarea", maxlength = "500" })
+                                    @Html.ValidationMessage("ReqReportingRemarks", "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        }
+
+
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <label class="pull-right m-4 font-weight-bold underlineinput">@Model.conveyanceBillDetails.ReportingTo</label>
+                            </div>
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <label class="pull-right m-4 font-weight-bold">Name of Sectional Head</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    if (Model.ReportingTo == Model.loggedInEmpID && Model.ApprovalHierarchy == 1 || Model.frmAttributes.ReportingButton)
+                    {
+                        if (!Model.isAdmin)
+                        {
+                            <div class="pull-right div-action pl-1">
+                                @Html.ActionLink("Back", "Index", "ApprovalRequest", null, new { @class = "btn btn-light btn-md", title = "Click here, to go to back on previous screen.", @data_toggle = "tooltip" })
+                            </div>
+                            if (Model.conveyanceBillDetails.FormState == (int)ConveyanceFormState.SavedByReporting || (Model.conveyanceBillDetails.FormState == (int)ConveyanceFormState.SubmitedByEmployee) || Model.frmAttributes.EmployeeSection || Model.frmAttributes.ReportingButton /*|| (Model.conveyanceBillDetails.FormState == (int)ConveyanceFormState.RejectedByReporting)*/)
+                            {
+                                if ((Model.conveyanceBillDetails.FormState != (int)ConveyanceFormState.SavedByEmployee && Model.conveyanceBillDetails.IsReportingRejected) || (Model.conveyanceBillDetails.FormState == (int)ConveyanceFormState.SavedByReporting || Model.conveyanceBillDetails.FormState == (int)ConveyanceFormState.SubmitedByEmployee))
+                                {
+                                    <div class="pull-right div-action">
+
+                                        <input type="submit" value="Save" id="btnSave" name="ButtonType" class="btn btn-info btn-md toggle-tooltip " title="Click here, to save the data." />
+                                        <input type="submit" value="Save & Submit" id="btnSaveSubmit" name="ButtonType" class="btn btn-info btn-md  toggle-tooltip " title="Click here, to save & submit the data." />
+
+                                    </div>
+                                }
+                            }
+                        }
+                        else
+                        {
+                            <div class="pull-right div-action pl-1">
+                                @Html.ActionLink("Back", "Index", "ConveyanceBillHistory", null, new { @class = "btn btn-light btn-md", title = "Click here, to go to back on previous screen.", @data_toggle = "tooltip" })
+                            </div>
+                        }
+                    }
+                }
+            </div>
+
+            <div id="div-RV" class="@reviewingSectionClass">
+                @if ((Model.ReviewingTo == Model.loggedInEmpID) || (Model.AcceptanceAuthorityTo == Model.loggedInEmpID))
+                {
+                    <div class="row mt-5">
+                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                            <h5>
+                                Form accepted by divisional head
+                            </h5>
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                            @if (!Model.conveyanceBillDetails.IsReviewingRejected)
+                            {
+                                @Html.RadioButtonFor(model => Model.conveyanceBillDetails.ReviewingAcceptedRejected, "Accepted", new { @class = "radio-section", id = "radAccepted", @checked = true })
+                                <b>Yes</b>
+                            }
+                            else
+                            {
+                                @Html.RadioButtonFor(model => Model.conveyanceBillDetails.ReviewingAcceptedRejected, "Accepted", new { @class = "radio-section", id = "radAccepted" })
+                                <b>Yes</b>
+                            }
+
+                            @if (Model.conveyanceBillDetails.IsReviewingRejected)
+                            {
+                                @Html.RadioButtonFor(model => Model.conveyanceBillDetails.ReviewingAcceptedRejected, "Rejected", new { @class = "radio-section", id = "radRejected", @checked = true })
+                                <b>No</b>
+                            }
+                            else
+                            {
+                                @Html.RadioButtonFor(model => Model.conveyanceBillDetails.ReviewingAcceptedRejected, "Rejected", new { @class = "radio-section", id = "radRejected" })
+                                <b>No</b>
+                            }
+                        </div>
+                    </div>
+
+                    <div class="row mt-4">
+                        <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                            <h5>Remarks</h5>
+                        </div>
+                        <div class="col-lg-8 col-md-12 col-sm-12 col-xs-12">
+                            @Html.TextAreaFor(model => model.conveyanceBillDetails.ReviewingRemarks, new { @class = "form-control lg-textarea", maxlength = "500" })
+                            @Html.ValidationMessage("ReqReviewingRemarks", "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <label class="pull-right m-4 font-weight-bold underlineinput">@Model.conveyanceBillDetails.ReviewerTo</label>
+                            </div>
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <p class="pull-right m-4 font-weight-bold">Name of Divisional Head</p>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <p class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                Amount Received
+                            </p>
+                            <p class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                AAO/AO
+                            </p>
+                        </div>
+                    </div>
+
+                    if (Model.ReviewingTo == Model.loggedInEmpID && (Model.ApprovalHierarchy == 2.0 || Model.ApprovalHierarchy == 1) && (Model.frmAttributes.EmployeeSection || Model.frmAttributes.ReportingSection || Model.frmAttributes.ReviewerButton))
+                    {
+                        if (!Model.isAdmin)
+                        {
+                            <div class="pull-right div-action pl-1">
+                                @Html.ActionLink("Back", "Index", "ApprovalRequest", null, new { @class = "btn btn-light btn-md", title = "Click here, to go to back on previous screen.", @data_toggle = "tooltip" })
+                            </div>
+                            if ((Model.conveyanceBillDetails.FormState == (int)ConveyanceFormState.SavedByReviewer || (Model.conveyanceBillDetails.FormState == (int)ConveyanceFormState.SubmitedByReporting)) || (Model.ApprovalHierarchy == 2 || Model.ApprovalHierarchy == 1 || Model.frmAttributes.ReviewerButton)
+                                && (Model.conveyanceBillDetails.FormState != (int)ConveyanceFormState.SubmitedByReviewer))
+                            {
+                                if ((Model.conveyanceBillDetails.FormState != (int)ConveyanceFormState.SavedByEmployee && Model.conveyanceBillDetails.IsReportingRejected) || (Model.conveyanceBillDetails.FormState == (int)ConveyanceFormState.SavedByReviewer || Model.conveyanceBillDetails.FormState == (int)ConveyanceFormState.SubmitedByReporting || Model.conveyanceBillDetails.FormState == (int)ConveyanceFormState.SubmitedByEmployee))
+                                {
+                                    <div class="pull-right div-action">
+                                        <input type="submit" value="Save" id="btnRVSave" name="ButtonType" class="btn btn-info  toggle-tooltip " title="Click here, to save the data." />
+                                        <input type="submit" value="Save & Submit" id="btnRVSaveSubmit" name="ButtonType" class="btn btn-info  toggle-tooltip " title="Click here, to save & submit the data." />
+                                    </div>
+                                }
+                            }
+                        }
+                        else
+                        {
+                            <div class="pull-right div-action pl-1">
+                                @Html.ActionLink("Back", "Index", "ConveyanceBillHistory", null, new { @class = "btn btn-light btn-md", title = "Click here, to go to back on previous screen.", @data_toggle = "tooltip" })
+                            </div>
+                        }
+
+                    }
+                }
+            </div>
+        }
+    </div>
+</div>
+
+
+<style>
+    .noselect {
+        -webkit-touch-callout: none; /* iOS Safari */
+        -webkit-user-select: none; /* Safari */
+        -khtml-user-select: none; /* Konqueror HTML */
+        -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+        user-select: none; /* Non-prefixed version, currently supported by Chrome, Opera and Firefox */
+    }
+</style>
+
+<script type="text/javascript">
+    $('.noselect').find('input, textarea, button, select').attr('readonly', 'readonly').removeAttr('href');
+    $('.enableTDCells').removeAttr('readonly').addClass('form-control text-right');
+    $('.noselect .btn-sectionAddRow').addClass('hide');
+    $('.noselect .drpdown-section').attr("style", "pointer-events: none;");
+    $('.noselect .custom-select').attr("style", "pointer-events: none;");
+    $('.noselect .radio-section').attr("style", "pointer-events: none;");
+    $('.noselect .radio-section').attr("disabled", "disabled");
+
+    function OnSuccess(data) {
+        if (data.part == 1) {
+            $("#div-form-Conveyance-grid").html(data.htmlData);
+        }
+        if (data.msgType == "error") {
+            commonMessage(data.msgType, data.msg);
+            //$('#tblGrid1').
+            $("#div-main-form").html(data.htmlData);
+        }
+        if (data.part == 0) {
+            $("#div-main-form").html(data.htmlData);
+        }
+
+        if (data.msgType == "success") {
+            commonMessage(data.msgType, data.msg);
+            window.location.reload();
+        }
+
+        if (data.part == 8) {
+            $("#div-main-form").html(data.htmlData);
+        }
+    }
+    function AfterRemove(data) {
+        $("#div-form-Conveyance-grid").html(data);
+        calculateSum();
+    }
+
+    $(document).ready(function () {
+        calculateSum();
+    });
+
+    function calculateSum() {
+        var add = parseFloat(0.00);
+        $(".totalAmount").each(function () {
+            add += parseFloat($(this).val());
+        });
+        $("#totalAmountClaim").html(add);
+        $("#conveyanceBillDetails_TotalAmountClaimed").val(add);
+        var words = numberToWords(add);
+        $("#totalAmountInWords").html(words.toUpperCase());
+    }
+    function numberToWords(number) {
+        var digit = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine'];
+        var elevenSeries = ['ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen'];
+        var countingByTens = ['twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety'];
+        var shortScale = ['', 'thousand', 'million', 'billion', 'trillion'];
+
+        number = number.toString(); number = number.replace(/[\, ]/g, ''); if (number != parseFloat(number)) return 'not a number'; var x = number.indexOf('.'); if (x == -1) x = number.length; if (x > 15) return 'too big'; var n = number.split(''); var str = ''; var sk = 0; for (var i = 0; i < x; i++) { if ((x - i) % 3 == 2) { if (n[i] == '1') { str += elevenSeries[Number(n[i + 1])] + ' '; i++; sk = 1; } else if (n[i] != 0) { str += countingByTens[n[i] - 2] + ' '; sk = 1; } } else if (n[i] != 0) { str += digit[n[i]] + ' '; if ((x - i) % 3 == 0) str += 'hundred '; sk = 1; } if ((x - i) % 3 == 1) { if (sk) str += shortScale[(x - i - 1) / 3] + ' '; sk = 0; } } if (x != number.length) { var y = number.length; str += 'point '; for (var i = x + 1; i < y; i++) str += digit[n[i]] + ' '; } str = str.replace(/\number+/g, ' '); return str.trim() + ".";
+
+    }
+</script>

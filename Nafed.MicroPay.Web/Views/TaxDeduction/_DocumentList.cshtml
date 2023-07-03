@@ -1,0 +1,114 @@
+﻿@using Nafed.MicroPay.Model;
+
+@model List<Form12BBDocumentList>
+
+<div class="row">
+    <div class="col-lg-12 col-xl-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Supporting Evidence / Document List:
+            </div>
+            <div class="panel-body">
+                <table id="tblGrid-form12BBDocumentList" class="table table-centered table-striped dt-responsive w-100 mt-2">
+                    <thead>
+                        <tr>
+                            <th>
+                                #
+                            </th>
+                            <th>
+                                Nature of Claim
+                            </th>
+                            <th>
+                                Description
+                            </th>
+                            <th>
+                                Section Name
+                            </th>
+                            <th class="text-right">
+                                Sub Section Name
+                            </th>
+
+                            <th class="text-center">
+                                Description
+                            </th>
+                            <th class="text-center">
+                                Uploaded On
+                            </th>
+                            <th class="text-center">
+                                Action
+                            </th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @{
+                            int sno = 1;
+                            foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@sno</td>
+                                    <td>@item.NatureOfClaim</td>
+                                    <td>@item.FileDescription</td>
+                                    <td>@item.SectionName</td>
+                                    <td>@item.SubSectionName</td>
+                                    <td>@item.Description</td>
+                                    <td class="text-center">@item.CreatedOn</td>
+                                    <td class="text-center">
+                                        @*<a class="toggle-tooltip" href="@Url.Action("DownloadDocument","TaxDeduction",new { fileName = item.FileName })" title="Click here, to download this document">
+                                            <span class="fas fa-download" aria-hidden="true"></span>
+                                        </a>*@
+                                        @Html.EncodedImageActionLink("", "DownloadDocument", "TaxDeduction", new { fileName = item.FileName }, new { @class = "toggle-tooltip", title = "Click here, to download document" }, "~/Images/document.png")
+
+                                        @if(Convert.ToString(TempData.Peek("btnShow")).ToUpper() == "TRUE" && Convert.ToString(TempData.Peek("viewHasValue")).ToUpper() != "TRUE")
+                                        {
+                                            <text> | </text>
+                                            <a class="toggle-tooltip" onclick="DeleteDocument(@item.Form12BBDocumentID,@item.EmpFormID,'@item.FileName')" title="Click here, to delete this document">
+                                                <span class="far fa-trash-alt text-danger" aria-hidden="true"></span>
+                                            </a>
+                                        }                                       
+                                    </td>
+                                </tr>
+                                sno++;
+                            }
+                        }
+
+                    </tbody>
+
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $('.toggle-tooltip').tooltip();
+    var table = $('#tblGrid-form12BBDocumentList').DataTable({
+    });
+    $('#tblGrid-form12BBDocumentList').find('select').addClass('custom-select');
+
+    function DeleteDocument(form12BBDocumentID, empFormID, fileName) {
+        bootbox.confirm("<span style='font-size:medium;'> <i class='fa fa-question-circle' aria-hidden='true'></i> &nbsp; Are you sure you want to delete this record ? </span>", function (confirmed) {
+            if (confirmed) {
+                $.ajax({
+                    url: "@Url.Action("DeleteDocument", "TaxDeduction")",
+                    type: "GET",
+                    data: { form12BBDocumentID: form12BBDocumentID, empFormID: empFormID, fileName: fileName },
+                    success: function (result) {
+                        if (result.success) {
+                            commonMessage("success", "File deleted successfully.");
+                            $("#div-list-docs").load("@Url.Action("_GetUploadDocument", "TaxDeduction")?empFormID=" + empFormID);
+                        }
+                        else {
+                            commonMessage("error", "File deletion failed!");
+                        }
+                    },
+                    error: function (err) {
+                        alert(err.statusText);
+                    }
+                });
+            }
+            else {
+                return true;
+            }
+        });
+    }
+</script>

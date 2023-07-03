@@ -1,0 +1,121 @@
+﻿@model Nafed.MicroPay.Model.CommonFilter
+
+
+@using (Ajax.BeginForm("_PostInsuranceFilter", "Insurance", new AjaxOptions
+{
+    HttpMethod = "POST",
+    UpdateTargetId = "div-Insurance-List",
+    OnSuccess = "OnSuccess"
+
+}, new { defaultbutton = "submitform" }))
+{
+    <div class="advance-search" style="">
+
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 pb-1 pt-2 form-inline align-middle">
+
+            <i class="fa fa-search fa-2x" style="color:#d4d4d4;" aria-hidden="true"></i><h4 class="desc" style="color:#0bb70b;">
+                @Html.Label("Search")
+            </h4>
+           
+        </div>
+        <hr style="background-color:#fff !important;">
+
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+            <div class="row">
+                <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12 text-secondary mt-2">
+
+                    <i class="fas fa-filter"></i> Filter By :
+
+                </div>
+                <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12 mt-2">
+                    @Html.Label("Branch", htmlAttributes: new { @class = "control-label required" })
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                    @Html.DropDownListFor(model => model.BranchID, new SelectList(ViewBag.branchList, "id", "value"), "Select", new { @class = "custom-select", @onchange = "BindEmployeeOnBranch(this)" })
+
+                </div>
+
+                <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12 mt-2">
+                    @Html.Label("Employee", htmlAttributes: new { @class = "control-label" })
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 text-left">
+                    @Html.DropDownListFor(model => model.EmployeeID, new SelectList(ViewBag.employeeList, "id", "value"), "Select", new { @class = "custom-select", @onchange = "ChangeEmployee()" })
+                </div>
+                <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12 mt-2">
+                    @Html.Label("Dependent Medical", htmlAttributes: new { @class = "control-label" })
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                    @Html.DropDownListFor(model => model.StatusID, new SelectList(ViewBag.Status, "id", "value"), "Select", new { @class = "custom-select" })
+
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 text-right">
+                    <button type="submit" id="submitform" class="btn btn-warning toggle-tooltip" title="Click here, to search records.">
+                        <i class="fa fa-search"></i> Search
+                    </button>
+                    <a id="lnk-Export"
+                       class="btn btn-info btn-md toggle-tooltip"
+                       href="@Url.Action("Create", "Insurance")"
+                       title="Click here ,to download pay slip.">
+                        Create New
+                    </a>
+                    @*@Html.ActionLink("Create New", "Create", "Insurance",null, new { @class = "btn btn-info btn-md", title = "Click here, to create new record", @data_toggle = "tooltip" })*@
+                </div>
+                </div>
+        </div>
+        <hr style="background-color:#fff !important;">        
+    </div>
+}
+
+
+        <script type="text/javascript">
+            $(function () {
+                debugger
+                var ddlYear = $("#EmployeeID").val();
+            
+                var lnkExport = $(document).find("#lnk-Export");              
+                var parameters = $(lnkExport).attr('href').split("?");
+                var newHREF = "?empId=" + ddlYear;
+                $(lnkExport).attr('href', "").attr("href", parameters[0] + newHREF);
+
+
+                $(document).on('change', '#EmployeeID', function () {
+                    debugger;
+                    var ddlYear = $("#EmployeeID").val();
+                    var lnkExport = $(document).find("#lnk-Export");
+                   
+                    var parameters = $(lnkExport).attr('href').split("?");
+                    var newHREF = "?empId=" + ddlYear;
+                    $(lnkExport).attr('href', "").attr("href", parameters[0] + newHREF);
+
+                });
+
+            });
+
+            function OnSuccess(data) {
+                if (data.msgType == "error") {
+                    commonMessage(data.msgType, data.msg);
+                }
+            }
+            function BindEmployeeOnBranch(e) {
+                var branchId = 0;
+                branchId = $("#BranchID").val();
+                $("#EmployeeID").html("");
+                if (branchId > 0) {
+                    jQuery.post("@Url.Action("GetBranchEmployee", "Insurance")", {
+                        branchID: branchId,
+                    }).done(function (data) {
+
+                        if (data.employees != "") {
+                            $("#EmployeeID").html("");
+                            $("#EmployeeID").append($("<option>Select</option>"));
+                            $.each(data.employees, function (key, value) {
+                                $("#EmployeeID").append($("<option></option>").val(value.id).html(value.value));
+                            });
+                        }
+                    });
+                } else {
+                    $("#EmployeeID").append($("<option></option>").val(0).html('Select'));
+                }
+            }
+        </script>

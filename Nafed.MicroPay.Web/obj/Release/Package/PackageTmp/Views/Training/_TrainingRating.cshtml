@@ -1,0 +1,262 @@
+﻿@using MicroPay.Web.Models;
+@using Nafed.MicroPay.Model;
+@model TrainingRating
+@{
+    Layout = null;
+    var trainingVm = (TrainingViewModel)Model.trainingVM;
+}
+
+
+<div class="panel panel-default mb-0">
+    <div class="panel panel-heading">
+
+        Training Details
+
+        <a data-ajax="true" id="lnk-Export" data-toggle="tooltip" class="float-right text-center toggle-tooltip text-decoration-none"
+           href="@Url.Action("_ExportTrainingRating", "Training",new { @traningID =(int?)null})"
+           method="GET" title="Click here ,to export training rating." data-ajax-success="OnExportSuccess">
+            <span class="far fa-file-excel text-info" aria-hidden="true"></span>
+            Export Training Rating
+        </a>
+
+
+    </div>
+    <div class="panel panel-body py-0">
+
+        <div class="form-group">
+
+            <div class="row">
+
+                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+
+                    Training Title
+                </div>
+                <div class="col-lg-2 col-md-3 col-sm-12 col-xs-12">
+
+                    @trainingVm._Training.TrainingTitle
+                </div>
+
+                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+
+                    Training Type
+                </div>
+                <div class="col-lg-2 col-md-3 col-sm-12 col-xs-12">
+
+                    @trainingVm._Training.enumTrainingList.GetDisplayName()
+                </div>
+
+                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+
+                    Training For
+                </div>
+                <div class="col-lg-2 col-md-3 col-sm-12 col-xs-12">
+
+                    @trainingVm._Training.TrainingTypeName
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-group">
+
+            <div class="row">
+
+                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+
+                    Address Type
+                </div>
+                <div class="col-lg-2 col-md-3 col-sm-12 col-xs-12">
+
+                    @trainingVm._Training.enumResidentialNonResidential.GetDisplayName()
+                </div>
+
+                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+
+                    Venue
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+
+                    @Model.TrainingVenue
+                </div>
+
+
+
+            </div>
+        </div>
+
+        <div class="form-group">
+
+            <div class="row">
+
+                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+
+                    Start Date
+                </div>
+                <div class="col-lg-2 col-md-3 col-sm-12 col-xs-12">
+
+                    @trainingVm._Training.StartDate.Value.ToString("dd-MM-yyyy")
+                </div>
+
+                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+
+                    End Date
+                </div>
+                <div class="col-lg-2 col-md-3 col-sm-12 col-xs-12">
+
+                    @trainingVm._Training.EndDate.Value.ToString("dd-MM-yyyy")
+                </div>
+
+
+
+            </div>
+        </div>
+        <div class="form-group">
+
+            <div class="row">
+
+                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+
+                    Training Slot Type
+                </div>
+                <div class="col-lg-2 col-md-3 col-sm-12 col-xs-12">
+
+                    @trainingVm._Training.enumTimeSlotType.GetDisplayName()
+                </div>
+
+                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+
+                    Start time
+                </div>
+                <div class="col-lg-2 col-md-3 col-sm-12 col-xs-12">
+
+                    @trainingVm._Training.StartDateFromTime
+                </div>
+
+                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+
+                    End Time
+                </div>
+                <div class="col-lg-2 col-md-3 col-sm-12 col-xs-12">
+
+                    @trainingVm._Training.StartDateToTime
+                </div>
+
+            </div>
+        </div>
+
+        @if (trainingVm._Training.enumTimeSlotType == EnumTimeSlotType.Distributed)
+        {
+            <div class="form-group">
+
+                @Html.Partial("_DistributedTimeSlot", (TrainingViewModel)Model.trainingVM)
+
+            </div>
+        }
+    </div>
+</div>
+
+
+
+<div style="min-height:350px; overflow-y:scroll;">
+
+    @Html.HiddenFor(model => model.trainingID)
+
+    <table class="table table-bordered dt-responsive w-100" role="grid">
+        <thead>
+            <tr>
+                <th style="vertical-align:top;">
+                    #
+                </th>
+
+                @if (Model != null && Model.empRatingRows !=null && Model.empRatingRows.Rows.Count > 0)
+                {
+                    foreach (var item in Model.headerCols)
+                    {
+                        <th data-hide="phone,tablet" style="vertical-align:top;">
+                            <a class="columnheader">  @item </a>
+                        </th>
+                    }
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                if (Model != null && Model.empRatingRows != null && Model.empRatingRows.Rows.Count > 0)
+                {
+                    var sno = 1;
+                    for (int ii = 0; ii < Model.empRatingRows.Rows.Count; ii++, sno++)
+                    {
+                        <tr>
+                            <td>@sno </td>
+
+                            @for (int hIdx = 0; hIdx < Model.headerCols.Count; hIdx++)
+                            {
+                                <td class=@(hIdx< 3 ? "text-left" : "text-right" )>
+                                    @if (hIdx == 2)
+                                    {
+                                        <div>
+
+                                            @Html.Raw(HttpUtility.HtmlDecode(Model.empRatingRows.Rows[ii][hIdx].ToString()))
+
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        @Model.empRatingRows.Rows[ii][hIdx]
+                                    }
+
+
+                                </td>
+                            }
+                        </tr>
+                    }
+
+                    <tr>
+                        <td colspan="4" class="text-center btn-primary font-weight-lighter">
+
+                            Average Rating
+                        </td>
+
+                        @for (int jj = 0; jj < Model.avgRating.Count; jj++)
+                        {
+                            <td class="text-right btn-secondary">
+
+                                @Model.avgRating[jj]
+                            </td>
+                        }
+
+
+                    </tr>
+                }
+
+            }
+        </tbody>
+    </table>
+
+</div>
+
+
+<script type="text/javascript">
+    $('.toggle-tooltip').tooltip();
+
+    function OnPopupRendered() {
+        var lnkExport = $("#lnk-Export");
+        $(lnkExport).attr('href', '@Url.Action("_ExportTrainingRating", "Training",new { @trainingID= Model.trainingID })');
+    }
+
+    function OnExportSuccess(data) {
+
+        if (data.fileName == "" || data.fileName == undefined) {
+            $("#branchRequired").text('Please select branch.');
+        }
+        if (data.fileName != "" && data.message == "success") {
+            //  $("#div-report-filters").load("@Url.Action("_ReportFilter", "ExportSalaryReport")");
+            window.location.href = "@Url.RouteUrl(new { Controller = "Base", Action = "DownloadAndDelete" })/?sFileName=" + data.fileName + "&sFileFullPath=" + data.fullPath;
+
+        }
+
+        if (data.message == "error" && data.part == 1) {
+            $("#div-report-filters").html(data.htmlData);
+        }
+    }
+</script>

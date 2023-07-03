@@ -1,0 +1,11 @@
+﻿@model List<MicroPay.Web.Models.MenuVM>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/Content/MenuIcon.css" rel="stylesheet" />
+
+@{
+    Html.RenderPartial("_MenuBlock", Model);
+
+}

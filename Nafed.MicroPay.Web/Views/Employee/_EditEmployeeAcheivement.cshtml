@@ -1,0 +1,59 @@
+﻿
+@{
+
+    Layout = null;
+    var empID = Request["employeeID"];
+}
+
+
+<div class="row">
+
+    <div class="col-lg-7 col-md-7 col-sm-12 col-xs-12 p-0 pr-1">
+
+        <div class="panel panel-default">
+
+            <div class="panel-heading">
+
+                Achievement List
+            </div>
+
+            <div class="panel-body" id="dv-Achievement">
+
+                @{
+                    Html.RenderAction("_GetEmployeeAchievement", "Employee",
+                                new { @employeeID =empID });
+
+                }
+
+
+
+            </div>
+
+
+        </div>
+    </div>
+
+    <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12 p-0 pl-1">
+
+        <div class="panel panel-default">
+
+            <div class="panel-heading">
+
+                Add Achievement Details
+            </div>
+
+            <div class="panel-body" id="dv-AchievementForm">
+
+                @{
+                    Html.RenderAction("_GetEmployeeAchievementForm", "Employee",
+                        new { @empAcheivementID = (int?)null });
+
+                }
+            </div>
+
+
+        </div>
+
+    </div>
+</div>
+

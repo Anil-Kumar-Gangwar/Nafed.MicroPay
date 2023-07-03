@@ -1,0 +1,57 @@
+﻿@using Nafed.MicroPay.Model
+@model Ticket
+
+@using (Ajax.BeginForm("SetTicketPriority", "Ticket", new AjaxOptions
+{
+    HttpMethod = "POST",
+    OnSuccess = "onSuccessPriority",
+}, new { defaultbutton = "btnSubmit" }))
+{
+
+
+    @Html.HiddenFor(model => Model.ID)
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-xl-12 col-sm-12 col-xs-12">
+            <div class="row mb-2">
+                <div class="col-lg-4 col-md-4 col-xl-4 col-sm-12 col-xs-12">
+                    @Html.LabelFor(model=>model.priority_id, htmlAttributes: new { @class = "control-label required" })
+                </div>
+                <div class="col-lg-8 col-md-8 col-xl-8 col-sm-12 col-xs-12">
+                  @Html.DropDownListFor(model => model.priority_id, new SelectList(ViewBag.TicketPriority,"id","value"), "Select", new { @class = "custom-select" })
+                    <span id="PriorityModlError"></span>
+                </div>
+            </div>           
+
+        </div>
+    </div>
+
+    <div class="row pull-right pr-3 mt-2">
+        <input type="button" id="btnSubmit" onclick="onBeginPopup()" value="Set Priority" class="btn btn-info btn-sm toggle-tooltip" />
+    </div>
+}
+
+
+<script type="text/javascript">
+    function onSuccessPriority(data) {
+        debugger;
+        if (data.status == true) {
+            $("#popup-ticket-priority").modal("hide");
+            commonMessage(data.type, data.msg);
+            $("#TicketGridDiv").load("@Url.Action("GetTicketTrackList", "Ticket")");
+        }
+        else if (data.status == false) {
+            commonMessage(data.type, data.msg);
+        }
+    }
+
+    function onBeginPopup() {
+        debugger;
+        $("#readModlError").html('');
+        if ($('#priority_id').val() == 0) {
+            $("#PriorityModlError").html("Please select ticket priority.").css("color", "red");
+            return false;
+        } else {
+            $("#btnSubmit").submit();
+        }
+    }
+</script>

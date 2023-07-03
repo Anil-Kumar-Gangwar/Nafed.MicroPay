@@ -1,0 +1,274 @@
+﻿@using Nafed.MicroPay.Model
+@using MvcCheckBoxList.Model
+@using MicroPay.Web.Models
+@model TrainingViewModel
+
+
+<div class="card_new_header">
+
+    @if ((EnumTrainingStatus)Model.TrainingStatus != EnumTrainingStatus.Completed && (EnumTrainingStatus)Model.TrainingStatus != EnumTrainingStatus.Cancel)
+    {
+        <div class="text-right">
+            @*@if (Model.userRights != null && Model.userRights.Create || 1 > 0)
+                {*@
+            @Ajax.ActionLink("Step 1: Add Training Participants", "AddTrainingParticipants", new
+       {
+           @trainingID = Model.trainingID,
+           status = Model.TrainingStatus
+       }, null,
+              new
+              {
+                  @class = "btn btn-info btn-md toggle-tooltip pull-left",
+                  @data_target = "#AddTrainingParticipatesModal",
+                  title = "Click here, to add Participant",
+                  @data_toggle = "modal",
+                  @method = "GET",
+                  @data_backdrop = "static",
+                  @data_keyboard = "false",
+                  @data_ajax_update = "#div-result-body",
+                  @data_ajax_mode = "replace"
+              })
+            @*//}*@
+        </div>
+    }
+
+    <div class="card_new_body">
+        <div id="div-Training-Participants">
+            @using (Ajax.BeginForm("_TrainingAttendedParticipants", "Training", new AjaxOptions
+            {
+                HttpMethod = "POST",
+                //UpdateTargetId = "div-inner-section",
+                OnSuccess = "TrainingAttendedParticipants_OnSuccess"
+            }, new { defaultbutton = "submitform" }))
+            {
+                @Html.HiddenFor(model => model.trainingID)
+                @Html.HiddenFor(model => model.TrainingStatus)
+                <div class="row">
+                    @if (Model.trainingParticipants.Count > 0 && ((EnumTrainingStatus)Model.TrainingStatus == EnumTrainingStatus.Completed))
+                    {
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 pr-0 mb-2">
+                            <div class="form-group">
+                                <span class="pull-right">
+                                    <input type="submit" value="Mark Attendance" id="submitform" class="btn btn-info btn-md pull-center toggle-tooltip" title="Click here, to mark training attendance" />
+                                </span>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        if ((EnumTrainingStatus)Model.TrainingStatus != EnumTrainingStatus.Cancel && (EnumTrainingStatus)Model.TrainingStatus != EnumTrainingStatus.Planned)
+                        {
+                            //if (Model.CheckBoxListAttachment.PostedFields.fieldIds.Count() > 0)
+                            //{
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 pr-0 mb-2">
+                                <div class="pull-right" style="margin-top: -43px">
+                                    <input type="submit" value="Step 2: Send Intimation to Participant" name="ButtonType" id="submitform" class="btn btn-info btn-md pull-center toggle-tooltip" title="Click here, to send Intimation to Participant" /><br />
+                                    @Html.CheckBoxListFor(model => model.CheckBoxListAttachment.PostedFields.fieldIds,
+                                  model => model.CheckBoxListAttachment.AvailableFields,
+                                  model => model.Id,
+                                  model => model.Name,
+                                  model => model.CheckBoxListAttachment.SelectedFields,
+                                  position: Position.Vertical
+                                  )
+                                </div>
+                            </div>
+                            //}
+                        }
+                    }
+                </div>
+
+                <div class="row" style="height:250px;overflow:auto; ">
+                    <div id="div-inner-section" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+                        @Html.Partial("_TrainingParticipate", Model)
+                    </div>
+
+                </div>
+
+            }
+        </div>
+    </div>
+
+</div>
+
+<div class="modal" id="AddTrainingParticipatesModal" data-backdrop="static" data-keyboard="false" role="dialog" style="overflow:auto;">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Add Training Participant</h4>
+                <button type="button" class="close toggle-tooltip" data-dismiss="modal">&times;</button>
+            </div>
+            @using (Ajax.BeginForm("_GetTrainingParticipateGridView", "Training", new AjaxOptions { HttpMethod = "Get", UpdateTargetId = "div-result-body" }, new { defaultbutton = "submitform" }))
+            {
+                @Html.HiddenFor(model => model.trainingID)
+                @Html.HiddenFor(model => model.TrainingStatus)
+                @*<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 patty_panel" style="background-color: #0c858e; box-shadow: 0px 1px 2px;padding-top: 0px;">
+
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 pb-1 pt-2">
+
+                            <h4>
+                                @Html.Label("SEARCH FILTERS")
+                            </h4>
+                        </div>
+
+                        <hr style="background-color:#fff !important;">
+
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+                            <div class="form-group">
+
+                                <div class="row">
+                                    <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+                                        @Html.LabelFor(model => model.EmployeeCode, htmlAttributes: new { @class = "" })
+                                    </div>
+
+                                    <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+
+                                        @Html.EditorFor(model => model.EmployeeCode, new { htmlAttributes = new { @class = "form-control", @placeholder = "Code", @maxlength = "6" } })
+
+                                    </div>
+
+                                    <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12 ">
+
+                                        @Html.LabelFor(model => model.EmployeeName, htmlAttributes: new { @class = "" })
+                                    </div>
+
+                                    <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 ">
+
+                                        @Html.EditorFor(model => model.EmployeeName, new { htmlAttributes = new { @class = "form-control", @placeholder = "Employee Name", @maxlength = "100" } })
+
+                                    </div>
+
+                                    <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 ">
+
+                                        @Html.LabelFor(model => model.DepartmentID, htmlAttributes: new { @class = "" })
+                                    </div>
+
+                                    <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 ">
+
+                                        @Html.DropDownListFor(model => model.DepartmentID, new SelectList(Model.department, "id", "value"), "Select", new { @class = "custom-select" })
+
+                                    </div>
+
+                                    <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12 ">
+
+                                        <input type="submit" id="submitform" value="Search" title="Click here, to search records" class="btn btn-warning toggle-tooltip">
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>*@
+            }
+
+            @using (Ajax.BeginForm("_PostTrainingParticipantsdetails", "Training", null,
+                 new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "div-result-body", OnSuccess = "Participant_OnSuccess" }))
+            {
+                @Html.HiddenFor(model => model.trainingID)
+                @Html.HiddenFor(model => model.TrainingStatus)
+            <!-- Modal body -->
+                <div class="modal-body" id="div-result-body" style="height:330px;overflow:scroll">
+                    <!-- div to show result data -->
+                </div>
+
+            <!-- Modal footer -->
+                <div class="modal-footer">
+                    <input type="button" value="Add Participants" id="btnSave" class="btn btn-primary btn-md" />
+                </div>
+            }
+
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    function TrainingAttendedParticipants_OnSuccess(data) {
+        debugger;
+        if (data.Tab4Part == 1) {
+            commonMessage(data.msgType, data.msg);
+            $("#div-inner-section").html(data.htmlData);
+        }
+        else if (data.Tab4Part == 2) {
+            commonMessage(data.msgType, data.msg);
+        }
+        else if (data.Tab6Part == undefined) {
+            $("#div-inner-section").html(data);
+        }
+    }
+    function Participant_OnSuccess(data) {
+        debugger;
+        if (data.saved) {
+            if (data.part == undefined) {
+                $("#AddTrainingParticipatesModal").modal("hide");
+                $("#div-inner-section").html(data.htmlData);
+                $('.nav-tabs li:eq(3) a').tab('show');
+                commonMessage(data.msgType, data.msg);
+            }
+            if (data.part == 4) {
+                $("#AddTrainingParticipatesModal").modal("show");
+                $("#div-result-body").html(data.htmlData);
+                //    $('.nav-tabs li:eq(2) a').tab('show');
+                commonMessage("error", "Please select participant.");
+            }
+        }
+    }
+
+
+    $("#btnSave").click(function () {
+        if (window.FormData !== undefined)
+            var fileData = new FormData();
+
+        var hdntrainingID = $('#trainingID').val();
+        var hdnTtrainingStatus = $('#TrainingStatus').val();
+        fileData.append("trainingID", hdntrainingID);
+        fileData.append("TrainingStatus", hdnTtrainingStatus);
+
+        debugger;
+        var oTable = $('#tblGrid2').dataTable();
+        var rowcollection = oTable.$(".call-checkbox:checked", { "page": "all" });
+
+        var checkedCount = rowcollection.length
+        if (checkedCount > 0) {
+            rowcollection.each(function (index, elem) {
+                var checkbox_value = $(elem).val();
+                if (checkbox_value == 'true') {
+                    var col_1_value = $(this).closest("tr").find("input[name='empid']").val();
+                    fileData.append("ParticipantID", col_1_value);
+                }
+
+            });
+
+            $.ajax({
+                url: "@Url.Action("_PostTrainingParticipantsdetails", "Training")",
+                type: "POST",
+                contentType: false, // Not to set any content header
+                processData: false, // Not to process data
+                data: fileData,
+                success: function (data) {
+                    if (data.saved) {
+                        if (data.part == undefined) {
+                            $("#AddTrainingParticipatesModal").modal("hide");
+                            $("#div-inner-section").html(data.htmlData);
+                            $('.nav-tabs li:eq(3) a').tab('show');
+                            commonMessage(data.msgType, data.msg);
+                        }
+                        if (data.part == 4) {
+                            $("#AddTrainingParticipatesModal").modal("show");
+                            $("#div-result-body").html(data.htmlData);
+                            //    $('.nav-tabs li:eq(2) a').tab('show');
+                            commonMessage("error", "Please select participant.");
+                        }
+                    }
+                }
+            });
+        }
+        else{
+            commonMessage("error", "Please select participant.");
+            return false;
+        }
+    });
+</script>

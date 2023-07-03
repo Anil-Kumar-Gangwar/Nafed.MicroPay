@@ -1,0 +1,302 @@
+﻿@using System.Web.Optimization
+@using Nafed.MicroPay.Model;
+@using Nafed.MicroPay.Common;
+
+@{
+    var message = TempData["Message"] == null ? "" : TempData["Message"].ToString();
+    var messageError = TempData["Error"] == null ? "" : TempData["Error"].ToString();
+
+
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>NAFED- @ViewBag.Title  </title>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="" name="description" />
+
+    @Styles.Render("~/Content/style")
+    @Styles.Render("~/Content/DataTable-css")
+
+    @Styles.Render("~/fonts")
+    @Styles.Render("~/Content/calender")
+    @Styles.Render("~/Content/calender")
+
+    @Scripts.Render("~/fonts/Js")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/Content/DataTable-js")
+
+    <style type="text/css">
+        @@font-face {
+            font-family: 'OxygenBold';
+            src: url('~/fonts/Oxygen/Oxygen-Bold.ttf');
+        }
+
+        h4 {
+            font-family: 'OxygenBold' !important;
+        }
+
+        .content1 {
+            position: fixed;
+            top: 56px;
+            z-index: 1049;
+        }
+
+        .required:after {
+            content: " *";
+            font-weight: bold;
+            white-space: nowrap;
+            color: red;
+        }
+
+        #banner {
+            position: fixed;
+            height: 40px;
+            background: #f7f7f7;
+            left: 0;
+            top: 100px;
+            float: left;
+            width: 100%;
+            -ms-transition: all 0.3s ease-out;
+            -moz-transition: all 0.3s ease-out;
+            -webkit-transition: all 0.3s ease-out;
+            -o-transition: all 0.3s ease-out;
+            transition: all 0.3s ease-out;
+            z-index: 1050;
+        }
+
+            #banner.small {
+                height: auto;
+                top: 0px;
+            }
+
+        .logo {
+            display: none;
+            background-color: #fff;
+            height: 50px;
+        }
+
+        .sm_logo {
+            display: block;
+        }
+
+        .lg_logo {
+            display: block;
+        }
+
+        .content-page {
+            position: relative;
+            top: 0px;
+            padding: 1px 15px 15px 15px;
+        }
+
+        .dataTables_info {
+            float: left;
+            padding: 0px !important;
+            font-weight: bold;
+        }
+
+        .dataTables_paginate {
+            padding-top: 10px !important;
+        }
+
+        .patty {
+            float: left;
+            width: 100%;
+            height: auto;
+            padding: 6px 15px;
+            font-size: 16px;
+            font-weight: 500;
+            box-shadow: 0px 1px 10px #818181;
+            background: #ffffff; /* Old browsers */
+            background: -moz-linear-gradient(left, #ffffff 0%, #e5e5e5 100%); /* FF3.6-15 */
+            background: -webkit-linear-gradient(left, #ffffff 0%,#e5e5e5 100%); /* Chrome10-25,Safari5.1-6 */
+            background: linear-gradient(to right, #ffffff 0%,#e5e5e5 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#e5e5e5',GradientType=1 );
+            margin-bottom: 10px;
+        }
+    </style>
+
+  
+
+</head>
+
+
+<body class="enlarged" data-keep-enlarged="true" style="overflow-x: hidden;" >
+
+    @Html.Partial("~/Views/Shared/_LoadingPanel.cshtml")
+
+    <link rel="stylesheet" href="~/Content/aicon/style.css">
+    <link href="~/Scripts/summernote/summernote.css" rel="stylesheet" type="text/css" />
+    <script src="~/Scripts/summernote/summernote.min.js" type="text/javascript"></script>
+
+    @Scripts.Render("~/Content/monthcalenderJS")
+
+    <!-- Begin page -->
+ 
+
+    <div class="wrapper">
+
+        <div class="content-page">
+            <div class="content">
+                <div class="card_new">
+                    <div class="card_new_body">
+
+
+                        <div class="" style="border-bottom:solid 2px #0bb70b;margin:10px; padding:5px;">
+                            <div class="row">
+
+                                <div class="col-lg-12 col-md-12 col-xl-12 col-sm-12 col-xs-12">
+
+                                    <div class="form-group">
+
+                                        <div class="col-lg-12 col-md-12 col-xl-12 col-sm-12 col-xs-12 text-center text-md-center text-sm-center">
+                                            <img src="~/Images/logo.png" />
+                                        </div>
+
+                                       
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-lg-12 col-md-12 col-xl-12 col-sm-12 col-xs-12 text-center ">
+                                    <h5 class="">
+                                        National Agricultural Cooperative Marketing Federation of India Ltd.<br />
+                                        Nafed House, Sidhartha Enclave, Ashram Chowk, Ring Road,<br />
+                                        <span style="text-decoration:underline">New Delhi - 110 014</span>
+                                    </h5>
+                                </div>
+
+                            </div>
+
+                        </div>
+                        <!-- Start Content-->
+                        <div class="container-fluid">
+                            
+
+                            <!-- start page title -->
+                            <div class="row" style="width: 100%">
+                                <div class="col-lg-12">
+                                    <div class="page-title-box">
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" style="margin-bottom:50px;">
+                                <div class="col-lg-12">
+                                    <div id="body" class="">
+                                        @RenderSection("featured", required: false)
+                                        <section class="content-wrapper main-content clear-fix">
+
+                                            @RenderBody()
+                                        </section>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- end page title -->
+                        </div>
+                        <!-- container -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- content -->
+
+        </div>
+        <!-- Footer Start -->
+
+        <div class="container-fluid">
+            <div class="row" style="position:fixed;bottom:0px;width:100%;background-color:#4f5359; ">
+                <div class="col-sm-12 m-auto pt-2 pb-2">
+                    <p class="text-white m-0" style="color: #818181;font-size: 12px;">
+                        Copyright © 2019 Nafed-india.com, All rights Reserved
+                        <span style="float: right;">
+                            Powered By:
+                            <img src="~/Images/mw.png" />
+                        </span>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- end Footer -->
+        <!-- ============================================================== -->
+        <!-- End Page content -->
+        <!-- ============================================================== -->
+    </div>
+
+  
+
+    @RenderSection("scripts", required: false)
+
+</body>
+</html>
+<script src="~/Scripts/layout.js"></script>
+
+<script type="text/javascript">
+
+        $(document).ready(function () {
+
+            $(".datepicker").datepicker({
+                dateFormat: 'dd/mm/yy'
+            });
+
+            ///===== common tooltip ===========
+            $('[data-toggle="tooltip"]').tooltip();
+            $('.toggle-tooltip').tooltip();
+
+            if ('@messageError' != "") {
+                var str = '@WebUtility.HtmlEncode(@messageError)';
+                str = str.replace(/&amp;lt;/g, "<").replace(/&amp;gt;/g, ">").replace(/&amp;#39;/g, "'");
+                $.bootstrapGrowl("<i class='mdi-android-debug-bridge' aria-hidden='true'></i> " + str + "", {
+                    type: 'warning',
+                    align: 'center',
+                    width: 'auto',
+                    allow_dismiss: true,
+                    delay: 50000
+                });
+            }
+            if ('@message' != "") {
+                $.bootstrapGrowl("<i class='mdi-checkbox-marked-circle-outline' aria-hidden='true'></i> " + '@message', {
+                    type: 'success',
+                    align: 'center',
+                    width: 'auto',
+                    allow_dismiss: true,
+                    delay: 20000
+                });
+            }
+        });
+
+        function commonMessage(msgType, msg) {
+
+            if (msgType != "success") {
+                var str = '@WebUtility.HtmlEncode(@messageError)';
+                str = str.replace(/&amp;lt;/g, "<").replace(/&amp;gt;/g, ">").replace(/&amp;#39;/g, "'");
+                $.bootstrapGrowl("<i class='mdi-android-debug-bridge' aria-hidden='true'></i> " + msg + "", {
+                    type: 'warning',
+                    align: 'center',
+                    width: 'auto',
+                    allow_dismiss: true,
+                    delay: 50000
+                });
+            }
+            if (msgType == "success") {
+
+                $.bootstrapGrowl("<i class='mdi-checkbox-marked-circle-outline' aria-hidden='true'></i> " + msg, {
+                    type: 'success',
+                    align: 'center',
+                    width: 'auto',
+                    allow_dismiss: true,
+                    delay: 20000
+                });
+            }
+        }
+
+</script>

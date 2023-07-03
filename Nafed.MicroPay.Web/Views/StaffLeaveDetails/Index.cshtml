@@ -1,0 +1,45 @@
+﻿
+@model Nafed.MicroPay.Model.UserAccessRight
+@{
+    ViewBag.Title = "Staff Leave Details";
+    ViewBag.NavigationTitle = "Staff Leave Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    System.Globalization.CultureInfo Indian = new System.Globalization.CultureInfo("hi-IN");
+}
+
+<style>
+    .patty_panel {
+        background-color: #0c858e;
+        color: #ffffff;
+        font-size: 14px;
+    }
+</style>
+
+<div class="card_new_body">
+    <div id="UserGridDiv">
+        @{Html.RenderAction("SearchStaffleaveDetails");}
+    </div>
+</div>
+<br />
+
+    
+    <div class="card_new_body">
+        <div id="MarkDiv">
+           @*@{Html.RenderAction("StaffLeaveDetailsGridView");}*@
+        </div>
+    </div>
+
+
+@section scripts{
+
+}
+
+
+
+
+
+
+
+
+
+

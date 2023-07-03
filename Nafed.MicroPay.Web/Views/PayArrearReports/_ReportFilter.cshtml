@@ -1,0 +1,247 @@
+﻿@*@model MicroPay.Web.Models.ArrearViewModel*@
+@using Nafed.MicroPay.Model
+@model ArrearFilters
+@{
+
+    Model.listArrerPeriod.Insert(0, new SelectListModel { value = "Select", id = 0 });
+}
+@{
+    var message = TempData["Message"] == null ? "" : TempData["Message"].ToString();
+    var messageError = TempData["Error"] == null ? "" : TempData["Error"].ToString();
+}
+
+<div class="advance-search" style="">
+
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 pb-1 pt-2 form-inline align-middle">
+        <i class="fa fa-search fa-2x" style="color:#d4d4d4;" aria-hidden="true"></i><h4 class="desc" style="color:#0bb70b;">
+            @Html.Label("Search")
+        </h4>
+    </div>
+
+    <hr style="background-color:#fff !important;">
+
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="form-group">
+            <div class="row mb-2">
+                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 text-secondary pr-0">
+                    <i class="fas fa-filter"></i> Filter By :
+                </div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+                    @Html.LabelFor(model => model.ReportTypeID, htmlAttributes: new { @class = "Control-label required" })
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                    @Html.DropDownListFor(model => model.ReportTypeID, (IEnumerable<SelectListItem>)ViewBag.ReportType, new { @class = "custom-select", @id = "ddlReportType", @onchange = "BindBankdetails()" })
+
+                </div>
+                <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+                    @Html.Label("Bank", htmlAttributes: new { @class = "Control-label" })
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                    @Html.DropDownListFor(model => model.BankCode, new SelectList(ViewBag.Banks, "BankCode", "BankName"), "All", new { @class = "custom-select", @id = "ddlBank" })
+                </div>
+                <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+                    @Html.LabelFor(model => model.branchID, htmlAttributes: new { @class = " Control-label" })
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                    @Html.DropDownListFor(model => model.branchID, new SelectList(Model.branchList, "id", "value"), "All", new { @class = "custom-select", @id = "ddlBranchList", @onchange = "BindEmployeeOnBranch()" })
+                </div>
+                <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+                    @Html.Label("Employee", htmlAttributes: new { @class = "Control-label " })
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                    @Html.DropDownListFor(model => model.employeeID, (IEnumerable<SelectListItem>)ViewBag.Employee, new { @class = "custom-select", @id = "ddlEmployee" })
+                </div>
+
+                <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12 mt-3">
+                    @Html.LabelFor(model => model.ArrerPeriodDetailsDA, htmlAttributes: new { @class = "Control-label required" })
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 mt-3">
+                    @Html.DropDownListFor(model => model.ArrerPeriodDetailsDA, new SelectList(Model.listArrerPeriod, "value", "value"), new { @class = "custom-select", onChange = "PeriodDetailsDA()" })
+
+                </div>
+                <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12 mt-3">
+                    @Html.LabelFor(model => model.fromPeriod, htmlAttributes: new { @class = "Control-label" })
+                </div>
+
+                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 mt-3">
+                    @Html.EditorFor(model => model.fromPeriod, new { htmlAttributes = new { @class = "form-control", @placeholder = "", @disabled = "disabled", @id = "txtfromdate" } })
+                    @*@Html.EditorFor(model => model.fromdate, new { htmlAttributes = new { required = "required", @class = "form-control", @placeholder = "From Date", @type = "date", @id = "lblfromdate" } })*@
+                </div>
+
+                <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12 mt-3">
+                    @Html.LabelFor(model => model.toPeriod, htmlAttributes: new { @class = "Control-label " })
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 mt-3">
+                    @Html.EditorFor(model => model.toPeriod, new { htmlAttributes = new { @class = "form-control", @placeholder = "", @disabled = "disabled", @id = "txttodate" } })
+                    @*@Html.EditorFor(model => model.todate, new { htmlAttributes = new { required = "required", @class = "form-control ", @placeholder = "To Date", @type = "date", @id = "lbltodate" } })*@
+                </div>
+
+                <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12 mt-3">
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 mt-3">
+                </div>
+
+                <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12 mt-3">
+                    @Html.LabelFor(model => model.OrderNo, htmlAttributes: new { @class = "Control-label " })
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 mt-3">
+                    @Html.EditorFor(model => model.OrderNo, new { htmlAttributes = new { @class = "form-control", @placeholder = "", @id = "txtOrderNo" } })
+
+                </div>
+
+                <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12 mt-3">
+                    @Html.LabelFor(model => model.OrderDate, htmlAttributes: new { @class = "Control-label " })
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 mt-3">
+                    @Html.EditorFor(model => model.OrderDate, new { htmlAttributes = new { @class = "form-control", @type = "date", @id = "txtorderdate" } })
+                </div>
+            </div>
+            <div class="row ">
+                <div class="col-12">
+                    <div class="alert alert-warning" role="alert">
+                        <b> Note:</b> If you want to print Arrear Summary report then you should have to provide Order No. and Order Date.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<hr style="background-color:#fff !important;">
+<div class="row mt-3">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-right">
+        <button type="submit" id="submitapproval" value="Send for Approval" title="Click here, to send approval request" name="ButtonType" class="btn btn-info toggle-tooltip">
+            <i class="fa fa-share"></i> Send for Approval
+        </button>
+        <button type="submit" id="submitform" onClick="return validation()" value="View Report" title="Click here, to search records" name="eventType" class="btn btn-warning toggle-tooltip" formtarget="_blank">
+            <i class="fa fa-eye"></i> View Report
+        </button>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+
+    function BindBankdetails(e) {
+        debugger;
+        var reporttypeID = 0;
+        reporttypeID = $("#ddlReportType").val();
+
+        if (reporttypeID == 3) {
+            $("#ddlBank").removeAttr('disabled');
+            $("#ddlEmployee").attr("disabled", "disabled");
+
+            $("#txtOrderNo").attr("disabled", "disabled");
+            $("#txtorderdate").attr("disabled", "disabled");
+        }
+        else if (reporttypeID == 4 || reporttypeID == 2) {
+            $("#ddlBank").attr("disabled", "disabled");
+            $("#ddlEmployee").attr("disabled", "disabled");
+
+            $("#txtOrderNo").removeAttr("disabled", "disabled");
+            $("#txtorderdate").removeAttr("disabled", "disabled");
+        }
+        else {
+            $("#ddlEmployee").removeAttr('disabled');
+            $("#ddlBank").attr("disabled", "disabled");
+            $("#txtOrderNo").attr("disabled", "disabled");
+            $("#txtorderdate").attr("disabled", "disabled");
+
+        }
+    }
+    function validation() {
+        debugger;
+        var OrderNo = $.trim($('#txtOrderNo').val());
+        var Orderdate = $.trim($('#txtorderdate').val());
+        var reporttypeID = 0;
+        reporttypeID = $("#ddlReportType").val();
+        // Check if empty of not
+        if (OrderNo === '' && (reporttypeID == 2 || reporttypeID == 4)) {
+            $.bootstrapGrowl("<i class='mdi-android-debug-bridge' aria-hidden='true'></i> Enter Order No", {
+                type: 'warning',
+                align: 'center',
+                width: 'auto',
+                allow_dismiss: true,
+                delay: 50000
+            });
+            return false;
+        }
+        else if (Orderdate === '' && (reporttypeID == 2 || reporttypeID == 4)) {
+            $.bootstrapGrowl("<i class='mdi-android-debug-bridge' aria-hidden='true'></i> Enter Order Date", {
+                type: 'warning',
+                align: 'center',
+                width: 'auto',
+                allow_dismiss: true,
+                delay: 50000
+            });
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
+
+
+    function BindEmployeeOnBranch(e) {
+        debugger;
+        var branchId = 0;
+        branchId = $("#ddlBranchList").val();
+        $("#ddlEmployee").html("");
+        if (branchId > 0) {
+            jQuery.post("@Url.Action("GetBranchEmployee", "PayArrearReports")", {
+                branchID: branchId,
+            }).done(function (data) {
+
+                if (data.employees != "") {
+                    $("#ddlEmployee").html("");
+                    $.each(data.employees, function (key, value) {
+                        $("#ddlEmployee").append($("<option></option>").val(value.Value).html(value.Text));
+                    });
+                }
+            });
+        } else {
+            $("#ddlEmployee").append($("<option></option>").val(0).html('Select'));
+        }
+    }
+
+    function PeriodDetailsDA() {
+        var value = $("#ArrerPeriodDetailsDA").val();
+        if (value != "Select") {
+            jQuery.get("@Url.Action("GetPeriodDetails", "PayArrearReports")", {
+                details: value,
+                flag: "AB"
+            }).done(function (data) {
+                if (data != "" && data.DAArrerPeriods != null) {
+                    $("#txtfromdate").val(data.DAArrerPeriods.substring(0, (data.DAArrerPeriods.indexOf(":"))));
+                    $("#txttodate").val(data.DAArrerPeriods.substring((data.DAArrerPeriods.indexOf(":") + 1), data.DAArrerPeriods.length));
+                }
+            });
+        }
+    }
+
+    $(document).ready(function () {
+        if ('@messageError' != "") {
+            var str = '@WebUtility.HtmlEncode(@messageError)';
+            str = str.replace(/&amp;lt;/g, "<").replace(/&amp;gt;/g, ">").replace(/&amp;#39;/g, "'");
+            $.bootstrapGrowl("<i class='mdi-android-debug-bridge' aria-hidden='true'></i> " + str + "", {
+                type: 'warning',
+                align: 'center',
+                width: 'auto',
+                allow_dismiss: true,
+                delay: 50000
+            });
+        }
+        if ('@message' != "") {
+            $.bootstrapGrowl("<i class='mdi-checkbox-marked-circle-outline' aria-hidden='true'></i> " + '@message', {
+                type: 'success',
+                align: 'center',
+                width: 'auto',
+                allow_dismiss: true,
+                delay: 20000
+            });
+        }
+    });
+</script>
+

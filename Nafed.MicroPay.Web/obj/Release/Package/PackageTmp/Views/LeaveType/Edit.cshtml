@@ -1,0 +1,53 @@
+﻿@model Nafed.MicroPay.Model.LeaveType
+@{
+    ViewBag.Title = "Edit Leave Type";
+    ViewBag.NavigationTitle = "Leave Type";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card_new_header alert alert-danger">
+
+    <div class="col-sm-6">
+        NOTE : Fields marked with (*) are compulsory fields
+    </div>
+    <div class="col-sm-6 text-right">
+        <b>@*[ Characters < > # ^ ; | $ are not allowed ]*@</b>
+    </div>
+
+</div>
+
+
+@using (Html.BeginForm("Edit", "LeaveType"))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    @Html.HiddenFor(model => model.LeaveTypeID)
+     
+        <div class="card_new_body">
+            <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 mb-2">
+                    <div class="row">
+                        @Html.LabelFor(model => model.LeaveCode, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-6 col-xs-12 mb-2 required" })
+                        <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 mb-2">
+                            @Html.EditorFor(model => model.LeaveCode, new { htmlAttributes = new { @class = "form-control", @placeholder = "Leave Code", @min = 20 } })
+                            @Html.ValidationMessage("LeaveCodeAlreadyExists", "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="row">
+                        @Html.LabelFor(model => model.LeaveDesc, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-6 col-xs-12 mb-2 required" })
+                        <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 mb-2">
+                            @Html.EditorFor(model => model.LeaveDesc, new { htmlAttributes = new { @class = "form-control", @placeholder = "Leave Description", @min = 100 } })
+                            @Html.ValidationMessage("LeaveDescAlreadyExists", "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <span class="pull-right">
+                        @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-light btn-sm toggle-tooltip", @title = "Click here, to redirect on list page", @data_toggle = "tooltip" })
+                        <input type="submit" value="Update" class="btn btn-info btn-sm pull-center toggle-tooltip" title="Click here, to Update current record" data-toggle="tooltip" />
+                    </span>
+                </div>
+            </div>
+        </div>
+   
+}
+

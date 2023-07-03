@@ -1,0 +1,138 @@
+﻿@using Nafed.MicroPay.Model;
+@model SMSConfiguration
+@{
+    ViewBag.Title = "SMS Configuration";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+@using (Html.BeginForm("Create", "SMSConfiguration"))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-header">
+                    <h4>SMS API configuration</h4>
+
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2">
+                            @Html.LabelFor(model => model.ApiKey)
+                            @Html.HiddenFor(model => model.SMSConfigurationID)
+                            @Html.HiddenFor(model => model.CreatedBy)
+                            @Html.HiddenFor(model => model.CreatedOn)
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 mb-2">
+                            <div class="input-group">
+                                <div class="input-group-append">
+                                    <div class="input-group-text">
+                                        <i class="fa fa-key" aria-hidden="true"></i>
+
+                                    </div>
+                                </div>
+                                @Html.EditorFor(model => model.ApiKey, new { placeholder = "", @class = "form-control", @maxlength = "50", @autocomplete = "off" })
+                                @*@Html.ValidationMessageFor(model => model.ApiKey, "", new { @class = "text-danger" })*@
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2">
+                            @Html.LabelFor(model => model.SMSUrl)
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 mb-2">
+                            <div class="input-group">
+                                <div class="input-group-append">
+                                    <div class="input-group-text">
+                                        <i class="fa fa-link" aria-hidden="true"></i>
+
+                                    </div>
+                                </div>
+                                @Html.EditorFor(model => model.SMSUrl, new { placeholder = "example@mail.ru", @class = "form-control", @maxlength = "50", @autocomplete = "off" })
+                                @Html.ValidationMessageFor(model => model.SMSUrl, "", new { @class = "text-danger" })
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2">
+                            @Html.LabelFor(model => model.SenderID)
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 mb-2">
+                            <div class="input-group">
+                                <div class="input-group-append">
+                                    <div class="input-group-text">
+                                        <i class="fa fa-id-badge" aria-hidden="true"></i>
+
+                                    </div>
+                                </div>
+                                @Html.EditorFor(model => model.SenderID, new { placeholder = "write here", @class = "form-control", @maxlength = "20", @onchange = "checkPwd(this.value)" })
+                                @Html.ValidationMessageFor(model => model.SenderID, "", new { @class = "text-danger" })
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2">
+                            @Html.LabelFor(model => model.Channel)
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 mb-2">
+                            <div class="input-group">
+                                <div class="input-group-append">
+                                    <div class="input-group-text">
+                                        <i class="fa fa-chain-broken" aria-hidden="true"></i>
+
+                                    </div>
+                                </div>
+                                @Html.EditorFor(model => model.Channel, new { placeholder = "write here", @class = "form-control", @maxlength = "20", @onchange = "checkPwd(this.value)" })
+                                @*@Html.ValidationMessageFor(model => model.Channel, "", new { @class = "text-danger" })*@
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2">
+                            @Html.LabelFor(model => model.DCS)
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 mb-2">
+                            @Html.EditorFor(model => model.DCS, new { placeholder = "write here", @class = "form-control", @maxlength = "50", @autocomplete = "off" })
+                            @*@Html.ValidationMessageFor(model => model.DCS, "", new { @class = "text-danger" })*@
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2">
+                            @Html.LabelFor(model => model.FlashSMS)
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 mb-2">
+                            @Html.EditorFor(model => model.FlashSMS, new { placeholder = "write here", @class = "form-control", @MaxLength = "3", @onchange = "CheckPortNo()", @autocomplete = "off", @type = "number" })
+                            @*@Html.ValidationMessageFor(model => model.FlashSMS, "", new { @class = "text-danger" })*@
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2">
+                            @Html.LabelFor(model => model.Route)
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 mb-2">
+                            @Html.EditorFor(model => model.Route, new { placeholder = "write here", @class = "form-control" })
+                            @*@Html.ValidationMessageFor(model => model.Route, "", new { @class = "text-danger" })*@
+                        </div>
+                    </div>
+
+                    
+                </div>
+                <div class="card-footer">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <input type="submit" value="Save" class="btn btn-primary btn-md pull-right" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}

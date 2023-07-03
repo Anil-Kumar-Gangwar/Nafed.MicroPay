@@ -1,0 +1,78 @@
+﻿@model MicroPay.Web.Models.LTCViewModel
+
+<table id="tblUser" class="table table-centered table-striped dt-responsive w-100">
+    <thead>
+        <tr>
+            <th>
+                #
+            </th>
+            <th>
+                LTC No.
+            </th>
+            <th class="text-center">
+                Employee Code
+            </th>
+            <th>
+                Employee Name
+            </th>
+            <th class="text-center">
+                Date of Application
+            </th>
+            <th class="text-center">
+                Date of Return
+            </th>
+            @*@if (Model.userRights.Edit)
+            {*@
+                <th class="text-center" style="width:60px">
+                    Edit
+                </th>
+            @*}
+            @if (Model.userRights.Delete)
+            {*@
+                <th class="text-center" style="width:60px">
+                    Delete
+                </th>
+            @*}*@
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            int index = 1;
+            if (Model != null && Model.LTCList.Count > 0)
+            {
+                foreach (var item in Model.LTCList)
+                {
+                    <tr>
+                        <td> @index</td>
+                        <td> @item.LTCNo</td>
+                        <td class="text-center"> @item.Employeecode</td>
+                        <td> @item.Employeename</td>
+                        <td class="text-center">@Convert.ToDateTime(item.DateofApplication).ToString("dd-MM-yyyy")</td>
+                        <td class="text-center">@Convert.ToDateTime(item.DateofReturn).ToString("dd-MM-yyyy")</td>
+                        @*@if (Model.userRights.Edit)
+                        {*@
+                            <td class="text-center">
+                                @*<a href="@Url.Action("Edit", "LTC", new { LTCID = item.LTCID, reportingTo = item.approvalSetting == null ? 0 : item.approvalSetting.ReportingTo, reviewingTo = item.approvalSetting == null ? 0 :item.approvalSetting.ReviewingTo, acceptanceAuthority = item.approvalSetting == null ? 0 :item.approvalSetting.AcceptanceAuthority, empID = item.EmployeeId })" title="Click here, to edit this record" data-toggle="tooltip">
+                                <span class="far fa-edit text-info" aria-hidden="true"></span>
+                                </a>*@
+                                @Html.EncodedImageActionLink("", "Edit", "LTC", new { LTCID = item.LTCID, reportingTo = item.approvalSetting == null ? 0 : item.approvalSetting.ReportingTo, reviewingTo = item.approvalSetting == null ? 0 : item.approvalSetting.ReviewingTo, acceptanceAuthority = item.approvalSetting == null ? 0 : item.approvalSetting.AcceptanceAuthority, empID = item.EmployeeId }, new { @class = "toggle-tooltip", title = "Click here, to edit this record" }, "~/Images/edit.png")
+                            </td>
+                        @*}
+                        @if (Model.userRights.Delete)
+                        {*@
+                            <td class="text-center">
+                                @*<a class="toggle-tooltip" data-toggle="confirm" href="@Url.Action("Delete", "LTC", new { LTCID = @item.LTCID })" title="Click here, to delete this record">
+                                    <span class="far fa-trash-alt text-danger" aria-hidden="true"></span>
+                                </a>*@
+                                @Html.EncodedImageActionLink("", "Delete", "LTC", new { LTCID = @item.LTCID }, new { @class = "toggle-tooltip", title = "Click here, to delete this record" }, "~/Images/delete.png", true)
+                            </td>
+                        @*}*@
+                    </tr>
+                    index++;
+                }
+            }
+
+        }
+
+    </tbody>
+</table>

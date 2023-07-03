@@ -1,0 +1,72 @@
+﻿@using Nafed.MicroPay.Model;
+@model IEnumerable<EmployeeDeputation>
+<table id="tblGrid" class="table table-centered table-striped dt-responsive w-100">
+    <thead>
+        <tr>
+            <th>
+                #
+            </th>
+            <th>
+                Organization
+            </th>
+            <th>
+                From Date
+            </th>
+            <th>
+                To Date
+            </th>
+
+            <th class="text-center" style="width:60px">
+                Edit
+            </th>
+
+            @*<th class="text-center" style="width:60px">
+                Delete
+            </th>*@
+
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            if (Model.Count() > 0)
+            {
+                var sno = 1;
+                foreach (var item in Model)
+                {
+                    <tr>
+                        <td> @sno</td>
+
+                        <td> @item.OrganizationName</td>
+                        <td> @item.FromDate.ToString("dd/MMM/yyyy")</td>
+                        <td> @item.ToDate.ToString("dd/MMM/yyyy")</td>
+
+                        <td class="text-center">
+                            <a data-ajax="true"
+                               href="@Url.Action("_GetEmployeeDeputation", "Employee", new { employeeID = item.EmployeeID,empDeputationID=item.EmpDeputationID })"
+                               data-ajax-update="#div-bd" title="Click here, to edit this record"
+                               method="GET" data-ajax-mode="replace" data-backdrop="static" data-keyboard="false"
+                               class="toggle-tooltip" data-toggle="modal" data-target="#editDeputationModal">
+                                <span class="far fa-edit text-info" aria-hidden="true"></span>
+                            </a>
+                        </td>
+
+                        @*<td class="text-center">
+                            <a data-toggle="confirm" class="toggle-tooltip" data-ajax-update="#Deputation" data-ajax-mode="replace"
+                               href="@Url.Action("DeleteEmployeeDeputationInfo", "Employee", new { employeeID = item.EmployeeID,empDeputationID=item.EmpDeputationID })" title="Click here, to delete this record">
+                                <span class="far fa-trash-alt text-danger"
+                                      aria-hidden="true"></span>
+                            </a>
+                        </td>*@
+
+                    </tr>
+
+                    sno++;
+                }
+            }
+        }
+
+    </tbody>
+</table>
+
+
+

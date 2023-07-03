@@ -1,0 +1,26 @@
+﻿@model MicroPay.Web.Models.DependentViewModel
+@{
+    ViewBag.Title = "My Dependent";
+
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    System.Globalization.CultureInfo Indian = new System.Globalization.CultureInfo("hi-IN");
+}
+<div class="">
+  
+                    @Html.Partial("_FamilyDependent", Model)
+
+                    
+
+                    <div id="div-Dependent" class="mt-2">
+
+                        <div class="card_new_body">
+                            <div id="div-Dependent-List">
+                                @Html.Action("_PostMyDependentFilters", Model)
+                            </div>
+                        </div>
+                    </div>
+                
+
+
+    @*<div class="card_new_footer"></div>*@
+</div>

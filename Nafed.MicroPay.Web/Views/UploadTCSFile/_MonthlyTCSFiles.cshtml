@@ -1,0 +1,66 @@
+﻿@using Nafed.MicroPay.Model
+@model IEnumerable<MonthlyTCSFile>
+
+<script type="text/javascript">
+
+    $('[data-toggle="tooltip"]').tooltip();
+</script>
+
+<table id="tblGrid" class="table table-centered table-striped dt-responsive w-100">
+    <thead>
+        <tr>
+            <th>
+                #
+            </th>
+            <th>
+                TCS File Period
+            </th>
+            <th>
+                TCS File Name
+            </th>
+
+            <th class="text-center">
+                Download
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            if (Model != null && Model.Count() > 0)
+            {
+                var sno = 1;
+                foreach (var item in Model)
+                {
+                    <tr>
+
+                        <td> @sno</td>
+                        <td>@item.TCSFilePeriod </td>
+                        <td>@item.TCSFileName </td>
+
+                        <td class="text-center">
+                            @if (item.TCSFileUNCPath != "#")
+                            {
+                              @*<a data-toggle="tooltip" title="Click here, to download the tcs file"  
+                                 href=@Url.Action("DownloadFile", "Base", new { sFileName = item.TCSFileName, sFileFullPath = item.TCSFileUNCPath })>
+                                <i class="fa fa-download" aria-hidden="true"></i></a>*@
+                                @Html.EncodedImageActionLink("", "DownloadFile", "Base", new { sFileName = item.TCSFileName, sFileFullPath = item.TCSFileUNCPath }, new { @class = "toggle-tooltip", title = "Click here, to download the tcs file" }, "~/Images/document.png")
+                            }
+                            else
+                            {
+                                <a href="#"><i class="fa fa-download" aria-hidden="true"></i></a>
+                            }
+                         </td>
+                    </tr>
+
+                    sno++;
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="3" class="text-center"> No Record Found.</td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>

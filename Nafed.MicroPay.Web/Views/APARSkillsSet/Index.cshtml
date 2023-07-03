@@ -1,0 +1,50 @@
+﻿@model MicroPay.Web.Models.APARSkillSetViewModel
+@{
+    ViewBag.Title = "Skill Set";
+   
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    System.Globalization.CultureInfo Indian = new System.Globalization.CultureInfo("hi-IN");
+}
+<div class="">
+    <div>
+            <div class="card_new_header text-right">
+                @Html.ActionLink("Update Remark", "UpdateSkillRemarks", "APARSkillsSet", null, new { @class = "btn btn-info btn-md", title = "Click here, to create new record", @data_toggle = "tooltip" })
+
+                    @Html.ActionLink("Create New", "Create", "APARSkillsSet", null, new { @class = "btn btn-info btn-md", title = "Click here, to create new record", @data_toggle = "tooltip" })
+               
+            </div>
+            <div id="div-Skill" class="mt-2">
+                
+                <div class="card_new_body">
+                    <div id="div-Skill-List">
+                       @Html.Action("GetAPARSkillSetList")
+                    </div>
+                </div>
+            </div>
+    </div>
+</div>
+
+<div class="modal" id="div-APAR">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">   
+              <h4>Skill List</h4>            
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body" id="div-APARList">
+
+
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+
+            </div>
+
+        </div>
+    </div>
+</div>

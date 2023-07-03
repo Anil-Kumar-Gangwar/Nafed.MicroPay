@@ -1,0 +1,491 @@
+﻿@model Nafed.MicroPay.Model.Dashboard
+@using Nafed.MicroPay.Common
+@{
+    ViewBag.Title = "Dashboard";
+    ViewBag.NavigationTitle = "Home";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    System.Globalization.CultureInfo Indian = new System.Globalization.CultureInfo("hi-IN");
+}
+
+<div class="row tile_count mt-3 p-0 counter_shadow">
+
+    <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count text-center att_width p-0">
+        <span class="count_top text-center"><img style="height: 50px;width: 50px;" src="~/images/Fingerprint.png">  </span>
+        <div class="text-muted">
+            Attendance In Current Month
+        </div>
+        <div class="count green text-center fs"><text>NA</text></div>
+    </div>
+
+    <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count pr-0 text-center att_width p-0">
+        <span class="count_top text-center"><img style="height: 50px;width: 50px;" src="~/images/total_leave.svg"> </span>
+        <div class="text-muted">
+            Total Leave Balance
+        </div>
+        <div class="count green text-center fs"><span title="Casual Leave">CL - </span> @Model.CLBalance <span title="Earn Leave">, EL - </span> @Model.ELBalance</div>
+    </div>
+
+    <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count pr-0 text-center att_width p-0">
+        <span class="count_top text-center"><img style="height: 50px;width: 50px;" src="~/images/current_leave.svg"> </span>
+        <div class="text-muted">
+            Leave Availed In Current Year
+        </div>
+        <div class="count green text-center fs"><span>CL - </span> @Model.CLAvailed <span>, EL - </span>@Model.ELAvailed </div>
+    </div>
+
+    <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count text-center att_width p-0">
+        <span class="count_top text-center"> <img style="height: 50px;width: 50px;" src="~/images/location.svg"> </span>
+        <div class="text-muted">
+            Branch
+        </div>
+        <div class="count green label-ellipsis text-center fs"> @(Model.BranchName ?? "Not Available")</div>
+    </div>
+
+    <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count text-center att_width p-0">
+        <span class="count_top text-center"> <img style="height: 50px;width: 50px;" src="~/images/designation.svg"></span>
+        <div class="text-muted">
+            Designation
+
+        </div>
+        <div class="count green label-ellipsis text-center fs px-2">@(Model.DesignationName ?? "Not Available")  </div>
+    </div>
+
+    <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count text-center att_width p-0">
+        <span class="count_top text-center"> <img style="height: 50px;width: 50px;" src="~/images/reporting_manager.svg"> </span>
+        <div class="text-muted">
+            Reporting Manager
+
+        </div>
+        <div class="count green label-ellipsis text-center fs px-2">
+
+            @(Model.RM ?? "Not Available")
+
+        </div>
+    </div>
+
+</div>
+
+<div id="counter" class="row">
+
+    <div class="row p-3">
+        <div class="col-md-2 att_width mb-3 att_box-shadow-odd">
+            <a href="@Url.Action("Create","EmployeeLeave")" data-toggle="tooltip" data-placement="bottom" title="Click here for Leave Request." class="text-decoration-none">
+                <div class="count m-auto card p-4 justify-content-center">
+
+                    <p class="mb-0">
+
+                        <img class="img_height" alt="Leave" src="~/images/DashboardImages/leave-request.png">
+
+                    </p>
+                    <p class="count_top text-white mb-0 att_text" style="font-weight: 600;">Leave Request</p>
+
+                    @* <P><a href="@Url.Action("Create","EmployeeLeave")" class="btn btn-light btn-sm" data-toggle="tooltip" data-placement="bottom" title="Click here to make request.">Click</a></P>*@
+                </div>
+
+
+                <p class="count_top text-secondary att_text2" style="font-weight: 600;">Leave Request</p>
+            </a>
+        </div>
+        <div class="col-md-2 att_width mb-3 att_box-shadow-eve">
+            <a data-toggle="tooltip" data-placement="bottom" title="Click here to Mark Attendance." href="@Url.Action("Index","MarkAttendance")" class="text-decoration-none">
+                <div class="count m-auto card p-4 justify-content-center">
+                    <p class="mb-0">
+
+                        <img class="img_height" alt="Leave" src="~/images/DashboardImages/attendance.png">
+
+                    </p>
+                    <p class="count_top mb-0 att_text" style="font-weight: 600;">Mark Attendance</p>
+
+                </div>
+                <p class="count_top att_text2 text-secondary" style="font-weight: 600;">Mark Attendance</p>
+            </a>
+        </div>
+        <div class="col-md-2 att_width mb-3 att_box-shadow-odd">
+            <a data-toggle="tooltip" data-placement="bottom" title="Click here, might be some approval pendings." href="@Url.Action("Index","ApprovalRequest")" class="text-decoration-none">
+                <div class="count m-auto card p-4 justify-content-center">
+                    <p class="mb-0">
+
+                        <img class="img_height" alt="Leave" src="~/images/DashboardImages/approvals.png">
+
+                    </p>
+                    <p class="count_top mb-0 att_text" style="font-weight: 600;">Approvals</p>
+
+                </div>
+                <p class="count_top att_text2 text-secondary" style="font-weight: 600;">Approvals</p>
+            </a>
+        </div>
+        <div class="col-md-2 att_width mb-3 att_box-shadow-eve">
+
+            @if (Model.DeviceTypeIsMobile)
+            {
+                <a href="@Url.Action("DownloadSalarySlip", "SalaryReport")" data-toggle="tooltip" data-placement="bottom" title="Click here to download pay slip." class="text-decoration-none">
+                    <div class="count m-auto card p-4 justify-content-center">
+                        <p class="mb-0">
+                            <img class="img_height" alt="Leave" src="~/images/DashboardImages/pf.png">
+
+                        </p>
+                        <p class="count_top mb-0 att_text" style="font-weight: 600;">Salary Reports</p>
+
+                    </div>
+                    <p class="count_top att_text2 text-secondary" style="font-weight: 600;">Salary Reports</p>
+                </a>
+            }
+            else
+            {
+                <a href="@Url.Action("Index", "EmpWiseSalaryReport")" data-toggle="tooltip" data-placement="bottom" title="Click here to see previous Salary records." class="text-decoration-none">
+                    <div class="count m-auto card p-4 justify-content-center">
+                        <p class="mb-0">
+                            <img class="img_height" alt="Leave" src="~/images/DashboardImages/pf.png">
+
+                        </p>
+                        <p class="count_top mb-0 att_text" style="font-weight: 600;">Salary Reports</p>
+
+                    </div>
+                    <p class="count_top att_text2 text-secondary" style="font-weight: 600;">Salary Reports</p>
+                </a>
+            }
+
+        </div>
+
+
+        @if (!Model.DeviceTypeIsMobile)
+        {
+            <div class="col-md-2 att_width mb-3 att_box-shadow-odd">
+                <a href="@Url.Action("Index", "Appraisal")" data-toggle="tooltip" data-placement="bottom" title="Click here to see Appraisals & Performance." class="text-decoration-none">
+                    <div class="count m-auto card p-4 justify-content-center">
+                        <p class="mb-0">
+
+                            <img class="img_height" alt="Leave" src="~/images/DashboardImages/performance-appraisal-50.png">
+
+                        </p>
+                        <p class="count_top mb-0 att_text" style="font-weight: 600;">Performance & Assessment</p>
+
+                    </div>
+                    <p class="count_top  att_text2 text-secondary" style="font-weight: 600;">Performance & Assessment</p>
+                </a>
+
+            </div>
+
+
+            <div class="col-md-2 att_width mb-3 att_box-shadow-eve">
+                <a href="@Url.Action("Index", "TrainingFeedbackForm")" data-toggle="tooltip" data-placement="bottom" title="Click here to see Trainings." class="text-decoration-none">
+                    <div class="count m-auto card p-4 justify-content-center">
+                        <p class="mb-0">
+
+                            <img class="img_height" alt="Leave" src="~/images/DashboardImages/training_50.png">
+
+                        </p>
+                        <p class="count_top mb-0 att_text" style="font-weight: 600;">Trainings </p>
+
+                    </div>
+                    <p class="count_top att_text2 text-secondary" style="font-weight: 600;">Trainings </p>
+                </a>
+            </div>
+        }
+        else
+        {
+            <div class="col-md-2 att_width mb-3 att_box-shadow-odd">
+                <a href="@Url.Action("Index", "ChildrenEducation")" data-toggle="tooltip" data-placement="bottom"
+                   title="Click here to see Reimbursement." class="text-decoration-none">
+                    <div class="count m-auto card p-4 justify-content-center">
+                        <p class="mb-0">
+
+                            <img class="img_height" alt="Leave" src="~/images/DashboardImages/Reimbursement.png">
+
+                        </p>
+                        <p class="count_top mb-0 att_text" style="font-weight: 600;">Reimbursement</p>
+
+                    </div>
+                    <p class="count_top  att_text2 text-secondary" style="font-weight: 600;">Reimbursement</p>
+                </a>
+
+            </div>
+
+
+            <div class="col-md-2 att_width mb-3 att_box-shadow-eve">
+                <a href="@Url.Action("Index", "ViewHolidays")" data-toggle="tooltip" data-placement="bottom"
+                   title="Click here to see Holiday list." class="text-decoration-none">
+                    <div class="count m-auto card p-4 justify-content-center">
+                        <p class="mb-0">
+
+                            <img class="img_height" alt="Leave" src="~/images/DashboardImages/holiday_icon.png">
+
+                        </p>
+                        <p class="count_top mb-0 att_text" style="font-weight: 600;">Holiday </p>
+
+                    </div>
+                    <p class="count_top att_text2 text-secondary" style="font-weight: 600;">Holiday </p>
+                </a>
+            </div>
+        }
+    </div>
+
+</div>
+
+@if (!Model.DeviceTypeIsMobile)   /// ==
+{
+    <div class="row bg-light upcoming_div">
+
+        <div class="col-xl-3 col-lg-3 col-md-3 py-2">
+            <div class="card text-black" style="background: #f2f3f4;min-height: 333px;">
+                <div class="card-header text-center">
+
+                    <span class="" style="font-size: 14px;text-transform: uppercase;">Upcoming Birthdays & Work Anniversary </span>
+
+                </div>
+                <div class="card-body">
+                    <marquee style="height:220px ; " behavior="scroll" onmouseover="this.stop();" onmouseout="this.start();" direction="up" scrollamount="2">
+                        @if (Model.EmployeeDobDoj != null && Model.EmployeeDobDoj.Count() > 0)
+                        {
+                            foreach (var item in Model.EmployeeDobDoj)
+                            {
+                                if (item.EventType == "DOB")
+                                {
+                                    <div class="my-3 p-3 bg-white rounded box-shadow">
+                                        <h6 class="border-bottom  border-top border-gray pb-2 mb-0"> <i class="fas fa-birthday-cake text-info"></i> @item.DOB </h6>
+                                        <div class="border-bottom border-gray media text-muted pt-3">
+
+                                            @*<img style="height:50px; width:50px;" class="img-responsive rounded-circle img-thumbnail mr-2"
+                                                src='@Url.Action("GetImage", "Home", new { imgPath = item.EmpProfilePhotoUNCPath })'
+                                                alt="Employee Photo" />*@
+                                            @if (item.EmpProfilePhotoUNCPath == null)
+                                            {
+                                                var img = Nafed.MicroPay.Common.DocumentUploadFilePath.ProfilePicFilePath + "/DefaultUser.png";
+                                                <img style="height:50px; width:50px;" class="img-responsive rounded-circle img-thumbnail mr-2"
+                                                     src='@img' alt="Employee Photo" />
+
+                                            }
+                                            else
+                                            {
+                                                var img = Nafed.MicroPay.Common.DocumentUploadFilePath.ProfilePicFilePath + "/" + item.EmpProfilePhotoUNCPath;
+                                                <img style="height:50px; width:50px;" class="img-responsive rounded-circle img-thumbnail mr-2"
+                                                     src='@img' alt="Employee Photo" />
+                                            }
+                                            <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+                                                <strong class="d-block text-gray-dark">@item.Name </strong>
+                                                @item.DepartmentName <br />
+                                                Turning @item.AGE_ONE_WEEK_FROM_NOW years old
+                                            </p>
+                                        </div>
+
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="my-3 p-3 bg-white rounded box-shadow">
+                                        <h6 class="border-bottom border-gray pb-2 mb-0">
+                                            <i class="fa fa-gift text-warning" aria-hidden="true"></i>
+                                            @item.DOB
+                                        </h6>
+                                        <div class="border-bottom border-gray media text-muted pt-3">
+                                            @*<img style="height:50px; width:50px;" class="img-responsive rounded-circle img-thumbnail mr-2"
+                                                src='@Url.Action("GetImage", "Home", new { imgPath = item.EmpProfilePhotoUNCPath })'
+                                                alt="Employee Photo" />*@
+
+                                            @if (item.EmpProfilePhotoUNCPath == null)
+                                            {
+                                                var img = Nafed.MicroPay.Common.DocumentUploadFilePath.ProfilePicFilePath + "/DefaultUser.png";
+                                                <img style="height:50px; width:50px;" class="img-responsive rounded-circle img-thumbnail mr-2"
+                                                     src='@img' alt="Employee Photo" />
+                                            }
+                                            else
+                                            {
+                                                var img = Nafed.MicroPay.Common.DocumentUploadFilePath.ProfilePicFilePath + "/" + item.EmpProfilePhotoUNCPath;
+                                                <img style="height:50px; width:50px;" class="img-responsive rounded-circle img-thumbnail mr-2"
+                                                     src='@img' alt="Employee Photo" />
+                                            }
+
+                                            @*<img style="height:50px; width:50px;" class="img-responsive rounded-circle img-thumbnail mr-2"
+                                                src='/@item.EmpProfilePhotoUNCPath'
+                                                alt="Employee Photo" />*@
+
+                                            <p class="media-body pb-3 mb-0 small lh-125">
+                                                <strong class="d-block text-gray-dark">@item.Name </strong>
+                                                @item.DepartmentName <br />
+                                                Happy @item.AGE_ONE_WEEK_FROM_NOW@Convert.ToInt32(item.AGE_ONE_WEEK_FROM_NOW == "" ? 0 : Convert.ToInt32(item.AGE_ONE_WEEK_FROM_NOW)).ToOrdinal() Work Anniversary
+                                            </p>
+                                        </div>
+
+                                    </div>
+
+
+                                }
+
+                            }
+                        }
+                    </marquee>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-lg-3 col-md-3 py-2">
+            <div class="card" style="background: #f2f3f4; min-height: 333px;">
+                <div class="card-header text-center">
+                    <i class="fas fa-file black" aria-hidden="true"></i>
+                    <span class="mr-2 " style="font-size: 14px;text-transform: uppercase;">Policies </span>
+                </div>
+                <div class="card-body" style="background-image:url('./common/backend/images/plogo.jpg');  ">
+                    <div class="input-group mb-3">
+
+                        <marquee style="height:220px ; " behavior="scroll" onmouseover="this.stop();" onmouseout="this.start();" direction="up" scrollamount="2">
+                            @if (Model.dashbrdDocList != null && Model.dashbrdDocList.Count() > 0)
+                            {
+                                var policiesList = Model.dashbrdDocList.Where(x => x.DocTypeID == 1).ToList();
+                                foreach (var item in policiesList)
+                                {
+
+                                    <div class="my-3 p-3 bg-white rounded box-shadow">
+                                        <h6 class="border-bottom border-gray pb-2 mb-0">
+                                            @item.DocumentName
+                                        </h6>
+                                        <div class="border-bottom border-gray media text-muted pt-3">
+                                            @if (Convert.ToString(item.DocumentPathName).IndexOf(".", 0) > 0)
+                                            {
+                                                var ext = Convert.ToString(item.DocumentPathName).Substring(Convert.ToString(item.DocumentPathName).IndexOf(".", 1) + 1, Convert.ToString(item.DocumentPathName).Length - (Convert.ToString(item.DocumentPathName).IndexOf(".", 1) + 1)).Trim();
+                                                if (ext == "xls" || ext == "xlsx")
+                                                {
+                                                    <i class="fas fa-file-excel text-success fa-3x mr-2"></i>
+
+                                                }
+                                                else if (ext == "doc" || ext == "docx")
+                                                {
+                                                    <i class="fas fa-file-word text-primary fa-3x mr-2"></i>
+
+                                                }
+                                                else if (ext == "pdf")
+                                                {
+                                                    <i class="fas fa-file-pdf text-danger fa-3x mr-2"></i>
+
+                                                }
+                                                else if (ext == "png" || ext == "jpg" || ext == "gif" || ext == "bmp")
+                                                {
+                                                    <i class="fas fa-file-image text-waring fa-3x mr-2"></i>
+
+                                                }
+                                                else if (ext == "zip" || ext == "rar")
+                                                {
+                                                    <i class="fas fa-file-archive text-secondary fa-3x mr-2"></i>
+
+                                                }
+                                                else
+                                                {
+                                                    <i class="fas fa-file text-light fa-3x mr-2"></i>
+
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <i class="fas fa-file text-light fa-3x mr-2"></i>
+
+                                            }
+
+                                            <p class="media-body pb-3 mb-0 lh-125">
+                                                <strong class="smalltext-gray-dark">
+                                                    Click <a aria-current="page" href="~/Document/DashboardDocument/@item.DocumentPathName" data-toggle="tooltip" title="@item.DocumentDesc" download="@item.DocumentName">
+
+                                                        here
+                                                    </a> to download.
+                                                </strong> <br />
+                                                @item.DocumentDesc <br />
+
+                                            </p>
+                                        </div>
+                                    </div>
+                                }
+                            }
+                        </marquee>
+
+                        @*<span class="input-group-text" id="basic-addon2">Download</span>*@
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12  py-2">
+            <div class="card" style="background: #f2f3f4; min-height: 333px;">
+                <div class="card-header text-center">
+                    <i class="fas fa-file black" aria-hidden="true"></i>
+                    <span class="mr-2 " style="font-size: 14px;text-transform: uppercase;">Events /Newsletter / Circulars / Orders / Office Memorandum </span>
+                </div>
+                <div class="card-body cnt-block">
+                    <div class="input-group mb-3">
+                        @*<span class="form-control bg-dark text-white" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="basic-addon2"> 2019 Office Memorandum  </span>*@
+                        <marquee style="height:220px ; " behavior="scroll" onmouseover="this.stop();" onmouseout="this.start();" direction="up" scrollamount="2">
+                            @if (Model.dashbrdDocList != null && Model.dashbrdDocList.Count() > 0)
+                            {
+                                var policiesList = Model.dashbrdDocList.Where(x => x.DocTypeID != 1).ToList();
+                                foreach (var item in policiesList)
+                                {
+
+                                    <div class="my-3 p-3 bg-white rounded box-shadow">
+                                        <h6 class="border-bottom border-gray pb-2 mb-0">
+                                            @item.DocumentTypeName
+                                        </h6>
+                                        <div class="border-bottom border-gray media text-muted pt-3">
+                                            @if (Convert.ToString(item.DocumentPathName).IndexOf(".", 0) > 0)
+                                            {
+                                                var ext = Convert.ToString(item.DocumentPathName).Substring(Convert.ToString(item.DocumentPathName).IndexOf(".", 1) + 1, Convert.ToString(item.DocumentPathName).Length - (Convert.ToString(item.DocumentPathName).IndexOf(".", 1) + 1)).Trim();
+                                                if (ext == "xls" || ext == "xlsx")
+                                                {
+                                                    <i class="fas fa-file-excel text-success fa-3x mr-2"></i>
+
+                                                }
+                                                else if (ext == "doc" || ext == "docx")
+                                                {
+                                                    <i class="fas fa-file-word text-primary fa-3x mr-2"></i>
+
+                                                }
+                                                else if (ext == "pdf")
+                                                {
+                                                    <i class="fas fa-file-pdf text-danger fa-3x mr-2"></i>
+
+                                                }
+                                                else if (ext == "png" || ext == "jpg" || ext == "gif" || ext == "bmp")
+                                                {
+                                                    <i class="fas fa-file-image text-waring fa-3x mr-2"></i>
+
+                                                }
+                                                else if (ext == "zip" || ext == "rar")
+                                                {
+                                                    <i class="fas fa-file-archive text-secondary fa-3x mr-2"></i>
+
+                                                }
+                                                else
+                                                {
+                                                    <i class="fas fa-file text-light fa-3x mr-2"></i>
+
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <i class="fas fa-file text-light fa-3x mr-2"></i>
+
+                                            }
+
+                                            <p class="media-body pb-3 mb-0 lh-125">
+                                                <strong class="smalltext-gray-dark">
+                                                    @item.DocumentName <br />
+                                                    Click <a aria-current="page" href="~/Document/DashboardDocument/@item.DocumentPathName" data-toggle="tooltip" title="@item.DocumentDesc" download="@item.DocumentName">
+
+                                                        here
+                                                    </a> to download.
+                                                </strong> <br />
+                                                @item.DocumentDesc <br />
+
+                                            </p>
+                                        </div>
+                                    </div>
+
+
+                                }
+                            }
+                        </marquee>
+                        @*<span class="input-group-text" id="basic-addon2">Download</span>*@
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}

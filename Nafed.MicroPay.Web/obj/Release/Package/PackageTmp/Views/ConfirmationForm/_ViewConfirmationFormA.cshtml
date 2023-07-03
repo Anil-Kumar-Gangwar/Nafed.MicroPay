@@ -1,0 +1,817 @@
+﻿
+@{
+    Layout = null;
+}
+
+@using exmethod = Nafed.MicroPay.Common.ExtensionMethods;
+@using Nafed.MicroPay.Model;
+@model Nafed.MicroPay.Model.ConfirmationFormHdr
+
+@{
+    var reportingSectionClass = (Model.ApprovalHierarchy == 1 && (Model.ReviewingTo == Model.loggedInEmpID) ? "noselect" :
+        (Model.ApprovalHierarchy == 1 && (Model.ReportingTo == Model.loggedInEmpID)) ? null :
+         (Model.ApprovalHierarchy == 2) ? null : "");
+
+    var reviewingSectionClass = (Model.ApprovalHierarchy == 1 && Model.ReportingTo == Model.loggedInEmpID) ? "hide" :
+        (Model.ApprovalHierarchy == 2) ? null : "";
+    var reviewingtextarea = reviewingSectionClass == "" ? true : false;
+
+    if (Model.confirmationFormRulesAttributes != null && Model.confirmationFormRulesAttributes.ReportingSection) { reportingSectionClass = null; }
+    if (Model.confirmationFormRulesAttributes != null && Model.confirmationFormRulesAttributes.ReviewerSection) { reviewingSectionClass = null; }
+}
+
+<div id="div-main-form" class="">
+    <div class="row">
+
+        <div class="col-lg-10 col-md-10 col-xl-10 col-sm-12 col-xs-12">
+
+            <div class="form-group">
+
+                <div class="col-lg-8 col-md-8 col-xl-8 col-sm-12 col-xs-12">
+                    <img class="pull-right" src="~/Images/logo.png" />
+                </div>
+
+                <div class="col-lg-4 col-md-4 col-xl-4 col-sm-12 col-xs-12">
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-2 col-md-2 col-xl-2 col-sm-12 col-xs-12">
+            <div>
+                <div class="form-group">
+                    <div class="col-lg-12 col-md-12 col-xl-12 col-sm-12 col-xs-12 text-right font-weight-bold">
+                        Form 'A'
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-lg-12 col-md-12 col-xl-12 col-sm-12 col-xs-12 text-center">
+            <h4 class="font-weight-bold">
+                National Agricultural Cooperative Marketing Federation of India Ltd.<br />
+                Nafed House, Sidhartha Enclave, Ashram Chowk, Ring Road,<br />
+                <span style="text-decoration:underline">New Delhi - 110 014</span>
+            </h4>
+        </div>
+
+    </div>
+
+    <div class="form-group">
+        <div class="col-lg-12 col-md-12 col-xl-12 col-sm-12 col-xs-12 text-center">
+            <h4>
+                (Proforma for obtaining report on work,conduct and performance of officer for the purpose of confirmation in the services of Federation - for officers in the scale of)
+            </h4>
+            <p style="word-break: break-all">@Model.confirmationFormDetail.PayScale</p>
+        </div>
+
+    </div>
+
+    <div class="form-group">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
+
+            <div class="row">
+                <p class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                    1. Name and designation of officer
+                </p>
+                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 mb-2 font-weight-bold">
+                    @Model.confirmationFormDetail.EmployeeName <b>(@Model.confirmationFormDetail.DesignationName)</b>
+                </div>
+            </div>
+            <div class="row">
+                <p class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                    2. Place of posting
+                </p>
+                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 mb-2 font-weight-bold">
+                    @Model.confirmationFormDetail.BranchName
+                </div>
+            </div>
+            <div class="row">
+                <p class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                    3. Date of issue of appt./promotion order
+                </p>
+                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 mb-2 font-weight-bold">
+                    @Model.confirmationFormDetail.orderOfPromotion
+                </div>
+            </div>
+            <div class="row">
+                <p class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                    4. Date of joining in the present post
+                </p>
+                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 mb-2 font-weight-bold">
+                    @Model.confirmationFormDetail.DOJ
+                </div>
+
+            </div>
+
+            <div class="row">
+                <p class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                    5. Due date of confirmation
+                </p>
+                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 mb-2 font-weight-bold">
+                    @Model.confirmationFormDetail.DueConfirmationDate
+                </div>
+
+            </div>
+
+            <div class="row">
+                <p class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                    6. Whether copies of necessary certificate received from the employee
+                </p>
+                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 mb-2 font-weight-bold">
+                    @exmethod.BoolToYesNo(@Model.confirmationFormDetail.CertificatesReceived)
+                </div>
+            </div>
+            <div class="row">
+                <p class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                    7. Whether Police verification report received
+                </p>
+                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 mb-2 font-weight-bold">
+                    @exmethod.BoolToYesNo(@Model.confirmationFormDetail.PoliceVerification)
+                </div>
+            </div>
+
+            <div class="row">
+                <p class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                    8. ASSESSMENT OF WORK, CONDUCT AND PERFORMANCE (State outstanding/Very good/good/fair/poor,as may be deemed Fit against each column.)
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div>
+        <div id="div-Employee">
+
+            <div class="form-group">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+                    <div class="row">
+                        <div style="background:#808080" class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12">
+
+                        </div>
+
+                        <div style="background:#808080" class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12 text-left font-weight-bold text-white p-1">
+                            Reporting Officer
+                        </div>
+                        <div style="background:#808080" class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12 text-left font-weight-bold text-white p-1">
+
+                            Reviewing Officer
+
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="form-group">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
+                            i) @Html.LabelFor(model => model.confirmationFormDetail.Point8_1, htmlAttributes: new { @class = " " })
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-2 font-weight-bold">
+                            @if (Model.confirmationFormDetail.Point8_1 > 0)
+                            {
+                                @Model.confirmationFormDetail.point8_1_Gr.GetDisplayName();
+                            }
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-2 font-weight-bold">
+                            @if (Model.confirmationFormDetail.RVPoint8_1 > 0)
+                            {
+                                @Model.confirmationFormDetail.RVpoint8_1_Gr.GetDisplayName();
+                            }
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
+                            ii) @Html.LabelFor(model => model.confirmationFormDetail.Point8_2, htmlAttributes: new { @class = " " })
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-2 font-weight-bold">
+                            @if (Model.confirmationFormDetail.Point8_2 > 0)
+                            {
+                                @Model.confirmationFormDetail.point8_2_Gr.GetDisplayName();
+                            }
+
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-2 font-weight-bold">
+                            @if (Model.confirmationFormDetail.RVPoint8_2 > 0)
+                            {
+                                @Model.confirmationFormDetail.RVpoint8_2_Gr.GetDisplayName();
+                            }
+
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
+                            iii) @Html.LabelFor(model => model.confirmationFormDetail.Point8_3, htmlAttributes: new { @class = " " })
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-2 font-weight-bold">
+                            @if (Model.confirmationFormDetail.Point8_3 > 0)
+                            {
+                                @Model.confirmationFormDetail.point8_3_Gr.GetDisplayName();
+                            }
+
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-2 font-weight-bold">
+                            @if (Model.confirmationFormDetail.RVPoint8_3 > 0)
+                            {
+                                @Model.confirmationFormDetail.RVpoint8_3_Gr.GetDisplayName();
+                            }
+
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
+                            iv) @Html.LabelFor(model => model.confirmationFormDetail.Point8_4, htmlAttributes: new { @class = " " })
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-2 font-weight-bold">
+                            @if (Model.confirmationFormDetail.Point8_4 > 0)
+                            {
+                                @Model.confirmationFormDetail.point8_4_Gr.GetDisplayName();
+                            }
+
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-2 font-weight-bold">
+                            @if (Model.confirmationFormDetail.RVpoint8_4_Gr > 0)
+                            {
+                                @Model.confirmationFormDetail.RVpoint8_4_Gr.GetDisplayName();
+                            }
+
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
+                            v) @Html.LabelFor(model => model.confirmationFormDetail.Point8_5, htmlAttributes: new { @class = " " })
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-2 font-weight-bold">
+                            @if (Model.confirmationFormDetail.Point8_5 > 0)
+                            {
+                                @Model.confirmationFormDetail.point8_5_Gr.GetDisplayName();
+                            }
+
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-2 font-weight-bold">
+                            @if (Model.confirmationFormDetail.RVRVPoint8_5 > 0)
+                            {
+                                @Model.confirmationFormDetail.RVpoint8_5_Gr.GetDisplayName();
+                            }
+
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
+                            vi) @Html.LabelFor(model => model.confirmationFormDetail.Point8_6, htmlAttributes: new { @class = " " })
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-2 font-weight-bold">
+                            @if (Model.confirmationFormDetail.Point8_6 > 0)
+                            {
+                                @Model.confirmationFormDetail.point8_6_Gr.GetDisplayName();
+                            }
+
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-2 font-weight-bold">
+                            @if (Model.confirmationFormDetail.RVPoint8_6 > 0)
+                            {
+                                @Model.confirmationFormDetail.RVpoint8_6_Gr.GetDisplayName();
+                            }
+
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
+                            vii) @Html.LabelFor(model => model.confirmationFormDetail.Point8_7, htmlAttributes: new { @class = " " })
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-2 font-weight-bold">
+                            @if (Model.confirmationFormDetail.Point8_7 > 0)
+                            {
+                                @Model.confirmationFormDetail.point8_7_Gr.GetDisplayName();
+                            }
+
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-2 font-weight-bold">
+                            @if (Model.confirmationFormDetail.RVPoint8_7 > 0)
+                            {
+                                @Model.confirmationFormDetail.RVpoint8_7_Gr.GetDisplayName();
+                            }
+
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
+                            viii) @Html.LabelFor(model => model.confirmationFormDetail.Point8_8, htmlAttributes: new { @class = " " })
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-2 font-weight-bold">
+                            @if (Model.confirmationFormDetail.Point8_8 > 0)
+                            {
+                                @Model.confirmationFormDetail.point8_8_Gr.GetDisplayName();
+                            }
+
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-2 font-weight-bold">
+                            @if (Model.confirmationFormDetail.RVPoint8_8 > 0)
+                            {
+                                @Model.confirmationFormDetail.RVpoint8_8_Gr.GetDisplayName();
+                            }
+
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
+                            ix) @Html.LabelFor(model => model.confirmationFormDetail.Point8_9, htmlAttributes: new { @class = " " })
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-2 font-weight-bold">
+                            @if (Model.confirmationFormDetail.Point8_9 > 0)
+                            {
+                                @Model.confirmationFormDetail.point8_9_Gr.GetDisplayName();
+                            }
+
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-2 font-weight-bold">
+                            @if (Model.confirmationFormDetail.RVPoint8_9 > 0)
+                            {
+                                @Model.confirmationFormDetail.RVpoint8_9_Gr.GetDisplayName();
+                            }
+
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
+                            x) @Html.LabelFor(model => model.confirmationFormDetail.Point8_10, htmlAttributes: new { @class = "" })
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-2 font-weight-bold">
+                            @if (Model.confirmationFormDetail.Point8_10 > 0)
+                            {
+                                @Model.confirmationFormDetail.point8_10_Gr.GetDisplayName();
+                            }
+
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-2 font-weight-bold">
+                            @if (Model.confirmationFormDetail.RVPoint8_10 > 0)
+                            {
+                                @Model.confirmationFormDetail.RVpoint8_10_Gr.GetDisplayName();
+                            }
+
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
+                            xi) @Html.LabelFor(model => model.confirmationFormDetail.Point8_11, htmlAttributes: new { @class = " " })
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-2 font-weight-bold">
+                            @if (Model.confirmationFormDetail.Point8_11 > 0)
+                            {
+                                @Model.confirmationFormDetail.point8_11_Gr.GetDisplayName();
+                            }
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-2 font-weight-bold">
+                            @if (Model.confirmationFormDetail.RVPoint8_11 > 0)
+                            {
+                                @Model.confirmationFormDetail.RVpoint8_11_Gr.GetDisplayName();
+                            }
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
+                            xii) @Html.LabelFor(model => model.confirmationFormDetail.Point8_12, htmlAttributes: new { @class = " " })
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-2 font-weight-bold">
+                            @if (Model.confirmationFormDetail.Point8_12 > 0)
+                            {
+                                @Model.confirmationFormDetail.point8_12_Gr.GetDisplayName();
+                            }
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-2 font-weight-bold">
+                            @if (Model.confirmationFormDetail.RVPoint8_12 > 0)
+                            {
+                                @Model.confirmationFormDetail.RVpoint8_12_Gr.GetDisplayName();
+                            }
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
+                            xiii) @Html.LabelFor(model => model.confirmationFormDetail.Point8_13, htmlAttributes: new { @class = " " })
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-2 font-weight-bold">
+                            @if (Model.confirmationFormDetail.Point8_13 > 0)
+                            {
+                                @Model.confirmationFormDetail.point8_13_Gr.GetDisplayName();
+                            }
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-2 font-weight-bold">
+                            @if (Model.confirmationFormDetail.RVPoint8_13 > 0)
+                            {
+                                @Model.confirmationFormDetail.RVpoint8_13_Gr.GetDisplayName();
+                            }
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2">
+                            9) @Html.LabelFor(model => model.confirmationFormDetail.Point9, htmlAttributes: new { @class = " " })
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 mb-2">
+                            @if (Model.confirmationFormDetail.Point9 == true)
+                            {
+                                <text><b>Yes</b></text>
+                            }
+                            else
+                            {
+                                <text><b>No</b></text>
+                            }
+                        </div>
+
+                        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 mb-2 font-weight-bold">
+
+                            @if (string.IsNullOrEmpty(Model.confirmationFormDetail.Point9_Remark))
+                            {
+                                <text>Remark Not Available</text>
+                            }
+                            else
+                            {
+                                @Model.confirmationFormDetail.Point9_Remark
+                            }
+                        </div>
+
+                        <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12 mb-2">
+                            @if (Model.confirmationFormDetail.RVPoint9 == true)
+                            {
+                                <text><b>Yes</b></text>
+                            }
+                            else
+                            {
+                                <text><b>No</b></text>
+                            }
+                        </div>
+
+                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-2 font-weight-bold">
+
+                            @if (string.IsNullOrEmpty(Model.confirmationFormDetail.RVPoint9_Remark))
+                            {
+                                <text>Remark Not Available</text>
+                            }
+                            else
+                            {
+                                @Model.confirmationFormDetail.RVPoint9_Remark
+                            }
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2">
+                            10) @Html.LabelFor(model => model.confirmationFormDetail.Point10, htmlAttributes: new { @class = " " })
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 mb-2">
+                            @if (Model.confirmationFormDetail.Point10 == true)
+                            {
+                                <text><b>Yes</b></text>
+                            }
+                            else
+                            {
+                                <text><b>No</b></text>
+                            }
+                        </div>
+
+                        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 mb-2 font-weight-bold">
+
+                            @if (string.IsNullOrEmpty(Model.confirmationFormDetail.Point10_Remark))
+                            {
+                                <text>Remark Not Available</text>
+                            }
+                            else
+                            {
+                                @Model.confirmationFormDetail.Point10_Remark
+                            }
+                        </div>
+
+                        <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12 mb-2">
+                            @if (Model.confirmationFormDetail.RVPoint10 == true)
+                            {
+                                <text><b>Yes</b></text>
+                            }
+                            else
+                            {
+                                <text><b>No</b></text>
+                            }
+                        </div>
+
+                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-2 font-weight-bold">
+
+                            @if (string.IsNullOrEmpty(Model.confirmationFormDetail.RVPoint10_Remark))
+                            {
+                                <text>Remark Not Available</text>
+                            }
+                            else
+                            {
+                                @Model.confirmationFormDetail.RVPoint10_Remark
+                            }
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2">
+                            11) @Html.LabelFor(model => model.confirmationFormDetail.Point11, htmlAttributes: new { @class = " " })
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 mb-2">
+                            @if (Model.confirmationFormDetail.Point11 == true)
+                            {
+                                <text><b>Yes</b></text>
+                            }
+                            else
+                            {
+                                <text><b>No</b></text>
+                            }
+                        </div>
+
+                        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 mb-2 font-weight-bold">
+
+                            @if (string.IsNullOrEmpty(Model.confirmationFormDetail.Point11_Remark))
+                            {
+                                <text>Remark Not Available</text>
+                            }
+                            else
+                            {
+                                @Model.confirmationFormDetail.Point11_Remark
+                            }
+                        </div>
+
+
+                        <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12 mb-2">
+                            @if (Model.confirmationFormDetail.RVPoint11 == true)
+                            {
+                                <text><b>Yes</b></text>
+                            }
+                            else
+                            {
+                                <text><b>No</b></text>
+                            }
+                        </div>
+
+                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-2 font-weight-bold">
+
+                            @if (string.IsNullOrEmpty(Model.confirmationFormDetail.RVPoint11_Remark))
+                            {
+                                <text>Remark Not Available</text>
+                            }
+                            else
+                            {
+                                @Model.confirmationFormDetail.RVPoint11_Remark
+                            }
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2">
+                            12) @Html.LabelFor(model => model.confirmationFormDetail.Point12, htmlAttributes: new { @class = " " })
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 mb-2">
+                            @if (Model.confirmationFormDetail.Point12 == true)
+                            {  <text><b>Yes</b></text>
+                            }
+                            else
+                            {
+                                <text><b>No</b></text>
+                            }
+                        </div>
+
+                        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 mb-2 font-weight-bold">
+
+                            @if (string.IsNullOrEmpty(Model.confirmationFormDetail.Point12_Remark))
+                            {
+                                <text>Remark Not Available</text>
+                            }
+                            else
+                            {
+                                @Model.confirmationFormDetail.Point12_Remark
+                            }
+                        </div>
+
+                        <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12 mb-2">
+                            @if (Model.confirmationFormDetail.Point12 == true)
+                            {  <text><b>Yes</b></text>
+                            }
+                            else
+                            {
+                                <text><b>No</b></text>
+                            }
+                        </div>
+
+                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-2 font-weight-bold">
+
+                            @if (string.IsNullOrEmpty(Model.confirmationFormDetail.Point12_Remark))
+                            {
+                                <text>Remark Not Available</text>
+                            }
+                            else
+                            {
+                                @Model.confirmationFormDetail.Point12_Remark
+                            }
+                        </div>
+                    </div>
+
+
+
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2 font-weight-bold">
+                            <h3>For Reporting Authority:</h3>
+                        </div>
+
+                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2">
+                            @Html.LabelFor(model => model.confirmationFormDetail.ConfirmationRecommendedReporting, htmlAttributes: new { @class = "" })
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 mb-2">
+                            @if (Model.confirmationFormDetail.ConfirmationRecommendedReporting == true)
+                            {
+                                <text><b>Yes</b></text>
+                            }
+                            else
+                            {
+                                <text><b>No</b></text>
+                            }
+                        </div>
+
+
+                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-2 font-weight-bold">
+                            @if (string.IsNullOrEmpty(Model.confirmationFormDetail.ReportingOfficerComment))
+                            {
+                                <text>Remark Not Available</text>
+                            }
+                            else
+                            {
+                                @Model.confirmationFormDetail.ReportingOfficerComment
+                            }
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2 font-weight-bold">
+                            <h3>For Reveiwing Authority:</h3>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2">
+                            @Html.LabelFor(model => model.confirmationFormDetail.ConfirmationRecommended, htmlAttributes: new { @class = "" })
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 mb-2 font-weight-bold">
+                            @exmethod.BoolToYesNo(@Model.confirmationFormDetail.ConfirmationRecommended)
+                        </div>
+
+                        @if (Model.ApprovalHierarchy == 1)
+                        {
+                            if (Model.confirmationFormDetail.ConfirmationClarification == true)
+                            {
+                                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 mb-2">
+
+                                    <text><b>Clarification</b>  </text>
+
+                                </div>
+                            }
+                        }
+
+                        <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12 mb-2 font-weight-bold">
+                            @Model.confirmationFormDetail.ReviewingOfficerComment
+
+                        </div>
+                    </div>
+
+
+                    @if (Model.ApprovalHierarchy == 1 && Model.confirnationClarification != null && Model.confirnationClarification.Count > 0)
+                    {
+                        <div class="row">
+                            <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 mb-2">
+                                @Html.Partial("_ConfirmationClarification", Model.confirnationClarification)
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+
+            @if (Model.ApprovalHierarchy == 1)
+            {
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
+                            <p class="">Signature of the Reporting Officer</p>
+                        </div>
+                    </div>
+                    <div class="row">
+
+                        <div class="col-lg-2 col-md-2 col-sm-6 col-xs-6 mb-2">
+                            <p>Name in Block Letters :</p>
+                        </div>
+
+                        <div class="col-lg-2 col-md-2 col-sm-6 col-xs-6 mb-2 underlineinput">
+                            @Html.DisplayFor(model => model.ReportingName, new { @class = "form-control " })
+                        </div>
+
+                    </div>
+                    <div class="row">
+
+
+                        <div class="col-lg-2 col-md-2 col-sm-6 col-xs-6 mb-2">
+                            <p class="">Designation :</p>
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-6 col-xs-6 mb-2 underlineinput">
+                            @Html.DisplayFor(model => model.ReportingDesignation, new { @class = "form-control " })
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
+                            <p class="">Signature of the Reviewing Officer</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-2 col-md-2 col-sm-6 col-xs-6 mb-2">
+                            <p>Name in Block Letters :</p>
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-6 col-xs-6 mb-2 underlineinput">
+                            @Html.DisplayFor(model => model.ReviewingName, new { @class = "form-control " })
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-2 col-md-2 col-sm-6 col-xs-6 mb-2">
+                            <p class="">Designation :</p>
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-6 col-xs-6 mb-2 underlineinput">
+                            @Html.DisplayFor(model => model.ReviewingDesignation, new { @class = "form-control " })
+                        </div>
+                    </div>
+                </div>
+            }
+            @if (Model.ApprovalHierarchy == 2)
+            {
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
+                            <p class="">Signature of the Reporting/Reviewing Officer</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-2 col-md-2 col-sm-6 col-xs-6 mb-2">
+                            <p>Name in Block Letters :</p>
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-6 col-xs-6 mb-2 underlineinput">
+                            @Html.DisplayFor(model => model.ReportingName, new { @class = "form-control " })
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-2 col-md-2 col-sm-6 col-xs-6 mb-2">
+                            <p class="">Designation :</p>
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-6 col-xs-6 mb-2 underlineinput">
+                            @Html.DisplayFor(model => model.ReportingDesignation, new { @class = "form-control " })
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<style>
+    .noselect {
+        -webkit-touch-callout: none; /* iOS Safari */
+        -webkit-user-select: none; /* Safari */
+        -khtml-user-select: none; /* Konqueror HTML */
+        -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+        user-select: none; /* Non-prefixed version, currently supported by Chrome, Opera and Firefox */
+    }
+</style>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $(document).find("textarea").each(function () {
+            var contents = $(this).val();
+            var maxLength = $(this).prop("maxlength");  //  alert($(this)[0].scrollHeight);
+            if ($(this)[0].scrollHeight > $(this).height()) {
+
+                $(this).addClass('hide').after("<div class='p-2' style='border:1px solid #ced4da; min-height: 90px !important;'>" + contents + "</div>");
+              //  $(this).addClass("no-print");
+            }
+        });
+
+        if ("@reviewingtextarea" == "True")
+            $("#confirmationFormDetail_ReviewingOfficerComment").removeAttr("readonly");
+    });
+</script>

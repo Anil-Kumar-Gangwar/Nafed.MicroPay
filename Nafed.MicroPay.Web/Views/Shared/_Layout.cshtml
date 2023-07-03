@@ -1,0 +1,577 @@
+﻿@using System.Web.Optimization
+@using Nafed.MicroPay.Model;
+@using Nafed.MicroPay.Common;
+@{
+    var message = TempData["Message"] == null ? "" : TempData["Message"].ToString();
+    var messageError = TempData["Error"] == null ? "" : TempData["Error"].ToString();
+    UserDetail user = (UserDetail)HttpContext.Current.Session["User"];
+    UserAccessRight userRight = (UserAccessRight)HttpContext.Current.Session["UserAccess"];
+
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>NAFED- @ViewBag.Title  </title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="" name="description" />
+
+    <link href="~/Content/NewAsstes/css/main_style.css" rel="stylesheet" />
+    <link href="~/Content/NewAsstes/css/custom.css" rel="stylesheet" />
+    @*<link href="~/Content/NewAsstes/css/font-awesome.min.css" rel="stylesheet" />*@
+    @Styles.Render("~/Content/style")
+
+    <script src="~/Content/NewAsstes/js/jquery.min.js"></script>
+    @*<script src="~/Content/NewAsstes/js/bootstrap.bundle.min.js"></script>*@
+    <script src="~/Content/NewAsstes/js/adminlte.js"></script>
+    <script type="text/javascript">
+        const counters = document.querySelectorAll(".counter");
+
+        counters.forEach(counter => {
+            counter.innerText = '0'
+            const target = +counter.getAttribute('data-target');
+            const interval = target / 100;
+
+            const updateCounter = () => {
+                const value = +counter.innerText;
+                if (value < target) {
+                    counter.innerText = Math.ceil(value + interval);
+
+                    setTimeout(() => {
+                        updateCounter()
+                    }, 20);
+                }
+            }
+
+            updateCounter();
+
+        });
+    </script>
+
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('.new_nav-item  a').click(function() {
+                $('.new_nav-item  a').removeClass('active');
+                $(this).addClass('active');
+                //e.preventDefault();
+                var $this = $(this);
+
+                if ($this.next().hasClass('show')) {
+                    $this.next().removeClass('show');
+                    $this.next().slideUp(350);
+                } else {
+                    $this.parent().parent().find('li ul.nav-treeview').removeClass('show');
+                    $this.parent().parent().find('li ul.nav-treeview').slideUp(350);
+                    $this.next().toggleClass('show');
+                    $this.next().slideToggle(350);
+                }
+            });
+
+        });
+    </script>
+
+    @Styles.Render("~/Content/DataTable-css")
+
+    @Styles.Render("~/fonts")
+    @Styles.Render("~/Content/calender")
+    @Styles.Render("~/Content/calender")
+
+    @Scripts.Render("~/fonts/Js")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/Content/DataTable-js")
+    <style type="text/css">
+        @@font-face {
+            font-family: 'OxygenBold';
+            src: url('~/fonts/Oxygen/Oxygen-Bold.ttf');
+        }
+
+        a.nav-link.text-wrap.active svg.svg-inline--fa.fa-angle-right {
+            transform: rotate(90deg) !important;
+        }
+
+        h4 {
+            font-family: 'OxygenBold' !important;
+        }
+
+        .required:after {
+            content: " *";
+            font-weight: bold;
+            white-space: nowrap;
+            color: red;
+        }
+
+        label:not(.form-check-label):not(.custom-file-label) {
+            font-weight: 400 !important;
+        }
+          ul.nav.nav-treeview.show {
+    height: auto !important;
+}
+    </style>
+
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('#user_det').click(function(){
+                $('.u_detail').toggleClass('u_detail-show');
+            })
+        })
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(".datepicker").datepicker({
+                dateFormat: 'dd/mm/yy'
+            });
+            $(".integerOnly").keypress(function (e) {
+                //if the letter is not digit then display error and don't type anything
+                if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+                    //display error message
+                    //  $("#errmsg").html("Digits Only").show().fadeOut("slow");
+                    return false;
+                }
+            });
+            ///===== common tooltip ===========
+            $('[data-toggle="tooltip"]').tooltip();
+            $('.toggle-tooltip').tooltip();
+            if ('@messageError' != "") {
+                var str = '@WebUtility.HtmlEncode(@messageError)';
+                str = str.replace(/&amp;lt;/g, "<").replace(/&amp;gt;/g, ">").replace(/&amp;#39;/g, "'");
+                $.bootstrapGrowl("<i class='mdi-android-debug-bridge' aria-hidden='true'></i> " + str + "", {
+                    type: 'warning',
+                    align: 'center',
+                    width: 'auto',
+                    allow_dismiss: true,
+                    delay: 50000
+                });
+            }
+            if ('@message' != "") {
+                $.bootstrapGrowl("<i class='mdi-checkbox-marked-circle-outline' aria-hidden='true'></i> " + '@message', {
+                    type: 'success',
+                    align: 'center',
+                    width: 'auto',
+                    allow_dismiss: true,
+                    delay: 20000
+                });
+            }
+        });
+
+        function commonMessage(msgType, msg) {
+
+            if (msgType != "success") {
+                var str = '@WebUtility.HtmlEncode(@messageError)';
+                str = str.replace(/&amp;lt;/g, "<").replace(/&amp;gt;/g, ">").replace(/&amp;#39;/g, "'");
+                $.bootstrapGrowl("<i class='mdi-android-debug-bridge' aria-hidden='true'></i> " + msg + "", {
+                    type: 'warning',
+                    align: 'center',
+                    width: 'auto',
+                    allow_dismiss: true,
+                    delay: 50000
+                });
+            }
+            if (msgType == "success") {
+
+                $.bootstrapGrowl("<i class='mdi-checkbox-marked-circle-outline' aria-hidden='true'></i> " + msg, {
+                    type: 'success',
+                    align: 'center',
+                    width: 'auto',
+                    allow_dismiss: true,
+                    delay: 20000
+                });
+            }
+        }
+
+        //session end
+
+        var sessionTimeoutWarning = @Session.Timeout;
+        var sTimeout = parseInt(sessionTimeoutWarning) * 60 * 1000;// convert minutes to milliseconds;
+        setTimeout('SessionEnd()', sTimeout-900000); // 15*60*1000 before fifteen minutes open popup
+        function SessionEnd() {
+            var countDownDate = new Date().getTime()+ (15*60000);//
+            // Update the count down every 1 second
+            var x = setInterval(function() {
+                // Get today's date and time
+                var now = new Date().getTime();
+
+                // Find the distance between now and the count down date
+                var distance = countDownDate - now;
+                // Time calculations for days, hours, minutes and seconds
+                var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                // Output the result in an element with id="demo"
+                $('#lbltimeOut').text(minutes + "M :" + seconds + "S ");
+
+                // If the count down is over, write some text
+                if (distance < 30000) {
+                    clearInterval(x);
+                    window.location.href = "@Url.Action("Index","LogOff")";
+                    //$('#lbltimeOut').text("EXPIRED");
+                    //document.getElementById("demo").innerHTML = "EXPIRED";
+                }
+            }, 1000);
+            $('#lbltime').show();
+            $("#modalSessionExpire").modal('show');
+        }
+
+        function ExtentSessionMethod() {
+            $("#modalSessionExpire").modal('hide');
+        }
+
+        function OnReportSuccess(data) {
+            if (data.IsValidFilter) {
+                window.open("@Url.Action("ReportViewer", "Base")", "_blank");
+            }
+            else {
+                $("#div-report-filters").html(data);
+            }
+        }
+    </script>
+    <style>
+        .user_details {
+            float: left;
+            width: 100%;
+            height: 100%;
+        }
+
+        .iconss {
+            float: left;
+            width: 80px;
+            height: 80px;
+            text-align: center;
+        }
+
+            .iconss img {
+                width: 70px;
+                border-radius: 50px;
+                border: 2px solid #ddd;
+                height: 70px;
+                padding: 4px;
+                background-color: #fff;
+                margin-top: 13px;
+            }
+
+        .user_cont {
+            float: left;
+            width: calc(100% - 80px);
+            height: 100%;
+        }
+
+        .user_icons {
+            float: left;
+            width: 33.33%;
+            height: 100%;
+            text-align: center;
+        }
+        .u_detail {
+                  display: none;
+                  overflow: hidden;
+                  float: right;
+                  width: 315px;
+                  height: auto;
+                  position: absolute;
+                  right: 0px;
+                  top: 60px;
+                  background-color: rgb(251, 251, 251);
+                  border: 1px solid rgb(221, 221, 221);
+                  animation-name: example;
+                  animation-duration: 4s;
+              }
+
+              .u_detail-show {
+                  display: block;
+                  float: right;
+                  width: 315px;
+                  height: auto;
+                  position: absolute;
+                  right: 0px;
+                  top: 60px;
+                  background-color: rgb(251, 251, 251);
+                  border: 1px solid rgb(221, 221, 221);
+                  animation-name: example;
+                  animation-duration: 4s;
+              }
+
+              @@keyframes example {
+                  0% {
+                      background-color: rgb(251, 251, 251);
+                      right: 0px;
+                      right: 0px;
+                  }
+              }
+    </style>
+</head>
+
+<body class="hold-transition sidebar-mini">
+
+
+    @if (user != null && !user.DeviceTypeIsMobile)
+    {
+        @Html.Partial("~/Views/Shared/_LoadingPanel.cshtml")
+
+    }
+
+    <link rel="stylesheet" href="~/Content/aicon/style.css">
+    <link href="~/Scripts/summernote/summernote.css" rel="stylesheet" type="text/css" />
+    <script src="~/Scripts/summernote/summernote.min.js" type="text/javascript"></script>
+    <script src="~/Scripts/jquery-ui-1.12.1.js"></script>
+    @Scripts.Render("~/Content/monthcalenderJS")
+
+    @if (user != null)
+    {
+        if (!user.DeviceTypeIsMobile && user.EmployeeID.HasValue && (userRight != null && !string.IsNullOrEmpty(userRight.HelpText)))
+        {
+            <div class="icon-bar">
+                <a href="#" id="a_faq" class="Help" data-toggle="modal" data-target="#myHelpModal"><i class="fa fa-question-circle"></i></a>
+
+            </div>
+        }
+    }
+
+    <div class="modal" id="myHelpModal" style="z-index:5000;">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">FAQ</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body" id="div-help-body">
+
+                    @if (userRight != null)
+                    {  @Html.Raw(userRight.HelpText)  }
+
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div id="modalSiteMaintenanceAlert" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"
+         data-keyboard="false" data-backdrop="static" style="z-index:5000;">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content modal-filled bg-warning">
+                <div class="modal-body p-4">
+                    <div class="text-center">
+                        <i class="dripicons-wrong h1 text-white"></i>
+                        <h4 class="mt-2">
+                            Alert !!
+                        </h4>
+                        <p class="mt-2">
+                            Site is going on maintenance, Please save your data.
+                        </p>
+                        <a class="btn btn-success btn-sm" style="cursor: pointer" data-dismiss="modal">
+                            Ok
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+
+    <div class="wrapper">
+        <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link mt-3" data-widget="pushmenu" href="#" role="button">
+                        <i class="fa fa-bars fa-2x"></i>
+                    </a>
+                </li>
+                <li class="nav-item li_h">
+                    <a class="li_pos" href="@Url.Action("Index","Home")">
+                        <img src="~/Images/logo.png" class="li_pos" style="height: 80px; cursor:pointer">
+                    </a>
+                </li>
+                <li class="nav-item pl-2 d--n">
+                    <p class="mb-0 pt-3">Welcome!</p>  
+                    <h3>@user.FullName</h3>
+                </li>
+            </ul>
+            <ul class="navbar-nav ml-auto">
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link" id="user_det" data-toggle="dropdown" href="#">
+                        <img src="~/Content/NewAsstes/img/Profile.png" class="" alt="User Image" style="width: 22px;">
+                    </a>
+                    <div class="u_detail">
+                        <div class="user_details py-4">
+                            <div class="iconss">
+                                @*<img alt="Employee Photo" src='@Url.Action("GetImage", "Base", new { imgPath = @user.EmpProfilePhotoUNCPath })' />*@                                
+                                <img alt="Employee Photo" src='/@user.EmpProfilePhotoUNCPath' /> 
+                            </div>
+                            <div class="user_cont">
+                                <p class="mb-3 font-weight-bold">@user.FullName</p>
+                                <p class="mb-2 font-weight-bold">Dept. : @user.DepartmentName</p>
+                                <p class="mb-2 font-weight-bold">@user.EmailID</p>
+                            </div>
+
+                        </div>
+                        <div class="user_details bg-light py-1" style="border-top: 1px solid #ddd;border-bottom: 1px solid #ddd;">
+                            <div class="user_icons">
+                                @if ((user.UserTypeID != (int)UserType.SuperUser && user.UserTypeID != (int)UserType.Admin) && SiteMaintenance.IsSiteUnderMaintenace)
+                                {
+                                    <script type="text/javascript">
+
+                                        $("#modalSiteMaintenanceAlert").modal('show');
+
+                                    </script>
+                                }
+                                @if (user.EmployeeID.HasValue)
+                                {
+                                    @*<button type="button" data-toggle="tooltip" title="Employee Profile" class="btn btn-success btn-lg pl-4 pr-4" onclick="location.href='@Url.Action("Index", "EmployeeProfile", new { employeeID = user.EmployeeID })'"> <i class="fa fa-user"></i> </button>*@
+
+                                    @Html.EncodedImageActionLink("", "Index", "EmployeeProfile", new { employeeID = user.EmployeeID }, new { @class = "toggle-tooltip", title = "Employee Profile" }, "~/Images/profile.png")
+                                }
+                                else
+                                {
+                                    @*<button type="button" class="btn btn-success btn-lg pl-4 pr-4" data-toggle="tooltip" title="User Edit" onclick="location.href='@Url.Action("Edit", "User", new { userID = user.UserID })'"> <i class="fa fa-user"></i> </button>*@
+                                    @Html.EncodedImageActionLink("", "Edit", "User", new { employeeID = user.EmployeeID }, new { @class = "toggle-tooltip", title = "User Edit" }, "~/Images/profile.png")
+                                }
+                            </div>
+                            <div class="user_icons">
+                                <button type="button" class="btn btn-warning btn-lg pl-4 pr-4" data-toggle="tooltip" title="Change Password" onclick="location.href='@Url.Action("Index", "ChangePassword")'"> <i class="fa fa-key"></i> </button>
+                            </div>
+                            <div class="user_icons">
+                                @if (user.DeviceTypeIsMobile)
+                                {
+                                    <button id="btn_logOff" type="button" class="btn btn-danger btn-lg pl-4 pr-4" data-toggle="tooltip" title="LogOff" @*onclick="location.href='@Url.Action("Index", "LogOff")'"*@> <i class="fa fa-power-off"></i> </button>
+                                }
+                                else
+                                {
+                                    <button type="button" class="btn btn-danger btn-lg pl-4 pr-4" data-toggle="tooltip" title="LogOff" onclick="location.href='@Url.Action("Index", "LogOff")'"> <i class="fa fa-power-off"></i> </button>
+                                }
+
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </nav>
+        <aside class="main-sidebar sidebar-dark-primary elevation-4">
+            <div class="sidebar">
+
+                <nav class="mt-2">
+                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                        @if (!user.DoLeaveOrg.HasValue)
+                        {
+                            Html.RenderAction("Index", "MenuRender");
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a href="@Url.Action("Index","RetiredEmpHomePage")" class="nav-link">
+                                    <i class="nav-icon fa fa-tree"></i>
+                                    <p>
+                                        Work Area
+                                    </p>
+                                </a>
+                            </li>
+                        }
+
+                    </ul>
+                </nav>
+            </div>
+        </aside>
+        <div class="content-wrapper">
+            <div class="content">
+
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <h4 style="border-bottom:solid 2px #0bb70b;margin:10px; padding:5px;">@ViewBag.Title</h4>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            @RenderSection("featured", required: false)
+                            @RenderBody()
+                        </div>
+                    </div>
+
+                    <div id="modalSessionExpire" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"
+                         data-keyboard="false" data-backdrop="static">
+                        <div class="modal-dialog modal-sm">
+                            <div class="modal-content modal-filled bg-warning">
+                                <div class="modal-body p-4">
+                                    <div class="text-center">
+                                        <i class="dripicons-wrong h1 text-white"></i>
+                                        <h4 class="mt-2">
+                                            Session Expired
+                                        </h4>
+                                        <p class="mt-2">
+                                            Your session has timed out. Please login again to continue.
+                                        </p>
+                                        @if (!user.DeviceTypeIsMobile)
+                                        {
+                                            <a class="btn btn-light btn-sm" style="cursor: pointer" title="Login again" href="@Url.Action("Index", "LogOff")">
+                                                OK
+                                            </a>
+                                        }
+                                        else
+                                        {
+                                            <a id="lnk_logOff" class="btn btn-light btn-sm" style="cursor: pointer" title="Login again" data-toggle="tooltip">
+                                                OK
+                                            </a>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /.modal-content -->
+                        </div>
+                        <!-- /.modal-dialog -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <footer class="main-footer">
+            <p class="m-0" style="color: #818181;font-size: 12px;">
+                Copyright © 2019 Nafed-india.com, All rights Reserved
+                <span style="float: right;">
+                    Powered By:
+                    <img src="~/Images/mw.png" />
+                </span>
+            </p>
+            <div class="float-right d-none d-sm-inline-block"></div>
+        </footer>
+    </div>
+
+    @RenderSection("scripts", required: false)
+
+
+</body>
+</html>
+
+<script src="~/Scripts/layout.js"></script>
+
+<script type="text/javascript">
+
+    $(document).on("click","#btn_logOff,#lnk_logOff",function(){
+        trigger_M_App_LogOff();
+    });
+
+    function trigger_M_App_LogOff(){
+        //  alert('A');
+        console.log('clicked');
+    }
+
+</script>
+
+@if (user != null && user.DeviceTypeIsMobile)
+{
+    <script type="text/javascript">
+        debugger;
+        $('.toggle-tooltip').removeClass('toggle-tooltip');
+        $('[title]').removeAttr('title');
+
+    </script>
+
+}

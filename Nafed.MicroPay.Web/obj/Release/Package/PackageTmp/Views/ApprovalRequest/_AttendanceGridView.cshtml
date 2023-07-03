@@ -1,0 +1,891 @@
+﻿@using Nafed.MicroPay.Model;
+@model MicroPay.Web.Models.ApprovalRequestVM
+@using Nafed.MicroPay.Common;
+
+@{
+    var uDetails = (UserDetail)Session["user"];
+}
+
+<table id="tblGrid" class="table_card table table-centered table-striped dt-responsive w-100 mt-2">
+    <thead>
+        <tr>
+            <th scope="col">
+                #
+            </th>
+            <th scope="col">
+                Employee
+            </th>
+            <th scope="col" class="text-center">
+                In Date
+            </th>
+            <th scope="col" class="text-center">
+                In Time
+            </th>
+            <th scope="col" class="text-center">
+                Out Date
+            </th>
+            <th scope="col" class="text-center">
+                Out Time
+            </th>
+
+            <th scope="col">
+                Remark
+            </th>
+            <th scope="col" class="text-center">
+                Status
+            </th>
+
+            <th scope="col" class="text-center" style="width:60px">
+                Action
+            </th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            if (Model != null && (Model.attendanceList != null && Model.attendanceList.Count > 0))
+            {
+                var sno = 1;
+                var totalpending = 0;
+                foreach (var item in Model.attendanceList)
+                {
+                    if (item.EmpAttendanceApprovalSettings.AcceptanceAuthority.HasValue && item.EmpAttendanceApprovalSettings.AcceptanceAuthority == uDetails.EmployeeID)
+                    {
+                        if (item.Attendancestatus == (int)EmpAttendanceStatus.Approved || item.Attendancestatus == (int)EmpAttendanceStatus.RejectedByReviwerOfficer || item.Attendancestatus == (int)EmpAttendanceStatus.AcceptedByReviewerOfficer)
+                        {
+                            <tr>
+                                <td data-label="S. No."> @sno</td>
+                                <td data-label="Employee"> @item.EmployeeName</td>
+                                <td data-label="In Date" class="text-center"> @item.ProxydateIn.ToString("dd-MM-yyyy")</td>
+                                <td data-label="In Time" class="text-center"> @item.InTime</td>
+                                <td data-label="Out Date" class="text-center"> @item.ProxyOutDate.ToString("dd-MM-yyyy")</td>
+                                <td data-label="Out Time" class="text-center"> @item.OutTime</td>
+                                <td data-label="Remark"> @item.Remarks</td>
+                                <td data-label="Status" class="text-center">
+                                    @if (item.Attendancestatus == (int)EmpAttendanceStatus.Pending)
+                            {
+                                    <h5>
+                                        <span class="badge badge-pill badge-warning col-md-12 toggle-tooltip"
+                                              title="Employee Remark : @(item.Remarks ?? "Not Available")">Pending</span>
+                                    </h5>
+                                    }
+                                    else if (item.Attendancestatus == (int)EmpAttendanceStatus.InProcess)
+                                    {
+                                    <h5>
+                                        <span class="badge badge-pill badge-info col-md-12 toggle-tooltip"
+                                              title="Employee Remark : @(item.Remarks ?? "Not Available")
+                                                 Reporting Remark : @(item.ReportingToRemark ?? "Not Available")">In Process</span>
+                                    </h5>
+                                    }
+                                    else if (item.Attendancestatus == (int)EmpAttendanceStatus.RejectedByReportingOfficer)
+                                    {
+                                    <h5>
+                                        <span class="badge badge-pill badge-danger col-md-12 toggle-tooltip"
+                                              title="Employee Remark : @(item.Remarks ?? "Not Available")
+                                                 Reporting Remark : @(item.ReportingToRemark ?? "Not Available")">Rejected</span>
+                                    </h5>
+                                    }
+                                    else if (item.Attendancestatus == (int)EmpAttendanceStatus.Approved)
+                                    {
+                                    <h5>
+                                        <span class="badge badge-pill badge-success col-md-12 toggle-tooltip"
+                                              title="Employee Remark : @(item.Remarks ?? "Not Available")
+                                                 Reporting Remark : @(item.ReportingToRemark ?? "Not Available")
+                                                 Reviewer Remark : @(item.ReviewerToRemark ?? "Not Available") ">Approved</span>
+                                    </h5>
+                                    }
+                                    else if (item.Attendancestatus == (int)EmpAttendanceStatus.RejectedByReviwerOfficer)
+                                    {
+                                    <h5>
+                                        <span class="badge badge-pill badge-danger col-md-12 toggle-tooltip"
+                                              title="Employee Remark : @(item.Remarks ?? "Not Available")
+                                                 Reporting Remark : @(item.ReportingToRemark ?? "Not Available")
+                                                 Reviewer Remark : @(item.ReviewerToRemark ?? "Not Available") ">Rejected</span>
+                                    </h5>
+                                    }
+                                    else if (item.Attendancestatus == (int)EmpAttendanceStatus.Withdrawl)
+                                    {
+                                    <h5>
+                                        <span class="badge badge-pill badge-black col-md-12 toggle-tooltip"
+                                              title="Employee Remark : @(item.Remarks ?? "Not Available")">>Withdrawl</span>
+                                    </h5>
+                                    }
+                                    else if (item.Attendancestatus == (int)EmpAttendanceStatus.RejectedByAcceptanceAuthority)
+                                    {
+                                        <h5>
+                                            <span class="badge badge-pill badge-danger col-md-12 toggle-tooltip"
+                                                  title="Employee Remark : @(item.Remarks ?? "Not Available")
+                                                      Rejected Authority Remark : @(item.AcceptanceAuthRemark ?? "Not Available") ">Rejected</span>
+
+                                        </h5>
+                                    }
+                                    else if (item.Attendancestatus == (int)EmpAttendanceStatus.AcceptedByReviewerOfficer)
+                                    {
+                                        <h5>
+                                            <span class="badge badge-pill badge-success col-md-12 toggle-tooltip"
+                                                  title="Employee Remark : @(item.Remarks ?? "Not Available")
+                                                      Acceptance Authority Remark : @(item.AcceptanceAuthRemark ?? "Not Available") ">Approved</span>
+                                        </h5>
+                                    }
+                                </td>
+
+                                <td data-label="Action" class="text-center">
+                                    @if (item.Attendancestatus == (int)EmpAttendanceStatus.AcceptedByReviewerOfficer)
+                                    {
+                                        totalpending = Model.attendanceList.Where(x => x.Attendancestatus == (int)EmpAttendanceStatus.AcceptedByReviewerOfficer).Count();
+                                        if (item.Attendancestatus == (int)EmpAttendanceStatus.Pending || item.Attendancestatus == (int)EmpAttendanceStatus.RejectedByReviwerOfficer)
+                                        {
+                                    <a data-ajax="true"
+                                       method="POST" class="toggle-tooltip" title="Click here, to approve request."
+                                       data-ajax-update="#div-approvalPopup" data-ajax-mode="replace"
+                                       data-backdrop="static" data-keyboard="false"
+                                       href="@Url.Action("_GetApprovalPopup", "ApprovalRequest", new
+                                        {
+                                            empID = item.EmployeeId,
+                                            empAttendanceID = item.EmpAttendanceID,
+                                            status = item.Attendancestatus,
+                                            reportingToRemark = item.ReportingToRemark,
+                                            reviewerToRemark = item.ReviewerToRemark,
+                                            acceptanceAuthRemark = item.AcceptanceAuthRemark,
+                                            actionType = "accept",
+                                            ApproverType = 3,
+                                            reportingTo=item.EmpAttendanceApprovalSettings.ReportingTo,
+                                            reviewerTo= item.EmpAttendanceApprovalSettings.ReviewingTo,
+                                            acceptanceAuthority= item.EmpAttendanceApprovalSettings.AcceptanceAuthority
+                                        })"
+                                       id="a_attendancepopup" data-toggle="modal" data-target="#div-attendanc-approval-popup">
+                                        <i class="fa fa-check-square text-success fa-2x" aria-hidden="true"></i>
+                                    </a>
+
+                                    <text> | </text>
+                                    <a data-ajax="true"
+                                       method="POST" class="toggle-tooltip" title="Click here, to reject request."
+                                       data-ajax-update="#div-approvalPopup" data-ajax-mode="replace"
+                                       data-backdrop="static" data-keyboard="false"
+                                       href="@Url.Action("_GetApprovalPopup", "ApprovalRequest", new
+                                        {
+                                            empID = item.EmployeeId,
+                                            empAttendanceID = item.EmpAttendanceID,
+                                            status = item.Attendancestatus,
+                                            reportingToRemark = item.ReportingToRemark,
+                                            reviewerToRemark = item.ReviewerToRemark,
+                                            acceptanceAuthRemark = item.AcceptanceAuthRemark,
+                                            actionType = "reject",
+                                            ApproverType = 3,
+                                            reportingTo=item.EmpAttendanceApprovalSettings.ReportingTo,
+                                            reviewerTo= item.EmpAttendanceApprovalSettings.ReviewingTo,
+                                            acceptanceAuthority= item.EmpAttendanceApprovalSettings.AcceptanceAuthority
+                                        })"
+                                       id="a_attendancepopup" data-toggle="modal" data-target="#div-attendanc-approval-popup">
+                                        <i class="fas fa-window-close" aria-hidden="true"></i>
+                                    </a>
+
+                                        }
+                                    }                                   
+
+                                </td>
+
+                            </tr>
+                        }
+                    }
+                    else if (item.EmpAttendanceApprovalSettings.ReviewingTo.HasValue && item.EmpAttendanceApprovalSettings.ReviewingTo == uDetails.EmployeeID)
+                    {
+                        if (item.EmpAttendanceApprovalSettings.AcceptanceAuthority.HasValue)
+                        {
+                            if (item.Attendancestatus == (int)EmpAttendanceStatus.InProcess || item.Attendancestatus == (int)EmpAttendanceStatus.RejectedByAcceptanceAuthority || item.Attendancestatus == (int)EmpAttendanceStatus.RejectedByReviwerOfficer || item.Attendancestatus == (int)EmpAttendanceStatus.AcceptedByReviewerOfficer)
+                            {
+                                <tr>
+                                    <td data-label="S. No."> @sno</td>
+                                    <td data-label="Employee"> @item.EmployeeName</td>
+                                    <td data-label="In Date" class="text-center"> @item.ProxydateIn.ToString("dd-MM-yyyy")</td>
+                                    <td data-label="In Time" class="text-center"> @item.InTime</td>
+                                    <td data-label="Out Date" class="text-center"> @item.ProxyOutDate.ToString("dd-MM-yyyy")</td>
+                                    <td  data-label="Out Time"  class="text-center"> @item.OutTime</td>
+                                    <td data-label="Remark"> @item.Remarks</td>
+                                    <td data-label="Status" class="text-center">
+                                        @if (item.Attendancestatus == (int)EmpAttendanceStatus.Pending)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-warning col-md-12 toggle-tooltip"
+                                                      title="Employee Remark : @(item.Remarks ?? "Not Available")">Pending</span>
+                                            </h5>
+                                        }
+                                        else if (item.Attendancestatus == (int)EmpAttendanceStatus.InProcess)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-info col-md-12 toggle-tooltip"
+                                                      title="Employee Remark : @(item.Remarks ?? "Not Available")
+                                                 Reporting Remark : @(item.ReportingToRemark ?? "Not Available")">In Process</span>
+                                            </h5>
+                                        }
+                                        else if (item.Attendancestatus == (int)EmpAttendanceStatus.RejectedByReportingOfficer)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-danger col-md-12 toggle-tooltip"
+                                                      title="Employee Remark : @(item.Remarks ?? "Not Available")
+                                                 Reporting Remark : @(item.ReportingToRemark ?? "Not Available")">Rejected</span>
+                                            </h5>
+                                        }
+                                        else if (item.Attendancestatus == (int)EmpAttendanceStatus.Approved)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-success col-md-12 toggle-tooltip"
+                                                      title="Employee Remark : @(item.Remarks ?? "Not Available")
+                                                 Reporting Remark : @(item.ReportingToRemark ?? "Not Available")
+                                                 Reviewer Remark : @(item.ReviewerToRemark ?? "Not Available") ">Approved</span>
+                                            </h5>
+                                        }
+                                        else if (item.Attendancestatus == (int)EmpAttendanceStatus.RejectedByReviwerOfficer)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-danger col-md-12 toggle-tooltip"
+                                                      title="Employee Remark : @(item.Remarks ?? "Not Available")
+                                                 Reporting Remark : @(item.ReportingToRemark ?? "Not Available")
+                                                 Reviewer Remark : @(item.ReviewerToRemark ?? "Not Available") ">Rejected</span>
+                                            </h5>
+                                        }
+                                        else if (item.Attendancestatus == (int)EmpAttendanceStatus.Withdrawl)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-black col-md-12 toggle-tooltip"
+                                                      title="Employee Remark : @(item.Remarks ?? "Not Available")">>Withdrawl</span>
+                                            </h5>
+                                        }
+                                        else if (item.Attendancestatus == (int)EmpAttendanceStatus.RejectedByAcceptanceAuthority)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-danger col-md-12 toggle-tooltip"
+                                                      title="Employee Remark : @(item.Remarks ?? "Not Available")
+                                                      Rejected Authority Remark : @(item.AcceptanceAuthRemark ?? "Not Available") ">Rejected</span>
+
+                                            </h5>
+                                        }
+                                        else if (item.Attendancestatus == (int)EmpAttendanceStatus.AcceptedByReviewerOfficer)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-success col-md-12 toggle-tooltip"
+                                                      title="Employee Remark : @(item.Remarks ?? "Not Available")
+                                                      Acceptance Authority Remark : @(item.AcceptanceAuthRemark ?? "Not Available") ">Approved</span>
+                                            </h5>
+                                        }
+                                    </td>
+
+                                    <td data-label="Action" class="text-center">
+                                        @if (item.Attendancestatus == (int)EmpAttendanceStatus.InProcess || item.Attendancestatus == (int)EmpAttendanceStatus.RejectedByAcceptanceAuthority)
+                                        {
+                                            totalpending = Model.attendanceList.Where(x => x.Attendancestatus == (int)EmpAttendanceStatus.InProcess).Count();
+
+                                                <a data-ajax="true"
+                                                   method="POST" class="toggle-tooltip" title="Click here, to approve request."
+                                                   data-ajax-update="#div-approvalPopup" data-ajax-mode="replace"
+                                                   data-backdrop="static" data-keyboard="false"
+                                                   href="@Url.Action("_GetApprovalPopup", "ApprovalRequest", new
+                                                    {
+                                                        empID = item.EmployeeId,
+                                                        empAttendanceID = item.EmpAttendanceID,
+                                                        status = item.Attendancestatus,
+                                                       reportingToRemark = item.ReportingToRemark,
+                                            reviewerToRemark = item.ReviewerToRemark,
+                                            acceptanceAuthRemark = item.AcceptanceAuthRemark,
+                                                        actionType = "accept",
+                                                        ApproverType = 2,
+                                            reportingTo=item.EmpAttendanceApprovalSettings.ReportingTo,
+                                            reviewerTo= item.EmpAttendanceApprovalSettings.ReviewingTo,
+                                            acceptanceAuthority= item.EmpAttendanceApprovalSettings.AcceptanceAuthority
+                                                    })"
+                                                   id="a_attendancepopup" data-toggle="modal" data-target="#div-attendanc-approval-popup">
+                                                    <i class="fa fa-check-square text-success fa-2x" aria-hidden="true"></i>
+                                                </a>
+
+                                                <text> | </text>
+                                                <a data-ajax="true"
+                                                   method="POST" class="toggle-tooltip" title="Click here, to reject request."
+                                                   data-ajax-update="#div-approvalPopup" data-ajax-mode="replace"
+                                                   data-backdrop="static" data-keyboard="false"
+                                                   href="@Url.Action("_GetApprovalPopup", "ApprovalRequest", new
+                                                    {
+                                                        empID = item.EmployeeId,
+                                                        empAttendanceID = item.EmpAttendanceID,
+                                                        status = item.Attendancestatus,
+                                                        reportingToRemark = item.ReportingToRemark,
+                                            reviewerToRemark = item.ReviewerToRemark,
+                                            acceptanceAuthRemark = item.AcceptanceAuthRemark,
+                                                        actionType = "reject",
+                                                        ApproverType = 2,
+                                            reportingTo=item.EmpAttendanceApprovalSettings.ReportingTo,
+                                            reviewerTo= item.EmpAttendanceApprovalSettings.ReviewingTo,
+                                            acceptanceAuthority= item.EmpAttendanceApprovalSettings.AcceptanceAuthority
+                                                    })"
+                                                   id="a_attendancepopup" data-toggle="modal" data-target="#div-attendanc-approval-popup">
+                                                    <i class="fas fa-window-close" aria-hidden="true"></i>
+                                                </a>
+
+                                        }                                      
+
+                                    </td>
+
+                                </tr>
+                            }
+                        }
+                        else if (!item.EmpAttendanceApprovalSettings.AcceptanceAuthority.HasValue)
+                        {
+                            if (item.Attendancestatus == (int)EmpAttendanceStatus.InProcess || item.Attendancestatus == (int)EmpAttendanceStatus.RejectedByAcceptanceAuthority || item.Attendancestatus == (int)EmpAttendanceStatus.Approved)
+                            {
+                                <tr>
+                                    <td data-label="S. No."> @sno</td>
+                                    <td data-label="Employee"> @item.EmployeeName</td>
+                                    <td data-label="In Date"  class="text-center"> @item.ProxydateIn.ToString("dd-MM-yyyy")</td>
+                                    <td data-label="In Time" class="text-center"> @item.InTime</td>
+                                    <td data-label="Out Date" class="text-center"> @item.ProxyOutDate.ToString("dd-MM-yyyy")</td>
+                                    <td data-label="Out Time" class="text-center"> @item.OutTime</td>
+                                    <td data-label="Remark"> @item.Remarks</td>
+                                    <td data-label="Status" class="text-center">
+                                        @if (item.Attendancestatus == (int)EmpAttendanceStatus.Pending)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-warning col-md-12 toggle-tooltip"
+                                                      title="Employee Remark : @(item.Remarks ?? "Not Available")">Pending</span>
+                                            </h5>
+                                        }
+                                        else if (item.Attendancestatus == (int)EmpAttendanceStatus.InProcess)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-info col-md-12 toggle-tooltip"
+                                                      title="Employee Remark : @(item.Remarks ?? "Not Available")
+                                                 Reporting Remark : @(item.ReportingToRemark ?? "Not Available")">In Process</span>
+                                            </h5>
+                                        }
+                                        else if (item.Attendancestatus == (int)EmpAttendanceStatus.RejectedByReportingOfficer)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-danger col-md-12 toggle-tooltip"
+                                                      title="Employee Remark : @(item.Remarks ?? "Not Available")
+                                                 Reporting Remark : @(item.ReportingToRemark ?? "Not Available")">Rejected</span>
+                                            </h5>
+                                        }
+                                        else if (item.Attendancestatus == (int)EmpAttendanceStatus.Approved)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-success col-md-12 toggle-tooltip"
+                                                      title="Employee Remark : @(item.Remarks ?? "Not Available")
+                                                 Reporting Remark : @(item.ReportingToRemark ?? "Not Available")
+                                                 Reviewer Remark : @(item.ReviewerToRemark ?? "Not Available") ">Approved</span>
+                                            </h5>
+                                        }
+                                        else if (item.Attendancestatus == (int)EmpAttendanceStatus.RejectedByReviwerOfficer)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-danger col-md-12 toggle-tooltip"
+                                                      title="Employee Remark : @(item.Remarks ?? "Not Available")
+                                                 Reporting Remark : @(item.ReportingToRemark ?? "Not Available")
+                                                 Reviewer Remark : @(item.ReviewerToRemark ?? "Not Available") ">Rejected</span>
+                                            </h5>
+                                        }
+                                        else if (item.Attendancestatus == (int)EmpAttendanceStatus.Withdrawl)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-black col-md-12 toggle-tooltip"
+                                                      title="Employee Remark : @(item.Remarks ?? "Not Available")">>Withdrawl</span>
+                                            </h5>
+                                        }
+                                        else if (item.Attendancestatus == (int)EmpAttendanceStatus.RejectedByAcceptanceAuthority)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-danger col-md-12 toggle-tooltip"
+                                                      title="Employee Remark : @(item.Remarks ?? "Not Available")
+                                                      Rejected Authority Remark : @(item.AcceptanceAuthRemark ?? "Not Available") ">Rejected</span>
+
+                                            </h5>
+                                        }
+                                        else if (item.Attendancestatus == (int)EmpAttendanceStatus.AcceptedByReviewerOfficer)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-success col-md-12 toggle-tooltip"
+                                                      title="Employee Remark : @(item.Remarks ?? "Not Available")
+                                                      Acceptance Authority Remark : @(item.AcceptanceAuthRemark ?? "Not Available") ">Approved</span>
+                                            </h5>
+                                        }
+                                    </td>
+
+                                    <td data-label="Action" class="text-center">
+                                        @if (item.Attendancestatus == (int)EmpAttendanceStatus.InProcess)
+                                        {
+                                            totalpending = Model.attendanceList.Where(x => x.Attendancestatus == (int)EmpAttendanceStatus.InProcess && x.EmpAttendanceApprovalSettings.ReviewingTo==uDetails.EmployeeID).Count();
+
+                                            <a data-ajax="true"
+                                               method="POST" class="toggle-tooltip" title="Click here, to approve request."
+                                               data-ajax-update="#div-approvalPopup" data-ajax-mode="replace"
+                                               data-backdrop="static" data-keyboard="false"
+                                               href="@Url.Action("_GetApprovalPopup", "ApprovalRequest", new
+                                                {
+                                                    empID = item.EmployeeId,
+                                                    empAttendanceID = item.EmpAttendanceID,
+                                                    status = item.Attendancestatus,
+                                                    reportingToRemark = item.ReportingToRemark,
+                                            reviewerToRemark = item.ReviewerToRemark,
+                                            acceptanceAuthRemark = item.AcceptanceAuthRemark,
+                                                    actionType = "accept",
+                                                    ApproverType = 3,
+                                            reportingTo=item.EmpAttendanceApprovalSettings.ReportingTo,
+                                            reviewerTo= item.EmpAttendanceApprovalSettings.ReviewingTo,
+                                            acceptanceAuthority= item.EmpAttendanceApprovalSettings.AcceptanceAuthority
+                                                })"
+                                               id="a_attendancepopup" data-toggle="modal" data-target="#div-attendanc-approval-popup">
+                                                <i class="fa fa-check-square text-success fa-2x" aria-hidden="true"></i>
+                                            </a>
+
+                                                <text> | </text>
+                                                <a data-ajax="true"
+                                                   method="POST" class="toggle-tooltip" title="Click here, to reject request."
+                                                   data-ajax-update="#div-approvalPopup" data-ajax-mode="replace"
+                                                   data-backdrop="static" data-keyboard="false"
+                                                   href="@Url.Action("_GetApprovalPopup", "ApprovalRequest", new
+                                                    {
+                                                        empID = item.EmployeeId,
+                                                        empAttendanceID = item.EmpAttendanceID,
+                                                        status = item.Attendancestatus,
+                                                        reportingToRemark = item.ReportingToRemark,
+                                            reviewerToRemark = item.ReviewerToRemark,
+                                            acceptanceAuthRemark = item.AcceptanceAuthRemark,
+                                                        actionType = "reject",
+                                                        ApproverType = 3,
+                                            reportingTo=item.EmpAttendanceApprovalSettings.ReportingTo,
+                                            reviewerTo= item.EmpAttendanceApprovalSettings.ReviewingTo,
+                                            acceptanceAuthority= item.EmpAttendanceApprovalSettings.AcceptanceAuthority
+                                                    })"
+                                                   id="a_attendancepopup" data-toggle="modal" data-target="#div-attendanc-approval-popup">
+                                                    <i class="fas fa-window-close" aria-hidden="true"></i>
+                                                </a>
+
+                                        }
+
+                                    </td>
+
+                                </tr>
+                            }
+                        }
+                    }
+                    else if (item.EmpAttendanceApprovalSettings.ReportingTo == uDetails.EmployeeID)
+                    {
+                        if (item.EmpAttendanceApprovalSettings.AcceptanceAuthority.HasValue && item.EmpAttendanceApprovalSettings.ReviewingTo.HasValue)
+                        {
+                            if (item.Attendancestatus == (int)EmpAttendanceStatus.Pending || item.Attendancestatus == (int)EmpAttendanceStatus.InProcess || item.Attendancestatus == (int)EmpAttendanceStatus.RejectedByReportingOfficer || item.Attendancestatus == (int)EmpAttendanceStatus.AcceptedByReviewerOfficer || item.Attendancestatus == (int)EmpAttendanceStatus.RejectedByReviwerOfficer || item.Attendancestatus == (int)EmpAttendanceStatus.RejectedByAcceptanceAuthority || item.Attendancestatus == (int)EmpAttendanceStatus.Approved)
+                            {
+                               <tr>
+                                        <td data-label="S. No."> @sno</td>
+                                        <td data-label="Employee"> @item.EmployeeName</td>
+                                        <td data-label="In Date" class="text-center"> @item.ProxydateIn.ToString("dd-MM-yyyy")</td>
+                                        <td data-label="In Time" class="text-center"> @item.InTime</td>
+                                        <td data-label="Out Date" class="text-center"> @item.ProxyOutDate.ToString("dd-MM-yyyy")</td>
+                                        <td data-label="Out Time" class="text-center"> @item.OutTime</td>
+                                        <td data-label="Remark"> @item.Remarks</td>
+                                        <td data-label="Status" class="text-center">
+                                            @if (item.Attendancestatus == (int)EmpAttendanceStatus.Pending)
+                                            {
+                                                <h5>
+                                                    <span class="badge badge-pill badge-warning col-md-12 toggle-tooltip"
+                                                          title="Employee Remark : @(item.Remarks ?? "Not Available")">Pending</span>
+                                                </h5>
+                                            }
+                                            else if (item.Attendancestatus == (int)EmpAttendanceStatus.InProcess)
+                                            {
+                                                <h5>
+                                                    <span class="badge badge-pill badge-info col-md-12 toggle-tooltip"
+                                                          title="Employee Remark : @(item.Remarks ?? "Not Available")
+                                                 Reporting Remark : @(item.ReportingToRemark ?? "Not Available")">In Process</span>
+                                                </h5>
+                                            }
+                                            else if (item.Attendancestatus == (int)EmpAttendanceStatus.RejectedByReportingOfficer)
+                                            {
+                                                <h5>
+                                                    <span class="badge badge-pill badge-danger col-md-12 toggle-tooltip"
+                                                          title="Employee Remark : @(item.Remarks ?? "Not Available")
+                                                 Reporting Remark : @(item.ReportingToRemark ?? "Not Available")">Rejected</span>
+                                                </h5>
+                                            }
+                                            else if (item.Attendancestatus == (int)EmpAttendanceStatus.Approved)
+                                            {
+                                                <h5>
+                                                    <span class="badge badge-pill badge-success col-md-12 toggle-tooltip"
+                                                          title="Employee Remark : @(item.Remarks ?? "Not Available")
+                                                 Reporting Remark : @(item.ReportingToRemark ?? "Not Available")
+                                                 Reviewer Remark : @(item.ReviewerToRemark ?? "Not Available") ">Approved</span>
+                                                </h5>
+                                            }
+                                            else if (item.Attendancestatus == (int)EmpAttendanceStatus.RejectedByReviwerOfficer)
+                                            {
+                                                <h5>
+                                                    <span class="badge badge-pill badge-danger col-md-12 toggle-tooltip"
+                                                          title="Employee Remark : @(item.Remarks ?? "Not Available")
+                                                 Reporting Remark : @(item.ReportingToRemark ?? "Not Available")
+                                                 Reviewer Remark : @(item.ReviewerToRemark ?? "Not Available") ">Rejected</span>
+                                                </h5>
+                                            }
+                                            else if (item.Attendancestatus == (int)EmpAttendanceStatus.Withdrawl)
+                                            {
+                                                <h5>
+                                                    <span class="badge badge-pill badge-black col-md-12 toggle-tooltip"
+                                                          title="Employee Remark : @(item.Remarks ?? "Not Available")">>Withdrawl</span>
+                                                </h5>
+                                            }
+                                            else if (item.Attendancestatus == (int)EmpAttendanceStatus.RejectedByAcceptanceAuthority)
+                                            {
+                                                <h5>
+                                                    <span class="badge badge-pill badge-danger col-md-12 toggle-tooltip"
+                                                          title="Employee Remark : @(item.Remarks ?? "Not Available")
+                                                      Rejected Authority Remark : @(item.AcceptanceAuthRemark ?? "Not Available") ">Rejected</span>
+
+                                                </h5>
+                                            }
+                                            else if (item.Attendancestatus == (int)EmpAttendanceStatus.AcceptedByReviewerOfficer)
+                                            {
+                                                <h5>
+                                                    <span class="badge badge-pill badge-success col-md-12 toggle-tooltip"
+                                                          title="Employee Remark : @(item.Remarks ?? "Not Available")
+                                                      Acceptance Authority Remark : @(item.AcceptanceAuthRemark ?? "Not Available") ">Approved</span>
+                                                </h5>
+                                            }
+                                        </td>
+
+                                        <td data-label="Action" class="text-center">
+                                           
+                                                @if (item.Attendancestatus == (int)EmpAttendanceStatus.Pending || item.Attendancestatus == (int)EmpAttendanceStatus.RejectedByReviwerOfficer)
+                                                {
+                                                    totalpending = Model.attendanceList.Where(x => x.Attendancestatus == (int)EmpAttendanceStatus.Pending).Count();
+
+                                                    <a data-ajax="true"
+                                                       method="POST" class="toggle-tooltip" title="Click here, to approve request."
+                                                       data-ajax-update="#div-approvalPopup" data-ajax-mode="replace"
+                                                       data-backdrop="static" data-keyboard="false"
+                                                       href="@Url.Action("_GetApprovalPopup", "ApprovalRequest", new
+                                                        {
+                                                            empID = item.EmployeeId,
+                                                            empAttendanceID = item.EmpAttendanceID,
+                                                            status = item.Attendancestatus,
+                                                            reportingToRemark = item.ReportingToRemark,
+                                            reviewerToRemark = item.ReviewerToRemark,
+                                            acceptanceAuthRemark = item.AcceptanceAuthRemark,
+                                                            actionType = "accept",
+                                                            ApproverType = 1,
+                                            reportingTo=item.EmpAttendanceApprovalSettings.ReportingTo,
+                                            reviewerTo= item.EmpAttendanceApprovalSettings.ReviewingTo,
+                                            acceptanceAuthority= item.EmpAttendanceApprovalSettings.AcceptanceAuthority
+                                                        })"
+                                                       id="a_attendancepopup" data-toggle="modal" data-target="#div-attendanc-approval-popup">
+                                                        <i class="fa fa-check-square text-success fa-2x" aria-hidden="true"></i>
+                                                    </a>
+                                                    <text> | </text>
+                                                    <a data-ajax="true"
+                                                       method="POST" class="toggle-tooltip" title="Click here, to reject request."
+                                                       data-ajax-update="#div-approvalPopup" data-ajax-mode="replace"
+                                                       data-backdrop="static" data-keyboard="false"
+                                                       href="@Url.Action("_GetApprovalPopup", "ApprovalRequest", new
+                                                        {
+                                                            empID = item.EmployeeId,
+                                                            empAttendanceID = item.EmpAttendanceID,
+                                                            status = item.Attendancestatus,
+                                                            reportingToRemark = item.ReportingToRemark,
+                                            reviewerToRemark = item.ReviewerToRemark,
+                                            acceptanceAuthRemark = item.AcceptanceAuthRemark,
+                                                            actionType = "reject",
+                                                            ApproverType = 1,
+                                            reportingTo=item.EmpAttendanceApprovalSettings.ReportingTo,
+                                            reviewerTo= item.EmpAttendanceApprovalSettings.ReviewingTo,
+                                            acceptanceAuthority= item.EmpAttendanceApprovalSettings.AcceptanceAuthority
+                                                        })"
+                                                       id="a_attendancepopup" data-toggle="modal" data-target="#div-attendanc-approval-popup">
+                                                        <i class="fas fa-window-close" aria-hidden="true"></i>
+                                                    </a>
+                                                }                                          
+                                        </td>
+
+                                    </tr>
+                            }
+                        }
+                        else if (!item.EmpAttendanceApprovalSettings.AcceptanceAuthority.HasValue && item.EmpAttendanceApprovalSettings.ReviewingTo.HasValue)
+                        {
+                            if (item.Attendancestatus == (int)EmpAttendanceStatus.Pending || item.Attendancestatus == (int)EmpAttendanceStatus.InProcess || item.Attendancestatus == (int)EmpAttendanceStatus.RejectedByReportingOfficer || item.Attendancestatus == (int)EmpAttendanceStatus.RejectedByAcceptanceAuthority || item.Attendancestatus == (int)EmpAttendanceStatus.Approved)
+                            {
+                                <tr>
+                                    <td data-label="S. No."> @sno</td>
+                                    <td data-label="Employee"> @item.EmployeeName</td>
+                                    <td data-label="In Date" class="text-center"> @item.ProxydateIn.ToString("dd-MM-yyyy")</td>
+                                    <td data-label="In Time" class="text-center"> @item.InTime</td>
+                                    <td data-label="Out Date"  class="text-center"> @item.ProxyOutDate.ToString("dd-MM-yyyy")</td>
+                                    <td data-label="Out Time" class="text-center"> @item.OutTime</td>
+                                    <td data-label="Remark"> @item.Remarks</td>
+                                    <td data-label="Status" class="text-center">
+                                        @if (item.Attendancestatus == (int)EmpAttendanceStatus.Pending)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-warning col-md-12 toggle-tooltip"
+                                                      title="Employee Remark : @(item.Remarks ?? "Not Available")">Pending</span>
+                                            </h5>
+                                        }
+                                        else if (item.Attendancestatus == (int)EmpAttendanceStatus.InProcess)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-info col-md-12 toggle-tooltip"
+                                                      title="Employee Remark : @(item.Remarks ?? "Not Available")
+                                                 Reporting Remark : @(item.ReportingToRemark ?? "Not Available")">In Process</span>
+                                            </h5>
+                                        }
+                                        else if (item.Attendancestatus == (int)EmpAttendanceStatus.RejectedByReportingOfficer)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-danger col-md-12 toggle-tooltip"
+                                                      title="Employee Remark : @(item.Remarks ?? "Not Available")
+                                                 Reporting Remark : @(item.ReportingToRemark ?? "Not Available")">Rejected</span>
+                                            </h5>
+                                        }
+                                        else if (item.Attendancestatus == (int)EmpAttendanceStatus.Approved)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-success col-md-12 toggle-tooltip"
+                                                      title="Employee Remark : @(item.Remarks ?? "Not Available")
+                                                 Reporting Remark : @(item.ReportingToRemark ?? "Not Available")
+                                                 Reviewer Remark : @(item.ReviewerToRemark ?? "Not Available") ">Approved</span>
+                                            </h5>
+                                        }
+                                        else if (item.Attendancestatus == (int)EmpAttendanceStatus.RejectedByReviwerOfficer)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-danger col-md-12 toggle-tooltip"
+                                                      title="Employee Remark : @(item.Remarks ?? "Not Available")
+                                                 Reporting Remark : @(item.ReportingToRemark ?? "Not Available")
+                                                 Reviewer Remark : @(item.ReviewerToRemark ?? "Not Available") ">Rejected</span>
+                                            </h5>
+                                        }
+                                        else if (item.Attendancestatus == (int)EmpAttendanceStatus.Withdrawl)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-black col-md-12 toggle-tooltip"
+                                                      title="Employee Remark : @(item.Remarks ?? "Not Available")">>Withdrawl</span>
+                                            </h5>
+                                        }
+                                        else if (item.Attendancestatus == (int)EmpAttendanceStatus.RejectedByAcceptanceAuthority)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-danger col-md-12 toggle-tooltip"
+                                                      title="Employee Remark : @(item.Remarks ?? "Not Available")
+                                                      Rejected Authority Remark : @(item.AcceptanceAuthRemark ?? "Not Available") ">Rejected</span>
+
+                                            </h5>
+                                        }
+                                        else if (item.Attendancestatus == (int)EmpAttendanceStatus.AcceptedByReviewerOfficer)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-success col-md-12 toggle-tooltip"
+                                                      title="Employee Remark : @(item.Remarks ?? "Not Available")
+                                                      Acceptance Authority Remark : @(item.AcceptanceAuthRemark ?? "Not Available") ">Approved</span>
+                                            </h5>
+                                        }
+                                    </td>
+
+                                    <td data-label="Action" class="text-center">
+
+                                        @if (item.Attendancestatus == (int)EmpAttendanceStatus.Pending || item.Attendancestatus == (int)EmpAttendanceStatus.RejectedByReviwerOfficer)
+                                        {
+                                            totalpending = Model.attendanceList.Where(x => x.Attendancestatus == (int)EmpAttendanceStatus.Pending && x.EmpAttendanceApprovalSettings.ReportingTo==uDetails.EmployeeID).Count();
+
+                                            <a data-ajax="true"
+                                               method="POST" class="toggle-tooltip" title="Click here, to approve request."
+                                               data-ajax-update="#div-approvalPopup" data-ajax-mode="replace"
+                                               data-backdrop="static" data-keyboard="false"
+                                               href="@Url.Action("_GetApprovalPopup", "ApprovalRequest", new
+                                                {
+                                                    empID = item.EmployeeId,
+                                                    empAttendanceID = item.EmpAttendanceID,
+                                                    status = item.Attendancestatus,
+                                                    reportingToRemark = item.ReportingToRemark,
+                                            reviewerToRemark = item.ReviewerToRemark,
+                                            acceptanceAuthRemark = item.AcceptanceAuthRemark,
+                                                    actionType = "accept",
+                                                    ApproverType = 1,
+                                            reportingTo=item.EmpAttendanceApprovalSettings.ReportingTo,
+                                            reviewerTo= item.EmpAttendanceApprovalSettings.ReviewingTo,
+                                            acceptanceAuthority= item.EmpAttendanceApprovalSettings.AcceptanceAuthority
+                                                })"
+                                               id="a_attendancepopup" data-toggle="modal" data-target="#div-attendanc-approval-popup">
+                                                <i class="fa fa-check-square text-success fa-2x" aria-hidden="true"></i>
+                                            </a>
+                                            <text> | </text>
+                                            <a data-ajax="true"
+                                                       method="POST" class="toggle-tooltip" title="Click here, to reject request."
+                                                       data-ajax-update="#div-approvalPopup" data-ajax-mode="replace"
+                                                       data-backdrop="static" data-keyboard="false"
+                                                       href="@Url.Action("_GetApprovalPopup", "ApprovalRequest", new
+                                                        {
+                                                            empID = item.EmployeeId,
+                                                            empAttendanceID = item.EmpAttendanceID,
+                                                            status = item.Attendancestatus,
+                                                            reportingToRemark = item.ReportingToRemark,
+                                            reviewerToRemark = item.ReviewerToRemark,
+                                            acceptanceAuthRemark = item.AcceptanceAuthRemark,
+                                                            actionType = "reject",
+                                                            ApproverType = 1,
+                                            reportingTo=item.EmpAttendanceApprovalSettings.ReportingTo,
+                                            reviewerTo= item.EmpAttendanceApprovalSettings.ReviewingTo,
+                                            acceptanceAuthority= item.EmpAttendanceApprovalSettings.AcceptanceAuthority
+                                                        })"
+                                                       id="a_attendancepopup" data-toggle="modal" data-target="#div-attendanc-approval-popup">
+                                                        <i class="fas fa-window-close" aria-hidden="true"></i>
+                                                    </a>
+                                        }
+                                    </td>
+
+                                </tr>
+                            }
+                        }
+                        else if (!item.EmpAttendanceApprovalSettings.AcceptanceAuthority.HasValue && !item.EmpAttendanceApprovalSettings.ReviewingTo.HasValue)
+                        {
+                            if (item.Attendancestatus == (int)EmpAttendanceStatus.Pending || item.Attendancestatus == (int)EmpAttendanceStatus.RejectedByAcceptanceAuthority || item.Attendancestatus == (int)EmpAttendanceStatus.Approved)
+                            {
+                                <tr>
+                                    <td data-label="S. No."> @sno</td>
+                                    <td data-label="Employee"> @item.EmployeeName</td>
+                                    <td data-label="In Date" class="text-center"> @item.ProxydateIn.ToString("dd-MM-yyyy")</td>
+                                    <td data-label="In Time" class="text-center"> @item.InTime</td>
+                                    <td data-label="Out Date" class="text-center"> @item.ProxyOutDate.ToString("dd-MM-yyyy")</td>
+                                    <td data-label="Out Time" class="text-center"> @item.OutTime</td>
+                                    <td data-label="Remark"> @item.Remarks</td>
+                                    <td data-label="Status" class="text-center">
+                                        @if (item.Attendancestatus == (int)EmpAttendanceStatus.Pending)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-warning col-md-12 toggle-tooltip"
+                                                      title="Employee Remark : @(item.Remarks ?? "Not Available")">Pending</span>
+                                            </h5>
+                                        }
+                                        else if (item.Attendancestatus == (int)EmpAttendanceStatus.InProcess)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-info col-md-12 toggle-tooltip"
+                                                      title="Employee Remark : @(item.Remarks ?? "Not Available")
+                                                 Reporting Remark : @(item.ReportingToRemark ?? "Not Available")">In Process</span>
+                                            </h5>
+                                        }
+                                        else if (item.Attendancestatus == (int)EmpAttendanceStatus.RejectedByReportingOfficer)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-danger col-md-12 toggle-tooltip"
+                                                      title="Employee Remark : @(item.Remarks ?? "Not Available")
+                                                 Reporting Remark : @(item.ReportingToRemark ?? "Not Available")">Rejected</span>
+                                            </h5>
+                                        }
+                                        else if (item.Attendancestatus == (int)EmpAttendanceStatus.Approved)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-success col-md-12 toggle-tooltip"
+                                                      title="Employee Remark : @(item.Remarks ?? "Not Available")
+                                                 Reporting Remark : @(item.ReportingToRemark ?? "Not Available")
+                                                 Reviewer Remark : @(item.ReviewerToRemark ?? "Not Available") ">Approved</span>
+                                            </h5>
+                                        }
+                                        else if (item.Attendancestatus == (int)EmpAttendanceStatus.RejectedByReviwerOfficer)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-danger col-md-12 toggle-tooltip"
+                                                      title="Employee Remark : @(item.Remarks ?? "Not Available")
+                                                 Reporting Remark : @(item.ReportingToRemark ?? "Not Available")
+                                                 Reviewer Remark : @(item.ReviewerToRemark ?? "Not Available") ">Rejected</span>
+                                            </h5>
+                                        }
+                                        else if (item.Attendancestatus == (int)EmpAttendanceStatus.Withdrawl)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-black col-md-12 toggle-tooltip"
+                                                      title="Employee Remark : @(item.Remarks ?? "Not Available")">>Withdrawl</span>
+                                            </h5>
+                                        }
+                                        else if (item.Attendancestatus == (int)EmpAttendanceStatus.RejectedByAcceptanceAuthority)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-danger col-md-12 toggle-tooltip"
+                                                      title="Employee Remark : @(item.Remarks ?? "Not Available")
+                                                      Rejected Authority Remark : @(item.AcceptanceAuthRemark ?? "Not Available") ">Rejected</span>
+
+                                            </h5>
+                                        }
+                                        else if (item.Attendancestatus == (int)EmpAttendanceStatus.AcceptedByReviewerOfficer)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-success col-md-12 toggle-tooltip"
+                                                      title="Employee Remark : @(item.Remarks ?? "Not Available")
+                                                      Acceptance Authority Remark : @(item.AcceptanceAuthRemark ?? "Not Available") ">Approved</span>
+                                            </h5>
+                                        }
+                                    </td>
+
+                                    <td data-label="Action" class="text-center">
+
+                                        @if (item.Attendancestatus == (int)EmpAttendanceStatus.Pending || item.Attendancestatus == (int)EmpAttendanceStatus.RejectedByReviwerOfficer)
+                                        {
+                                            totalpending = Model.attendanceList.Where(x => x.Attendancestatus == (int)EmpAttendanceStatus.Pending).Count();
+
+                                            <a data-ajax="true"
+                                               method="POST" class="toggle-tooltip" title="Click here, to approve request."
+                                               data-ajax-update="#div-approvalPopup" data-ajax-mode="replace"
+                                               data-backdrop="static" data-keyboard="false"
+                                               href="@Url.Action("_GetApprovalPopup", "ApprovalRequest", new
+                                                {
+                                                    empID = item.EmployeeId,
+                                                    empAttendanceID = item.EmpAttendanceID,
+                                                    status = item.Attendancestatus,
+                                                    reportingToRemark = item.ReportingToRemark,
+                                            reviewerToRemark = item.ReviewerToRemark,
+                                            acceptanceAuthRemark = item.AcceptanceAuthRemark,
+                                                    actionType = "accept",
+                                                    ApproverType = 3,
+                                            reportingTo=item.EmpAttendanceApprovalSettings.ReportingTo,
+                                            reviewerTo= item.EmpAttendanceApprovalSettings.ReviewingTo,
+                                            acceptanceAuthority= item.EmpAttendanceApprovalSettings.AcceptanceAuthority
+                                                })"
+                                               id="a_attendancepopup" data-toggle="modal" data-target="#div-attendanc-approval-popup">
+                                                <i class="fa fa-check-square text-success fa-2x" aria-hidden="true"></i>
+                                            </a>
+                                            <text> | </text>
+                                            <a data-ajax="true"
+                                               method="POST" class="toggle-tooltip" title="Click here, to reject request."
+                                               data-ajax-update="#div-approvalPopup" data-ajax-mode="replace"
+                                               data-backdrop="static" data-keyboard="false"
+                                               href="@Url.Action("_GetApprovalPopup", "ApprovalRequest", new
+                                                {
+                                                    empID = item.EmployeeId,
+                                                    empAttendanceID = item.EmpAttendanceID,
+                                                    status = item.Attendancestatus,
+                                                    reportingToRemark = item.ReportingToRemark,
+                                            reviewerToRemark = item.ReviewerToRemark,
+                                            acceptanceAuthRemark = item.AcceptanceAuthRemark,
+                                                    actionType = "reject",
+                                                    ApproverType = 3,
+                                            reportingTo=item.EmpAttendanceApprovalSettings.ReportingTo,
+                                            reviewerTo= item.EmpAttendanceApprovalSettings.ReviewingTo,
+                                            acceptanceAuthority= item.EmpAttendanceApprovalSettings.AcceptanceAuthority
+                                                })"
+                                               id="a_attendancepopup" data-toggle="modal" data-target="#div-attendanc-approval-popup">
+                                                <i class="fas fa-window-close" aria-hidden="true"></i>
+                                            </a>
+                                        }
+                                    </td>
+
+                                </tr>
+                    }
+                }
+            }
+            sno++;
+        }
+                <script type="text/javascript">
+                    $("#attendanceCount").text(@totalpending);
+                </script>
+
+            }
+        }
+
+    </tbody>
+</table>
+<style>
+    .tooltip-inner {
+        text-align: left;
+    }
+</style>

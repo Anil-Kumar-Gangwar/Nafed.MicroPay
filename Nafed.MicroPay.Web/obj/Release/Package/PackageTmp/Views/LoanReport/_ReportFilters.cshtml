@@ -1,0 +1,169 @@
+﻿
+@using Nafed.MicroPay.Model
+@model MicroPay.Web.Models.LoanReportFilterVM
+
+@{
+
+    var yearDDl = Enumerable.Range(2006, DateTime.Now.Year - 2006 + 1).
+      Select(i => new SelectListModel { id = i, value = i.ToString() }).OrderByDescending(x => x.value).ToList();
+    var monthDDL = Enumerable.Range(1, 12).
+                            Select(i => new SelectListModel
+                            {
+                                id = i,
+                                value = System.Globalization.CultureInfo.InvariantCulture.DateTimeFormat.GetMonthName(i)
+                            }).ToList();
+
+    monthDDL.Insert(0, new SelectListModel { id = 0, value = "Select" });
+}
+
+<div class="row">
+
+    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+
+        <fieldset class="border p-2 col-md-12 col-xs-12 col-lg-12 col-xl-12">
+
+            <legend style="font-size:1.3rem !important;" class="w-auto"></legend>
+
+            <div class="form-group">
+
+                <div class="row">
+                    @Html.LabelFor(model => model.branchID, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2" })
+                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
+                       
+                    
+                             @Html.DropDownListFor(model => model.branchID, new SelectList(Model.branchList, "id", "value"), "Select", new { @class = "custom-select" })
+                         @Html.ValidationMessage("BranchIDRequired", "", new { @class = "text-danger" })
+                    
+                    </div>
+                </div>
+
+                <div class="row">
+                    @Html.LabelFor(model => model.yearID, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2" })
+
+                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
+                        @Html.DropDownListFor(model => model.yearID, new SelectList(yearDDl, "id", "value"), new { @class = "custom-select" })
+                    </div>
+                </div>
+
+                <div class="row">
+                    @Html.LabelFor(model => model.monthID, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2" })
+
+                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
+                        @Html.DropDownListFor(model => model.monthID, new SelectList(monthDDL, "id", "value"),new { @class = "custom-select" })
+                    </div>
+                </div>
+
+                <div class="row">
+                    @Html.LabelFor(model => model.employeeTypeID, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2" })
+
+                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
+                        @Html.DropDownListFor(model => model.employeeTypeID, new SelectList(Model.employeeTypeList, "id", "value"), "Select", new { @class = "custom-select", @onChange = "GetEmployeeDetails()" })
+                       @Html.ValidationMessageFor(model => model.employeeTypeID, "", new { @class = "text-danger" })
+                    
+                    
+                     </div>
+                </div>
+
+            </div>
+
+        </fieldset>
+
+        <br />
+
+        <fieldset class="border p-2 col-md-12 col-xs-12 col-lg-12 col-xl-12">
+            <legend style="font-size:1.3rem !important;" class="w-auto"></legend>
+            <div class="row">
+                @Html.LabelFor(model => model.AllBranch, new { @class = "control-label col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-2" })
+                @if (Model.AllBranch == false)
+                {
+                    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-4">
+                        <label class="switch">
+                            @Html.CheckBoxFor(model => model.AllBranch, new { @class = "form-control", @onChange = "checkboxChange(this)" })
+                            <div class="slider round">
+                            </div>
+                        </label>
+                    </div>
+                }
+                else
+                {
+                    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-4">
+                        <label class="switch">
+                            @Html.CheckBoxFor(model => model.AllBranch, new { @class = "form-control", @checked = "checked", @onChange = "checkboxChange(this)" })
+                            <div class="slider round">
+                            </div>
+                        </label>
+                    </div>
+                }
+
+
+            </div>
+        </fieldset>
+
+    </div>
+
+
+    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+
+        <fieldset class="border p-2 col-md-12 col-xs-12 col-lg-12 col-xl-12">
+
+            <legend style="font-size:1.3rem !important;" class="w-auto"></legend>
+
+            <div class="row">
+
+                <div class="container-fluid">
+
+                    <div class="custom-control custom-radio">
+
+                        @Html.RadioButtonFor(model => model.loanReportOptions, "LoanSanction", new { id = "LoanSanction", @onChange = "radioChangeEvents(this)", @checked = "checked" })
+                        @Html.Label("Loan Sanction", new { @for = "LoanSanction", @class = "control-label " })
+
+                        <br />
+
+                        @Html.RadioButtonFor(model => model.loanReportOptions, "ScooterLoan", new { id = "ScooterLoan", @onChange = "radioChangeEvents(this)" })
+                        @Html.Label("Scooter Loan", new { @for = "ScooterLoan", @class = "control-label" })
+
+                        <br />
+
+                        @Html.RadioButtonFor(model => model.loanReportOptions, "LoanFinish", new { id = "LoanFinish", @onChange = "radioChangeEvents(this)" })
+                        @Html.Label("Loan Finish", new { @for = "LoanFinish", @class = "control-label " })
+
+                        <br />
+                        @Html.RadioButtonFor(model => model.loanReportOptions, "TCSRecoveryLoan", new { id = "TCSRecoveryLoan", @onChange = "radioChangeEvents(this)" })
+                        @Html.Label("TCS Recovery Loan", new { @for = "TCSRecoveryLoan", @class = "control-label" })
+
+                        <br />
+                        @Html.RadioButtonFor(model => model.loanReportOptions, "FestivalLoan", new { id = "FestivalLoan", @onChange = "radioChangeEvents(this)" })
+                        @Html.Label("Festival Loan", new { @for = "FestivalLoan", @class = "control-label" })
+
+                        <br />
+                        @Html.RadioButtonFor(model => model.loanReportOptions, "CarLoan", new { id = "CarLoan", @onChange = "radioChangeEvents(this)" })
+                        @Html.Label("Car Loan", new { @for = "CarLoan", @class = "control-label" })
+
+
+                        <br />
+                        @Html.RadioButtonFor(model => model.loanReportOptions, "HouseBuildingLoan", new { id = "HouseBuildingLoan", @onChange = "radioChangeEvents(this)" })
+                        @Html.Label("House Building Loan", new { @for = "HouseBuildingLoan", @class = "control-label" })
+
+                        <br />
+                        @*@Html.RadioButtonFor(model => model.loanReportOptions, "IncomeTax", new { id = "IncomeTax", @onChange = "radioChangeEvents(this)" })
+                        @Html.Label("Income Tax", new { @for = "IncomeTax", @class = "control-label" })*@
+
+                        <br />
+
+                        <span class="pull-left">
+                            <input type="submit" id="linePrinter" value="Line Printer" class="btn btn-info btn-md pull-center toggle-tooltip hide" title="" name="ButtonType" />
+                            <input type="submit" value="Print" class="btn btn-info btn-md pull-center toggle-tooltip" title="Click here, to save current record" name="ButtonType" />
+                        </span>
+
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+        </fieldset>
+    </div>
+
+</div>

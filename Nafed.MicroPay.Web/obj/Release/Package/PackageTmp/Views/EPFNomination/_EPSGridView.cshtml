@@ -1,0 +1,85 @@
+﻿@using fileHelper = Nafed.MicroPay.Common.ExtensionMethods;
+@using Nafed.MicroPay.Model;
+@model Nafed.MicroPay.Model.EPFNomination
+
+
+@{
+     TempData["frmGroupPart2Data"] = Model;
+}
+<script type="text/javascript">
+
+    $('.toggle-tooltip').tooltip();
+
+</script>
+
+<table id="tblEPS" class="table table-bordered border-dark table-centered dt-responsive w-100">
+    <thead>
+        <tr>      
+            <th class="text-center" style="width:3%">S.No.</th>    
+            <th class="text-center" style="width:25%">Name of the family members</th>
+            <th class="text-center" style="width:30%">Address </th>
+            <th class="text-center" style="width:10%">Date of Birth </th>
+            <th class="text-center" style="width:20%">Relationship with the member </th>            
+        </tr>
+        <tr>
+            <th class="text-center" style="width:3%">1</th>
+            <th class="text-center" style="width:25%">2</th>
+            <th class="text-center" style="width:30%">3</th>
+            <th class="text-center" style="width:10%">4</th>
+            <th class="text-center" style="width:20%">5</th>
+       
+        </tr>
+    </thead>
+    <tbody>
+
+        @if (Model.EPSDetailList != null && Model.EPSDetailList.Count() > 0)
+        {
+            var sn = 1;
+            for (int i = 0; i < Model.EPSDetailList.Count(); i++)
+            {
+                <tr>
+                    <td>
+                        @sn
+
+                    </td>
+                    <td>
+                        @Model.EPSDetailList[i].DependentName
+                    </td>
+                    <td>
+                        @Model.EPSDetailList[i].Address
+                    </td>
+                    <td class="text-center"> 
+                        @(Model.EPSDetailList[i].DOB.HasValue ? Convert.ToDateTime(Model.EPSDetailList[i].DOB).ToString("dd/MM/yyyy") : "Not Available")
+                    </td>
+                    <td>
+                        @Model.EPSDetailList[i].RelationName
+                    </td>
+
+
+                </tr>
+                sn++;
+
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="5" class="text-center">No Record Found. </td>
+            </tr>
+        }
+    </tbody>   
+</table>
+@*///}*@
+<script type="text/javascript">
+    $(document).ready(function () {
+        var table = $('#tblEPS').DataTable({
+            searching: false, paging: false, sorting: false,
+
+            "ordering": false,
+            "info": false
+        });
+    });
+</script>
+
+
+

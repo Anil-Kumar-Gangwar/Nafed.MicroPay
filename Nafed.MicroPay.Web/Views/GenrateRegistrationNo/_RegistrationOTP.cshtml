@@ -1,0 +1,165 @@
+﻿@model Nafed.MicroPay.Model.CandidateRegistration
+@using CaptchaMvc.HtmlHelpers
+@using (Ajax.BeginForm("GenrateRegistrationNumber", "GenrateRegistrationNo", new AjaxOptions
+{
+    HttpMethod = "POST",
+    UpdateTargetId = "OTPSection1",
+    //OnSuccess = "OnSuccess"
+}, new { defaultbutton = "submitform" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    @Html.HiddenFor(model => model.RequirementID)
+
+    if (ViewBag.OTPSent != null && ViewBag.OTPSent)
+    {
+        <script type="text/javascript">
+            otpCountDown();
+        </script>
+    }
+
+    <h4 class="text-center m-4 text-success ">National Agricultural Cooperative Marketing Federation of India Ltd – NAFED Recruitment</h4>
+    <h4 class="text-center m-4 text-primary">Job Application. </h4>
+    <h6 class="text-center mb-4 text-primary">Please complete the form below to apply for a position with us.  </h6>
+    @*<div class="card_new_body">
+        <div class="row">*@
+    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 mb-4 mt-4">
+
+        <div class="row">
+            @Html.LabelFor(model => model.CandidateFullName, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-6 col-xs-12 mb-2 required" })
+
+            <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 mb-2">
+                @Html.EditorFor(model => model.CandidateFullName, new { htmlAttributes = new { @class = "form-control", @placeholder = "Candidate Name", @maxlength = "50" } })
+                @Html.ValidationMessageFor(model => model.CandidateFullName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="row">
+            @Html.LabelFor(model => model.PersonalEmailID, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-6 col-xs-12 mb-2 required" })
+            <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 mb-2">
+                @Html.EditorFor(model => model.PersonalEmailID, new { htmlAttributes = new { @class = "form-control", @placeholder = "Email Address", @maxlength = "100", @type = "email" } })
+                @Html.ValidationMessageFor(model => model.PersonalEmailID, "", new { @class = "text-danger" })
+                @Html.ValidationMessage("validEmailId", "", new { @class = "text-danger" })
+                @Html.ValidationMessage("InValidEmailID", "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="row">
+            @Html.LabelFor(model => model.MobileNo, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-6 col-xs-12 mb-2 required" })
+            <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 mb-2">
+
+                @Html.EditorFor(model => model.MobileNo, new { htmlAttributes = new { @class = "form-control", @placeholder = "Mobile Number", @maxlength = "10" } })
+                @Html.ValidationMessageFor(model => model.MobileNo, "", new { @class = "text-danger" })
+                @Html.ValidationMessage("InValidMobileNo", "", new { @class = "text-danger" })
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 mb-2"></div>
+            <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 mb-2">
+                @Html.Captcha("Try Another", "Enter the text you see above", 5, requiredMessageText: "Enter the captcha")
+               @Html.ValidationMessage("CaptchaInputText", "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="row">
+            <h6 class="text-danger m-4">OTP verification is must for Registration. To verify your registration with OTP, click on Generate OTP button.</h6>
+        </div>
+        @*<div class="row">
+                @Html.Label("PaymentDetails", htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-6 col-xs-12 mb-2" })
+                <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 mb-2">
+                    @Html.Editor("paymentDetailsID", new { htmlAttributes = new { @class = "form-control", @placeholder = "Payment Details", @maxlength = "100" } })
+                </div>
+            </div>
+
+            <div class="row">
+                @Html.LabelFor(model => model.PaymentTransactionID, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-6 col-xs-12 mb-2" })
+                <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 mb-2">
+                    @Html.EditorFor(model => model.PaymentTransactionID, new { htmlAttributes = new { @class = "form-control", @placeholder = "Transaction No" } })
+
+                </div>
+            </div>*@
+
+        <div class="row">
+            @Html.Label("Send OTP on", htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-6 col-xs-12 mb-2" })
+
+            <div class="col-lg-3 col-md-3 pl-0">
+                <div class="custom-control custom-radio">
+
+                    <label class="radio-inline">
+
+                        @if (Model.otpType == 1)
+                {
+                            <input class="" type="radio" name="otpType" id="mail" value="1" checked="checked" />
+                        }
+                        else
+                        {
+                            <input class="" type="radio" name="otpType" id="mail" value="1" />
+                        }
+
+                        Email
+                    </label>
+                    <label class="radio-inline">
+
+                        @if (Model.otpType == 2)
+                {
+                            <input class="" type="radio" name="otpType" id="mobile" value="2" checked="checked" />
+                        }
+                        else
+                        {
+                            <input class="" type="radio" name="otpType" id="mobile" value="2" />
+                        }
+                        SMS
+                    </label>
+                </div>
+            </div>
+
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                @Html.Editor("textotp", new { htmlAttributes = new { @class = "form-control", @placeholder = "OTP", @maxlength = "4", @minlength = "4" } })
+                <span class="badge badge-danger m-3" id="sp-timer"></span>
+                <div id="some_div" class="badge text-bold d-none p-2 com-md-12">
+                    <input type="submit" value="Resend Otp" id="btnResendOtp" name="ButtonType" class="btn btn-md pull-center toggle-tooltip btn-sectionAddRow link"
+                           title="Click here, to Generate Otp." />
+                </div>
+            </div>
+            @if (ViewBag.OTPSent == null && ViewBag.IsVerified == null)
+                {
+                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                    <input type="submit" value="Generate OTP" id="btnGenerateOtp" name="ButtonType" class="btn btn-info btn-md pull-center toggle-tooltip btn-sectionAddRow"
+                           title="Click here, to Generate OTP." />
+                </div>
+            }
+            else if (/*(ViewBag.OTPSent != null && ViewBag.OTPSent) ||*/ ViewBag.IsVerified == false)
+            {
+                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 mb-2">
+                    <input type="submit" value="Verify OTP" id="btnVerifyOtp" name="ButtonType" class="btn btn-info btn-md pull-center toggle-tooltip btn-sectionAddRow "
+                           title="Click here, to Verify OTP." />
+                </div>
+            }
+        </div>
+
+        <div class="divider-chevron"></div>
+        @if (ViewBag.VerifyOTP != null && ViewBag.VerifyOTP)
+                {
+            <span class="pull-right">
+                <input type="submit" value="Submit" class="btn btn-info btn-md pull-center toggle-tooltip" name="ButtonType" title="Click here, to submit your record" />
+            </span>
+        }
+    </div>
+        @*</div>
+
+            </div>*@
+        <h6 class="text-left  m-4 text-danger">Note : After submitting this form with successfull OTP verification, you have to submit application form in next step. </h6>
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#CaptchaInputText").addClass("form-control");
+
+        if ("@ViewBag.Message" != "")
+            commonMessage("success", "@ViewBag.Message");
+
+        if ("@ViewBag.IsVerified" == "true") {
+            debugger;
+            $("#sp-timer").attr("display", "none");
+            $("#some_div").addClass("d-none");
+        }
+    });
+</script>

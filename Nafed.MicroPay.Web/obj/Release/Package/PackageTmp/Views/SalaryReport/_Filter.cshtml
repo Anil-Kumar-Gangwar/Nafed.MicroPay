@@ -1,0 +1,105 @@
+﻿@using Nafed.MicroPay.Model;
+@model CommonFilter
+@{
+
+
+    Layout = null;
+    var yearDDl = Enumerable.Range(2020, (DateTime.Now.Year - 2020) + 1).
+                              Select(i => new SelectListModel { id = i, value = i.ToString() }).OrderByDescending(x => x.value).ToList();
+
+    var monthDDL = Enumerable.Range(1, 12).
+                            Select(i => new SelectListModel
+                            {
+                                id = i,
+                                value = System.Globalization.CultureInfo.InvariantCulture.DateTimeFormat.GetMonthName(i)
+                            }).ToList();
+}
+<div class="" style="">
+    <hr style="background-color:#fff !important;">
+
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="form-group">
+            <div class="row">
+                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 text-secondary mb-3">
+                    <i class="fas fa-filter"></i> Filter By :
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+                    @Html.Label("Year", htmlAttributes: new { @class = "" })
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                    @Html.DropDownListFor(model => model.Year, new SelectList(yearDDl, "id", "value"),"Select", new { @class = "custom-select", @id = "ddlyear" })
+                </div>
+                <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+                    @Html.Label("Month", htmlAttributes: new { @class = "" })
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                    @Html.DropDownListFor(model => model.Month, new SelectList(monthDDL, "id", "value"),"Select", new { @class = "custom-select", @id = "ddlmonth" })
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 pt-1 text-right">
+                    <button   class="btn-md btn btn-warning toggle-tooltip">View</button>
+                    <a id="lnk-Export"
+                       class="btn-md btn btn-warning toggle-tooltip"
+                       href="@Url.Action("DownloadSalarySlip", "SalaryReport")"
+                       title="Click here ,to download pay slip." target="_blank">
+                        <i class="fa fa-download"></i> Download
+                    </a>
+
+                  
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(function(){
+        var ddlYear = $("#ddlyear").val();
+        var ddlMonth = $("#ddlmonth").val();
+        var lnkExport = $(document).find("#lnk-Export");
+
+        var yr = parseInt(ddlYear);
+        var mnth = parseInt(ddlMonth);
+
+        var parameters = $(lnkExport).attr('href').split("&");
+        var newHREF = "?year=" + yr + "&month=" + mnth;
+        $(lnkExport).attr('href', "").attr("href", newHREF);
+
+
+        $(document).on('change', '#ddlyear', function () {
+            debugger;
+           var ddlYear = $("#ddlyear").val();
+            var ddlMonth = $("#ddlmonth").val();
+           var lnkExport =  $(document).find("#lnk-Export");
+
+          var yr= parseInt(ddlYear);
+          var mnth=parseInt(ddlMonth);
+
+
+          var parameters = $(lnkExport).attr('href').split("&");
+          var newHREF = "?year=" + yr + "&month="+mnth;
+            // var newHREF = $(this).find('a').attr('href') + "&employeeTypeID=" + selectedValue;
+          $(lnkExport).attr('href', "").attr("href", newHREF);
+
+        });
+
+        $(document).on('change', '#ddlmonth', function () {
+            var ddlYear = $("#ddlyear").val();
+            var ddlMonth = $("#ddlmonth").val();
+            var lnkExport = $(document).find("#lnk-Export");
+
+            var yr = parseInt(ddlYear);
+            var mnth = parseInt(ddlMonth);
+
+
+            var parameters = $(lnkExport).attr('href').split("&");
+            var newHREF ="?year=" + yr + "&month=" + mnth;
+            // var newHREF = $(this).find('a').attr('href') + "&employeeTypeID=" + selectedValue;
+            $(lnkExport).attr('href', "").attr("href", newHREF);
+
+        });
+
+    });
+    
+</script>

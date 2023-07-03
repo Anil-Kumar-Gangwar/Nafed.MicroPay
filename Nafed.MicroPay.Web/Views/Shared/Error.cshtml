@@ -1,0 +1,36 @@
+﻿@model System.Web.Mvc.HandleErrorInfo
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Error";
+    var log = log4net.LogManager.GetLogger
+(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+}
+
+<div class="container col-md-12">
+    <div class="alert alert-danger">
+        <h1>Error</h1>
+        <h2> Error occured while processing your request. Please try again after some time or contact your system administrator.</h2>
+        @*<h2><a href="@Url.Action("Index","Login")">Login</a></h2>*@
+        @if (Model != null)
+        {
+            log.Error("Error: " + @Model.Exception.Message + ", StackTrace: " + @Model.Exception.StackTrace + ", DateTimeStamp: " + DateTime.Now);
+
+            if (HttpContext.Current.IsDebuggingEnabled)
+            {
+                <div>
+                    <p>
+                        <b>Exception:</b> @Model.Exception.Message <br />
+                        <b>Controller:</b> @Model.ControllerName <br />
+                        <b>Action:</b> @Model.ActionName <br />
+                    </p>
+                    <div>
+                        <pre>
+                        @Model.Exception.StackTrace
+                    </pre>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+</div>

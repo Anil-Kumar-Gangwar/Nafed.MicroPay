@@ -1,0 +1,170 @@
+﻿@model Nafed.MicroPay.Model.AppraisalForm
+
+<script type="text/javascript" src="~/Scripts/pdf.js"></script>
+<script type="text/javascript" src="~/Scripts/pdf.worker.js"></script>
+
+@Html.HiddenFor(model => Model.EmployeeID)
+@Html.HiddenFor(model => Model.ReportingYr)
+@Html.HiddenFor(model => Model.frmAttributes.FormID)
+@Html.HiddenFor(model => Model.frmAttributes.FormGroupID)
+@Html.HiddenFor(model => Model.ReportingTo)
+@Html.HiddenFor(model => Model.ReviewingTo)
+@Html.HiddenFor(model => Model.AcceptanceAuthorityTo)
+@Html.HiddenFor(model => Model.FormID)
+
+<script src="~/Scripts/layout.js"></script>
+<div class="row mt-4">
+    <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 mt-2">
+        @Html.Label("Upload Document :-", htmlAttributes: new { @class = "font-weight-bold required" })
+    </div>
+    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 mt-2">
+        <div class="input-group image-preview">
+            <input type="text" class="form-control image-preview-filename" disabled="disabled" id="filesinfo"> <!-- don't give a name === doesn't send on POST/GET -->
+            <span class="input-group-btn">
+                <!-- image-preview-clear button -->
+                <button type="button" class="btn btn-default image-preview-clear" style="display:none;">
+                    <span class="glyphicon glyphicon-remove"></span> Clear
+                </button>
+                <!-- image-preview-input -->
+                <div class="btn btn-default image-preview-input">
+                    <span class="glyphicon glyphicon-folder-open"></span>
+                    <span class="image-preview-input-title">Browse</span>
+                    @Html.TextBox("file", "", new { type = "file", @class = "", @name = "Files", accept = "application/pdf" })
+                </div>
+            </span>
+
+        </div>
+        <span id="fileUploadError"></span>
+        <label class="font-weight-bold text-danger">[Support only file type= pdf and single file size should be <= 3MB] <br /></label>
+    </div>
+
+    <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+        @Html.Label("Remarks :-", htmlAttributes: new { @class = "font-weight-bold required" })
+    </div>
+    <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+        @Html.TextAreaFor(model => model.UploadRemarks, new { @class = "form-control lg-textarea", maxlength = Model.UploadRemarksLength })
+        <span id="UploadRemarksReq"></span>
+    </div>
+
+</div>
+
+<div class="row mt-4">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mt-2">
+        @Html.Label("PDF Preview :-", htmlAttributes: new { @class = "font-weight-bold" })
+    </div>
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mt-2">
+        <div>
+            <input type="button" id="prev" value="Previous" />
+            <input type="button" id="next" value="Next" />
+            &nbsp; &nbsp;
+            <span>Page: <span id="page_num"></span> / <span id="page_count"></span></span>
+        </div>
+        <hr />
+        <canvas id="the-canvas"></canvas>
+    </div>
+</div>
+
+
+<script>
+    var pdfDoc = null,
+    //pageNum = 1,
+    pageRendering = false,
+    pageNumPending = null,
+    scale = 1.8,
+    canvas = document.getElementById('the-canvas'),
+    ctx = canvas.getContext('2d');
+
+    $(".image-preview-input input:file").change(function () {
+        var files = $("#file").get(0).files;
+        var totalFiles = files.length;
+        var fileName = "";
+        for (var i = 0; i < files.length; i++) {
+            fileName += files[i].name + ",";
+        }
+        $(".image-preview-filename").val(fileName.replace(/,\s*$/, ""));
+        $(".image-preview-input-title").text("Change");
+        $(".image-preview-clear").show();
+
+         var file = files[0];
+        var url = URL.createObjectURL(file)
+
+        var pdfjsLib = window['pdfjs-dist/build/pdf'];
+        // The workerSrc property shall be specified.
+        pdfjsLib.GlobalWorkerOptions.workerSrc = '//mozilla.github.io/pdf.js/build/pdf.worker.js';
+
+        pageNum = 1;
+
+        pdfjsLib.getDocument(url).promise.then(function (pdfDoc_) {
+            pdfDoc = pdfDoc_;
+            document.getElementById('page_count').textContent = pdfDoc.numPages;
+            // Initial/first page rendering
+            renderPage(pageNum);
+        });
+    });
+
+    function renderPage(num) {
+        pageRendering = true;
+        // Using promise to fetch the page
+        pdfDoc.getPage(num).then(function (page) {
+            var viewport = page.getViewport({ scale: scale });
+            canvas.height = viewport.height;
+            canvas.width = viewport.width;
+
+            // Render PDF page into canvas context
+            var renderContext = {
+                canvasContext: ctx,
+                viewport: viewport
+            };
+            var renderTask = page.render(renderContext);
+
+            // Wait for rendering to finish
+            renderTask.promise.then(function () {
+                pageRendering = false;
+                if (pageNumPending !== null) {
+                    // New page rendering is pending
+                    renderPage(pageNumPending);
+                    pageNumPending = null;
+                }
+            });
+        });
+
+        // Update page counters
+        document.getElementById('page_num').textContent = num;
+    }
+    /**
+ * If another page rendering in progress, waits until the rendering is
+ * finised. Otherwise, executes rendering immediately.
+ */
+    function queueRenderPage(num) {
+        if (pageRendering) {
+            pageNumPending = num;
+        } else {
+            renderPage(num);
+        }
+    }
+
+    /**
+ * Displays previous page.
+ */
+    function onPrevPage() {
+        if (pageNum <= 1) {
+            return;
+        }
+        pageNum--;
+        queueRenderPage(pageNum);
+    }
+    document.getElementById('prev').addEventListener('click', onPrevPage);
+
+    /**
+ * Displays next page.
+ */
+    function onNextPage() {
+        if (pageNum >= pdfDoc.numPages) {
+            return;
+        }
+        pageNum++;
+        queueRenderPage(pageNum);
+    }
+    document.getElementById('next').addEventListener('click', onNextPage);
+
+</script>

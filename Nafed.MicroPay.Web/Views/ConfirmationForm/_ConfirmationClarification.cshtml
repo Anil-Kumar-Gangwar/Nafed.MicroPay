@@ -1,0 +1,63 @@
+﻿@using Nafed.MicroPay.Model;
+
+@model List<ConfirmationClarification>
+
+
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <table id="tblGrid" class="table table-centered table-striped dt-responsive w-100">
+            <thead>
+                <tr>
+                    <th>
+                        @*Clarification Remark*@
+                        Reviewer Clarification Remark
+                    </th>
+                    <th>
+                        Details
+                    </th>
+
+                    <th>
+                        RO Clarification Remark
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    if (Model.Count != 0)
+                    {
+                        for (int i = 0; i < Model.Count(); i++)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.HiddenFor(model => Model[i].FormHdrID)
+                                    @Html.HiddenFor(model => Model[i].ClarificationID)
+                                    @Html.TextAreaFor(model => model[i].ClarificationRemarks, new { @class = "form-control lg-textarea", Placeholder = "Calrification Remark", @disabled = "disabled" })
+                                </td>
+                                <td>
+                                    @Model[i].CreatedOn
+                                </td>
+
+                                <td>
+                                    @Model[i].ROClarification
+                                </td>
+                            </tr>
+                        }
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        var table = $('#tblGrid').DataTable(
+            {
+                retrieve: true,
+                searching: false,
+                paging: false,
+                sorting: false
+            });
+    });
+</script>

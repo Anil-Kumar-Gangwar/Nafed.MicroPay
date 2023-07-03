@@ -1,0 +1,841 @@
+﻿@model Nafed.MicroPay.Model.EmployeeLeave
+
+@{
+    ViewBag.Title = "Leave Application";
+    ViewBag.NavigationTitle = "Leave Application";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    System.Globalization.CultureInfo Indian = new System.Globalization.CultureInfo("hi-IN");
+
+    //var halfAndFullDayOptionVisibility = Model.DateFrom_DayType.HasValue && Model.DateTo_DayType.HasValue ? null : "hide";
+}
+
+@using (Html.BeginForm("Create", "EmployeeLeave", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{@Html.Hidden("hdnleaveType");
+    @Html.Hidden("ML_Balance", Model.empLeaveBalance.MLBal)
+    @Html.Hidden("CL_Balance", Model.empLeaveBalance.CLBal)
+    @Html.Hidden("EL_Balance", Model.empLeaveBalance.ELBal)
+    @Html.Hidden("ML_OBBalance", Model.empLeaveBalance.MLOpeningBal)
+    @Html.Hidden("ME_OBBalance", Model.empLeaveBalance.MEOpeningBal)
+    //@Html.Hidden("CL_OBBalance", Model.empLeaveBalance.CLOpeningBal)
+
+    @Html.Hidden("EL_OBBalance", Model.empLeaveBalance.ELOpeningBal)
+
+    @Html.HiddenFor(model => model.EmployeeName)
+    @Html.HiddenFor(model => model.EmployeeCode)
+    @Html.HiddenFor(model => model.DesignationName)
+    @Html.HiddenFor(model => model.ReportingOfficerName)
+    @Html.HiddenFor(model => model.Branch)
+    @Html.HiddenFor(model => model.ReportingOfficeContactNumber)
+    @Html.HiddenFor(model => model.ReportingOfficeAddress)
+    @Html.HiddenFor(model => model.ReviewerName)
+    @Html.HiddenFor(model => model.DateFrom_DayType)
+    @Html.HiddenFor(model => model.DateTo_DayType)
+
+    @Html.HiddenFor(model => model.DesignationID)
+    @Html.HiddenFor(model => model.EmployeeId)
+    @Html.HiddenFor(model => model.RequestType)
+    @Html.HiddenFor(model => model.EmployeeTypeID)
+
+    <div class="divider-chevron"></div>
+    <div class="row mb-3 text-right">
+        <div class="col-md-12 pull-right">
+            @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-dark btn-md toggle-tooltip", @title = "Click here, to redirect on list page" })
+            <input type="button" value="FAQ" id="btnFAQ" data-toggle="modal" data-target="#myModal" class="btn btn-info btn-md pull-center toggle-tooltip"
+                   title="Click here, to know the leave policy" />
+            @*<input type="submit" value="Apply" id="btnApply" class="btn btn-info btn-sm pull-center toggle-tooltip" title="Click here, to save current record" />*@
+        </div>
+    </div>
+    <div class="divider-chevron"></div>
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <div class="row mb-3 bg-info text-white pt-3 pb-3">
+        <div class="col-lg-12 col-md-6 col-sm-6 col-xs-12">
+            <div class="row">
+                <div class="col-lg-3 col-md-2 col-sm-12 col-xs-12" style="font-weight:700;">
+                    @Html.LabelFor(model => model.Branch, htmlAttributes: new { @class = "h6" })
+                    @Html.DisplayFor(model => model.Branch, new { @class = "h4" })
+                </div>
+
+                <div class="col-lg-3 col-md-2 col-sm-12 col-xs-12" style="font-weight:700;">
+                    @Html.LabelFor(model => model.EmployeeName, htmlAttributes: new { @class = "h6" })
+                    @Html.DisplayFor(model => model.EmployeeName, new { @class = "h4" })
+                </div>
+                <div class="col-lg-3 col-md-2 col-sm-12 col-xs-12" style="font-weight:700;">
+                    @Html.LabelFor(model => model.DesignationName, htmlAttributes: new { @class = "h6" })
+                    @Html.DisplayFor(model => model.DesignationName, new { @class = "h4" })
+                </div>
+                <div class="col-lg-3 col-md-2 col-sm-12 col-xs-12" style="font-weight:700;">
+
+                    @Html.LabelFor(model => model.ApprovalRequiredUpto, htmlAttributes: new { @class = "h6" })
+                    @Html.DisplayFor(model => model.ApprovalRequiredUpto, new { @class = "h4" })
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 col-lg-8 col-sm-12 col-xs-12 pt-3 pb-3 pl-0 pr-0">
+            <div class="card col-md-12 p-2">
+                <table id="tblGrid" class="table_card table table-bordered table-centered dt-responsive w-100">
+                    <thead class="bg-success text-white">
+                        <tr>
+                            <th scope="col" class="text-center">
+                                #
+                            </th>
+                            <th scope="col" style="width:20%" class="text-left">
+                                Leave Type
+                            </th>
+                            @*<th class="text-right">
+                                    Op Bal
+                                </th>*@
+                            <th scope="col" style="width:20%" class="text-right">
+                                Accrued
+                            </th>
+                            <th scope="col" style="width:20%" class="text-right">
+                                Availed
+                            </th>
+                            <th scope="col" style="width:20%" class="text-right">
+                                Balance
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+
+                            <td data-label="S.No." class="text-center">
+                                1
+                            </td>
+
+                            <td data-label="Leave Type">
+                                Earned leave
+                            </td>
+
+                            @*<td class="text-right">
+
+                                    @(Model.empLeaveBalance != null ? (Model.empLeaveBalance.ELOpeningBal
+                                     + (Model.empLeaveBalance != null ? Model.empLeaveBalance.ELAvailed : 0)) : 0)
+                                </td>*@
+
+                            <td  data-label="Accrued" class="text-right">
+                                @(Model.empLeaveBalance != null ? Model.empLeaveBalance.ELAccrued : 0)
+                            </td>
+                            <td data-label="Availed" class="text-right">
+                                @(Model.empLeaveBalance != null ? Model.empLeaveBalance.ELAvailed : 0)
+                            </td>
+                            <td data-label="Balance" class="text-right">
+                                @(Model.empLeaveBalance != null ? Model.empLeaveBalance.ELBal : 0)
+                            </td>
+                            @*<td class="text-right">
+                                    @(Model.empLeaveBalance != null ? Model.empLeaveBalance.ELOpeningBal : 0)
+                                </td>*@
+                        </tr>
+                        <tr>
+                            <td class="text-center" data-label="S.No.">
+                                2
+                            </td>
+                            <td data-label="Leave Type">
+                                Medical leave
+                            </td>
+                            @*<td class="text-right">
+                                    @(Model.empLeaveBalance != null ? Model.empLeaveBalance.MLOpeningBal : 0)
+                                </td>*@
+                            <td class="text-right" data-label="Accrued">
+                                @(Model.empLeaveBalance != null ? Model.empLeaveBalance.MLAccrued : 0)
+                            </td>
+                            <td class="text-right" data-label="Availed">
+                                @(Model.empLeaveBalance != null ? Model.empLeaveBalance.MLAvailed : 0)
+                            </td>
+                            <td class="text-right" data-label="Balance">
+                                @(Model.empLeaveBalance != null ? Model.empLeaveBalance.MLBal : 0)
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-center" data-label="S.No.">
+                                3
+                            </td>
+                            <td data-label="Leave Type">
+                                Casual leave
+                            </td>
+
+                            @*<td class="text-right">
+                                    @(Model.empLeaveBalance != null ? Model.empLeaveBalance.CLOpeningBal : 0)
+                                </td>*@
+
+                            <td class="text-right" data-label="Accrued">
+                                @(Model.empLeaveBalance != null ? Model.empLeaveBalance.CLAccrued : 0)
+                            </td>
+
+                            <td class="text-right" data-label="Availed">
+                                @(Model.empLeaveBalance != null ? Model.empLeaveBalance.CLAvailed : 0)
+                            </td>
+
+                            <td class="text-right" data-label="Balance">
+                                @(Model.empLeaveBalance != null ? Model.empLeaveBalance.CLBal : 0)
+                            </td>
+                        </tr>
+
+                        <tr>
+
+                            <td class="text-center" data-label="S.No.">
+                                4
+                            </td>
+
+                            <td data-label="Leave Type">
+                                Medical Extra
+                            </td>
+
+                            @*<td class="text-right">
+
+                                    @(Model.empLeaveBalance != null ? (Model.empLeaveBalance.ELOpeningBal
+                                     + (Model.empLeaveBalance != null ? Model.empLeaveBalance.ELAvailed : 0)) : 0)
+                                </td>*@
+
+                            <td class="text-right" data-label="Accrued">
+                                @(Model.empLeaveBalance != null ? Model.empLeaveBalance.MEAccrued : 0)
+                            </td>
+                            <td class="text-right" data-label="Availed">
+                                @(Model.empLeaveBalance != null ? Model.empLeaveBalance.MEAvailed : 0)
+                            </td>
+                            <td class="text-right" data-label="Balance">
+                                @(Model.empLeaveBalance != null ? Model.empLeaveBalance.MEBal : 0)
+                            </td>
+                            @*<td class="text-right">
+                                    @(Model.empLeaveBalance != null ? Model.empLeaveBalance.ELOpeningBal : 0)
+                                </td>*@
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="card mt-2" id="div-leave-post">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="form-group col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                            @Html.LabelFor(model => model.LeaveCategoryID, htmlAttributes: new { @class = "control-label  required" })
+                            <div class="">
+                                @Html.DropDownListFor(model => model.LeaveCategoryID, (IEnumerable<SelectListItem>
+                                )ViewBag.LeaveCategory, new { @class = "custom-select" })
+                                @Html.ValidationMessageFor(model => model.LeaveCategoryID, "", new { @class = "text-danger" })
+                                @Html.ValidationMessage("LeaveCategoryRequired", "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div id="DVfrom" name="DVfrom" class="form-group col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                            @Html.LabelFor(model => model.DateFrom, htmlAttributes: new { @class = "control-label  required" })
+                            <div class="">
+                                @Html.EditorFor(model => model.DateFrom, new { htmlAttributes = new { @class = "form-control", @placeholder = "From Date", onchange = "DaysDifference()" } })
+                                @Html.ValidationMessageFor(model => model.DateFrom, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div id="DVto" name="DVto" class="form-group col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                            @Html.LabelFor(model => model.DateTo, htmlAttributes: new { @class = "control-label required" })
+                            <div class="">
+                                @Html.EditorFor(model => model.DateTo, new { htmlAttributes = new { @class = "form-control", @placeholder = "To Date", @type = "date", onchange = "DaysDifference()" } })
+                                @Html.ValidationMessageFor(model => model.DateTo, "", new { @class = "text-danger" })
+                                @Html.ValidationMessage("DateToValidation", "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                            @Html.LabelFor(model => model.Reason, htmlAttributes: new { @class = "control-label required" })
+
+                            <div>
+                                @Html.EditorFor(model => model.Reason, new { htmlAttributes = new { @class = "form-control", @placeholder = "Please Enter Reason" } })
+                                @Html.ValidationMessageFor(model => model.Reason, "", new { @class = "text-danger" })
+                                @Html.ValidationMessage("ReasonRequired", "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12" id="div-ishalfpay">
+
+                            @*<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 p-5" id="div-ishalfpay">*@
+                            @Html.CheckBox("isHalfPay", false)
+                            @Html.Label("IsHalfPay", new { @for = "IsHalfPay", @class = "control-label" })
+                        </div>
+                        <div id="Purpose" class="form-group col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                            @Html.LabelFor(model => model.LeavePurposeID, htmlAttributes: new { @class = "control-label required" })
+                            <div>
+                                @Html.DropDownListFor(model => model.LeavePurposeID, (IEnumerable<SelectListItem>
+                            )ViewBag.LeavePurpose, new { @class = "custom-select col-lg-12" })
+                                @Html.ValidationMessageFor(model => model.LeavePurposeID, "", new { @class = "text-danger" })
+                                @Html.ValidationMessage("PurposeRequired", "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                            @Html.LabelFor(model => model.Unit, htmlAttributes: new { @class = "control-label", @id = "lblUnit" })
+                            <div>
+                                @Html.EditorFor(model => model.Unit, new { htmlAttributes = new { @class = "form-control", @id = "lblUnitVal", @placeholder = "Please Enter Unit", @readonly = true } })
+                            </div>
+                        </div>
+                        <div class="form-group col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                            @Html.LabelFor(model => model.DateFrom, htmlAttributes: new { @class = "control-label ", @id = "lblDateFrom" })
+                            <div>
+                                @Html.EnumDropDownListFor(x => x.FromdayType, new { @class = "custom-select", @id = "ddlfromDate", onchange = "DaysDifference()" })
+
+                            </div>
+                        </div>
+                        <div class="form-group col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                            @Html.LabelFor(model => model.DateTo, htmlAttributes: new { @class = "control-label", @id = "lblDateTo" })
+                            <div>
+                                @Html.EnumDropDownListFor(x => x.TodayType, new { @class = "custom-select", @id = "ddlToDate", onchange = "DaysDifference()" })
+
+                            </div>
+                        </div>
+                       
+                    </div>
+                    <div class="row p-4" id="Rdocument">
+
+                        <label class="font-weight-bold">(Upload Document if you applying for Medical/Maternity leave.) [FileType=.pdf,.jpg, Size=2mb, single document] <br />Note : If you need to upload multiple files then you can upload it in zip compress file format.</label>
+
+                        <div class="custom-file">
+
+                            @Html.TextBox("file", "", new { type = "file", @class = "custom-file-input", @id = "inputGroupFile01", @accept = ".pdf,.jpeg,.jpg,.zip" })
+                            <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+
+                            @Html.ValidationMessage("DocumentRequired", "", new { @class = "text-danger" })
+                        </div>
+
+                        <input type="hidden" id="hdnFlag" />
+
+                    </div>
+                    <div class="row p-4 leaveguideline" id="div-leave-guide">
+                        <strong class="pr-2">Leave Guidelines : </strong>
+                        <div id="guideline">
+
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <input type="submit" value="Apply" id="btnApply" class="btn btn-info btn-bg toggle-tooltip pull-right " title="Click here, to save current record" />
+
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-md-12  col-lg-4 col-sm-12 col-xs-12 pt-3 pb-3">
+            <div class="card p-2 ml-1 myCalendar">
+                <div class="myCalendar">
+
+                </div>
+            </div>
+            @*<div class="col-md-12">
+                    <div class="row card">
+                        <div class="card text-white p-2" style="background: #2A9FB8">
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h5> Reporting Officer Detail </h5>
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    @Html.Label("Name :", htmlAttributes: new { @class = "h6" })
+                                </div>
+                                <div class="col-md-6">
+                                    @Html.DisplayFor(model => model.ReportingOfficerName, new { @class = "h6" })
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    @Html.Label("Contact No :", htmlAttributes: new { @class = "h6" })
+                                </div>
+                                <div class="col-md-6">
+                                    @Html.DisplayFor(model => model.ReportingOfficeContactNumber, new { @class = "h6" })
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    @Html.Label("Address :", htmlAttributes: new { @class = "h6" })
+                                </div>
+                                <div class="col-md-6">
+                                    @Html.DisplayFor(model => model.ReportingOfficeAddress, new { @class = "h6" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>*@
+        </div>
+    </div>
+}
+
+<!-- The Modal -->
+<div class="modal" id="myModal">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">FAQ</h4>
+                <button type="button" class="close" data-dismiss="modal" onclick="Close()">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body" style="height:400px; overflow-y:auto;">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <p>
+                        <strong>* Casual Leave </strong>– 14 days pa (calendar year ) – not cashable, can not be carried forward, can not be prefixed with any other leave except compensatory, can be taken in half days, does not include holidays. Record kept by the branch. Does not include holidays.
+                    </p>
+                    <p>
+                        <strong>* Compensatory Leave </strong>– leave taken below level of AM or AAO, in lieu of working on a holiday/Weekly off, alternatively staff given overtime.
+                    </p>
+                    <p>
+                        <strong>* Earned Leave </strong>– Credited 17 days in January
+                        16 days in July every calender year for all regular employees, even if an employee has been on periods of leave without pay the previous year. No advance credit of this leave is allowed.
+
+                        Allowed to accumulate up to a max of 300 days and is cashable twice in a calendar year with 30 leaves maximum at a time.
+
+                        Earned Leave due to an employee, in excess of the max of 300 days, can be credited and availed of, if taken in the current 6 months, else it lapses. Holidays prefixed and suffixed are not included for purposes of calculating leave taken. Can be combined with other leaves except casual leave.
+
+                    </p>
+
+                    <p>
+
+                        <strong>* Medical Leave </strong>– 40 days half pay leave, cashable at retirement, max 360 days accumulation on half pay or 180 days full pay. Leave in excess will be calculated separately converted in full days and encashment allowed at the rate of 25% of the full pay. Minimum 3days full pay taken or 6 days half pay. Medical leave unlike other kinds of leave is credited only after one year. Leave when taken is debited to the 360 days accumulation and not the excess accumulation.
+
+                    </p>
+                    <p>
+
+                        <strong>* Maternity  Leave </strong>– Can be taken twice in service for pregnancy – max 182 days at a time.
+
+                    </p>
+                </div>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="Close();">Close</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+<style>
+    .myCalendar {
+        background: #2A9FB8 !important;
+        color: white !important;
+    }
+
+        .myCalendar.nao-month table {
+            background: #2A9FB8 !important;
+        }
+
+        .myCalendar.nao-month td {
+            padding: 15px;
+        }
+
+        .myCalendar .month-head > div,
+        .myCalendar .month-head > button {
+            padding: 15px;
+        }
+
+    .dataTables_length, .dataTables_filter, .dataTables_paginate {
+        display: none;
+    }
+</style>
+
+<script type="text/javascript">
+
+    $('.myCalendar').calendar();
+
+    $('#inputGroupFile01').on('change', function () {
+        //get the file name
+        var fileName = $(this).val();
+        //replace the "Choose a file" label
+        fileName = fileName.replace("C:\\fakepath\\", "");
+        $(this).next('.custom-file-label').html(fileName);
+    })
+
+
+ 
+
+    function BindLeavePupose(e) {
+
+        var LeaveCatId = 0;
+        LeaveCatId = $("#LeaveCategoryID").val();
+        var today = new Date();
+        var month = today.getMonth() + 1;
+        var day = today.getDate();
+        if (day < 10) {
+            day = '0' + day
+        }
+        if (month < 10) {
+            month = '0' + month
+        }
+        var year = today.getFullYear();
+        //if (LeaveCatId == 2) {
+        //    var month = 12;
+        //    var day = 31;
+        //    $("#DateTo").attr('max', year + "-" + month + "-" + day);
+        //    $("#DateFrom").attr('max', year + "-" + month + "-" + day);
+        //}
+        //    //else if (LeaveCatId == 8) {
+        //    //    $("#DateTo").attr('max', year + "-" + month + "-" + day);
+        //    //    $("#DateFrom").attr('max', year + "-" + month + "-" + day);
+        //    //}
+        //else {
+        //    var month = 12;
+        //    var day = 31;
+        //    var year = today.getFullYear() + 5;
+        //    $("#DateTo").attr('max', year + "-" + month + "-" + day);
+        //    $("#DateFrom").attr('max', year + "-" + month + "-" + day);
+        //}
+
+
+        if (LeaveCatId == 8 || LeaveCatId == 13) {
+
+            if (LeaveCatId == 8) {
+                $("#div-ishalfpay").removeClass("visiblefalse");
+                $("#div-ishalfpay").addClass("visibletrue");
+                $("#div-ishalfpay").addClass("p-4");
+            }
+            $("#Rdocument").removeClass("visiblefalse");
+            $("#Rdocument").addClass("visibletrue");
+            $("#Rdocument").addClass("p-4");
+            $("#div-leave-guide").addClass("visibletrue");
+            $("#div-leave-guide").removeClass("visiblefalse")
+            $("#div-leave-guide").removeClass("p-4");
+        }
+        else {
+
+            $("#div-ishalfpay").addClass("visiblefalse");
+            $("#div-ishalfpay").removeClass("visibletrue");
+            $("#div-ishalfpay").removeClass("p-4");
+
+            $("#Rdocument").addClass("visiblefalse");
+            $("#Rdocument").removeClass("visibletrue");
+            $("#Rdocument").removeClass("p-4");
+            $("#div-leave-guide").addClass("visiblefalse");
+            $("#div-leave-guide").removeClass("visibletrue")
+            $("#div-leave-guide").addClass("p-4");
+
+        }
+       
+        HideData();
+        DaysDifference();
+        
+    }
+
+    
+
+    $("#LeaveCategoryID").change(function () {
+
+
+        var LeaveCatId = 0;
+        LeaveCatId = $("#LeaveCategoryID").val();
+        var today = new Date();
+        var month = today.getMonth() + 1;
+        var day = today.getDate();
+        if (day < 10) {
+            day = '0' + day
+        }
+        if (month < 10) {
+            month = '0' + month
+        }
+        var year = today.getFullYear();
+        
+
+        $("#DVfrom").removeClass("d-none");
+        $("#DVto").removeClass("d-none");
+        if (LeaveCatId == 8 || LeaveCatId == 13) {
+            if (LeaveCatId == 8) {
+                $("#div-ishalfpay").removeClass("visiblefalse");
+                $("#div-ishalfpay").addClass("visibletrue");
+                $("#div-ishalfpay").addClass("p-4");
+            }
+            $("#Rdocument").removeClass("visiblefalse");
+            $("#Rdocument").addClass("visibletrue");
+            $("#Rdocument").addClass("p-4");
+            $("#div-leave-guide").addClass("visibletrue");
+            $("#div-leave-guide").removeClass("visiblefalse")
+        }
+        else if (LeaveCatId == 18) {
+          
+                $("#DVfrom").addClass("d-none");
+                $("#DVto").addClass("d-none");
+                $("#lblUnitVal").attr("readonly", false);
+                $("#lblDateFrom").addClass("d-none");
+                $("#lblDateTo").addClass("d-none");
+                $("#ddlfromDate").addClass("d-none");
+                $("#ddlToDate").addClass("d-none");
+        }
+        else {
+            $("#div-ishalfpay").addClass("visiblefalse");
+            $("#div-ishalfpay").removeClass("visibletrue");
+            $("#div-ishalfpay").removeClass("p-4");
+            $("#Rdocument").addClass("visiblefalse");
+            $("#Rdocument").removeClass("visibletrue");
+            $("#div-leave-guide").addClass("visibletrue");
+            $("#div-leave-guide").removeClass("visiblefalse")
+            $("#Rdocument").removeClass("p-4");
+
+        }
+        //alert("hi");
+        $("#DateTo").val('');
+        $("#DateFrom").val('');
+        $("#Reason").val('');
+        if (LeaveCatId == 18) {
+            ShowData();
+            $("#lblDateFrom").addClass("d-none");
+            $("#lblDateTo").addClass("d-none");
+            $("#ddlfromDate").addClass("d-none");
+            $("#ddlToDate").addClass("d-none");
+        }
+        else {
+            HideData();
+        }
+        
+        DaysDifference();
+        if (LeaveCatId > 0) {
+            jQuery.post("@Url.Action("GetPupose", "EmployeeLeave")", {
+                LeaveCatID: LeaveCatId,
+            }).done(function (data) {
+                debugger;
+                if (data.LeaveCategoryGuidlines != null) {
+
+                    $(".leaveguideline").css({ "visibility": "visible" });
+                    $("#guideline").html(data.LeaveCategoryGuidlines);
+
+                    //$("#hdnFlag").val(data.MaxCFUnit);
+                    // $("#LeavePurposeID").html("");
+                    //$.each(data.LeavePurposeDetail, function (key, value) {
+                    //    $("#LeavePurposeID").append($("<option></option>").val(value.Value).html(value.Text));
+                    //});
+
+                }
+                else {
+                    $(".leaveguideline").css({ "visibility": "visible" });
+                    $("#guideline").html("No Guideline Available.");
+                }
+
+            });
+        }
+    });
+
+    $('#btnFAQ').click(function () {
+        $('#myModal').show();
+        return false;
+    });
+
+    function Close() {
+        $('#myModal').hide();
+    }
+
+    $(document).ready(function () {
+        var table = $('#tblGrid').DataTable({
+            "paging": false,
+            "bFilter": false
+        });
+        HideData();
+        DaysDifference();
+        BindLeavePupose($("#LeaveCategoryID").val());
+        $("#Purpose").css({ "visibility": "hidden" });
+        $(".leaveguideline").css({ "visibility": "hidden" });
+
+    });
+
+    function DaysDifference() {
+
+        var FromDate = $("#DateFrom").val();
+        var ToDate = $("#DateTo").val();
+        var getDateDelimeter = FromDate.substring(3, 1);
+        var LeaveCategoryID = $("#LeaveCategoryID").val();
+        var totalUnit = 0;
+
+        $("#isHalfPay").prop("checked", false);
+
+        //if (LeaveCategoryID == 0) {
+        //    alert("Select leave type");
+        //    document.getElementById("DateTo").value = "";
+        //    document.getElementById("DateFrom").value = "";
+        //    document.getElementById("Reason").value = "";
+        //    HideData();
+        //    return;
+        //}
+        //else {
+        if ((FromDate != null || FromDate != null) && (ToDate != "" && ToDate != "") && LeaveCategoryID != 0) {
+            var hdnFlagVal = $("#hdnFlag").val();
+
+            // Show Label Date
+            var FromDateval = new Date($("#DateFrom").val());
+            var ToDateval = new Date($("#DateTo").val());
+            var FDate = FromDateval.getDate();
+            var FMonth = FromDateval.getMonth() + 1;
+            var FYear = FromDateval.getFullYear();
+            if (FDate < 10) {
+                FDate = '0' + FDate;
+            }
+            if (FMonth < 10) {
+                FMonth = '0' + FMonth;
+            }
+            var lblFromDateval = FDate + '/' + FMonth + '/' + FYear;
+            var TDate = ToDateval.getDate();
+            var TMonth = ToDateval.getMonth() + 1;
+            var TYear = ToDateval.getFullYear();
+            if (TDate < 10) {
+                TDate = '0' + TDate;
+            }
+            if (TMonth < 10) {
+                TMonth = '0' + TMonth;
+            }
+            var lblToDateval = TDate + '/' + TMonth + '/' + TYear;
+            //
+
+            if (FromDate < ToDate) {
+
+                jQuery.post("@Url.Action("GetUnit", "EmployeeLeave")", {
+                    DateFrom: FromDate, DateTo: ToDate, BranchId: 44, LeaveCategoryID: LeaveCategoryID
+                }).done(function (data) {
+                    if (data.totalUnit > 0) {
+                        if (data.remark != "")
+                            commonMessage("error", data.remark);
+
+                        //  alert(data.remark);
+
+                        document.getElementById("ddlToDate").style.display = "block";
+                        ShowData();
+
+                        document.getElementById("lblDateFrom").innerHTML = lblFromDateval;
+                        document.getElementById("lblDateTo").innerHTML = lblToDateval;
+
+                        totalUnit = data.totalUnit;
+                        //half dayx
+                        var ddlfDate = $("#ddlfromDate").val();
+                        var ddlTDate = $("#ddlToDate").val();
+
+                        if (ddlfDate > 0 && ddlTDate > 0) {
+
+                            if (ddlfDate == 1 && ddlTDate == 1) {
+                                totalUnit = (totalUnit - 1);
+                            }
+                            else if (ddlfDate == 1 && ddlTDate == 2) {
+                                totalUnit = (totalUnit - 0.5);
+                            }
+                            else if (ddlfDate == 2 && ddlTDate == 1) {
+                                totalUnit = (totalUnit - 0.5);
+                            }
+                            else if (ddlfDate == 2 && ddlTDate == 2) {
+
+                                totalUnit = totalUnit;
+                            }
+                            $("#DateFrom_DayType").val(ddlfDate);
+                            $("#DateTo_DayType").val(ddlTDate);
+                        }
+                        //
+                        document.getElementById("lblUnitVal").value = (totalUnit).toString();
+
+                    } else {
+                        alert("Please check your dates. You can not apply Leave for weekend/holiday");
+                        return false;
+                    }
+                });
+
+            }
+            else if (FromDate == ToDate) {
+                jQuery.post("@Url.Action("GetUnit", "EmployeeLeave")", {
+                    DateFrom: FromDate, DateTo: ToDate, BranchId: 44, LeaveCategoryID: LeaveCategoryID
+                }).done(function (data) {
+                    if (data.totalUnit > 0) {
+
+                        document.getElementById("lblDateFrom").innerHTML = lblFromDateval;
+                        ShowHideData();
+
+                        document.getElementById("lblDateTo").innerHTML = "";
+                        document.getElementById("ddlToDate").style.display = "none";
+
+                        totalUnit = data.totalUnit;
+
+                        var ddlfDate = $("#ddlfromDate").val();
+
+                        if (ddlfDate == 1) {
+                            totalUnit = (totalUnit - 0.5);
+                        }
+                        else if (ddlfDate == 2) {
+                            totalUnit = (totalUnit);
+                        }
+                        document.getElementById("lblUnitVal").value = (totalUnit).toString();
+
+                    }
+                    else {
+                        alert("Please check your dates. You can not apply Leave for weekend/holiday");
+                        return false;
+                    }
+                });
+            }
+            else {
+                alert("To Date can not be Less than From Date");
+                document.getElementById("DateTo").value = FromDate;
+                HideData();
+                return;
+            }
+            //}
+        }
+    }
+
+    function HideData() {
+        $('#lblDateFrom').hide();
+        $('#ddlfromDate').hide();
+        $('#lblDateTo').hide();
+        $('#ddlToDate').hide();
+        $('#lblUnit').hide();
+        $('#lblUnitVal').hide();
+        $('#lblUnitVal').val('');
+
+        $("#lblDateFrom").removeClass("d-none");
+        $("#lblDateTo").removeClass("d-none");
+        $("#ddlfromDate").removeClass("d-none");
+        $("#ddlToDate").removeClass("d-none");
+    }
+
+    function ShowData() {
+        $('#lblDateFrom').show();
+        $('#ddlfromDate').show();
+        $('#lblDateTo').show();
+        $('#ddlToDate').show();
+        $('#lblUnit').show();
+        $('#lblUnitVal').show();
+     
+    }
+
+    function ShowHideData() {
+        $('#lblDateFrom').show();
+        $('#ddlfromDate').show();
+        $('#lblUnit').show();
+        $('#lblUnitVal').show();
+
+    }
+
+    $('#isHalfPay').change(function () {
+        if ($(this).is(":checked")) {
+            var UnitVal = $("#lblUnitVal").val();
+            $("#lblUnitVal").val(UnitVal / 2);
+        } else {
+            var UnitVal = $("#lblUnitVal").val();
+            $("#lblUnitVal").val(UnitVal * 2);
+        }
+    });
+
+    $('#LeaveCategoryID').change(function () {
+        $("#hdnleaveType").val($('#LeaveCategoryID option:selected').text());
+
+    });
+</script>
+
+<style>
+    .visibletrue {
+        visibility: visible !important;
+        height: auto;
+    }
+
+    .visiblefalse {
+        visibility: hidden !important;
+        height: 0px !important;
+        padding: 0px !important;
+    }
+</style>

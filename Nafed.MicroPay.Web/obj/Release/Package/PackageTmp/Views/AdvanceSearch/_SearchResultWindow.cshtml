@@ -1,0 +1,20 @@
+﻿@using Nafed.MicroPay.Model
+@model AdvanceSearchResult
+
+<div class="row">
+
+    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 pt-0" id="div-search-result-grid">
+
+        @Html.Partial("_SearchResultGridView",Model)
+
+    </div>
+
+</div>
+
+<div class="row container-fluid pt-0 pr-0">
+
+
+    @Html.Partial("_SelectMoreFields", Model.SelectMoreFields)
+
+</div>
+

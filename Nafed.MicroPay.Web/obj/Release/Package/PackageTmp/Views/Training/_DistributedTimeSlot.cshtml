@@ -1,0 +1,74 @@
+﻿@using Nafed.MicroPay.Model
+@*@model List<TrainingDateWiseTimeSlot>*@
+
+@model MicroPay.Web.Models.TrainingViewModel
+
+@{
+    Layout = null;
+
+    TempData["timeSlots"] = Model._Training.distributedTimeSlots.OrderBy(y=>y.TrainingDate).ToList();
+    TempData.Keep("timeSlots");
+
+   // Model._Training.distributedTimeSlots = Model._Training.distributedTimeSlots.OrderBy(y => y.TrainingDate).ToList();
+}
+
+
+<div class="panel panel-default">
+    <div class="panel panel-heading">
+
+        Time Slots
+    </div>
+
+    <div class="panel-body">
+
+        <table id="tblTimeSlots" class="table table-centered table-striped dt-responsive w-100 mt-2" 
+               addedRowIndex='@Model._Training.SelectedTrainingDateIndex'>
+
+            <thead>
+
+                <tr>
+                    <th>#</th>
+                    <th>Date </th>
+                    <th class="text-center">From</th>
+                    <th class="text-center">To</th>
+                </tr>
+
+
+            </thead>
+            <tbody>
+                @{
+                    if (Model != null && Model._Training.distributedTimeSlots.Count > 0)
+                    {
+                        var sno = 1;
+                        for (int i = 0; i < Model._Training.distributedTimeSlots.OrderBy(y=>y.TrainingDate).ToList().Count; i++)
+                        {
+                            <tr>
+                                <td>
+                                    @sno
+                                </td>
+                                <td>
+                                    @Html.HiddenFor(model=>Model._Training.distributedTimeSlots[i].sNo)
+                                    @Html.HiddenFor(model => Model._Training.distributedTimeSlots[i].TrainingDate)
+                                    @Html.HiddenFor(model => Model._Training.distributedTimeSlots[i].CreatedOn)
+                                    @Html.HiddenFor(model => Model._Training.distributedTimeSlots[i].CreatedBy)
+
+                                    @Model._Training.distributedTimeSlots[i].TrainingDate.ToString("dd/MM/yyyy")
+                                </td>
+                                <td>
+                                    @Html.EditorFor(model => Model._Training.distributedTimeSlots[i].FromTime, new { htmlAttributes = new { @class = "form-control", @type = "time" } })
+                                    @Html.ValidationMessageFor(model => Model._Training.distributedTimeSlots[i].FromTime, "", new { @class = "text-danger" })
+                                </td>
+                                <td>
+                                    @Html.EditorFor(model => Model._Training.distributedTimeSlots[i].ToTime, new { htmlAttributes = new { @class = "form-control", @type = "time" } })
+                                    @Html.ValidationMessageFor(model => Model._Training.distributedTimeSlots[i].ToTime, "", new { @class = "text-danger" })
+                                </td>
+                            </tr>
+                            sno++;
+                        }
+                    }
+                }
+            </tbody>
+
+        </table>
+    </div>
+</div>

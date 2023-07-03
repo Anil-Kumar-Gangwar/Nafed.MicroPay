@@ -1,0 +1,14 @@
+﻿@using MicroPay.Web.Models;
+@model FileTrackingViewModel
+
+<script src="~/Scripts/bootstrap-multiselect.js"></script>
+<link href="~/Content/bootstrap-multiselect.css" rel="stylesheet" />
+@Html.ListBoxFor(model => model.fileWorkFlow.intEmployeeID, new SelectList(Model.lstEmployeeList, "id", "value"), new {@class = "form-control text-wrap", id="lstListBox", @Multiple = "multiple" })
+
+<script>
+    $("#lstListBox").multiselect({ includeSelectAllOption: true })
+
+    $(".multiselect").addClass('col-lg-x col-md-11 col-sm-11 col-xs-12');
+
+    $(".multiselect-selected-text").addClass("text-wrap");
+</script>

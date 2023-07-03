@@ -1,0 +1,189 @@
+﻿@using Nafed.MicroPay.Model;
+@model List<LoanApplication>
+
+
+
+
+<table id="tblGrid-loan" class="table_card table table-centered table-striped text-left dt-responsive w-100 mt-4">
+    <thead>
+        <tr>
+            <th scope="col">
+                #
+            </th>
+            <th  scope="col" style="width:15%">
+                Employee Name
+            </th>
+            <th scope="col">
+                Ceremony
+            </th>
+            <th  scope="col" class="text-center">
+                Ceremony Date
+            </th>
+            <th scope="col">
+                Place of Ceremony
+            </th>
+            <th  scope="col" class="text-center">
+                Loan Amount
+            </th>
+            <th  scope="col" class="text-center" style="width:10%">
+                Status
+            </th>
+            <th  scope="col" class="text-center" style="width:10%">
+                Action
+            </th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @{
+
+            if (Model != null && Model.Count > 0)
+            {
+                int index = 1;
+                foreach (var item in Model)
+                {
+                    <tr>
+                        <td data-label="S.No."> @index</td>
+                        <td data-label="Name" style="width:20%">@{ @item.EmployeeCode <text>-</text>  @item.EmployeeName}</td>
+                        <td data-label="Ceremony"> @item.Ceremony</td>
+                        <td data-label="Ceremony Date" class="text-center"> @Convert.ToDateTime(item.CeremonyDate).ToString("dd-MM-yyyy")</td>
+                        <td data-label="Place of Ceremony"> @item.CeremonyPlace</td>
+                        <td data-label="Loan Amount" class="text-right"> @item.LoanAmount</td>
+                        <td data-label="Status" class="text-center">
+                            @if (item.StatusID == (int)LoanApplicationStatus.Pending)
+                            {
+                                <h5 class="mb-0">
+                                    <span class="badge badge-pill badge-warning col-md-12">
+                                        Pending
+                                    </span>
+                                </h5>
+                            }
+                            else if (item.StatusID == (int)LoanApplicationStatus.Accept)
+                            {
+                                <h5 class="mb-0">
+                                    <span class="badge badge-pill badge-success col-md-12">
+                                        Approved
+                                    </span>
+                                </h5>
+                            }
+                            else if (item.StatusID == (int)LoanApplicationStatus.Reject)
+                            {
+                                <h5 class="mb-0">
+                                    <span class="badge badge-pill badge-danger col-md-12">
+                                        Rejected
+                                    </span>
+                                </h5>
+                            }
+                            </td>
+                        <td  data-label="Action" class="text-center">
+                            @if (item.StatusID == (int)LoanApplicationStatus.Pending)
+                            {
+                            <a data-ajax="true"
+                               method="POST" class="toggle-tooltip" title="Click here, to accept request."
+                               data-ajax-update="#div-accept-container" data-ajax-mode="replace"
+                               data-backdrop="static" data-keyboard="false"
+                               href="@Url.Action("AcceptRejectApplication", "ApprovalRequest", new { empID = item.EmployeeID, appNo = item.ApplicationID, statusID=2,reportingTo=item.approvalSetting.ReportingTo })"
+                               id="a_acceptLoan" data-toggle="modal" data-target="#div-accept">
+                                <i class="fa fa-check-square text-success fa-2x" aria-hidden="true"></i>
+
+                            </a>
+                            <text> | </text>
+                            <a data-ajax="true"
+                               method="POST" class="toggle-tooltip" title="Click here, to reject request."
+                               data-ajax-update="#div-reject-container" data-ajax-mode="replace"
+                               data-backdrop="static" data-keyboard="false"
+                               href="@Url.Action("AcceptRejectApplication", "ApprovalRequest", new {  empID = item.EmployeeID, appNo = item.ApplicationID, statusID=3,reportingTo=item.approvalSetting.ReportingTo  })"
+                               id="a_rejectLoan" data-toggle="modal" data-target="#div-reject">
+                                <i class="fas fa-window-close text-danger fa-2x" aria-hidden="true"></i>
+                            </a>
+                            }
+                        </td>
+                    </tr>
+                                index++;
+                            }
+                            <script type="text/javascript">
+                                $("#loanApprovalReqCount").text(@Model.Where(x=>x.StatusID==(int)LoanApplicationStatus.Pending).Count());
+                            </script>
+                            }
+
+        }
+
+    </tbody>
+</table>
+
+<script type="text/javascript">
+
+    var table = $('#tblGrid-loan').DataTable({
+    });
+    $('#tblGrid-loan').find('select').addClass('custom-select');
+</script>
+
+<div class="modal" id="div-accept">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Accept</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body" id="div-accept-container">
+
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="div-reject">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Reject</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body" id="div-reject-container">
+
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<script type="text/javascript">
+
+
+
+    @*function onSuccessSubmit(data) {
+        if (data.status == 1) {
+            $("#div-accept").modal("hide");
+            $("#div-reject").modal("hide");
+            commonMessage(data.type, data.msg);
+            $("#TabPending").load("@Url.Action("GetLoanApplicationPendingList", "Approval")");
+
+
+        }
+    }*@
+
+    $('.toggle-tooltip').tooltip();
+</script>

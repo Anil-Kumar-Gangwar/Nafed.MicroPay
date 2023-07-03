@@ -1,0 +1,528 @@
+﻿
+@using Nafed.MicroPay.Model;
+@model List<Nafed.MicroPay.Model.EmployeeAttendanceDetails>
+@{ var month = @ViewBag.Month;
+    var year = @ViewBag.Year;
+    var branchId = @ViewBag.BranchID;
+}
+<script src="~/Content/DataTable/js/dataTables.fixedColumns.min.js"></script>
+<link href="~/Content/DataTable/fixedHeader.bootstrap.min.css" rel="stylesheet" />
+<table id="tblAttendanceList" class="stripe row-border order-column" style="max-height:500px; font-size: 11px;">
+    <thead>
+        <tr>
+            <th>
+                #
+            </th>
+            <th>
+                Code
+            </th>
+            <th>
+                Name
+            </th>
+            <th>
+                Department
+            </th>
+
+            <th>
+                1
+            </th>
+            <th>
+                2
+            </th>
+            <th>
+                3
+            </th>
+            <th>
+                4
+            </th>
+
+            <th>
+                5
+            </th>
+            <th>
+                6
+            </th>
+            <th>
+                7
+            </th>
+            <th>
+                8
+            </th>
+            <th>
+                9
+            </th>
+            <th>
+                10
+            </th>
+            <th>
+                11
+            </th>
+            <th>
+                12
+            </th>
+            <th>
+                13
+            </th>
+            <th>
+                14
+            </th>
+            <th>
+                15
+            </th>
+            <th>
+                16
+            </th>
+            <th>
+                17
+            </th>
+            <th>
+                18
+            </th>
+            <th>
+                19
+            </th>
+            <th>
+                20
+            </th>
+            <th>
+                21
+            </th>
+            <th>
+                22
+            </th>
+            <th>
+                23
+            </th>
+            <th>
+                24
+            </th>
+            <th>
+                25
+            </th>
+            <th>
+                26
+            </th>
+            <th>
+                27
+            </th>
+            <th>
+                28
+            </th>
+            <th>
+                29
+            </th>
+            <th>
+                30
+            </th>
+            <th>
+                31
+            </th>
+            <th>
+                Show
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            int index = 1;
+            if (Model != null)
+            {
+                foreach (var item in Model)
+                {
+                    var inTimeOutDivCssClass = item.InTimeOutTimes.Count > 0 ? null : "hide";
+
+                    <tr rowID="@item.EmployeeId">
+                        <td>@index</td>
+                        <td> @item.Code</td>
+                        <td> @item.Name</td>
+                        <td> @item.DepartmentName</td>
+                        @*<td> @item.ReportingOfficer</td>*@
+                        <td class="text-center pl-0 pr-0" style="background-color:@CellColor(@item.D1)">
+                            @item.D1
+                            <div class="text-center @inTimeOutDivCssClass" style="font-size:1em;">
+                                @Html.Raw(GetInAndOutTimeString(1, item.InTimeOutTimes, item.D1))
+                            </div>
+                        </td>
+                        <td class="text-center pl-0 pr-0" style="background-color:@CellColor(@item.D2)">
+                            @item.D2
+                            <div class="text-center @inTimeOutDivCssClass" style="font-size:1em;">
+                                @Html.Raw(GetInAndOutTimeString(2, item.InTimeOutTimes, item.D2))
+                            </div>
+                        </td>
+                        <td class="text-center pl-0 pr-0" style="background-color:@CellColor(@item.D3)">
+                            @item.D3
+                            <div class="text-center @inTimeOutDivCssClass" style="font-size:1em;">
+                                @Html.Raw(GetInAndOutTimeString(3, item.InTimeOutTimes, item.D3))
+                            </div>
+                        </td>
+                        <td class="text-center pl-0 pr-0" style="background-color:@CellColor(@item.D4)">
+                            @item.D4
+                            <div class="text-center @inTimeOutDivCssClass" style="font-size:1em;">
+                                @Html.Raw(GetInAndOutTimeString(4, item.InTimeOutTimes, item.D4))
+                            </div>
+                        </td>
+                        <td class="text-center pl-0 pr-0" style="background-color:@CellColor(@item.D5)">
+                            @item.D5
+                            <div class="text-center @inTimeOutDivCssClass" style="font-size:1em;">
+                                @Html.Raw(GetInAndOutTimeString(5, item.InTimeOutTimes, item.D5))
+                            </div>
+                        </td>
+                        <td class="text-center pl-0 pr-0" style="background-color:@CellColor(@item.D6)">
+                            @item.D6
+                            <div class="text-center @inTimeOutDivCssClass" style="font-size:1em;">
+                                @Html.Raw(GetInAndOutTimeString(6, item.InTimeOutTimes, item.D6))
+                            </div>
+                        </td>
+                        <td class="text-center pl-0 pr-0" style="background-color:@CellColor(@item.D7)">
+                            @item.D7
+                            <div class="text-center @inTimeOutDivCssClass" style="font-size:1em;">
+                                @Html.Raw(GetInAndOutTimeString(7, item.InTimeOutTimes, item.D7))
+                            </div>
+                        </td>
+                        <td class="text-center pl-0 pr-0" style="background-color:@CellColor(@item.D8)">
+                            @item.D8
+                            <div class="text-center @inTimeOutDivCssClass" style="font-size:1em;">
+                                @Html.Raw(GetInAndOutTimeString(8, item.InTimeOutTimes, item.D8))
+                            </div>
+                        </td>
+                        <td class="text-center pl-0 pr-0" style="background-color:@CellColor(@item.D9)">
+                            @item.D9
+                            <div class="text-center @inTimeOutDivCssClass" style="font-size:1em;">
+                                @Html.Raw(GetInAndOutTimeString(9, item.InTimeOutTimes, item.D9))
+                            </div>
+                        </td>
+                        <td class="text-center pl-0 pr-0" style="background-color:@CellColor(@item.D10)">
+                            @item.D10
+                            <div class="text-center @inTimeOutDivCssClass" style="font-size:1em;">
+                                @Html.Raw(GetInAndOutTimeString(10, item.InTimeOutTimes, item.D10))
+                            </div>
+                        </td>
+                        <td class="text-center pl-0 pr-0" style="background-color:@CellColor(@item.D11)">
+                            @item.D11
+                            <div class="text-center @inTimeOutDivCssClass" style="font-size:1em;">
+                                @Html.Raw(GetInAndOutTimeString(11, item.InTimeOutTimes, item.D11))
+                            </div>
+                        </td>
+                        <td class="text-center pl-0 pr-0" style="background-color:@CellColor(@item.D12)">
+                            @item.D12
+                            <div class="text-center @inTimeOutDivCssClass" style="font-size:1em;">
+                                @Html.Raw(GetInAndOutTimeString(12, item.InTimeOutTimes, item.D12))
+                            </div>
+                        </td>
+                        <td class="text-center pl-0 pr-0" style="background-color:@CellColor(@item.D13)">
+                            @item.D13
+                            <div class="text-center @inTimeOutDivCssClass" style="font-size:1em;">
+                                @Html.Raw(GetInAndOutTimeString(13, item.InTimeOutTimes, item.D13))
+                            </div>
+                        </td>
+                        <td class="text-center pl-0 pr-0" style="background-color:@CellColor(@item.D14)">
+                            @item.D14
+                            <div class="text-center @inTimeOutDivCssClass" style="font-size:1em;">
+                                @Html.Raw(GetInAndOutTimeString(14, item.InTimeOutTimes, item.D14))
+                            </div>
+                        </td>
+                        <td class="text-center pl-0 pr-0" style="background-color:@CellColor(@item.D15)">
+                            @item.D15
+                            <div class="text-center @inTimeOutDivCssClass" style="font-size:1em;">
+                                @Html.Raw(GetInAndOutTimeString(15, item.InTimeOutTimes, item.D15))
+                            </div>
+                        </td>
+                        <td class="text-center pl-0 pr-0" style="background-color:@CellColor(@item.D16)">
+                            @item.D16
+                            <div class="text-center @inTimeOutDivCssClass" style="font-size:1em;">
+                                @Html.Raw(GetInAndOutTimeString(16, item.InTimeOutTimes, item.D16))
+                            </div>
+                        </td>
+                        <td  class="text-center pl-0 pr-0" style="background-color:@CellColor(@item.D17)">
+                            @item.D17
+                            <div class="text-center @inTimeOutDivCssClass" style="font-size:1em;">
+                                @Html.Raw(GetInAndOutTimeString(17, item.InTimeOutTimes, item.D17))
+                            </div>
+                        </td>
+                        <td class="text-center pl-0 pr-0" style="background-color:@CellColor(@item.D18)">
+                            @item.D18
+                            <div class="text-center @inTimeOutDivCssClass" style="font-size:1em;">
+                                @Html.Raw(GetInAndOutTimeString(18, item.InTimeOutTimes, item.D18))
+                            </div>
+                        </td>
+                        <td class="text-center pl-0 pr-0" style="background-color:@CellColor(@item.D19)">
+                            @item.D19
+                            <div class="text-center @inTimeOutDivCssClass" style="font-size:1em;">
+                                @Html.Raw(GetInAndOutTimeString(19, item.InTimeOutTimes, item.D19))
+                            </div>
+                        </td>
+                        <td class="text-center pl-0 pr-0" style="background-color:@CellColor(@item.D20)">
+                            @item.D20
+                            <div class="text-center @inTimeOutDivCssClass" style="font-size:1em;">
+                                @Html.Raw(GetInAndOutTimeString(20, item.InTimeOutTimes, item.D20))
+                            </div>
+                        </td>
+                        <td class="text-center pl-0 pr-0" style="background-color:@CellColor(@item.D21)">
+                            @item.D21
+                            <div class="text-center @inTimeOutDivCssClass" style="font-size:1em;">
+                                @Html.Raw(GetInAndOutTimeString(21, item.InTimeOutTimes, item.D21))
+                            </div>
+                        </td>
+                        <td class="text-center pl-0 pr-0" style="background-color:@CellColor(@item.D22)">
+                            @item.D22
+                            <div class="text-center @inTimeOutDivCssClass" style="font-size:1em;">
+                                @Html.Raw(GetInAndOutTimeString(22, item.InTimeOutTimes, item.D22))
+                            </div>
+                        </td>
+                        <td class="text-center pl-0 pr-0" style="background-color:@CellColor(@item.D23)">
+                            @item.D23
+                            <div class="text-center @inTimeOutDivCssClass" style="font-size:1em;">
+                                @Html.Raw(GetInAndOutTimeString(23, item.InTimeOutTimes, item.D23))
+                            </div>
+                        </td>
+                        <td class="text-center pl-0 pr-0" style="background-color:@CellColor(@item.D24)">
+                            @item.D24
+                            <div class="text-center @inTimeOutDivCssClass" style="font-size:1em;">
+                                @Html.Raw(GetInAndOutTimeString(24, item.InTimeOutTimes, item.D24))
+                            </div>
+                        </td>
+                        <td class="text-center pl-0 pr-0" style="background-color:@CellColor(@item.D25)">
+                            @item.D25
+                            <div class="text-center @inTimeOutDivCssClass" style="font-size:1em;">
+                                @Html.Raw(GetInAndOutTimeString(25, item.InTimeOutTimes, item.D25))
+                            </div>
+                        </td>
+                        <td class="text-center pl-0 pr-0" style="background-color:@CellColor(@item.D26)">
+                            @item.D26
+                            <div class="text-center @inTimeOutDivCssClass" style="font-size:1em;">
+                                @Html.Raw(GetInAndOutTimeString(26, item.InTimeOutTimes, item.D26))
+                            </div>
+                        </td>
+                        <td class="text-center pl-0 pr-0" style="background-color:@CellColor(@item.D27)">
+                            @item.D27
+                            <div class="text-center @inTimeOutDivCssClass" style="font-size:1em;">
+                                @Html.Raw(GetInAndOutTimeString(27, item.InTimeOutTimes, item.D27))
+                            </div>
+                        </td>
+                        <td class="text-center pl-0 pr-0" style="background-color:@CellColor(@item.D28)">
+                            @item.D28
+                            <div class="text-center @inTimeOutDivCssClass" style="font-size:1em;">
+                                @Html.Raw(GetInAndOutTimeString(28, item.InTimeOutTimes, item.D28))
+                            </div>
+                        </td>
+                        <td class="text-center pl-0 pr-0" style="background-color:@CellColor(@item.D29)">
+                            @item.D29
+                            <div class="text-center @inTimeOutDivCssClass" style="font-size:1em;">
+                                @Html.Raw(GetInAndOutTimeString(29, item.InTimeOutTimes, item.D29))
+                            </div>
+                        </td>
+                        <td class="text-center pl-0 pr-0" style="background-color:@CellColor(@item.D30)">
+                            @item.D30
+                            <div class="text-center @inTimeOutDivCssClass" style="font-size:1em;">
+                                @Html.Raw(GetInAndOutTimeString(30, item.InTimeOutTimes, item.D30))
+                            </div>
+                        </td>
+                        <td class="text-center pl-0 pr-0" style="background-color:@CellColor(@item.D31)">
+                            @item.D31
+                            <div class="text-center @inTimeOutDivCssClass" style="font-size:1em;">
+                                @Html.Raw(GetInAndOutTimeString(31, item.InTimeOutTimes, item.D31))
+                            </div>
+                        </td>
+
+                        <td class="text-center">
+                            <a data-ajax="true"
+                               method="GET" class="toggle-tooltip" title="Click here, to view all attendance."
+                               data-ajax-update="#div-result-body" data-ajax-mode="replace"
+                               href="@Url.Action("EmployeeAttendancedetailsGridView", "MyAttendanceDetail", new {
+                                    @BranchId = branchId,
+                                    @EmployeeId = item.EmployeeId,
+                                    @SelectedMonth = month,
+                                    @SelectYear = year,
+                                    sourceController="employeeattendancedetails"
+
+                               })"
+                               data-backdrop="static" data-keyboard="false"
+                               id="attendance" data-toggle="modal" data-target="#div-show-attendance">
+                                <i class="fa fa-eye text-info" aria-hidden="true"></i>
+                            </a>
+                        </td>
+
+                    </tr>
+                    index++;
+                }
+            }
+
+        }
+
+    </tbody>
+</table>
+
+
+
+@functions{
+
+    public string GetInAndOutTimeString(int dayNo, List<MyAttendanceDetails> attendances, string cellValue)
+    {
+        if (cellValue.Equals("p", StringComparison.OrdinalIgnoreCase)
+             || cellValue.Equals("cla", StringComparison.OrdinalIgnoreCase)
+             || cellValue.Equals("sp", StringComparison.OrdinalIgnoreCase)
+              || cellValue.Equals("ts", StringComparison.OrdinalIgnoreCase)
+             )
+        {
+            if (attendances.Any(y => y.Day == dayNo))
+            {
+                var attendanceOfSelectedDay = attendances.Where(y => y.Day == dayNo).FirstOrDefault();
+
+                var inTime = Convert.ToDateTime(attendanceOfSelectedDay.InTime).ToString("HH:mm");
+                var outTime = attendanceOfSelectedDay.OutTime!= string.Empty ?  Convert.ToDateTime(attendanceOfSelectedDay.OutTime).ToString("HH:mm") :" ";
+
+                var sb = new System.Text.StringBuilder();
+                sb.Append("In-"+inTime);
+                sb.Append("<br/>"); // which is equal to Append(Environment.NewLine);
+                //sb.Append("-");
+                //sb.Append("<br/>");
+                /*  sb.Append(Environment.NewLine);*/ // which is equal to Append(Environment.NewLine);
+                sb.Append("Out-"+outTime);
+                return sb.ToString();
+            }
+        }
+        return string.Empty;
+    }
+
+    public string CellColor(string cellVal)
+    {
+        switch (cellVal.ToLower())
+        {
+            case "na":
+                return "yellow";
+            case "w":
+                return "gray";
+            case "cs":
+                return "orange";
+            case "el":
+                return "blue";
+            case "wp":
+                return "red";
+            default:
+                return string.Empty;
+        }
+    }
+}
+
+
+<div class="modal" id="div-show-attendance" data-backdrop="static" data-keyboard="false" role="dialog" style="overflow:auto;">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title"> <label id="lbl-Employee"></label></h4>
+                <button type="button" class="close toggle-tooltip" data-dismiss="modal">&times;</button>
+            </div>
+
+            @*@using (Ajax.BeginForm("EmployeeAttendancedetailsGridView", "MyAttendanceDetail", null,
+                      new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "", OnSuccess = "OnSuccess" }))
+                {*@
+            <!-- Modal body -->
+            <div class="modal-body" id="div-result-body">
+
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+
+                @*<input type="submit" value="Update" id="btnSave" class="btn btn-primary btn-md pull-left" />*@
+
+            </div>
+            @*}*@
+
+        </div>
+    </div>
+</div>
+
+
+<style>
+
+
+
+     table tbody tr td, table thead tr th {
+         border: 1px solid #ddd;
+         border-collapse:collapse;
+     }
+
+     /*table thead tr th{
+
+         border:1px solid #000;
+    }*/
+      #tblAttendanceList tbody tr td
+    {
+        height:60px !important;
+     
+    }
+     td, th {
+         padding: 0;
+     }
+
+
+     table thead tr th {
+         background-color: #17A2B8;
+         color: #fff;
+         border-collapse:collapse;
+     }
+
+     .DTFC_LeftBodyWrapper {
+         top: -12px !important;
+     }
+
+     td, th {
+         width: 6.70139px;
+         padding-right: 30px;
+     }
+
+     th {
+         padding: 10px 18px;
+         border-bottom: 1px solid #111;
+     }
+</style>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+
+    //    $('#tblAttendanceList tbody tr td').filter(function () {
+
+    //        //return $(this).text() == "NA";
+    //        if ($(this).text().trim() == "NA") {
+    //            $(this).css("background-color", "yellow");
+    //        }
+
+    //        if ($(this).text().trim() == "W") {
+    //            $(this).css("background-color", "gray");
+    //        }
+    //        if ($(this).text().trim() == "CS") {
+    //            $(this).css("color", "orange");
+    //        }
+    //        if ($(this).text().trim() == "WP") {
+    //            $(this).css("color", "red");
+    //        }
+    //        if ($(this).text().trim() == "EL") {
+    //            $(this).css("color", "blue");
+    //        }
+
+    //    });
+
+        $('#tblAttendanceList').DataTable({
+            scrollY: "300px",
+            scrollX: true,
+            scrollCollapse: true,
+            paging: false,
+            fixedColumns: {
+                leftColumns: 4
+            }
+        });
+
+
+
+
+
+    }
+
+    );
+</script>
+

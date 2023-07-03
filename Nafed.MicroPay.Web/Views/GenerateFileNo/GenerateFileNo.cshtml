@@ -1,0 +1,422 @@
+﻿@using MicroPay.Web.Models;
+@model FileTrackingViewModel
+
+@{
+    ViewBag.Title = "Generate File";
+    ViewBag.NavigationTitle = "File Tracking System";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    System.Globalization.CultureInfo Indian = new System.Globalization.CultureInfo("hi-IN");
+}
+
+
+<link href="~/Content/jquery.datetimepicker.min.css" rel="stylesheet" />
+<script src="~/Scripts/jquery.datetimepicker.full.min.js"></script>
+
+@using (Html.BeginForm("GenerateFile", "GenerateFileNo", FormMethod.Post, new { enctype = "multipart/form-data", id = "formsubmit" }))
+{
+
+    <div class="AppraisalBGgreen">
+
+        <div class="row text-center">
+            <div class="col-lg-12 col-md-12 col-xl-12 col-sm-12 col-xs-12">
+                <img src="~/Images/logo.png" />
+            </div>
+        </div>
+
+        <div class="form-group">
+
+            <div class="col-lg-12 col-md-12 col-xl-12 col-sm-12 col-xs-12 text-center">
+                <h4 class="font-weight-bold">
+                    National Agricultural Cooperative Marketing Federation of India Ltd.<br />
+                    Nafed House, Sidhartha Enclave, Ashram Chowk, Ring Road,<br />
+                    <span style="text-decoration:underline">New Delhi - 110 014</span>
+                </h4>
+            </div>
+
+        </div>
+
+        <div class="form-group">
+
+            <div class="col-lg-12 col-md-12 col-xl-12 col-sm-12 col-xs-12 text-center">
+                <h3>
+                    @Html.HiddenFor(model => Model.fileManagement.DesignationName)
+                    @Model.fileManagement.DesignationName
+                </h3>
+
+            </div>
+
+        </div>
+
+        <div class="form-group">
+            <div class="col-lg-12 col-md-12 col-xl-12 col-sm-12 col-xs-12 font-weight-bold p-4" style="text-decoration:underline">
+                FILE INFORMATION
+            </div>
+        </div>
+
+        <div class="form-group mb-4">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
+                @Html.HiddenFor(model => Model.fileManagement.FileWorkFlowID)
+                @Html.HiddenFor(model => Model.fileManagement.FileID)
+
+                @*<div class="row">
+                        <p class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                            @Html.LabelFor(model => model.fileManagement.OtherDiaryNo, htmlAttributes: new { @class = "control-label" })
+                        </p>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 mb-2">
+                            @Html.EditorFor(model => model.fileManagement.OtherDiaryNo, new { htmlAttributes = new { @class = "form-control", @maxLength = "50" } })
+
+                        </div>
+                    </div>*@
+
+                <div class="row mb-2">
+                    <div class="col-lg-2 col-md-3 col-sm-12 col-xs-12">
+                        @Html.LabelFor(model => model.fileManagement.DepartmentID, htmlAttributes: new { @class = "control-label" })
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2 font-weight-bold">
+                        @Html.HiddenFor(model => Model.fileManagement.DepartmentID)
+                        @Html.HiddenFor(model => Model.fileManagement.DepartmentName)
+                        @Model.fileManagement.DepartmentName
+
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-2 col-md-3 col-sm-12 col-xs-12">
+                        @Html.LabelFor(model => model.fileManagement.FileTypeID, htmlAttributes: new { @class = "control-label required" })
+                    </div>
+                    <div class="col-lg-3 col-md-5 col-sm-12 col-xs-12 mb-2">
+
+                        @Html.DropDownListFor(model => model.fileManagement.FileTypeID, new SelectList(ViewBag.FileType, "id", "value"), "Select", new { @class = "custom-select" })
+                        @Html.ValidationMessageFor(model => model.fileManagement.FileTypeID, "", new { @class = "text-danger" })
+                        <span id="FileTypeIDError"></span>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-xl-12 col-sm-12 col-xs-12">
+                        <div class="row">
+                            <div class="col-lg-2 col-md-3 col-sm-12 col-xs-12">
+                                @Html.LabelFor(model => model.fileManagement.DiaryNo, htmlAttributes: new { @class = "control-label required" })
+                            </div>
+                            <div class="col-lg-3 col-md-5 col-sm-12 col-xs-12 mb-2">
+                                @Html.EditorFor(model => model.fileManagement.DiaryNo, new { htmlAttributes = new { @class = "form-control required", @maxLength = "25" } })
+                                @Html.ValidationMessageFor(model => model.fileManagement.DiaryNo, "", new { @class = "text-danger" })
+                                <span id="DiaryNoError"></span>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row">
+
+                    <div class="col-lg-12 col-md-12 col-xl-12 col-sm-12 col-xs-12">
+                        <div class="row">
+                            <div class="col-lg-2 col-md-3 col-sm-12 col-xs-12">
+                                @Html.LabelFor(model => model.fileManagement.FileSubject, htmlAttributes: new { @class = "control-label required" })
+                            </div>
+                            <div class="col-lg-10 col-md-9 col-sm-12 col-xs-12 mb-2">
+                                @Html.TextAreaFor(model => model.fileManagement.FileSubject, htmlAttributes: new { @class = "form-control required", @style = "max-height: 32px;height: 32px;", @maxlength = "500", @cols = "10", @rows = "1" })
+                                @Html.ValidationMessageFor(model => model.fileManagement.FileSubject, "", new { @class = "text-danger" })
+                                <span id="FileSubjectError"></span>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-2 col-md-3 col-sm-12 col-xs-12">
+                        @Html.LabelFor(model => model.fileManagement.FilePutup, htmlAttributes: new { @class = "control-label required" })
+                    </div>
+                    <div class="col-lg-3 col-md-5 col-sm-12 col-xs-12 mb-2">
+                        @Html.EditorFor(model => model.fileManagement.FilePutup, new { htmlAttributes = new { @class = "form-control required", @type = "dateTimePicker", @placeholder = "dd/mm/yyyy hh:mm AM/PM", @autocomplete = "off" } })
+                        @Html.ValidationMessageFor(model => model.fileManagement.FilePutup, "", new { @class = "text-danger" })
+                        <span id="FilePutupError"></span>
+
+                    </div>
+                </div>
+
+
+
+                <div class="row">
+                    <div class="col-lg-2 col-md-3 col-sm-12 col-xs-12">
+                        @Html.LabelFor(model => model.fileManagement.OtherDiaryNo, htmlAttributes: new { @class = "control-label" })
+                    </div>
+                    <div class="col-lg-3 col-md-5 col-sm-12 col-xs-12 mb-2">
+                        @Html.EditorFor(model => model.fileManagement.OtherDiaryNo, new { htmlAttributes = new { @class = "form-control", @maxLength = "50" } })
+                        @Html.ValidationMessageFor(model => model.fileManagement.OtherDiaryNo, "", new { @class = "text-danger" })
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+        @if (Model.documentFiles!=null && Model.documentFiles.Count > 0)
+        {
+            <div class="panel panel-default">
+                <div class="panel-heading">Old Document(s)</div>
+                <div class="panel-body pb-0">
+                    <div class="form-group">
+                        <div class="row">
+                            @*<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-right pb-2 text-right">
+                                    <input type="button" value="Remove" class="olddelete-row btn btn-danger btn-xs"
+                                           title="Click here, to delete seleted row." />
+                                </div>*@
+                            <div id="div-form-documents-grid" class="col-lg-12 col-md-11 col-sm-11 col-xs-12 mb-2">
+                                <table id="tbloldDocument" class="table table-bordered table-centered dt-responsive w-100">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-center" style="width:35%">Document Name</th>
+                                            <th class="text-center" style="width:50%">Document</th>
+                                            <th colspan="2" class="text-center" style="width:5%"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @for (int i = 0; i < Model.documentFiles.Count(); i++)
+                                        {
+                                            <tr>
+                                                <td class="filename">
+                                                    @Model.documentFiles[i].DocName
+                                                </td>
+                                                <td class="docname">
+                                                    @Model.documentFiles[i].DocOrignalName
+                                                </td>
+                                                <td class="orgName hidetd">
+                                                    @Model.documentFiles[i].DocID
+                                                </td>
+                                                <td>
+                                                    <input type="button" value="Remove" class="olddelete-row btn btn-danger btn-xs"
+                                                           title="Click here, to delete seleted row." />
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+
+        <div class="form-group">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
+                <div class="row">
+                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 text-left pb-0">
+                        @Html.ValidationMessage("uploadFileRequired", "", new { @class = "text-danger" })
+                        <span id="documentnameError"></span>
+                        <span id="documentFileError"></span>
+                        <span id="sizeError"></span>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 text-right pb-2">
+                        <input type="button" value="Add" id="btnAddRowExper" class="btn btn-info btn-md pull-center toggle-tooltip btn-sectionAddRow"
+                               title="Click here, to add new row." />
+                        <input type="button" value="Remove" class="delete-row btn btn-danger btn-xs"
+                               title="Click here, to delete seleted row." />
+                    </div>
+
+                    <div id="div-form-documents-grid" class="col-lg-12 col-md-11 col-sm-11 col-xs-12 mb-2">
+
+                        <table id="tblDocument" class="table table-bordered table-centered dt-responsive w-100">
+                            <thead>
+                                <tr>
+                                    <th class="text-center" style="width:5%">#</th>
+                                    <th class="text-center" style="width:35%">Document Name</th>
+                                    <th class="text-center" style="width:50%">Document</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+
+                    </div>
+                </div>
+                <div class="col-lg-12 col-md-11 col-sm-11 col-xs-12">
+                    <label class="font-weight-bold text-danger">[FileType=.jpg, .jpeg, .png,.pdf, .xlsx, .xls, .doc, .docx, Size <= 5MB, single document] <br /></label>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
+                        <span class="pull-right">
+                            @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-light btn-md toggle-tooltip", @title = "Click here, to redirect on list page" })
+                            <input type="button" id="btnsubmit" value="Create" name="ButtonType" class="btn btn-info btn-md pull-center toggle-tooltip" />
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<style>
+    .hidetd{
+
+display: none
+
+}
+</style>
+<script type="text/javascript">
+    $('.toggle-tooltip').tooltip();
+    $('#fileManagement_FilePutup').datetimepicker({
+        format: 'd/m/Y H:i'
+    });
+
+
+    function OnSuccess(data) {
+        if (data.part == 1)
+            $("#div-form-documents-grid").html(data.htmlData);
+    }
+
+    $("#btnAddRowExper").click(function () {
+        debugger;
+        $.ajax({
+            url: "@Url.Action("_AddDocumentRow", "GenerateFileNo")",
+            type: "POST",
+            contentType: false, // Not to set any content header
+            processData: false, // Not to process data
+
+            success: function (result) {
+
+                tableBody = $("#tblDocument tbody");
+                tableBody.append(result.htmlData);
+            },
+            error: function (err) {
+                alert(err.statusText);
+            }
+        });
+    });
+
+
+    $(".olddelete-row").click(function () {
+        debugger;
+        var $row = $(this).closest("tr");    // Find the row
+        $(this).parents("tr").remove();
+        //var filename = $row.find(".filename").text().trim(); // Find the text
+        //var filorgname = $row.find(".docname").text().trim(); // Find the text
+        var docIDs = $row.find(".orgName").text().trim(); // Find the text
+
+        jQuery.post("@Url.Action("_RemoveDocumentRow", "GenerateFileNo")", {
+            docID: docIDs           
+        }).done(function (result) {
+            debugger;
+            if (result.FileStatus == true) {
+                //$(this).parents("tr").remove();
+            }
+        });
+       
+    });
+
+
+
+    $(".delete-row").click(function () {
+        $("#tblDocument tbody").find('input[name="record"]').each(function () {
+            if ($(this).is(":checked")) {
+                $(this).parents("tr").remove();
+
+            }
+        });
+    });
+
+
+    $(document).ready(function () {
+        $('#btnsubmit').click(function () {
+            debugger;
+            var docerror = 0;
+            var fileerror = 0;
+            var typeeerror = 0;
+            var sizeerror = 0;
+            var error = 0;
+            if ($("#fileManagement_FileTypeID").val() == "") {
+                error++;
+                $("#FileTypeIDError").html("Please Select File Type.").css("color", "red");
+            }
+            else {
+                $("#FileTypeIDError").html("");
+            }
+            if ($("#fileManagement_DiaryNo").val() == "") {
+                error++;
+                $("#DiaryNoError").html("Please Enter File No.").css("color", "red");
+            } else {
+                $("#DiaryNoError").html("");
+            }
+            if ($("#fileManagement_FileSubject").val() == "") {
+                error++;
+                $("#FileSubjectError").html("Please Enter File Subject..").css("color", "red");
+            } else {
+                $("#FileSubjectError").html("");
+            }
+            if ($("#fileManagement_FilePutup").val() == "") {
+                error++;
+                $("#FilePutupError").html("Please select Putup Date").css("color", "red");
+            } else {
+                $("#FilePutupError").html("");
+            }
+
+            $("#tblDocument tr.filesvalidate").each(function () {
+
+                var filename = $(this).find(".name").val();
+                if (filename == "") {
+                    docerror++;
+                    //$("#documentnameError").html("Please Enter Document Name").css("color", "red");
+                    //return false;
+                }
+                else {
+                    $("#documentnameError").html("")
+                }
+
+                if ($(this).find(".file").get(0).files.length > 0) {
+                    $("#documentFileError").html("");
+                    // Looping over all files and add it to FormData object
+                    var fileUpload = $("#Files");
+                    var lg = fileUpload[0].files.length; // get length
+                    var items = fileUpload[0].files;
+                    for (var k = 0; k < lg; k++) {
+
+                        var filesze = items[k].size;
+                        var fileName = items[k].name;
+                        var ext = fileName.substr(fileName.lastIndexOf('.') + 1).toLowerCase();
+                        if (!(ext == "xlsx" || ext == "xls" || ext == "jpg" || ext == "jpeg" || ext == "png" || ext == "pdf" || ext == "doc" || ext == "docx")) {
+                            typeeerror++;
+                            //$("#documentFileError").html("Invalid file type, please select a (word,excel,jpeg,png,pdf) file").css("color", "red");
+                            // return false;
+                        }
+                        if (filesze > 5000000) {  // 5MB
+                            sizeerror++;
+                            //$("#documentFileError").html("Please select image size less than 5MB.").css("color", "red");
+                            // return false;
+                        }
+                    }
+                }
+                else {
+                    fileerror++;
+                    //$("#documentFileError").html("Please Upload Document").css("color", "red");
+                }
+            });
+            if (docerror > 0) {
+                $("#documentnameError").html("Enter Document Name.").css("color", "red");
+                return false;
+            }
+            if (fileerror > 0) {
+                $("#documentFileError").html("Please Upload Document").css("color", "red");
+                return false;
+            }
+            if (sizeerror > 0) {
+                $("#sieeError").html("Please select image size less than 5MB.").css("color", "red");
+                return false;
+            }
+
+            if (error > 0)
+                return false;
+
+            if (docerror == 0 || fileerror == 0 || sizeerror == 0) {
+                $("#formsubmit").submit();
+            }
+        });
+    });
+
+</script>

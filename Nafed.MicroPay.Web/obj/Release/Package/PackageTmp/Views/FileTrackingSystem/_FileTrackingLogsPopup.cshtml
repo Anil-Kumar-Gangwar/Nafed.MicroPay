@@ -1,0 +1,90 @@
+﻿@model MicroPay.Web.Models.FileTrackingViewModel
+
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-12">
+        <div class="form-group">
+            <div class="row">
+                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                    Department :
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 h5 pl-lg-0">
+                    @if (Model.fileWorkFlowList.Count() > 0)
+                    {
+                        @Model.fileWorkFlowList.FirstOrDefault().InitiatedDepartment
+                    }
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<table id="tblGrid" class="table table-centered table-striped dt-responsive w-100">
+    <thead>
+        <tr>
+            <th>
+                #
+            </th>            
+
+            @*<th>
+                Initiate Designation
+            </th>*@
+            <th>
+                Initiator
+            </th>
+           
+            <th>
+                Park By Department
+            </th>
+
+            <th>
+                Park By Designation
+            </th>
+            <th>
+                Park By
+            </th>
+            <th>
+                From Date
+            </th>
+            <th>
+                To Date
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            if (Model.fileWorkFlowList.Count() > 0)
+            {
+                var sno = 1;
+                foreach (var item in Model.fileWorkFlowList)
+                {
+                    <tr>
+                        <td> @sno</td>
+                        <td> @item.InitiateEmployee</td>                       
+                        <td> @item.ParkedDepartment</td>
+                        <td> @item.ParkedDesignation</td>
+                        <td> @item.ParkedEmployee</td>
+                        <td> @item.fromdate.Value.ToString("dd-MM-yyyy")</td>
+                        <td>
+                            @if (item.todate.HasValue)
+                            {
+                                @item.todate.Value.ToString("dd-MM-yyyy")
+                            }
+                            else
+                            {
+
+                            }
+
+                        </td>
+                    </tr>
+                    sno++;
+                }
+            }
+        }
+
+    </tbody>
+</table>
+
+
+
+
+

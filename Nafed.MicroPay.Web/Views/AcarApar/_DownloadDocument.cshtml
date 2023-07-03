@@ -1,0 +1,56 @@
+﻿@using Nafed.MicroPay.Model;
+
+@model APARReviewedSignedCopy
+@{
+    var uDetails = (UserDetail)Session["user"];
+}
+
+<div class="row">
+    <table id="tblGrid-apprasial2" class="table table-centered table-striped dt-responsive w-100">
+        <thead>
+            <tr>
+                <th>
+                    #
+                </th>
+                <th class="text-center">
+                    Documents
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                int sno = 1;
+
+                if (Model != null)
+                {
+                    <tr>
+                        <td>@sno</td>
+                        <td class="text-center">
+                            <p class="media-body pb-3 mb-0 lh-125">
+                                @if (Convert.ToString(Model.UploadedDocName).IndexOf(".", 0) > 0)
+                                {
+                                    var ext = Convert.ToString(Model.UploadedDocName).Substring(Convert.ToString(Model.UploadedDocName).IndexOf(".", 1) + 1, Convert.ToString(Model.UploadedDocName).Length - (Convert.ToString(Model.UploadedDocName).IndexOf(".", 1) + 1)).Trim().ToLower();
+                                    if (ext == "pdf")
+                                    {
+                                        <i class="fas fa-file-pdf text-danger fa-1x mr-2"></i>
+                                    }
+                                }
+                                else
+                                {
+                                    <i class="fas fa-file text-light fa-1x mr-2"></i>
+                                }
+                                <a aria-current="page" href="~/Document/APARSignedCopy/@Model.UploadedDocName" data-toggle="tooltip" title="Click here, to download file." download="@Model.UploadedDocName">
+                                    @Model.UploadedDocName
+                                </a>
+                            </p>
+
+                        </td>
+                    </tr>
+                    sno++;
+
+                }
+            }
+        </tbody>
+    </table>
+
+</div>

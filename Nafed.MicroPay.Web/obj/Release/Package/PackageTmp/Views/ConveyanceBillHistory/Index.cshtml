@@ -1,0 +1,24 @@
+﻿
+@{
+    ViewBag.Title = "Conveyance Bill Status";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="">
+    <div class="card_new_body">
+        @using (Ajax.BeginForm("_PostConveyanceBillFilters", "ConveyanceBillHistory", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "div-conveyanceBill-forms" }))
+        {
+            <div id="div-conveyanceBill-filters">
+                @Html.Action("_AdminConveyanceBillFilters")
+            </div>
+        }
+    </div>
+    @Html.Partial("_ConveyanceStatusBar")
+</div>
+
+<div class="card_new_body">
+    <div id="div-conveyanceBill-forms">
+
+    </div>
+</div>
+

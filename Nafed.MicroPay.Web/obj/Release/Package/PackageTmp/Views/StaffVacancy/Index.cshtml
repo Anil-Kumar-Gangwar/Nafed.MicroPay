@@ -1,0 +1,14 @@
+﻿@model Nafed.MicroPay.Model.UserAccessRight
+@{
+    ViewBag.Title = "Staff Vacancy";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Ajax.BeginForm("StaffVacancyReport", "StaffVacancy", new AjaxOptions { HttpMethod = "POST", OnSuccess = "OnReportSuccess" }))
+{
+    <div id="div-report-filters">
+        @Html.Action("GetStaffVacancyReportFilters")
+    </div>
+}
+
+

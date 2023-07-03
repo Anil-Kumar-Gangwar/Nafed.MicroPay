@@ -1,0 +1,33 @@
+﻿
+@{
+    ViewBag.Title = "Menu";
+    ViewBag.NavigationTitle = "Menu";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    System.Globalization.CultureInfo Indian = new System.Globalization.CultureInfo("hi-IN");
+}
+
+<div class="">
+    <div class="card_new_header text-right">
+       
+         @Html.ActionLink("Create New", "Create", "Menu", null, new { @class = "btn btn-info btn-md", title = "Click here, to create new record.", @data_toggle = "tooltip" })
+    </div>
+    <div >
+        <div id="MenuGridDiv">
+            @Html.Action("MenuGridView")
+        </div>
+    </div>
+    @*<div class="card_new_footer"></div>*@
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+

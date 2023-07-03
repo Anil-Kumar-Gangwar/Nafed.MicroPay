@@ -1,0 +1,210 @@
+﻿
+@using Nafed.MicroPay.Model;
+@model TrainingFeedbackDetail
+
+<div class="row text-center">
+    <div class="col-lg-12 col-md-12 col-xl-12 col-sm-12 col-xs-12">
+        <img src="~/Images/logo.png" />
+    </div>
+    <div class="col-lg-12 col-md-12 col-xl-12 col-sm-12 col-xs-12">
+        <h4>Training Evaluation Form </h4><br />
+        <span>Note: This information will be used to maintain or improve the standard of Trainings.</span>
+
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-xl-12 col-sm-12 col-xs-12">
+        <table class="table table-bordered table-centered dt-responsive w-100 mb-0">
+            <tbody>
+                <tr>
+                    <td style="width:30%" class="font-weight-bold">
+                        Trainer
+                    </td>
+                    <td style="width:70%">
+                        @Model.TrainerType
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width:30%" class="font-weight-bold">Training on :  </td>
+                    <td style="width:70%">
+                        <div class="row">
+                            <div class="col-4 font-weight-bold">Training Date:</div>
+                            <div class="col-4"><span class="font-weight-bold">From:</span> @Model.StartDate.Value.ToString("dd-MM-yyyy") </div>
+                            <div class="col-4"><span class="font-weight-bold">To:</span>  @Model.EndDate.Value.ToString("dd-MM-yyyy")</div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width:30%" class="font-weight-bold">Training Location</td>
+                    <td style="width:70%">@Model.TrainingVenue</td>
+                </tr>
+                <tr>
+                    <td style="width:30%" class="font-weight-bold">Participant’s Name & Employee Code: </td>
+                    <td style="width:70%">@Model.EmployeeName - @Model.EmployeeCode</td>
+                </tr>
+                <tr>
+                    <td style="width:30%" class="font-weight-bold">Name of Faculty/Instructor(s): </td>
+                    <td style="width:70%"> @Model.TrainingInstructor</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div style="margin-top:10px;">
+    <div class="row">
+
+        <div class="col-lg-12 col-md-12 col-xl-12 col-sm-12 col-xs-12">
+            <table class="table table-bordered table-centered mb-0">
+                <thead>
+                    <tr>
+                        <th colspan="3">
+                            Part-I	Training Relevance and Structure
+                        </th>
+                    </tr>
+                    <tr>                        
+                        <th></th>
+                        <th></th>
+                        <th class="text-center">Rating</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null && Model.TrainingFeedbackDetailList.Count > 0)
+                    {
+                        var sno = 1;
+                        for (int i = 0; i < Model.TrainingFeedbackDetailList.Count; i++)
+                        {
+                            <tr>
+                                <td style="width:2%">@Model.TrainingFeedbackDetailList[i].SectionPrefix </td>
+                                <td style="width:65%">
+                                    @Model.TrainingFeedbackDetailList[i].Section
+                                </td>
+
+                                <td class="text-center">
+                                    @Model.TrainingFeedbackDetailList[i].enumRatingNo.GetDisplayName()
+                                </td>
+                            </tr>
+                            sno++;
+                        }
+                    }
+                </tbody>
+            </table>
+
+            <table class="table table-bordered table-centered dt-responsive w-100 mb-0">
+                <thead>
+                    <tr>
+                        <th colspan="3">
+                            Part-II	Training Administration
+                        </th>
+                    </tr>
+                    <tr>
+                        <th></th>
+                        <th></th>
+                        <th class="text-center">Rating</th>                       
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null && Model.TrainingFeedbackDetailPart2List.Count > 0)
+                    {
+                        var sno = 1;
+                        for (int i = 0; i < Model.TrainingFeedbackDetailPart2List.Count; i++)
+                        {
+                            <tr>
+                                <td style="width:2%">@Model.TrainingFeedbackDetailPart2List[i].SectionPrefix </td>
+                                <td style="width:65%">
+                                    @Model.TrainingFeedbackDetailPart2List[i].Section
+                                </td>
+
+                                <td class="text-center">
+                                    @Model.TrainingFeedbackDetailPart2List[i].enumRatingNo.GetDisplayName()
+                                </td>
+                            </tr>
+                            sno++;
+                        }
+                    }
+                </tbody>
+            </table>
+
+            <table class="table table-bordered table-centered dt-responsive w-100">
+                <thead>
+                    <tr>
+                        <th colspan="3">
+                            Part-III    General Training Effectiveness
+                        </th>
+                    </tr>
+                    <tr>
+                        <th></th>
+                        <th></th>
+                        <th class="text-center">Rating</th>                       
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null && Model.TrainingFeedbackDetailPart3List.Count > 0)
+                    {
+                        var sno = 1;
+                        for (int i = 0; i < Model.TrainingFeedbackDetailPart3List.Count; i++)
+                        {
+                            <tr>
+                                <td style="width:2%">@Model.TrainingFeedbackDetailPart3List[i].SectionPrefix </td>
+                                <td style="width:65%">
+                                    @Model.TrainingFeedbackDetailPart3List[i].Section
+                                </td>
+
+                                <td class="text-center">
+                                    @Model.TrainingFeedbackDetailPart3List[i].enumRatingNo.GetDisplayName()
+                                </td>
+                            </tr>
+                            sno++;
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+</div>
+
+<div class="form-group">
+    <div class="row">
+        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+            Employee Action Plan :
+        </div>
+
+        <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
+            @Html.Raw(Model.ActionPlan)
+
+        </div>
+    </div>
+</div>
+
+@*<div class="form-group">
+
+    <span class="pull-right">
+
+        @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-light btn-md toggle-tooltip", @title = "Click here, to redirect on list page" })
+
+    </span>
+</div>*@
+
+<script>
+    $(document).ready(function () {
+        $('.TextEditor').summernote({
+            height: 200,
+            maxHeight: 200,
+            minHeight: 200,
+            toolbar: [
+              // [groupName, [list of button]]
+              ['style', ['bold', 'italic', 'underline', 'clear']],
+              ['font', ['strikethrough', 'superscript', 'subscript']],
+              ['fontsize', ['fontsize']],
+              ['color', ['color']],
+              ['para', ['ul', 'ol', 'paragraph']],
+              ['height', ['height']]
+            ]
+        });
+    });
+
+</script>
+   

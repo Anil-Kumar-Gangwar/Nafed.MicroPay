@@ -1,0 +1,484 @@
+﻿@model Nafed.MicroPay.Model.Requirement
+@using MicroPay.Web.Models;
+@{
+    var chkModel = new CheckBoxListViewModel();
+    if (Model.CheckboxList == null)
+    {
+        chkModel.AvailableFields = new List<CheckBox>();
+    }
+    else
+    {
+        chkModel = Model.CheckboxList;
+    }
+    var modelValid = Model.ModelIsValid;
+}
+
+<div class="" style="margin-top:10px;">
+    <div class="">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="row alert alert-danger m-4" role="alert">
+                    Note :  Paste plain text only in formatting text editor input (e.g  Maximum Age Limit Desc, Minimum Experience Detail and others). Direct paste from word file can create formatting issue, so format your text only with available formatting option in formatting editor.
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                            @Html.Label("Employement Type", htmlAttributes: new { @class = "control-label required" })
+                        </div>
+                        <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+                            @Html.EnumDropDownListFor(model => model.enumEmployementType, "Select", new { @class = "custom-select" })
+                            @Html.ValidationMessage("EmployementTypeValidation", "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                            @Html.LabelFor(model => model.DesinationID, htmlAttributes: new { @class = "control-label required" })
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                            @Html.DropDownListFor(model => model.DesinationID, (IEnumerable<SelectListItem>)ViewBag.DesignationList, new { @class = "custom-select" })
+                            @Html.ValidationMessageFor(model => model.DesinationID, "", new { @class = "text-danger" })
+                            @Html.ValidationMessage("RequirementAlreadyExist", "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+                            @Html.LabelFor(model => model.Post, htmlAttributes: new { @class = "control-label required" })
+                        </div>
+
+                        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                            @Html.EditorFor(model => model.Post, new { htmlAttributes = new { @class = "form-control", @placeholder = "Post", @maxlength = "50" } })
+                            @Html.ValidationMessageFor(model => model.Post, "", new { @class = "text-danger" })
+
+                        </div>
+
+                        <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+                            @Html.LabelFor(model => model.NoofPosition, htmlAttributes: new { @class = "control-label required" })
+                        </div>
+                        <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+                            @Html.EditorFor(model => model.NoofPosition, new { htmlAttributes = new { @class = "form-control", @placeholder = "No of Position" } })
+                            @Html.ValidationMessageFor(model => model.NoofPosition, "", new { @class = "text-danger" })
+                        </div>
+
+
+                    </div>
+                </div>
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">Dates</div>
+                    <div class="panel-body">
+                        <div class="form-group">
+
+                            <div class="row">
+                                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                    @Html.LabelFor(model => model.PublishDate, htmlAttributes: new { @class = "control-label required" })
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                    @*@Html.EditorFor(model => model.PublishDate, new { htmlAttributes = new { @class = "form-control", @type = "date", @placeholder = "Publish Date", min = DateTime.Now.ToString("yyyy-MM-dd") } })*@
+                                    @Html.TextBoxFor(model => model.PublishDate, String.Format("{0:dd/MM/yyyy}", Model.PublishDate), new { @type = "text", @class = "form-control datepicker",id= "PublishDate", @placeholder = "dd /mm/yyyy" })
+                                    @Html.ValidationMessageFor(model => model.PublishDate, "", new { @class = "text-danger" })
+
+                                </div>
+
+                                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                    @Html.LabelFor(model => model.LastDateofApplicationReceived, htmlAttributes: new { @class = "control-label required" })
+
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                    @Html.TextBoxFor(model => model.LastDateofApplicationReceived, String.Format("{0:dd/MM/yyyy}", Model.LastDateofApplicationReceived), new { @type = "text", @class = "form-control datepicker", id = "LastDateofApplicationReceived", @placeholder = "dd /mm/yyyy" })
+                                    @*@Html.EditorFor(model => model.LastDateofApplicationReceived, new { htmlAttributes = new { @class = "form-control", @type = "date", @placeholder = "Last Date of Application Received", min = DateTime.Now.ToString("yyyy-MM-dd") } })*@
+                                    @Html.ValidationMessage("LastDateofApplicationReceivedRangeValidation", "", new { @class = "text-danger" })
+                                    @Html.ValidationMessageFor(model => model.LastDateofApplicationReceived, "", new { @class = "text-danger" })
+                                </div>
+
+                                <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+                                    @Html.LabelFor(model => model.WrittenExamDate, htmlAttributes: new { @class = "control-label" })
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                    @*@Html.EditorFor(model => model.WrittenExamDate, new { htmlAttributes = new { @class = "form-control", @type = "date", @placeholder = "Written Exam Date", min = DateTime.Now.ToString("yyyy-MM-dd") } })*@
+                                    @Html.TextBoxFor(model => model.WrittenExamDate, String.Format("{0:dd/MM/yyyy}", Model.WrittenExamDate), new { @type = "text", @class = "form-control datepicker", id = "WrittenExamDate", @placeholder = "dd /mm/yyyy" })
+                                    @Html.ValidationMessageFor(model => model.WrittenExamDate, "", new { @class = "text-danger" })
+                                    @Html.ValidationMessage("WrittenExamDateRangeValidation", "", new { @class = "text-danger" })
+                                </div>
+
+                                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                    @Html.LabelFor(model => model.GDExamDate, htmlAttributes: new { @class = "control-label" })
+
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                    @*@Html.EditorFor(model => model.GDExamDate, new { htmlAttributes = new { @class = "form-control", @type = "date", @placeholder = "GD Exam Date", min = DateTime.Now.ToString("yyyy-MM-dd") } })*@
+                                    @Html.TextBoxFor(model => model.GDExamDate, String.Format("{0:dd/MM/yyyy}", Model.GDExamDate), new { @type = "text", @class = "form-control datepicker", id = "GDExamDate", @placeholder = "dd /mm/yyyy" })
+                                    @Html.ValidationMessage("GDExamDateRangeValidation", "", new { @class = "text-danger" })
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">Application Fees</div>
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+
+                                    @Html.LabelFor(model => model.FeesApplicable, htmlAttributes: new { @class = "control-label" })
+                                </div>
+                                <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+                                    <label class="switch">
+                                        @Html.CheckBoxFor(model => model.FeesApplicable, new { @class = "form-control", @onChange = "FeesApplicableChange(this)" })
+                                        <div class="slider round">
+                                        </div>
+                                    </label>
+                                </div>
+
+
+                                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                    @Html.LabelFor(model => model.ApplicationFees, htmlAttributes: new { @class = "control-label" })
+                                </div>
+                                <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+                                    @Html.EditorFor(model => model.ApplicationFees, new { htmlAttributes = new { @class = "form-control", @placeholder = "Application Fees", @readonly = "readonly", @type = "number" } })
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                    @Html.LabelFor(model => model.HowToPay, htmlAttributes: new { @class = "control-label" })
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">                                    
+                                    @Html.TextAreaFor(model => model.HowToPay, new { @id = "HowToPayEditor", @class = "form-control TextEditor", @placeholder = "How To Pay", @style = "min-height:100px;max-height:100px;", @maxlength = "2000", @cols = "60", @rows = "10" })
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">Posting Location</div>
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">Location</div>
+                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="margin-left:200px">
+                                        @Html.RadioButtonFor(model => model.requirementOptionType, "AnyWhereInIndia", new { id = "AnyWhereInIndia" })
+                                        @Html.LabelFor(model => model.AnyWhereInIndia, new { @for = "AnyWhereInIndia" })
+
+                                        <br />
+                                        @Html.RadioButtonFor(model => model.requirementOptionType, "SpecificBranch", new { id = "SpecificBranch" })
+                                        @Html.LabelFor(model => model.SpecificBranch, new { @for = "SpecificBranch" })
+
+                                        <br />
+                                        @Html.RadioButtonFor(model => model.requirementOptionType, "SpecificZone", new { id = "SpecificZone" })
+                                        @Html.LabelFor(model => model.SpecificZone, new { @for = "SpecificZone" })
+                                        <br />
+                                        @Html.ValidationMessage("LocationType", "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                    <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                        @Html.Label("Branch", htmlAttributes: new { @class = "control-label required hide", @id = "requirementIn" })
+                                    </div>
+                                    <div id="div-filter-list" class="col-lg-8 col-md-8 col-sm-12 col-xs-12" style="max-height:250px; overflow-y:scroll; border: solid 1px #e1e1e1;">
+
+                                        @if ((int)Model.requirementOptionType < 3 && (int)Model.requirementOptionType > 0)
+                                        {
+                                            @Html.Partial("_ReqFilterFieldList", chkModel)}
+                                        @Html.ValidationMessage("RequirementOptionType", "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+
+
+
+                            </div>
+
+
+                            <div class="panel-body hide" id="divExamCenter">
+
+                                <div class="row mb-3 text-right">
+                                    <div class="col-md-12 pull-right">
+
+                                        <input type="submit" value="Add Examination Center" id="btnAddExamCen" name="ButtonType" class="btn btn-info btn-md pull-center toggle-tooltip btn-sectionAddRow"
+                                               title="Click here, to add new row." />
+                                    </div>
+                                </div>
+                                <div id="div-form-ExamCenter-grid">
+                                    @Html.Partial("_ExamCenterDetails", Model)
+                                </div>
+
+                            </div>
+
+                            @*<div class="row hide">
+                                    <div class="row mb-3 text-right">
+
+                                        <div class="col-md-12 pull-right">
+
+                                            <input type="submit" value="Add Exam Center" id="btnAddRow" name="ButtonType" class="btn btn-info btn-md pull-center toggle-tooltip" title="Click here, to add new row." />
+                                        </div>
+                                    </div>
+                                    <div id="div-form-ExamCenter-grid">
+                                        @Html.Partial("_ExamCenterDetails", Model)
+                                    </div>
+                                </div>*@
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">Qualification</div>
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                    @Html.Label("Qualification", htmlAttributes: new { @class = "control-label required" })
+                                </div>
+
+                                <div id="div-Qualificationfilter-list" class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="max-height:250px; overflow-y:scroll; border: solid 1px #e1e1e1;">
+                                    @Html.Partial("_ReqQualificationFieldList", (CheckBoxListViewModel)Model.QualificationCheckboxList)
+                                    @Html.ValidationMessage("QualificationType", "", new { @class = "text-danger" })
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">Age Group and Experience Detail</div>
+                    <div class="panel-body">
+
+                        <div class="form-group">
+
+                            <div class="row">
+
+                                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                    @Html.LabelFor(model => model.MinimumAgeLimits, htmlAttributes: new { @class = "control-label required" })
+                                </div>
+                                <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+                                    @Html.EditorFor(model => model.MinimumAgeLimits, new { htmlAttributes = new { @class = "form-control", @placeholder = "Minimum Age Limit" } })
+                                    @Html.ValidationMessageFor(model => model.MinimumAgeLimits, "", new { @class = "text-danger" })
+                                    @Html.ValidationMessage("MinimumAgeValidation", "", new { @class = "text-danger" })
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                    @Html.LabelFor(model => model.MaximumAgeLimit, htmlAttributes: new { @class = "control-label required" })
+                                </div>
+                                <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+                                    @Html.EditorFor(model => model.MaximumAgeLimit, new { htmlAttributes = new { @class = "form-control", @placeholder = "Maximum Age Limit" } })
+                                    @Html.ValidationMessageFor(model => model.MaximumAgeLimit, "", new { @class = "text-danger" })
+
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                    @Html.LabelFor(model => model.MimimumExpenrienceNo, htmlAttributes: new { @class = "control-label required" })
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                    @Html.EditorFor(model => model.MimimumExpenrienceNo, new { htmlAttributes = new { @class = "form-control", @placeholder = "Minimum Expenrience No" } })
+                                    @Html.ValidationMessageFor(model => model.MimimumExpenrienceNo, "", new { @class = "text-danger" })
+
+                                </div>
+                            </div>
+                            <div class="row mt-4">
+                                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                    @Html.LabelFor(model => model.MaximumAgeLimitDesc, htmlAttributes: new { @class = "control-label required" })
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                    @Html.TextAreaFor(model => model.MaximumAgeLimitDesc, new { @rows = 10, @id = "MaximumAgeLimitDescEditor", @class = "form-control TextEditor", @placeholder = "Maximum Age Limit Desc" })
+                                    @Html.ValidationMessageFor(model => model.MaximumAgeLimitDesc, "", new { @class = "text-danger" })
+                                </div>
+
+
+                                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                    @Html.LabelFor(model => model.MinimumExperinceDetail, htmlAttributes: new { @class = "control-label required" })
+
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                    @Html.TextAreaFor(model => model.MinimumExperinceDetail, new { @rows = 10, @id = "MinimumExperinceDetailEditor", @class = "form-control TextEditor", @placeholder = "Minimum Experince Detail Instructions" })
+                                    @Html.ValidationMessageFor(model => model.MinimumExperinceDetail, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">Skill</div>
+                    <div class="panel-body">
+
+                        <div class="form-group">
+
+                            <div class="row">
+                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                    @Html.LabelFor(model => model.DesiredKeySkills, htmlAttributes: new { @class = "control-label " })
+
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                    @Html.TextAreaFor(model => model.DesiredKeySkills, new { @rows = 10, @id = "DesiredKeySkillsDetailEditor", @class = "form-control TextEditor", @placeholder = "Desired Key Skills Instructions" })
+                                </div>
+
+                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                    @Html.LabelFor(model => model.OptionalKeySkills, htmlAttributes: new { @class = "control-label " })
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                    @Html.TextAreaFor(model => model.OptionalKeySkills, new { @rows = 10, @id = "OptionalKeySkillsDetailEditor", @class = "form-control TextEditor", @placeholder = "Optional Key Skills Instructions" })
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">Other</div>
+                    <div class="panel-body">
+
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                    @Html.LabelFor(model => model.PayScale, htmlAttributes: new { @class = "control-label required" })
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                    @Html.TextAreaFor(model => model.PayScale, new { @rows = 10, @id = "PayScaleEditor", @class = "form-control TextEditor", @placeholder = "PayScale Instructions" })
+                                    @Html.ValidationMessageFor(model => model.PayScale, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                    @Html.LabelFor(model => model.MinimumQualification, htmlAttributes: new { @class = "control-label required" })
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                    @Html.TextAreaFor(model => model.MinimumQualification, new { @rows = 10, @id = "MinimumQualificationEditor", @class = "form-control TextEditor", @placeholder = "Minimum Qualification Instructions" })
+                                    @Html.ValidationMessageFor(model => model.MinimumQualification, "", new { @class = "text-danger" })
+
+                                </div>
+
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                    @Html.LabelFor(model => model.Essential_Duties_and_Responsibilities, htmlAttributes: new { @class = "control-label required" })
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                    @Html.TextAreaFor(model => model.Essential_Duties_and_Responsibilities, new { @rows = 10, @id = "EssentialDetailEditor", @class = "form-control TextEditor", @placeholder = "Essential Duties and Responsibilities Instructions" })
+                                    @Html.ValidationMessageFor(model => model.Essential_Duties_and_Responsibilities, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                    @Html.LabelFor(model => model.MethodofRecruitment, htmlAttributes: new { @class = "control-label required" })
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                    @Html.TextAreaFor(model => model.MethodofRecruitment, new { @rows = 10, @id = "MethodofRecruitmentEditor", @class = "form-control TextEditor", @placeholder = "Method of Recruitment Description" })
+                                    @Html.ValidationMessageFor(model => model.MethodofRecruitment, "", new { @class = "text-danger" })
+
+                                </div>
+
+
+                            </div>
+
+                            <div class="row">
+
+
+                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                    @Html.LabelFor(model => model.INSTRUCTIONS, htmlAttributes: new { @class = "control-label required" })
+                                </div>
+                                <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
+                                    @Html.TextAreaFor(model => model.INSTRUCTIONS, new { @rows = 10, @id = "INSTRUCTIONSEditor", @class = "form-control TextEditor", @placeholder = "Instructions Description" })
+                                    @Html.ValidationMessageFor(model => model.INSTRUCTIONS, "", new { @class = "text-danger" })
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<input type="hidden" id="SelectedFieldID" value="" />
+
+<div class="p-4">
+    <span class="pull-right">
+        @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-light btn-md toggle-tooltip", @title = "Click here, to redirect on list page" })
+        <input type="submit" value="Create" class="btn btn-info btn-md pull-center toggle-tooltip" title="Click here, to save current record" name="ButtonType" />
+    </span>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.TextEditor').summernote({
+            height: 200,
+            maxHeight: 200,
+            minHeight: 200,
+            toolbar: [
+              // [groupName, [list of button]]
+              ['style', ['bold', 'italic', 'underline', 'clear']],
+              ['font', ['strikethrough', 'superscript', 'subscript']],
+              ['fontsize', ['fontsize']],
+              ['color', ['color']],
+              ['para', ['ul', 'ol', 'paragraph']],
+              ['height', ['height']]
+            ]
+        });
+        if(@modelValid==2){
+            locationCheckbox();
+            $("#divExamCenter").removeClass("hide");
+        }
+    });
+    $(function () {
+        $('input[type=radio]').change(function () {
+            var checkedRadio = this.value;
+            if (checkedRadio == undefined)
+                checkedRadio = -1;
+
+            if (checkedRadio == "AnyWhereInIndia") {
+                fieldID = 0;
+                $("#requirementIn").removeClass("hide");
+                $("#requirementIn").removeClass("required");
+                $("#requirementIn").html('');
+                $("#div-form-ExamCenter-grid").html("");
+                $("#divExamCenter").removeClass("hide");
+            }
+            else if (checkedRadio == "SpecificBranch") {
+                var fieldID = 1;
+                $("#requirementIn").removeClass("hide");
+                $("#requirementIn").addClass("required");
+                $("#requirementIn").html("Branch");
+                $("#div-form-ExamCenter-grid").html("");
+                $("#divExamCenter").addClass("hide");
+            }
+            else if (checkedRadio == "SpecificZone") {
+                var fieldID = 2;
+                $("#requirementIn").removeClass("hide");
+                $("#requirementIn").addClass("required");
+                $("#requirementIn").html("Zone");
+                $("#div-form-ExamCenter-grid").html("");
+                $("#divExamCenter").addClass("hide");
+            }
+
+            $("#SelectedFieldID").val(fieldID);
+            if (fieldID > 0)
+                jQuery.post('@Url.Action("_FillFilterFieldList", "Requirement") ',
+                   { fieldID: fieldID }).done(function (data) {
+                       $("#div-filter-list").html(data);
+                       locationCheckbox();
+                   });
+            else
+                $("#div-filter-list").html('');
+        });
+    });
+
+    function locationCheckbox() {
+        $("#div-chk-list-container :checkbox").click(function () {
+            var checked = $("#div-chk-list-container [type='checkbox']:checked").length;
+            if (checked > 0) {
+                $("#divExamCenter").removeClass('hide');
+            }
+            else {
+                $("#divExamCenter").addClass('hide');
+                $("#div-form-ExamCenter-grid").html("");
+            }
+        });
+    }
+
+    $("#PublishDate").datepicker({ dateFormat: 'dd/mm/yy', changeYear: true, minDate: new Date() });
+    $("#LastDateofApplicationReceived").datepicker({ dateFormat: 'dd/mm/yy', changeYear: true, minDate: new Date() });
+    $("#WrittenExamDate").datepicker({ dateFormat: 'dd/mm/yy', changeYear: true, minDate: new Date() });
+    $("#GDExamDate").datepicker({ dateFormat: 'dd/mm/yy', changeYear: true, minDate: new Date() });
+</script>

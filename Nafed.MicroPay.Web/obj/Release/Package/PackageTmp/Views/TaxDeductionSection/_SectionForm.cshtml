@@ -1,0 +1,102 @@
+﻿
+@using Nafed.MicroPay.Model;
+@using MicroPay.Web.Models
+
+@model DeductionSectionVM
+
+
+@Html.HiddenFor(model => model.deductionSection.CreatedBy)
+@Html.HiddenFor(model => model.deductionSection.CreatedOn)
+@Html.HiddenFor(model => model.deductionSection.SectionID)
+@Html.HiddenFor(model => model.deductionSection.FYear)
+
+<div class="panel panel-default">
+
+    <div class="panel-heading">
+
+        @if (Model.deductionSection.SectionID == 0)
+        {
+            <text> Create Section </text>
+        }
+        else
+        {
+            <text> Edit Section </text>
+        }
+    </div>
+
+    <div class="panel-body">
+
+        <div class="form-group">
+
+            <div class="row">
+
+                <div class="col-lg-3 col-xl-3 col-md-3 col-sm-12 col-xs-12">
+
+                    @Html.LabelFor(model => model.selectedFYear, htmlAttributes: new { @class = "control-label required" })
+
+                </div>
+                <div class="col-lg-9 col-xl-9 col-md-9 col-sm-12 col-xs-12">
+
+                    @if (Model.deductionSection.SectionID == 0)
+                    {
+                        @Html.DropDownListFor(model => model.selectedFYear, new SelectList(Model.fYears, "Text", "Value"), "Select", new { @class = "custom-select" })
+                        @Html.ValidationMessageFor(model => model.selectedFYear, null, new { @class = "text-danger" })
+                    }
+                    else
+                    {
+                        @Html.DropDownListFor(model => model.selectedFYear, new SelectList(Model.fYears, "Text", "Value"), "Select", new { @class = "custom-select", @disabled = "disabled" })
+                    }
+                </div>
+
+
+            </div>
+        </div>
+
+        <div class="form-group">
+
+            <div class="row">
+
+                <div class="col-lg-3 col-xl-3 col-md-3 col-sm-12 col-xs-12">
+
+                    @Html.LabelFor(model => model.deductionSection.SectionName, htmlAttributes: new { @class = "control-label required" })
+
+                </div>
+                <div class="col-lg-9 col-xl-9 col-md-9 col-sm-12 col-xs-12">
+
+                    @Html.EditorFor(model => model.deductionSection.SectionName, new { htmlAttributes = new { @class = "form-control", @placeholder = "Section Name", @maxlength = "150" } })
+                    @Html.ValidationMessageFor(model => model.deductionSection.SectionName, null, new { @class = "text-danger" })
+
+
+                </div>
+
+
+            </div>
+        </div>
+
+        <div class="form-group pl-3 pr-3 pt-2">
+
+            <div class="row">
+
+
+                <div class="col-lg-12 col-xl-12 col-md-12 col-xs-12 col-sm-12 pull-right">
+
+                    @if (Model.deductionSection.SectionID > 0)
+                    {
+
+                        <input type="submit" value="Update" name="ButtonType" class="btn btn-info btn-sm pull-center toggle-tooltip" title="Click here, to save current record" />
+
+                    }
+                    else
+                    {
+                        <input type="submit" value="Save" name="ButtonType" class="btn btn-info btn-sm pull-center toggle-tooltip" title="Click here, to save current record" />
+                    }
+                </div>
+
+            </div>
+        </div>
+
+
+
+    </div>
+
+</div>

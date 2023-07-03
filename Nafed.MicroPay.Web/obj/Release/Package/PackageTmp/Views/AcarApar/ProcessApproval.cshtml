@@ -1,0 +1,36 @@
+﻿@using Nafed.MicroPay.Model
+@model List<FormGroupAHdr>
+
+@{
+    ViewBag.Title = "Employee Process Approval Report";
+    ViewBag.NavigationTitle = "Employee Process Approval Report";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="">
+    <div class="card_new_body">
+        @using (Ajax.BeginForm("GetProcessApprovalDetailAndExport", "AcarApar", new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "div-Report" }, new { }))
+        {
+            <div id="div-filters">               
+                    @Html.Action("_ReportFilter")               
+            </div>
+        }
+    </div>
+    <div class="card_new_body">
+        <div id="div-Report">
+            @Html.Partial("_EmpProcessApprovalDetail",Model)
+            
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+

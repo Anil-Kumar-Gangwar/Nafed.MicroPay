@@ -1,0 +1,21 @@
+﻿@model MicroPay.Web.Models.APARSkillsViewModel
+@using Nafed.MicroPay.Model;
+@{
+    ViewBag.Title = "Annual Competency Assessment Report History";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var uDetails = (UserDetail)Session["user"];
+}
+
+<div class="">
+    <div class="card_new_header text-right">
+        @Html.ActionLink("Back", "Index", "CompetencyAPAR", null, new { @class = "btn btn-light btn-md", title = "Click here, to go to back on previous screen.", @data_toggle = "tooltip" })
+        @Html.ActionLink("Annual Competency Assessment Report", "Edit", "APARSkills", new { reportingTo = Model.approvalSetting.ReportingTo, empID = uDetails.EmployeeID, departmentID = uDetails.DepartmentID, designationID = uDetails.DesignationID }, new { @class = "btn btn-info btn-md", title = "Click here, to submit Annual Competency Assessment Report.", @data_toggle = "tooltip" })
+
+    </div>
+    <div class="card_new_body">
+        <div id="">
+            @Html.Action("MyAPARSkillList")
+        </div>
+    </div>
+
+</div>

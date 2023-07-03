@@ -1,0 +1,70 @@
+﻿@using MicroPay.Web.Models
+@model FileTrackingViewModel
+@{
+    ViewBag.Title = "File Initiate";
+    ViewBag.NavigationTitle = "File Initiate";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    System.Globalization.CultureInfo Indian = new System.Globalization.CultureInfo("hi-IN");
+}
+
+
+<div id="div-fileList-grid">
+
+
+    <div class="card_new_header text-right">          
+
+       @if (Model.IsEligibleForFTMS)
+       {
+        @Html.ActionLink("Create New File ", "GenerateFile", "GenerateFileNo", null, new { @class = "btn btn-info", title = "Click here, to create new file no.", @data_toggle = "tooltip" })
+       }
+    </div>
+    <div class="card_new_body">
+        <div id="div-file-grid">
+            @Html.Action("GetFileList")
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="div-file-forward">
+    <div class="modal-dialog modal-lg" style="max-height:400px;">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">                
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body" id="div-file-container">
+
+
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    function onSuccessFile(data) {
+        debugger;
+        if (data.status == 1) {
+            $("#div-file-forward").modal("hide");
+            commonMessage(data.type, data.msg);
+            $("#div-file-grid").load("@Url.Action("GetFileList", "GenerateFileNo")");
+
+
+        }
+        else if (data.status == 0) {
+
+            $("#div-file-container").html(data.htmlData);
+
+
+        }
+    }
+</script>

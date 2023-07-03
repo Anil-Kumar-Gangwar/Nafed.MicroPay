@@ -1,0 +1,148 @@
+﻿@model MicroPay.Web.Models.LeaveBalanceAsOfNowViewModel
+<style>
+    .require {
+        color: red;
+        margin-left: 134px;
+    }
+</style>
+
+@{
+
+    var yearDDl = Enumerable.Range(2006, DateTime.Now.Year - 2006 + 1).
+                              Select(i => new SelectListItem { Value = i.ToString(), Text = i.ToString() }).OrderByDescending(x=>x.Value).ToList();
+
+    yearDDl.Insert(0, new SelectListItem { Text = "Select", Value = "0", Selected = true });
+
+
+}
+
+<div class="advance-search" style="">
+
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 pb-1 pt-2 form-inline align-middle">
+
+        <i class="fa fa-search fa-2x" style="color:#d4d4d4;" aria-hidden="true"></i><h4 class="desc" style="color:#0bb70b;">
+            @Html.Label("Search")
+        </h4>
+     
+    </div>
+    <hr style="background-color:#fff !important;">
+
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="form-group">
+
+            <div class="row">
+                <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12 text-secondary">
+
+                    <i class="fas fa-filter"></i> Filter By :
+
+                </div>
+
+
+                <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+                    @Html.Label("Year", htmlAttributes: new { @class = "" })
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                    @Html.DropDownList("ddlYear", yearDDl, new { @class = "custom-select" })
+                </div>
+
+                <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+                    @Html.Label("Branch", htmlAttributes: new { @class = "" })
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                    @Html.DropDownList("ddlBranchList", (IEnumerable<SelectListItem>)ViewBag.Branch, new { @class = "custom-select", onChange = "EmployeeBranchWise();" })
+                </div>
+
+
+                <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+                    @Html.Label("Employee", htmlAttributes: new { @class = "" })
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 pb-sm-1">
+                    @Html.DropDownList("ddlEmployee", (IEnumerable<SelectListItem>)ViewBag.EmployeeCode, new { @class = "custom-select" })
+                </div>
+
+               
+
+            </div>
+        </div>
+    </div>
+
+    <hr style="background-color:#fff !important;">
+    <div class="row mt-3">
+
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-right">
+           
+            <button id="btnSearch" type="submit" class="btn btn-warning" title="Click here, to search records." onclick="GetLeaveBalanceAsOfNowGridData();">
+                <i class="fa fa-search"></i> Search
+            </button>
+            <button id="btnExport" type="submit" class="btn btn-warning" title="Click here, to search records." onclick="ExportData();">
+                <i class="fas fa-file-excel"></i>
+                Export
+            </button>
+
+           
+
+
+            @*<input type="submit" value="&#xf002 Search" id="btnSearch" class="btn btn-warning pull-right faelement"  onclick="GetEmployeeAttendanceGridData();">*@
+        </div>
+
+    </div>
+</div>
+<br />
+
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        //GetLeaveBalanceAsOfNowGridData();
+    });
+
+    function GetLeaveBalanceAsOfNowGridData() {
+        var branchID = $("#ddlBranchList").val() == "0" ? null : $("#ddlBranchList").val();
+        var employeeCode = $("#ddlEmployee option:selected").text() == "Select" ? null : $("#ddlEmployee option:selected").text();
+        var Year = $("#ddlYear").val() == "0" ? null : $("#ddlYear").val();
+        jQuery.post("@Url.Action("LeaveBalanceAsOfNowGridView", "LeaveBalanceAsOfNow")", {
+            Branch: branchID,
+            EmployeeCode: employeeCode,
+            LeaveYear: Year,
+        }).done(function (data) {
+            if (data != "") {
+                $("#MarkDiv").html(data);
+                var table = $('#tblGrid').DataTable({
+                });
+                $('#tblGrid_length').find('select').addClass('custom-select');
+            }
+            else {
+            }
+        });
+    }
+
+    function ExportData() {
+        jQuery.post("@Url.Action("LeaveBalanceExportSheet", "LeaveBalanceAsOfNow")", {
+        }).done(function (data) {
+            if (data.fileName != "" && data.message == "success") {
+                window.location.href = "@Url.RouteUrl(new { Controller = "Base", Action = "DownloadAndDelete" })/?sFileName=" + data.fileName + "&sFileFullPath=" + data.fullPath;
+            }
+        });
+    }
+
+    function EmployeeBranchWise() {
+        var branchID = $("#ddlBranchList").val();
+        jQuery.post("@Url.Action("GetEmployeeBranchWise", "LeaveBalanceAsOfNow")", {
+            BranchID: branchID,
+        }).done(function (data) {
+            debugger
+            if (data.EmployeeList != null) {
+                $("#ddlEmployee").empty();
+                $.each(data.EmployeeList, function (i, item) {
+                    $("#ddlEmployee").append($('<option />', {
+                        value: item.id,
+                        text: item.value
+                    }));
+                });
+            }
+        });
+    }
+</script>
+
+
+

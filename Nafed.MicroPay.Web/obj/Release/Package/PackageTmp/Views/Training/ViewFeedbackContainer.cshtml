@@ -1,0 +1,37 @@
+﻿@using MicroPay.Web.Models
+@model TrainingViewModel
+
+@{
+    ViewBag.Title = "Training Feedback";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var trainingID = Request["trainingID"];
+}
+
+
+<div class="mt-2">       
+
+        <div class="tab-content">
+            <div id="general" class="container tab-pane active fullwidth-container">
+                @Html.Partial("_ViewTrainingSchedule", Model)
+            </div>
+          
+            <div class="panel panel-default" style="margin-top:10px;">
+                <div class="panel-heading">Feedback Form</div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-12" id="Tab8">
+                            @Html.Action("_EditEmployeeFeedbackForm", "Training", new { trainingID = trainingID })
+                            
+                        </div>
+                    </div> 
+                </div>
+            </div>   
+
+            <div class="form-group">
+                <span class="pull-right">
+                    @Html.ActionLink("Back to List", "FeedbackIndex", "Training", new { @class = "btn btn-light btn-md toggle-tooltip", @title = "Click here, to redirect on list page" })
+                </span>
+            </div>       
+        </div>
+    </div>
+

@@ -1,0 +1,186 @@
+﻿@using Nafed.MicroPay.Model
+@model EmpPFOpBalance
+@*@using Nafed.MicroPay.Common*@
+@{
+
+    var yearDDl = Enumerable.Range(2006, DateTime.Now.Year - 2006 + 1).
+       Select(i => new SelectListModel { id = i, value = i.ToString() }).OrderByDescending(x => x.value).ToList();
+    var monthDDL = Enumerable.Range(1, 12).
+                            Select(i => new SelectListModel
+                            {
+                                id = i,
+                                value = System.Globalization.CultureInfo.InvariantCulture.DateTimeFormat.GetMonthName(i)
+                            }).ToList();
+}
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <fieldset class="border col-md-12 col-xs-12 col-lg-12 col-xl-12 pb-2 mb-1">
+            <legend style="font-size:1.3rem !important;" class="w-auto"></legend>
+
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-lg-2 col-md-2 col-sm-2 required">
+                        Generate month :
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-sm-2">
+                        @Html.DropDownListFor(model => model.Salmonth, new SelectList(monthDDL, "id", "value"), new { @class = "custom-select" })
+                        @Html.ValidationMessageFor(model => model.Salmonth, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-lg-1 col-md-1 col-sm-1 required">
+                        Year :
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-sm-2">
+                        @Html.DropDownListFor(model => model.Salyear, new SelectList(yearDDl, "id", "value"), new { @class = "custom-select" })
+                    </div>
+
+                    <div class="col-lg-2 col-md-2 col-sm-2 required">
+                        Enter Employee Code
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-3">
+                        @Html.DropDownListFor(model => model.EmployeeID, new SelectList(ViewBag.Employees, "id", "value"), new { @class = "custom-select" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group mb-0">
+                <div class="row">
+                    <div class="col-lg-2 col-md-2 col-sm-2">
+                        PF Account No.
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-sm-2">
+                        @Html.TextBoxFor(model => model.PFAcNo, new { @class = "form-control" })
+                        <span id="ErrorPFA" class="text-danger"></span>
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-3">
+                        No Interest Calculate (more than 3 years transaction not done)
+                    </div>
+                    <div class="col-lg-1 col-md-1 col-sm-1">
+                        <div class="form-group">
+                            <label class="switch">
+                                @Html.CheckBoxFor(model => model.IsInterestCalculate.Value, new { @class = "form-control" })
+                                <div class="slider round">
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 text-right">
+                        <button type="button" class="btn btn-info btn-md" id="btnfind">
+                            <i class="fa fa-search"></i> Find
+                        </button>
+                    </div>
+                </div>
+            </div>
+            @*<div class="form-group">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            Addition To Employee's Contribution
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            @Html.EditorFor(model => model.AdditionEmployeeAc, new { htmlAttributes = new { @class = "form-control text-right required", @type = "number", @min = "1", @max = "999999999" } })
+
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            Addition To Employer's Contribution
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            @Html.TextBoxFor(model => model.AdditionEmployerAc, new { @class = "form-control text-right required", @type = "number", @min = "1", @max = "999999999" })
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            Withdrawl To Employee's Contribution
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            @Html.TextBoxFor(model => model.WithdrawlEmployeeAc, new { @class = "form-control required text-right", @type = "number", @min = "1", @max = "999999999" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            Withdrawl To Employer's Contribution
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            @Html.TextBoxFor(model => model.WithdrawlEmployerAc, new { @class = "form-control required text-right", @type = "number", @min = "1", @max = "999999999" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            Interest withdrawl To Employee's Total
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            @Html.TextBoxFor(model => model.EmployeeInterest, new { @class = "form-control required text-right", @type = "number", @min = "1", @max = "999999999" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            Interest withdrawl To Employer's Total
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            @Html.TextBoxFor(model => model.EmployerInterest, new { @class = "form-control required text-right", @type = "number", @min = "1", @max = "999999999" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            No Pension Deduct
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            <div class="form-group">
+                                <label class="switch">
+                                    @Html.CheckBoxFor(model => model.PensionDeduct.Value, new { @class = "form-control" })
+                                    <div class="slider round">
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group mb-md-5">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-6 ">
+
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="form-group mb-md-5">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-6 ">
+
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+
+                        </div>
+                    </div>
+
+                </div>*@
+        </fieldset>
+    </div>
+</div>
+

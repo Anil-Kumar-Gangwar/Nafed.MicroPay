@@ -1,0 +1,63 @@
+﻿@{
+    List<Nafed.MicroPay.Model.Menu> menusList = ViewBag.Menu;
+}
+@if (menusList != null)
+{
+    <ul class="treeview tree1">
+        @foreach (var mp in menusList.Where(p => p.ParentID == 0))
+        {
+            <li style="list-style:none;">
+                @if (!string.IsNullOrEmpty(mp.URL))
+                {
+                    <input type="checkbox" class="Lavel1" value="@(mp.MenuID)" /> @mp.MenuName
+                }
+                else
+                {
+                    <input type="checkbox" class="Lavel1" value="@(mp.MenuID)" /> @mp.MenuName
+                }
+                @if (menusList.Count(p => p.ParentID == mp.MenuID) > 0)
+                {
+                    @:<ul class="tree1">
+                                                                                                                                                                                                                                                                                                                                                                                                 }
+                @RenderMenuItem(menusList, mp) @if (menusList.Count(p => p.ParentID == mp.MenuID)> 0)
+                { @:
+                </ul>
+                }
+            </li>
+        }
+    </ul>
+    @helper RenderMenuItem(List<Nafed.MicroPay.Model.Menu> menusList, Nafed.MicroPay.Model.Menu mi)
+    {
+foreach (var cp in menusList.Where(p => p.ParentID == mi.MenuID))
+{
+        @:<li style="list-style:none;">
+            if (!string.IsNullOrEmpty(cp.URL))
+    {
+            <input type="checkbox" class="Lavel2" value="@(cp.MenuID)" /> @cp.MenuName
+    }
+    else
+    {
+            <input type="checkbox" class="Lavel2" value="@(cp.MenuID)" /> @cp.MenuName
+    }
+    if (menusList.Count(p => p.ParentID == cp.MenuID) > 0)
+    {
+            @:<ul class="tree1">
+                                               }
+        @RenderMenuItem(menusList, cp)
+    if (menusList.Count(p => p.ParentID == cp.MenuID) > 0)
+    {
+            @:
+        </ul>
+                                               }
+    else
+    {
+            @:
+        </li>
+
+
+
+
+    }
+}
+}
+}

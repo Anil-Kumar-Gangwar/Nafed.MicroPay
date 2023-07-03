@@ -1,0 +1,48 @@
+﻿
+@using Nafed.MicroPay.Model
+@model ArchivedDataTransaction
+@{ 
+
+    var yearDDl = Enumerable.Range(2006, DateTime.Now.Year-4 - 2006 + 1)
+       .Select(i => new SelectListModel { id = i, value = i.ToString() })
+       .OrderByDescending(x => x.value).ToList();
+}
+
+
+<div class="form-group">
+
+    <div class="row">
+
+        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+            @Html.LabelFor(model => model.SelectedYear, new { @class = "control-label required" })
+        </div>
+
+        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+
+            @Html.DropDownListFor(model => model.SelectedYear, new SelectList(yearDDl, "id", "value"), "Select", new { @class = "custom-select" })
+          
+        </div>
+
+        <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+
+            <input type="submit" value="Archive" onclick="javascript: return SubmitForm();"  class="btn btn-info btn-md pull-center toggle-tooltip" title="Click here, to archive data." />
+
+        </div>
+
+        <div class="col-lg-7 col-md-7 col-sm-12 col-xs-12">          
+            @Html.ValidationMessageFor(model => model.SelectedYear, "", new { @class = "text-danger" })
+            @Html.ValidationMessage("DataError", "", new { @class = "text-danger font-weight-bold" })
+        </div>
+    </div>
+
+</div>
+
+<script>
+    function SubmitForm() {
+   
+        var r = confirm("Are you sure you want to archive data till this year, after archival data will not be restore again.?");
+        if (r == false) {
+            return false;
+        }
+    }
+</script>

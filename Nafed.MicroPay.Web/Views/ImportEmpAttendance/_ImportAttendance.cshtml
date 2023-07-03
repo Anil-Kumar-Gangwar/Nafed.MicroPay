@@ -1,0 +1,63 @@
+﻿
+
+@{
+
+    Layout = null;
+}
+
+<script>
+    $(document).ready(function () {
+        $('#btnSave').click(function () {
+          
+            var saveURL = '/ImportEmpAttendance/SubmitFileData';
+            $.post(saveURL, {}).done(function (data) {
+                //  alert(data.error);
+                 if(data.errorCode==-1)
+                     $("#validation-hdr").html(data.error).addClass('alert alert-danger');
+                $('#waitLoading').css('display', 'none');
+                $('.modal-backdrop').hide();
+            });
+        });
+    });
+  
+</script>
+
+@using (Ajax.BeginForm("_ImportAttendance", "ImportEmpAttendance", new AjaxOptions { HttpMethod = "POST" }, new { enctype = "multipart/form-data", defaultbutton = "submitform" }))
+{
+
+<div class="row">
+    <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12 mt-3">
+        @Html.Label("Import", htmlAttributes: new { @class = "font-weight-bold" })
+    </div>
+    <div class="col-lg-7 col-md-7 col-sm-12 col-xs-12 mt-2">
+        <div class="input-group image-preview">
+            <input type="text" class="form-control image-preview-filename" disabled="disabled"> <!-- don't give a name === doesn't send on POST/GET -->
+            <span class="input-group-btn">
+                <!-- image-preview-clear button -->
+                <button type="button" class="btn btn-default image-preview-clear" style="display:none;">
+                    <span class="glyphicon glyphicon-remove"></span> Clear
+                </button>
+                <!-- image-preview-input -->
+                <div class="btn btn-default image-preview-input">
+                    <span class="glyphicon glyphicon-folder-open"></span>
+                    <span class="image-preview-input-title">Browse</span>
+                    @Html.TextBox("file", "", new { type = "file", @class = "", @name = "input-file-preview" })
+                </div>
+            </span>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 mt-2 text-right">
+        <button type="submit" id="submitform" class="btn btn-success pull-center toggle-tooltip" title="Click here, to validate attendance sheet data.">
+            <i class="fa fa-check" aria-hidden="true"></i>
+ Validate Data
+        </button>
+
+    </div>
+    <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12 pull-right">
+
+        <input type="button" id="btnSave" value="Save" class="btn btn-info pull-center hide" title="Click here, to save attendance" />
+    </div>
+</div>
+
+
+}

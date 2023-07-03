@@ -1,0 +1,50 @@
+﻿@model Nafed.MicroPay.Model.SuperAnnuating
+
+@Html.HiddenFor(model => Model.EmployeeId)
+@Html.HiddenFor(model => Model.SeprationId)
+
+<script src="~/Scripts/layout.js"></script>
+<div class="row mt-4">
+    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 mt-2">
+        @Html.Label("Upload Document :-", htmlAttributes: new { @class = "font-weight-bold required" })
+    </div>
+    <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 mt-2">
+        <div class="input-group image-preview">
+            <input type="text" class="form-control image-preview-filename" disabled="disabled" id="filesinfo"> <!-- don't give a name === doesn't send on POST/GET -->
+            <span class="input-group-btn">
+                <!-- image-preview-clear button -->
+                <button type="button" class="btn btn-default image-preview-clear" style="display:none;">
+                    <span class="glyphicon glyphicon-remove"></span> Clear
+                </button>
+                <!-- image-preview-input -->
+                <div class="btn btn-default image-preview-input">
+                    <span class="glyphicon glyphicon-folder-open"></span>
+                    <span class="image-preview-input-title">Browse</span>
+                    @Html.TextBox("file", "", new { type = "file", @class = "", @name = "Files", accept = "application/pdf" })
+                </div>
+            </span>
+
+        </div>
+        <span id="fileUploadError"></span>
+        <label class="font-weight-bold text-danger">[Support only file type= pdf and single file size should be <= 3MB] <br /></label>
+    </div>
+
+</div>
+
+
+
+
+<script>
+    $(".image-preview-input input:file").change(function () {
+        var files = $("#file").get(0).files;
+        var totalFiles = files.length;
+        var fileName = "";
+        for (var i = 0; i < files.length; i++) {
+            fileName += files[i].name + ",";
+        }
+        $(".image-preview-filename").val(fileName.replace(/,\s*$/, ""));
+        $(".image-preview-input-title").text("Change");
+        $(".image-preview-clear").show();
+
+    });
+</script>

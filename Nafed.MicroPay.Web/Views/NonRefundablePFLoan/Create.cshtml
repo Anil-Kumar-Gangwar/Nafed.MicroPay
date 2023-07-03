@@ -1,0 +1,552 @@
+﻿@using Nafed.MicroPay.Model;
+@model Nafed.MicroPay.Model.NonRefundablePFLoan
+@{
+    ViewBag.Title = "Non-Refundable PF Loan";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+   
+  
+}
+
+<script src="~/Scripts/bootstrap-multiselect.js"></script>
+<link href="~/Content/bootstrap-multiselect.css" rel="stylesheet" />
+@if (Model.StatusID == 3)
+{
+    <div class="row">
+        <input id="printdiv" type="submit" value="Print" onclick="printContent('div-PF-form-container')" />
+    </div>
+}
+
+@using (Html.BeginForm("Create", "NonRefundablePFLoan", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    @Html.HiddenFor(model => model.NRPFLoanID)
+    @Html.HiddenFor(model => model.ID)
+    @Html.HiddenFor(model => model.StatusID)
+    @Html.HiddenFor(model => model.loggedInEmpID)
+    @Html.HiddenFor(model => model.EmployeeId)
+    @Html.HiddenFor(model => model.Employeecode)
+    @Html.HiddenFor(model => model.Employeename)
+    @Html.HiddenFor(model => model.EmpProceeApproval.ReportingTo)
+    @Html.HiddenFor(model => model.EmpProceeApproval.ReviewingTo)
+    @Html.HiddenFor(model => model.EmpProceeApproval.AcceptanceAuthority)
+    @Html.HiddenFor(model => model.ApprovalHierarchy)
+    @Html.HiddenFor(model => model.loggedInEmpID)
+    @Html.HiddenFor(model => model.EmployeeId)
+    @Html.HiddenFor(model => model.HBName)
+    @Html.HiddenFor(model => model.AccountNo)
+    @Html.HiddenFor(model => model.BasicPay)
+    @Html.HiddenFor(model => model.DA)
+    @Html.HiddenFor(model => model.Paddress)
+    @Html.HiddenFor(model => model.currentDate)
+    @Html.HiddenFor(model => model.POA)
+    @Html.HiddenFor(model => model.RemittanceDesiredMode)
+    @Html.HiddenFor(model => model.listDetails)
+
+
+    <div id="div-PF-form-container">
+        <div class="form-group">
+            <div class="col-lg-12 col-md-12 col-xl-12 col-sm-12 col-xs-12 text-center">
+                <h4 class="font-weight-bold">
+                    APPLICATION FOR ADVANCE FROM THE EMPLOYEES' PROVIDENT FUND<br />
+                </h4>
+                <h6>
+                    (Paragraph 68-B of the Employees' Provident Fund Scheme 1952)
+                </h6>
+            </div>
+        </div>
+
+        <div class="form-group ">
+            <div class="col-lg-12 col-md-12 col-xl-12 col-sm-12 col-xs-12 text-center mb-4">
+                <h4 class="font-weight-bold">
+                    PART : I<br />
+                </h4>
+                <h5>
+                    <span class="mt-4">(To be completed by the member)</span> <br />
+
+                </h5>
+            </div>
+        </div>
+
+        <hr />
+        <div id="div-Employee">
+
+            <div class="form-group">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2 mt-4">
+
+                    <div class="row">
+                        <p class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                            1. Name of the member
+                            (in Block letter)
+
+                        </p>
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 mb-2 font-weight-bold">
+                            @Model.Employeecode <text> - </text>  @Model.Employeename
+                        </div>
+                    </div>
+                    <div class="row">
+                        <p class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                            2. Father's name (or husband's name in case of married women)
+
+                        </p>
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 mb-2 font-weight-bold">
+                            @Model.HBName
+                        </div>
+                    </div>
+                    <div class="row">
+                        <p class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                            3. Name of the Factory/Estt
+                        </p>
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 mb-2 font-weight-bold">
+                            Nafed
+                        </div>
+                    </div>
+                    <div class="row">
+                        <p class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                            4. Account No.
+                        </p>
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 mb-2 font-weight-bold">
+                            @Model.AccountNo
+                        </div>
+                    </div>
+                    <div class="row">
+                        <p class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                            5. Rate of monthly basis wages & Dearness Allowance
+
+                        </p>
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 mb-2 font-weight-bold">
+                            @Model.BasicPay <text> - </text>  @Model.DA
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <p class="col-lg-4 col-md-4 col-sm-4 col-xs-12  required">
+                            6. Amount of advance required
+                        </p>
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 mb-2" font-weight-bold">
+                            @Html.EditorFor(model => model.Amount_of_Advanced, new { htmlAttributes = new { @class = "form-control text-right", @type = "number", @style = "text-align: right;", @placeholder = "Amount of advanced" } })
+                          
+                            
+                            @Html.ValidationMessageFor(model => model.Amount_of_Advanced, "", new { @class = "text-danger" })
+                         
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 mb-2" font-weight-bold">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <p class="col-lg-4 col-md-4 col-sm-4 col-xs-12 required">
+                            7. Purpose for which advance 
+
+                        </p>
+                        <div class="col-lg-8 col-md-8 col-sm-2 col-xs-12 mb-2" font-weight-bold">
+                           @*@Html.DropDownListFor(model => model.Purpose_of_Advanced, (IEnumerable<SelectListItem>)ViewBag.PurposeofAdvanced, new { @class = "custom-select", @id = "ddlemployeePFScheme1952" })*@
+                            @Html.DropDownListFor(model => model.Purpose_of_Advanced, new SelectList(Model.POA, "id", "value"), "Select", new { @class = "custom-select", @id = "ddlemployeePFScheme1952" }) 
+                            
+                              @Html.ValidationMessage("PorposeofAdvanced", "", new { @class = "text-danger" })
+                        </div>
+                       
+                    </div>
+
+                    <div class="row">
+                        <p class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                            8. Whether any advance has been sanctioned for any of the purpose mentioned against S.No. 7, if so, the date of sanction thereof
+                        </p>
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 mb-2" font-weight-bold">
+                            @Html.TextBoxFor(model => model.Date_of_Sanction, String.Format("{0:dd/MM/yyyy}", Model.Date_of_Sanction), new { @type = "text", @class = "form-control datepicker", @placeholder = "dd/mm/yyyy" })<br />
+                            
+
+
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 mb-2" font-weight-bold">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <p class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                            9. Area and location of dwelling site/house intended to be purchased/constructed/already purchased/constructed.  Whether the site purchased/constructed to be purchased/constructed is within or outside municipal area
+                        </p>
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 mb-2" font-weight-bold">
+                            @Html.EditorFor(model => model.LocationOfDwellingSite, new { htmlAttributes = new { @class = "form-control", @placeholder = "Location Of Dwelling Site", @maxlength = "200" } })
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 mb-2" font-weight-bold">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <p class="col-lg-4 col-md-4 col-sm-4 col-xs-12 required">
+                            10. Name  of the present owner of the dwelling site/house intended to be purchased
+                        </p>
+                        <div class="col-lg-4 col-md-4 col-sm-2 col-xs-12 mb-2" font-weight-bold">
+                            @Html.EditorFor(model => model.NamePresentOwner, new { htmlAttributes = new { @class = "form-control", @placeholder = "Name of present owner", @maxlength = "20" } })
+                            @Html.ValidationMessage("NamePresentOwner", "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-2 col-xs-12 mb-2" font-weight-bold">
+                            @Html.EditorFor(model => model.AddressPresentOwner, new { htmlAttributes = new { @class = "form-control", @placeholder = "Address of present owner", @maxlength = "50" } })
+                            @Html.ValidationMessage("AddressPresentOwner", "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <p class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                            11. Present state of the dwelling house or the stage at which the construction is now on (to be filled in if the advance is required for purpose(d) or (e) mentioned against S.No. 7.
+                        </p>
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 mb-2" font-weight-bold">
+                            @Html.EditorFor(model => model.PresentStateofDwelling, new { htmlAttributes = new { @class = "form-control", @placeholder = "Present state of dwelling", @maxlength = "25" } })
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 mb-2" font-weight-bold">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <p class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                            12. Desired mode of remittance and the address to which remittance is desired.
+                        </p>
+                        <div class="col-lg-8 col-md-8 col-sm-2 col-xs-12 mb-2 font-weight-bold">
+                            @Html.DropDownListFor(model => model.DesiredModeofRemittance, new SelectList(Model.RemittanceDesiredMode,"id","value"),"Select", new { @class = "custom-select", @id = "ddlDesiredModeofRemittance" })
+                        </div>
+                       
+                    </div>
+
+                    <div class="row">
+                        <p class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                           13. List of documents to be enclosed in case of 7(a) and 7(b)
+                        </p>
+                        <div class="col-lg-8 col-md-8 col-sm-2 col-xs-12 mb-2">
+                            @*@Html.ListBoxFor(m => m.ListID, (IEnumerable<SelectListItem>)ViewBag.listofDocuments, new { @class = "form-control", @id = "ddlListofDocuments" })*@
+                            
+                            @Html.ListBoxFor(model => model.ListID, new SelectList(Model.listDetails, "id", "value"), new { @class = "form-control", @id = "ddlListofDocuments" })
+
+                            @Html.HiddenFor(m => m.hdnCheckedVal)
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+            <div class="col-lg-12 col-md-12 col-xl-12 col-sm-12 col-xs-12 text-center mt-4 mb-5">
+                <h4 class="font-weight-bold">
+                    CONDITIONS<br />
+                </h4>
+
+            </div>
+
+            <div class="form-group">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
+                    <div class="row">
+                        <p class="col-lg-12 col-md-12 col-sm-12 col-xs-12 font-weight-bold">
+                          14.  I undertake to comply with the following conditions :
+                        </p>
+
+                    </div>
+
+                    <div class="row">
+                        <p class="col-lg-5 col-md-5 col-sm-6 col-xs-12">
+                            (i)	The amount of advance shall be utilised for the purpose applied for.
+                        </p>
+                        <p class="col-lg-5 col-md-5 col-sm-6 col-xs-12 offset-lg-1 offset-md-1">
+                            (ii)	If the amount of advance is in excess of the actual expenditure incurred for the purpose for which the advance was granted the excess shall be refunded to the fund within 30 days of the finalisation of the purchase or completion of the construction or completion of the additions to the dwelling house as the case may be.
+                        </p>
+
+                    </div>
+
+                    <div class="row">
+                        <p class="col-lg-5 col-md-5 col-sm-6 col-xs-12">
+                            (iii)	If the advance is for construction of dwelling house, the construction shall be commenced within six months of the withdrawals of the first instalment and withdrawal.
+                        </p>
+                        <p class="col-lg-5 col-md-5 col-sm-6 col-xs-12 offset-lg-1 offset-md-1">
+                            (iv)	If the advance is for the purpose of a dwelling site or house, the purchase shall be completed within six months of the withdrawal.
+                        </p>
+
+
+                    </div>
+
+                    <div class="row">
+                        <p class="col-lg-5 col-md-5 col-sm-6 col-xs-12">
+                            (v)	The amount of the advance shall be utilised for constructing a dwelling house on land which is not owned 15.	I declare that :<br />
+                            (i)	I have not taken any advance from the fund under paragraph 68-C of the EPF Scheme.<br />
+                            (ii)	The dwelling site/house intended to be purchased out the advance applied for is free from encumbrances and is not a share in joint property.<br />
+                            (iii)	Without the future advance now applied for the construction already commenced cannot be the construction of addition to the house.<br />
+                        </p>
+                        <p class="col-lg-5 col-md-5 col-sm-6 col-xs-12 offset-lg-1 offset-md-1">
+                            (vi)	The amount of advance shall not be utilised in purchasing a dwelling site or house which is not free from encumbrances and which is a share in a joint property.
+                        </p>
+
+
+                    </div>
+
+
+                    <div class="row">
+                        <p class="col-lg-5 col-md-5 col-sm-6 col-xs-12">
+                            (vii)	Such title deed, plans, their documents and information related to the intended purchase, construction of addition as may be called for by commissioner from time to time shall be furnished to him on demand.
+                        </p>
+                        <p class="col-lg-5 col-md-5 col-sm-6 col-xs-12 offset-lg-1 offset-md-1">
+                            (viii)	A declaration in the form prescribed by the Commissioner shall be furnished to him immediately on finalisation of the purchase or completion of
+                        </p>
+                    </div>
+
+
+                    <div class="row">
+                        <p class="col-lg-5 col-md-5 col-sm-6 col-xs-12">
+                            (ix)	If the purchase or construction for which the advance is granted does not materialise or if there is any breach of the conditions specified herein or in the EPF Scheme the entire amount of the advance together with interest thereon at the rate of 6 1/2 per annum shall be refunded to the fund. 	(iv)	I am the sole owner of the land on which I intend to construct a dwelling house for the advance applied for.
+                        </p>
+                        <p class="col-lg-5 col-md-5 col-sm-6 col-xs-12 offset-lg-1 offset-md-1">
+
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="row mt-4">
+                <div class="col-md-6 text-left "> <label class="col-lg-6 col-md-6 col-sm-6 col-xs-6 mb-2 "></label></div>
+                <div class="col-md-6 text-right">Date : <label class="col-lg-6 col-md-6 col-sm-6 col-xs-6 col-xs-8 mb-2 underlineinput text-left" id="lblDate">@Model.currentDate</label></div>
+            </div>
+            <div class="row mt-4">
+                <div class="col-md-6 text-left "> <label class="col-lg-6 col-md-6 col-sm-6 col-xs-6 mb-2 "></label></div>
+                <div class="col-md-6  text-right">Name of the member<label class="col-lg-6 col-md-6 col-sm-6 col-xs-6 mb-2  underlineinput text-left" id="lblSigofMmber">@Model.Employeename</label></div>
+            </div>
+            <div class="row mt-4">
+                <div class="col-md-6 text-left "> <label class="col-lg-6 col-md-6 col-sm-6 col-xs-6 mb-2 "></label></div>
+                <div class="col-md-6  text-right">Postal Address <label class="col-lg-6 col-md-6 col-sm-6 col-xs-6 mb-2  underlineinput text-left" id="lblPostalAddress">@Model.Paddress</label></div>
+            </div>
+
+        </div>
+
+
+        <div id="div-DHSH">
+          @if (Model.EmpProceeApproval.ReportingTo == Model.loggedInEmpID)
+          {
+            <div class="form-group ">
+                <div class="col-lg-12 col-md-12 col-xl-12 col-sm-12 col-xs-12 text-center mb-5">
+                    <h4 class="font-weight-bold">
+                        PART - II<br />
+                    </h4>
+                    <h5>
+                        <span class="mt-4">(To be filled in by the employer)</span> <br />
+                    </h5>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
+                    <div class="row">
+                        <p class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            Certified that the application has been signed by......................................................................employed in my factory/establishment after he/she read the contents/the contents have been explained to him/her by me and that the account no. and the rate of monthly basic wages given in the application are correct.  Following documents furnished by him are enclosed with :
+                        </p>
+
+                    </div>
+
+
+                    <div class="row">
+                        <p class="col-lg-5 col-md-5 col-sm-6 col-xs-12">
+                            (i)	Original title deed.
+                        </p>
+                        <p class="col-lg-5 col-md-5 col-sm-6 col-xs-12 offset-lg-1 offset-md-1">
+                            (ii)	Non-encumbrances certificate in respect of the dwelling site/house to be purchased, duly signed with official seal from appropriate revenue authorities.
+                        </p>
+                    </div>
+                    <div class="row">
+                        <p class="col-lg-5 col-md-5 col-sm-6 col-xs-12">
+                            (iii)	Extract of Property Register/VII/VII duly signed with official seal by appropriate revenue authority.
+                        </p>
+                        <p class="col-lg-5 col-md-5 col-sm-6 col-xs-12 offset-lg-1 offset-md-1">
+                            (iv)	Agreement with the vendor for the purchase of the site/house.
+                        </p>
+                    </div>
+
+                    <div class="row">
+                        <p class="col-lg-5 col-md-5 col-sm-6 col-xs-12">
+                            (v)	Sanctioned construction plan and estimate of the cost of construction in the case of the advance for construction of the house. <br />
+                            (a)	Years of service put in by the member......................................................................<br />
+                            (b)	Total accumulations standing to the credit of the member as his own share of contribution......................................................................as on ............................................<br />
+                            (c)	Whether in case of construction of house any proof to show that the land belongs to the member or his/her spouse has been submitted ......................................................................<br />
+                                (i)	Original title deed.<br />
+                                (ii)Non-encumbrances certificate from appropriate revenue authority.<br />
+                            (d) Whether in case of purchase of dwelling site/house title deed of the proposed seller has
+
+
+                        </p>
+                        <p class="col-lg-5 col-md-5 col-sm-6 col-xs-12 offset-lg-1 offset-md-1">
+                            (vi) Non-Agricultural use certificate from appropriate revenue authority (in respect of agricultural land) on which dwelling is proposed to be constructed)
+                        </p>
+                    </div>
+
+                    <div class="row">
+                        <p class="col-lg-5 col-md-5 col-sm-6 col-xs-12">
+                            (vii)	Blank advance receipt duly signed by the applicant.
+                        </p>
+                        <p class="col-lg-5 col-md-5 col-sm-6 col-xs-12 offset-lg-1 offset-md-1">
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-4">
+                <div class="col-md-6 text-left">Dated : <label class="col-lg-6 col-md-6 col-sm-6 col-xs-6 col-xs-8 mb-2 underlineinput text-left" id="lblDate">@Model.currentDate</label></div>
+                <div class="col-md-6 text-right "> <label class="col-lg-6 col-md-6 col-sm-6 col-xs-6 mb-2 "></label></div>
+            </div>
+            <div class="row mt-4">
+                <div class="col-md-6 text-left "> <label class="col-lg-6 col-md-6 col-sm-6 col-xs-6 mb-2 "></label></div>
+                <div class="col-md-6  text-right">Regd. No. of the factory/Estt.<label class="col-lg-6 col-md-6 col-sm-6 col-xs-6 mb-2  underlineinput text-left" id="lblnooffac"></label></div>
+            </div>
+            <div class="row mt-4">
+                <div class="col-md-6 text-left "> <label class="col-lg-6 col-md-6 col-sm-6 col-xs-6 mb-2 "></label></div>
+                <div class="col-md-6  text-right">Designation of the signing officialwith stamp of the factory/estt.<label class="col-lg-6 col-md-6 col-sm-6 col-xs-6 mb-2  underlineinput text-left" id="lbldesignation"></label></div>
+            </div>
+            <div class="row mt-4">
+                <div class="col-md-6 text-left "> <label class="col-lg-6 col-md-6 col-sm-6 col-xs-6 mb-2 "></label></div>
+                <div class="col-md-6  text-right">Code No. of the factory/Estt.<label class="col-lg-6 col-md-6 col-sm-6 col-xs-6 mb-2  underlineinput text-left" id="lblPostalAddress"></label></div>
+            </div>
+            <div class="row mt-4">
+                <div class="col-md-6 text-left "> <label class="col-lg-6 col-md-6 col-sm-6 col-xs-6 mb-2 "></label></div>
+                <div class="col-md-6  text-right">Payment authorised No<label class="col-lg-6 col-md-6 col-sm-6 col-xs-6 mb-2  underlineinput text-left" id="lblPostalAddress"></label></div>
+            </div>
+
+            <div class="form-group ">
+                <div class="col-lg-12 col-md-12 col-xl-12 col-sm-12 col-xs-12 text-center mb-5">
+                    <h4 class="font-weight-bold">
+                        PART - III<br />
+                    </h4>
+                    <h5>
+                        <span class="mt-4">(For use in Regional Commissioner's Officer)</span> <br />
+                    </h5>
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
+
+                    <div class="row">
+                        <p class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            a)	Years of service put in by the member......................................................................
+                        </p>
+
+                    </div>
+                    <div class="row">
+                        <p class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            (b)	Total accumulations standing to the credit of the member as his own share of contribution......................................................................as on..........................................
+
+
+                        </p>
+
+                    </div>
+                    <div class="row">
+                        <p class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            (c)	Whether in case of construction of house any proof to show that the land belongs to the member or his/her spouse has been submitted ......................................................................<br />
+                                (i)	Original title deed.<br />
+                                (ii) Non-encumbrances certificate from appropriate revenue authority.
+
+                        </p>
+
+                    </div>
+                    <div class="row">
+                        <p class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            (iii)	Extract of Property Register/VII/VII duly signed with official seal by appropriate revenue authority.
+                        </p>
+
+                    </div>
+                    <div class="row">
+                        <p class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            (d)	Whether in case of purchase of dwelling site/house title deed of the proposed seller has been produced alongwith agreement with the vendor for the puchase of site/house as the case may be.
+                        </p>
+
+                    </div>
+                    <div class="row">
+                        <p class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            (e)	Recommendations by the clerk with his dated initials :
+
+
+                        </p>
+
+                    </div>
+                    <div class="row">
+                        <p class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            (f)	Recommendations by the H.C. with his dated initials :
+                        </p>
+
+                    </div>
+                    <div class="row">
+                        <p class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            (g)	Recommendations by the Accounts Officer:
+                        </p>
+
+                    </div>
+                    <div class="row">
+                        <p class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            (h)	Orders of the Regional Commissioner.
+                        </p>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group ">
+                <div class="col-lg-12 col-md-12 col-xl-12 col-sm-12 col-xs-12 text-left mb-4">
+                    <h7>
+                        *	Delete items not applicable.<br />
+                    </h7>
+                    <h7>
+                        **	Left hand thumb-impression in the case of illiterate male member and right hand thumb impression by illiterate female
+                    </h7>
+                </div>
+            </div>
+          }
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2 text-right">
+           
+            @if (Model.loggedInEmpID == Model.EmployeeId)
+            {
+                @Html.ActionLink("Back", "Index", "NonRefundablePFLoan", new { @class = "btn btn-light btn-md toggle-tooltip", @title = "Click here, to redirect on list page", @data_toggle = "tooltip" })
+
+                if (Model.StatusID == 0 || Model.StatusID == 1)
+                {
+                    <input type="submit" value="Save" id="btnSave" name="ButtonType" class="btn btn-info btn-md pull-center toggle-tooltip" title="Click here, to save the data" data-toggle="tooltip" />
+                    <input type="submit" value="Submit" id="btnSave" name="ButtonType" class="btn btn-info btn-md pull-center toggle-tooltip" title="Click here, to submit the data" data-toggle="tooltip" />
+                }
+            }
+            else if (Model.loggedInEmpID == Model.EmpProceeApproval.ReportingTo)
+            {
+                @Html.ActionLink("Back", "Index", "ApprovalRequest", null, new { @class = "btn btn-light btn-md", title = "Click here, to go to back on previous screen.", @data_toggle = "tooltip" })
+                if ((Model.FormStatus == (int)NRPFLoanFormState.SubmitedByEmployee))
+                {
+                    <input type="submit" value="Approved" id="btnSave" name="ButtonType" class="btn btn-info btn-md pull-center toggle-tooltip" title="Click here, to approved the data" data-toggle="tooltip" />
+                    <input type="submit" value="Rejected" id="btnrejected" name="ButtonType" class="btn btn-info btn-md pull-center toggle-tooltip" title="Click here, to reject the data" data-toggle="tooltip" />
+                }
+               
+            }
+           
+        </div>
+    </div>
+
+
+}
+
+   <style type="text/css">
+    .multiselect-container {
+        width: 100% !important;
+    }
+</style><script type="text/javascript">
+
+    function printContent(el) { var restorepage = document.body.innerHTML; var printcontent = document.getElementById(el).innerHTML; document.body.innerHTML = printcontent; window.print(); document.body.innerHTML = restorepage; }
+
+    $(document).ready(function () {
+
+        $('#ddlListofDocuments').multiselect({
+            buttonWidth: '100%'
+        });
+
+        //$('#ddlListofDocuments').multiselect();
+        $(".multiselect").addClass('col-lg-12 col-md-12 col-sm-12 col-xs-12');
+       
+       
+    });
+
+</script>

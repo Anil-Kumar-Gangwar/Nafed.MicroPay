@@ -1,0 +1,1301 @@
+﻿@using Nafed.MicroPay.Common;
+@using Nafed.MicroPay.Model;
+@using MicroPay.Web.Models;
+@model ApprovalRequestVM
+@{
+    var uDetails = (UserDetail)Session["user"];
+    var formDueDate = Model.FormAttributes;
+}
+<table id="tblGrid-apprasial" class="table table-centered table-striped dt-responsive w-100 mt-2">
+    <thead>
+
+        <tr>
+            <th>
+                Reporting Yr
+            </th>
+            <th>
+                Form Name
+            </th>
+            @*<th>
+                    Employee Code
+                </th>*@
+            <th>
+                Name
+            </th>
+            <th>
+                Department
+            </th>
+            <th>
+                Designation
+            </th>
+            <th>
+                Status
+            </th>
+            @*<th class="text-center" style="width:150px">
+                    Annual Competency Assessment Report
+                </th>*@
+            <th class="text-center" style="width:60px">
+                Action
+            </th>
+
+        </tr>
+
+    </thead>
+
+    <tbody>
+        @{
+            var totalAPARpending = 0;
+            if (Model.appraisalForms != null && Model.appraisalForms.Count() > 0)
+            {
+
+                var sno = 1;
+                foreach (var item in Model.appraisalForms)
+                {
+                    if (item.EmpProceeApproval.AcceptanceAuthority.HasValue && item.EmpProceeApproval.AcceptanceAuthority == item.EmpProceeApproval.ReviewingTo && item.EmpProceeApproval.ReviewingTo == item.EmpProceeApproval.ReportingTo)
+                    {
+                        if (uDetails.EmployeeID == item.EmpProceeApproval.AcceptanceAuthority)
+                        {
+                            if (item.StatusID == (int)AppraisalFormState.SubmitedByEmployee)
+                            {
+                                totalAPARpending += Model.appraisalForms.Where(x => x.StatusID == (int)AppraisalFormState.SubmitedByEmployee && x.AppraisalHdrID == item.AppraisalHdrID).Count();
+                            }
+
+                            if (item.StatusID == (int)AppraisalFormState.SubmitedByEmployee || item.StatusID == (int)AppraisalFormState.SavedByAcceptanceAuth || item.StatusID == (int)AppraisalFormState.SubmitedByAcceptanceAuth || item.StatusID == (int)AppraisalFormState.SavedByReporting || item.StatusID == (int)AppraisalFormState.SubmitedByReporting || item.StatusID == (int)AppraisalFormState.SavedByReviewer || item.StatusID == (int)AppraisalFormState.SubmitedByReviewer)
+                            {
+                                <tr>
+
+                                    <td>@item.ReportingYr</td>
+                                    <td>@item.FormName</td>
+                                    @*<td> @item.EmployeeCode</td>*@
+                                    <td>@item.EmployeeCode - @item.EmpName</td>
+                                    <td> @item.DepartmentName</td>
+                                    <td> @item.DesignationName</td>
+                                    <td class="text-center">
+                                        @if (item.StatusID == (int)AppraisalFormState.SavedByEmployee)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-light col-md-12">
+                                                    Save
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.StatusID == (int)AppraisalFormState.SubmitedByEmployee)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-dark col-md-12">
+                                                    Submitted
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.StatusID == (int)AppraisalFormState.SavedByReporting)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-light col-md-12">
+                                                    Saved by Reporting Officer
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.StatusID == (int)AppraisalFormState.SubmitedByReporting)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill bg-teal col-md-12">
+                                                    Reported by Reporting Officer
+                                                </span>
+                                                @*<span class="badge badge-pill badge-success col-md-12 toggle-tooltip" title="Employee Remark: @item.Reason <br/> Reporting Remark: @item.ReporotingToRemark <br/> Reviwer Remark: @item.ReviewerToRemark">Accepted by Accepting Authority</span>*@
+                                            </h5>
+                                        }
+                                        else if (item.StatusID == (int)AppraisalFormState.SavedByReviewer)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-light col-md-12">
+                                                    Saved by Reviewer Officer
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.StatusID == (int)AppraisalFormState.SubmitedByReviewer)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-info col-md-12">
+                                                    Reviewed by Reviewer Officer
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.StatusID == (int)AppraisalFormState.SavedByAcceptanceAuth)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-light col-md-12">
+                                                    Saved by Acceptance Authority
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.StatusID == (int)AppraisalFormState.SubmitedByAcceptanceAuth)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-success col-md-12">
+                                                    Accepted by Accepting Authority
+                                                </span>
+                                            </h5>
+                                        }
+                                    </td>
+
+                                    @*@if (Model.appraisalForms.userRights.Edit)
+                                        {*@
+                                    @*<td class="text-center">
+                                            <a href="@Url.Action("ApprovalTabEdit", "APARSkills", new {reportingTo=item.EmpProceeApproval.ReportingTo,empID=item.EmployeeID, departmentID = item.DepartmentID, designationID = item.DesignationID })" title="Click here, to view Annual Competency Assessment Report for this Employee" data-toggle="tooltip">
+                                                <i class="far fa-eye text-info" aria-hidden="true"></i>
+                                            </a>
+                                        </td>*@
+
+                                    <td class="text-center">
+                                        @*<a href="@Url.Action("Edit", "Appraisal", new { appraisalFormID = item.FormID, reportingTo = item.EmpProceeApproval.ReportingTo, reviewingTo = item.EmpProceeApproval.ReviewingTo, acceptanceAuthority = item.EmpProceeApproval.AcceptanceAuthority, empID = item.EmployeeID , reportingYr = item.ReportingYr})" title="Click here, to view this record" data-toggle="tooltip">
+                                            <i class="far fa-eye text-info" aria-hidden="true"></i>
+                                        </a>*@
+                                        @Html.EncodedImageActionLink("", "Edit", "Appraisal", new { appraisalFormID = item.FormID, reportingTo = item.EmpProceeApproval.ReportingTo, reviewingTo = item.EmpProceeApproval.ReviewingTo, acceptanceAuthority = item.EmpProceeApproval.AcceptanceAuthority, empID = item.EmployeeID, reportingYr = item.ReportingYr }, new { @class = "toggle-tooltip", title = "Click here, to view this record" }, "~/Images/view.png")
+                                        |
+                                        <a data-ajax="true"
+                                           method="GET" class="toggle-tooltip" title="Click here, to view history"
+                                           data-ajax-update="#div-result-body" data-ajax-mode="replace"
+                                           data-backdrop="static" data-keyboard="false"
+                                           href="@Url.Action("Viewhistory", "ApprovalRequest", new {referenceID = item.FormGroupID, empID = item.EmployeeID})"
+                                           id="a_historydetail" data-toggle="modal" data-target="#viewhistoryModal">
+                                            <i class="fa fa-history" aria-hidden="true"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    }
+                    else if (item.EmpProceeApproval.AcceptanceAuthority.HasValue && item.EmpProceeApproval.AcceptanceAuthority == item.EmpProceeApproval.ReviewingTo)
+                    {
+                        if (uDetails.EmployeeID == item.EmpProceeApproval.ReportingTo)
+                        {
+                            if ((item.StatusID == (int)AppraisalFormState.SubmitedByEmployee || item.StatusID == (int)AppraisalFormState.SavedByReporting) && DateTime.Now.Date <= formDueDate.ReportingSubmissionDate.Date)
+                            {
+                                if (item.StatusID == (int)AppraisalFormState.SubmitedByEmployee)
+                                {
+                                    totalAPARpending += Model.appraisalForms.Where(x => x.StatusID == (int)AppraisalFormState.SubmitedByEmployee && x.AppraisalHdrID == item.AppraisalHdrID).Count();
+                                }
+
+                                <tr>
+
+                                    <td>@item.ReportingYr</td>
+                                    <td>@item.FormName</td>
+                                    @*<td> @item.EmployeeCode</td>*@
+                                    <td>@item.EmployeeCode - @item.EmpName</td>
+                                    <td> @item.DepartmentName</td>
+                                    <td> @item.DesignationName</td>
+                                    <td class="text-center">
+                                        @if (item.StatusID == (int)AppraisalFormState.SavedByEmployee)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-light col-md-12">
+                                                    Save
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.StatusID == (int)AppraisalFormState.SubmitedByEmployee)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-dark col-md-12">
+                                                    Submitted
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.StatusID == (int)AppraisalFormState.SavedByReporting)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-light col-md-12">
+                                                    Saved by Reporting Officer
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.StatusID == (int)AppraisalFormState.SubmitedByReporting)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill bg-teal col-md-12">
+                                                    Reported by Reporting Officer
+                                                </span>
+                                                @*<span class="badge badge-pill badge-success col-md-12 toggle-tooltip" title="Employee Remark: @item.Reason <br/> Reporting Remark: @item.ReporotingToRemark <br/> Reviwer Remark: @item.ReviewerToRemark">Accepted by Accepting Authority</span>*@
+                                            </h5>
+                                        }
+                                        else if (item.StatusID == (int)AppraisalFormState.SavedByReviewer)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-light col-md-12">
+                                                    Saved by Reviewer Officer
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.StatusID == (int)AppraisalFormState.SubmitedByReviewer)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-info col-md-12">
+                                                    Reviewed by Reviewer Officer
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.StatusID == (int)AppraisalFormState.SavedByAcceptanceAuth)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-light col-md-12">
+                                                    Saved by Acceptance Authority
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.StatusID == (int)AppraisalFormState.SubmitedByAcceptanceAuth)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-success col-md-12">
+                                                    Accepted by Accepting Authority
+                                                </span>
+                                            </h5>
+                                        }
+                                    </td>
+
+                                    @*@if (Model.appraisalForms.userRights.Edit)
+                                        {*@
+                                    @*<td class="text-center">
+                                            <a href="@Url.Action("ApprovalTabEdit", "APARSkills", new {reportingTo=item.EmpProceeApproval.ReportingTo,empID=item.EmployeeID, departmentID = item.DepartmentID, designationID = item.DesignationID })"  title="Click here, to view Annual Competency Assessment Report for this Employee" data-toggle="tooltip">
+                                                <i class="far fa-eye text-info" aria-hidden="true"></i>
+                                            </a>
+                                        </td>*@
+
+                                    <td class="text-center">
+                                        @*<a href="@Url.Action("Edit", "Appraisal", new { appraisalFormID = item.FormID, reportingTo = item.EmpProceeApproval.ReportingTo, reviewingTo = item.EmpProceeApproval.ReviewingTo, acceptanceAuthority =item.EmpProceeApproval.AcceptanceAuthority, empID = item.EmployeeID , reportingYr = item.ReportingYr})" title="Click here, to view this record" data-toggle="tooltip">
+                                            <i class="far fa-eye text-info" aria-hidden="true"></i>
+                                        </a>*@
+                                        @Html.EncodedImageActionLink("", "Edit", "Appraisal", new { appraisalFormID = item.FormID, reportingTo = item.EmpProceeApproval.ReportingTo, reviewingTo = item.EmpProceeApproval.ReviewingTo, acceptanceAuthority = item.EmpProceeApproval.AcceptanceAuthority, empID = item.EmployeeID, reportingYr = item.ReportingYr }, new { @class = "toggle-tooltip", title = "Click here, to view this record" }, "~/Images/view.png")
+                                        |
+                                        <a data-ajax="true"
+                                           method="GET" class="toggle-tooltip" title="Click here, to view history"
+                                           data-ajax-update="#div-result-body" data-ajax-mode="replace"
+                                           data-backdrop="static" data-keyboard="false"
+                                           href="@Url.Action("Viewhistory", "ApprovalRequest", new {referenceID = item.FormGroupID, empID = item.EmployeeID})"
+                                           id="a_historydetail" data-toggle="modal" data-target="#viewhistoryModal">
+                                            <i class="fa fa-history" aria-hidden="true"></i>
+                                        </a>
+
+                                    </td>
+                                    @*}*@
+                                </tr>
+                            }
+                        }
+                        else if (uDetails.EmployeeID == item.EmpProceeApproval.AcceptanceAuthority)
+                        {
+                            if ((((item.StatusID == (int)AppraisalFormState.SubmitedByEmployee || item.StatusID == (int)AppraisalFormState.SavedByReporting) && DateTime.Now.Date > formDueDate.ReportingSubmissionDate.Date && DateTime.Now.Date <= formDueDate.AcceptanceSubmissionDate.Date)
+                                || (item.StatusID == (int)AppraisalFormState.SubmitedByReporting && DateTime.Now.Date <= formDueDate.AcceptanceSubmissionDate.Date))
+                                || item.StatusID == (int)AppraisalFormState.SavedByAcceptanceAuth || (item.StatusID == (int)AppraisalFormState.SavedByReviewer || item.StatusID == (int)AppraisalFormState.SubmitedByReviewer )|| item.StatusID == (int)AppraisalFormState.SubmitedByAcceptanceAuth)
+                            {
+                                if (item.StatusID == (int)AppraisalFormState.SubmitedByEmployee)
+                                {
+                                    totalAPARpending += Model.appraisalForms.Where(x => x.StatusID == (int)AppraisalFormState.SubmitedByEmployee && x.AppraisalHdrID == item.AppraisalHdrID).Count();
+                                }
+                                else if (item.StatusID == (int)AppraisalFormState.SubmitedByReporting)
+                                {
+                                    totalAPARpending += Model.appraisalForms.Where(x => x.StatusID == (int)AppraisalFormState.SubmitedByReporting && x.AppraisalHdrID == item.AppraisalHdrID).Count();
+                                }
+
+                                <tr>
+
+                                    <td>@item.ReportingYr</td>
+                                    <td>@item.FormName</td>
+                                    @*<td> @item.EmployeeCode</td>*@
+                                    <td>@item.EmployeeCode - @item.EmpName</td>
+                                    <td> @item.DepartmentName</td>
+                                    <td> @item.DesignationName</td>
+                                    <td class="text-center">
+                                        @if (item.StatusID == (int)AppraisalFormState.SavedByEmployee)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-light col-md-12">
+                                                    Save
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.StatusID == (int)AppraisalFormState.SubmitedByEmployee)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-dark col-md-12">
+                                                    Submitted
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.StatusID == (int)AppraisalFormState.SavedByReporting)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-light col-md-12">
+                                                    Saved by Reporting Officer
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.StatusID == (int)AppraisalFormState.SubmitedByReporting)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill bg-teal col-md-12">
+                                                    Reported by Reporting Officer
+                                                </span>
+                                                @*<span class="badge badge-pill badge-success col-md-12 toggle-tooltip" title="Employee Remark: @item.Reason <br/> Reporting Remark: @item.ReporotingToRemark <br/> Reviwer Remark: @item.ReviewerToRemark">Accepted by Accepting Authority</span>*@
+                                            </h5>
+                                        }
+                                        else if (item.StatusID == (int)AppraisalFormState.SavedByReviewer)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-light col-md-12">
+                                                    Saved by Reviewer Officer
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.StatusID == (int)AppraisalFormState.SubmitedByReviewer)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-info col-md-12">
+                                                    Reviewed by Reviewer Officer
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.StatusID == (int)AppraisalFormState.SavedByAcceptanceAuth)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-light col-md-12">
+                                                    Saved by Acceptance Authority
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.StatusID == (int)AppraisalFormState.SubmitedByAcceptanceAuth)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-success col-md-12">
+                                                    Accepted by Accepting Authority
+                                                </span>
+                                            </h5>
+                                        }
+                                    </td>
+
+                                    @*@if (Model.appraisalForms.userRights.Edit)
+                                        {*@
+                                    @*<td class="text-center">
+                                            <a href="@Url.Action("ApprovalTabEdit", "APARSkills", new {reportingTo=item.EmpProceeApproval.ReportingTo,empID=item.EmployeeID, departmentID = item.DepartmentID, designationID = item.DesignationID })" title="Click here, to view Annual Competency Assessment Report for this Employee" data-toggle="tooltip">
+                                                <i class="far fa-eye text-info" aria-hidden="true"></i>
+                                            </a>
+                                        </td>*@
+
+                                    <td class="text-center">
+                                        @*<a href="@Url.Action("Edit", "Appraisal", new { appraisalFormID = item.FormID, reportingTo = item.EmpProceeApproval.ReportingTo, reviewingTo = item.EmpProceeApproval.ReviewingTo, acceptanceAuthority =item.EmpProceeApproval.AcceptanceAuthority, empID = item.EmployeeID, reportingYr = item.ReportingYr })" title="Click here, to view this record" data-toggle="tooltip">
+                                            <i class="far fa-eye text-info" aria-hidden="true"></i>
+                                        </a>*@
+                                        @Html.EncodedImageActionLink("", "Edit", "Appraisal", new { appraisalFormID = item.FormID, reportingTo = item.EmpProceeApproval.ReportingTo, reviewingTo = item.EmpProceeApproval.ReviewingTo, acceptanceAuthority = item.EmpProceeApproval.AcceptanceAuthority, empID = item.EmployeeID, reportingYr = item.ReportingYr }, new { @class = "toggle-tooltip", title = "Click here, to view this record" }, "~/Images/view.png")
+                                        |
+                                        <a data-ajax="true"
+                                           method="GET" class="toggle-tooltip" title="Click here, to view history"
+                                           data-ajax-update="#div-result-body" data-ajax-mode="replace"
+                                           data-backdrop="static" data-keyboard="false"
+                                           href="@Url.Action("Viewhistory", "ApprovalRequest", new {referenceID = item.FormGroupID, empID = item.EmployeeID})"
+                                           id="a_historydetail" data-toggle="modal" data-target="#viewhistoryModal">
+                                            <i class="fa fa-history" aria-hidden="true"></i>
+                                        </a>
+
+                                    </td>
+                                    @*}*@
+                                </tr>
+                            }
+                        }
+                    }
+                    else if (item.EmpProceeApproval.ReviewingTo.HasValue && item.EmpProceeApproval.ReviewingTo == item.EmpProceeApproval.ReportingTo)
+                    {
+                        if (uDetails.EmployeeID == item.EmpProceeApproval.ReviewingTo)
+                        {
+                            if (((item.StatusID == (int)AppraisalFormState.SubmitedByEmployee || item.StatusID == (int)AppraisalFormState.SavedByReporting || item.StatusID == (int)AppraisalFormState.SubmitedByReporting) && DateTime.Now.Date <= formDueDate.ReviewerSubmissionDate)
+                                || item.StatusID == (int)AppraisalFormState.SavedByReviewer || item.StatusID == (int)AppraisalFormState.SavedByReporting && DateTime.Now.Date <= formDueDate.ReviewerSubmissionDate.Date)
+                            {
+                                if (item.StatusID == (int)AppraisalFormState.SubmitedByEmployee)
+                                {
+                                    totalAPARpending += Model.appraisalForms.Where(x => x.StatusID == (int)AppraisalFormState.SubmitedByEmployee && x.AppraisalHdrID == item.AppraisalHdrID).Count();
+                                }
+
+                                <tr>
+
+                                    <td>@item.ReportingYr</td>
+                                    <td>@item.FormName</td>
+                                    @*<td> @item.EmployeeCode</td>*@
+                                    <td>@item.EmployeeCode - @item.EmpName</td>
+                                    <td> @item.DepartmentName</td>
+                                    <td> @item.DesignationName</td>
+                                    <td class="text-center">
+                                        @if (item.StatusID == (int)AppraisalFormState.SavedByEmployee)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-light col-md-12">
+                                                    Save
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.StatusID == (int)AppraisalFormState.SubmitedByEmployee)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-dark col-md-12">
+                                                    Submitted
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.StatusID == (int)AppraisalFormState.SavedByReporting)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-light col-md-12">
+                                                    Saved by Reporting Officer
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.StatusID == (int)AppraisalFormState.SubmitedByReporting)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill bg-teal col-md-12">
+                                                    Reported by Reporting Officer
+                                                </span>
+                                                @*<span class="badge badge-pill badge-success col-md-12 toggle-tooltip" title="Employee Remark: @item.Reason <br/> Reporting Remark: @item.ReporotingToRemark <br/> Reviwer Remark: @item.ReviewerToRemark">Accepted by Accepting Authority</span>*@
+                                            </h5>
+                                        }
+                                        else if (item.StatusID == (int)AppraisalFormState.SavedByReviewer)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-light col-md-12">
+                                                    Saved by Reviewer Officer
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.StatusID == (int)AppraisalFormState.SubmitedByReviewer)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-info col-md-12">
+                                                    Reviewed by Reviewer Officer
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.StatusID == (int)AppraisalFormState.SavedByAcceptanceAuth)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-light col-md-12">
+                                                    Saved by Acceptance Authority
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.StatusID == (int)AppraisalFormState.SubmitedByAcceptanceAuth)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-success col-md-12">
+                                                    Accepted by Accepting Authority
+                                                </span>
+                                            </h5>
+                                        }
+                                    </td>
+
+                                    @*@if (Model.appraisalForms.userRights.Edit)
+                                        {*@
+                                    @*<td class="text-center">
+                                            <a href="@Url.Action("ApprovalTabEdit", "APARSkills", new { reportingTo = item.EmpProceeApproval.ReportingTo, empID = item.EmployeeID, departmentID = item.DepartmentID, designationID = item.DesignationID })" title="Click here, to view Annual Competency Assessment Report for this Employee" data-toggle="tooltip">
+                                                <i class="far fa-eye text-info" aria-hidden="true"></i>
+                                            </a>
+                                        </td>*@
+
+                                    <td class="text-center">
+                                        @*<a href="@Url.Action("Edit", "Appraisal", new { appraisalFormID = item.FormID, reportingTo = item.EmpProceeApproval.ReportingTo, reviewingTo = item.EmpProceeApproval.ReviewingTo, acceptanceAuthority = item.EmpProceeApproval.AcceptanceAuthority, empID = item.EmployeeID , reportingYr = item.ReportingYr})" title="Click here, to view this record" data-toggle="tooltip">
+                                            <i class="far fa-eye text-info" aria-hidden="true"></i>
+                                        </a>*@
+                                        @Html.EncodedImageActionLink("", "Edit", "Appraisal", new { appraisalFormID = item.FormID, reportingTo = item.EmpProceeApproval.ReportingTo, reviewingTo = item.EmpProceeApproval.ReviewingTo, acceptanceAuthority = item.EmpProceeApproval.AcceptanceAuthority, empID = item.EmployeeID, reportingYr = item.ReportingYr }, new { @class = "toggle-tooltip", title = "Click here, to view this record" }, "~/Images/view.png")
+                                        |
+                                        <a data-ajax="true"
+                                           method="GET" class="toggle-tooltip" title="Click here, to view history"
+                                           data-ajax-update="#div-result-body" data-ajax-mode="replace"
+                                           data-backdrop="static" data-keyboard="false"
+                                           href="@Url.Action("Viewhistory", "ApprovalRequest", new {referenceID = item.FormGroupID, empID = item.EmployeeID})"
+                                           id="a_historydetail" data-toggle="modal" data-target="#viewhistoryModal">
+                                            <i class="fa fa-history" aria-hidden="true"></i>
+                                        </a>
+
+                                    </td>
+                                    @*}*@
+                                </tr>
+
+                            }
+                        }
+                        else if (item.EmpProceeApproval.AcceptanceAuthority == uDetails.EmployeeID)
+                        {
+                            if ((((item.StatusID == (int)AppraisalFormState.SubmitedByEmployee || item.StatusID == (int)AppraisalFormState.SavedByReviewer) && DateTime.Now.Date > formDueDate.ReviewerSubmissionDate.Date && DateTime.Now.Date <= formDueDate.AcceptanceSubmissionDate)
+                                || item.StatusID == (int)AppraisalFormState.SubmitedByReviewer || item.StatusID == (int)AppraisalFormState.SavedByAcceptanceAuth
+                                || item.StatusID == (int)AppraisalFormState.SubmitedByAcceptanceAuth))
+                            {
+                                if (item.StatusID == (int)AppraisalFormState.SubmitedByReviewer)
+                                {
+                                    totalAPARpending += Model.appraisalForms.Where(x => x.StatusID == (int)AppraisalFormState.SubmitedByReviewer && x.AppraisalHdrID == item.AppraisalHdrID).Count();
+                                }
+                                else if (item.StatusID == (int)AppraisalFormState.SubmitedByEmployee)
+                                {
+                                    totalAPARpending += Model.appraisalForms.Where(x => x.StatusID == (int)AppraisalFormState.SubmitedByEmployee && x.AppraisalHdrID == item.AppraisalHdrID).Count();
+                                }
+                                else if (item.StatusID == (int)AppraisalFormState.SavedByReviewer)
+                                {
+                                    totalAPARpending += Model.appraisalForms.Where(x => x.StatusID == (int)AppraisalFormState.SavedByReviewer && x.AppraisalHdrID == item.AppraisalHdrID).Count();
+                                }
+                                else if (item.StatusID == (int)AppraisalFormState.SavedByReporting)
+                                {
+                                    totalAPARpending += Model.appraisalForms.Where(x => x.StatusID == (int)AppraisalFormState.SavedByReporting && x.AppraisalHdrID == item.AppraisalHdrID).Count();
+                                }
+
+                                <tr>
+
+                                    <td>@item.ReportingYr</td>
+                                    <td>@item.FormName</td>
+                                    @*<td> @item.EmployeeCode</td>*@
+                                    <td>@item.EmployeeCode - @item.EmpName</td>
+                                    <td> @item.DepartmentName</td>
+                                    <td> @item.DesignationName</td>
+                                    <td class="text-center">
+                                        @if (item.StatusID == (int)AppraisalFormState.SavedByEmployee)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-light col-md-12">
+                                                    Save
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.StatusID == (int)AppraisalFormState.SubmitedByEmployee)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-dark col-md-12">
+                                                    Submitted
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.StatusID == (int)AppraisalFormState.SavedByReporting)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-light col-md-12">
+                                                    Saved by Reporting Officer
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.StatusID == (int)AppraisalFormState.SubmitedByReporting)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill bg-teal col-md-12">
+                                                    Reported by Reporting Officer
+                                                </span>
+                                                @*<span class="badge badge-pill badge-success col-md-12 toggle-tooltip" title="Employee Remark: @item.Reason <br/> Reporting Remark: @item.ReporotingToRemark <br/> Reviwer Remark: @item.ReviewerToRemark">Accepted by Accepting Authority</span>*@
+                                            </h5>
+                                        }
+                                        else if (item.StatusID == (int)AppraisalFormState.SavedByReviewer)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-light col-md-12">
+                                                    Saved by Reviewer Officer
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.StatusID == (int)AppraisalFormState.SubmitedByReviewer)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-info col-md-12">
+                                                    Reviewed by Reviewer Officer
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.StatusID == (int)AppraisalFormState.SavedByAcceptanceAuth)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-light col-md-12">
+                                                    Saved by Acceptance Authority
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.StatusID == (int)AppraisalFormState.SubmitedByAcceptanceAuth)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-success col-md-12">
+                                                    Accepted by Accepting Authority
+                                                </span>
+                                            </h5>
+                                        }
+                                    </td>
+
+                                    @*@if (Model.appraisalForms.userRights.Edit)
+                                        {*@
+                                    @*<td class="text-center">
+                                            <a href="@Url.Action("ApprovalTabEdit", "APARSkills", new { reportingTo = item.EmpProceeApproval.ReportingTo, empID = item.EmployeeID, departmentID = item.DepartmentID, designationID = item.DesignationID })" title="Click here, to view Annual Competency Assessment Report for this Employee" data-toggle="tooltip">
+                                                <i class="far fa-eye text-info" aria-hidden="true"></i>
+                                            </a>
+                                        </td>*@
+
+                                    <td class="text-center">
+                                        @*<a href="@Url.Action("Edit", "Appraisal", new { appraisalFormID = item.FormID, reportingTo = item.EmpProceeApproval.ReportingTo, reviewingTo = item.EmpProceeApproval.ReviewingTo, acceptanceAuthority = item.EmpProceeApproval.AcceptanceAuthority, empID = item.EmployeeID, reportingYr = item.ReportingYr })" title="Click here, to view this record" data-toggle="tooltip">
+                                            <i class="far fa-eye text-info" aria-hidden="true"></i>
+                                        </a>*@
+                                        @Html.EncodedImageActionLink("", "Edit", "Appraisal", new { appraisalFormID = item.FormID, reportingTo = item.EmpProceeApproval.ReportingTo, reviewingTo = item.EmpProceeApproval.ReviewingTo, acceptanceAuthority = item.EmpProceeApproval.AcceptanceAuthority, empID = item.EmployeeID, reportingYr = item.ReportingYr }, new { @class = "toggle-tooltip", title = "Click here, to view this record" }, "~/Images/view.png")
+                                        |
+                                        <a data-ajax="true"
+                                           method="GET" class="toggle-tooltip" title="Click here, to view history"
+                                           data-ajax-update="#div-result-body" data-ajax-mode="replace"
+                                           data-backdrop="static" data-keyboard="false"
+                                           href="@Url.Action("Viewhistory", "ApprovalRequest", new {referenceID = item.FormGroupID, empID = item.EmployeeID})"
+                                           id="a_historydetail" data-toggle="modal" data-target="#viewhistoryModal">
+                                            <i class="fa fa-history" aria-hidden="true"></i>
+                                        </a>
+
+                                    </td>
+                                    @*}*@
+                                </tr>
+                            }
+                        }
+                    }
+                    else if (item.EmpProceeApproval.ReviewingTo.HasValue && item.EmpProceeApproval.ReviewingTo != item.EmpProceeApproval.ReportingTo)
+                    {
+                        if (item.EmpProceeApproval.AcceptanceAuthority == uDetails.EmployeeID)
+                        {
+
+                            if (((item.StatusID == (int)AppraisalFormState.SubmitedByEmployee || item.StatusID == (int)AppraisalFormState.SavedByReporting) && DateTime.Now.Date > formDueDate.ReportingSubmissionDate.Date && DateTime.Now.Date > formDueDate.ReviewerSubmissionDate.Date && DateTime.Now.Date <= formDueDate.AcceptanceSubmissionDate.Date)
+                                || ((item.StatusID == (int)AppraisalFormState.SubmitedByReporting || item.StatusID == (int)AppraisalFormState.SavedByReviewer) && DateTime.Now.Date > formDueDate.ReviewerSubmissionDate.Date && DateTime.Now.Date <= formDueDate.AcceptanceSubmissionDate.Date)
+                                || item.StatusID == (int)AppraisalFormState.SubmitedByReviewer || item.StatusID == (int)AppraisalFormState.SavedByAcceptanceAuth || item.StatusID == (int)AppraisalFormState.SubmitedByAcceptanceAuth)
+                            {
+                                <tr>
+
+                                    <td>@item.ReportingYr</td>
+                                    <td>@item.FormName</td>
+                                    @*<td> @item.EmployeeCode</td>*@
+                                    <td>@item.EmployeeCode - @item.EmpName</td>
+                                    <td> @item.DepartmentName</td>
+                                    <td> @item.DesignationName</td>
+                                    <td class="text-center">
+                                        @if (item.StatusID == (int)AppraisalFormState.SavedByEmployee)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-light col-md-12">
+                                                    Save
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.StatusID == (int)AppraisalFormState.SubmitedByEmployee)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-dark col-md-12">
+                                                    Submitted
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.StatusID == (int)AppraisalFormState.SavedByReporting)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-light col-md-12">
+                                                    Saved by Reporting Officer
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.StatusID == (int)AppraisalFormState.SubmitedByReporting)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill bg-teal col-md-12">
+                                                    Reported by Reporting Officer
+                                                </span>
+                                                @*<span class="badge badge-pill badge-success col-md-12 toggle-tooltip" title="Employee Remark: @item.Reason <br/> Reporting Remark: @item.ReporotingToRemark <br/> Reviwer Remark: @item.ReviewerToRemark">Accepted by Accepting Authority</span>*@
+                                            </h5>
+                                        }
+                                        else if (item.StatusID == (int)AppraisalFormState.SavedByReviewer)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-light col-md-12">
+                                                    Saved by Reviewer Officer
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.StatusID == (int)AppraisalFormState.SubmitedByReviewer)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-info col-md-12">
+                                                    Reviewed by Reviewer Officer
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.StatusID == (int)AppraisalFormState.SavedByAcceptanceAuth)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-light col-md-12">
+                                                    Saved by Acceptance Authority
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.StatusID == (int)AppraisalFormState.SubmitedByAcceptanceAuth)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-success col-md-12">
+                                                    Accepted by Accepting Authority
+                                                </span>
+                                            </h5>
+                                        }
+                                    </td>
+
+                                    @*@if (Model.appraisalForms.userRights.Edit)
+                                        {*@
+                                    @*<td class="text-center">
+                                            <a href="@Url.Action("ApprovalTabEdit", "APARSkills", new {reportingTo=item.EmpProceeApproval.ReportingTo,empID=item.EmployeeID, departmentID = item.DepartmentID, designationID = item.DesignationID })" title="Click here, to view Annual Competency Assessment Report for this Employee" data-toggle="tooltip">
+                                                <i class="far fa-eye text-info" aria-hidden="true"></i>
+                                            </a>
+                                        </td>*@
+
+                                    <td class="text-center">
+                                        @*<a href="@Url.Action("Edit", "Appraisal", new { appraisalFormID = item.FormID, reportingTo = item.EmpProceeApproval.ReportingTo, reviewingTo = item.EmpProceeApproval.ReviewingTo, acceptanceAuthority =item.EmpProceeApproval.AcceptanceAuthority, empID = item.EmployeeID, reportingYr = item.ReportingYr })" title="Click here, to view this record" data-toggle="tooltip">
+                                            <i class="far fa-eye text-info" aria-hidden="true"></i>
+                                        </a>*@
+                                        @Html.EncodedImageActionLink("", "Edit", "Appraisal", new { appraisalFormID = item.FormID, reportingTo = item.EmpProceeApproval.ReportingTo, reviewingTo = item.EmpProceeApproval.ReviewingTo, acceptanceAuthority = item.EmpProceeApproval.AcceptanceAuthority, empID = item.EmployeeID, reportingYr = item.ReportingYr }, new { @class = "toggle-tooltip", title = "Click here, to view this record" }, "~/Images/view.png")
+                                        |
+                                        <a data-ajax="true"
+                                           method="GET" class="toggle-tooltip" title="Click here, to view history"
+                                           data-ajax-update="#div-result-body" data-ajax-mode="replace"
+                                           data-backdrop="static" data-keyboard="false"
+                                           href="@Url.Action("Viewhistory", "ApprovalRequest", new {referenceID = item.FormGroupID, empID = item.EmployeeID})"
+                                           id="a_historydetail" data-toggle="modal" data-target="#viewhistoryModal">
+                                            <i class="fa fa-history" aria-hidden="true"></i>
+                                        </a>
+
+                                    </td>
+                                    @*}*@
+                                </tr>
+                                if (item.StatusID == (int)AppraisalFormState.SubmitedByReviewer)
+                                {
+                                    totalAPARpending += Model.appraisalForms.Where(x => x.StatusID == (int)AppraisalFormState.SubmitedByReviewer && x.AppraisalHdrID == item.AppraisalHdrID).Count();
+                                }
+                                else if (item.StatusID == (int)AppraisalFormState.SubmitedByEmployee)
+                                {
+                                    totalAPARpending += Model.appraisalForms.Where(x => x.StatusID == (int)AppraisalFormState.SubmitedByEmployee && x.AppraisalHdrID == item.AppraisalHdrID).Count();
+                                }
+                                else if (item.StatusID == (int)AppraisalFormState.SubmitedByReporting)
+                                {
+                                    totalAPARpending += Model.appraisalForms.Where(x => x.StatusID == (int)AppraisalFormState.SubmitedByReporting && x.AppraisalHdrID == item.AppraisalHdrID).Count();
+                                }
+                                else if (item.StatusID == (int)AppraisalFormState.SavedByReporting)
+                                {
+                                    totalAPARpending += Model.appraisalForms.Where(x => x.StatusID == (int)AppraisalFormState.SavedByReporting && x.AppraisalHdrID == item.AppraisalHdrID).Count();
+                                }
+                                else if (item.StatusID == (int)AppraisalFormState.SavedByReviewer)
+                                {
+                                    totalAPARpending += Model.appraisalForms.Where(x => x.StatusID == (int)AppraisalFormState.SavedByReviewer && x.AppraisalHdrID == item.AppraisalHdrID).Count();
+                                }
+                            }
+                        }
+                        else if (uDetails.EmployeeID == item.EmpProceeApproval.ReviewingTo)
+                        {
+                            if (((item.StatusID == (int)AppraisalFormState.SubmitedByEmployee || item.StatusID == (int)AppraisalFormState.SavedByReporting) && DateTime.Now.Date > formDueDate.ReportingSubmissionDate.Date && DateTime.Now.Date <= formDueDate.ReviewerSubmissionDate)
+                                || item.StatusID == (int)AppraisalFormState.SubmitedByReporting || item.StatusID == (int)AppraisalFormState.SavedByReviewer && DateTime.Now.Date <= formDueDate.ReviewerSubmissionDate.Date)
+                            {
+                                <tr>
+
+                                    <td>@item.ReportingYr</td>
+                                    <td>@item.FormName</td>
+                                    @*<td> @item.EmployeeCode</td>*@
+                                    <td>@item.EmployeeCode - @item.EmpName</td>
+                                    <td> @item.DepartmentName</td>
+                                    <td> @item.DesignationName</td>
+                                    <td class="text-center">
+                                        @if (item.StatusID == (int)AppraisalFormState.SavedByEmployee)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-light col-md-12">
+                                                    Save
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.StatusID == (int)AppraisalFormState.SubmitedByEmployee)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-dark col-md-12">
+                                                    Submitted
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.StatusID == (int)AppraisalFormState.SavedByReporting)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-light col-md-12">
+                                                    Saved by Reporting Officer
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.StatusID == (int)AppraisalFormState.SubmitedByReporting)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill bg-teal col-md-12">
+                                                    Reported by Reporting Officer
+                                                </span>
+                                                @*<span class="badge badge-pill badge-success col-md-12 toggle-tooltip" title="Employee Remark: @item.Reason <br/> Reporting Remark: @item.ReporotingToRemark <br/> Reviwer Remark: @item.ReviewerToRemark">Accepted by Accepting Authority</span>*@
+                                            </h5>
+                                        }
+                                        else if (item.StatusID == (int)AppraisalFormState.SavedByReviewer)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-light col-md-12">
+                                                    Saved by Reviewer Officer
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.StatusID == (int)AppraisalFormState.SubmitedByReviewer)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-info col-md-12">
+                                                    Reviewed by Reviewer Officer
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.StatusID == (int)AppraisalFormState.SavedByAcceptanceAuth)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-light col-md-12">
+                                                    Saved by Acceptance Authority
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.StatusID == (int)AppraisalFormState.SubmitedByAcceptanceAuth)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-success col-md-12">
+                                                    Accepted by Accepting Authority
+                                                </span>
+                                            </h5>
+                                        }
+                                    </td>
+
+                                    @*@if (Model.appraisalForms.userRights.Edit)
+                                        {*@
+                                    @*<td class="text-center">
+                                            <a href="@Url.Action("ApprovalTabEdit", "APARSkills", new {reportingTo=item.EmpProceeApproval.ReportingTo,empID=item.EmployeeID, departmentID = item.DepartmentID, designationID = item.DesignationID })" title="Click here, to view Annual Competency Assessment Report for this Employee" data-toggle="tooltip">
+                                                <i class="far fa-eye text-info" aria-hidden="true"></i>
+                                            </a>
+                                        </td>*@
+
+                                    <td class="text-center">
+                                        @*<a href="@Url.Action("Edit", "Appraisal", new { appraisalFormID = item.FormID, reportingTo = item.EmpProceeApproval.ReportingTo, reviewingTo = item.EmpProceeApproval.ReviewingTo, acceptanceAuthority =item.EmpProceeApproval.AcceptanceAuthority, empID = item.EmployeeID, reportingYr = item.ReportingYr })" title="Click here, to view this record" data-toggle="tooltip">
+                                            <i class="far fa-eye text-info" aria-hidden="true"></i>
+                                        </a>*@
+                                        @Html.EncodedImageActionLink("", "Edit", "Appraisal", new { appraisalFormID = item.FormID, reportingTo = item.EmpProceeApproval.ReportingTo, reviewingTo = item.EmpProceeApproval.ReviewingTo, acceptanceAuthority = item.EmpProceeApproval.AcceptanceAuthority, empID = item.EmployeeID, reportingYr = item.ReportingYr }, new { @class = "toggle-tooltip", title = "Click here, to view this record" }, "~/Images/view.png")
+                                        |
+                                        <a data-ajax="true"
+                                           method="GET" class="toggle-tooltip" title="Click here, to view history"
+                                           data-ajax-update="#div-result-body" data-ajax-mode="replace"
+                                           data-backdrop="static" data-keyboard="false"
+                                           href="@Url.Action("Viewhistory", "ApprovalRequest", new {referenceID = item.FormGroupID, empID = item.EmployeeID})"
+                                           id="a_historydetail" data-toggle="modal" data-target="#viewhistoryModal">
+                                            <i class="fa fa-history" aria-hidden="true"></i>
+                                        </a>
+
+                                    </td>
+                                    @*}*@
+                                </tr>
+                                if (item.StatusID == (int)AppraisalFormState.SubmitedByReporting)
+                                {
+                                    totalAPARpending += Model.appraisalForms.Where(x => x.StatusID == (int)AppraisalFormState.SubmitedByReporting && x.AppraisalHdrID == item.AppraisalHdrID).Count();
+                                }
+                                else if (item.StatusID == (int)AppraisalFormState.SubmitedByEmployee)
+                                {
+                                    totalAPARpending += Model.appraisalForms.Where(x => x.StatusID == (int)AppraisalFormState.SubmitedByEmployee && x.AppraisalHdrID == item.AppraisalHdrID).Count();
+                                }
+                                else if (item.StatusID == (int)AppraisalFormState.SavedByReporting)
+                                {
+                                    totalAPARpending += Model.appraisalForms.Where(x => x.StatusID == (int)AppraisalFormState.SavedByReporting && x.AppraisalHdrID == item.AppraisalHdrID).Count();
+                                }
+                            }
+                        }
+                        else if (item.EmpProceeApproval.ReportingTo == uDetails.EmployeeID)
+                        {
+                            if ((item.StatusID == (int)AppraisalFormState.SubmitedByEmployee && DateTime.Now.Date <= formDueDate.ReportingSubmissionDate.Date)
+                                || item.StatusID == (int)AppraisalFormState.SavedByReporting && DateTime.Now.Date <= formDueDate.ReportingSubmissionDate.Date)
+                            {
+                                <tr>
+
+                                    <td>@item.ReportingYr</td>
+                                    <td>@item.FormName</td>
+                                    @*<td> @item.EmployeeCode</td>*@
+                                    <td>@item.EmployeeCode - @item.EmpName</td>
+                                    <td> @item.DepartmentName</td>
+                                    <td> @item.DesignationName</td>
+                                    <td class="text-center">
+                                        @if (item.StatusID == (int)AppraisalFormState.SavedByEmployee)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-light col-md-12">
+                                                    Save
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.StatusID == (int)AppraisalFormState.SubmitedByEmployee)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-dark col-md-12">
+                                                    Submitted
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.StatusID == (int)AppraisalFormState.SavedByReporting)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-light col-md-12">
+                                                    Saved by Reporting Officer
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.StatusID == (int)AppraisalFormState.SubmitedByReporting)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill bg-teal col-md-12">
+                                                    Reported by Reporting Officer
+                                                </span>
+                                                @*<span class="badge badge-pill badge-success col-md-12 toggle-tooltip" title="Employee Remark: @item.Reason <br/> Reporting Remark: @item.ReporotingToRemark <br/> Reviwer Remark: @item.ReviewerToRemark">Accepted by Accepting Authority</span>*@
+                                            </h5>
+                                        }
+                                        else if (item.StatusID == (int)AppraisalFormState.SavedByReviewer)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-light col-md-12">
+                                                    Saved by Reviewer Officer
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.StatusID == (int)AppraisalFormState.SubmitedByReviewer)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-info col-md-12">
+                                                    Reviewed by Reviewer Officer
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.StatusID == (int)AppraisalFormState.SavedByAcceptanceAuth)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-light col-md-12">
+                                                    Saved by Acceptance Authority
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.StatusID == (int)AppraisalFormState.SubmitedByAcceptanceAuth)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-success col-md-12">
+                                                    Accepted by Accepting Authority
+                                                </span>
+                                            </h5>
+                                        }
+                                    </td>
+
+                                    @*@if (Model.appraisalForms.userRights.Edit)
+                                        {*@
+                                    @*<td class="text-center">
+                                            <a href="@Url.Action("ApprovalTabEdit", "APARSkills", new {reportingTo=item.EmpProceeApproval.ReportingTo,empID=item.EmployeeID, departmentID = item.DepartmentID, designationID = item.DesignationID })" title="Click here, to view Annual Competency Assessment Report for this Employee" data-toggle="tooltip">
+                                                <i class="far fa-eye text-info" aria-hidden="true"></i>
+                                            </a>
+                                        </td>*@
+
+                                    <td class="text-center">
+                                        @*<a href="@Url.Action("Edit", "Appraisal", new { appraisalFormID = item.FormID, reportingTo = item.EmpProceeApproval.ReportingTo, reviewingTo = item.EmpProceeApproval.ReviewingTo, acceptanceAuthority =item.EmpProceeApproval.AcceptanceAuthority, empID = item.EmployeeID, reportingYr = item.ReportingYr })" title="Click here, to view this record" data-toggle="tooltip">
+                                            <i class="far fa-eye text-info" aria-hidden="true"></i>
+                                        </a>*@
+                                        @Html.EncodedImageActionLink("", "Edit", "Appraisal", new { appraisalFormID = item.FormID, reportingTo = item.EmpProceeApproval.ReportingTo, reviewingTo = item.EmpProceeApproval.ReviewingTo, acceptanceAuthority = item.EmpProceeApproval.AcceptanceAuthority, empID = item.EmployeeID, reportingYr = item.ReportingYr }, new { @class = "toggle-tooltip", title = "Click here, to view this record" }, "~/Images/view.png")
+                                        |
+                                        <a data-ajax="true"
+                                           method="GET" class="toggle-tooltip" title="Click here, to view history"
+                                           data-ajax-update="#div-result-body" data-ajax-mode="replace"
+                                           data-backdrop="static" data-keyboard="false"
+                                           href="@Url.Action("Viewhistory", "ApprovalRequest", new {referenceID = item.FormGroupID, empID = item.EmployeeID})"
+                                           id="a_historydetail" data-toggle="modal" data-target="#viewhistoryModal">
+                                            <i class="fa fa-history" aria-hidden="true"></i>
+                                        </a>
+
+                                    </td>
+                                    @*}*@
+                                </tr>
+                                if (item.StatusID == (int)AppraisalFormState.SubmitedByEmployee)
+                                {
+                                    totalAPARpending += Model.appraisalForms.Where(x => x.StatusID == (int)AppraisalFormState.SubmitedByEmployee && x.AppraisalHdrID == item.AppraisalHdrID).Count();
+                                }
+
+                            }
+                        }
+                    }
+                    else if (!item.EmpProceeApproval.ReviewingTo.HasValue)
+                    {
+                        if (uDetails.EmployeeID == item.EmpProceeApproval.ReportingTo)
+                        {
+                            if (item.StatusID == (int)AppraisalFormState.SubmitedByEmployee || item.StatusID == (int)AppraisalFormState.SavedByReporting || item.StatusID == (int)AppraisalFormState.SubmitedByReporting)
+                            {
+                                <tr>
+
+                                    <td>@item.ReportingYr</td>
+                                    <td>@item.FormName</td>
+                                    @*<td> @item.EmployeeCode</td>*@
+                                    <td>@item.EmployeeCode - @item.EmpName</td>
+                                    <td> @item.DepartmentName</td>
+                                    <td> @item.DesignationName</td>
+                                    <td class="text-center">
+                                        @if (item.StatusID == (int)AppraisalFormState.SavedByEmployee)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-light col-md-12">
+                                                    Save
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.StatusID == (int)AppraisalFormState.SubmitedByEmployee)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-dark col-md-12">
+                                                    Submitted
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.StatusID == (int)AppraisalFormState.SavedByReporting)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-light col-md-12">
+                                                    Saved by Reporting Officer
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.StatusID == (int)AppraisalFormState.SubmitedByReporting)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill bg-teal col-md-12">
+                                                    Reported by Reporting Officer
+                                                </span>
+                                                @*<span class="badge badge-pill badge-success col-md-12 toggle-tooltip" title="Employee Remark: @item.Reason <br/> Reporting Remark: @item.ReporotingToRemark <br/> Reviwer Remark: @item.ReviewerToRemark">Accepted by Accepting Authority</span>*@
+                                            </h5>
+                                        }
+                                        else if (item.StatusID == (int)AppraisalFormState.SavedByReviewer)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-light col-md-12">
+                                                    Saved by Reviewer Officer
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.StatusID == (int)AppraisalFormState.SubmitedByReviewer)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-info col-md-12">
+                                                    Reviewed by Reviewer Officer
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.StatusID == (int)AppraisalFormState.SavedByAcceptanceAuth)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-light col-md-12">
+                                                    Saved by Acceptance Authority
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.StatusID == (int)AppraisalFormState.SubmitedByAcceptanceAuth)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-success col-md-12">
+                                                    Accepted by Accepting Authority
+                                                </span>
+                                            </h5>
+                                        }
+                                    </td>
+
+                                    @*@if (Model.appraisalForms.userRights.Edit)
+                                        {*@
+                                    @*<td class="text-center">
+                                            <a href="@Url.Action("ApprovalTabEdit", "APARSkills", new {reportingTo=item.EmpProceeApproval.ReportingTo,empID=item.EmployeeID, departmentID = item.DepartmentID, designationID = item.DesignationID })" title="Click here, to view Annual Competency Assessment Report for this Employee" data-toggle="tooltip">
+                                                <i class="far fa-eye text-info" aria-hidden="true"></i>
+                                            </a>
+                                        </td>*@
+
+                                    <td class="text-center">
+                                        @*<a href="@Url.Action("Edit", "Appraisal", new { appraisalFormID = item.FormID, reportingTo = item.EmpProceeApproval.ReportingTo, reviewingTo = item.EmpProceeApproval.ReviewingTo, acceptanceAuthority =item.EmpProceeApproval.AcceptanceAuthority, empID = item.EmployeeID , reportingYr = item.ReportingYr})" title="Click here, to view this record" data-toggle="tooltip">
+                                            <i class="far fa-eye text-info" aria-hidden="true"></i>
+                                        </a>*@
+                                        @Html.EncodedImageActionLink("", "Edit", "Appraisal", new { appraisalFormID = item.FormID, reportingTo = item.EmpProceeApproval.ReportingTo, reviewingTo = item.EmpProceeApproval.ReviewingTo, acceptanceAuthority = item.EmpProceeApproval.AcceptanceAuthority, empID = item.EmployeeID, reportingYr = item.ReportingYr }, new { @class = "toggle-tooltip", title = "Click here, to view this record" }, "~/Images/view.png")
+                                        |
+                                        <a data-ajax="true"
+                                           method="GET" class="toggle-tooltip" title="Click here, to view history"
+                                           data-ajax-update="#div-result-body" data-ajax-mode="replace"
+                                           data-backdrop="static" data-keyboard="false"
+                                           href="@Url.Action("Viewhistory", "ApprovalRequest", new {referenceID = item.FormGroupID, empID = item.EmployeeID})"
+                                           id="a_historydetail" data-toggle="modal" data-target="#viewhistoryModal">
+                                            <i class="fa fa-history" aria-hidden="true"></i>
+                                        </a>
+
+                                    </td>
+                                    @*}*@
+                                </tr>
+                                if (item.StatusID == (int)AppraisalFormState.SubmitedByEmployee)
+                                {
+                                    totalAPARpending += Model.appraisalForms.Where(x => x.StatusID == (int)AppraisalFormState.SubmitedByEmployee && x.AppraisalHdrID == item.AppraisalHdrID).Count();
+                                }
+
+                            }
+                        }
+                    }
+                    else if (!item.EmpProceeApproval.AcceptanceAuthority.HasValue)
+                    {
+                        if (uDetails.EmployeeID == item.EmpProceeApproval.ReviewingTo)
+                        {
+                            if (((item.StatusID == (int)AppraisalFormState.SubmitedByEmployee || item.StatusID == (int)AppraisalFormState.SavedByReporting) && DateTime.Now.Date > formDueDate.ReportingSubmissionDate && DateTime.Now.Date <= formDueDate.AcceptanceSubmissionDate)
+                                || item.StatusID == (int)AppraisalFormState.SubmitedByReporting || item.StatusID == (int)AppraisalFormState.SavedByReviewer || item.StatusID == (int)AppraisalFormState.SubmitedByReviewer)
+                            {
+
+                                <tr>
+
+                                    <td>@item.ReportingYr</td>
+                                    <td>@item.FormName</td>
+                                    @*<td> @item.EmployeeCode</td>*@
+                                    <td>@item.EmployeeCode - @item.EmpName</td>
+                                    <td> @item.DepartmentName</td>
+                                    <td> @item.DesignationName</td>
+                                    <td class="text-center">
+                                        @if (item.StatusID == (int)AppraisalFormState.SavedByEmployee)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-light col-md-12">
+                                                    Save
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.StatusID == (int)AppraisalFormState.SubmitedByEmployee)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-dark col-md-12">
+                                                    Submitted
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.StatusID == (int)AppraisalFormState.SavedByReporting)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-light col-md-12">
+                                                    Saved by Reporting Officer
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.StatusID == (int)AppraisalFormState.SubmitedByReporting)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill bg-teal col-md-12">
+                                                    Reported by Reporting Officer
+                                                </span>
+                                                @*<span class="badge badge-pill badge-success col-md-12 toggle-tooltip" title="Employee Remark: @item.Reason <br/> Reporting Remark: @item.ReporotingToRemark <br/> Reviwer Remark: @item.ReviewerToRemark">Accepted by Accepting Authority</span>*@
+                                            </h5>
+                                        }
+                                        else if (item.StatusID == (int)AppraisalFormState.SavedByReviewer)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-light col-md-12">
+                                                    Saved by Reviewer Officer
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.StatusID == (int)AppraisalFormState.SubmitedByReviewer)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-info col-md-12">
+                                                    Reviewed by Reviewer Officer
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.StatusID == (int)AppraisalFormState.SavedByAcceptanceAuth)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-light col-md-12">
+                                                    Saved by Acceptance Authority
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.StatusID == (int)AppraisalFormState.SubmitedByAcceptanceAuth)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-success col-md-12">
+                                                    Accepted by Accepting Authority
+                                                </span>
+                                            </h5>
+                                        }
+                                    </td>
+
+                                    @*@if (Model.appraisalForms.userRights.Edit)
+                                        {*@
+                                    @*<td class="text-center">
+                                            <a href="@Url.Action("ApprovalTabEdit", "APARSkills", new {reportingTo=item.EmpProceeApproval.ReportingTo,empID=item.EmployeeID, departmentID = item.DepartmentID, designationID = item.DesignationID })" title="Click here, to view Annual Competency Assessment Report for this Employee" data-toggle="tooltip">
+                                                <i class="far fa-eye text-info" aria-hidden="true"></i>
+                                            </a>
+                                        </td>*@
+
+                                    <td class="text-center">
+                                        @*<a href="@Url.Action("Edit", "Appraisal", new { appraisalFormID = item.FormID, reportingTo = item.EmpProceeApproval.ReportingTo, reviewingTo = item.EmpProceeApproval.ReviewingTo, acceptanceAuthority =item.EmpProceeApproval.AcceptanceAuthority, empID = item.EmployeeID , reportingYr = item.ReportingYr})" title="Click here, to view this record" data-toggle="tooltip">
+                                            <i class="far fa-eye text-info" aria-hidden="true"></i>
+                                        </a>*@
+                                        @Html.EncodedImageActionLink("", "Edit", "Appraisal", new { appraisalFormID = item.FormID, reportingTo = item.EmpProceeApproval.ReportingTo, reviewingTo = item.EmpProceeApproval.ReviewingTo, acceptanceAuthority = item.EmpProceeApproval.AcceptanceAuthority, empID = item.EmployeeID, reportingYr = item.ReportingYr }, new { @class = "toggle-tooltip", title = "Click here, to view this record" }, "~/Images/view.png")
+                                        |
+                                        <a data-ajax="true"
+                                           method="GET" class="toggle-tooltip" title="Click here, to view history"
+                                           data-ajax-update="#div-result-body" data-ajax-mode="replace"
+                                           data-backdrop="static" data-keyboard="false"
+                                           href="@Url.Action("Viewhistory", "ApprovalRequest", new {referenceID = item.FormGroupID, empID = item.EmployeeID})"
+                                           id="a_historydetail" data-toggle="modal" data-target="#viewhistoryModal">
+                                            <i class="fa fa-history" aria-hidden="true"></i>
+                                        </a>
+
+                                    </td>
+                                    @*}*@
+                                </tr>
+                                if (item.StatusID == (int)AppraisalFormState.SubmitedByReporting)
+                                {
+                                    totalAPARpending += Model.appraisalForms.Where(x => x.StatusID == (int)AppraisalFormState.SubmitedByReporting && x.AppraisalHdrID == item.AppraisalHdrID).Count();
+                                }
+                                else if (item.StatusID == (int)AppraisalFormState.SubmitedByEmployee)
+                                {
+                                    totalAPARpending += Model.appraisalForms.Where(x => x.StatusID == (int)AppraisalFormState.SubmitedByEmployee && x.AppraisalHdrID == item.AppraisalHdrID).Count();
+                                }
+                                else if (item.StatusID == (int)AppraisalFormState.SavedByReporting)
+                                {
+                                    totalAPARpending += Model.appraisalForms.Where(x => x.StatusID == (int)AppraisalFormState.SavedByReporting && x.AppraisalHdrID == item.AppraisalHdrID).Count();
+                                }
+                            }
+                        }
+                    }
+
+                    sno++;
+                }
+            }
+
+        }
+
+    </tbody>
+
+</table>
+
+<script type="text/javascript">
+    $("#appraisalApprovalReqCount").text(@totalAPARpending);
+    var table = $('#tblGrid-apprasial').DataTable({
+        "lengthMenu": [[100, 200, 500, -1], [100, 200, 500, "All"]],
+        "pageLength": 100
+    });
+    $('#tblGrid-apprasial').find('select').addClass('custom-select');
+</script>
+
+
+<div class="modal" id="viewhistoryModal">
+    <div class="modal-dialog modal-big">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">History</h4>
+                <button type="button" class="close toggle-tooltip" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body p-4" id="div-result-body">
+
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+
+            </div>
+
+        </div>
+    </div>
+</div>

@@ -1,0 +1,135 @@
+﻿@model MicroPay.Web.Models.MarkAttendanceViewModel
+@using Nafed.MicroPay.Common
+<table id="tblGrid" class="table_card table table-centered table-striped dt-responsive w-100">
+    <thead>
+        <tr>
+            <th scope="col">
+                #
+            </th>
+            <th scope="col" class="">
+                Place
+            </th>
+            <th scope="col" class="text-center">
+                Date
+            </th>
+            <th scope="col" class="text-center">
+                In Time
+            </th>
+            <th scope="col" class="text-center">
+                Out Time
+            </th>
+            <th scope="col">
+                Remarks
+            </th>
+            <th scope="col" class="text-center">
+                Status
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            int index = 1;
+            if (Model != null && (Model.TabletProxyList != null && Model.TabletProxyList.Count > 0))
+            {
+                foreach (var item in Model.TabletProxyList)
+                {
+
+                    var place = string.Empty;
+
+                    if (item.TypeID == (int)PlaceOfAttendance.Office)
+                    {
+                        place = "Office";
+                    }
+                    if (item.TypeID == (int)PlaceOfAttendance.ClientSite)
+                    {
+                        place = "Local Tour";
+                    }
+                    if (item.TypeID == (int)PlaceOfAttendance.WorkFromHome)
+                    {
+                        place = "Work From Home";
+                    }
+                    if (item.TypeID == (int)PlaceOfAttendance.Tour)
+                    {
+                        place = "Remote Tour";
+                    }
+                    <tr>
+                        <td data-label="S.No."> @index</td>
+
+                        <td data-label="Place">@place </td>
+                        <td data-label="Date" class="text-center"> @item.ProxydateIn.ToString("dd-MMM-yyyy")</td>
+                        <td data-label="In Time" class="text-center"> @item.InTime</td>
+                        <td data-label="Out Time" class="text-center"> @item.OutTime</td>
+                        <td data-label="Remarks"> @item.Remarks</td>
+                        <td data-label="Status" class="text-center">
+
+                            @if (item.Attendancestatus == (int)EmpAttendanceStatus.Pending)
+                            {
+
+                                <h5>  <span style="display:inline-block; width:205px" class="badge badge-warning badge-pill">Pending</span></h5>
+                            }
+                            else if (item.Attendancestatus == (int)EmpAttendanceStatus.InProcess)
+                            {
+                                <h5>
+                                    <span style="display:inline-block; width:205px" class="badge badge-info badge-pill">In Process</span>
+                                </h5>
+                            }
+                            else if (item.Attendancestatus == (int)EmpAttendanceStatus.RejectedByReportingOfficer)
+                            {
+                                <h5>
+                                    <span style="display:inline-block; width:205px" class="badge badge-danger badge-pill">Rejected By Reporting Officer</span>
+                                </h5>
+                            }
+                            else if (item.Attendancestatus == (int)EmpAttendanceStatus.RejectedByReviwerOfficer)
+                            {
+                                <h5>
+                                    <span style="display:inline-block; width:205px" class="badge badge-danger badge-pill">Rejected By Reviwer Officer</span>
+                                </h5>
+                            }
+                            else if (item.Attendancestatus == (int)EmpAttendanceStatus.Approved)
+                            {
+                                <h5>
+                                    <span style="display:inline-block; width:205px" class="badge badge-success badge-pill">Approved</span>
+                                </h5>
+                            }
+                            else if (item.Attendancestatus == (int)EmpAttendanceStatus.AcceptedByReviewerOfficer)
+                            {
+                                <h5>
+                                    <span style="display:inline-block; width:205px" class="badge badge-success badge-pill">Accepted By Reviewer Officer</span>
+                                </h5>
+                            }
+                            else if (item.Attendancestatus == (int)EmpAttendanceStatus.Withdrawl)
+                            {
+                                <h5>
+                                    <span style="display:inline-block; width:205px" class="badge badge-dark badge-pill">Withdrawl</span>
+                                </h5>
+                            }
+                            else if (item.Attendancestatus == (int)EmpAttendanceStatus.RejectedByAcceptanceAuthority)
+                            {
+                                <h5>
+                                    <span style="display:inline-block; width:205px" class="badge badge-danger badge-pill">Rejected By Acceptance Authority</span>
+                                </h5>
+                            }
+                            else
+                            {
+                                <h5>
+                                    <span style="display:inline-block; width:205px" class="badge badge-light col-md-12">Not Available</span>
+                                </h5>
+                            }
+                        </td>
+
+                    </tr>
+                    index++;
+                }
+            }
+
+        }
+
+    </tbody>
+</table>
+
+<script type="text/javascript">
+
+
+    var table = $('#tblGrid').DataTable({
+    });
+    $('#tblGrid_length').find('select').addClass('custom-select');</script>

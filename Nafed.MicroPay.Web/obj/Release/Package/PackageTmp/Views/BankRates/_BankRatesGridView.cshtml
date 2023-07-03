@@ -1,0 +1,88 @@
+﻿
+@model MicroPay.Web.Models.BankRatesViewModel
+
+
+<table id="tblGrid" class="table table-centered table-striped dt-responsive w-100">
+    <thead>
+        <tr>
+            <th>
+                #
+            </th>
+            <th>
+                Effective Date
+            </th>
+            <th class="text-right">
+               Bank Rate 
+            </th>
+            <th class="text-right">
+                Bank Accural Rate
+            </th>
+            <th class="text-right">
+                PF Loan Rate
+            </th>
+            <th class="text-right">
+                PF Accural Rate
+            </th>
+            <th class="text-right">
+               TDS Rebet Rate
+            </th>
+            @if (Model.userRights.Edit)
+            {
+                <th class="text-center" style="width:60px">
+                    Edit
+                </th>
+            }
+            @if (Model.userRights.Delete)
+            {
+                <th class="text-center" style="width:60px">
+                    Delete
+                </th>
+            }
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            if (Model.BankRateList != null && Model.BankRateList.Count() > 0)
+            {
+                var sno = 1;
+                foreach (var item in Model.BankRateList)
+                {
+                    <tr>
+                        <td> @sno</td>
+                        <td> @item.EffectiveDate.ToString("dd-MM-yyyy")</td>
+                        <td class="text-right"> @item.BankLoanRate.ToString("0.00")</td>
+                        <td class="text-right"> @item.BankAccuralRate.ToString("0.00")</td>
+                        <td class="text-right"> @item.PFLoanRate.ToString("0.00")</td>
+                        <td class="text-right"> @item.PFLoanAccuralRate.ToString("0.00")</td>
+
+                        <td class="text-right"> @item.TDSRebetRate.ToString("0.00")</td>
+                        @if (Model.userRights.Edit)
+                        {
+                            <td class="text-center">
+                                @*<a href="@Url.Action("Edit", "BankRates", new { bankDate = item.EffectiveDate })" title="Click here, to edit this record" data-toggle="tooltip">
+                                    <i class="far fa-edit text-info" aria-hidden="true"></i>
+                                </a>*@
+                                @Html.EncodedImageActionLink("", "Edit", "BankRates", new { bankDate = item.EffectiveDate }, new { @class = "toggle-tooltip", title = "Click here, to edit this record" }, "~/Images/edit.png")
+                            </td>
+                        }
+                        @if (Model.userRights.Delete)
+                        {
+                            <td class="text-center">
+                                @*<a data-toggle="confirm" class="toggle-tooltip" href="@Url.Action("Delete", "BankRates", new { bankDate = item.EffectiveDate })" title="Click here, to delete this record">
+                                <span class="far fa-trash-alt text-danger" aria-hidden="true"></span>
+                                </a>*@
+                                @Html.EncodedImageActionLink("", "Delete", "BankRates", new { bankDate = item.EffectiveDate }, new { @class = "toggle-tooltip", title = "Click here, to delete this record" }, "~/Images/delete.png", true)
+                            </td>
+                        }
+                    </tr>
+
+                    sno++;
+                }
+            }
+           
+        }
+
+       
+    </tbody>
+</table>
+

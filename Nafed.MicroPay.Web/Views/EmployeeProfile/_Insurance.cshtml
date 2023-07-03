@@ -1,0 +1,133 @@
+﻿@model Nafed.MicroPay.Model.Insurance
+@using Nafed.MicroPay.Common;
+<div class="card_new_body">
+    <div class="form-group">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
+            <div class="row">
+                <p class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                    @Html.LabelFor(model => model.PolicyAvail, htmlAttributes: new { @class = "control-label required" })
+                </p>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                    @ExtensionMethods.BoolToYesNo(Model.PolicyAvail)
+                </div>
+            </div>
+            <div class="row">
+                <p class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                    @Html.LabelFor(model => model.PolicyJoinDate, htmlAttributes: new { @class = "control-label required" })
+                </p>
+                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                    @if (Model.PolicyJoinDate.HasValue)
+                    {
+                        @Convert.ToDateTime(Model.PolicyJoinDate).ToString("dd-MM-yyyy")
+                    }                  
+                </div>
+            </div>
+            <div class="row">
+                <p class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                    @Html.LabelFor(model => model.FamilyAssuredSum, htmlAttributes: new { @class = "control-label required" })
+                </p>
+                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                   
+                    @Model.FamilyAssuredSum
+
+                </div>
+
+            </div>
+            <div class="row">
+                <p class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                    @Html.LabelFor(model => model.PolicyExpDate, htmlAttributes: new { @class = "control-label" })
+                </p>
+                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                    @if (Model.PolicyExpDate.HasValue)
+                    {
+                        @Convert.ToDateTime(Model.PolicyExpDate).ToString("dd-MM-yyyy")
+                    }                
+
+                </div>
+
+            </div>
+            <div class="row">
+                <p class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                    @Html.LabelFor(model => model.DependentMedicalPolicy, htmlAttributes: new { @class = "control-label required" })
+                </p>
+                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                    @ExtensionMethods.BoolToYesNo(Model.DependentMedicalPolicy)
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="div-dependent">
+            <table id="tblDependent" class="table table-centered dt-responsive w-100">
+                <thead>
+                    <tr>
+                        <th class="text-center" style="width:10%">
+                            Name of Dependent
+                        </th>
+                        <th class="text-center" style="width:10%">
+                            Relation
+                        </th>
+                        <th class="text-center" style="width:5%">
+                            Gender
+                        </th>
+                        <th class="text-center" style="width:5%">
+                            Age
+                        </th>
+                        <th class="text-center" style="width:15%">
+                            Date of joining Insurance policy
+                        </th>
+                        <th class="text-center" style="width:15%">
+                            Date of expire Insurance policy
+                        </th>
+                        <th class="text-center" style="width:20%">
+                            Reason
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @if (Model.InsuranceDependenceList != null && Model.InsuranceDependenceList.Count() > 0)
+                    {
+
+                        for (int i = 0; i < Model.InsuranceDependenceList.Count; i++)
+                        {
+                            <tr>
+
+                                <td>
+                                    @Model.InsuranceDependenceList[i].DependentName
+                                </td>
+                                <td>
+                                    @Model.InsuranceDependenceList[i].Relation
+                                </td>
+                                <td class="text-center">
+                                    @Model.InsuranceDependenceList[i].Gender
+                                </td>
+                                <td class="text-center">
+                                    @Model.InsuranceDependenceList[i].Age
+                                </td>
+                                <td>
+                                    @if (Model.InsuranceDependenceList[i].PolicyJoinDate.HasValue)
+                                    {
+                                        @Convert.ToDateTime(Model.InsuranceDependenceList[i].PolicyJoinDate).ToString("dd-MM-yyyy")
+                                    }
+                                </td>
+                                <td>
+                                    @if (Model.InsuranceDependenceList[i].PolicyExpDate.HasValue)
+                                    {
+                                        @Convert.ToDateTime(Model.InsuranceDependenceList[i].PolicyExpDate).ToString("dd-MM-yyyy")
+                                    }
+                                </td>
+                                <td>
+                                    @Model.InsuranceDependenceList[i].Reason
+                                </td>
+                            </tr>
+
+                        }
+                    }
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

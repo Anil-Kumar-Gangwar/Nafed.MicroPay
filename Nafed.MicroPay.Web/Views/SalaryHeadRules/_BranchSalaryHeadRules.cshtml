@@ -1,0 +1,116 @@
+﻿
+@using Nafed.MicroPay.Model;
+@model IEnumerable<BranchSalaryHeadRule>
+
+<table id="tblGrid" class="table table-centered table-striped dt-responsive w-100">
+    <thead>
+        <tr>
+
+            <th>
+                #
+
+            </th>
+            <th>
+                Type
+            </th>
+            <th>
+                Branch
+            </th>
+
+            <th class="text-right">
+
+                Fixed Value
+            </th>
+
+
+            <th>
+                Lower Range
+            </th>
+            <th>
+                Upper Range
+            </th>
+
+            <th>
+                Action
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @{
+            if (Model != null && Model.Count() > 0)
+            {
+                var sno = 1;
+                foreach (var item in Model)
+                {
+
+                    <tr id="@item.BranchFormulaID">
+                        <td> @sno </td>
+                        <td> @item.Type </td>
+                        <td>
+                            @item.BranchName
+                        </td>
+
+                        <td >
+                            @item.FixedValue
+                        </td>
+
+                        <td>
+
+                            @item.LowerRange
+
+                        </td>
+                        <td>
+
+                            @item.UpperRange
+                        </td>
+                        <td>
+
+                            <a class="toggle-tooltip" data-ajax="true" 
+                               data-ajax-update="#div-branch-sal-head-rule-form" data-ajax-success="onEditSuccess" data-ajax-mode="replace" href="@Url.Action("EditBranchHeadFieldRule", "SalaryHeadRules", new { @branchFormulaID = item.BranchFormulaID })" title="Click here, to edit this record">
+                                <span class="far fa-edit text-info" aria-hidden="true"></span>
+                            </a> |
+
+                            <a @*data-toggle="ajax-confirm"*@ data-ajax-success="onDeleted" data-ajax="true" 
+                                data-ajax-confirm="Are you sure you want to delete this record ?"
+                               data-ajax-update="#div-branch-sal-head-rule-list" data-ajax-mode="replace"
+                               class="toggle-tooltip" href="@Url.Action("DeleteBranchHeadFieldRule", "SalaryHeadRules", new { @branchFormulaID = item.BranchFormulaID,@fieldName=item.FieldName })" title="Click here, to delete this record">
+                                <span class="far fa-trash-alt text-danger" aria-hidden="true"></span>
+                            </a>
+                        </td>
+                    </tr>
+                    sno++;
+                }
+
+
+            }
+        }
+    </tbody>
+</table>
+<script>
+    $('.toggle-tooltip').tooltip();
+    ///==== Adding jquery datatable reference to all master grid ==== (Sujeet G)
+    var table = $('#tblGrid').DataTable({
+    });
+    $('#tblGrid_length').find('select').addClass('custom-select');
+    //========= End==================================================
+
+
+    function onDeleted(data) {
+
+        if (data.isDeleted) {   ////SalaryHeadRules/_GetBranchSalaryHeadRules
+            $("#div-branch-sal-head-rule-list").load("@Url.Action("_GetBranchSalaryHeadRules", "SalaryHeadRules")?fieldName=" + data.fieldName);
+            commonMessage(data.type, data.msg);
+        }
+    }
+
+
+    function A1() {
+
+    }
+
+    function onEditSuccess(data) {
+
+        //alert(data);
+    }
+</script>

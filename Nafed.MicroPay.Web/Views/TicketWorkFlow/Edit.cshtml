@@ -1,0 +1,65 @@
+﻿@using Nafed.MicroPay.Model
+@model TicketWorkFlow
+@{
+    ViewBag.Title = "Edit - Work Flow";
+    ViewBag.NavigationTitle = "Work Flow";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    System.Globalization.CultureInfo Indian = new System.Globalization.CultureInfo("hi-IN");
+}
+@using (@Html.BeginForm("Edit", "TicketWorkFlow", FormMethod.Post))
+{
+    @Html.HiddenFor(model => model.WflowID)
+    <div class="row">
+
+
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+            <div class="panel panel-default pb-2">
+                <div class="panel-heading"></div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 mb-2">
+                            @Html.LabelFor(model => model.DepartmentID, htmlAttributes: new { @class = "control-label required" })
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 mb-2">
+                            @Html.DropDownListFor(model => model.DepartmentID, new SelectList(ViewBag.Department, "id", "value"), "Select", new { @class = "custom-select" })
+                            @Html.ValidationMessageFor(model => model.DepartmentID, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 mb-2">
+                            @Html.LabelFor(model => model.TicketTypeID, htmlAttributes: new { @class = "control-label required" })
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 mb-2">
+                            @Html.DropDownListFor(model => model.TicketTypeID, new SelectList(ViewBag.TicketType, "id", "value"), "Select", new { @class = "custom-select", @onchange = "BindParkEmployeeOnDesignation(this)" })
+                            @Html.ValidationMessageFor(model => model.TicketTypeID, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+            <div class="panel panel-default pb-5">
+                <div class="panel-heading"></div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 mb-2">
+                            @Html.LabelFor(model => model.DesignationID, htmlAttributes: new { @class = "control-label required" })
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 mb-2">
+                            @Html.DropDownListFor(model => model.DesignationID, new SelectList(ViewBag.Designation, "id", "value"), "Select", new { @class = "custom-select" })
+                            @Html.ValidationMessageFor(model => model.DesignationID, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <span class="pull-right">
+            @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-light btn-md toggle-tooltip", @title = "Click here, to redirect on list page" })          
+            <input type="submit" value="Update" class="btn btn-info btn-md pull-center toggle-tooltip" title="Click here, to update current workflow" />
+        </span>
+    </div>
+}

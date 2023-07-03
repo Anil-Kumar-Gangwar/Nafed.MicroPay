@@ -1,0 +1,61 @@
+﻿@model MicroPay.Web.Models.CandidateDetailsViewModel
+<table id="tblGrid1" class="table table-centered table-striped dt-responsive w-100">
+    <thead>
+        <tr>
+            <th>
+                #
+            </th>
+            <th style="width:60%">
+                Posts
+            </th>
+            <th>
+                Published date
+            </th>
+            <th>
+                No. of Candidate applied
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            if (Model != null && Model.CandidateDetails.Count > 0)
+            {
+                var sno = 1;
+                for (int i = 0; i < Model.CandidateDetails.Count; i++)
+                {
+
+                    <tr>
+                        <td> @sno</td>
+                        <td> @Model.CandidateDetails[i].Post</td>                     
+                        <td> @Model.CandidateDetails[i].PublishDateFrom.Value.ToString("dd-MM-yyyy")</td> 
+                        <td class="text-center">
+                            <a class="toggle-tooltip badge badge-info col-md-3" href="@Url.Action("_GetCandidateDetails", "CandidateDetails",new { requirementID=@Model.CandidateDetails[i].RequirementID})" title="Click here, to see candidate list." target="_blank">
+                                @Model.CandidateDetails[i].TotalApplied
+                            </a>
+                        </td>
+
+                       
+                    </tr>
+
+                    sno++;
+                }
+            }
+
+        }
+
+    </tbody>
+</table>
+
+
+
+<script>
+    $('.toggle-tooltip').tooltip();
+    ///==== Adding jquery datatable reference to all master grid ==== (Sujeet G)
+    var table = $('#tblGrid1').DataTable({
+    });
+    $('#tblGrid1_length').find('select').addClass('custom-select');
+    //========= End==================================================
+</script>
+
+
+

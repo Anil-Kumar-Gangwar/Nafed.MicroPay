@@ -1,0 +1,96 @@
+﻿
+@{
+    ViewBag.Title = "Ticket List";
+    Layout = "~/Views/Shared/_Layout.cshtml";    
+}
+
+
+<div class="mt-2">
+    <div class="tab" role="tabpanel">
+
+
+        <nav class="navbar navbar-expand-sm  navbar-dark px-0">
+
+            <!-- Brand -->
+            <!-- Toggler/collapsibe Button -->
+            <button class="navbar-toggler bg-info" type="button" data-toggle="collapse" data-target="#collapsible_tab">
+                <span class="fa fa-bars"></span>
+            </button>
+
+            <!-- Navbar links -->
+            <div class="collapse navbar-collapse" id="collapsible_tab" style="position: relative;z-index: 999;">
+                <ul class="nav nav-tabs" role="tablist" id="tabs">
+
+                    <li class="nav-item">
+                        <a class="nav-link active toggle-tooltip" role="tab" data-toggle="tab" title="View pending ticket(s)" href="#TabPending">Pending</a>
+                    </li>                  
+
+                    <li class="nav-item">
+                        <a class="nav-link toggle-tooltip" role="tab" data-toggle="tab" title="View answered ticket(s)" href="#TabAnswered">Answered</a>
+                    </li>
+                  
+                </ul>
+            </div>
+        </nav>
+
+        <!-- Tab panes -->
+        <div class="tab-content">          
+            <div id="TabPending" class="container tab-pane active fullwidth-container">
+                @Html.Action("GetPendingTicket", "Ticket")
+            </div>
+
+            <div id="TabAnswered" class="container tab-pane fade fullwidth-container">
+                @Html.Action("GetAnsweredTicket", "Ticket")
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal" id="div-message-popup">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Message</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body" id="div-message-body" style="word-wrap: break-word">
+               
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="div-remarks-popup">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Your Remark</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body" id="div-remarks">
+
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+
+            </div>
+
+        </div>
+    </div>
+</div>

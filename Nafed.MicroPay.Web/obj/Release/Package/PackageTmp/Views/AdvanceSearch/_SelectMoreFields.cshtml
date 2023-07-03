@@ -1,0 +1,396 @@
+﻿@using Nafed.MicroPay.Model
+@model SelectMoreFields
+
+<fieldset class="border p-2 col-md-12 col-xs-12 col-lg-12 col-xl-12">
+
+    <legend class="w-auto">Select More Fields</legend>
+
+    @Html.HiddenFor(model => model.FilterTypeID)
+    @Html.HiddenFor(model => model.SelectedEmployeeType)
+    @Html.HiddenFor(model => model.DateFrom)
+    @Html.HiddenFor(model => model.DateTo)
+    @Html.EditorFor(model => model.PreviousFields, new { htmlAttributes = new { @class = "form-control", @style = "display: none" } })
+
+    <div class="row">
+
+        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+
+            @Html.CheckBoxFor(m => m.TitleName, new { @class = "" })
+            @Html.LabelFor(m => m.TitleName, new { @class = "label" })
+
+        </div>
+
+        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+
+            <div class="row">
+
+                <div class="col-lg-6 col-xl-6 col-md-6 col-sm-6">
+                    @Html.CheckBoxFor(m => m.FirstDesgID, new { @class = "" })
+                    @Html.LabelFor(m => m.FirstDesgID, new { @class = "label" })
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+
+            @Html.CheckBoxFor(m => m.DOLeaveOrg, new { @class = "" })
+            @Html.LabelFor(m => m.DOLeaveOrg, new { @class = "label" })
+
+        </div>
+
+        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+            @Html.CheckBoxFor(m => m.BloodGroupName, new { @class = "" })
+            @Html.LabelFor(m => m.BloodGroupName, new { @class = "label" })
+
+        </div>
+
+    </div>
+
+    <div class="row">
+
+        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+
+            @Html.CheckBoxFor(m => m.DesignationName, new { @class = "" })
+            @Html.LabelFor(m => m.DesignationName, new { @class = "label" })
+
+        </div>
+
+        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+            <div class="row">
+
+                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+
+                    @Html.CheckBoxFor(m => m.FirstBranchID, new { @class = "" })
+                    @Html.LabelFor(m => m.FirstBranchID, new { @class = "label" })
+                </div>
+
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 pl-0">
+
+                    @Html.CheckBoxFor(m => m.Pr_Loc_DOJ, new { @class = "" })
+                    @Html.LabelFor(m => m.Pr_Loc_DOJ, new { @class = "label" })
+
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+
+            @Html.CheckBoxFor(m => m.IncrementMonth, new { @class = "" })
+            @Html.LabelFor(m => m.IncrementMonth, new { @class = "label" })
+
+        </div>
+
+        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+
+            @Html.CheckBoxFor(m => m.PayScale, new { @class = "" })
+            @Html.LabelFor(m => m.PayScale, new { @class = "label" })
+
+        </div>
+    </div>
+
+    <div class="row">
+
+        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+            @Html.CheckBoxFor(m => m.DOJ, new { @class = "" })
+            @Html.LabelFor(m => m.DOJ, new { @class = "label" })
+
+        </div>
+
+        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+            <div class="row">
+
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+
+                    @Html.CheckBoxFor(m => m.E_Basic, new { @class = "" })
+                    @Html.LabelFor(m => m.E_Basic, new { @class = "label" })
+
+                </div>
+
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+
+                    @Html.CheckBoxFor(m => m.LastBasic, new { @class = "" })
+                    @Html.LabelFor(m => m.LastBasic, new { @class = "label" })
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+
+            @Html.CheckBoxFor(m => m.DepartmentName, new { @class = "" })
+            @Html.LabelFor(m => m.DepartmentName, new { @class = "label" })
+
+        </div>
+
+        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+
+            @Html.CheckBoxFor(m => m.Sen_Code, new { @class = "" })
+            @Html.LabelFor(m => m.Sen_Code, new { @class = "label" })
+
+        </div>
+    </div>
+
+    <div class="row">
+
+        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+            @Html.CheckBoxFor(m => m.DOSupAnnuating, new { @class = "" })
+            @Html.LabelFor(m => m.DOSupAnnuating, new { @class = "label" })
+
+        </div>
+
+        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+
+            <div class="row">
+
+                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+
+                    @Html.CheckBoxFor(m => m.BranchName, new { @class = "" })
+                    @Html.LabelFor(m => m.BranchName, new { @class = "label" })
+                </div>
+
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                    @Html.CheckBoxFor(m => m.CadreName, new { @class = "" })
+                    @Html.LabelFor(m => m.CadreName, new { @class = "label" })
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+
+            @Html.CheckBoxFor(m => m.CategoryName, new { @class = "" })
+            @Html.LabelFor(m => m.CategoryName, new { @class = "label" })
+
+        </div>
+
+        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+
+
+
+
+            <div class="row">
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+
+                    @Html.CheckBoxFor(m => m.PmtAdd, new { @class = "" })
+                    @Html.LabelFor(m => m.PmtAdd, new { @class = "label" })
+                </div> 
+
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 pr-0">
+
+                    @Html.CheckBoxFor(m => m.MobileNo, new { @class = "" })
+                    @Html.LabelFor(m => m.MobileNo, new { @class = "label" })
+                </div>
+
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+
+                    @Html.CheckBoxFor(m => m.OfficialEmail, new { @class = "" })
+                    @Html.LabelFor(m => m.OfficialEmail, new { @class = "label" })
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+
+        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+
+            @Html.CheckBoxFor(m => m.orderofpromotion, new { @class = "" })
+            @Html.LabelFor(m => m.orderofpromotion, new { @class = "label" })
+
+        </div>
+
+        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+
+            <div class="row">
+
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+
+                    @Html.CheckBoxFor(m => m.PFNO, new { @class = "" })
+                    @Html.LabelFor(m => m.PFNO, new { @class = "label" })
+                </div>
+
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 pl-0">
+
+                    @Html.CheckBoxFor(m => m.Folio_No, new { @class = "" })
+                    @Html.LabelFor(m => m.Folio_No, new { @class = "label" })
+                </div>
+
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+
+                    @Html.CheckBoxFor(m => m.Level, new { @class = "" })
+                    @Html.LabelFor(m => m.Level, new { @class = "label" })
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+
+            @Html.CheckBoxFor(m => m.QProfessionalID, new { @class = "" })
+            @Html.LabelFor(m => m.QProfessionalID, new { @class = "label" })
+
+        </div>
+
+        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+
+            @Html.CheckBoxFor(m => m.ReasonOfLeaving, new { @class = "" })
+            @Html.LabelFor(m => m.ReasonOfLeaving, new { @class = "label" })
+
+        </div>
+    </div>
+
+    <div class="row">
+
+        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+            @Html.CheckBoxFor(m => m.PromotionDate, new { @class = "" })
+            @Html.LabelFor(m => m.PromotionDate, new { @class = "label" })
+
+        </div>
+
+        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+
+
+            @Html.CheckBoxFor(m => m.HBName, new { @class = "" })
+            @Html.LabelFor(m => m.HBName, new { @class = "label" })
+
+            
+
+        </div>
+
+        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+
+            @Html.CheckBoxFor(m => m.QAcademicID, new { @class = "" })
+            @Html.LabelFor(m => m.QAcademicID, new { @class = "label" })
+
+        </div>
+
+        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+
+            <div class="row">
+
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+
+                    @Html.CheckBoxFor(m => m.FileNo, new { @class = "" })
+                    @Html.LabelFor(m => m.FileNo, new { @class = "label" })
+                </div>
+
+                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+
+                    @Html.CheckBoxFor(m => m.ACR_No, new { @class = "" })
+                    @Html.LabelFor(m => m.ACR_No, new { @class = "label" })
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+
+        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+            @Html.CheckBoxFor(m => m.DOB, new { @class = "" })
+            @Html.LabelFor(m => m.DOB, new { @class = "label" })
+        </div>
+
+        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+            @Html.CheckBoxFor(m => m.ConfirmationDate, new { @class = "" })
+            @Html.LabelFor(m => m.ConfirmationDate, new { @class = "label" })
+
+        </div>
+
+        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+
+            <div class="row">
+
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+
+                    @Html.CheckBoxFor(m => m.EL, new { @class = "" })
+                    @Html.LabelFor(m => m.EL, new { @class = "label" })
+                </div>
+
+                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+
+                    @Html.CheckBoxFor(m => m.CL, new { @class = "" })
+                    @Html.LabelFor(m => m.CL, new { @class = "label" })
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+
+            <div class="row">
+
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+
+                    @Html.CheckBoxFor(m => m.Medical, new { @class = "" })
+                    @Html.LabelFor(m => m.Medical, new { @class = "label" })
+                </div>
+
+                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+
+                    @Html.CheckBoxFor(m => m.Medical_Extra, new { @class = "" })
+                    @Html.LabelFor(m => m.Medical_Extra, new { @class = "label" })
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    @*<div class="row">
+
+            <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+
+                @Html.CheckBoxFor(m => m.PromotionDate, new { @class = "" })
+                @Html.LabelFor(m => m.PromotionDate, new { @class = "label" })
+
+            </div>
+
+            <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+
+
+            </div>
+
+
+            <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+
+
+                @Html.CheckBoxFor(m => m.QAcademicID, new { @class = "" })
+                @Html.LabelFor(m => m.QAcademicID, new { @class = "label" })
+
+            </div>
+
+
+            <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+
+                @Html.CheckBoxFor(m => m.QProfessionalID, new { @class = "" })
+                @Html.LabelFor(m => m.QProfessionalID, new { @class = "label" })
+
+            </div>
+
+            <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+
+                <div class="row">
+
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+
+
+                    </div>
+
+
+                    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+
+
+                    </div>
+                </div>
+
+
+
+            </div>
+
+        </div>*@
+
+</fieldset>

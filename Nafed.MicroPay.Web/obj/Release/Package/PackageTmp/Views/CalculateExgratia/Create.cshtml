@@ -1,0 +1,120 @@
+﻿@model Nafed.MicroPay.Model.ExgratiaList
+@{
+    ViewBag.Title = "Calculate Exgratia";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<div class="card_new_header alert alert-danger">
+    <div class="col-sm-6">
+        NOTE : Fields marked with (*) are compulsory fields
+    </div>
+    <div class="col-sm-6 text-right">
+        <b> </b>
+    </div>
+</div>
+@using (Html.BeginForm("Create", "CalculateExgratia", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    <div class="card_new_body">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
+                <div class="row">
+                    @Html.LabelFor(model => model.EmpTypeID, htmlAttributes: new { @class = "Control-label col-lg-2 col-md-2 col-sm-2 col-xs-6 mb-2 required" })
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 mb-2">
+                        @Html.DropDownListFor(model => model.EmpTypeID, (IEnumerable<SelectListItem>)ViewBag.EmpType, new { @class = "custom-select", @id = "ddlReportType" })
+                        @Html.ValidationMessageFor(model => model.EmpTypeID, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="row">
+                    @Html.LabelFor(model => model.FinancialYear, htmlAttributes: new { @class = "control-label  col-lg-2 col-md-2 col-sm-2 col-xs-6 mb-2  required" })
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 mb-2">
+                        @Html.DropDownListFor(model => model.FinancialYear, (IEnumerable<SelectListItem>)ViewBag.ddlYear, "Select", new { @class = "custom-select", @id = "ddlfinancialyear" })
+                        @Html.ValidationMessageFor(model => model.FinancialYear, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="row">
+                    @Html.LabelFor(model => model.branchID, htmlAttributes: new { @class = " Control-label  col-lg-2 col-md-2 col-sm-2 col-xs-6 mb-2  required" })
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 mb-2">
+                        @*@Html.DropDownListFor(model => model.branchID, new SelectList(Model.branchList, "id", "value"), "Select", new { @class = "custom-select", @id = "ddlBranchList", @onchange = "BindEmployeeOnBranch()" })*@
+                        @Html.DropDownListFor(model => model.branchID, (IEnumerable<SelectListItem>)ViewBag.Branch, new { @class = "custom-select", @id = "ddlBranchList", @onchange = "BindEmployeeOnBranch()" })
+                        @Html.ValidationMessageFor(model => model.branchID, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="row">
+                    @Html.LabelFor(model => model.EmployeeID, htmlAttributes: new { @class = " Control-label  col-lg-2 col-md-2 col-sm-2 col-xs-6 mb-2  mb-2" })
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 mb-2">
+                        @Html.DropDownListFor(model => model.EmployeeID, (IEnumerable<SelectListItem>)ViewBag.Employee, new { @class = "custom-select", @id = "ddlEmployee", @disabled = "disabled" })
+                    </div>
+                </div>
+
+                <div class="row">
+                    @Html.LabelFor(model => model.flag, htmlAttributes: new { @class = "Control-label  col-lg-2 col-md-2 col-sm-2 col-xs-6 mb-2  mb-2 " })
+
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 mb-2">
+                        <div class="form-group">
+                            <label class="switch">
+                                @Html.CheckBoxFor(model => model.flag, new { @class = "form-control", @id = "chkFlag" })
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    @Html.LabelFor(model => model.noofdays, htmlAttributes: new { @class = " Control-label  col-lg-2 col-md-2 col-sm-2 col-xs-6 mb-2 ", @id = "lblnoofdays" })
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 mb-2">
+                        @Html.EditorFor(model => model.noofdays, new { htmlAttributes = new { @class = "form-control", @placeholder = "No. of days", @type = "number", @min = "1", @max = "100", @step = "1" , @id = "txtnoofdays" } })
+                    </div>
+                </div>
+
+                <div class="divider-chevron"></div>
+                <span class="pull-right">
+                    @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-light btn-md toggle-tooltip", @title = "Click here, to redirect on list page" })
+                    <button type="submit" value="Calculate Exgratia" name="ButtonType" class="btn btn-info btn-md pull-center toggle-tooltip" title="Click here, to calculate exgratia">Calculate Exgratia</button>
+                    
+                </span>
+            </div>
+        </div>
+    </div>
+
+ }
+
+        <script type="text/javascript">
+
+            function BindEmployeeOnBranch(e) {
+                debugger;
+                var branchId = 0;
+                branchId = $("#ddlBranchList").val();
+                $("#ddlEmployee").html("");
+                if (branchId > 0) {
+                    jQuery.post("@Url.Action("GetBranchEmployee", "CalculateExgratia")", {
+                        branchID: branchId,
+                    }).done(function (data) {
+
+                        if (data.employees != "") {
+                            $("#ddlEmployee").html("");
+                            $.each(data.employees, function (key, value) {
+                                $("#ddlEmployee").append($("<option></option>").val(value.Value).html(value.Text));
+                            });
+                        }
+                    });
+                } else {
+                    $("#ddlEmployee").append($("<option></option>").val(0).html('Select'));
+                }
+            }
+
+            $('#chkFlag').on("change", function () {
+               
+                if ($(this).is(":checked")) {
+                    $("#lblnoofdays").html("Percentage");
+
+                } else {
+                    $("#lblnoofdays").html("No. of days");
+                }
+            })
+        </script>

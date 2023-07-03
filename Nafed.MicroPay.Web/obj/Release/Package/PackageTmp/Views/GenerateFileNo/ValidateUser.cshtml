@@ -1,0 +1,76 @@
+﻿@model Nafed.MicroPay.Model.ValidateLogin
+@using CaptchaMvc.HtmlHelpers
+@{
+    ViewBag.Title = "Validate User";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="container-fluid">
+    <div class="row">
+
+        <div class="col-xl-9 col-lg-9 col-md-10 col-sm-12 m-auto">
+
+            <div class="form-group">
+                <div class="col-lg-4 login-help login-help-desktop">
+                    @using (Html.BeginForm("Validate", "GenerateFileNo", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.LabelFor(Model => Model.userName)
+                        @Html.TextBoxFor(Model => Model.userName, null, new { @class = "form-control", placeholder = "User Name", maxlength = 75, autofocus = "autofocus", autocomplete = "off" })
+                        @Html.ValidationMessageFor(Model => Model.userName, "", new { @class = "text-danger" })
+                        @Html.HiddenFor(Model => Model.hduserName)
+                        @Html.LabelFor(Model => Model.password)
+                        @Html.PasswordFor(Model => Model.password, new { @class = "form-control", placeholder = "Password", maxlength = 50, autocomplete = "off" })
+                        @Html.ValidationMessageFor(Model => Model.password, "", new { @class = "text-danger" })
+                        @Html.HiddenFor(Model => Model.hdpassword)
+                        @Html.HiddenFor(Model => Model.hdCp)
+                        @Html.Captcha("Try Another", "Enter the text you see above", 5, requiredMessageText: "Enter the captcha")
+                        <p class="text-danger">@MvcHtmlString.Create(@ViewBag.LoginMessage)</p>
+                                                    <br />
+                                                    <button type="submit" onclick="SubmitEncry();" class="btn btn-primary float-left col-md-12 mb-1 ">Validate</button>
+
+
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script src="~/Scripts/CryptoJS/aes.js"></script>
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#CaptchaInputText").addClass("form-control")
+    });
+
+    function SubmitEncry() {
+        debugger;
+        var txtUserName = $('#userName').val();
+        var txtpassword = $('#password').val();
+        var salt = Date.now().toString(36) + Math.random().toString(36).substr(2);
+        $('#hdCp').val(salt);
+        if (txtUserName == '' || txtpassword == '') {
+            return;
+        }
+
+        var key = CryptoJS.enc.Utf8.parse('8080808080808080');
+        var iv = CryptoJS.enc.Utf8.parse('8080808080808080');
+        var encryptedlogin = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(txtUserName), key,
+            {
+                keySize: 128 / 8,
+                iv: iv,
+                mode: CryptoJS.mode.CBC,
+                padding: CryptoJS.pad.Pkcs7
+            });
+        $('#hduserName').val(encryptedlogin);
+        var encryptedpassword = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(txtpassword + salt), key,
+            {
+                keySize: 128 / 8,
+                iv: iv,
+                mode: CryptoJS.mode.CBC,
+                padding: CryptoJS.pad.Pkcs7
+            });
+        $('#hdpassword').val(encryptedpassword);
+        $('#password').val(encryptedpassword);
+    }
+</script>

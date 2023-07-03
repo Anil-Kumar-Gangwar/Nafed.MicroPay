@@ -1,0 +1,22 @@
+﻿@{
+    ViewBag.Title = "Work Flow";
+    ViewBag.NavigationTitle = "Work Flow";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    System.Globalization.CultureInfo Indian = new System.Globalization.CultureInfo("hi-IN");
+}
+
+
+<div>
+
+
+    <div class="card_new_header text-right">
+       
+        @Html.ActionLink("Create Work Flow", "Create", "TicketWorkFlow", null, new { @class = "btn btn-info", title = "Click here, to create new work flow.", @data_toggle = "tooltip" })      
+    </div>
+    <div class="card_new_body">
+        <div id="div-workflow-grid">
+            @Html.Action("GetWorkFlowList")
+        </div>
+    </div>
+
+</div>

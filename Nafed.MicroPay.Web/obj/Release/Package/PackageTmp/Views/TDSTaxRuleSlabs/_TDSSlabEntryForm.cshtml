@@ -1,0 +1,731 @@
+﻿
+@using Nafed.MicroPay.Model
+@model tblTDSTaxRulesSlab
+
+@{
+
+    Layout = null;
+}
+
+
+@Html.HiddenFor(model => model.CreatedBy)
+@Html.HiddenFor(model => model.CreatedOn)
+@Html.HiddenFor(model => model.UpdatedBy)
+@Html.HiddenFor(model => model.UpdatedOn)
+
+
+@if (!string.IsNullOrEmpty(Model.ResponseText))
+{
+    <script type="text/javascript">
+
+        commonMessage("success", '@Model.ResponseText');
+    </script>
+}
+<div class="form-group">
+
+    <div class="row">
+
+        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+
+            @Html.LabelFor(model => model.FinancialYear, htmlAttributes: new { @class = "" })
+
+        </div>
+
+        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+
+            @if (Model.CreatedBy == 0)
+            {
+                @Html.DropDownListFor(model => model.FinancialYear, new SelectList(Model.fYList, "value", "value"), "Select", new { @class = "selectpicker custom-select" })
+                @Html.ValidationMessageFor(model => model.FinancialYear, "", new { @class = "text-danger" })
+            }
+            else
+            {
+                @Html.HiddenFor(model => model.FinancialYear)
+                @Html.DropDownListFor(model => model.FinancialYear, new SelectList(Model.fYList, "value", "value"), "Select", new { @class = "selectpicker custom-select", @disabled = "disabled" })
+                @Html.ValidationMessageFor(model => model.FinancialYear, "", new { @class = "text-danger" })
+            }
+
+             @Html.ValidationMessage("TdsRuleSlabExists", "", new { @class = "text-danger" })
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+
+            @Html.LabelFor(model => model.StandardDeduction, htmlAttributes: new { @class = "" })
+
+        </div>
+
+        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+
+            @Html.EditorFor(model => model.StandardDeduction, new { htmlAttributes = new { @class = "form-control", @placeholder = "", @type = "number", @step = "0.1" } })
+            @Html.ValidationMessageFor(model => model.StandardDeduction, "", new { @class = "text-danger" })
+
+        </div>
+    </div>
+</div>
+
+<div class="row">
+
+    <div class="col-lg-12 col-xl-12 col-md-12 col-sm-12 col-xs-12">
+
+        <div class="panel panel-default">
+
+            <div class="panel-heading">
+
+                Common Slabs
+
+            </div>
+
+            <div class="panel-body">
+
+                <div class="form-group">
+
+                    <div class="row">
+
+                        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+
+                            @Html.LabelFor(model => model.NoTaxTillSal, htmlAttributes: new { @class = "" })
+
+                        </div>
+
+                        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+
+                            @Html.EditorFor(model => model.NoTaxTillSal, new { htmlAttributes = new { @class = "form-control", @placeholder = "", @type = "number", @step = "0.1" } })
+                            @Html.ValidationMessageFor(model => model.NoTaxTillSal, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+
+                    <div class="row">
+
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+                            <div class="row">
+
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-sm-12">
+
+                                    <div class="panel panel-default">
+
+                                        <div class="panel-heading">
+
+                                            First Slab
+
+                                        </div>
+
+                                        <div class="panel-body">
+
+                                            <div class="form-group row">
+
+                                                @Html.LabelFor(model => model.FirstSlabUpperLimit, htmlAttributes: new { @class = "col-sm-4" })
+
+                                                <div class="col-sm-8">
+
+                                                    @Html.EditorFor(model => model.FirstSlabUpperLimit, new { htmlAttributes = new { @class = "form-control", @placeholder = "", @type = "number", @step = "0.1" } })
+                                                    @Html.ValidationMessageFor(model => model.FirstSlabUpperLimit, "", new { @class = "text-danger" })
+
+                                                </div>
+
+                                            </div>
+
+                                            <div class="form-group row">
+
+                                                @Html.LabelFor(model => model.FirstSlabTaxPercentage, htmlAttributes: new { @class = "col-sm-4" })
+
+                                                <div class="col-sm-8">
+
+                                                    @Html.EditorFor(model => model.FirstSlabTaxPercentage, new { htmlAttributes = new { @class = "form-control", @placeholder = "", @type = "number", @step = "0.1" } })
+                                                    @Html.ValidationMessageFor(model => model.FirstSlabTaxPercentage, "", new { @class = "text-danger" })
+
+                                                </div>
+
+                                            </div>
+
+                                            <div class="form-group row">
+
+                                                @Html.LabelFor(model => model.FirstSlabTaxSurchage, htmlAttributes: new { @class = "col-sm-4" })
+
+                                                <div class="col-sm-8">
+
+                                                    @Html.EditorFor(model => model.FirstSlabTaxSurchage, new { htmlAttributes = new { @class = "form-control", @placeholder = "", @type = "number", @step = "0.1" } })
+                                                    @Html.ValidationMessageFor(model => model.FirstSlabTaxSurchage, "", new { @class = "text-danger" })
+
+
+
+
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-sm-12">
+
+                                    <div class="panel panel-default">
+
+                                        <div class="panel-heading">
+
+                                            Second Slab
+
+                                        </div>
+
+                                        <div class="panel-body">
+
+                                            <div class="form-group row">
+
+                                                @Html.LabelFor(model => model.SecondSlabUpperLimit, htmlAttributes: new { @class = "col-sm-4" })
+
+                                                <div class="col-sm-8">
+
+                                                    @Html.EditorFor(model => model.SecondSlabUpperLimit, new { htmlAttributes = new { @class = "form-control", @placeholder = "", @type = "number", @step = "0.1" } })
+                                                    @Html.ValidationMessageFor(model => model.SecondSlabUpperLimit, "", new { @class = "text-danger" })
+
+
+
+
+
+                                                </div>
+
+                                            </div>
+
+                                            <div class="form-group row">
+
+                                                @Html.LabelFor(model => model.SecondSlabTaxPercentage, htmlAttributes: new { @class = "col-sm-4" })
+
+                                                <div class="col-sm-8">
+
+                                                    @Html.EditorFor(model => model.SecondSlabTaxPercentage, new { htmlAttributes = new { @class = "form-control", @placeholder = "", @type = "number", @step = "0.1" } })
+                                                    @Html.ValidationMessageFor(model => model.SecondSlabTaxPercentage, "", new { @class = "text-danger" })
+
+
+
+
+                                                </div>
+
+                                            </div>
+
+                                            <div class="form-group row">
+
+                                                @Html.LabelFor(model => model.SecondSlabTaxSurchage, htmlAttributes: new { @class = "col-sm-4" })
+
+                                                <div class="col-sm-8">
+
+                                                    @Html.EditorFor(model => model.SecondSlabTaxSurchage, new { htmlAttributes = new { @class = "form-control", @placeholder = "", @type = "number", @step = "0.1" } })
+                                                    @Html.ValidationMessageFor(model => model.SecondSlabTaxSurchage, "", new { @class = "text-danger" })
+
+
+
+
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-sm-12">
+
+                                    <div class="panel panel-default">
+
+                                        <div class="panel-heading">
+
+                                            Third Slab
+
+                                        </div>
+
+                                        <div class="panel-body">
+
+                                            <div class="form-group row">
+
+                                                @Html.LabelFor(model => model.ThirdSlabUpperLimit, htmlAttributes: new { @class = "col-sm-4" })
+
+                                                <div class="col-sm-8">
+
+                                                    @Html.EditorFor(model => model.ThirdSlabUpperLimit, new { htmlAttributes = new { @class = "form-control", @placeholder = "", @type = "number", @step = "0.1" } })
+                                                    @Html.ValidationMessageFor(model => model.ThirdSlabUpperLimit, "", new { @class = "text-danger" })
+
+
+
+
+
+                                                </div>
+
+                                            </div>
+
+                                            <div class="form-group row">
+
+                                                @Html.LabelFor(model => model.ThirdSlabTaxPercentage, htmlAttributes: new { @class = "col-sm-4" })
+
+                                                <div class="col-sm-8">
+
+                                                    @Html.EditorFor(model => model.ThirdSlabTaxPercentage, new { htmlAttributes = new { @class = "form-control", @placeholder = "", @type = "number", @step = "0.1" } })
+                                                    @Html.ValidationMessageFor(model => model.ThirdSlabTaxPercentage, "", new { @class = "text-danger" })
+
+
+
+
+                                                </div>
+
+                                            </div>
+
+                                            <div class="form-group row">
+
+                                                @Html.LabelFor(model => model.ThirdSlabTaxSurchage, htmlAttributes: new { @class = "col-sm-4" })
+
+                                                <div class="col-sm-8">
+
+                                                    @Html.EditorFor(model => model.ThirdSlabTaxSurchage, new { htmlAttributes = new { @class = "form-control", @placeholder = "", @type = "number", @step = "0.1" } })
+                                                    @Html.ValidationMessageFor(model => model.ThirdSlabTaxSurchage, "", new { @class = "text-danger" })
+
+
+
+
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div class="row">
+
+    <div class="col-lg-12 col-xl-12 col-md-12 col-sm-12 col-xs-12">
+
+        <div class="panel panel-default">
+
+            <div class="panel-heading">
+
+                Female Slabs
+
+            </div>
+
+            <div class="panel-body">
+
+                <div class="form-group">
+
+                    <div class="row">
+
+                        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+
+                            @Html.LabelFor(model => model.FemaleNoTaxTillSal, htmlAttributes: new { @class = "" })
+
+                        </div>
+
+                        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+
+                            @Html.EditorFor(model => model.FemaleNoTaxTillSal, new { htmlAttributes = new { @class = "form-control", @placeholder = "", @type = "number", @step = "0.1" } })
+                            @Html.ValidationMessageFor(model => model.FemaleNoTaxTillSal, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+
+                    <div class="row">
+
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+                            <div class="row">
+
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-sm-12">
+
+                                    <div class="panel panel-default">
+
+                                        <div class="panel-heading">
+
+                                            First Slab
+
+                                        </div>
+
+                                        <div class="panel-body">
+                                            <div class="form-group row">
+
+                                                @Html.LabelFor(model => model.FemaleFirstSlabUpperLimit, htmlAttributes: new { @class = "col-sm-4" })
+
+                                                <div class="col-sm-8">
+
+                                                    @Html.EditorFor(model => model.FemaleFirstSlabUpperLimit, new { htmlAttributes = new { @class = "form-control", @placeholder = "", @type = "number", @step = "0.1" } })
+                                                    @Html.ValidationMessageFor(model => model.FemaleFirstSlabUpperLimit, "", new { @class = "text-danger" })
+
+                                                </div>
+
+                                            </div>
+
+                                            <div class="form-group row">
+
+                                                @Html.LabelFor(model => model.FemaleFirstSlabTaxPercentage, htmlAttributes: new { @class = "col-sm-4" })
+
+                                                <div class="col-sm-8">
+
+                                                    @Html.EditorFor(model => model.FemaleFirstSlabTaxPercentage, new { htmlAttributes = new { @class = "form-control", @placeholder = "", @type = "number", @step = "0.1" } })
+                                                    @Html.ValidationMessageFor(model => model.FemaleFirstSlabTaxPercentage, "", new { @class = "text-danger" })
+
+
+
+
+                                                </div>
+
+                                            </div>
+
+                                            <div class="form-group row">
+
+                                                @Html.LabelFor(model => model.FemaleFirstSlabTaxSurchage, htmlAttributes: new { @class = "col-sm-4" })
+
+                                                <div class="col-sm-8">
+
+                                                    @Html.EditorFor(model => model.FemaleFirstSlabTaxSurchage, new { htmlAttributes = new { @class = "form-control", @placeholder = "", @type = "number", @step = "0.1" } })
+                                                    @Html.ValidationMessageFor(model => model.FemaleFirstSlabTaxSurchage, "", new { @class = "text-danger" })
+
+
+
+
+
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-sm-12">
+
+                                    <div class="panel panel-default">
+
+                                        <div class="panel-heading">
+
+                                            Second Slab
+
+                                        </div>
+
+                                        <div class="panel-body">
+
+                                            <div class="form-group row">
+
+                                                @Html.LabelFor(model => model.FemaleSecondSlabUpperLimit, htmlAttributes: new { @class = "col-sm-4" })
+
+                                                <div class="col-sm-8">
+
+                                                    @Html.EditorFor(model => model.FemaleSecondSlabUpperLimit, new { htmlAttributes = new { @class = "form-control", @placeholder = "", @type = "number", @step = "0.1" } })
+                                                    @Html.ValidationMessageFor(model => model.FemaleSecondSlabUpperLimit, "", new { @class = "text-danger" })
+
+
+
+
+                                                </div>
+
+                                            </div>
+
+                                            <div class="form-group row">
+
+                                                @Html.LabelFor(model => model.FemaleSecondSlabTaxPercentage, htmlAttributes: new { @class = "col-sm-4" })
+
+                                                <div class="col-sm-8">
+
+                                                    @Html.EditorFor(model => model.FemaleSecondSlabTaxPercentage, new { htmlAttributes = new { @class = "form-control", @placeholder = "", @type = "number", @step = "0.1" } })
+                                                    @Html.ValidationMessageFor(model => model.FemaleSecondSlabTaxPercentage, "", new { @class = "text-danger" })
+
+
+
+
+                                                </div>
+
+                                            </div>
+
+                                            <div class="form-group row">
+
+                                                @Html.LabelFor(model => model.FemaleSecondSlabTaxSurchage, htmlAttributes: new { @class = "col-sm-4" })
+
+                                                <div class="col-sm-8">
+
+                                                    @Html.EditorFor(model => model.FemaleSecondSlabTaxSurchage, new { htmlAttributes = new { @class = "form-control", @placeholder = "", @type = "number", @step = "0.1" } })
+                                                    @Html.ValidationMessageFor(model => model.FemaleSecondSlabTaxSurchage, "", new { @class = "text-danger" })
+
+
+
+
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-sm-12">
+
+                                    <div class="panel panel-default">
+
+                                        <div class="panel-heading">
+
+                                            Third Slab
+
+                                        </div>
+
+                                        <div class="panel-body">
+
+                                            <div class="form-group row">
+
+                                                @Html.LabelFor(model => model.FemaleThirdSlabUpperLimit, htmlAttributes: new { @class = "col-sm-4" })
+
+                                                <div class="col-sm-8">
+
+                                                    @Html.EditorFor(model => model.FemaleThirdSlabUpperLimit, new { htmlAttributes = new { @class = "form-control", @placeholder = "", @type = "number", @step = "0.1" } })
+                                                    @Html.ValidationMessageFor(model => model.FemaleThirdSlabUpperLimit, "", new { @class = "text-danger" })
+
+
+
+
+                                                </div>
+
+                                            </div>
+
+                                            <div class="form-group row">
+
+                                                @Html.LabelFor(model => model.FemaleThirdSlabTaxPercentage, htmlAttributes: new { @class = "col-sm-4" })
+
+                                                <div class="col-sm-8">
+
+                                                    @Html.EditorFor(model => model.FemaleThirdSlabTaxPercentage, new { htmlAttributes = new { @class = "form-control", @placeholder = "", @type = "number", @step = "0.1" } })
+
+                                                    @Html.ValidationMessageFor(model => model.FemaleThirdSlabTaxPercentage, "", new { @class = "text-danger" })
+
+
+                                                </div>
+
+                                            </div>
+
+                                            <div class="form-group row">
+
+                                                @Html.LabelFor(model => model.FemaleThirdSlabTaxSurchage, htmlAttributes: new { @class = "col-sm-4" })
+
+                                                <div class="col-sm-8">
+
+                                                    @Html.EditorFor(model => model.FemaleThirdSlabTaxSurchage, new { htmlAttributes = new { @class = "form-control", @placeholder = "", @type = "number", @step = "0.1" } })
+                                                    @Html.ValidationMessageFor(model => model.FemaleThirdSlabTaxSurchage, "", new { @class = "text-danger" })
+
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<div class="row">
+
+    <div class="col-lg-12 col-xl-12 col-md-12 col-sm-12 col-xs-12">
+
+        <div class="panel panel-default">
+
+            <div class="panel-heading">
+
+                Senior Citizen Slabs
+
+            </div>
+
+            <div class="panel-body">
+
+                <div class="form-group">
+
+                    <div class="row">
+
+                        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+
+                            @Html.LabelFor(model => model.SnrctnNoTaxTillSal, htmlAttributes: new { @class = "" })
+
+                        </div>
+
+                        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+
+                            @Html.EditorFor(model => model.NoTaxTillSal, new { htmlAttributes = new { @class = "form-control", @placeholder = "", @type = "number", @step = "0.1" } })
+
+                        </div>
+
+                        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+
+                            @Html.LabelFor(model => model.SnrctnAgeLimit, htmlAttributes: new { @class = "" })
+
+                        </div>
+
+                        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+
+                            @Html.EditorFor(model => model.SnrctnAgeLimit, new { htmlAttributes = new { @class = "form-control", @placeholder = "", @type = "number" } })
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+
+                    <div class="row">
+
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+                            <div class="row">
+
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-sm-12">
+
+                                    <div class="panel panel-default">
+
+                                        <div class="panel-heading">
+
+                                            First Slab
+
+                                        </div>
+
+                                        <div class="panel-body">
+
+                                            <div class="form-group row">
+
+                                                @Html.LabelFor(model => model.SnrctnFirstSlabUpperLimit, htmlAttributes: new { @class = "col-sm-4" })
+
+                                                <div class="col-sm-8">
+
+                                                    @Html.EditorFor(model => model.SnrctnFirstSlabUpperLimit, new { htmlAttributes = new { @class = "form-control", @placeholder = "", @type = "number", @step = "0.1" } })
+
+
+                                                </div>
+
+                                            </div>
+
+                                            <div class="form-group row">
+
+                                                @Html.LabelFor(model => model.SnrctnFirstSlabTaxPercentage, htmlAttributes: new { @class = "col-sm-4" })
+
+                                                <div class="col-sm-8">
+
+                                                    @Html.EditorFor(model => model.SnrctnFirstSlabTaxPercentage, new { htmlAttributes = new { @class = "form-control", @placeholder = "", @type = "number", @step = "0.1" } })
+
+
+                                                </div>
+
+                                            </div>
+
+                                            <div class="form-group row">
+
+                                                @Html.LabelFor(model => model.SnrctnFirstSlabTaxSurcharge, htmlAttributes: new { @class = "col-sm-4" })
+
+                                                <div class="col-sm-8">
+
+                                                    @Html.EditorFor(model => model.SnrctnFirstSlabTaxSurcharge, new { htmlAttributes = new { @class = "form-control", @placeholder = "", @type = "number", @step = "0.1" } })
+
+
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-sm-12">
+
+                                    <div class="panel panel-default">
+
+                                        <div class="panel-heading">
+
+                                            Second Slab
+
+                                        </div>
+
+                                        <div class="panel-body">
+
+                                            <div class="form-group row">
+
+                                                @Html.LabelFor(model => model.SnrctnSecondSlabUpperLimit, htmlAttributes: new { @class = "col-sm-4" })
+
+                                                <div class="col-sm-8">
+
+                                                    @Html.EditorFor(model => model.SnrctnSecondSlabUpperLimit, new { htmlAttributes = new { @class = "form-control", @placeholder = "", @type = "number", @step = "0.1" } })
+
+
+                                                </div>
+
+                                            </div>
+
+                                            <div class="form-group row">
+
+                                                @Html.LabelFor(model => model.SnrctnSecondSlabTaxPercentage, htmlAttributes: new { @class = "col-sm-4" })
+
+                                                <div class="col-sm-8">
+
+                                                    @Html.EditorFor(model => model.SnrctnSecondSlabTaxPercentage, new { htmlAttributes = new { @class = "form-control", @placeholder = "", @type = "number", @step = "0.1" } })
+
+
+                                                </div>
+
+                                            </div>
+
+                                            <div class="form-group row">
+
+                                                @Html.LabelFor(model => model.SnrctnSecondSlabTaxSurcharge, htmlAttributes: new { @class = "col-sm-4" })
+
+                                                <div class="col-sm-8">
+
+                                                    @Html.EditorFor(model => model.SnrctnSecondSlabTaxSurcharge, new { htmlAttributes = new { @class = "form-control", @placeholder = "", @type = "number", @step = "0.1" } })
+
+
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+
+<div id="dv-action-btn">
+
+    <span class="pull-right">
+        @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-light btn-md toggle-tooltip", @title = "Click here, to redirect on list page" })
+        <input type="submit" value="Submit" class="btn btn-info btn-md pull-center toggle-tooltip" title="Click here, to save current record" />
+    </span>
+</div>
+<script type="text/javascript">
+
+    $('.toggle-tooltip').tooltip();
+</script>

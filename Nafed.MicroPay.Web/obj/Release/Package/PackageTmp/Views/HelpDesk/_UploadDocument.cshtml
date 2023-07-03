@@ -1,0 +1,19 @@
+﻿@using Nafed.MicroPay.Model
+@model TicketAttachment
+
+<tr class="filesvalidate">
+
+    <td>
+        @Html.EditorFor(model => model.docname, new { htmlAttributes = new { @class = "form-control name", @maxlength = "100", @autocomplete = "off" } })
+   
+    </td>
+
+    <td>
+        <input type="file" name="Files" class="file" id="Files" accept=".jpg,.jpeg,.png,.pdf,.xlsx,.xls,.doc,.docx" />
+   
+    </td>
+
+ 
+</tr>
+
+

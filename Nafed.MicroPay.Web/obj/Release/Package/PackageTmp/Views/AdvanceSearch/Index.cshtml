@@ -1,0 +1,257 @@
+﻿@{
+    ViewBag.Title = "Advance Search";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="container mt-3 col-lg-12 col-sm-12 col-md-12 col-xs-12">
+
+    <div class="row">
+
+        <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12 p-4">
+
+            <div class="row">
+                <div class="col-md-12 card_new">
+                    <div class="card_new_header m-0">
+                        <h5> Filters:</h5>
+                    </div>
+
+                    @using (Ajax.BeginForm("PostFilterFieldValues", "AdvanceSearch", new AjaxOptions { HttpMethod = "POST", OnSuccess = "onSuccess" }, new { id = "myForm", defaultbutton = "btnSelect" }))
+                    {
+                    @Html.Hidden("SelectedFieldID")
+                    @Html.Hidden("SelectedEmployeeType","-1")
+
+                    <div class="card_new_body">
+
+                        <div class="form-group mb-0">
+
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-right">
+
+                                <div class="custom-control custom-radio">
+                                    @Html.RadioButton("empType", -1, new
+                                    {
+                                    id = "rbtn_0",
+                                    @checked=true
+                                    })
+                                    @Html.Label("All Employees", new { @for = "rbtn_0", @class = "control-label" })
+
+                                    @Html.RadioButton("empType", 0, new
+                                    {
+                                    id = "rbtn_1"
+                                    })
+                                    @Html.Label("Retired Employees", new { @for = "rbtn_1", @class = "control-label" })
+
+                                    @Html.RadioButton("empType", 1, new
+                                    {
+                                    id = "rbtn_2"
+                                    //  ,@onclick = "radioOnChange(this.id)"
+                                    })
+                                    @Html.Label("Working Employees", new { @for = "rbtn_2", @class = "control-label" })
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="row">
+
+                                <div class="col-lg-4 col-md-4">
+                                    Select Field
+                                </div>
+
+                                <div class="col-lg-8 col-md-8">
+
+                                    <select class="custom-select" id="ddlFields" onchange="onFilterField_Change(this.id);">
+                                        <option value="0">Select </option>
+                                        <option value="1">Employee Name </option>
+                                        <option value="2">Employee Code </option>
+                                        <option value="3">Branch </option>
+                                        <option value="4">Designation </option>
+                                        <option value="5">Division </option>
+                                        <option value="6">Section </option>
+                                        <option value="7">Cadre </option>
+                                        <option value="8">Date of Birth</option>
+                                        <option value="9">Date of Joining</option>
+                                        <option value="10">Date of Confirmation</option>
+                                        <option value="11">Date of SuperAnnuating</option>
+                                        <option value="12">Date of Leaving</option>
+                                        <option value="13">Date of Promotion</option>
+                                        <option value="14">Date of Increment</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr />
+                        <div class="scrollbar" id="style-3" style="height:200px;">
+
+                            <div id="div-filter-list" class="force-overflow" style="height:340px;">
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card_new_footer">
+                        <input type="submit" value="Select" id="btnSelect" name="ButtonType" class="btn btn-primary btn-md pull-left" />
+
+                        @Html.CheckBox("chkAll",false,new { @id="chkAll", @class= "ml-2 mt-2" })
+                        @Html.Label("All", new { @for = "chkAll", @class = "control-label" })
+
+                        <input type="submit" value="Search" id="btnSearch" name="ButtonType" class="btn btn-primary btn-md pull-right" />
+                    </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-7 col-md-7 col-sm-12 col-xs-12 p-4">
+
+            <div class="row">
+                <div class="col-md-12 card_new">
+                    <div class="card_new_header">
+                        <h5> Search For:</h5>
+                    </div>
+                    <div class="card_new_body">
+                        <hr />
+                        <div class="scrollbar" id="style-3" style="height:257px;">
+                            <div id="div-search-for" class="force-overflow font-weight-normal" style="max-height:450px;">
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card_new_footer">
+                        <input type="button" value="Reset" id="btnReset" onclick="reset_SearchForm();" class="btn btn-warning btn-md pull-right" />
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="SearchResultModal" data-backdrop="static" data-keyboard="false" role="dialog" style="overflow:auto;">
+    <div class="modal-dialog modal-big">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Search Result</h4>
+                <button type="button" class="close toggle-tooltip" data-dismiss="modal">&times;</button>
+            </div>
+
+            @using (Ajax.BeginForm("ReSearchWithNewFields", "AdvanceSearch", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "div-search-result-grid" }))
+            {
+            <!-- Modal body -->
+            <div class="modal-body" id="div-result-body">
+
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+
+                <input type="submit" value="Result" id="btnReFilter" name="Refilter" class="btn btn-primary btn-md pull-left" />
+                <input type="submit" value="Export To MS-Excel" id="btnExportToExcel" name="Refilter" title="Click here, to export the search result" class="toggle-tooltip btn btn-warning btn-md pull-right" />
+
+            </div>
+            }
+
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    $('#chkAll').change(function () {
+        if ($(this).is(':checked')) {
+            $('#div-chk-list-container').find(':checkbox').each(function () {
+                $(this).prop('checked', true);
+            });
+            return;
+        } else
+            $('#div-chk-list-container').find(':checkbox').each(function () {
+                $(this).prop('checked', false);
+            });
+    })
+
+    $('input[type=radio][name=empType]').change(function () {
+        $("#SelectedEmployeeType").val(this.value);
+        $("#chkAll").prop("checked", false);
+        var checkedRadio = this.value;
+        //    $("#div-filter-list,#div-search-for").html('');
+
+        if (checkedRadio == undefined)
+            checkedRadio = -1;
+
+        var fieldID = $("#ddlFields").val();
+
+        $("#SelectedFieldID").val(fieldID);
+        if (fieldID > 0)
+            jQuery.post('@Url.Action("_FillFilterFieldList", "AdvanceSearch") ',
+               { fieldID: fieldID, selectedEmployeeType: checkedRadio }).done(function (data) {
+                   $("#div-filter-list").html(data);
+               });
+        else
+            $("#div-filter-list,#div-search-for").html('');
+
+        if (checkedRadio != undefined)
+            $("#SelectedEmployeeType").val(checkedRadio);
+    });
+
+    function onFilterField_Change(controlID) {
+
+        var checkedRadio = $("input[name=empType]").filter(":checked").val();
+        $("#div-filter-list,#div-search-for").html(''); $("#chkAll").prop("checked", false);
+
+        if (checkedRadio == undefined)
+            checkedRadio = -1;
+        var ddlControlID = "#" + controlID;
+        var fieldID = $(ddlControlID).val(); $("#SelectedFieldID").val(fieldID);
+        if (fieldID > 0)
+            jQuery.post('@Url.Action("_FillFilterFieldList", "AdvanceSearch") ',
+               { fieldID: fieldID, selectedEmployeeType: checkedRadio }).done(function (data) {
+                   $("#div-filter-list").html(data);
+               });
+        else
+            $("#div-filter-list,#div-search-for").html('');
+
+        if (checkedRadio != undefined)
+            $("#SelectedEmployeeType").val(checkedRadio);
+    }
+
+    function onSuccess(data) {
+        var selectedID = data.selectedFields; var searchForTextExpression = "";
+        searchForTextExpression = "<b>" + $("#ddlFields option:selected").text() + "</b>";
+
+        if (selectedID != undefined && selectedID.length > 0) {
+            if (data.formAction == "Select") {
+                searchForTextExpression += "<b>=</b>";
+                for (var i = 0 ; i < selectedID.length; i++) {
+                    if (i < selectedID.length - 1)
+                        searchForTextExpression += $("#div-chk-list-container :checkbox[value='" + selectedID[i] + "']").next('label').text() + "<b> OR </b> ";
+                    else
+                        searchForTextExpression += $("#div-chk-list-container :checkbox[value='" + selectedID[i] + "']").next('label').text();
+
+                }
+                $("#div-search-for").html(searchForTextExpression);
+            }
+            else {
+                $("#div-result-body").html(data.htmlData);
+                $("#SearchResultModal").modal("show");
+            }
+        }
+        else if (selectedID == undefined) {
+            if (data.partialView != "_SearchResultWindow") {
+                $("#div-filter-list").html(data.htmlData);
+                searchForTextExpression += " BETWEEN " + $("#DateFrom").val() + "<b> AND </b> " + $("#DateTo").val();
+                $("#div-search-for").html(searchForTextExpression);
+            } else {
+                $("#div-result-body").html(data.htmlData);
+                $("#SearchResultModal").modal("show");
+            }
+        }
+        else {
+            $("#div-filter-list,#div-search-for").html('');
+        }
+    }
+    function reset_SearchForm() {
+        $("#div-filter-list,#div-search-for").html(''); $("#ddlFields").val(0);
+        $("#rbtn_1,#rbtn_2").prop("checked", false); $("#chkAll").prop("checked", false);
+    }
+</script>
+

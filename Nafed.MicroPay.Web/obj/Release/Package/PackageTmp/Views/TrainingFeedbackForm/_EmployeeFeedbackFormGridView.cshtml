@@ -1,0 +1,230 @@
+﻿@model MicroPay.Web.Models.TrainingViewModel
+@using Nafed.MicroPay.Model;
+
+<table id="tblGrid" class="table table-centered table-striped dt-responsive w-100">
+    <thead>
+        <tr>
+            <th>
+                #
+            </th>
+            <th>
+                Trainng Title
+            </th>
+            <th>
+                Training Date
+            </th>
+            <th>
+                Training Skill
+            </th>
+            <th>
+                Training Skill Detail
+            </th>
+            <th>
+                Venue
+            </th>
+            <th>
+                Status
+            </th>
+            <th class="text-center">
+                Feedback Form
+            </th>
+            <th class="text-center">
+                Nomination
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            if (Model != null && Model.TrainingList.Count > 0)
+            {
+                var sno = 1;
+                foreach (var item in Model.TrainingList)
+                {
+                    var venueAddress = string.Empty;
+                    <tr>
+                        <td> @sno</td>
+                        <td> @item.TrainingTitle</td>
+                        <td>
+                            @item.StartDate.Value.ToString("dd-MM-yyyy") <text> To</text>
+                            @item.EndDate.Value.ToString("dd-MM-yyyy")
+                        </td>
+                        <td>
+                            @item.TrainingTypeName
+                        </td>
+                        <td>
+                            @if (item.trainingTopic != null && item.trainingTopic.Count > 0)
+                            {
+                                var topic = "";
+                                for (int i = 0; i < item.trainingTopic.Count; i++)
+                                {
+                                    topic += item.trainingTopic[i].Skill1 + ',';
+                                }
+                                <label class="label-ellipsis toggle-tooltip" title="@topic" style="width:150px;">
+                                    @topic
+                                </label>
+                            }
+                         
+                        </td>
+                        <td style="width:15%">
+
+                            @if (!string.IsNullOrEmpty(item.Address))
+                            {
+                                if (!string.IsNullOrEmpty(item.StateName))
+                                {
+                                    venueAddress += item.Address + ",";
+                                }
+                                else
+                                {
+                                    venueAddress += item.Address;
+                                }
+                            }
+                            @if (!string.IsNullOrEmpty(item.StateName))
+                            {
+                                if (!string.IsNullOrEmpty(item.City))
+                                {
+                                    venueAddress += item.StateName + ",";
+                                }
+                                else
+                                {
+                                    venueAddress += item.StateName;
+                                }
+                            }
+
+                            @if (!string.IsNullOrEmpty(item.City))
+                            {
+
+                                if (!string.IsNullOrEmpty(item.PinCode))
+                                {
+                                    venueAddress += item.City + ",";
+                                }
+                                else
+                                {
+                                    venueAddress += item.City;
+                                }
+                            }
+                            @if (!string.IsNullOrEmpty(item.PinCode))
+                            {
+                                venueAddress += item.PinCode;
+                            }
+
+                            <label class="label-ellipsis toggle-tooltip" title="@venueAddress" style="width:150px;">
+                                @venueAddress
+                            </label>
+                        </td>
+
+                        <td>
+                            @if (item.TrainingStatus == (int)EnumTrainingStatus.Planned)
+                            {
+                            <span class="badge badge-pill badge-info col-md-12">Planned </span>
+                            }
+                            else if (item.TrainingStatus == (int)EnumTrainingStatus.Schedule)
+                            {
+                            <span class="badge badge-info col-md-12">On Time </span>
+                            }
+                            else if (item.TrainingStatus == (int)EnumTrainingStatus.Completed)
+                            {
+                            <span class="badge badge-success col-md-12">Completed</span>
+                            }
+                            else if (item.TrainingStatus == (int)EnumTrainingStatus.Cancel)
+                            {
+                            <span class="badge badge-danger col-md-12">Cancel</span>
+                            }
+                            else if (item.TrainingStatus == (int)EnumTrainingStatus.Reschedule)
+                            {
+                            <span class="badge badge-warning col-md-12">Reschedule</span>
+                            }
+                        </td>
+
+                        @if (item.TrainingStatus == (int)EnumTrainingStatus.Completed && item.FeedbackFormStatus)
+                        {
+                            <td class="text-center">
+                                @*<a class="toggle-tooltip" href="@Url.Action("ViewFeedbackForm", "TrainingFeedbackForm", new { feedBackFormHdrID = item.FeedBackFormHdrID })" title="Click here, to view this record">
+                                    <span class="far fa-eye text-info" aria-hidden="true"></span>
+                                </a>*@
+                                @Html.EncodedImageActionLink("", "ViewFeedbackForm", "TrainingFeedbackForm", new { feedBackFormHdrID = item.FeedBackFormHdrID }, new { @class = "toggle-tooltip", title = "Click here, to view this record" }, "~/Images/view.png")
+                            </td>
+                        }
+                        else if (item.TrainingStatus == (int)EnumTrainingStatus.Completed && (item.TrainingAttended.HasValue && item.TrainingAttended.Value))
+                        {
+                            if (item.FeedBackFormHdrID.HasValue && item.FeedBackFormHdrID > 0)
+                            {
+                                <td class="text-center">
+                                    @*<a class="toggle-tooltip" href="@Url.Action("GenerateFeedbackForm", "TrainingFeedbackForm", new { feedBackFormHdrID = item.FeedBackFormHdrID })" title="Click here, to fill feedback form.">
+                                        <i class="fa fa-comment" aria-hidden="true"></i>
+                                    </a>*@
+                                    @Html.EncodedImageActionLink("", "GenerateFeedbackForm", "TrainingFeedbackForm", new { feedBackFormHdrID = item.FeedBackFormHdrID }, new { @class = "toggle-tooltip", title = "Click here, to fill feedback form" }, "~/Images/comment.png")
+                                </td>
+                            }
+                            else
+                            {
+                                <td class="text-center">
+                                    Feedback Form Not Prepared
+                                </td>
+                            }
+                        }
+                        else
+                        {
+                            <td></td>
+
+                        }
+
+                        <td class="text-center">
+                            @if (!item.Nomination && (item.TrainingStatus == (int)EnumTrainingStatus.Planned || item.TrainingStatus == (int)EnumTrainingStatus.Schedule))
+                            {
+                                if (!item.ParticipantExist.HasValue)
+                                {
+                                    if (item.NominationDate.HasValue)
+                                    {
+                                        if (DateTime.Now.Date <= item.NominationDate.Value)
+                                        {
+                                            <a data-ajax="true" data-toggle="tooltip"
+                                               href="@Url.Action("MakeNomination", "TrainingFeedbackForm",
+                                       new { tid = item.TrainingID })" data-ajax-success="OnsuccessNomination"
+                                               title="Click here, make nomination for this training.">
+                                                <i class="fas fa-hand-paper"></i>
+                                            </a>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <a data-ajax="true" data-toggle="tooltip"
+                                           href="@Url.Action("MakeNomination", "TrainingFeedbackForm",
+                                       new { tid = item.TrainingID })" data-ajax-success="OnsuccessNomination"
+                                           title="Click here, make nomination for this training.">
+                                            <i class="fas fa-hand-paper"></i>
+                                        </a>
+                                    }
+                                }
+                            }
+                        </td>
+                    </tr>
+
+                    sno++;
+                }
+            }
+
+        }
+
+    </tbody>
+</table>
+
+
+
+<script>
+    $('.toggle-tooltip').tooltip();
+    ///==== Adding jquery datatable reference to all master grid
+    var table = $('#tblGrid').DataTable({
+    });
+    $('#tblGrid_length').find('select').addClass('custom-select');
+    //========= End==================================================
+
+    function OnsuccessNomination(data) {
+        if (data.success) {
+            commonMessage(data.msgType, data.msg);
+            window.location.reload();
+        }
+        else if (!data.success) {
+            commonMessage(data.msgType, data.msg);
+        }
+    }
+</script>

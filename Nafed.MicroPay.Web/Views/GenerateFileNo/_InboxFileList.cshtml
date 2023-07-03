@@ -1,0 +1,281 @@
+﻿@using Nafed.MicroPay.Model;
+@model MicroPay.Web.Models.FileTrackingViewModel
+@{
+    var uDetails = (UserDetail)Session["user"];
+}
+<script type="text/javascript">
+    $('.toggle-tooltip').tooltip();
+    $("#tblGrid1").dataTable();
+</script>
+
+<div class="mt-4">
+<table id="tblGrid1" class="table table-centered table-striped dt-responsive w-100">
+        <thead>
+            <tr>
+                <th>
+                    #
+                </th>
+                <th>
+                    File No.
+                </th>
+                <th>
+                    File Subject
+                </th>
+
+                <th>
+                    File Type
+                </th>
+                <th>
+                    File Putup Date
+                </th>
+                <th>
+                    Forwarded Department
+                </th>
+                <th>
+                    Forwarded By
+                </th>
+
+                <th>
+                    Reciever Department
+                </th>
+                <th>
+                    Reciever
+                </th>
+
+                <th>
+                    Remarks
+                </th>
+                <th>
+                    File Documents
+                </th>
+                <th class="text-center" style="width:40px">
+                    Action
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                if (Model.fileManagementList != null && Model.fileManagementList.Count > 0)
+                {
+                    var sno = 1;
+                    for (int i = 0; i < Model.fileManagementList.Count; i++)
+                    {
+                        <tr>
+                            <td> @sno</td>
+                            <td>
+                                @Html.HiddenFor(model => model.fileManagementList[i].FileID)
+                                @Model.fileManagementList[i].DiaryNo
+                            </td>
+                            <td> 
+                                @Model.fileManagementList[i].FileSubject
+                            </td>
+                            <td>
+                                @Model.fileManagementList[i].FileTypeName
+                            </td>
+                            <td>
+                                @Model.fileManagementList[i].FilePutup.Value.ToString("dd-MM-yyyy hh:mm tt")
+                            </td>
+                            <td>
+                                @Model.fileManagementList[i].DepartmentName
+                            </td>
+                            <td class="toggle-tooltip" title="Forwarded Through: @Model.fileManagementList[i].ForwardThrough">
+                               @Model.fileManagementList[i].SenderName
+                            </td>
+                            <td>
+                                @Model.fileManagementList[i].ReceiverDepartment
+                            </td>
+                            <td>
+                                @Model.fileManagementList[i].ReceiverName
+                            </td>
+                            <td id="@("remark_"+i)">
+                                @if (!string.IsNullOrEmpty(Model.fileManagementList[i].Remarks))
+                                {
+                                    if (@Model.fileManagementList[i].Remarks.Length > 50)
+                                    {
+                                    @Html.HiddenFor(model => @Model.fileManagementList[i].Remarks)
+                                    <a href="#" data-toggle="tooltip" title="Click here to see Remark">@Model.fileManagementList[i].Remarks.Substring(0, 50)...</a>
+                                    }
+                                    else
+                                    {
+                                        @Model.fileManagementList[i].Remarks
+                                    }
+                                }
+                                
+                            </td>
+
+                            <td>
+                                @if (Model.fileManagementList[i].fileDocumentsList != null && Model.fileManagementList[i].fileDocumentsList.Count > 0)
+                                {
+                                    foreach (var item in Model.fileManagementList[i].fileDocumentsList)
+                                    {
+                                        <p class="media-body pb-3 mb-0 lh-125">
+                                            @if (Convert.ToString(item.DocPathName).IndexOf(".", 0) > 0)
+                                            {
+                                                var ext = Convert.ToString(item.DocPathName).Substring(Convert.ToString(item.DocPathName).IndexOf(".", 1) + 1, Convert.ToString(item.DocPathName).Length - (Convert.ToString(item.DocPathName).IndexOf(".", 1) + 1)).Trim();
+                                                if (ext == "xls" || ext == "xlsx")
+                                                {
+                                                    <i class="fas fa-file-excel text-success fa-1x mr-2"></i>
+
+                                                }
+                                                else if (ext == "doc" || ext == "docx")
+                                                {
+                                                    <i class="fas fa-file-word text-primary fa-1x mr-2"></i>
+
+                                                }
+                                                else if (ext == "pdf")
+                                                {
+                                                    <i class="fas fa-file-pdf text-danger fa-1x mr-2"></i>
+
+                                                }
+                                                else if (ext == "png" || ext == "jpg" || ext == "gif" || ext == "bmp")
+                                                {
+                                                    <i class="fas fa-file-image text-waring fa-1x mr-2"></i>
+
+                                                }
+                                                else
+                                                {
+                                                    <i class="fas fa-file text-light fa-1x mr-2"></i>
+
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <i class="fas fa-file text-light fa-1x mr-2"></i>
+
+                                            }
+                                            <a aria-current="page" style="font-size:10px;" href="~/Document/FileTracking/@item.DocPathName" data-toggle="tooltip" title="@item.DocName" download="@item.DocOrignalName">
+                                                @item.DocOrignalName
+
+                                            </a>
+                                        </p>
+
+                                    }
+                                }
+                            </td>
+                            <td class="text-center">
+
+                                @if (!Model.fileManagementList[i].Readflag.HasValue)
+                                {
+                                    <a data-ajax="true"
+                                       method="POST" title="Click here, to receive file."
+                                       data-ajax-update="#div-read-body" data-ajax-mode="replace"
+                                       data-backdrop="static" data-keyboard="false"
+                                       href="@Url.Action("_FileReceive", "GenerateFileNo", new { fileID = Model.fileManagementList[i].FileID, fileNo = Model.fileManagementList[i].DiaryNo, wflowID = Model.fileManagementList[i].FileWorkFlowID,putupdate=Model.fileManagementList[i].FilePutup })"
+                                       id="a_fileforward" data-toggle="modal" data-target="#div-read">
+                                        <i class="fab fa-readme"></i>
+                                    </a>
+                                }
+                                @if (Model.fileManagementList[i].Readflag.HasValue && Model.fileManagementList[i].FileLastStatus < 3)
+                                {
+                                    <a data-ajax="true"
+                                       method="POST" title="Click here, to forward file."
+                                       data-ajax-update="#div-inbox-container" data-ajax-mode="replace"
+                                       data-backdrop="static" data-keyboard="false"
+                                       href="@Url.Action("TabFileForward", "GenerateFileNo", new { fileID = Model.fileManagementList[i].FileID, fileNo = Model.fileManagementList[i].DiaryNo, sub = Model.fileManagementList[i].FileSubject, wflowID = Model.fileManagementList[i].FileWorkFlowID,putupdate=Model.fileManagementList[i].FilePutup  })"
+                                       id="a_fileforward" data-toggle="modal" data-target="#div-inbox">
+
+                                        <i class="fas fa-file-export"></i>
+                                    </a>
+
+                                    @*if (Model.fileManagementList[i].ParkByID == uDetails.EmployeeID)
+                                    {
+                                        <text>|</text>
+                                        <a data-toggle="fileClose" href="@Url.Action("FileClose", "GenerateFileNo", new { fileID = Model.fileManagementList[i].FileID, fileNo = Model.fileManagementList[i].DiaryNo,wflowID = Model.fileManagementList[i].FileWorkFlowID})" title="Click here, to close this file.">
+                                            <i class="fas fa-arrow-left"></i>
+                                        </a>
+                                    }*@
+                                }
+                            </td>
+                        </tr>
+                        sno++;
+                    }
+                }
+                @*else
+                {
+                    <tr>
+                        <td colspan="10" class="text-center"> No Record Found.</td>
+                    </tr>
+                }*@
+            }
+        </tbody>
+    </table>
+
+</div>
+
+<div class="modal" id="div-inbox" style="max-height:600px;">
+    <div class="modal-dialog modal-big">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body" id="div-inbox-container" style="max-height:500px;overflow-x:scroll">
+
+
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="div-read">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <link href="~/Content/jquery.datetimepicker.min.css" rel="stylesheet" />
+            <script src="~/Scripts/jquery.datetimepicker.full.min.js"></script>
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body" id="div-read-body">
+
+
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="div-file-close">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">File Closed</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body" id="div-fileclose-container">
+
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+
+

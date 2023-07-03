@@ -1,0 +1,52 @@
+﻿
+
+@{
+
+    Layout = null;
+}
+
+<script>
+    $(document).ready(function () {
+        $('#btnSave').click(function () {
+            var saveURL = '/ImportEmpSalaryManualData/SubmitFileData';
+            $.post(saveURL, {}).done(function (data) {
+                //  alert(data.error);
+                 if(data.errorCode==-1)
+                     $("#validation-hdr").html(data.error).addClass('alert alert-danger');
+                $('#waitLoading').css('display', 'none');
+                $('.modal-backdrop').hide();
+            });
+        });
+    });
+
+</script>
+
+@using (Ajax.BeginForm("_ImportSalManualData", "ImportEmpSalaryManualData", new AjaxOptions { HttpMethod = "POST" }, new { enctype = "multipart/form-data", defaultbutton = "submitform" }))
+{
+
+    <div class="row">
+        <div class="col-lg-7 col-md-7 col-sm-12 col-xs-12">
+            </div>
+            <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12"  style="margin-top: 5px">
+
+                @Html.Label("Import", htmlAttributes: new { @class = "" })
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12" style="margin-top: 5px">
+
+                @Html.TextBox("file", "", new { type = "file" })
+
+
+            </div>
+            <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12" >
+
+                <input type="submit" value="Validate" id="submitform" class="btn btn-warning pull-center" title="Click here, to upload manual data sheet" />
+            </div>
+            <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12" style="margin-left: -60px">
+
+                <input type="button" id="btnSave" value="Save" class="btn btn-warning pull-center hide" title="Click here, to save manual data" />
+            </div>
+        </div>
+
+
+}
+

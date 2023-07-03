@@ -1,0 +1,83 @@
+﻿
+@using Nafed.MicroPay.Model
+@model List<Employee>
+
+<table id="tblGrid" class="table table-centered table-striped dt-responsive w-100">
+    <thead>
+        <tr>
+            <th>
+                #
+            </th>
+            <th>
+                Employee Code
+            </th>
+            <th>
+                Name
+            </th>
+            <th>
+                Branch
+            </th>
+            <th>
+                Department
+            </th>
+            <th>
+                Designation
+            </th>
+            <th>
+                Employee Type
+            </th>
+            <th>
+                Current Basic
+            </th>
+            <th class="text-center" style="width:60px">
+                Action
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            if (Model != null && Model.Count() > 0)
+            {
+                var sno = 1;
+                foreach (var item in Model)
+                {
+                    <tr>
+                        <td> @sno</td>
+                        <td> @item.EmployeeCode</td>
+                        <td> @item.Name</td>
+                        <td> @item.BranchName</td>
+                        <td> @item.DepartmentName</td>
+                        <td> @item.DesignationName</td>
+                        <td> @item.EmployeeTypeName</td>
+                        <td> @item.E_Basic</td>
+                        <td class="text-center">
+
+                            <a data-ajax="true" class="btn btn-info btn-sm pull-center toggle-tooltip"
+                               href="@Url.Action("_GetSalaryConfigDtls", "EmpSalaryConfig", new { branchID = item.BranchID, empCode= item.EmployeeCode })"
+                               method="GET" title="Click here, to create new record"
+                               data-ajax-update="#div-salHead" data-ajax-mode="replace" 
+                               data-backdrop="static" data-keyboard="false"
+                               data-toggle="modal" data-target="#myModal">
+                                Action
+                            </a>
+                        </td>
+                    </tr>
+                    sno++;
+                }
+            }
+        }
+
+    </tbody>
+</table>
+
+
+
+<script src="~/Scripts/popper.min.js"></script>
+<script>
+    $('.toggle-tooltip').tooltip();
+    ///==== Adding jquery datatable reference to all master grid ==== (Sujeet G)
+    var table = $('#tblGrid').DataTable({
+    });
+    $('#tblGrid_length').find('select').addClass('custom-select');
+    //========= End==================================================
+</script>

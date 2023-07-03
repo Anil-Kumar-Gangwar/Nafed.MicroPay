@@ -1,0 +1,306 @@
+﻿@using Nafed.MicroPay.Model
+@model EmployeeCertification
+
+@{
+    var empID = Request["employeeID"];
+    Layout = null;
+}
+
+<div class="row">
+
+    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+
+        @Html.LabelFor(model => model.DateOfIssue, htmlAttributes: new { @class = "control-label required" })
+
+    </div>
+    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+
+        @Html.TextBoxFor(model => model.DateOfIssue,
+           String.Format("{0:dd/MM/yyyy}", Model.DateOfIssue),
+           new
+           {
+               @type = "text",
+               @class = "form-control datepicker",
+               id = "doI",
+               @placeholder = "dd/mm/yyyy",
+               @autocomplete = "off"
+           })
+        <span id="DateOfIssue"></span>
+    </div>
+
+
+
+</div>
+
+
+
+<div class="row mt-2">
+
+    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+
+        @Html.LabelFor(model => model.CertificationName, htmlAttributes: new { @class = "control-label required" })
+
+    </div>
+    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+
+        @Html.EditorFor(model => model.CertificationName, new { htmlAttributes = new { @class = "form-control", @maxlength = "100", @autocomplete = "off" } })
+        <span id="SpCertificationName"></span>
+    </div>
+
+</div>
+<div class="row">
+
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="form-group">
+
+            @Html.LabelFor(model => model.CertificationRemark, htmlAttributes: new { @class = "control-label" })
+            @Html.TextAreaFor(model => model.CertificationRemark, new { @rows = 3, @id = "CertificationEditor", @class = "form-control custom-textEditor0", @placeholder = "Enter Certification Detail" })
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<input id="attachDocs_0" name="attachDoc_1" type="checkbox" onclick="chkClick1(this.id);" />
+<label for="attachDocs_0">Attach Document</label>
+
+<hr />
+<div class="row">
+
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="form-group">
+
+
+            <div class="row hide" id="div-error0">
+
+                <div class="col-lg-6 col-md-6">
+
+                    <span id="documentnameError0"></span>
+                    <span id="documentFileError0"></span>
+                    <span id="sizeError0"></span>
+                </div>
+
+
+                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 text-right pb-2">
+                    <input type="button" value="Add" id="btnAddRowExper0" class="btn btn-info btn-md pull-center toggle-tooltip btn-sectionAddRow"
+                           title="Click here, to add new row." />
+                    <input type="button" value="Remove" class="delete-row0 btn btn-danger btn-xs"
+                           title="Click here, to delete seleted row." />
+                </div>
+            </div>
+
+
+
+            <div id="div-form-documents-grid0" class="col-lg-12 col-md-11 col-sm-11 col-xs-12 mb-2 p-0 hide">
+
+                <table id="tblDocument0" class="table table-bordered table-centered dt-responsive w-100">
+                    <thead>
+                        <tr>
+
+                            <th class="text-center" style="width:5%">#</th>
+
+                            <th class="text-center" style="width:35%">Title</th>
+                            <th class="text-center" style="width:50%">Select File</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+
+            </div>
+
+
+            <span class="pull-right">
+
+                <input type="button" id="btnSubmit0" value="Update"
+                       class="btn btn-info btn-md pull-center toggle-tooltip"
+                       title="Click here, to update record" />
+            </span>
+        </div>
+
+    </div>
+
+</div>
+
+
+<script type="text/javascript">
+
+
+    function chkClick1(id) {
+        var cntrl= '#'+id;
+        if($(cntrl).is(':checked'))
+            $("#div-error0,#div-form-documents-grid0").removeClass('hide');
+        else
+            $("#div-error0,#div-form-documents-grid0").addClass('hide');
+    }
+
+    $("#doI").datepicker({ dateFormat: 'dd/mm/yy', changeYear: true, maxDate: new Date() });
+
+    $('.custom-textEditor0').summernote({
+        placeholder: 'Enter Certification',
+        tabsize: 2,
+        height: 150,
+        styleWithSpan: false,
+        toolbar: [
+            ['style', ['bold', 'italic', 'underline', 'clear']],
+            ['color', ['color']],
+            ['para', ['ul', 'ol']]
+        ]
+    });
+
+
+    $(document).ready(function () {
+
+
+        $(".delete-row0").click(function () {
+            $("#div-form-documents-grid0").find("#tblDocument0 tbody").find('input[name="record"]').each(function () {
+                if ($(this).is(":checked")) {
+                    $(this).parents("tr").remove();
+                }
+            });
+            ResetSerialNo();
+        });
+
+        $("#btnAddRowExper0").click(function () {
+            debugger;
+            var noOfRows = $("#tblDocument0 tbody tr").length;
+            if(noOfRows <5)  /// ======= add max 5 rows ====
+            {
+                $.ajax({
+                    url: "@Url.Action("_AddDocumentRow", "Employee")",
+                    type: "POST",
+                    contentType: false, // Not to set any content header
+                    processData: false, // Not to process data
+                    success: function (result) {
+
+                        tableBody = $("#div-form-documents-grid0").find("#tblDocument0 tbody");
+                        tableBody.append(result.htmlData);
+                        ResetSerialNo();
+                    },
+                    error: function (err) {
+                        alert(err.statusText);
+                    }
+                });
+            }
+        });
+
+        $('#btnSubmit0').click(function () {
+
+            debugger;
+            if ($("#doI").val() != "" && $("#CertificationName").val()!="") {
+                var docerror = 0;
+                var fileerror = 0;
+                var typeeerror = 0;
+                var sizeerror = 0;
+                var error = 0;
+
+                var CertificationRemark = "";
+                var CName ="";
+                CertificationRemark = $("#CertificationEditor").val();
+                CName= $("#CertificationName").val();
+                var DateOfIssue = $("#doI").val();
+
+                // Create FormData object
+                if (window.FormData !== undefined)
+                    var fileData = new FormData();
+
+                $("#div-form-documents-grid0").find("#tblDocument0 tr.filesvalidate").each(function (_idx1) {
+
+                    var filename = $(this).find(".name").val();
+                    if (filename == "") {
+                        docerror++;
+                    }
+                    else {
+                        $("#documentnameError0").html("")
+                    }
+
+                    if ($(this).find(".file").get(0).files.length > 0) {
+
+                        // Looping over all files and add it to FormData object....
+
+                        var fileUpload =   $("#Files" + _idx1);
+                        var lg = fileUpload[0].files.length; // get length ........
+                        var items = fileUpload[0].files;
+
+                        for (var k = 0; k < lg; k++) {
+
+                            var filesze = items[k].size;
+                            var fileName = items[k].name;
+
+                            var ext = fileName.substr(fileName.lastIndexOf('.') + 1).toLowerCase();
+
+                            if (!(ext == "xlsx" || ext == "xls" || ext == "doc" || ext == "docx")) {
+                                typeeerror++;
+                            }
+                            if (filesze > 5000000) {  // 5MB
+                                sizeerror++;
+                            }
+                            fileData.append(items[k].name, items[k]);
+                            fileData.append("FileName", filename);
+                        }
+                    }
+                    else {
+                        fileerror++;
+                    }
+                });
+                if (docerror > 0) {
+                    $("#documentnameError0").html("Enter Document Name.").css("color", "red");
+                    return false;
+                }
+                if (fileerror > 0) {
+                    $("#documentFileError0").html("Please Upload Document").css("color", "red");
+                    return false;
+                }
+                if (sizeerror > 0) {
+                    $("#sieeError0").html("Please select image size less than 5MB.").css("color", "red");
+                    return false;
+                }
+
+                fileData.append('EmployeeID', @empID);
+                fileData.append('CertificationRemark', CertificationRemark);
+                fileData.append('CertificationName',CName);
+
+                fileData.append('DateOfIssue', DateOfIssue);
+                $.ajax({
+                    url: "@Url.Action("_PostEmployeeCertification", "Employee")",
+                    type: "POST",
+                    contentType: false, // Not to set any content header
+                    processData: false, // Not to process data
+                    data: fileData,
+                    success: function (result) {
+                        if (result.status == 1) {
+
+                            commonMessage(result.type, result.msg);
+                            $("#dv-EmpCertification").load("@Url.Action("_GetEmployeeCertification", "Employee",new { employeeID = @empID })");
+                            $("#dv-EmpCertificationForm").load("@Url.Action("_GetEmployeeCertificationForm", "Employee")");
+
+                        }
+                    }
+                });
+            }
+            else {
+                if ($("#doI").val() == "") {
+                    $("#DateOfIssue").html("Please select date of issue.").css("color", "red");
+                }
+                if($("#CertificationName").val()=="")
+                    $("#SpCertificationName").html("Please enter certification name.").css("color", "red");
+            }
+        });
+    });
+
+    function ResetSerialNo() {
+
+        $("#tblDocument0 tbody tr").each(function (_idx) {
+            $(this).find("td:first").html((_idx + 1));
+            $(this).find('.file').attr('id','Files'+_idx);
+        });
+
+        $("#tblDocument tbody tr").each(function (_idx) {
+            $(this).find("td:first").html((_idx + 1));
+            $(this).find('.file').attr('id','Files'+_idx);
+        });
+    }
+
+</script>

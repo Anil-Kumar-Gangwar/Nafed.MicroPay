@@ -1,0 +1,137 @@
+﻿@model MicroPay.Web.Models.FileTrackingViewModel
+<table id="tblGrid" class="table table-centered table-striped dt-responsive w-100">
+    <thead>
+        <tr>
+            <th>
+                #
+            </th>
+            <th>
+                File No.
+            </th>
+            <th>
+                File Subject
+            </th>
+            <th>
+                Register No.
+            </th>
+            <th>
+                Department
+            </th>
+            <th>
+                File Type
+            </th>
+            <th>
+                File Putup Date
+            </th>
+            <th>
+                Status
+            </th>
+
+            <th class="text-center" style="width:40px">
+                Action
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            if (Model.fileManagementList != null && Model.fileManagementList.Count > 0)
+            {
+                var sno = 1;
+                for (int i = 0; i < Model.fileManagementList.Count; i++)
+                {
+                    <tr>
+                        <td> @sno</td>
+                        <td>
+                            @Html.HiddenFor(model => model.fileManagementList[i].FileID)
+                            @Model.fileManagementList[i].DiaryNo
+                        </td>
+                        <td> @Model.fileManagementList[i].FileSubject</td>
+                        <td> @Model.fileManagementList[i].OtherDiaryNo</td>
+                        <td>
+                            @Model.fileManagementList[i].DepartmentName
+                        </td>
+                        <td>
+                            @Model.fileManagementList[i].FileTypeName
+                        </td>
+                        <td>
+                            @Model.fileManagementList[i].FilePutup.Value.ToString("dd-MM-yyyy hh:mm tt")
+                        </td>
+                        <td>
+                            @if (Model.fileManagementList[i].StatusID == 1)
+                            {
+                                <span class="badge badge-pill badge-warning col-md-12 toggle-tooltip"> File Putup</span>
+
+                            }
+                            else if (Model.fileManagementList[i].StatusID == 2)
+                            {
+                                <span class="badge badge-pill badge-info col-md-12 toggle-tooltip"> In Process</span>
+                            }
+                            else if (Model.fileManagementList[i].StatusID == 3)
+                            {
+                                 <span class="badge badge-pill badge-success col-md-12 toggle-tooltip"> Closed</span>
+                            }
+
+                        </td>
+                        @if (Model.fileManagementList[i].StatusID == 1)
+                        {
+                            <td class="text-center">
+                                @*<a class="toggle-tooltip" href="@Url.Action("Edit", "GenerateFileNo", new { fileID = Model.fileManagementList[i].FileID })" title="Click here, to edit this record">
+                                    <span class="far fa-edit" aria-hidden="true"></span>
+                                </a>*@
+
+                                @Html.EncodedImageActionLink("", "Edit", "GenerateFileNo", new { fileID = Model.fileManagementList[i].FileID }, new { @class = "toggle-tooltip", title = "Click here, to edit this record" }, "~/Images/edit.png") |
+                                <a data-ajax="true"
+                                   method="POST" class="toggle-tooltip" title="Click here, to forward file."
+                                   data-ajax-update="#div-file-container" data-ajax-mode="replace"
+                                   data-backdrop="static" data-keyboard="false"
+                                   href="@Url.Action("FileForward", "GenerateFileNo", new { fileID = Model.fileManagementList[i].FileID, fileNo = Model.fileManagementList[i].DiaryNo, department = Model.fileManagementList[i].DepartmentName })"
+                                   id="a_fileforward" data-toggle="modal" data-target="#div-file-forward">
+                                    <i class="fas fa-share" aria-hidden="true"></i>
+                                </a>
+                            </td>
+                        }
+                        else if (Model.fileManagementList[i].FileLastStatus == 1)
+                        {
+                            <td class="text-center">
+                               
+                                <a data-ajax="true"
+                                   method="POST" class="toggle-tooltip" title="Click here, to rollback file."
+                                   data-ajax-update="#div-file-grid" data-ajax-mode="replace"
+                                   data-backdrop="static" data-keyboard="false"
+                                   href="@Url.Action("FileRollback", "GenerateFileNo", new { fileID = Model.fileManagementList[i].FileID})"
+                                   id="a_filerollback">
+                                    <i class="fas fa-undo" aria-hidden="true"></i>
+                                </a>
+                            </td>
+                        }
+                        else
+                        {
+                            <td class="text-center"></td>
+                        }
+                    </tr>
+                    sno++;
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="8" class="text-center"> No Record Found.</td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
+
+<script type="text/javascript">
+    $('.toggle-tooltip').tooltip();
+</script>
+
+
+
+
+
+
+
+
+

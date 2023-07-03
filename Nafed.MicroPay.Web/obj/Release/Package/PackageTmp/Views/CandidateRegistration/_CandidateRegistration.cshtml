@@ -1,0 +1,885 @@
+﻿@using Nafed.MicroPay.Model
+@model CandidateRegistration
+@{
+
+    var regID = Model.RegistrationID;
+}
+
+<div class="">
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-12">
+            <div class="row">
+                <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
+                    <div class="form-group">
+
+                        <div class="row">
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                @Html.LabelFor(model => model.PostName, new { @class = "label-control" })
+                            </div>
+
+                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+
+                                <h4>@Model.PostName</h4>
+                            </div>
+
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                1. @Html.LabelFor(model => model.CandidateFullName, new { @class = "label-control required" })
+
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                @Html.EditorFor(model => Model.CandidateFullName, new { htmlAttributes = new { @class = "form-control", @readonly = "readOnly", @maxlength = "50" } })
+                                @Html.ValidationMessageFor(model => model.CandidateFullName, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+
+                        <div class="row">
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+
+                                2.  @Html.LabelFor(model => model.AppliedJobLocation, new { @class = "label-control required" })
+                                @*Zone Applied for*@ @*(North/South/East/West)*@  @*Location*@
+
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+
+                                @*@Html.EnumDropDownListFor(model => model.enumZoneAppliedFor, "Select", new { @class = "custom-select" })*@
+
+                                @Html.HiddenFor(model => model.DesignationID)
+                                @Html.HiddenFor(model => model.RequirementID)
+                                @Html.HiddenFor(model => model.PostName)
+
+                                @Html.HiddenFor(model => model.RegistrationID)
+                                @Html.HiddenFor(model => model.CreatedBy)
+                                @Html.HiddenFor(model => model.CreatedOn)
+                                @Html.HiddenFor(model => model.RegistrationNo)
+                                @Html.HiddenFor(model => model.FormStatus)
+
+
+                                @Html.HiddenFor(model => model.JobLocTypeID)
+                                @Html.HiddenFor(model => model.FeesApplicable)
+                                @Html.HiddenFor(model => model.MimimumExpenrienceNo)
+                                @Html.DropDownListFor(model => model.SelectedLocationID, new SelectList(Model.JobLocation, "id", "value"), "Select", new { @class = "custom-select" })
+                                @Html.ValidationMessageFor(model => model.SelectedLocationID, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+
+                                3.  @Html.LabelFor(model => model.Husband_FatherName, new { @class = "label-control required" })
+
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+
+                                @Html.EditorFor(model => Model.Husband_FatherName, new { htmlAttributes = new { @class = "form-control", @maxlength = "50" } })
+                                @Html.ValidationMessageFor(model => model.Husband_FatherName, "", new { @class = "text-danger" })
+
+                            </div>
+
+
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+
+                                4. @Html.LabelFor(model => model.DOB, new { @class = "label-control required" })
+
+
+
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                @Html.HiddenFor(model => Model.JobMinimumAgeValue)
+                                @Html.HiddenFor(model => Model.JobMaximumAgeValue)
+                                @Html.EditorFor(model => Model.DOB, new { htmlAttributes = new { @class = "form-control", @type = "date" } })
+                                @Html.ValidationMessageFor(model => model.DOB, "", new { @class = "text-danger" })
+                                @Html.ValidationMessage("JobAgeLimitValidation", "", new { @class = "text-danger" })
+
+                            </div>
+
+                            <div class="col-lg-2 col-md-2 col-xs-12 col-sm-12">
+
+                                <div class="row">
+
+                                    <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12 pl-0 pr-0">
+
+                                        5.@Html.LabelFor(model => model.GenderID, new { @class = "label-control required" })
+                                    </div>
+
+                                    <div class="col-lg-7 col-md-7 col-sm-12 col-xs-12">
+
+                                        @Html.DropDownListFor(model => model.GenderID, (IEnumerable<SelectListItem>)ViewBag.Gender, new { @class = "custom-select" })
+                                        @Html.ValidationMessageFor(model => model.GenderID, "", new { @class = "text-danger" })
+
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+
+                                6.  @Html.LabelFor(model => model.ReligionID, new { @class = "label-control" })
+
+                            </div>
+
+                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+
+                                @Html.DropDownListFor(model => model.ReligionID, (IEnumerable<SelectListItem>)ViewBag.Religion, new { @class = "custom-select" })
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="row">
+
+                            <div class="col-lg-2 col-md-2 col-xl-2 col-sm-12 col-xs-12">
+
+                                7.	@Html.LabelFor(model => model.NationalityID, new { @class = "label-control required" })
+                            </div>
+
+
+                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+
+                                @Html.DropDownListFor(model => model.NationalityID, (IEnumerable<SelectListItem>)ViewBag.nationalityList, new { @class = "custom-select" })
+
+                            </div>
+
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+
+                                8.  @Html.LabelFor(model => model.MaritalStsID, new { @class = "label-control" })
+
+                            </div>
+
+                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+
+                                @Html.DropDownListFor(model => model.MaritalStsID, (IEnumerable<SelectListItem>)ViewBag.MaritalSts, new { @class = "custom-select" })
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 text-center">
+
+                    @*<img style="height:170px;width:130px;" class="img-responsive img-thumbnail" id="candidate_img"
+                         src='@Url.Action("GetImage","CandidateRegistration",new {@imgPath=Model.CPhotoUNCPath})' alt="Candidate Photo" />*@
+                    <img style="height:170px;width:130px;" class="img-responsive img-thumbnail" id="candidate_img"
+                         src='/@Model.CPhotoUNCPath' alt="Candidate Photo" />
+
+                    @*@if (Model.FormStatus.HasValue && Model.FormStatus.Value < 2)*@
+                    @if ((Model.FormStatus.HasValue && Model.FormStatus.Value < 2) || !Model.FormStatus.HasValue)
+                    {
+                        <input name="candidatePhotoFile" type="file" id="candidatePhotoFile"
+                               onchange="showPreview(this,this.id);"
+                               style="display: none;" />
+                    }
+                    @Html.HiddenFor(model => model.CandidatePicture)
+
+                    <span style="width:10px;height:10px !important;" data-toggle="modal" data-target="#modalCookie1" title="Click here for Passport Photo and Signature Upload Instruction" class="fa fa-question toggle-tooltip" />
+
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12 text-danger text-right" id="div-imgValidation">
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 text-center">
+
+                    @if (!string.IsNullOrEmpty(Model.CSignatureUNCPath))
+                    {
+
+                        @*<img style="height:50px !important;width:130px;" class="img-responsive img-thumbnail" id="candidateSignature_img"
+                             src='@Url.Action("GetImage","CandidateRegistration",new {@imgPath=Model.CSignatureUNCPath})' alt="Candidate Signature" />*@
+
+                            <img style="height:50px !important;width:130px;" class="img-responsive img-thumbnail" id="candidateSignature_img"
+                                 src='/@Model.CSignatureUNCPath' alt="Candidate Signature" />
+                    }
+                    else
+                    {
+                        <img style="width:130px;height:50px !important;" class="img-responsive img-thumbnail" id="candidateSignature_img"
+                             src="" alt="Upload Signature" />
+                    }
+
+                    @if (Model.FormStatus.HasValue && Model.FormStatus.Value < 2 || !Model.FormStatus.HasValue)
+                    {
+
+                        <input name="signaturePhotoFile" type="file" id="signaturePhotoFile" alt="Upload Signature"
+                               onchange="showPreview(this,this.id);" style="display: none;" />
+                    }
+                    @*<input name="signaturedigital" type="file" id="signaturedigital" alt="Upload Signature"
+                        onchange="showPreview(this,this.id);" style="display: none;" />*@
+
+                </div>
+                @Html.HiddenFor(model => model.CandidateSignature)
+
+            </div>
+
+            @*@if (regID == 0)
+                {
+
+                    <script type="text/javascript">
+
+
+                        $(document).ready(function () {
+
+
+                            $('#btnSave,#btnUpdate').bind("click", function () {
+                                $('#div-imgValidation').html('');
+
+                                var imgVal = $('#candidatePhotoFile').val(); if (imgVal == '') {
+                                    $('#div-imgValidation').html("Please upload Passport size photo.");
+                                    window.scrollTo(0, 0);
+                                    return false;
+                                }
+                                var imgSignatureVal = $('#signaturePhotoFile').val(); if (imgSignatureVal == '') {
+                                    $('#div-imgValidation').html("Please upload signature.");
+                                    window.scrollTo(0, 0);
+                                    return false;
+                                }
+
+                            });
+                        })
+                    </script>
+
+                }*@
+
+            <div class="panel panel-default">
+                <div class="panel-heading">Address for Correspondance</div>
+
+                <div class="panel-body">
+
+                    <div class="form-group">
+
+                        <div class="row">
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                @Html.LabelFor(model => model.PmtAdd, htmlAttributes: new { @class = "control-label required" })
+                            </div>
+
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+
+                                @Html.EditorFor(model => model.PmtAdd, new { htmlAttributes = new { @class = "form-control", @maxlength = "100" } })
+                                @Html.ValidationMessageFor(model => model.PmtAdd, "", new { @class = "text-danger" })
+
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                @Html.LabelFor(model => model.PmtStateID, htmlAttributes: new { @class = "control-label " })
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                @Html.DropDownListFor(model => model.PmtStateID, (IEnumerable<SelectListItem>)ViewBag.ddlState, new { @class = "custom-select" })
+
+
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                @Html.LabelFor(model => model.PmtStreet, htmlAttributes: new { @class = "control-label required" })
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                @Html.EditorFor(model => model.PmtStreet, new { htmlAttributes = new { @class = "form-control", @maxlength = "20" } })
+                                @Html.ValidationMessageFor(model => model.PmtStreet, "", new { @class = "text-danger" })
+                            </div>
+
+
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                @Html.LabelFor(model => model.PmtPin, htmlAttributes: new { @class = "control-label required" })
+
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                @Html.EditorFor(model => model.PmtPin, new { htmlAttributes = new { @class = "form-control integerOnly", @maxlength = "6" } })
+                                @Html.ValidationMessageFor(model => model.PmtPin, "", new { @class = "text-danger" })
+
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                @Html.LabelFor(model => model.PmtCity, htmlAttributes: new { @class = "control-label required" })
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                @Html.EditorFor(model => model.PmtCity, new { htmlAttributes = new { @class = "form-control", @maxlength = "50" } })
+                                @Html.ValidationMessageFor(model => model.PmtCity, "", new { @class = "text-danger" })
+
+
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                @Html.LabelFor(model => model.AlternateEmailId, htmlAttributes: new { @class = "control-label" })
+
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+
+                                @Html.EditorFor(model => model.AlternateEmailId, new { htmlAttributes = new { @class = "form-control", @maxlength = "100" } })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+
+                        <div class="row">
+
+                            <div class="col-lg-2 col-md-2 col-xl-2 col-sm-12 col-xs-12">
+
+                                @Html.LabelFor(model => model.MobileNo, htmlAttributes: new { @class = "control-label required" })
+                            </div>
+
+                            <div class="col-lg-4 col-md-4 col-xl-4 col-sm-12 col-xs-12">
+
+                                @Html.EditorFor(model => model.MobileNo, new { htmlAttributes = new { @class = "form-control", @maxlength = "10", @readonly = "readOnly" } })
+                                @Html.ValidationMessageFor(model => model.MobileNo, "", new { @class = "text-danger" })
+
+                            </div>
+
+                            <div class="col-lg-2 col-md-2 col-xl-2 col-sm-12 col-xs-12">
+
+                                @Html.LabelFor(model => model.PersonalEmailID, htmlAttributes: new { @class = "control-label required" })
+                            </div>
+
+                            <div class="col-lg-4 col-md-4 col-xl-4 col-sm-12 col-xs-12">
+
+                                @Html.EditorFor(model => model.PersonalEmailID, new { htmlAttributes = new { @class = "form-control", @maxlength = "100", @readonly = "readOnly" } })
+                                @Html.ValidationMessageFor(model => model.PersonalEmailID, "", new { @class = "text-danger" })
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+
+            @*<div class="panel panel-default">
+
+                    <div class="panel-heading">Languages Known:</div>
+
+                    <div class="panel-body">
+
+
+                        Partial View For Languages Known
+
+                    </div>
+                </div>*@
+
+            <div class="panel panel-default">
+
+                <div class="panel-heading">9.	General Declarations:</div>
+
+                <div class="panel-body">
+
+                    <div class="form-group">
+
+                        <div class="row">
+
+                            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12">
+
+                                a)	Have you ever applied to / worked for Nafed before?
+                            </div>
+
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+
+                                <div class="row">
+
+                                    <div class="col-lg-6 col-xl-6 col-sm-12 col-xs-12">
+
+                                        @Html.RadioButtonFor(model => model.enumhaveYouEverAppliedInNafedBefore, "Yes", new { id = "haveYouEverAppliedInNafedBefore_Yes" })
+                                        @Html.Label("Yes", new { @for = "haveYouEverAppliedInNafedBefore_Yes" })
+                                    </div>
+
+
+                                    <div class="col-lg-6 col-xl-6 col-sm-12 col-xs-12">
+
+                                        @Html.RadioButtonFor(model => model.enumhaveYouEverAppliedInNafedBefore, "No", new { id = "haveYouEverAppliedInNafedBefore_No" })
+                                        @Html.Label("No", new { @for = "haveYouEverAppliedInNafedBefore_No" })
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="col-lg-1 col-md-1 col-sm-12 col-xl-1">
+
+                                Applied On :
+                            </div>
+
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xl-2">
+
+                                @if (!Model.HaveYouEverAppliedinNafedBefore)
+                                {
+                                    @Html.EditorFor(model => Model.AppliedDate, new { htmlAttributes = new { @class = "form-control", @type = "date", @readOnly = "readOnly" } })
+                                }
+                                else
+                                {
+                                    @Html.EditorFor(model => Model.AppliedDate, new { htmlAttributes = new { @class = "form-control", @type = "date" } })
+                                }
+
+                            </div>
+
+                            <div class="col-lg-1 col-md-1 col-sm-12 col-xl-1">
+                                Post :
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xl-2">
+
+                                @if (Model.HaveYouEverAppliedinNafedBefore)
+                                {
+                                    @Html.EditorFor(model => Model.EarilerAppliedPostInNAFED, new { htmlAttributes = new { @class = "form-control", @maxlength = "50" } })
+                                }
+                                else
+                                {
+                                    @Html.EditorFor(model => Model.EarilerAppliedPostInNAFED, new { htmlAttributes = new { @class = "form-control", @maxlength = "50", @readOnly = "readOnly" } })
+                                }
+
+
+
+
+                            </div>
+
+                            @*<div class="col-lg-3 col-md-3 col-sm-12 col-xl-3">
+
+                                    Applied On :
+                                </div>
+
+                                <div class="col-lg-3 col-md-3 col-sm-12 col-xl-3">
+
+                                    @Html.EditorFor(model => Model.AppliedDate, new { htmlAttributes = new { @class = "form-control", @type = "date", @readOnly = "readOnly" } })
+                                </div>*@
+
+
+                        </div>
+
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <div class="row">
+
+                            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12">
+
+                                b)	Do you have any friends, relatives, or acquaintances working in Nafed?
+                            </div>
+
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+
+                                <div class="row">
+
+                                    <div class="col-lg-6 col-xl-6 col-sm-12 col-xs-12">
+
+                                        @Html.RadioButtonFor(model => model.enumfriendsAndRelativesInNafed, "Yes", new { id = "haveYouEverAppliedInNafedBefore_Yes" })
+                                        @Html.Label("Yes", new { @for = "haveYouEverAppliedInNafedBefore_Yes" })
+                                    </div>
+
+
+                                    <div class="col-lg-6 col-xl-6 col-sm-12 col-xs-12">
+
+                                        @Html.RadioButtonFor(model => model.enumfriendsAndRelativesInNafed, "No", new { id = "friendsAndRelativesInNafed_No" })
+                                        @Html.Label("No", new { @for = "friendsAndRelativesInNafed_No" })
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="col-lg-3 col-md-3 col-sm-12 col-xl-3">
+
+                                If Yes then State name & relationship :
+                            </div>
+
+                            <div class="col-lg-3 col-md-3 col-sm-12 col-xl-3">
+
+                                @if (Model.FriendsAndRelativesInNafed)
+
+                                {
+
+                                    @Html.TextAreaFor(model => model.IfYesStateNameAndRelationship, new { @class = "form-control ", @maxlength = "250" })
+
+                                }
+                                else
+                                {
+                                    @Html.TextAreaFor(model => model.IfYesStateNameAndRelationship, new { @class = "form-control ", @maxlength = "250", @readOnly = "readOnly" })
+                                }
+
+                            </div>
+
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+            </div>
+
+
+            <div class="panel panel-default">
+
+                <div class="panel-heading">10.Academic / Professional Education Summary: (Starting from most recent)</div>
+
+                <div class="panel-body">
+
+                    <div class="row mb-3 text-right">
+
+                        <div class="col-md-12 pull-right">
+
+                            <input type="submit" value="Add Education Summary" id="btnAddRowEduc" name="ButtonType" class="btn btn-info btn-md pull-center toggle-tooltip btn-sectionAddRow"
+                                   title="Click here, to add new row." />
+                        </div>
+                    </div>
+                    <div id="div-form-CandidateEducation-grid">
+                        @Html.Partial("_AcademicProfessionalEducSummary", Model)
+                    </div>
+
+                </div>
+            </div>
+
+            @Html.ValidationMessage("MimimumExpenrienceNoValidation", "", new { @class = "text-danger", @style = "font-weight:bold;" })
+
+            <div class="panel panel-default">
+
+                <div class="panel-heading">11.	Work / Experience Summary: (Starting from Current/most recent) – for applicants from Private Sector /  PSUs / Autonomous /  Cooperatives, etc.</div>
+
+                <div class="panel-body">
+                    <div class="row mb-3 text-right">
+
+                        <div class="col-md-12 pull-right">
+
+                            <input type="submit" value="Add Work Experience" id="btnAddRowExper" name="ButtonType" class="btn btn-info btn-md pull-center toggle-tooltip btn-sectionAddRow"
+                                   title="Click here, to add new row." />
+                        </div>
+                    </div>
+                    <div id="div-form-CandidateWorkExperience-grid">
+                        @Html.Partial("_CandidateWorkExperience", Model)
+                    </div>
+
+                </div>
+            </div>
+
+
+            <div class="panel panel-default">
+
+                <div class="panel-heading">12.	Work / Experience Summary : (Starting from Current/most recent) – for applicants from Govt. Sector. </div>
+
+                <div class="panel-body">
+
+                    <div class="row mb-3 text-right">
+
+                        <div class="col-md-12 pull-right">
+
+                            <input type="submit" value="Add Work Experience (Govt Sector)" id="btnAddRow" name="ButtonType" class="btn btn-info btn-md pull-center toggle-tooltip "
+                                   title="Click here, to add new row." />
+                        </div>
+                    </div>
+
+                    <div id="div-form-CandidateGovtWorkExperience-grid">
+                        @Html.Partial("_CandidateGovtWorkExperience", Model)
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="panel panel-default">
+
+                <div class="panel-heading">13.Annual Gross Salary (Last Drawn)</div>
+
+                <div class="panel-body">
+
+                    <div class="form-group">
+                        <div class="row">
+
+                            <div class="col-lg-2 col-md-2 col-xl-2 col-sm-12 col-xs-12">
+
+                                @Html.LabelFor(model => model.AnnualGrossSalary, htmlAttributes: new { @class = "control-label required" })
+                            </div>
+
+                            <div class="col-lg-2 col-md-2 col-xl-2 col-sm-12 col-xs-12">
+
+                                @Html.EditorFor(model => model.AnnualGrossSalary, new { htmlAttributes = new { @class = "form-control text-right", @type = "number", @maxlength = "10"} })
+                            </div>
+
+                            <div class="col-lg-4 col-md-4 col-xl-4 col-sm-12 col-xs-12">
+                                @Html.ValidationMessageFor(model => model.AnnualGrossSalary, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            @if ((Model.FormStatus == 1 || Model.FormStatus == 2) && Model.FeesApplicable)
+            {
+                <div class="panel panel-default">
+                    <div class="panel-heading">14. Payment Details </div>
+                    <div class="panel-body">
+
+                        <div class="form-group">
+
+                            <div class="form-group">
+                                <div class="row">
+
+                                    <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 font-weight-bold">
+                                        @Html.LabelFor(model => model.PaymentType, htmlAttributes: new { @class = "control-label required" })
+                                        @Html.ValidationMessage("PaymentTypeValidation", "", new { @class = "text-danger" })
+                                    </div>
+
+                                    <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+                                        @Html.EnumDropDownListFor(model => model.enumPaymentType, "Select", new { @class = "custom-select" })
+
+
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 font-weight-bold">
+                                        @Html.LabelFor(model => model.PaymentDate, htmlAttributes: new { @class = "control-label required" })
+                                    </div>
+
+                                    <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+
+                                        @Html.EditorFor(model => model.PaymentDate, new { htmlAttributes = new { @class = "form-control", @type = "date" } })
+                                        @Html.ValidationMessage("PaymentDateValidation", "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 font-weight-bold">
+                                        @Html.LabelFor(model => model.PaymentTransactionID, htmlAttributes: new { @class = "control-label required" })
+                                    </div>
+
+                                    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+
+                                        @Html.EditorFor(model => model.PaymentTransactionID, new { htmlAttributes = new { @class = "form-control", @maxlength = "50" } })
+                                        @Html.ValidationMessage("PaymentTransactionIDValidation", "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            }
+
+            <div class="panel panel-default">
+                @if (Model.FormStatus == null)
+                {
+                    <div class="panel-heading required"> 14. Declaration: @Html.ValidationMessageFor(model => model.Declaration, "", new { @class = "text-danger" }) </div>
+                }
+                else if (Model.FeesApplicable)
+                {
+                    <div class="panel-heading required"> 15. Declaration: @Html.ValidationMessageFor(model => model.Declaration, "", new { @class = "text-danger" }) </div>
+                }
+                else
+                {
+                    <div class="panel-heading required"> 14. Declaration: @Html.ValidationMessageFor(model => model.Declaration, "", new { @class = "text-danger" }) </div>
+                }
+                <div class="panel-body">
+
+                    <div class="form-group">
+                        <div class="row">
+                            <p class="p-2">
+                                @Html.CheckBoxFor(model => model.Declaration)
+                                I hereby declare that all information made in the application are true, complete and correct to the best of my knowledge and belief. I understand that in the event of any information being found untrue/false/incorrect or I do not satisfy the eligibility criteria my candidature will be cancelled, without assigning any reason thereof. I have read the contents of the advertisement and agree to abide by the rules, regulations and procedures for appointment to the post applied for.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+
+                        <div class="row">
+
+                            <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12 font-weight-bold">
+                                @Html.LabelFor(model => model.DeclarationName, htmlAttributes: new { @class = "control-label required" })
+                            </div>
+
+                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                @Html.EditorFor(model => model.DeclarationName, new { htmlAttributes = new { @class = "form-control", @maxlength = "50", @readonly = "readOnly" } })
+                                @Html.ValidationMessageFor(model => model.DeclarationName, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12 font-weight-bold">
+                                @Html.LabelFor(model => model.DeclarationPlace, htmlAttributes: new { @class = "control-label required" })
+                            </div>
+
+                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+
+                                @Html.EditorFor(model => model.DeclarationPlace, new { htmlAttributes = new { @class = "form-control", @maxlength = "50" } })
+                                @Html.ValidationMessageFor(model => model.DeclarationPlace, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12 font-weight-bold">
+
+                                @Html.LabelFor(model => model.DeclarationDate, htmlAttributes: new { @class = "control-label required" })
+
+                            </div>
+
+                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+
+                                @if (Model.RegistrationID > 0)
+                                {
+                                    @Html.EditorFor(model => model.DeclarationDate, new { htmlAttributes = new { @class = "form-control", @type = "date" } })
+                                }
+                                else
+                                {
+                                    @Html.EditorFor(model => model.DeclarationDate, new { htmlAttributes = new { @class = "form-control", @type = "date", min = DateTime.Now.ToString("yyyy-MM-dd") } })
+                                }
+                                @Html.ValidationMessageFor(model => model.DeclarationDate, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="row pt-2">
+                            <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12 font-weight-bold">
+
+                                @Html.Label("Signature:", htmlAttributes: new { @class = "control-label required" })
+
+                            </div>
+
+                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 ">
+
+                                @if (!string.IsNullOrEmpty(Model.CSignatureUNCPath))
+                                {
+
+                                    @*<img style="height:50px;width:130px;" class="img-responsive img-thumbnail" id="candidatedigitalsign"
+                                         src='@Url.Action("GetImage","CandidateRegistration",new {@imgPath=Model.CSignatureUNCPath})' alt="Digital Signature" />*@
+
+                                    <img style="height:50px;width:130px;" class="img-responsive img-thumbnail" id="candidatedigitalsign"
+                                         src='/@Model.CSignatureUNCPath' alt="Digital Signature" />
+                                }
+                                else
+                                {
+                                    <img style="width:130px;height:40px !important;" class="img-responsive img-thumbnail" id="candidatedigitalsign"
+                                         src="" alt="Digital Signature" />
+                                }
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+
+                <div class="panel-heading"> Disclaimer: </div>
+
+                <div class="panel-body">
+
+                    <div class="form-group">
+
+                        <div class="row">
+                            <p class="p-2 font-weight-bold">
+
+                                The applicants are required to submit the duly filled application on or before the due date and time, failing which the application of the said applicant shall be treated as non-responsive. Nafed shall not be responsible for late receipt or non-receipt of applications for any technical reason or whatsoever. The applications received after due date and time shall not be considered.
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+
+
+            <div class="panel panel-default">
+                <div class="panel-heading"> Instructions for application form submit </div>
+
+                <div class="panel-body">
+
+                    <div class="form-group">
+
+                        <div class="row">
+                            <span class="alert alert-danger pull-left ml-4">
+                                Before submitting your application form, please check all the information are correct. After submitting application form you will not able to change any information.
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="form-group">
+                <span class="pull-right">
+
+
+                    @if (Model.FormStatus == null)
+                    {
+                        <input type="submit" name="ButtonType" value="Save" id="btnSave" class="btn btn-info btn-md pull-center toggle-tooltip" title="Click here, to save your application form." />
+                    }
+                    else if (Model.FormStatus == 1)
+                    {
+
+                        <input type="submit" name="ButtonType" value="Update" class="btn btn-info btn-md pull-center toggle-tooltip" title="Click here, to update your application form." />
+                        <input type="submit" name="ButtonType" value="Submit" class="btn btn-success btn-md pull-center toggle-tooltip" title="Click here, to submit application form." />
+
+                    }
+                </span>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+<script type="text/javascript">
+
+
+    $(function () {
+
+        $('#btnSave').bind("click", function () {
+
+            $('#div-imgValidation').html('');
+
+            var imgVal = $('#candidatePhotoFile').val(); if (imgVal == '') {
+                $('#div-imgValidation').html("Please upload Passport size photo.");
+                window.scrollTo(0, 0);
+                return false;
+            }
+            var imgSignatureVal = $('#signaturePhotoFile').val(); if (imgSignatureVal == '') {
+                $('#div-imgValidation').html("Please upload signature.");
+                window.scrollTo(0, 0);
+                return false;
+            }
+
+        });
+
+
+        $('input[type=radio][name=enumhaveYouEverAppliedInNafedBefore]').change(function () {
+            var checkedRadio = this.value;   /// AppliedDate
+            if (checkedRadio == "Yes") {
+                $("#AppliedDate").removeAttr("readonly");
+                $("#EarilerAppliedPostInNAFED").removeAttr("readonly");
+            }
+            else {
+                $("#AppliedDate").attr("readonly", "readonly");
+                $("#EarilerAppliedPostInNAFED").attr("readonly", "readonly");
+
+                var registrationID_Value = $("#RegistrationID").val();
+
+                if (registrationID_Value == 0) {
+                    $("#AppliedDate").val(null);
+                    $("#EarilerAppliedPostInNAFED").val(null);
+                }
+
+            }
+        });
+
+        $('input[type=radio][name=enumfriendsAndRelativesInNafed]').change(function () {
+            var checkedRadio = this.value;
+            if (checkedRadio == "Yes") {
+                $("#IfYesStateNameAndRelationship").removeAttr("readonly");
+            }
+            else {
+                $("#IfYesStateNameAndRelationship").attr("readonly", "readonly");
+
+                var registrationID_Value = $("#RegistrationID").val();
+
+                if (registrationID_Value == 0) {
+                    $("#IfYesStateNameAndRelationship").val(null);
+                }
+                //   $("#IfYesStateNameAndRelationship").val(null);
+            }
+        });
+
+    });
+</script>

@@ -1,0 +1,112 @@
+﻿@model Nafed.MicroPay.Model.ValidateLogin
+@using CaptchaMvc.HtmlHelpers
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Login.cshtml";
+}
+<title>Micro Pay</title>
+
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/bootstrap")
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="login_bg div_pos">
+            <div class="col-sm-12 logindiv">
+                <div class="col-xl-9 col-lg-9 col-md-10 col-sm-12 m-auto logininnerdiv" style="background-color: #f7f7f7;box-shadow: 0px 0px 15px 0px #0860aa;">
+                    <div class="row">
+                        <div class="col-xl-5 col-lg-5 col-md-6 col-sm-12 p-0 d-none d-sm-block">
+                            <img src="~/Images/login_img.png" style="width: 100%;" />
+                        </div>
+                        <div class="col-xl-7 col-lg-7 col-md-6 col-sm-10 m-auto p-0">
+                            <div class="row">
+                                <div class="col-xl-7 col-lg-7 col-md-9 col-sm-12 m-auto" style="margin-top: calc(50% - 40%) !important;">
+                                    <div style="float:left; width:100%; text-align:center;margin-bottom: 25px;">
+                                        <img src="~/Images/logo.png" style="height: 75px;" />
+                                    </div>
+                                    <div style="padding: 15px;">
+
+                                        <div class="form-group">
+                                            <div class="login-help login-help-desktop">
+                                                @using (Html.BeginForm())
+                                                {   @Html.AntiForgeryToken()
+                                                    <p class="text-danger"> @Html.ValidationSummary() </p>
+                                                    @Html.LabelFor(Model => Model.userName)
+                                                    @Html.TextBoxFor(Model => Model.userName, null, new { @class = "form-control", placeholder = "User Name", maxlength = 75, autofocus = "autofocus", autocomplete = "off", oncopy = "return false", oncut = "return false", onpaste = "return false" })
+                                                    @Html.ValidationMessageFor(Model => Model.userName, "", new { @class = "text-danger" })
+                                                    @Html.HiddenFor(Model => Model.hduserName)
+                                                    @Html.LabelFor(Model => Model.password)
+                                                    @Html.PasswordFor(Model => Model.password, new { @class = "form-control", placeholder = "Password", maxlength = 50, autocomplete = "off", oncopy = "return false", oncut = "return false", onpaste = "return false" })
+                                                    @Html.HiddenFor(Model => Model.hdpassword)
+                                                    @Html.HiddenFor(Model => Model.hdCp)
+                                                    @Html.ValidationMessageFor(Model => Model.password, "", new { @class = "text-danger" })
+                                                    
+                                                    @Html.Captcha("Try Another", "Enter the text you see above",5,requiredMessageText: "Enter the captcha")
+                                                    <p class="text-danger">@MvcHtmlString.Create(@ViewBag.LoginMessage)</p>
+                                                    if (@TempData["Message"] != null)
+                                                    {
+                                                        <p class="text-success">@TempData["Message"]</p>
+                                                    }
+                                                    <br />
+
+                                                    <button type="submit" onclick="SubmitEncry();" class="btn btn-primary float-left col-md-12 mb-1 ">Log In</button>
+                                                    <a class="btn btn-dark pull-left text-white col-md-12 mb-1" href="@Url.Action("Index", "ForgotPassword")">Forgot Password ?</a>
+
+                                                }
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div style="float:left; width:100%; text-align:center;margin-top: 50px; padding-bottom:15px;">
+                                        <span style="color: #007bff;font-size: 12px;"> Supports : Firefox 2.0+,Google Chrome 6.0+,Microsoft Edge </span>
+                                    </div>
+
+                                    <div style="float:left; width:100%; text-align:center;margin-top: 20px; padding-bottom:15px;">
+                                        <span style="color: #007bff;font-size: 12px;"> Copyright © 2019 Nafed-india.com, All rights Reserved </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#CaptchaInputText").addClass("form-control")
+    });
+
+    function SubmitEncry() {
+        debugger;
+        var txtUserName = $('#userName').val();
+        var txtpassword = $('#password').val();
+        var salt = Date.now().toString(36) + Math.random().toString(36).substr(2);
+        $('#hdCp').val(salt);
+        if (txtUserName == '' || txtpassword == '') {
+            return;
+        }
+
+        var key = CryptoJS.enc.Utf8.parse('8080808080808080');
+        var iv = CryptoJS.enc.Utf8.parse('8080808080808080');
+        var encryptedlogin = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(txtUserName), key,
+            {
+                keySize: 128 / 8,
+                iv: iv,
+                mode: CryptoJS.mode.CBC,
+                padding: CryptoJS.pad.Pkcs7
+            });
+        $('#hduserName').val(encryptedlogin);
+        var encryptedpassword = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(txtpassword + salt), key,
+            {
+                keySize: 128 / 8,
+                iv: iv,
+                mode: CryptoJS.mode.CBC,
+                padding: CryptoJS.pad.Pkcs7
+            });
+        $('#hdpassword').val(encryptedpassword);
+        $('#password').val(encryptedpassword);
+    }
+</script>

@@ -1,0 +1,28 @@
+﻿@model MicroPay.Web.Models.StaffBudgetViewModel
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="form-group">
+            <div class="row">
+
+                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                    @Html.Label("From Year", htmlAttributes: new { @class = "" })
+                </div>
+
+                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 ">
+                    @Html.DropDownListFor(model => model.selectYearID, new SelectList(Model.yearList, "Value", "Text"), "Select", new { @class = "custom-select" })
+                    @Html.ValidationMessageFor(model => model.selectYearID, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 ">
+                    @Html.LabelFor(model => model.genrateYearID, htmlAttributes: new { @class = "" })
+                </div>
+
+                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 ">
+                    @Html.DropDownListFor(model => model.genrateYearID, new SelectList(Model.yearList, "Value", "Text"), "Select", new { @class = "custom-select" })
+                    @Html.ValidationMessageFor(model => model.genrateYearID, "", new { @class = "text-danger" })
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

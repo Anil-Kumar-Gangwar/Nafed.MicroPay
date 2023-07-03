@@ -1,0 +1,46 @@
+﻿
+@model Nafed.MicroPay.Model.UserAccessRight
+@{
+    ViewBag.Title = "Exgratia List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<div class="">
+    <div class="card_new_body">
+        @using (Ajax.BeginForm("GenerateExgratiaList", "ExgratiaList", new AjaxOptions { HttpMethod = "POST", OnSuccess = "onSuccess" }))
+        {
+            <div id="div-report-filters">
+                @Html.Action("GetExgratiaList")
+            </div>
+        }
+    </div>
+</div>
+
+<script type="text/javascript">
+    function onSuccess(data) {
+
+        alert(data.formAction);
+
+        if (data.formAction == "GenerateExgratia") {
+            $.bootstrapGrowl("<i class='mdi-checkbox-marked-circle-outline' aria-hidden='true'></i> " + 'Generated successfully', {
+                type: 'success',
+                align: 'center',
+                width: 'auto',
+                allow_dismiss: true,
+                delay: 20000
+            });
+        }
+        if (data.formAction == "AlreadyExgratia") {
+            $.bootstrapGrowl("<i class='mdi-checkbox-marked-circle-outline' aria-hidden='true'></i> " + 'This Data Is Already Exist', {
+                type: 'success',
+                align: 'center',
+                width: 'auto',
+                allow_dismiss: true,
+                delay: 20000
+            });
+        }
+
+    }
+</script>

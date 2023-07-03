@@ -1,0 +1,54 @@
+﻿@using Nafed.MicroPay.Model;
+@model CommonFilter
+@{
+    var yearDDl = Enumerable.Range(2020, (DateTime.Now.Year - 2020) + 1).
+                              Select(i => new SelectListModel { id = i, value = i.ToString() }).OrderByDescending(x => x.value).ToList();
+
+}
+
+<div class="advance-search" style="">
+
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 pb-1 pt-2 form-inline align-middle">
+        <i class="fa fa-search fa-2x" style="color:#d4d4d4;" aria-hidden="true"></i><h4 class="desc" style="color:#0bb70b;">
+            @Html.Label("Search")
+        </h4>
+    </div>
+
+    <hr style="background-color:#fff !important;">
+
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="form-group">
+            <div class="row">
+                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 text-secondary mb-3">
+                    <i class="fas fa-filter"></i> Filter By :
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+                    @Html.Label("Year", htmlAttributes: new { @class = "" })
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                    @Html.DropDownListFor(model => model.Year, new SelectList(yearDDl, "id", "value"), "Select", new { @class = "custom-select" })
+                </div>
+                <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+                    @Html.Label("Month", htmlAttributes: new { @class = "" })
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                    @Html.EnumDropDownListFor(model => model.Month, "Select", new { @class = "custom-select" })
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                    <button type="submit" id="submitform" value="Search" name="ButtonType" class="btn btn-warning toggle-tooltip mt-2" title="Click here, to search records.">
+                        <i class="fa fa-search"></i> Search
+                    </button>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-12 text-right">
+                    @Html.ActionLink("New Calendar", "Create", "Training", null, new { @class = "btn btn-info mt-2", title = "Click here, to create New Calender", @data_toggle = "tooltip" })
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+

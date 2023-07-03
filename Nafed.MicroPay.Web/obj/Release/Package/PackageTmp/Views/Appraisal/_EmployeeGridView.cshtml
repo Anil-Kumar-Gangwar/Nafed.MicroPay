@@ -1,0 +1,63 @@
+﻿@model MicroPay.Web.Models.EmployeeAppraisalViewModel
+
+
+<table id="tblGrid" class="table table-centered table-striped dt-responsive w-100">
+    <thead>
+        <tr>
+            <th>
+                #
+            </th>
+            <th>
+                Form Name
+            </th>
+            <th>
+                Employee Code
+            </th>
+            <th>
+                Name
+            </th>
+            <th>
+                Department
+            </th>
+            <th>
+                Designation
+            </th>
+            <th>
+                Status
+            </th>
+            <th class="text-center" style="width:60px">
+                Action
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            if (Model.listEmployee != null && Model.listEmployee.Count() > 0)
+            {
+                var sno = 1;
+                foreach (var item in Model.listEmployee)
+                {
+                    <tr>
+                        <td>@sno</td>
+                        <td>@item.AppraisalFormName</td>
+                        <td> @item.EmployeeCode</td>
+                        <td> @item.Name</td>
+                        <td> @item.DepartmentName</td>
+                        <td> @item.DesignationName</td>
+                        <td>  </td>
+                        @*@if (Model.userRights.Edit)
+                        {*@
+                            <td class="text-center">
+                                @*<a href="@Url.Action("Edit", "Appraisal", new {appraisalFormID=item.AppraisalFormID,reportingTo=item.ReportingToID,reviewingTo=item.ReviewerTo,acceptanceAuthority=item.AcceptanceAuthority, empID=item.EmployeeID })" title="Click here, to view this record" data-toggle="tooltip">
+                                <i class="far fa-eye text-info" aria-hidden="true"></i>
+                                </a>*@
+                                @Html.EncodedImageActionLink("", "Edit", "Appraisal", new { appraisalFormID = item.AppraisalFormID, reportingTo = item.ReportingToID, reviewingTo = item.ReviewerTo, acceptanceAuthority = item.AcceptanceAuthority, empID = item.EmployeeID }, new { @class = "toggle-tooltip", title = "Click here, to edit this record" }, "~/Images/edit.png")
+                            </td>
+                        @*}*@                     
+                    </tr>
+                    sno++;
+                }
+            }
+        }
+    </tbody>
+</table>

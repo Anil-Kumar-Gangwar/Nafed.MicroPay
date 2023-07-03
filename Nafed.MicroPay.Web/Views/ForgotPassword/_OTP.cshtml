@@ -1,0 +1,159 @@
+﻿@model Nafed.MicroPay.Model.UserDetail
+@using CaptchaMvc.HtmlHelpers
+@{
+
+    Layout = null;
+    var mobileTextBoxVisibility = Model.otpType == 2 ? null : "hide";
+    var emailTextBoxVisibility = Model.otpType == 1 ? null : "hide";
+}
+
+
+
+@using (Ajax.BeginForm("SendOTP", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "OTPSection" }))
+{
+    @Html.Hidden("OTPCode1", Model.OTPCode)
+    @Html.Hidden("OTPtimeStamp1", Model.OTPtimeStamp)
+
+    if (ViewBag.OTPSent != null && ViewBag.OTPSent)
+    {
+        <script type="text/javascript">
+            otpCountDown();
+        </script>
+    }
+
+    <div class="col-lg-12 col-md-12 mt-4">
+        <div class="custom-control custom-radio">
+            <label class="required">Send OTP on : </label>
+            <label class="radio-inline">
+
+                @if (Model.otpType == 1)
+                {
+                    <input class="" type="radio" name="otpType" id="mail" value="1" checked="checked" onclick="forgot_methodType(this.id);" />
+                }
+                else
+                {
+                    <input class="" type="radio" name="otpType" id="mail" value="1" onclick="forgot_methodType(this.id);" />
+                }
+
+                Email
+            </label>
+            <label class="radio-inline">
+
+                @if (Model.otpType == 2)
+                {
+                    <input class="" type="radio" name="otpType" id="mobile" value="2" checked="checked" onclick="forgot_methodType(this.id);" />
+                }
+                else
+                {
+                    <input class="" type="radio" name="otpType" id="mobile" value="2" onclick="forgot_methodType(this.id);" />
+                }
+                SMS
+            </label>
+        </div>
+    </div>
+
+
+    <div class="col-md-12 mb-3 @emailTextBoxVisibility" id="div-email-input">
+        <div class="input-group">
+            <div class="input-group-append">
+                <div class="input-group-text">
+                    <i class="fa fa-envelope"></i>
+                </div>
+            </div>
+
+            @if (Model.otpType == 1)
+            {
+                @Html.TextBoxFor(model => Model.EmailID, null, new { @class = "form-control", @required = "required", @data_toggle = "tooltip", title = "Please enter an email address.", placeholder = "Type Your Email", maxlength = 75, autofocus = "autofocus", autocomplete = "off", @type = "email", @id = "txt_Email", oncopy = "return false", oncut = "return false", onpaste = "return false" })
+            }
+            else
+            {
+                @Html.TextBoxFor(model => Model.EmailID, null, new { @class = "form-control", @data_toggle = "tooltip", title = "Please enter an email address.", placeholder = "Type Your Email", maxlength = 75, autofocus = "autofocus", autocomplete = "off", @type = "email", @id = "txt_Email", oncopy = "return false", oncut = "return false", onpaste = "return false" })
+            }
+        </div>
+    </div>
+
+    <div class="col-md-12 mb-3 @mobileTextBoxVisibility" id="div-mobile-input">
+        <div class="input-group">
+            <div class="input-group-append">
+                <div class="input-group-text">
+                    <i class="fa fa-mobile"></i>
+                </div>
+            </div>
+
+            @Html.TextBoxFor(model => Model.MobileNo, null, new { @class = "form-control", @pattern = "[789][0-9]{9}", @data_toggle = "tooltip", title = "Please enter mobile number.", placeholder = "Type Your Mobile No", @maxlength = 10, @minlength = 10, autocomplete = "off", @id = "txt_mobile", oncopy = "return false", oncut = "return false", onpaste = "return false" })
+
+        </div>
+    </div>
+
+    if (Model.step == 2)
+    {
+        <span class="badge badge-danger m-3" id="sp-timer"></span>
+
+        <div class="input-group col-md-12" id="div-OTP-input">
+            <div class="input-group-append">
+                <div class="input-group-text P-0">
+                    <span>OTP</span>
+                </div>
+            </div>
+
+            <input name="inputOTP" class="form-control" data-toggle="tooltip" placeholder="Please enter OTP" type="text" maxlength="4" minlength="4" required />
+
+        </div>
+
+        <div id="some_div" class="badge text-bold badge-danger d-none p-2 com-md-12"></div>
+
+    }
+    <div class="col-lg-12 col-md-12 mt-2" id="div-captcha-input">
+        @Html.MathCaptcha("Try Another", "Enter the text you see above", requiredMessageText: "Enter the captcha")
+    </div>
+    <div class="col-lg-12 col-md-12 mt-4">
+
+        <a data-toggle="tooltip" data-placement="left" title="Click here to redirect on login page." class="btn btn-dark btn-rp pull-left text-white" href="@Url.Action("Index","Login")">Back</a>
+
+        <input id="hdnstep" name="step" type="hidden" value="@Model.step" />
+
+        @* <a id="btnNext" class="btn btn-primary btn-rp pull-right text-white" href="" >Next</a>*@
+
+        @if (Model.step == 1)
+        {
+            <button @*data-toggle="tooltip"*@ data-placement="right"
+                    @*title="Click here To send OTP."*@
+                    id="btnNext" type="submit" name="submitButton" class="btn btn-primary float-right btn-rp">
+                Next
+            </button>
+        }
+        else
+        {
+            <button data-toggle="tooltip" data-placement="right" id="btnSubmit" type="submit" name="submitButton" class="btn btn-primary float-right btn-rp">Submit</button>
+        }
+    </div>
+        <br />
+        <div class="col-lg-12 col-md-12 mt-4">
+            <p class="text-danger">@MvcHtmlString.Create(@ViewBag.error)</p>
+        </div>
+
+}
+
+<script type="text/javascript">
+    function forgot_methodType(controlID) {
+
+        if (controlID == "mail") {
+            $("#div-mobile-input").addClass('hide'); $("#div-email-input").removeClass('hide');
+            $("#txt_mobile").addClass("hide").removeAttr("required");
+            $("#txt_Email").removeClass("hide");
+        }
+        if (controlID == "mobile") {
+
+            $("#div-email-input").addClass('hide'); $("#div-mobile-input").removeClass('hide');
+            $("#txt_mobile").removeClass("hide").prop('required', true);
+            $("#txt_Email").addClass("hide").removeAttr("required");
+        }
+    }
+
+    $(document).ready(function () {
+        $('[data-toggle="tooltip"]').tooltip();
+        $('.toggle-tooltip').tooltip();
+        $("#CaptchaInputText").addClass("form-control");
+    });
+
+</script>

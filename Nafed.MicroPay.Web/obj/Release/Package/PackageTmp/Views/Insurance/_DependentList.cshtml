@@ -1,0 +1,142 @@
+﻿@model List<Nafed.MicroPay.Model.InsuranceDependent>
+
+<table id="tblDependent" class="table table-centered dt-responsive w-100">
+    <thead>
+        <tr>
+            <th style="width:5%">
+              
+            </th>
+            <th class="text-center" style="width:10%">
+                Name of Dependent
+            </th>
+            <th class="text-center" style="width:10%">
+                Relation
+            </th>
+            <th class="text-center" style="width:5%">
+                Gender
+            </th>
+            <th class="text-center" style="width:5%">
+                Age
+            </th>
+            <th class="text-center" style="width:15%">
+                Date of joining Insurance policy
+            </th>
+            <th class="text-center" style="width:15%">
+                Date of expire Insurance policy
+            </th>
+            <th class="text-center" style="width:20%">
+               Reason
+            </th>
+        </tr>       
+    </thead>
+    <tbody>
+
+        @if (Model != null && Model.Count > 0)
+        {
+            for (int i = 0; i < Model.Count; i++)
+            {
+                <tr>
+                    <td id="NotApplicableDetails">
+                        @if (!Model[i].IsApplicable)
+                        {
+                            @Html.CheckBoxFor(model => model[i].IsApplicable, new { @class = "", @checked = false,@id="check_"+i+ "_IsApplicable", @onChange = "NotApplicableCheck(this.id," + i + ")" })
+                        }
+                        else
+                        {
+                            @Html.CheckBoxFor(model => model[i].IsApplicable, new { @class = "", @checked = true, @onChange = "NotApplicableCheck(this.id," + i + ")" })
+                        }
+                    </td>
+                    <td>
+                        @Model[i].DependentName
+                    </td>
+                    <td>
+                        @Model[i].Relation
+                    </td>
+                    <td class="text-center">
+                        @Model[i].Gender
+                    </td>
+                    <td class="text-center">
+                        @Model[i].Age
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(model => model[i].PolicyJoinDate, new { @type = "text", @class = "form-control datepicker policyJoin", id= "PolicyJoinDate_"+i,@placeholder="dd/mm/yyyy" })
+                        @Html.ValidationMessageFor(model => model[i].PolicyJoinDate, "", new { @class = "text-danger" })
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(model => model[i].PolicyExpDate, new { @type = "text", @class = "form-control datepicker policyexp", id = "PolicyExpDate_" + i, @placeholder = "dd/mm/yyyy" })
+                        @Html.ValidationMessageFor(model => model[i].PolicyExpDate, "", new { @class = "text-danger" })
+                    </td>
+                    <td>
+                        @Html.EditorFor(model => model[i].Reason, new { htmlAttributes = new { @class = "form-control" , id = "Reason_" + i } })
+                    </td>
+                </tr>
+
+            }
+        }
+
+    </tbody>
+</table>
+
+
+<script type="text/javascript">
+    $(".policyJoin").datepicker({ dateFormat: 'dd/mm/yy', changeYear: true });
+    $(".policyexp").datepicker({ dateFormat: 'dd/mm/yy', changeYear: true });
+    $(document).ready(function () {
+        var table = $('#tblDependent').DataTable({
+            searching: false, paging: false, sorting: false,
+
+            "ordering": false,
+            "info": false
+        });
+
+        var tableDetails = document.getElementById('tblDependent');
+        var rowLength = tableDetails.rows.length;
+        for (var i = 0; i < rowLength; i += 1) {
+            var row = tableDetails.rows[i];
+            var cellLength = row.cells.length;
+            for (var y = 0; y < cellLength; y += 1) {
+                var cell = row.cells[y];
+                if (cell.id = "NotApplicableDetails") {
+                    if ($("#check" + i + "_IsApplicable").is(":checked") == false) {
+                        $("#PolicyJoinDate_" + i).value = "";
+                        $("#PolicyExpDate_" + i).value = "";
+                        $("#Reason_" + i).value = "";
+                        $("#PolicyJoinDate_" + i).attr("disabled", "disabled");
+                        $("#PolicyExpDate_" + i).attr("disabled", "disabled");
+                        $("#Reason_" + i).attr("disabled", "disabled");
+                    }
+                    else {
+                        $("#PolicyJoinDate_" + i).value = "";
+                        $("#PolicyExpDate_" + i).value = "";
+                        $("#Reason_" + i).value = "";
+                        $("#PolicyJoinDate_" + i).removeAttr("disabled");
+                        $("#PolicyExpDate_" + i).removeAttr("disabled");
+                        $("#Reason_" + i).removeAttr("disabled");
+                    }
+                }
+            }
+        }
+    });
+
+    function NotApplicableCheck(id, index) {
+        debugger;
+        if ($("#" + id).is(":checked")) {
+            $("#PolicyJoinDate_" + index).removeAttr("disabled");
+            $("#PolicyExpDate_" + index).removeAttr("disabled");
+            $("#Reason_" + index).removeAttr("disabled");
+        }
+        else {         
+
+            $("#PolicyJoinDate_" + index).value = "";
+            $("#PolicyJoinDate_" + index).value = "";
+            $("#Reason_" + index).value = "";
+            $("#PolicyJoinDate_" + index).attr("disabled", "disabled");
+            $("#PolicyExpDate_" + index).attr("disabled", "disabled");
+            $("#Reason_" + index).attr("disabled", "disabled");
+        }
+    }
+
+</script>
+
+
+

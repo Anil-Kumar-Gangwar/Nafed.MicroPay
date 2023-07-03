@@ -1,0 +1,101 @@
+﻿@using Nafed.MicroPay.Model;
+@model List<ConveyanceBillHistoryModel>
+
+<table id="tblGrid-ConveyanceHistory" class="table table-centered table-striped dt-responsive w-100 mt-2">
+    <thead>
+        <tr>
+            <th>
+                #
+            </th>
+            <th>
+                Reporting Yr
+            </th>
+            <th>
+                Name
+            </th>
+            <th class="text-right">
+                Amount Claimed
+            </th>
+           <th>
+               Submitted Bill Date
+           </th>
+            <th>
+                Conveyance Status
+            </th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @{
+            int sno = 1;
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td>@sno</td>
+                    <td>@item.ReportingYr</td>
+                    <td>@item.EmployeeCode - @item.Name</td>
+                    <td class="text-right">@item.TotalAmountClaimed</td>
+                    <td>@item.RequestedDate</td>
+                    <td class="text-center">
+                        @if (item.ConveyanceStatus == (int)ConveyanceFormState.SavedByEmployee)
+                        {
+                            <h5>
+                                <span class="badge badge-pill badge-light col-md-12">
+                                    Save
+                                </span>
+                            </h5>
+                        }
+                        else if (item.ConveyanceStatus == (int)ConveyanceFormState.SubmitedByEmployee)
+                        {
+                            <h5>
+                                <span class="badge badge-pill badge-dark col-md-12">
+                                    Submitted
+                                </span>
+                            </h5>
+                        }
+                        else if (item.ConveyanceStatus == (int)ConveyanceFormState.SavedByReporting)
+                        {
+                            <h5>
+                                <span class="badge badge-pill badge-dark col-md-12">
+                                    Saved by Reporting Officer
+                                </span>
+                            </h5>
+                        }
+                        else if (item.ConveyanceStatus == (int)ConveyanceFormState.SubmitedByReporting)
+                        {
+                            <h5>
+                                <span class="badge badge-pill bg-teal col-md-12">
+                                    Reviewed by Reporting Officer
+                                </span>
+                            </h5>
+                        }
+                        else if (item.ConveyanceStatus == (int)ConveyanceFormState.SavedByReviewer)
+                        {
+                            <h5>
+                                <span class="badge badge-pill badge-dark col-md-12">
+                                    Saved by Reviewer Officer
+                                </span>
+                            </h5>
+                        }
+                        else if (item.ConveyanceStatus == (int)ConveyanceFormState.SubmitedByReviewer)
+                        {
+                            <h5>
+                                <span class="badge badge-pill badge-info col-md-12">
+                                    Reviewed by Reviewer Officer
+                                </span>
+                            </h5>
+                        }
+                    </td>
+                </tr>
+                sno++;
+            }
+        }
+        <script type="text/javascript">
+            var table = $('#tblGrid-ConveyanceHistory').DataTable({
+            });
+            $('#tblGrid-ConveyanceHistory').find('select').addClass('custom-select');
+        </script>
+    </tbody>
+</table>
+
+

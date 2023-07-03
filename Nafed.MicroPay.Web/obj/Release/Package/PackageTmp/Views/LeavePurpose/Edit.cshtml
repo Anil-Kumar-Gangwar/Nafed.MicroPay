@@ -1,0 +1,57 @@
+﻿@model Nafed.MicroPay.Model.LeavePurpose
+@{
+    ViewBag.Title = "Edit Leave Purpose";
+    ViewBag.NavigationTitle = "Leave Purpose";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card_new_header alert alert-danger">
+
+    <div class="col-sm-6">
+        NOTE : Fields marked with (*) are compulsory fields
+    </div>
+    <div class="col-sm-6 text-right">
+        <b>@*[ Characters < > # ^ ; | $ are not allowed ]*@</b>
+    </div>
+    
+</div>
+
+
+@using (Html.BeginForm("Edit", "LeavePurpose"))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    @Html.HiddenFor(model => model.LeavePurposeID)
+
+ 
+        <div class="card_new_body">
+            <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 mb-2">
+
+                    <div class="row">
+                        @Html.LabelFor(model => model.LeaveCategoryID, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-6 col-xs-12 mb-2 required" })
+                        <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 mb-2">
+                            @Html.DropDownListFor(model => model.LeaveCategoryID, (IEnumerable<SelectListItem>)ViewBag.LeaveCategory, new { @class = "custom-select" })
+                            @Html.ValidationMessage("LeaveCategoryAlreadyExists", "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        @Html.LabelFor(model => model.LeavePurposeName, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-6 col-xs-12 mb-2 required" })
+                        <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 mb-2">
+                            @Html.EditorFor(model => model.LeavePurposeName, new { htmlAttributes = new { @class = "form-control", @placeholder = "Leave Purpose", @min = 100 } })
+                            @Html.ValidationMessageFor(model => model.LeavePurposeName, "", new { @class = "text-danger" })
+                            @Html.ValidationMessage("LeavePurposeAlreadyExists", "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <span class="pull-right">
+                        @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-light btn-sm toggle-tooltip", @title = "Click here, to redirect on list page", @data_toggle = "tooltip" })
+                        <input type="submit" value="update" class="btn btn-info btn-sm pull-center toggle-tooltip" title="Click here, to Update current record" data-toggle="tooltip" />
+                    </span>
+                </div>
+            </div>
+        </div>
+ 
+}
+

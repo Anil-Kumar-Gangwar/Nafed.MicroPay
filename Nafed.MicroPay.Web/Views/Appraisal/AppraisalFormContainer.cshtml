@@ -1,0 +1,312 @@
+﻿@using Nafed.MicroPay.Model
+@using Common = Nafed.MicroPay.Common;
+@model Nafed.MicroPay.Model.AppraisalForm
+@{
+    // ViewBag.Title = "AppraisalForm";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    System.Globalization.CultureInfo Indian = new System.Globalization.CultureInfo("en-IN");
+
+}
+
+@*<h2>AppraisalForm</h2>*@
+
+<input id="printdiv" type="submit" value="Print" onclick="printContent('div-appraisal-form-container')" />
+
+<div id="div-appraisal-form-container" class="container-fluid">
+
+
+    <style type="text/css">
+        .dataTables_info {
+            display: none;
+        }
+
+        .print-helper {
+            display: none;
+        }
+
+        @@-moz-document url-prefix() {
+            .pbrk {
+                page-break-before: always !important;
+            }
+        }
+
+        @@media print {
+
+            .fix-collapse div {
+                page-break-inside: avoid;
+                page-break-after: auto;
+            }
+
+            table { /* tables don't split across pages if possible. */
+                page-break-inside: avoid;
+                page-break-after: always;
+            }
+
+            p {
+                /* if there aren't at least three lines before the page
+                      break, move the element to the start of a new page. */
+                orphans: 3;
+            }
+
+            .print-helper {
+                display: block;
+            }
+
+            .no-print {
+                display: none;
+            }
+
+            .form-control:not(textarea) {
+                border: 0;
+                padding: 0;
+                overflow: visible;
+                -webkit-appearance: none;
+                -moz-appearance: none;
+                appearance: none;
+            }
+
+            .custom-select {
+                overflow-y: hidden;
+            }
+
+            input[type="submit"], a {
+                visibility: hidden;
+            }
+             .part5prbk {              
+                page-break-before: always;
+            }
+             #tblFromTraining {
+               page-break-inside: avoid;
+                page-break-after: avoid !important;
+           }
+        }
+    </style>
+
+
+
+    @if (Model.FormID == (int)Common.AppraisalForm.FormA)
+    {
+        <div id="div-formA">
+            @Html.Action("_GetFormGroupA", Model)
+        </div>
+        @*@Html.Action("_GetFormGroupA", new { appraisalFormID=Model.FormID,  reportingTo=Model.ReportingTo,  reviewingTo= Model.ReviewingTo,  empID=Model.EmployeeID})*@
+    }
+    else if (Model.FormID == (int)Common.AppraisalForm.FormB)
+    {
+        <div id="div-formB">
+            @Html.Action("_GetFormGroupB", Model)
+        </div>
+    }
+    else if (Model.FormID == (int)Common.AppraisalForm.FormC)
+    {
+        <div id="div-formC">
+            @Html.Action("_GetFormGroupC", Model)
+        </div>
+    }
+    else if (Model.FormID == (int)Common.AppraisalForm.FormD)
+    {
+        <div id="div-formD">
+            @Html.Action("_GetFormGroupD", Model)
+        </div>
+    }
+
+    else if (Model.FormID == (int)Common.AppraisalForm.FormE)
+    {
+        <div id="div-formE">
+            @Html.Action("_GetFormGroupE", Model)
+        </div>
+    }
+    else if (Model.FormID == (int)Common.AppraisalForm.FormF)
+    {
+        <div id="div-formF">
+            @Html.Action("_GetFormGroupF", Model)
+        </div>
+    }
+    else if (Model.FormID == (int)Common.AppraisalForm.FormG)
+    {
+        <div id="div-formG">
+            @Html.Action("_GetFormGroupG", Model)
+        </div>
+    }
+    else if (Model.FormID == (int)Common.AppraisalForm.FormH)
+    {
+        <div id="div-formH">
+            @Html.Action("_GetFormGroupH", Model)
+        </div>
+    }
+
+</div>
+
+<script>
+    //function OnSuccess(data) {
+    //    if (data.msgType == undefined) {
+    //        $("#div-main-form").html(data);
+    //    }
+    //    if (data.msgType == "success")
+    //        commonMessage(data.msgType, data.msg);
+    //}
+
+    $('.noselect').find('input, textarea, button, select').attr('readonly', 'readonly').removeAttr('href');
+    $('.enableTDCells').removeAttr('readonly').addClass('form-control text-right');
+    $('.noselect .btn-sectionAddRow').addClass('hide');
+    //  $('.noselect .drpdown-section').attr('disabled', true);
+    $('.noselect .drpdown-section').attr("style", "pointer-events: none;");
+
+    function printContent(el) {
+        $(".print-helper").remove();
+        $("#" + el).find("textarea").each(function () {
+            var contents = $(this).val();
+            var maxLength = $(this).prop("maxlength");  //  alert($(this)[0].scrollHeight);
+            if ($(this)[0].scrollHeight > $(this).height()) {
+                $(this).after("<div class='print-helper p-2' style='border:1px solid #ced4da; min-height: 90px !important;'>" + contents + "</div>");
+                $(this).addClass("no-print");
+            }
+        });
+
+        $("#" + el).find("table tbody tr td").find('input:text').each(function (idx) {
+            var contents = $(this).val();
+            $(this).after("<div class='print-helper p-2'>" + contents + "</div>");
+            $(this).addClass("no-print");
+        });
+
+
+        $("select").each(function (i) {
+
+            var $el = $(this);
+            var $options = $el.find("option");
+            $(this).addClass("no-print");
+            $el.after("<div class='print-helper' style='border:1px solid #ced4da;'><ul id=sel" + i + "></ul></div>");
+
+            var $curPrintBox = $("#sel" + i);
+
+            $options.each(function () {
+                if ($(this).val() > 0) {
+                    if (!$(this).is(':selected'))
+                        $curPrintBox.append("<li>" + $(this).text() + "</li>");
+                    else
+                        $curPrintBox.append("<li style='font-weight: bold;'>" + $(this).text() + "</li>");
+                }
+            });
+
+        });
+
+        //  $("#tblFromTraining th:last-child, #tblFromTraining td:last-child").remove();
+        //  $("#tblTargetGoal th:last-child, #tblTargetGoal td:last-child").remove();
+
+        var printcontent = document.getElementById(el).innerHTML;
+        document.body.innerHTML = printcontent; window.print();
+
+    }
+
+
+
+
+    function onReportingAuthority3A() {
+        var totalPart3A = 0;
+        $('.reporting-part3A-input').each(function (idx) {
+            if ($(this).val() != undefined && $(this).val() != '') {
+                totalPart3A += parseInt($(this).val());
+            }
+        });
+        var res = parseFloat((totalPart3A / 40) * 10)
+        var fres = parseFloat((res * 40) / 100).toFixed(2)
+        $('.reporting-part3A-weightage').val(fres)
+    }
+
+    function onReiewingAuthority3A() {
+        var totalPart3A = 0;
+        $('.reviewing-part3A-input').each(function (idx) {
+            if ($(this).val() != undefined && $(this).val() != '') {
+                totalPart3A += parseInt($(this).val());
+            }
+        });
+        var res = parseFloat((totalPart3A / 40) * 10)
+        var fres = parseFloat((res * 40) / 100).toFixed(2)
+        $('.reviewing-part3A-weightage').val(fres)
+
+        var rev1 = $('.reviewing-part3A-weightage').val() == "" ? 0.00 : parseFloat($('.reviewing-part3A-weightage').val())
+        var rev2 = $('.reviewing-part3B-weightage').val() == "" ? 0.00 : parseFloat($('.reviewing-part3B-weightage').val())
+        var rev3 = $('.reviewing-part3C-weightage').val() == "" ? 0.00 : parseFloat($('.reviewing-part3C-weightage').val())
+
+        var totalrev = (rev1 + rev2 + rev3).toFixed(2);
+        $(".total-reviewer").val(totalrev)
+        $("#formGroupAHdr_PART5_5_Weightage").val(totalrev)
+    }
+
+    function onReportingAuthority3B() {
+        var totalPart3B = 0;
+        $('.reporting-part3B-input').each(function (idx) {
+            if ($(this).val() != undefined && $(this).val() != '') {
+                totalPart3B += parseInt($(this).val());
+            }
+        });
+        var res = parseFloat((totalPart3B / 90) * 10)
+        var fres = parseFloat((res * 30) / 100).toFixed(2)
+        $('.reporting-part3B-weightage').val(fres)
+    }
+
+    function onReiewingAuthority3B() {
+        var totalPart3B = 0;
+        $('.reviewing-part3B-input').each(function (idx) {
+            if ($(this).val() != undefined && $(this).val() != '') {
+                totalPart3B += parseInt($(this).val());
+            }
+        });
+        var res = parseFloat((totalPart3B / 90) * 10)
+        var fres = parseFloat((res * 30) / 100).toFixed(2)
+        $('.reviewing-part3B-weightage').val(fres)
+
+        var rev1 = $('.reviewing-part3A-weightage').val() == "" ? 0.00 : parseFloat($('.reviewing-part3A-weightage').val())
+        var rev2 = $('.reviewing-part3B-weightage').val() == "" ? 0.00 : parseFloat($('.reviewing-part3B-weightage').val())
+        var rev3 = $('.reviewing-part3C-weightage').val() == "" ? 0.00 : parseFloat($('.reviewing-part3C-weightage').val())
+
+        var totalrev = (rev1 + rev2 + rev3).toFixed(2);
+        $(".total-reviewer").val(totalrev)
+        $("#formGroupAHdr_PART5_5_Weightage").val(totalrev)
+    }
+
+    function onReportingAuthority3C() {
+        var totalPart3C = 0;
+        $('.reporting-part3C-input').each(function (idx) {
+            if ($(this).val() != undefined && $(this).val() != '') {
+                totalPart3C += parseInt($(this).val());
+            }
+        });
+        var res = parseFloat((totalPart3C / 60) * 10)
+        var fres = parseFloat((res * 30) / 100).toFixed(2)
+        $('.reporting-part3C-weightage').val(fres)
+        var rep1 = $('.reporting-part3A-weightage').val() == "" ? 0.00 : parseFloat($('.reporting-part3A-weightage').val())
+        var rep2 = $('.reporting-part3B-weightage').val() == "" ? 0.00 : parseFloat($('.reporting-part3B-weightage').val())
+        var rep3 = $('.reporting-part3C-weightage').val() == "" ? 0.00 : parseFloat($('.reporting-part3C-weightage').val())
+
+        var total = parseFloat(rep1 + rep2 + rep3).toFixed(2);
+        $(".total-reporting").val(total)
+        $(".total-reviewer").val(total)
+        $("#formGroupAHdr_PART5_5_Weightage").val(total)
+        $("#formGroupAHdr_PART4_6_Weightage").val(total)
+
+    }
+
+    function onReiewingAuthority3C() {
+        var totalPart3C = 0;
+        $('.reviewing-part3C-input').each(function (idx) {
+            if ($(this).val() != undefined && $(this).val() != '') {
+                totalPart3C += parseInt($(this).val());
+            }
+        });
+        var res = parseFloat((totalPart3C / 60) * 10);
+        var fres = parseFloat((res * 30) / 100).toFixed(2)
+        $('.reviewing-part3C-weightage').val(fres)
+
+        var rev1 = $('.reviewing-part3A-weightage').val() == "" ? 0.00 : parseFloat($('.reviewing-part3A-weightage').val())
+        var rev2 = $('.reviewing-part3B-weightage').val() == "" ? 0.00 : parseFloat($('.reviewing-part3B-weightage').val())
+        var rev3 = $('.reviewing-part3C-weightage').val() == "" ? 0.00 : parseFloat($('.reviewing-part3C-weightage').val())
+
+        var totalrev = (rev1 + rev2 + rev3).toFixed(2);
+        $(".total-reviewer").val(totalrev)
+        $("#formGroupAHdr_PART5_5_Weightage").val(totalrev)
+    }
+
+</script>
+
+

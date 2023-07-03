@@ -1,0 +1,69 @@
+﻿@model MicroPay.Web.Models.DepartmentViewModel
+
+
+<table id="tblGrid" class="table table-centered table-striped dt-responsive w-100">
+    <thead>
+        <tr>
+            <th>
+                #
+            </th>
+            <th>
+                Department Code
+            </th>
+            <th>
+                Department Name
+            </th>
+            @if (Model.userRights.Edit)
+            {
+                <th class="text-center" style="width:60px">
+                    Edit
+                </th>
+            }
+            @if (Model.userRights.Delete)
+            {
+                <th class="text-center" style="width:60px">
+                    Delete
+                </th>
+            }
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            if (Model.listDepartment != null && Model.listDepartment.Count() > 0)
+            {
+                var sno = 1;
+
+                foreach (var item in Model.listDepartment)
+                {
+                    <tr>
+                        <td>@sno</td>
+                        <td> @item.DepartmentCode</td>
+                        <td> @item.DepartmentName</td>
+                        @if (Model.userRights.Edit)
+                        {
+                            <td class="text-center">
+                                @*<a href="@Url.Action("Edit", "Department", new { departmentID = item.DepartmentID })" title = "Click here, to edit this record" data-toggle = "tooltip">
+                                    <i class="far fa-edit text-info" aria-hidden="true"></i>
+                                </a>*@
+                                @Html.EncodedImageActionLink("", "Edit", "Department", new { departmentID = item.DepartmentID }, new { @class = "toggle-tooltip", title = "Click here, to edit this record" }, "~/Images/edit.png")
+                            </td>
+                        }
+                        @if (Model.userRights.Delete)
+                        {
+                            <td class="text-center">
+                                @*<a data-toggle="confirm" class="toggle-tooltip" href="@Url.Action("Delete", "Department", new { departmentID = item.DepartmentID })" title = "Click here, to delete this record">
+                                    <span class="far fa-trash-alt text-danger" aria-hidden="true"></span>
+                                </a>*@
+                                @Html.EncodedImageActionLink("", "Delete", "Department", new { departmentID = item.DepartmentID }, new { @class = "toggle-tooltip", title = "Click here, to delete this record" }, "~/Images/delete.png", true)
+                            </td>
+                        }
+                    </tr>
+                    sno++;
+                }
+            }
+
+        }
+
+    </tbody>
+</table>
+

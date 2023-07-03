@@ -1,0 +1,61 @@
+﻿@model MicroPay.Web.Models.APARSkillSetViewModel
+
+    <table id="tblremarkGridView" class="table table-bordered table-centered dt-responsive w-100">
+        <thead>
+            <tr>
+                <th>
+                    Designation
+                </th>
+                <th>
+                    Skill Type
+                </th>
+
+                <th>
+                    Skills
+                </th>
+                <th>
+                    Remark
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                if (Model.APARSkillSetDtlList != null && Model.APARSkillSetDtlList.Count() > 0)
+                {
+                    var sno = 1;
+                    for (int i = 0; i < Model.APARSkillSetDtlList.Count; i++)
+                    {
+                        @Html.HiddenFor(model=>Model.APARSkillSetDtlList[i].DepartmentID)
+                        @Html.HiddenFor(model => Model.APARSkillSetDtlList[i].DesignationID)
+                        @Html.HiddenFor(model => Model.APARSkillSetDtlList[i].SkillTypeID)
+                        @Html.HiddenFor(model => Model.APARSkillSetDtlList[i].SkillID)
+                        @Html.HiddenFor(model => Model.APARSkillSetDtlList[i].SkillSetID)
+                        <tr>
+                            <td> @Model.APARSkillSetDtlList[i].Designation</td>
+                            <td> @Model.APARSkillSetDtlList[i].SkillType</td>
+                            <td> @Model.APARSkillSetDtlList[i].Skill</td>
+                            <td style="width:30%;">                               
+                                @Html.EditorFor(model => model.APARSkillSetDtlList[i].Remark, new { htmlAttributes = new { @class = "form-control", @maxlength = "1000" } })
+                            </td>
+                        </tr>
+                        sno++;
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center" colspan="4">
+                        No Record(s)</td>
+
+                    </tr>
+                }
+            }
+
+        </tbody>
+    </table>
+   
+<script type="text/javascript">
+    $(document).ready(function () {
+        var table = $('#tblremarkGridView').DataTable({ searching: false, paging: false });
+    });
+</script>

@@ -1,0 +1,154 @@
+﻿@model MicroPay.Web.Models.TrainingViewModel
+
+
+<script type="text/javascript">
+    $('.toggle-tooltip').tooltip();
+
+    function CreateSuccess(data) {
+        if (data.status == "1") {
+            $("#Tab2").html(data.htmlData);
+        }
+        else if (data.status == "2") {
+            $('.nav-tabs li:eq(2) a').tab('show');
+            commonMessage("success", data.msg);
+        }
+        else if (data.status == undefined) {
+            $("#Tab2").html(data);
+        }
+    }
+
+
+</script>
+
+@using (Ajax.BeginForm("CreateTrainingPrerequisiteDetails", "Training", new AjaxOptions { HttpMethod = "POST", OnSuccess = "CreateSuccess" }))
+{
+    @Html.HiddenFor(model => Model._Training.TrainingID)
+    <div class="" style="margin-top:10px;">
+        <div class="row mb-3 text-right">
+
+            <div class="col-md-12 pull-right">
+
+                <input type="submit" value="Add Training Prerequisite" id="btnAddRowExper" name="ButtonType" class="btn btn-info btn-md pull-center toggle-tooltip btn-sectionAddRow"
+                       title="Click here, to add new row." />
+            </div>
+        </div>
+        <table class="table table-bordered table-centered dt-responsive w-100">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th class="required">Item</th>
+                    <th class="required">Serial No</th>
+                    <th class="required">Make</th>
+                    <th class="text-center">Remove</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                @if (Model.TrainingPrereqList != null && Model.TrainingPrereqList.Count() > 0)
+                {
+                    TempData["TrainingPrerequisite"] = Model;
+
+                    for (int i = 0; i < Model.TrainingPrereqList.Count(); i++)
+                    {
+                        <tr>
+                            <td class="text-right">@(i + 1)<text>.</text> </td>
+                            @*<td>@Html.EnumDropDownListFor(model => model.TrainingPrerequisitedetails[i].TrainingID, "Select", new { @class = "custom-select" })</td>*@
+                            @*<td> @Html.DropDownListFor(model => Model.TrainingPrerequisitedetails[i].TrainingID, new SelectList(Model.TrainingList, "id", "value", Model.TrainingPrerequisitedetails[i].TrainingID), new { @class = "custom-select rep2" })</td>*@
+
+                            <td>
+                                @Html.EditorFor(model => model.TrainingPrereqList[i].Item, new { htmlAttributes = new { @class = "form-control", @placeholder = "Item", @maxlength = "200" } })
+                                @Html.ValidationMessageFor(m => Model.TrainingPrereqList[i].Item, "", new { @class = "text-danger" })
+                            </td>
+                            <td>
+                                @Html.EditorFor(model => model.TrainingPrereqList[i].SerialNo, new { htmlAttributes = new { @class = "form-control", @placeholder = "Serial No", @maxlength = "50" } })
+                                @Html.ValidationMessageFor(m => Model.TrainingPrereqList[i].SerialNo, "", new { @class = "text-danger" })
+                            </td>
+
+                            <td>
+                                @Html.EditorFor(model => model.TrainingPrereqList[i].Make, new { htmlAttributes = new { @class = "form-control", @placeholder = "Make", @maxlength = "100" } })
+                                @Html.ValidationMessageFor(m => Model.TrainingPrereqList[i].Make, "", new { @class = "text-danger" })
+                            </td>
+
+
+                            <td class="text-center">
+
+                                @Ajax.ActionLink("Remove",
+                      "_RemoveTargetRow", new
+                      {
+                          sNo = Model.TrainingPrereqList[i].sno
+                      },
+                      new AjaxOptions
+                      {
+                          UpdateTargetId = "Tab2",
+                          InsertionMode = InsertionMode.Replace,
+                          Confirm = "Are you sure you want to remove this row?",
+                          HttpMethod = "GET"
+                      }, new { @class = "btn btn-danger btn-xs toggle-tooltip btn-sectionAddRow", @title = "Click here, to remove this row." })
+
+                            </td>
+
+                        </tr>
+
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="12" class="text-center">No Record Found. </td>
+                    </tr>
+                }
+
+
+            </tbody>
+
+        </table>
+    </div>
+
+    if (Model.TrainingPrereqList.Count > 0)
+    {
+        <div class="form-group">
+@if (Model.TrainingStatus != 3)
+{
+            <span class="pull-right">
+
+                <input type="submit" name="ButtonType" value="Update" class="btn btn-info btn-md pull-center toggle-tooltip" title="Click here, to update this record." />
+
+            </span>
+}
+        </div>
+    }
+}
+
+<script type="text/javascript">
+
+        function OnSuccess(data) {
+           debugger;
+
+           if (data.part == 1)
+               $("#div-form-TrainingPrerequisite-grid").html(data.htmlData);
+           else if (data.part==2)
+               $("#div-form-TrainingPrerequisite-grid").html(data.htmlData);
+           else if (data.part == 3)
+               $("#div-form-TrainingPrerequisite-grid").html(data.htmlData);
+
+           if (data.part == undefined) {
+               $("#div-main-form").html(data);
+           }
+
+           if(data.registrationNo!=undefined)
+           {
+               commonMessage(data.msgType, data.msg);
+           }
+         if (data.action == "update") {
+               var registrationID = data.registrationID;
+               window.location.href = "@Url.Action("Index", "CandidateRegistration")"+'?registrationID='+ registrationID;
+           }
+       }
+
+
+    </script>
+
+
+
+
+

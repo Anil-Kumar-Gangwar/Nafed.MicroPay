@@ -1,0 +1,13 @@
+﻿@{
+    ViewBag.Title = "Employee Salary Report";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Ajax.BeginForm("_NonRegularEmpSalaryReport", "NonRegularEmpSalaryReport", new AjaxOptions { HttpMethod = "POST", OnSuccess = "OnReportSuccess" }))
+{
+    <div id="div-EmpSal-Report">
+        @Html.Action("_NonRegularEmpSalaryFilters")
+    </div>
+}
+
+

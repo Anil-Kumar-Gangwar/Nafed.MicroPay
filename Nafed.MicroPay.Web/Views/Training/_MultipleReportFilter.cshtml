@@ -1,0 +1,134 @@
+﻿@using Nafed.MicroPay.Model;
+@model CommonFilter
+
+
+<div class="advance-search" style="">
+
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 pb-1 pt-2 form-inline align-middle">
+        <i class="fa fa-search fa-2x" style="color:#d4d4d4;" aria-hidden="true"></i><h4 class="desc" style="color:#0bb70b;">
+            @Html.Label("Search")
+        </h4>
+    </div>
+
+    <hr style="background-color:#fff !important;">
+
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="form-group">
+            <div class="row">
+                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 text-secondary mb-3">
+                    <i class="fas fa-filter"></i> Filter By :
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+                    @Html.Label("From Date", htmlAttributes: new { @class = "" })
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                    @Html.TextBoxFor(model => model.FromDate, String.Format("{0:dd/MM/yyyy}", Model.FromDate), new { @type = "text", @class = "form-control datepicker form-textbox", @placeholder = "dd/mm/yyyy", @autocomplete = "off" })
+                </div>
+                <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+                    @Html.Label("To Date", htmlAttributes: new { @class = "" })
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                    @Html.TextBoxFor(model => model.ToDate, String.Format("{0:dd/MM/yyyy}", Model.ToDate), new { @type = "text", @class = "form-control datepicker form-textbox", @placeholder = "dd/mm/yyyy", @autocomplete = "off" })
+                </div>
+                @if (Model.ReportType == "D")
+                {
+                    <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+                        @Html.Label("Designation", htmlAttributes: new { @class = "" })
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                        @Html.DropDownListFor(model => model.DesignationID, (IEnumerable<SelectListItem>)ViewBag.Designation, new { @class = "custom-select" })
+
+                    </div>
+                }
+                else if (Model.ReportType == "I")
+                {
+                    <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+                        @Html.Label("Trainer Type", htmlAttributes: new { @class = "" })
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                        @Html.DropDownListFor(model => model.StatusID, (IEnumerable<SelectListItem>)ViewBag.TrainerType, new { @class = "custom-select" })
+
+                    </div>
+                }
+                else if (Model.ReportType == "T")
+                {
+                    <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                        @Html.Label("Training Type", htmlAttributes: new { @class = "" })
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                        @Html.DropDownListFor(model => model.ProcessID, (IEnumerable<SelectListItem>)ViewBag.TrainingType, new { @class = "custom-select" })
+
+                    </div>
+                }
+                else if (Model.ReportType == "P")
+                {
+                    <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                        @Html.Label("Training Provider", htmlAttributes: new { @class = "" })
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                        <div class="row">
+
+                            <div class="col-sm-2">                              
+                                                                   
+                                @Html.RadioButtonFor(model => model.ReportType, "All", new { id = "All", @checked=true })                              
+                                @Html.Label("All", new { @for = "All" })
+                            </div>
+                            <div  class="col-sm-3">
+                                @Html.RadioButtonFor(model => model.ReportType, "Individual", new { id = "Individual" })                            
+                                @Html.Label("Individual", new { @for = "Individual" })
+                            </div>
+                            <div id="dv-indv" class="col-sm-4">
+                                @Html.Partial("_CheckBoxList", Model)
+                            </div>
+                        </div>
+
+            
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <hr style="background-color:#fff !important;">
+    <div class="row mt-3">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-right">
+
+            <button type="button" id="submitform" value="Search" onclick="buttonOnClick()" name="ButtonType" class="btn btn-warning toggle-tooltip mt-2" title="Click here, to search records.">
+                <i class="fa fa-search"></i> Search
+            </button>
+            <button type="submit" name="ButtonType" value="Export" class="btn btn-success toggle-tooltip mt-2" title="Click here, to export">
+                
+                <i class="fa fa-file-excel"></i> Export
+            </button>
+
+            <button type="submit" name="ButtonType" value="View" class="btn btn-info toggle-tooltip mt-2" title="Click here, to view and print report" formtarget="_blank">
+
+                <i class="fa fa-file-pdf"></i> Print
+            </button>
+            
+        </div>
+    </div>
+</div>
+
+
+
+
+<script>
+    $("#dv-indv").addClass("hide");
+    $("input[type=radio][name='ReportType']").change(function () {
+        var checkedRadio = this.value; 
+
+        if (checkedRadio == 'All') {
+            $("#dv-indv").addClass("hide");
+        }
+        else {
+            $("#dv-indv").removeClass("hide");                       
+        }
+    });
+
+    function buttonOnClick() {
+        $('#reportform').submit();
+    }
+</script>

@@ -1,0 +1,47 @@
+﻿@using Nafed.MicroPay.Model
+@model MicroPay.Web.Models.SubSectionDescriptionVM
+<div class="row">
+
+    <div class="col-lg-7 col-xl-7 col-md-7 col-sm-7 col-xs-12">
+
+        <div id="div-sub-section-desc-grid">
+
+            @Html.Partial("_SubSectionDescGridView",Model.subSectionDescpList)
+
+        </div>
+
+    </div>
+
+    <div class="col-lg-5 col-xl-5 col-md-5 col-sm-5 col-xs-12">
+
+        @using (Ajax.BeginForm("_PostSubSectionDescForm", "TaxDeductionSection", new AjaxOptions
+        {
+            HttpMethod = "POST",
+            OnSuccess = "formSubSectionDesc_OnSuccess"
+
+        }))
+        {
+            <div id="div-sub-section-desc-form">
+
+                @Html.Partial("_SubSectionDescriptionForm", Model)
+
+            </div>
+        }
+
+
+
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    function formSubSectionDesc_OnSuccess(data) {
+        if (data.success != undefined && data.success == "true") {
+            commonMessage("success", data.msg);
+            window.location.reload();
+        }
+        else {
+            $("#div-sub-section-desc-form").html(data);
+        }
+    }
+</script>

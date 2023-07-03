@@ -1,0 +1,324 @@
+﻿@model MicroPay.Web.Models.ProjectedIncrementViewModel
+@using Nafed.MicroPay.Common;
+
+@{
+    var recordCount = Model.projectedIncrement != null ? Model.projectedIncrement.Count() : 0;
+    var classForscroll = "";
+    if (recordCount > 10)
+    {
+        classForscroll = "RecordFound";
+    }
+    var message = Model.Message;
+    var updationmsg = ViewBag.Message == null ? "" : ViewBag.Message;
+    var procesFurther = Model.projectedIncrement.Any(x => x.ProceedFurther == false);
+}
+
+<style type="text/css">
+    table {
+        text-align: left;
+        position: relative;
+        border-collapse: collapse;
+    }
+
+    th {
+        background: white;
+        position: sticky;
+        top: 0; /* Don't forget this, required for the stickiness */
+        box-shadow: 0 2px 2px 0px rgba(0, 0, 0, 0.4);
+    }
+</style>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        if ("@updationmsg" != "" && "@procesFurther" == "False") {
+            commonMessage("success", "@updationmsg");
+        }
+        else if ("@updationmsg" != "" && "@procesFurther" == "True") {
+            commonMessage("error", "@updationmsg");
+        }
+        if ($("#incrementMonthId").val() != "0") {
+            $("#btnUpdateBasic").removeAttr("disabled");
+        }
+        else {
+            $("#btnUpdateBasic").attr("disabled", "disabled");
+        }
+
+        if ("@message" != "") {
+            if (confirm("@message")) {
+                StopIncrementPopUp();
+                $("#stopIncrement").val(1);
+                return true;
+            } else {
+                $("#stopIncrement").val(0);
+                UpdateBasic();
+                return false;
+            }
+        }
+    });
+    function onSuccess(data) {
+        if (data.fileName != "" && data.message == "success") {
+            window.location.href = "@Url.RouteUrl(new { Controller = "Base", Action = "DownloadAndDelete" })/?sFileName=" + data.fileName + "&sFileFullPath=" + data.fullPath;
+            $("#UpdateIncrementGridDiv").html(data.htmlData);
+        }
+    }
+</script>
+
+
+@using (Ajax.BeginForm("PostUpdateIncrementDetails", "UpdateIncrement", new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "UpdateIncrementGridDiv", OnSuccess = "onSuccess" }))
+{
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-right" style="margin:10px;">
+
+        <input type="submit" value="Update Basic" id="btnUpdateBasic" name="Validate" class="btn btn-info toggle-tooltip" title="Click here, to update the basic." disabled="disabled" />
+        <input type="submit" value="Update Grid" id="btnUpdateGrid" name="Validate" class="btn btn-info toggle-tooltip " title="Click here, to update the grid data." />
+        <input type="submit" value="Export Report" id="btnExportGrid" name="Validate" class="btn btn-warning toggle-tooltip " title="Click here, to export report data." />
+    </div>
+    
+    @Html.HiddenFor(model => model.BranchID);
+    @Html.HiddenFor(model => model.EmployeeCode);
+    @Html.HiddenFor(model => model.EmployeeName);
+    @Html.HiddenFor(model => model.incrementMonthId);
+    @Html.HiddenFor(model => model.stopIncrement);
+
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 @classForscroll">
+        <table id="tblGrid1" class="table table-bordered table-centered dt-responsive w-100">
+            <thead>
+                <tr>
+                    <th>
+                        #
+                    </th>
+                    <th>
+                        Branch Name
+                    </th>
+                    <th>
+                        @*Employee*@ Code
+                    </th>
+                    <th>
+                        Employee Name
+                    </th>
+                    @*<th>
+                            Designation
+                        </th>*@
+                    <th class="text-center">
+                        Current Basic
+                    </th>
+                    <th class="text-center">
+                        Old Basic
+                    </th>
+                    <th class="text-center">
+                        Last Increment
+                    </th>
+                    <th>
+                        Status
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.projectedIncrement != null && Model.projectedIncrement.Count() > 0)
+                {
+                    int index = 1;
+                    for (int i = 0; i < Model.projectedIncrement.Count(); i++)
+                    {
+                        <tr>
+                            <td class="text-right">@index</td>
+                            <td>
+                                @Model.projectedIncrement[i].BranchName
+                                @Html.HiddenFor(model => model.projectedIncrement[i].BranchName)
+                                @Html.HiddenFor(model => model.projectedIncrement[i].BranchCode)
+                                @Html.HiddenFor(model => model.projectedIncrement[i].BranchID)
+                                @if (Model.projectedIncrement[i].RowChanged)
+                                {
+                                    @Html.HiddenFor(model => model.projectedIncrement[i].RowChanged, new { Value = true });
+                                }
+                                else
+                                {
+                                    @Html.HiddenFor(model => model.projectedIncrement[i].RowChanged, new { Value = false })
+                                }
+                                @Html.HiddenFor(model => model.projectedIncrement[i].ProceedFurther)
+                            </td>
+                            <td>
+                                @Model.projectedIncrement[i].EmployeeCode
+                                @Html.HiddenFor(model => model.projectedIncrement[i].EmployeeCode)
+                                @Html.HiddenFor(model => model.projectedIncrement[i].EmployeeID)
+                                @Html.HiddenFor(model => model.projectedIncrement[i].IncrementMonth)
+                            </td>
+                            <td>
+                                @Html.HiddenFor(model => model.projectedIncrement[i].EmployeeName)
+                                @Model.projectedIncrement[i].EmployeeName
+                            </td>
+                            @*<td>
+                                    @Html.HiddenFor(model => model.projectedIncrement[i].Designation)
+                                    @Model.projectedIncrement[i].Designation
+                                </td>*@
+                            <td>
+                                @Html.EditorFor(model => model.projectedIncrement[i].CurrentBasic, new
+                           {
+                               htmlAttributes = new
+                               {
+                                   @class = "form-control text-right",
+                                   @type = "number",
+                                   @Value = Model.projectedIncrement[i].CurrentBasic,
+                                   onkeypress = "if(this.value.length==6) return false;",
+                                   onFocusOut = "CurrentBasic(this," + i + ");",
+                                   @onmouseup = "CurrentBasic(this," + i + ");",
+                                   @min = "0",
+                                   @max = "999999",
+                                   @maxlength = "6"
+                               }
+                           })
+                            </td>
+                            <td class="text-right">
+                                @Html.EditorFor(model => model.projectedIncrement[i].OldBasic, new
+                           {
+                               htmlAttributes = new
+                               {
+                                   @class = "form-control text-right",
+                                   @type = "number",
+                                   @Value = Model.projectedIncrement[i].OldBasic,
+                                   onFocusOut = "CurrentBasic(this," + i + ");",
+                                   @onmouseup = "CurrentBasic(this," + i + ");",
+                                   @min = "0",
+                                   @max = "999999",
+                                   @maxlength = "6"
+                               }
+                           })
+                                @*@Model.projectedIncrement[i].OldBasic
+                                    @Html.HiddenFor(model => model.projectedIncrement[i].OldBasic)*@
+                            </td>
+                            <td class="text-right">
+                                @Html.EditorFor(model => model.projectedIncrement[i].LastIncrement, new
+                           {
+                               htmlAttributes = new
+                               {
+                                   @class = "form-control text-right",
+                                   @type = "number",
+                                   @Value = Model.projectedIncrement[i].LastIncrement,
+                                   onFocusOut = "CurrentBasic(this," + i + ");",
+                                   @onmouseup = "CurrentBasic(this," + i + ");",
+                                   @min = "0",
+                                   @max = "999999",
+                                   @maxlength = "6"
+                               }
+                           })
+                                @*@Model.projectedIncrement[i].LastIncrement
+                                    @Html.HiddenFor(model => model.projectedIncrement[i].LastIncrement)*@
+                            </td>
+                            <td>
+                                @if ((@Model.projectedIncrement[i].AlertMessage == null ? "" : @Model.projectedIncrement[i].AlertMessage) != "" && (@Model.projectedIncrement[i].ProceedFurther != true) && (@Model.projectedIncrement[i].ProceedFurther != null))
+                                {
+                                    @Html.HiddenFor(model => model.projectedIncrement[i].ProceedFurther)
+                                    <a class="toggle-tooltip" href="javascript:" title="@Model.projectedIncrement[i].AlertMessage">
+                                        <span class="fa fa-exclamation-triangle" aria-hidden="true" style="color:yellow;font-size:22px;"></span>
+                                    </a>
+                                }
+                                else if (@Model.projectedIncrement[i].ProceedFurther == true && (@Model.projectedIncrement[i].ProceedFurther != null))
+                                {
+                                    @Html.HiddenFor(model => model.projectedIncrement[i].ProceedFurther)
+                                    <i class="fa fa-check-circle" title="Successfully Updated" style="font-size:22px;color:green"></i>
+                                }
+                            </td>
+                        </tr>
+                        index++;
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="8" class="text-center">No Record Found.</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+
+@*Stop Increment Pop Up Model*@
+<div class="container">
+    <div class="modal" id="divstopincrementpopup">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Stop Increment</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                @using (Ajax.BeginForm("_PostStopIncrement", "UpdateIncrement", new AjaxOptions
+                {
+                    HttpMethod = "POST",
+                    UpdateTargetId = "div-stopIncrementPopup"
+                }, new { defaultbutton = "btnSubmit" }))
+                {
+                <!-- Modal body -->
+                    <div class="modal-body" id="div-stopIncrementPopup">
+
+
+                    </div>
+
+                <!-- Modal footer -->
+                    <div class="modal-footer">
+
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $('.toggle-tooltip').tooltip();
+    function CurrentBasic(editor, index) {
+        var currentBasic = editor.attributes.value.value;
+        var changedCurrentBasic = $("#" + editor.id).val();
+        if (parseFloat(currentBasic) != parseFloat(changedCurrentBasic)) {
+            $("#projectedIncrement_" + index + "__RowChanged").val(true);
+        }
+    }
+    function UpdateBasic() {
+        var incrementMonth = $("#incrementMonthId").val() == "0" ? null : $("#incrementMonthId").val();
+        var branchID = $("#BranchID").val() == "0" ? null : $("#BranchID").val();
+        var employeeCode = $("#EmployeeCode").val();
+        var employeeName = $("#EmployeeName").val();
+        var stopIncrement = $("#stopIncrement").val();
+        jQuery.post("@Url.Action("UpdateBasicDetails", "UpdateIncrement")", {
+            BranchID: branchID,
+            EmployeeCode: employeeCode,
+            EmployeeName: employeeName,
+            incrementMonthId: incrementMonth,
+            stopIncrement: stopIncrement
+        }).done(function (data) {
+            if (data != "") {
+                $("#UpdateIncrementGridDiv").html(data);
+            }
+        });
+    }
+
+    function StopIncrementPopUp() {
+        var incrementMonth = $("#incrementMonthId").val() == "0" ? null : $("#incrementMonthId").val();
+        var branchID = $("#BranchID").val() == "0" ? null : $("#BranchID").val();
+        var employeeCode = $("#EmployeeCode").val();
+        var employeeName = $("#EmployeeName").val();
+
+        jQuery.get("@Url.Action("StopIncrementDetails", "UpdateIncrement")", {
+            BranchID: branchID,
+            EmployeeCode: employeeCode,
+            EmployeeName: employeeName,
+            incrementMonthId: incrementMonth,
+        }).done(function (data) {
+            $("#div-stopIncrementPopup").html("");
+            if (data != "") {
+                $("#div-stopIncrementPopup").html(data);
+                $("#divstopincrementpopup").modal("show");
+            }
+        });
+    }
+
+</script>
+
+<style type="text/css">
+    .RecordFound {
+        height: 540px;
+        overflow-y: scroll;
+    }
+</style>
+

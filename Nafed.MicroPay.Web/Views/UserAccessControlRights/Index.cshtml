@@ -1,0 +1,195 @@
+﻿@model Nafed.MicroPay.Model.UserRights
+@{
+    ViewBag.Title = "User Access Rights";
+    ViewBag.NavigationTitle = "User Access Rights";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var departmentID = Model.DepartmentID;
+}
+@using (Html.BeginForm("InsertUpdateUserAccessControlRights", "UserAccessControlRights", FormMethod.Post))
+{   @Html.HiddenFor(m => m.hdnCheckedVal)
+    <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-12 col-xl-6">
+            <div class="form-group">
+                <div class="row">
+                    <label class="col-sm-2">Departments</label>
+                    <div class="col-sm-6">
+                        @Html.DropDownList("DepartmentID", new SelectList(ViewBag.DepartmentList, "id", "value", departmentID), new { @class = "custom-select", @id = "DepartmentID", @onchange = "GetDepartmentUsers();" })
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="UserMenuRightsDiv">
+        @Html.Action("UserAccessRights", new { departmentID = @departmentID })
+    </div>
+}
+@section scripts{
+    <script src="../../Scripts/JqueryTreeview.js" type="text/javascript"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            list_OnSelectedIndexChanged();
+
+        });
+        function GetDepartmentUsers() {
+            var departmentID = $('#DepartmentID').val();
+            var url = "@Url.Action("UserAccessRights", "UserAccessControlRights")";
+            $.post(url, { departmentID: departmentID }).done(function (data) {
+                $("#UserMenuRightsDiv").html(data);
+            });
+        }
+        function list_OnSelectedIndexChanged() {
+        }
+        function list_OnSelectedIndexChanged() {
+            debugger;
+            var departmentID = $('#DepartmentID').val();
+            var userID = $('#UserID').val();
+            if (DepartmentID != null) {
+                var departmentID = $('#DepartmentID').val();
+                var url = "@Url.Action("BindDepartmentUserAccessRights", "UserAccessControlRights")";
+                $.post(url, { userID: userID, departmentID: departmentID }).done(function (data) {
+                    $("#divUserAccessControl").html(data);
+                });
+            }
+        }
+        function getCheckValues(e) {
+
+            var userID = $("#UserID option:selected").val();
+            var departmentID = $("#DepartmentID option:selected").val();
+            debugger;
+            if (userID == "" || userID == undefined) {
+                var isChecked = $("#chkAll").val();
+                if (!isChecked) {
+                    $.bootstrapGrowl("<i class='fa fa-exclamation-triangle' aria-hidden='true'></i> Please select User.", {
+                        type: 'warning',
+                        align: 'center',
+                        width: 'auto',
+                        allow_dismiss: true
+                    });
+                    e.preventDefault();
+                    return false;
+                }
+                else {
+                    var userID = $('#UserID').val();
+                    userID = userID == '' ? 0 : userID;
+                    var result1 = new Array();
+                    $('#tblUserAccessControlRight').each(function () {
+                        $(this).find('tbody tr.trAccessUpdate').each(function (rowIndex) {
+
+                            if (rowIndex >= 0) {
+                                var objUserRights = "";
+                                var menuID = $(this).attr('attrMenuID');
+                                var chkView = $('#chkView_' + menuID).is(":checked");
+                                var chkCreate = $('#chkCreate_' + menuID).is(":checked");
+                                var chkEdit = $('#chkEdit_' + menuID).is(":checked");
+                                var chkDelete = $('#chkDelete_' + menuID).is(":checked");
+                                objUserRights = menuID + ',' + chkView + ',' + chkCreate + ',' + chkEdit + ',' + chkDelete;
+
+                                result1.push(objUserRights)
+                            }
+                        });
+                    });
+                    if (result1.length == 0) {
+                        $.bootstrapGrowl("<i class='fa fa-exclamation-triangle' aria-hidden='true'></i> Please select User Access rights.", {
+                            type: 'warning',
+                            align: 'center',
+                            width: 'auto',
+                            allow_dismiss: true
+                        });
+                        e.preventDefault();
+                        return false;
+                    }
+                    else {
+                        $.ajax({
+                            url: '@Url.Action("InsertUpdateUserAccessControlRights", "UserAccessControlRights")', contentType: 'application/json',
+                            data: JSON.stringify({ 'arrayUserAccessControlRight': result1, 'departmentID': departmentID, 'isAll': true }), type: 'POST', success: function (data) {
+                                //$('#waitLoading').css('display', 'none');
+                                //$('.modal-backdrop').hide();
+
+                                $.bootstrapGrowl("<i class='mdi-checkbox-marked-circle-outline' aria-hidden='true'></i>User Access rights updated successfully. ", {
+                                    type: 'success',
+                                    align: 'center',
+                                    width: 'auto',
+                                    allow_dismiss: true,
+                                    delay: 20000
+                                });
+                                // window.location = "/UserAccessControlRights/Index";
+                            }
+                        });
+                    }
+
+                }
+            }
+            else {
+                var result = new Array();
+                $('#tblUserAccessControlRight').each(function () {
+                    $(this).find('tbody tr.trAccessUpdate').each(function (rowIndex) {
+
+                        if (rowIndex >= 0) {
+                            var objUserRights = "";
+                            var menuID = $(this).attr('attrMenuID');
+                            var chkView = $('#chkView_' + menuID).is(":checked");
+                            var chkCreate = $('#chkCreate_' + menuID).is(":checked");
+                            var chkEdit = $('#chkEdit_' + menuID).is(":checked");
+                            var chkDelete = $('#chkDelete_' + menuID).is(":checked");
+                            objUserRights = menuID + ',' + chkView + ',' + chkCreate + ',' + chkEdit + ',' + chkDelete + ':';
+
+                            result.push(objUserRights)
+                        }
+                    });
+                });
+
+                if (result.length == 0) {
+                    $.bootstrapGrowl("<i class='fa fa-exclamation-triangle' aria-hidden='true'></i> Please select User Access rights.", {
+                        type: 'warning',
+                        align: 'center',
+                        width: 'auto',
+                        allow_dismiss: true
+                    });
+                    e.preventDefault();
+                    return false;
+                }
+                else {
+
+                    $.ajax({
+                        url: '@Url.Action("InsertUpdateUserAccessControlRights", "UserAccessControlRights")', contentType: 'application/json',
+                        data: JSON.stringify({ 'arrayUserAccessControlRight': result, 'departmentID': departmentID, 'isAll': false, 'userID': userID }), type: 'POST', success: function (data) {
+
+                            $.bootstrapGrowl("<i class='mdi-checkbox-marked-circle-outline' aria-hidden='true'></i>User Access rights updated successfully. ", {
+                                type: 'success',
+                                align: 'center',
+                                width: 'auto',
+                                allow_dismiss: true,
+                                delay: 20000
+                            });
+                            //  window.location = "/UserAccessControlRights/Index";
+                        }
+                    });
+                }
+            }
+
+            return false;
+        }
+    </script>
+
+
+    <script type="text/javascript">
+        $('#chkAll').change(function () {
+            if ($(this).is(':checked')) {
+
+                $(".chkCell").prop("checked", true);
+
+                $('#UserID').attr('disabled', '');
+                $('ul li input:checkbox').each(function () {
+                    $(this).prop('checked', true);
+                });
+                $('#isAll').val('True');
+                return;
+            } else
+                $('#UserID').removeAttr('disabled', '');
+            $('#isAll').val('False');
+        })
+    </script>
+
+}

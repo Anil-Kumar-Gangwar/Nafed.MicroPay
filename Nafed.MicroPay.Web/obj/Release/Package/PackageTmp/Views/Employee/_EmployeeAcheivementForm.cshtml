@@ -1,0 +1,283 @@
+﻿@using Nafed.MicroPay.Model
+@model EmployeeAchievement
+
+@{
+    var empID = Request["employeeID"];
+    Layout = null;
+}
+
+<div class="row">
+
+    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+
+        @Html.LabelFor(model => model.DateOfAchievement, htmlAttributes: new { @class = "control-label required" })
+
+    </div>
+    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+
+        @Html.TextBoxFor(model => model.DateOfAchievement, String.Format("{0:dd/MM/yyyy}", Model.DateOfAchievement),
+           new { @type = "text", @class = "form-control datepicker", id = "doA", @placeholder = "dd/mm/yyyy", @autocomplete = "off" })
+
+        <span id="DateOfAchievement"></span>
+    </div>
+
+</div>
+
+
+<div class="row mt-2">
+
+    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+
+        @Html.LabelFor(model => model.AchievementName, htmlAttributes: new { @class = "control-label required" })
+
+    </div>
+    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+
+        @Html.EditorFor(model => model.AchievementName, new { htmlAttributes = new { @class = "form-control", @maxlength = "100", @autocomplete = "off" } })
+        <span id="SpAchievementName"></span>
+    </div>
+
+</div>
+
+<div class="row">
+
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="form-group">
+
+            @Html.LabelFor(model => model.AchievementRemark, htmlAttributes: new { @class = "control-label" })
+            @Html.TextAreaFor(model => model.AchievementRemark, new { @rows = 3, @id = "AcheivementEditor", @class = "form-control custom-textEditor", @placeholder = "Enter Acheivement Detail" })
+        </div>
+
+    </div>
+
+</div>
+
+
+<input id="attachDocs" name="attachDoc_0" type="checkbox" onclick="chkClick0(this.id);" />
+<label for="attachDocs">Attach Document</label>
+
+<hr />
+<div class="row">
+
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="form-group">
+
+            <div class="row hide" id="div-error">
+
+                <div class="col-lg-6 col-md-6">
+
+                    <span id="documentnameError"></span>
+                    <span id="documentFileError"></span>
+                    <span id="sizeError"></span>
+                </div>
+
+
+                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 text-right pb-2">
+                    <input type="button" value="Add" id="btnAddRowExper" class="btn btn-info btn-md pull-center toggle-tooltip btn-sectionAddRow"
+                           title="Click here, to add new row." />
+                    <input type="button" value="Remove" class="delete-row btn btn-danger btn-xs"
+                           title="Click here, to delete seleted row." />
+                </div>
+            </div>
+
+
+            <div id="div-form-documents-grid" class="col-lg-12 col-md-11 col-sm-11 col-xs-12 mb-2 p-0 hide">
+
+                <table id="tblDocument" class="table table-bordered table-centered dt-responsive w-100">
+                    <thead>
+
+                        <tr>
+                            <th class="text-center" style="width:5%">#</th>
+
+                            <th class="text-center" style="width:35%">Title</th>
+                            <th class="text-center" style="width:50%">Select File</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+
+            </div>
+
+            <span class="pull-right">
+
+                <input type="button" id="btnSubmit" value="Update"
+                       class="btn btn-info btn-md pull-center toggle-tooltip"
+                       title="Click here, to update record" />
+            </span>
+        </div>
+
+    </div>
+
+</div>
+
+
+<script type="text/javascript">
+
+    function chkClick0(id) {
+        var cntrl= '#'+id;
+        if($(cntrl).is(':checked'))
+            $("#div-error,#div-form-documents-grid").removeClass('hide');
+        else
+            $("#div-error,#div-form-documents-grid").addClass('hide');
+    }
+
+    $("#doA").datepicker({ dateFormat: 'dd/mm/yy', changeYear: true, maxDate: new Date() });
+
+    $('.custom-textEditor').summernote({
+        placeholder: 'Enter Acheivement',
+        tabsize: 2,
+        height: 150,
+        styleWithSpan: false,
+        toolbar: [
+            ['style', ['bold', 'italic', 'underline', 'clear']],
+            ['color', ['color']],
+            ['para', ['ul', 'ol']]
+        ]
+    });
+
+
+    $(document).ready(function () {
+
+        $(".delete-row").click(function () {
+            $("#tblDocument tbody").find('input[name="record"]').each(function () {
+                if ($(this).is(":checked")) {
+                    $(this).parents("tr").remove();
+                }
+            });
+            ResetSerialNo();
+        });
+
+        $("#btnAddRowExper").click(function () {
+            debugger;
+
+            var noOfRows = $("#tblDocument tbody tr").length;
+            if(noOfRows <5)  /// ======= add max 5 rows ====
+            {
+                $.ajax({
+                    url: "@Url.Action("_AddDocumentRow", "Employee")",
+                    type: "POST",
+                    contentType: false, // Not to set any content header
+                    processData: false, // Not to process data
+
+                    success: function (result) {
+                        tableBody = $("#tblDocument tbody");
+                        tableBody.append(result.htmlData);
+                        ResetSerialNo();
+                    },
+                    error: function (err) {
+                        alert(err.statusText);
+                    }
+                });
+            }
+        });
+
+        $('#btnSubmit').click(function () {
+            debugger;
+            if ($("#doA").val() != "" && $("#AchievementName").val()!="") {
+                var docerror = 0;
+                var fileerror = 0;
+                var typeeerror = 0;
+                var sizeerror = 0;
+                var error = 0;
+
+                var AcheivementRemark = "";
+                var AName= "";
+
+                AcheivementRemark = $("#AcheivementEditor").val();
+                AName=$("#AchievementName").val();
+                var DateOfAchievement = $("#doA").val();
+
+                // Create FormData object
+                if (window.FormData !== undefined)
+                    var fileData = new FormData();
+
+                $("#tblDocument tr.filesvalidate").each(function (idx) {
+
+                    var filename = $(this).find(".name").val();
+                    if (filename == "") {
+                        docerror++;
+                    }
+                    else {
+                        $("#documentnameError").html("")
+                    }
+
+                    if ($(this).find(".file").get(0).files.length > 0) {
+
+                        // Looping over all files and add it to FormData object
+                        var fileUpload =   $("#Files" + idx);
+                        var lg = fileUpload[0].files.length; // get length
+                        var items = fileUpload[0].files;
+                        for (var k = 0; k < lg; k++) {
+
+                            var filesze = items[k].size;
+                            var fileName = items[k].name;
+                            var ext = fileName.substr(fileName.lastIndexOf('.') + 1).toLowerCase();
+                            if (!(ext == "xlsx" || ext == "xls" || ext == "doc" || ext == "docx")) {
+                                typeeerror++;
+                            }
+                            if (filesze > 5000000) {  // 5MB
+                                sizeerror++;
+                            }
+                            fileData.append(items[k].name, items[k]);
+                            fileData.append("FileName", filename);
+                        }
+                    }
+                    else {
+                        fileerror++;
+
+                    }
+                });
+                if (docerror > 0) {
+                    $("#documentnameError").html("Enter Document Name.").css("color", "red");
+                    return false;
+                }
+                if (fileerror > 0) {
+                    $("#documentFileError").html("Please Upload Document").css("color", "red");
+                    return false;
+                }
+                if (sizeerror > 0) {
+                    $("#sieeError").html("Please select image size less than 5MB.").css("color", "red");
+                    return false;
+                }
+
+                fileData.append('EmployeeID', @empID);
+                fileData.append('AchievementRemark', AcheivementRemark);
+                fileData.append('AchievementName', AName);
+                fileData.append('DateOfAchievement', DateOfAchievement);
+                $.ajax({
+                    url: "@Url.Action("_PostEmployeeAchievement", "Employee")",
+                    type: "POST",
+                    contentType: false, // Not to set any content header
+                    processData: false, // Not to process data
+                    data: fileData,
+                    success: function (result) {
+                        if (result.status == 1) {
+                            commonMessage(result.type, result.msg);
+                            $("#dv-Achievement").load("@Url.Action("_GetEmployeeAchievement", "Employee",new { employeeID = @empID })");
+                            $("#dv-AchievementForm").load("@Url.Action("_GetEmployeeAchievementForm", "Employee")");
+
+                        }
+                    }
+                });
+            }
+            else {
+                if ($("#doA").val() == "") {
+                    $("#DateOfAchievement").html("Please Select Date Of Acheivement.").css("color", "red");
+                }
+                if($("#AchievementName").val()==""){
+                    $("#SpAchievementName").html("Please Enter Achievement Name.").css("color", "red");
+                }
+            }
+        });
+    });
+
+    function ResetSerialNo() {
+
+        $("#tblDocument tbody tr").each(function (_idx) {
+
+            $(this).find("td:first").html((_idx + 1));
+        });
+    }
+
+</script>

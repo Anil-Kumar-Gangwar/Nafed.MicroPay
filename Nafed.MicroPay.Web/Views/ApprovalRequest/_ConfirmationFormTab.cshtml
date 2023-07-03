@@ -1,0 +1,10 @@
+﻿@model MicroPay.Web.Models.ApprovalRequestVM
+
+@Html.Partial("_ConfirmationFilters", Model.ConfirmationFilters)
+
+@Html.Partial("_ConfirmationStatusBar")
+<div id="div-confirmation-forms">
+
+    @Html.Partial("_ConfirmationFormGridView", Model.confirmationFormsHdr)
+
+</div>

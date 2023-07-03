@@ -1,0 +1,230 @@
+﻿@using System.Web.Optimization
+@using Nafed.MicroPay.Model;
+@using Nafed.MicroPay.Common;
+@{
+    var message = TempData["Message"] == null ? "" : TempData["Message"].ToString();
+    var messageError = TempData["Error"] == null ? "" : TempData["Error"].ToString();
+    UserDetail user = (UserDetail)HttpContext.Current.Session["User"];
+    UserAccessRight userRight = (UserAccessRight)HttpContext.Current.Session["UserAccess"];
+
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-beta/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/js-offcanvas@1.2.0/dist/_css/prefixed/js-offcanvas.css">
+   
+    <style>
+        .fixed-header{
+            position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+        }
+        /* .h-fixed{display: block;} */
+        .m-logo{display: block;}
+        .m-logo-hide{display: none;}
+        .s-logo{display: none;}
+        .s-logo-hide{display: block;}
+        .d-down{
+            display: none;
+        }
+        /* .d-down-1{
+            display: none;
+        } */
+        @@media(max-width:768px){
+        .m-logo{display: none;}
+        /* .m-logo-hide{display: none;} */
+        /* .s-logo{display: block;}*/
+        .s-logo-hide{display: block ;}
+        .ss-logo{display: block;position: absolute;left: 80px;}
+        .d-down{
+            display: block;
+        }
+        /* .d-down-1{
+            display: block;
+        } */
+        }
+    </style>
+</head>
+<body>
+
+    <div class="contailer-fluid">
+        <div class="row m-0">
+            <div class="col-sm-12 p-0 m-logo">
+                <img src="./img/logo.png">
+            </div>
+            <div class="col-sm-12 p-0">
+
+                <div class="c-offcanvas-content-wrap">
+                    <div class="h-fixed">
+                        <nav class="navbar navbar-expand-md navbar-dark bg-dark ">
+
+                            <button class="navbar-toggler js-offcanvas-toggler" data-button-options='{"wrapText":false}'
+                                    aria-label="Toggle navigation">
+                                <span class="navbar-toggler-icon"></span>
+                            </button>
+                            <div class="bg-light s-logo ss-logo mr-2">
+                                <img src="./img/logo.png" style="height: 40px;">
+                            </div>
+                            <div class="dropdown ml-auto d-down">
+                                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                                    User
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-right">
+                                    <a class="dropdown-item" href="#">Link 1fsdfsdf</a>
+                                    <a class="dropdown-item" href="#">Link 2sdfsdfdsf</a>
+                                    <a class="dropdown-item" href="#">Link 3sdfsdfdsf</a>
+                                </div>
+                            </div>
+                            <div class="collapse navbar-collapse" id="navbarsExampleDefault" data-set="bs">
+                                <ul class="navbar-nav mr-auto js-append-around">
+                                    <li class="nav-item active">
+                                        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">Link</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link disabled" href="#">Disabled</a>
+                                    </li>
+                                    <li class="nav-item dropdown">
+                                        <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown"
+                                           aria-haspopup="true" aria-expanded="false">Dropdown</a>
+                                        <div class="dropdown-menu" aria-labelledby="dropdown01">
+                                            <a class="dropdown-item" href="#">Action</a>
+                                            <a class="dropdown-item" href="#">Another action</a>
+                                            <a class="dropdown-item" href="#">Something else here</a>
+                                        </div>
+                                    </li>
+                                </ul>
+                                <!-- <form class="form-inline my-2 my-lg-0 js-append-around">
+                                    <input class="form-control mr-sm-2" type="text" placeholder="Search"
+                                        aria-label="Search">
+                                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                                </form> -->
+                            </div>
+                        </nav>
+                    </div>
+
+                    <main role="main" style="height: 1800px;">
+
+                        <div class="container">
+
+                            <div class="starter-template">
+                                @RenderBody()
+                            </div>
+
+                        </div><!-- /.container -->
+
+                    </main>
+                </div>
+                <div class="c-offcanvas is-hidden" id="left" role="complementary">
+
+                    <div class="navbar">
+                        <button type="button" class="btn btn-danger js-offcanvas-close" style="
+                                position absolute;right 5px;top 5px;">
+                            Close
+                        </button>
+                        <!-- <div class="input-group mt-3">
+                            <input type="text" class="form-control" placeholder="Search for..."
+                                aria-label="Search for...">
+                            <span class="input-group-btn">
+                                <button class="btn btn-secondary" type="button">Go!</button>
+                            </span>
+                        </div> -->
+                        <!-- container for appendAround -->
+                        <div class="offcanvas-nav d-block d-md-none" data-set="bs"></div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
+    <script src="https://unpkg.com/js-offcanvas@1.2.0/dist/_js/js-offcanvas.pkgd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+        (function ($) {
+            $.fn.appendAround = function () {
+                return this.each(function () {
+
+                    var $self = $(this),
+                        att = "data-set",
+                        $parent = $self.parent(),
+                        parent = $parent[0],
+                        attval = $parent.attr(att),
+                        $set = $("[" + att + "='" + attval + "']");
+
+                    function isHidden(elem) {
+                        return $(elem).css("display") === "none";
+                    }
+
+                    function appendToVisibleContainer() {
+                        if (isHidden(parent)) {
+                            var found = 0;
+                            $set.each(function () {
+                                if (!isHidden(this) && !found) {
+                                    $self.appendTo(this);
+                                    found++;
+                                    parent = this;
+                                }
+                            });
+                        }
+                    }
+
+                    appendToVisibleContainer();
+
+                    $(window).bind("resize", appendToVisibleContainer);
+
+                });
+            };
+        }(jQuery));
+
+        $(function () {
+            $(document).trigger("enhance");
+
+            $('#left').offcanvas({
+                modifiers: "left,overlay",
+                triggerButton: '.js-offcanvas-toggler',
+                onInit: function () {
+                    $(this).removeClass('is-hidden');
+                }
+            });
+            $(".js-append-around").appendAround();
+        });
+    </script>
+    <script type="text/javascript">
+        $(window).scroll(function(){
+    if ($(window).scrollTop() >= 100) {
+        $('.h-fixed').addClass('fixed-header');
+        $('.m-logo').addClass('m-logo-hide');
+        $('.s-logo').addClass('s-logo-hide');
+    }
+    else {
+        $('.h-fixed').removeClass('fixed-header');
+        $('.m-logo').removeClass('m-logo-hide');
+        $('.s-logo').removeClass('s-logo-hide');
+    }
+});
+
+    </script>
+
+
+   
+</body>
+</html>

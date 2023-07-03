@@ -1,0 +1,77 @@
+﻿@using Nafed.MicroPay.Model
+@using MicroPay.Web.Models
+@model TrainerDtlsViewModel
+
+<script type="text/javascript">
+    $('.toggle-tooltip').tooltip();
+</script>
+
+<table class="table table-bordered table-centered dt-responsive w-100">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th class="required">Trainer Name/Faculty Name</th>
+            <th class="required">Designation</th>
+            <th class="required">Expertise</th>
+            <th class="text-center">Remove</th>
+        </tr>
+    </thead>
+
+    <tbody>
+
+        @if (Model.TrainerList != null && Model.TrainerList.Count() > 0)
+        {
+            TempData["TrainerList"] = Model;
+
+            for (int i = 0; i < Model.TrainerList.Count(); i++)
+            {
+                <tr>
+                    <td class="text-right">@(i + 1)<text>.</text> </td>
+
+                    <td>
+                         @Html.HiddenFor(model => model.TrainerList[i].sno)
+                         @*@Html.HiddenFor(model => model.TrainerList[i].TrainerID)*@
+                         @Html.EditorFor(model => model.TrainerList[i].TrainerName, new { htmlAttributes = new { @class = "form-control", @maxlength = "200" } })
+                         @Html.ValidationMessageFor(m => Model.TrainerList[i].TrainerName, "", new { @class = "text-danger" })
+                    </td>
+
+                    <td>
+                        @Html.EditorFor(model => model.TrainerList[i].Designation, new { htmlAttributes = new { @class = "form-control", @maxlength = "100" } })
+                        @Html.ValidationMessageFor(m => Model.TrainerList[i].Designation, "", new { @class = "text-danger" })
+                    </td>
+
+                    <td> 
+
+                        @Html.EditorFor(model => model.TrainerList[i].Qualification, new { htmlAttributes = new { @class = "form-control", @maxlength = "100" } })
+                        @Html.ValidationMessageFor(m => Model.TrainerList[i].Qualification, "", new { @class = "text-danger" })
+                    </td>
+
+                    <td class="text-center">
+
+                        @Ajax.ActionLink("Remove",
+                             "_RemoveTrainerRow", new
+                             {
+                                 sNo = Model.TrainerList[i].sno
+                             },
+                             new AjaxOptions
+                             {
+                                 // OnBegin = "OnBegin('tr_" + @sno + "')",
+                                 // OnSuccess = "OnRowDeletedSuccess",
+                                 UpdateTargetId = "div-trainer-grid",
+                                 InsertionMode = InsertionMode.Replace,
+                                 Confirm = "Are you sure you want to remove this row?",
+                                 HttpMethod = "GET"
+                             }, new { @class = "btn btn-danger btn-xs toggle-tooltip btn-sectionAddRow", @title = "Click here, to remove this row." })
+                    </td>
+
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="5" class="text-center">No Record Found. </td>
+            </tr>
+        }
+    </tbody>
+</table>

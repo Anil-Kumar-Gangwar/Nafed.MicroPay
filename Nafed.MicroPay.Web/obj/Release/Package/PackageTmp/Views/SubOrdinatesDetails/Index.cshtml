@@ -1,0 +1,85 @@
+﻿@model MicroPay.Web.Models.SubOrdinatesViewModel
+@{
+    ViewBag.Title = "Sub-Ordinate Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<table id="tblGrid" class="table table-centered table-striped dt-responsive w-100">
+    <thead>
+        <tr>
+            <th>
+                #
+            </th>
+            <th>
+                Employee Code
+            </th>
+            <th>
+                Name
+            </th>
+            <th>
+                Designation
+            </th>
+            <th>
+                Branch
+            </th>
+            <th>
+                Appraisal Approval
+            </th>
+            <th>
+                Attedance Approval
+            </th>
+            <th>
+                Leave Approval
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            int index = 1;
+            if (Model != null && Model.subOrdinatesDetails.Count > 0)
+            {
+                foreach (var item in Model.subOrdinatesDetails)
+                {
+                    <tr>
+                        <td>@index</td>
+                        <td>@item.EmployeeCode</td>
+                        <td>@item.Name</td>
+                        <td>@item.DesignationName</td>
+                        <td>@item.BranchName </td>
+                        <td class="text-center">
+                        @if (item.Appraisal == 1)
+                        {
+                            <i class='fa fa-check-circle text-success fa-1x' aria-hidden='true'></i>
+                        }
+                        else
+                        {
+                            <i class='fa fa-times-circle text-danger fa-1x' aria-hidden='true'></i>
+                        }
+                        </td>
+                        <td class="text-center">
+                        @if (item.Attendance_Approval == 1)
+                        {
+                            <i class='fa fa-check-circle text-success fa-1x' aria-hidden='true'></i>
+                        }
+                        else
+                        {
+                            <i class='fa fa-times-circle text-danger fa-1x' aria-hidden='true'></i>
+                        }
+                        </td>
+                        <td class="text-center">
+                        @if (item.Leave_Approval == 1)
+                        {
+                            <i class='fa fa-check-circle text-success fa-1x' aria-hidden='true'></i>
+                        }
+                        else
+                        {
+                            <i class='fa fa-times-circle text-danger fa-1x' aria-hidden='true'></i>
+                        }
+                        </td>
+                    </tr>
+                    index++;
+                }
+            }
+        }
+    </tbody>
+</table>

@@ -1,0 +1,72 @@
+﻿@model MicroPay.Web.Models.ProjectedIncrementViewModel
+
+<div class="advance-search" style="">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 pb-1 pt-2 form-inline align-middle">
+        <i class="fa fa-search fa-2x" style="color:#d4d4d4;" aria-hidden="true"></i><h4 class="desc" style="color:#0bb70b;">
+            @Html.Label("Search")
+        </h4>
+    </div>
+    <hr style="background-color:#fff !important;">
+
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="form-group">
+            <div class="row">
+                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 text-secondary mb-3">
+                    <i class="fas fa-filter"></i> Filter By :
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+                    @Html.LabelFor(model => model.incrementMonthId, htmlAttributes: new { @class = "" })
+                </div>
+
+                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                    @Html.DropDownListFor(model => model.incrementMonthId, new SelectList(Model.incrementMonth, "Value", "Text"), new { @class = "custom-select" })
+                    @Html.ValidationMessage("MonthRequired", "", new { @class = "text-danger" })
+                </div>
+
+                <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+                    @Html.LabelFor(model => model.forEmployeeId, htmlAttributes: new { @class = "" })
+                </div>
+
+                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                    @Html.DropDownListFor(model => model.forEmployeeId, (IEnumerable<SelectListItem>)ViewBag.ForEmployee, new { @class = "custom-select" })
+                    @*@Html.ValidationMessage("ForEmployeeRequired", "", new { @class = "text-danger" })*@
+                </div>
+
+                <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+                    @Html.LabelFor(model => model.BranchID, htmlAttributes: new { @class = "" })
+                </div>
+
+                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                    @Html.DropDownListFor(model => model.BranchID, new SelectList(Model.branchList, "id", "value"), "All", new { @class = "custom-select" })
+                </div>
+
+
+                @*<div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+                    <input type="submit" id="submitform" value="Print" title="Click here, to search records" name="eventType" class="btn btn-warning toggle-tooltip">
+                </div>
+                <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+                    <input type="submit" id="submitform" value="Print Projected Increment"
+                           name="eventType" title="Click here, to search records" class="btn btn-warning toggle-tooltip">
+                </div>*@
+            </div>
+            <hr style="background-color:#fff !important;">
+            <div class="row mt-3">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-right">
+                    
+
+                    <button type="submit" id="submitform" class="btn btn-warning toggle-tooltip mt-2" value="1" @*value="Print"*@ title="Click here, to print." name="eventType">
+                        <i class="fa fa-print" aria-hidden="true"></i> Print
+                    </button>
+                    <button type="submit" id="submitform" class="btn btn-warning toggle-tooltip mt-2" value="2" @*value="Print Projected Increment"*@ title="Click here, to print applicable increment." name="eventType">
+                        <i class="fa fa-print" aria-hidden="true"></i> Print Applicable Increment
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

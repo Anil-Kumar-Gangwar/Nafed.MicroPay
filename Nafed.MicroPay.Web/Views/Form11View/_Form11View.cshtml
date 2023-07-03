@@ -1,0 +1,91 @@
+﻿@model MicroPay.Web.Models.EmpPFOrgViewModel
+
+
+<table id="tblGrid" class="table table-centered table-striped dt-responsive w-100">
+    <thead>
+        <tr>
+            <th>
+                #
+            </th>
+
+            <th>
+                Employee Code
+            </th>
+            <th>
+                Name
+            </th>
+            <th>
+                Designation
+            </th>
+            <th>
+                Status
+            </th>
+            @if (Model.userRights.View)
+            {
+                <th class="text-center" style="width:60px">
+                    View
+                </th>
+            }
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            if (Model.EmpPFOrgList != null && Model.EmpPFOrgList.Count > 0)
+            {
+                var sno = 1;
+                foreach (var item in Model.EmpPFOrgList)
+                {
+                    <tr>
+                        <td> @sno</td>
+                        <td> @item.Employeecode</td>
+                        <td> @item.Employeename</td>
+                        <td> @item.DesignationName</td>
+                        <td>
+                            @if (@item.StatusID == 0)
+                            {
+                                <span class="badge badge-danger badge-pill col-md-12">Pending</span>
+                            } 
+                            else if (@item.StatusID == 1)
+                            {
+                                <span class="badge badge-warning badge-pill col-md-12">Submitted by Employee</span>
+                            }                       
+                            else if (@item.StatusID == 3)
+                            {
+                                <span class="badge badge-info badge-pill col-md-12">Reviewed by personal</span>
+                            }
+                            else if (@item.StatusID == 5)
+                            {
+                                <span class="badge badge-success badge-pill col-md-12">PF No Generated</span>
+                            }
+                        </td>
+                        @if (Model.userRights.View)
+                        {
+                            <td class="text-center">
+                                @*<a class="toggle-tooltip" href="@Url.Action("_Edit", "Form11View", new { EmpPFID =item.EmpPFID ,StatusID=item.StatusID, RequestType=0})" title="Click here, to view this record" target="_blank">
+                                    <span class="fa fa-eye text-info" aria-hidden="true"></span>
+                                </a>*@
+                                @Html.EncodedImageActionLink("", "_Edit", "Form11View", new { EmpPFID = item.EmpPFID, StatusID = item.StatusID, RequestType = 0 }, new { @class = "toggle-tooltip", title = "Click here, to view this record" }, "~/Images/view.png")
+                            </td>
+                        }
+
+                    </tr>
+                    sno++;
+                }
+            }
+
+        }
+
+    </tbody>
+</table>
+
+
+
+<script>
+        $('.toggle-tooltip').tooltip();
+        ///==== Adding jquery datatable reference to all master grid ==== (Sujeet G)
+        var table = $('#tblGrid').DataTable({
+        });
+        $('#tblGrid_length').find('select').addClass('custom-select');
+        //========= End==================================================
+</script>
+

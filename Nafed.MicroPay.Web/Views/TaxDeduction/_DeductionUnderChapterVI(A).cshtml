@@ -1,0 +1,142 @@
+﻿@using Nafed.MicroPay.Model
+@using Nafed.MicroPay.Common
+@model  Form12BBInfo
+
+@Html.HiddenFor(model => model.taxDeductions.Fyear)
+
+
+<td class="text-center">
+    4.
+</td>
+<td>
+    Deduction under Chapter VI-A
+
+    <ul style="list-style-type:none;">
+
+        @for (int i = 0; i < Model.taxDeductions.sections.Count(); i++)
+        {
+            var curr_sectionID = Model.taxDeductions.sections[i].SectionID;
+            <li>
+                @Model.taxDeductions.sections[i].SectionName
+
+                @Html.HiddenFor(m => m.taxDeductions.sections[i].CreatedBy)
+                @Html.HiddenFor(m => m.taxDeductions.sections[i].CreatedOn)
+                @Html.HiddenFor(m => m.taxDeductions.sections[i].SectionID)
+                @Html.HiddenFor(m => m.taxDeductions.sections[i].SectionName)
+
+                <ul style="list-style-type:none;">
+
+                    @{
+                        var sub_Section_sno = 1;
+                        for (int j = 0; j < Model.taxDeductions.subSections.Count(); j++)
+                        {
+                            @Html.HiddenFor(model => model.taxDeductions.subSections[j].SubSectionName)
+                            @Html.HiddenFor(model => model.taxDeductions.subSections[j].SectionID)
+                            @Html.HiddenFor(model => model.taxDeductions.subSections[j].SubSectionID)
+
+                            @Html.HiddenFor(model => model.taxDeductions.subSections[j].CreatedBy)
+                            @Html.HiddenFor(model => model.taxDeductions.subSections[j].CreatedOn)
+
+
+                            if (Model.taxDeductions.subSections[j].SectionID == curr_sectionID)
+                            {
+                                <li>
+
+                                    (@ExtensionMethods.GetRomanValueByNumber((sub_Section_sno)).) @Model.taxDeductions.subSections[j].SubSectionName
+
+                                    <ul style="list-style-type:none;">
+
+                                        @{
+                                            var sub_sec_dec_sno = 1;
+                                            for (int k = 0; k < Model.taxDeductions.subSectionDescriptions.Count(); k++)
+                                            {
+                                                @Html.HiddenFor(model => Model.taxDeductions.subSectionDescriptions[k].DescriptionID)
+                                                @Html.HiddenFor(model => model.taxDeductions.subSectionDescriptions[k].SectionID)
+                                                @Html.HiddenFor(model => model.taxDeductions.subSectionDescriptions[k].SubSectionID)
+                                                @Html.HiddenFor(model => model.taxDeductions.subSectionDescriptions[k].Description)
+
+                                                @Html.HiddenFor(model => model.taxDeductions.subSectionDescriptions[k].CreatedBy)
+                                                @Html.HiddenFor(model => model.taxDeductions.subSectionDescriptions[k].CreatedOn)
+
+                                                if (Model.taxDeductions.subSectionDescriptions[k].SectionID == curr_sectionID
+                                                    && Model.taxDeductions.subSections[j].SubSectionID == Model.taxDeductions.subSectionDescriptions[k].SubSectionID)
+                                                {
+                                                    <li> (@ExtensionMethods.GetRomanValueByNumber((sub_sec_dec_sno)).)  @Model.taxDeductions.subSectionDescriptions[k].Description </li>
+
+                                                    sub_sec_dec_sno++;
+                                                }
+                                            }
+                                        }
+                                    </ul>
+                                </li>
+                                                    sub_Section_sno++;
+
+                                                }
+                                            }
+                    }
+                </ul>
+            </li>
+                                            }
+    </ul>
+</td>
+<td>
+
+    <ul style="list-style-type:none;">
+
+        @for (int i = 0; i < Model.taxDeductions.sections.Count(); i++)
+        {
+         <li>
+            @if (!Model.taxDeductions.subSections.Any(x => x.SectionID == Model.taxDeductions.sections[i].SectionID))
+                {
+                @Html.EditorFor(model => Model.taxDeductions.sections[i].Amount, new { htmlAttributes = new { @class = "bottamboarder text-right", @placeholder = "Amount" } })
+                }
+                else
+                {
+                <text>.</text>
+
+                <ul style="list-style-type:none;">
+
+                    @{
+                            for (int j = 0; j < Model.taxDeductions.subSections.Count(); j++)
+                            {
+                                if (Model.taxDeductions.subSections[j].SectionID == Model.taxDeductions.sections[i].SectionID)
+                                {
+                        <li>
+                            @if (!Model.taxDeductions.subSectionDescriptions.Any(y => y.SectionID == Model.taxDeductions.sections[i].SectionID
+&& y.SubSectionID == Model.taxDeductions.subSections[j].SubSectionID))
+                                        {
+                                        @Html.EditorFor(model => Model.taxDeductions.subSections[j].Amount, new { htmlAttributes = new { @class = "bottamboarder text-right", @type = "number", @placeholder = "Amount" } })
+                                        }
+                                        else
+                                        {
+                                        <text> .</text>
+                                        <ul style="list-style-type:none;">
+
+                                            @for (int k = 0; k < Model.taxDeductions.subSectionDescriptions.Count(); k++)
+                                                {
+                                                    if (Model.taxDeductions.sections[i].SectionID == Model.taxDeductions.subSectionDescriptions[k].SectionID
+                                                       && Model.taxDeductions.subSections[j].SubSectionID == Model.taxDeductions.subSectionDescriptions[k].SubSectionID)
+                                                    {
+                                                @Html.EditorFor(model => Model.taxDeductions.subSectionDescriptions[k].Amount, new { htmlAttributes = new { @class = "bottamboarder text-right", @type = "number", @placeholder = "Amount" } })
+                                                    }
+                                                }
+
+                                        </ul>
+                                        }
+                        </li>
+                                }
+                            }
+                    }
+
+                </ul>
+                            }
+
+        </li>
+                            }
+    </ul>
+</td>
+
+<td class="text-center">
+
+    @ExtensionMethods.BoolToYesNo(Model.HasChapter_VI_I_Document)
+</td>

@@ -1,0 +1,67 @@
+﻿@using Nafed.MicroPay.Model
+@model IEnumerable<SalaryHeadField>
+<table id="tblHeadField" class="table table-centered dt-responsive w-100" employeeTypeID="0">
+    <thead>
+        <tr>
+            <th>
+                Field Name
+            </th>
+            <th>
+                Field Description
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            if (Model != null && Model.Count() > 0)
+            {
+
+                var sno = 1;  
+                foreach (var item in Model)
+                {
+                    <tr id=tr_@sno>
+
+                        <td>
+                            @Ajax.ActionLink(item.FieldName,
+                             "_SalaryHeadFormulaForm", new
+                             {
+                                 fieldName = item.FieldName
+                             },
+                             new AjaxOptions
+                             {
+                                 OnBegin = "OnBegin('tr_" + @sno + "')",
+                                 OnSuccess="OnFieldLoadSuccess",
+                                 UpdateTargetId = "dv-formula-Form",
+                                 InsertionMode = InsertionMode.Replace,
+                                 HttpMethod = "GET"
+                             }, new { @class = "toggle-tooltip", @title = "Click here, to view field formula rule." })
+
+                        </td>
+                        <td> @item.FieldDesc</td>
+                    </tr>
+
+                    sno++;
+                }
+            }
+        }
+    </tbody>
+
+</table>
+
+<script type="text/javascript">
+
+    function OnBegin(trID) {
+      
+        $('#tblHeadField tbody tr[class=active-head-field]').removeClass('active-head-field');
+        $('#' + trID).addClass('active-head-field');
+    }
+    function OnFieldLoadSuccess(data) {
+        $("#btnPostForm").removeClass("hide");
+    }
+</script>
+
+<style>
+    .active-head-field {
+        background-color: darkseagreen;
+    }
+</style>

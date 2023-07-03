@@ -1,0 +1,72 @@
+﻿@model MicroPay.Web.Models.TrainingViewModel
+
+
+<table id="tblGrid2" class="table table-centered table-striped dt-responsive w-100">
+    <thead>
+        <tr>
+            <th>
+                #
+            </th>
+            <th>
+                Select
+            </th>
+            <th>
+                Code
+            </th>
+            <th>
+                Name
+            </th>
+            <th>
+                Designation
+            </th>
+            <th>
+                Department
+            </th>
+            <th>
+                Branch
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            if (Model != null && Model.trainingParticipantsDetail.Count > 0)
+            {
+                var sno = 1;
+                @Html.HiddenFor(model => model.trainingID)
+                @Html.HiddenFor(model => model.TrainingStatus)
+                for (int i = 0; i < Model.trainingParticipantsDetail.Count; i++)
+                {
+                    <tr class="filesvalidate">
+                        <td> @sno</td>
+                        <td>
+                            @Html.HiddenFor(model => Model.trainingParticipantsDetail[i].EmployeeID, new { Name = "empid" })
+
+                            @Html.CheckBoxFor(model => Model.trainingParticipantsDetail[i].IsChecked, new {@class= "call-checkbox", Style = "vertical -align:3px" })
+                        </td>
+                        <td> @Model.trainingParticipantsDetail[i].EmployeeCode</td>
+                        <td> @Model.trainingParticipantsDetail[i].EmployeeName</td>
+                        <td> @Model.trainingParticipantsDetail[i].DesignationName</td>
+                        <td> @Model.trainingParticipantsDetail[i].DepartmentName</td>
+                        <td> @Model.trainingParticipantsDetail[i].EmployeeBranch</td>
+                    </tr>
+                    sno++;
+                }
+            }
+        }
+
+    </tbody>
+</table>
+
+
+
+<script>
+    $('.toggle-tooltip').tooltip();
+    $('#tblGrid2').dataTable();
+    $('#tblGrid2_length').find('select').addClass('custom-select');
+  
+</script>
+
+
+
+
+

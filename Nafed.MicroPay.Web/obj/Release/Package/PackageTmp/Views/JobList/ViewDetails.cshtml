@@ -1,0 +1,173 @@
+﻿@model Nafed.MicroPay.Model.Requirement
+@{
+    Layout = "~/Views/Shared/_OuterPageLayout.cshtml";
+    ViewBag.Title = "Job Description";
+}
+
+<h4 class="text-center m-4 text-success ">National Agricultural Cooperative Marketing Federation of India Ltd – NAFED Recruitment</h4>
+<h6 class="text-center m-4 text-primary">Eligibility Criteria and other information for the post of  @Model.Post. </h6>
+
+<div class="" style="margin-top:10px;">
+    @Html.HiddenFor(model => model.RequirementID)
+    <div class="">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">Job Description</div>
+                    <div class="panel-body">
+                        <table class="table table-centered dt-responsive w-100" style="border:solid;border-width: 2px;">
+                            <tbody>
+                                <tr>
+                                    <th scope="row" style="width:15%">Name of Post</th>
+                                    <td>:</td>
+                                    <td>@Model.Post</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row" style="width:15%">Number of Post</th>
+                                    <td>:</td>
+                                    <td>@Model.NoofPosition</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row" style="width:15%">Pay Scale</th>
+                                    <td>:</td>
+                                    <td>@Html.Raw(Model.PayScale)</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row" style="width:15%">Minimum Qualification</th>
+                                    <td>:</td>
+                                    <td>@Html.Raw(Model.MinimumQualification)</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row" style="width:15%">Job Experience</th>
+                                    <td>:</td>
+                                    
+                                    <td>
+                                        @(Model.MimimumExpenrienceNo) <text>Yrs.</text>
+                                        <br />
+
+                                    @Html.Raw(Model.MinimumExperinceDetail)</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row" style="width:15%">Desired Key Skills</th>
+                                    <td>:</td>
+                                    <td>@Html.Raw(Model.DesiredKeySkills)</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row" style="width:15%">Optional Skills</th>
+                                    <td>:</td>
+                                    <td>@Html.Raw(Model.OptionalKeySkills)</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row" style="width:15%">Minimum Age Limit</th>
+                                    <td>:</td>
+                                    <td>
+                                        @if (Model.MinimumAgeLimits == 0)
+                                        {
+                                            <text>--</text>
+                                        }
+                                        else
+                                        {
+                                            @(Model.MinimumAgeLimits) <text>Yrs.</text>
+                                                                                      
+                                        }
+                                                                            
+                                   </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row" style="width:15%">Maximum Age Limit</th>
+                                    <td>:</td>
+                                    <td>@(Model.MaximumAgeLimit) <text>Yrs.</text></td>
+                                </tr>
+
+                            <tr>
+                                <th scope="row" style="width:15%">Mode of Selection</th>
+                                <td>:</td>
+                                <td>@Html.Raw(Model.MethodofRecruitment)</td>
+                            </tr>
+                            <tr>
+                                <th scope="row" style="width:15%">Employement Type</th>
+                                <td>:</td>
+                                <td>@(Model.employementName)</td>
+
+                            </tr>
+                            <tr>
+                                <th scope="row" style="width:15%">Payment Instruction</th>
+                                <td>:</td>
+                                <td> @Html.Raw(Model.HowToPay ?? "N.A.") <br /> <span class="text-danger">(Note: Please do payment before final submission of form.)</span></td>
+                            </tr>
+                            <tr>
+                                <th scope="row" style="width:15%">Application Fees</th>
+                                <td>:</td>
+                                @if (Model.ApplicationFees == null)
+                                {
+                                    <td>No Application Fees</td>
+                                }
+                                else
+                                {
+                                    <td><text>Rs.</text> @Model.ApplicationFees</td>
+                                }
+                            </tr>
+                            <tr>
+                                <th scope="row" style="width:15%">Place of Posting</th>
+                                <td>:</td>
+                                <td>
+
+                                    @if (Model.jobRequirementLocs != null && Model.jobRequirementLocs.Count > 0)
+                                        {
+                                            if (Model.JLocTypeId < 3)
+                                            {
+                                                var jLocation = string.Empty;
+                                                foreach (var item in Model.jobRequirementLocs)
+                                                {
+                                                    jLocation = jLocation +
+                                                            (Model.JLocTypeId == (int)Nafed.MicroPay.Model.RequirementOptionType.SpecificBranch ?
+                                                            item.BranchName : item.ZoneName
+                                                            ) + ",";
+                                                }
+
+                                        <text>
+                                            @jLocation.Substring(0, jLocation.Length - 1)
+                                        </text>
+                                            }
+                                            else
+                                            {
+                                        <text>
+                                            Anywhere In India
+                                        </text>
+                                            }
+                                        }
+
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <th scope="row" style="width:15%">Instructions</th>
+                                <td>:</td>
+                                <td>@Html.Raw(Model.INSTRUCTIONS)</td>
+
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="p-4">
+                        <span class="pull-right">
+                            @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-light btn-md toggle-tooltip", @title = "Click here, to redirect on list page" })
+                            @*<a href="@Url.Action("Index", "GenrateRegistrationNo", new { requirementId = Model.RequirementID })" title="Click here, to redirect on registration page" data-toggle="tooltip" class="btn btn-info btn-md pull-center toggle-tooltip">
+                                Apply
+                            </a>*@
+                            @Html.EncodedActionLink("Apply", "Index", "GenrateRegistrationNo", new { requirementId = Model.RequirementID }, new { @class = "btn btn-info btn-md pull-center toggle-tooltip", title = "Click here, to redirect on registration page" })
+                            <a href="@Url.Action("Index", "CandidateLogin")" title="Click here, if you already registered with us." data-toggle="tooltip" class="btn btn-info btn-md pull-center toggle-tooltip">
+                                Already Registered?
+                            </a>
+
+                            @*@Html.Action("Index","CandidateRegistration", new { @class = "btn btn-light btn-md toggle-tooltip", @title = "Click here, to redirect on registration page" })*@
+                            @*<input type="submit" value="Apply" class="btn btn-info btn-md pull-center toggle-tooltip" title="Click here, to apply for this job" />*@
+                        </span>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>

@@ -1,0 +1,86 @@
+﻿@model MicroPay.Web.Models.EmpPFOrgViewModel
+
+<table id="tblGrid" class="table table-centered table-striped dt-responsive w-100">
+    <thead>
+        <tr>
+            <th>
+                #
+            </th>
+
+            <th>
+                Code
+            </th>
+            <th>
+                Name
+            </th>
+            <th>
+                Branch
+            </th>
+            <th>
+                Designation
+            </th>
+            <th>
+                Department
+            </th>
+            <th>
+                Status
+            </th>
+            @if (Model.userRights.Edit)
+            {
+                <th class="text-center" style="width:60px">                    
+                </th>
+            }
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            if (Model != null && Model.EmpPFOrgList.Count > 0)
+            {
+                var sno = 1;
+                foreach (var item in Model.EmpPFOrgList)
+                {
+                    <tr>
+                        <td> @sno</td>
+                        <td> @item.Employeecode</td>
+                        <td> @item.Employeename</td>
+                        <td> @item.Branchname</td>
+                        <td> @item.DesignationName</td>
+                        <td> @item.DepartmentName</td>
+                        <td>
+                                @if (@item.StatusID == 0 )
+                                {
+                                    <span class="badge badge-danger badge-pill col-md-12">Pending</span>
+                                }
+                                else if (@item.StatusID == 1)
+                                {
+                                    <span class="badge badge-success badge-pill col-md-12">Submitted by employee</span>
+                                }
+                                else if (@item.StatusID == 2)
+                                {
+                                    <span class="badge badge-success badge-pill col-md-12">Reviewed by personal</span>
+                                }
+                        </td>
+                        @if (Model.userRights.Edit)
+                        {
+                            <td class="text-center">
+                                @*<a class="toggle-tooltip" href="@Url.Action("Create", "EmployeePFOrganisationHeader", new { EmpPFID =item.EmpPFID,StatusID=item.StatusID,reportingTo= Model.approvalSetting.ReportingTo, reviewingTo= Model.approvalSetting.ReviewingTo, acceptanceAuthority = Model.approvalSetting.AcceptanceAuthority, empID = item.EmployeeId })" title="Click here, to add Employee PF Details">
+                                    <span class="far fa-edit text-info" aria-hidden="true"></span>
+                                </a>*@
+                                @Html.EncodedImageActionLink("", "Create", "EmployeePFOrganisationHeader", new { EmpPFID = item.EmpPFID, StatusID = item.StatusID, reportingTo = Model.approvalSetting.ReportingTo, reviewingTo = Model.approvalSetting.ReviewingTo, acceptanceAuthority = Model.approvalSetting.AcceptanceAuthority, empID = item.EmployeeId }, new { @class = "toggle-tooltip", title = "Click here, to add Employee PF Details" }, "~/Images/edit.png")
+                            </td>
+                        }
+                    </tr>
+                    sno++;
+                }
+            }
+        }
+    </tbody>
+</table>
+
+<script>
+        $('.toggle-tooltip').tooltip();
+        var table = $('#tblGrid').DataTable({
+        });
+        $('#tblGrid_length').find('select').addClass('custom-select');
+</script>
+

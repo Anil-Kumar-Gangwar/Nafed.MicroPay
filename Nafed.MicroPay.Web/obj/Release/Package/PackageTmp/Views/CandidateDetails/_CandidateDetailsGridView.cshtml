@@ -1,0 +1,135 @@
+﻿@model MicroPay.Web.Models.CandidateDetailsViewModel
+
+@using (Ajax.BeginForm("_PostCandidatedetails", "CandidateDetails", new AjaxOptions { HttpMethod = "POST" }, new { defaultbutton = "submitform" }))
+{
+
+<div style="text-align:right;margin-bottom:5px">
+
+    @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-light btn-md toggle-tooltip", @title = "Click here, to go to back on previous screen." })
+    <input type="submit" id="submitform" value="Submit" title="Save records" class="btn btn-info toggle-tooltip">
+</div>
+
+<table id="tblGrid1" class="table table-centered table-striped dt-responsive w-100">
+    <thead>
+        <tr>
+            <th>
+                #
+            </th>
+            @*<th>
+                Name of the Post
+            </th>*@
+            <th>
+                Photo
+            </th>
+            <th>
+                Full Name
+            </th>
+            <th>
+                Gender
+            </th>
+            <th>
+                Age
+            </th>
+            <th>
+                Registration No., Email ID
+            </th>
+            <th class="text-center">
+                Eligible for Written Exam
+            </th>
+
+            <th class="text-center" style="width:250px;">
+                Remark
+            </th>
+
+            @if (Model.userRights.Edit)
+            {
+                <th class="text-center" style="width:20px">
+                    View
+                </th>
+            }
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            if (Model != null && Model.CandidateDetails.Count > 0)
+            {
+                var sno = 1;
+                for (int i = 0; i < Model.CandidateDetails.Count; i++)
+                {
+
+                    <tr>
+                        <td> @sno</td>
+                        @*<td> @Model.CandidateDetails[i].Post</td>*@
+                        <td>
+                            @*<img style="height:80px; width:65px;" class="img-responsive img-thumbnail"                           
+                                 src='@Url.Action("GetImage","CandidateDetails",new {imgPath=@Model.CandidateDetails[i].CandidatePicture})'
+                                 alt="Candidate Passport Photo" />*@
+                           
+                            
+                            <img style="height:80px; width:65px;" class="img-responsive img-thumbnail"
+                                 src='@Model.CandidateDetails[i].CandidatePicture'
+                                 alt="Candidate Passport Photo" />
+                        </td>
+                        <td> @Model.CandidateDetails[i].CandidateFullName</td>
+                        <td>
+                            @if (@Model.CandidateDetails[i].GenderID == 1)
+                            {
+                                <span>Male</span>
+
+                            }
+                            else if (@Model.CandidateDetails[i].GenderID == 2)
+                            {
+                                <span>Female</span>
+                            }
+                        </td>
+                        <td> @Model.CandidateDetails[i].Age</td>
+
+                        <td>
+                            @Model.CandidateDetails[i].RegistrationNo ,
+                            <br />
+                            @Model.CandidateDetails[i].PersonalEmailID
+                        </td>
+                        <td class="text-center">
+                            @Html.HiddenFor(model => @Model.CandidateDetails[i].RegistrationID)
+                            @Html.CheckBoxFor(model => @Model.CandidateDetails[i].EligibleForWrittenExam, new { Style = "vertical-align:3px}" })
+                        </td>
+
+                        <td style="width:250px;">
+                            @Html.TextAreaFor(model => model.CandidateDetails[i].EligiblityRemark, new { htmlAttributes = new { @class = "form-control", @maxlength = "500" }, @style = "min-height:80px;max-height:100px;",@cols=40, })
+                        </td>
+
+                        @if (Model.userRights.Edit)
+                        {
+                            <td class="text-center" style="max-width:20px;">
+                                @*<a class="toggle-tooltip" href="@Url.Action("ViewApplicationForm", "CandidateRegistration",new { registrationID=Model.CandidateDetails[i].RegistrationID})" title="Click here, to open application form">
+                                    <span class="fa fa-eye text-info" aria-hidden="true"></span>
+                                </a>*@
+                                @Html.EncodedImageActionLink("", "ViewApplicationForm", "CandidateRegistration", new { registrationID = Model.CandidateDetails[i].RegistrationID }, new { @class = "toggle-tooltip", title = "Click here, to open application form" }, "~/Images/view.png")
+                            </td>
+                        }
+
+                    </tr>
+
+                    sno++;
+                }
+            }
+
+        }
+
+    </tbody>
+</table>
+
+
+            }
+
+<script>
+    $('.toggle-tooltip').tooltip();
+    ///==== Adding jquery datatable reference to all master grid ==== (Sujeet G)
+    var table = $('#tblGrid1').DataTable({
+    });
+    $('#tblGrid1_length').find('select').addClass('custom-select');
+    //========= End==================================================
+</script>
+
+
+

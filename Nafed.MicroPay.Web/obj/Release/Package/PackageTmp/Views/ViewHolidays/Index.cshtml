@@ -1,0 +1,25 @@
+﻿
+@{
+    ViewBag.Title = "Holiday List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="">
+    <div class="card_new_body">
+        @using (Ajax.BeginForm("_GetHolidayList", "ViewHolidays", new AjaxOptions { HttpMethod = "POST", UpdateTargetId= "div-result-body" }))
+        {
+            <div id="div-filters">
+                
+                 @{ Html.RenderPartial("_Filter"); } 
+
+            </div>
+
+            <div id="div-result-body">
+
+
+            </div>
+        }
+    </div>
+</div>
+
+

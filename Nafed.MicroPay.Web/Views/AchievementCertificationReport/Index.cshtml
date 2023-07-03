@@ -1,0 +1,34 @@
+﻿@{
+    ViewBag.Title = "Achievement & Certification Report";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div>
+
+    @using (Ajax.BeginForm("_ExportReport", "AchievementCertificationReport", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "dv-filter-Section", OnSuccess = "OnSuccess" }, new { defaultbutton = "submitform" }))
+    {
+        <div id="dv-filter-Section">
+            @{
+                Html.RenderAction("_GetFilters", "AchievementCertificationReport");
+            }
+
+        </div>
+ }
+</div>
+
+<script type="text/javascript">
+
+    function OnSuccess(data) {
+
+        if (data.fileName == "" || data.fileName == undefined) {
+            $("#branchRequired").text('Please select branch.');
+        }
+        if (data.fileName != "" && data.message == "success") {
+            $("#dv-filter-Section").html(data.htmlData);
+            window.location.href = "@Url.RouteUrl(new { Controller = "Base", Action = "DownloadAndDelete" })/?sFileName=" + data.fileName + "&sFileFullPath=" + data.fullPath;
+
+        }
+        else if(data.message == "error")
+            $("#dv-filter-Section").html(data.htmlData);
+    }
+</script>

@@ -1,0 +1,1563 @@
+﻿@using fileHelper = Nafed.MicroPay.Common.ExtensionMethods;
+@using Nafed.MicroPay.Model;
+@model Nafed.MicroPay.Model.AppraisalForm
+@{
+
+    var empSectionClass = (Model.ReportingTo == Model.loggedInEmpID || Model.ReviewingTo == Model.loggedInEmpID || Model.AcceptanceAuthorityTo == Model.loggedInEmpID) ? "noselect" : null;
+    var reportingSectionClass = (Model.ReviewingTo == Model.loggedInEmpID || Model.AcceptanceAuthorityTo == Model.loggedInEmpID) ? "noselect" : null;
+    var reviewingSectionClass = (Model.ReviewingTo == Model.AcceptanceAuthorityTo) ? null : Model.AcceptanceAuthorityTo == Model.loggedInEmpID ? "noselect" : null;
+    var enableReviewingToSectionClass = Model.ReviewingTo == Model.loggedInEmpID ? "enableTDCells" : "form-control text-right reviewing-part3A-input";
+
+
+    if (new[] { Model.ReviewingTo, Model.ReportingTo, Model.AcceptanceAuthorityTo }.Distinct().Count() == 1)
+    {
+        reportingSectionClass = null; reviewingSectionClass = null;
+    }
+
+    if (new[] { Model.ReviewingTo, Model.ReportingTo }.Distinct().Count() == 1)
+    {
+        reportingSectionClass = null; reviewingSectionClass = null;
+    }
+
+    if (Model.ApprovalHierarchy == 2 && Model.AcceptanceAuthorityTo == Model.loggedInEmpID)
+    {
+        reviewingSectionClass = "noselect";
+        reportingSectionClass = "noselect";
+    }
+}
+<div id="div-main-form">
+    <div class="row">
+        <div class="col-lg-10 col-md-10 col-xl-10 col-sm-12 col-xs-12">
+            <div class="form-group">
+
+                <div class="col-lg-8 col-md-8 col-xl-8 col-sm-12 col-xs-12">
+                    <img class="pull-right" src="~/Images/logo.png" />
+                </div>
+
+                <div class="col-lg-4 col-md-4 col-xl-4 col-sm-12 col-xs-12">
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-2 col-md-2 col-xl-2 col-sm-12 col-xs-12">
+            <div>
+                <div class="form-group">
+                    <div class="col-lg-12 col-md-12 col-xl-12 col-sm-12 col-xs-12 text-right font-weight-bold">
+                        Form 'H'
+                    </div>
+                </div>
+                <div class="form-group mr-0 font-weight-bold">
+                    <div class="row">
+                        @Html.Name("Dossier No.") :  @(Model.formGroupHHdr.DossierNo.HasValue ? Model.formGroupHHdr.DossierNo.Value.ToString() : "Not Available")
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-lg-12 col-md-12 col-xl-12 col-sm-12 col-xs-12 text-center">
+            <h4 class="font-weight-bold">
+                National Agricultural Cooperative Marketing Federation of India Ltd.<br />
+                Nafed House, Sidhartha Enclave, Ashram Chowk, Ring Road,<br />
+                <span style="text-decoration:underline">New Delhi - 110 014</span>
+            </h4>
+        </div>
+
+    </div>
+
+    <div class="form-group">
+        <div class="col-lg-12 col-md-12 col-xl-12 col-sm-12 col-xs-12 text-center">
+            <h4>
+                ANNUAL CONFIDENTIAL REPORT OF GRADING ATTENDANT/ GRADING ATTENDANT-1/ DAFTRIES / PEONS
+                / MULTI TASKING STAFF AND EQUIVALENT POST
+            </h4>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-lg-12 col-md-12 col-xl-12 col-sm-12 col-xs-12">
+            @*@Html.DisplayFor(model => model.formGroupHHdr.ReportingYr, new {@class = "form-control font-weight-bold" })*@
+            <div class="row">
+                Report for the year / period ending :
+
+                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 mb-2 font-weight-bold">
+                    @Model.formGroupHHdr.ReportingYr
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="form-group">
+        <div class="col-lg-12 col-md-12 col-xl-12 col-sm-12 col-xs-12 text-center">
+            <h3>
+                PERSONAL DATA
+            </h3>
+            <h5>(To be filled in by the Personnel Section)</h5>
+        </div>
+
+    </div>
+
+    <div class="form-group">
+        <div class="col-lg-12 col-md-12 col-xl-12 col-sm-12 col-xs-12 font-weight-bold p-4" style="text-decoration:underline">
+            PART – 1
+        </div>
+    </div>
+
+    @using (Ajax.BeginForm("_PostFormHData", "Appraisal", new AjaxOptions { HttpMethod = "POST", OnSuccess = "OnSuccess" }, new { id = "formH" }))
+    {
+        if (Model.isValid == false)
+        {
+            <script type="text/javascript">
+                    alert("Form Submit Failed \n\nThere are some mandatory field(s) in the form,where you have not provide inputs, Please look into the form and provide value in mandatory field(s).");
+            </script>
+        }
+        @Html.HiddenFor(model => model.formGroupHHdr.EmployeeName)
+        @Html.HiddenFor(model => model.formGroupHHdr.DesignationName)
+        @Html.HiddenFor(model => model.formGroupHHdr.DOB)
+        @Html.HiddenFor(model => model.formGroupHHdr.PlaceOfJoin)
+        @Html.HiddenFor(model => model.formGroupHHdr.Qualification)
+        @Html.HiddenFor(model => model.formGroupHHdr.DOJ)
+        @Html.HiddenFor(model => model.formGroupHHdr.DOPP)
+        @Html.HiddenFor(model => Model.formGroupHHdr.FormGroupID)
+        @Html.HiddenFor(model => Model.FormID)
+        @Html.HiddenFor(model => model.ApprovalHierarchy)
+        @Html.HiddenFor(model => model.formGroupHHdr.ReportingYr)
+        @Html.HiddenFor(model => model.ReportingYr)
+        @Html.HiddenFor(model => model.formGroupHHdr.EmployeeID)
+        @Html.HiddenFor(model => Model.formGroupHHdr.CreatedBy)
+        @Html.HiddenFor(model => Model.formGroupHHdr.CreatedOn)
+        @Html.HiddenFor(model => Model.EmployeeID)
+        @Html.HiddenFor(model => Model.loggedInEmpID)
+        @Html.HiddenFor(model => Model.ReportingTo)
+        @Html.HiddenFor(model => Model.ReviewingTo)
+        @Html.HiddenFor(model => Model.AcceptanceAuthorityTo)
+
+        @*@Html.HiddenFor(model => Model.formGroupHHdr.Intelligenceknowledge)*@
+
+
+        @*@Html.HiddenFor(model => Model.formGroupHHdr.AmenabilitytoDiscipline)
+            @Html.HiddenFor(model => Model.formGroupHHdr.PunctualityAndAttendance)
+            @Html.HiddenFor(model => Model.formGroupHHdr.DevotionToDuty)
+            @Html.HiddenFor(model => Model.formGroupHHdr.Cleanliness)
+            @Html.HiddenFor(model => Model.formGroupHHdr.BehaviourWithSuperiorsAndColleagues)
+            @Html.HiddenFor(model => Model.formGroupHHdr.Integrity)*@
+
+
+        @Html.HiddenFor(model => Model.formGroupHHdr.FormState)
+        @Html.HiddenFor(model => Model.frmAttributes.ReportingSection)
+        @Html.HiddenFor(model => Model.frmAttributes.ReviewerButton)
+        @Html.HiddenFor(model => Model.frmAttributes.EmployeeSection)
+        @Html.HiddenFor(model => Model.frmAttributes.AcceptanceButton)
+        @Html.HiddenFor(model => Model.frmAttributes.ReviewerSection)
+        @Html.HiddenFor(model => Model.formGroupHHdr.ReportingTo)
+        @Html.HiddenFor(model => Model.formGroupHHdr.ReportingDesignation)
+        @Html.HiddenFor(model => Model.formGroupHHdr.ReviewerTo)
+        @Html.HiddenFor(model => Model.formGroupHHdr.ReviewerDesignation)
+        @Html.HiddenFor(model => Model.formGroupHHdr.AcceptanceAuth)
+        @Html.HiddenFor(model => Model.formGroupHHdr.AcceptanceDesignation)
+
+        @*@Html.HiddenFor(model=>Model.formGroupHHdr.WorkedPeriodUnderROFrom)
+            @Html.HiddenFor(model=>Model.formGroupHHdr.WorkedPeriodUnderROTo)*@
+
+        @*@Html.HiddenFor(model=>Model.formGroupHHdr.ReportingOfficerRemark)
+             @Html.HiddenFor(model=>Model.formGroupHHdr.ReviewingOfficerRemark)
+            @Html.HiddenFor(model=>Model.formGroupHHdr.AcceptanceAuthorityRemark)*@
+
+        @*@Html.HiddenFor(model => model.formGroupHHdr.WorkedPeriodUnderROFrom)
+            @Html.HiddenFor(model => model.formGroupHHdr.WorkedPeriodUnderROTo)*@
+
+        <div class="form-group">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
+
+                <div class="row">
+                    <p class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                        1. Name of the Employee
+                    </p>
+                    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 mb-2 font-weight-bold">
+                        @Model.formGroupHHdr.EmployeeName
+                    </div>
+                </div>
+                <div class="row">
+                    <p class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                        2. Designation
+                    </p>
+                    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 mb-2 font-weight-bold">
+                        @Model.formGroupHHdr.DesignationName
+                    </div>
+                </div>
+                <div class="row">
+                    <p class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                        3. Date of Birth
+                    </p>
+                    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 mb-2 font-weight-bold">
+                        @(Model.formGroupHHdr.DOB.HasValue ? Convert.ToDateTime(Model.formGroupHHdr.DOB).ToString("dd/MM/yyyy") : "Not Available")
+                    </div>
+                </div>
+                <div class="row">
+                    <p class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                        4. Place of posting
+                    </p>
+                    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 mb-2 font-weight-bold">
+                        @Html.DisplayFor(model => model.formGroupHHdr.PlaceOfJoin, new { @class = "form-control" })
+                    </div>
+
+                </div>
+                <div class="row">
+                    <p class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                        5. Qualifications
+                    </p>
+                    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 mb-2 font-weight-bold">
+                        @Html.DisplayFor(model => model.formGroupHHdr.Qualification, new { @class = "form-control" })
+                    </div>
+
+                </div>
+                <div class="row">
+                    <p class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                        6. Date of joining NAFED
+                    </p>
+                    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 mb-2 font-weight-bold">
+                        @Convert.ToDateTime(Model.formGroupHHdr.DOJ).ToString("dd/MM/yyyy")
+                    </div>
+
+                </div>
+                <div class="row">
+                    <p class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                        7. Date of appointment to the present post
+                    </p>
+                    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 mb-2 font-weight-bold">
+                        @(Model.formGroupHHdr.DOPP.HasValue ? Convert.ToDateTime(Model.formGroupHHdr.DOPP).ToString("dd/MM/yyyy") : "Not Available")
+
+                    </div>
+                </div>
+
+                @*<div class="row @empSectionClass">
+
+                        <p class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                            8. Period for which the employee has worked under
+                            the Reporting Officer during the year under review
+                            (to be filled in by the Reporting Officer)
+                        </p>
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 mb-2">
+                            @Html.EditorFor(model => model.formGroupHHdr.WorkedPeriodUnderROFrom, new { htmlAttributes = new { @class = "form-control", @type = "date" } })
+
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 mb-2">
+                            @Html.EditorFor(model => model.formGroupHHdr.WorkedPeriodUnderROTo, new { htmlAttributes = new { @class = "form-control", @type = "date" } })
+                        </div>
+                        <div class="col-lg-2 col-xl-2 col-md-2 col-sm-2 col-xs-12 mb-2">
+
+                            @Html.ValidationMessage("InValidFromDate", "", new { @class = "text-danger" })
+                        </div>
+
+
+                        @if ((Model.EmployeeID == Model.loggedInEmpID))
+                        {
+                            if (!Model.isAdmin)
+                            {<div class="pull-right div-action pl-1">
+                            @Html.ActionLink("Back", "Index", "Appraisal", null, new { @class = "btn btn-light btn-md", title = "Click here, to go to back on previous screen.", @data_toggle = "tooltip" })
+                        </div>
+                                if (Model.formGroupHHdr.FormState == (int)AppraisalFormState.SavedByEmployee || (Model.formGroupHHdr.FormState == 0))
+                                {
+                                    <div class="pull-right">
+
+                                        <input type="submit" value="Save" id="btnESave" name="ButtonType" class="btn btn-info btn-md toggle-tooltip " title="Click here, to save the data." />
+                                        <input type="submit" value="Save & Submit" id="btnESaveSubmit" name="ButtonType" class="btn btn-info btn-md toggle-tooltip " title="Click here, to save & submit the data." />
+                                    </div>
+                                }
+                            }
+                            else
+                            {
+                                <div class="pull-right div-action pl-1">
+                                    @Html.ActionLink("Back", "Index", "AcarApar", null, new { @class = "btn btn-light btn-md", title = "Click here, to go to back on previous screen.", @data_toggle = "tooltip" })
+                                </div>
+                            }
+                        }
+                    </div>*@
+                @if ((Model.EmployeeID == Model.loggedInEmpID))
+                {
+                    if (!Model.isAdmin)
+                    {
+                        <div class="pull-right div-action pl-1">
+                            @Html.ActionLink("Back", "Index", "Appraisal", null, new { @class = "btn btn-light btn-md", title = "Click here, to go to back on previous screen.", @data_toggle = "tooltip" })
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="pull-right div-action pl-1">
+                            @Html.ActionLink("Back", "Index", "AcarApar", null, new { @class = "btn btn-light btn-md", title = "Click here, to go to back on previous screen.", @data_toggle = "tooltip" })
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+
+
+        if (Model.ReportingTo == Model.loggedInEmpID || Model.ReviewingTo == Model.loggedInEmpID || Model.AcceptanceAuthorityTo == Model.loggedInEmpID)
+        {
+            <div id="div-ro-section" class="@reportingSectionClass">
+
+
+                <div class="row">
+
+                    <p class="col-lg-4 col-md-4 col-sm-4 col-xs-12 required">
+                        8. Period for which the employee has worked under
+                        the Reporting Officer during the year under review
+                      
+                    </p>
+                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 mb-2">
+                        @*@Html.EditorFor(model => model.formGroupHHdr.WorkedPeriodUnderROFrom, new { htmlAttributes = new { @class = "form-control", @type = "date" } })*@
+                        @Html.TextBoxFor(model => model.formGroupHHdr.WorkedPeriodUnderROFrom, String.Format("{0:dd/MM/yyyy}", Model.formGroupHHdr.WorkedPeriodUnderROFrom), new { @type = "text", @class = "form-control datepicker", @placeholder = "dd/mm/yyyy" })
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 mb-2">
+                        @*@Html.EditorFor(model => model.formGroupHHdr.WorkedPeriodUnderROTo, new { htmlAttributes = new { @class = "form-control", @type = "date" } })*@
+                        @Html.TextBoxFor(model => model.formGroupHHdr.WorkedPeriodUnderROTo, String.Format("{0:dd/MM/yyyy}", Model.formGroupHHdr.WorkedPeriodUnderROTo), new { @type = "text", @class = "form-control datepicker", @placeholder = "dd/mm/yyyy" })
+                    </div>
+                    <div class="col-lg-2 col-xl-2 col-md-2 col-sm-2 col-xs-12 mb-2">
+
+                        @Html.ValidationMessage("InValidFromDate", "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2 font-weight-bold text-center">
+                        INSTRUCTIONS TO THE REPORTING / REVIEWING OFFICERS
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2 font-weight-bold">
+                        Purpose of appraisal :
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
+                        The success of any organisation depends primarily upon the knowledge, skill, ability, sincerity, attitude and loyalty of its employees. The purpose of this appraisal is to make a periodic assessment of these qualities of the executive personnel of the Federation, the manner in  which they are being utilised and their potential for development. As this matter is of greatest importance for the efficiency and morale of the services, all assessments should flows as from a conscientious observation of facts and should be impartial.
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2 font-weight-bold">
+                        Instructions :
+                    </div>
+                </div>
+
+                <div class="form-group">
+
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
+
+                        <p>a) Please do not begin assessment unless you have read these guidelines recently. </p>
+                        <p>b) No attempt should be made to arrive at a pre-decided score. Consider each trait separately.</p>
+
+                        <p> c)	The individual being assessed should be compared with others of the same rank and category doing the same type of work.</p>
+                        <p>  d)	Indicate your judgment of the persons being rated by considering each of them carefully and accurately. </p>
+                        <p>  e)	Do not make snap judgment. </p>
+                        <p>  f)	 Do all your rating preferably at one sitting otherwise it may be difficult to get a comparative picture. Draw a list   of all such persons to be ranked before rating. to the next factor. </p>
+                        <p>  g)	Consider one factor at a time and rate all the persons against that factor before passing on </p>
+                        <p>  h)	You are doing the rating, please do not discuss it with anyone. If your subordinate is to do the rating, do not encourage him to discuss it with you.</p>
+                        <p>  i)	Do not allow personal feelings to govern your rating, beware of 'halo' effect. Some employees are able to create an effect of 'halo' around them by their good or apparently good behaviour and not necessarily by being good workers. Remember that rating which is not objective reflects upon the integrity of the Reporting Officer.</p>
+
+                        <p>  j)	While assessing a subordinate, call to mind instances that are typical of his work and ways of working, do not judge only on most recent cases. Do not be influenced by unusual cases which are not typical.</p>
+                        <p>  k)	Too high a rating and concealment of efficiency lowers the value of the assessment. The Reporting Officer's capacity for sound judgment is compromised and those being assessed are prejudiced since the assessment is known to be faulty. </p>
+                        <p>  l)	The value of assessment lies in impartiality and sound judgment used by the Reporting Officer. Make no entry except where it is based on personal knowledge. If you do not have personal knowledge do not rate the trait concerned. </p>
+                        <p>  m)	Please tick mark the rating which is applicable. </p>
+
+                    </div>
+                </div>
+
+                <div class="form-group">
+
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2 font-weight-bold text-center">
+                        APPRAISAL : TO BE FILLED IN BY THE REPORTING OFFICER
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2 ">
+                        <p>RATING GUIDE : A : OUTSTANDING B : VERY GOOD C : GOOD D : FAIR E : POOR</p>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2 ">
+                        <p>NOTE : Support your rating where such ratings is either A or E.</p>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
+                        <div class="row">
+                            <div class="col-lg-7 col-md-7 col-xs-12 col-sm-7">
+                                1. Intelligence/knowledge
+                            </div>
+                            <div class="col-lg-1 col-md-1 col-xs-12 col-sm-1">
+
+                                @if (Model.formGroupHHdr.Intelligenceknowledge == 1)
+                                {
+                                    @Html.RadioButtonFor(model => model.formGroupHHdr.Intelligenceknowledge, 1, new
+                               {
+                                   id = "Intelligenceknowledge_1",
+                                   name = "Intelligenceknowledge",
+                                   @class = "mr-0 class-A",
+                                   @onclick = "radioOnChange(this.id)",
+                                   @checked = true
+                               })}
+                                else
+                                {
+                                    @Html.RadioButtonFor(model => model.formGroupHHdr.Intelligenceknowledge, 1, new
+                               {
+                                   id = "Intelligenceknowledge_1",
+                                   name = "Intelligenceknowledge",
+                                   @class = "mr-0 class-A",
+                                   @onclick = "radioOnChange(this.id)"
+                               })}
+                                @Html.Label("A", new { @for = "Intelligenceknowledge_1", @class = "control-label" })
+                            </div>
+                            <div class="col-lg-1 col-md-1 col-xs-12 col-sm-1">
+
+                                @if (Model.formGroupHHdr.Intelligenceknowledge == 2)
+                                {
+
+                                    @Html.RadioButtonFor(model => model.formGroupHHdr.Intelligenceknowledge, 2, new
+                               {
+                                   id = "Intelligenceknowledge_2",
+                                   name = "Intelligenceknowledge",
+                                   @class = "mr-0 class-B",
+                                   @onclick = "radioOnChange(this.id)",
+                                   @checked = true
+                               })}
+                                else
+                                {
+                                    @Html.RadioButtonFor(model => model.formGroupHHdr.Intelligenceknowledge, 2, new
+                               {
+                                   id = "Intelligenceknowledge_2",
+                                   name = "Intelligenceknowledge",
+                                   @class = "mr-0 class-B",
+                                   @onclick = "radioOnChange(this.id)"
+                               })}
+                                @Html.Label("B", new { @for = "Intelligenceknowledge_2", @class = "control-label" })
+                            </div>
+                            <div class="col-lg-1 col-md-1 col-xs-12 col-sm-1">
+                                @if (Model.formGroupHHdr.Intelligenceknowledge == 3)
+                                {
+                                    @Html.RadioButtonFor(model => model.formGroupHHdr.Intelligenceknowledge, 3, new
+                               {
+                                   id = "Intelligenceknowledge_3",
+                                   name = "Intelligenceknowledge",
+                                   @class = "mr-0 class-C",
+                                   @onclick = "radioOnChange(this.id)",
+                                   @checked = true
+                               })}
+                                else
+                                {
+                                    @Html.RadioButtonFor(model => model.formGroupHHdr.Intelligenceknowledge, 3, new
+                               {
+                                   id = "Intelligenceknowledge_3",
+                                   name = "Intelligenceknowledge",
+                                   @class = "mr-0 class-C",
+                                   @onclick = "radioOnChange(this.id)"
+                               })}
+                                @Html.Label("C", new { @for = "Intelligenceknowledge_3", @class = "control-label" })
+                            </div>
+                            <div class="col-lg-1 col-md-1 col-xs-12 col-sm-1">
+
+                                @if (Model.formGroupHHdr.Intelligenceknowledge == 4)
+                                {
+
+                                    @Html.RadioButtonFor(model => model.formGroupHHdr.Intelligenceknowledge, 4, new
+                               {
+                                   id = "Intelligenceknowledge_4",
+                                   name = "Intelligenceknowledge",
+                                   @class = "mr-0 class-D",
+                                   @onclick = "radioOnChange(this.id)",
+                                   @checked = true
+                               })}
+                                else
+                                {
+                                    @Html.RadioButtonFor(model => model.formGroupHHdr.Intelligenceknowledge, 4, new
+                               {
+                                   id = "Intelligenceknowledge_4",
+                                   name = "Intelligenceknowledge",
+                                   @class = "mr-0 class-D",
+                                   @onclick = "radioOnChange(this.id)"
+                               })}
+                                @Html.Label("D", new { @for = "Intelligenceknowledge_4", @class = "control-label" })
+                            </div>
+                            <div class="col-lg-1 col-md-1 col-xs-12 col-sm-1">
+                                @if (Model.formGroupHHdr.Intelligenceknowledge == 5)
+                                {
+
+                                    @Html.RadioButtonFor(model => model.formGroupHHdr.Intelligenceknowledge, 5, new
+                               {
+                                   id = "Intelligenceknowledge_5",
+                                   name = "Intelligenceknowledge",
+                                   @class = "mr-0 class-E",
+                                   @onclick = "radioOnChange(this.id)",
+                                   @checked = true
+                               })}
+                                else
+                                {
+                                    @Html.RadioButtonFor(model => model.formGroupHHdr.Intelligenceknowledge, 5, new
+                               {
+                                   id = "Intelligenceknowledge_5",
+                                   name = "Intelligenceknowledge",
+                                   @class = "mr-0 class-E",
+                                   @onclick = "radioOnChange(this.id)"
+                               })}
+                                @Html.Label("E", new { @for = "Intelligenceknowledge_5", @class = "control-label" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
+                        <div class="row">
+
+                            <div class="col-lg-7 col-md-7 col-xs-12 col-sm-7">
+                                2.	Amenability to discipline (specify whether he/she
+                                comes in proper uniform)
+
+                            </div>
+                            <div class="col-lg-1 col-md-1 col-xs-12 col-sm-1">
+                                @if (Model.formGroupHHdr.AmenabilitytoDiscipline == 1)
+                                {
+                                    @Html.RadioButtonFor(model => model.formGroupHHdr.AmenabilitytoDiscipline, 1, new
+                               {
+                                   id = "AmenabilitytoDiscipline_1",
+                                   name = "AmenabilitytoDiscipline",
+                                   @class = "mr-0 class-A",
+                                   @onclick = "radioOnChange(this.id)",
+                                   @checked = true
+                               })}
+                                else
+                                {
+                                    @Html.RadioButtonFor(model => model.formGroupHHdr.AmenabilitytoDiscipline, 1, new
+                               {
+                                   id = "AmenabilitytoDiscipline_1",
+                                   name = "AmenabilitytoDiscipline",
+                                   @class = "mr-0 class-A",
+                                   @onclick = "radioOnChange(this.id)"
+                               })}
+                                @Html.Label("A", new { @for = "AmenabilitytoDiscipline_1", @class = "control-label" })
+
+                            </div>
+
+                            <div class="col-lg-1 col-md-1 col-xs-12 col-sm-1">
+                                @if (Model.formGroupHHdr.AmenabilitytoDiscipline == 2)
+                                {
+                                    @Html.RadioButtonFor(model => model.formGroupHHdr.AmenabilitytoDiscipline, 2, new
+                               {
+                                   id = "AmenabilitytoDiscipline_2",
+                                   name = "AmenabilitytoDiscipline",
+                                   @class = "mr-0 class-B",
+                                   @onclick = "radioOnChange(this.id)",
+                                   @checked = true
+                               })}
+                                else
+                                {
+                                    @Html.RadioButtonFor(model => model.formGroupHHdr.AmenabilitytoDiscipline, 2, new
+                               {
+                                   id = "AmenabilitytoDiscipline_2",
+                                   name = "AmenabilitytoDiscipline",
+                                   @class = "mr-0 class-B",
+                                   @onclick = "radioOnChange(this.id)"
+                               })}
+                                @Html.Label("B", new { @for = "AmenabilitytoDiscipline_2", @class = "control-label" })
+                            </div>
+                            <div class="col-lg-1 col-md-1 col-xs-12 col-sm-1">
+                                @if (Model.formGroupHHdr.AmenabilitytoDiscipline == 3)
+                                {
+                                    @Html.RadioButtonFor(model => model.formGroupHHdr.AmenabilitytoDiscipline, 3, new
+                               {
+                                   id = "AmenabilitytoDiscipline_3",
+                                   name = "AmenabilitytoDiscipline",
+                                   @class = "mr-0 class-C",
+                                   @onclick = "radioOnChange(this.id)",
+                                   @checked = true
+                               })}
+                                else
+                                {
+                                    @Html.RadioButtonFor(model => model.formGroupHHdr.AmenabilitytoDiscipline, 3, new
+                               {
+                                   id = "AmenabilitytoDiscipline_3",
+                                   name = "AmenabilitytoDiscipline",
+                                   @class = "mr-0 class-C",
+                                   @onclick = "radioOnChange(this.id)"
+                               })}
+                                @Html.Label("C", new { @for = "AmenabilitytoDiscipline_3", @class = "control-label" })
+                            </div>
+                            <div class="col-lg-1 col-md-1 col-xs-12 col-sm-1">
+                                @if (Model.formGroupHHdr.AmenabilitytoDiscipline == 4)
+                                {
+                                    @Html.RadioButtonFor(model => model.formGroupHHdr.AmenabilitytoDiscipline, 4, new
+                               {
+                                   id = "AmenabilitytoDiscipline_4",
+                                   name = "AmenabilitytoDiscipline",
+                                   @class = "mr-0 class-D",
+                                   @onclick = "radioOnChange(this.id)",
+                                   @checked = true
+                               })}
+                                else
+                                {
+                                    @Html.RadioButtonFor(model => model.formGroupHHdr.AmenabilitytoDiscipline, 4, new
+                               {
+                                   id = "AmenabilitytoDiscipline_4",
+                                   name = "AmenabilitytoDiscipline",
+                                   @class = "mr-0 class-D",
+                                   @onclick = "radioOnChange(this.id)"
+                               })}
+                                @Html.Label("D", new { @for = "AmenabilitytoDiscipline_4", @class = "control-label" })
+                            </div>
+                            <div class="col-lg-1 col-md-1 col-xs-12 col-sm-1">
+                                @if (Model.formGroupHHdr.AmenabilitytoDiscipline == 5)
+                                {
+                                    @Html.RadioButtonFor(model => model.formGroupHHdr.AmenabilitytoDiscipline, 5, new
+                               {
+                                   id = "AmenabilitytoDiscipline_5",
+                                   name = "AmenabilitytoDiscipline",
+                                   @class = "mr-0 class-E",
+                                   @onclick = "radioOnChange(this.id)",
+                                   @checked = true
+                               })}
+                                else
+                                {
+                                    @Html.RadioButtonFor(model => model.formGroupHHdr.AmenabilitytoDiscipline, 5, new
+                               {
+                                   id = "AmenabilitytoDiscipline_5",
+                                   name = "AmenabilitytoDiscipline",
+                                   @class = "mr-0 class-E",
+                                   @onclick = "radioOnChange(this.id)"
+                               })}
+                                @Html.Label("E", new { @for = "AmenabilitytoDiscipline_5", @class = "control-label" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
+                        <div class="row">
+
+                            <div class="col-lg-7 col-md-7 col-xs-12 col-sm-7">
+                                3.	Punctuality & Attendance
+                            </div>
+                            <div class="col-lg-1 col-md-1 col-xs-12 col-sm-1">
+                                @if (Model.formGroupHHdr.PunctualityAndAttendance == 1)
+                                {
+                                    @Html.RadioButtonFor(model => model.formGroupHHdr.PunctualityAndAttendance, 1, new
+                               {
+                                   id = "PunctualityAndAttendance_1",
+                                   name = "PunctualityAndAttendance",
+                                   @class = "mr-0 class-A",
+                                   @onclick = "radioOnChange(this.id)",
+                                   @checked = true
+                               })}
+                                else
+                                {
+                                    @Html.RadioButtonFor(model => model.formGroupHHdr.PunctualityAndAttendance, 1, new
+                               {
+                                   id = "PunctualityAndAttendance_1",
+                                   name = "PunctualityAndAttendance",
+                                   @class = "mr-0 class-A",
+                                   @onclick = "radioOnChange(this.id)"
+                               })}
+                                @Html.Label("A", new { @for = "PunctualityAndAttendance_1", @class = "control-label" })
+                            </div>
+                            <div class="col-lg-1 col-md-1 col-xs-12 col-sm-1">
+                                @if (Model.formGroupHHdr.PunctualityAndAttendance == 2)
+                                {
+                                    @Html.RadioButtonFor(model => model.formGroupHHdr.PunctualityAndAttendance, 2, new
+                               {
+                                   id = "PunctualityAndAttendance_2",
+                                   name = "PunctualityAndAttendance",
+                                   @class = "mr-0 class-B",
+                                   @onclick = "radioOnChange(this.id)",
+                                   @checked = true
+                               })}
+                                else
+                                {
+                                    @Html.RadioButtonFor(model => model.formGroupHHdr.PunctualityAndAttendance, 2, new
+                               {
+                                   id = "PunctualityAndAttendance_2",
+                                   name = "PunctualityAndAttendance",
+                                   @class = "mr-0 class-B",
+                                   @onclick = "radioOnChange(this.id)"
+                               })}
+                                @Html.Label("B", new { @for = "PunctualityAndAttendance_2", @class = "control-label" })
+                            </div>
+                            <div class="col-lg-1 col-md-1 col-xs-12 col-sm-1">
+                                @if (Model.formGroupHHdr.PunctualityAndAttendance == 3)
+                                {
+                                    @Html.RadioButtonFor(model => model.formGroupHHdr.PunctualityAndAttendance, 3, new
+                               {
+                                   id = "PunctualityAndAttendance_3",
+                                   name = "PunctualityAndAttendance",
+                                   @class = "mr-0 class-C",
+                                   @onclick = "radioOnChange(this.id)",
+                                   @checked = true
+                               })}
+                                else
+                                {
+                                    @Html.RadioButtonFor(model => model.formGroupHHdr.PunctualityAndAttendance, 3, new
+                               {
+                                   id = "PunctualityAndAttendance_3",
+                                   name = "PunctualityAndAttendance",
+                                   @class = "mr-0 class-C",
+                                   @onclick = "radioOnChange(this.id)"
+                               })}
+                                @Html.Label("C", new { @for = "PunctualityAndAttendance_3", @class = "control-label" })
+                            </div>
+                            <div class="col-lg-1 col-md-1 col-xs-12 col-sm-1">
+                                @if (Model.formGroupHHdr.PunctualityAndAttendance == 4)
+                                {
+                                    @Html.RadioButtonFor(model => model.formGroupHHdr.PunctualityAndAttendance, 4, new
+                               {
+                                   id = "PunctualityAndAttendance_4",
+                                   name = "PunctualityAndAttendance",
+                                   @class = "mr-0 class-D",
+                                   @onclick = "radioOnChange(this.id)",
+                                   @checked = true
+                               })}
+                                else
+                                {
+                                    @Html.RadioButtonFor(model => model.formGroupHHdr.PunctualityAndAttendance, 4, new
+                               {
+                                   id = "PunctualityAndAttendance_4",
+                                   name = "PunctualityAndAttendance",
+                                   @class = "mr-0 class-D",
+                                   @onclick = "radioOnChange(this.id)"
+                               })}
+                                @Html.Label("D", new { @for = "PunctualityAndAttendance_4", @class = "control-label" })
+                            </div>
+                            <div class="col-lg-1 col-md-1 col-xs-12 col-sm-1">
+                                @if (Model.formGroupHHdr.PunctualityAndAttendance == 5)
+                                {
+                                    @Html.RadioButtonFor(model => model.formGroupHHdr.PunctualityAndAttendance, 5, new
+                               {
+                                   id = "PunctualityAndAttendance_5",
+                                   name = "PunctualityAndAttendance",
+                                   @class = "mr-0 class-E",
+                                   @onclick = "radioOnChange(this.id)",
+                                   @checked = true
+                               })}
+                                else
+                                {
+                                    @Html.RadioButtonFor(model => model.formGroupHHdr.PunctualityAndAttendance, 5, new
+                               {
+                                   id = "PunctualityAndAttendance_5",
+                                   name = "PunctualityAndAttendance",
+                                   @class = "mr-0 class-E",
+                                   @onclick = "radioOnChange(this.id)"
+                               })}
+                                @Html.Label("E", new { @for = "PunctualityAndAttendance_5", @class = "control-label" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
+
+                        <div class="row">
+
+                            <div class="col-lg-7 col-md-7 col-xs-12 col-sm-7">
+                                4.	Devotion to duty
+                            </div>
+                            <div class="col-lg-1 col-md-1 col-xs-12 col-sm-1">
+                                @if (Model.formGroupHHdr.DevotionToDuty == 1)
+                                {
+                                    @Html.RadioButtonFor(model => model.formGroupHHdr.DevotionToDuty, 1, new
+                               {
+                                   id = "DevotionToDuty_1",
+                                   name = "DevotionToDuty",
+                                   @class = "mr-0 class-A",
+                                   @onclick = "radioOnChange(this.id)",
+                                   @checked = true
+                               })}
+                                else
+                                {
+                                    @Html.RadioButtonFor(model => model.formGroupHHdr.DevotionToDuty, 1, new
+                               {
+                                   id = "DevotionToDuty_1",
+                                   name = "DevotionToDuty",
+                                   @class = "mr-0 class-A",
+                                   @onclick = "radioOnChange(this.id)"
+                               })}
+                                @Html.Label("A", new { @for = "DevotionToDuty_1", @class = "control-label" })
+                            </div>
+                            <div class="col-lg-1 col-md-1 col-xs-12 col-sm-1">
+                                @if (Model.formGroupHHdr.DevotionToDuty == 2)
+                                {
+                                    @Html.RadioButtonFor(model => model.formGroupHHdr.DevotionToDuty, 2, new
+                               {
+                                   id = "DevotionToDuty_2",
+                                   name = "DevotionToDuty",
+                                   @class = "mr-0 class-B",
+                                   @onclick = "radioOnChange(this.id)",
+                                   @checked = true
+                               })}
+                                else
+                                {
+                                    @Html.RadioButtonFor(model => model.formGroupHHdr.DevotionToDuty, 2, new
+                               {
+                                   id = "DevotionToDuty_2",
+                                   name = "DevotionToDuty",
+                                   @class = "mr-0 class-B",
+                                   @onclick = "radioOnChange(this.id)"
+                               })}
+                                @Html.Label("B", new { @for = "DevotionToDuty_2", @class = "control-label" })
+                            </div>
+                            <div class="col-lg-1 col-md-1 col-xs-12 col-sm-1">
+                                @if (Model.formGroupHHdr.DevotionToDuty == 3)
+                                {
+                                    @Html.RadioButtonFor(model => model.formGroupHHdr.DevotionToDuty, 3, new
+                               {
+                                   id = "DevotionToDuty_3",
+                                   name = "DevotionToDuty",
+                                   @class = "mr-0 class-C",
+                                   @onclick = "radioOnChange(this.id)",
+                                   @checked = true
+                               })}
+                                else
+                                {
+                                    @Html.RadioButtonFor(model => model.formGroupHHdr.DevotionToDuty, 3, new
+                               {
+                                   id = "DevotionToDuty_3",
+                                   name = "DevotionToDuty",
+                                   @class = "mr-0 class-C",
+                                   @onclick = "radioOnChange(this.id)"
+                               })}
+                                @Html.Label("C", new { @for = "DevotionToDuty_3", @class = "control-label" })
+                            </div>
+                            <div class="col-lg-1 col-md-1 col-xs-12 col-sm-1">
+                                @if (Model.formGroupHHdr.DevotionToDuty == 4)
+                                {
+                                    @Html.RadioButtonFor(model => model.formGroupHHdr.DevotionToDuty, 4, new
+                               {
+                                   id = "DevotionToDuty_4",
+                                   name = "DevotionToDuty",
+                                   @class = "mr-0 class-D",
+                                   @onclick = "radioOnChange(this.id)",
+                                   @checked = true
+                               })}
+                                else
+                                {
+                                    @Html.RadioButtonFor(model => model.formGroupHHdr.DevotionToDuty, 4, new
+                               {
+                                   id = "DevotionToDuty_4",
+                                   name = "DevotionToDuty",
+                                   @class = "mr-0 class-D",
+                                   @onclick = "radioOnChange(this.id)"
+                               })}
+                                @Html.Label("D", new { @for = "DevotionToDuty_4", @class = "control-label" })
+                            </div>
+                            <div class="col-lg-1 col-md-1 col-xs-12 col-sm-1">
+                                @if (Model.formGroupHHdr.DevotionToDuty == 5)
+                                {
+                                    @Html.RadioButtonFor(model => model.formGroupHHdr.DevotionToDuty, 5, new
+                               {
+                                   id = "DevotionToDuty_5",
+                                   name = "DevotionToDuty",
+                                   @class = "mr-0 class-E",
+                                   @onclick = "radioOnChange(this.id)",
+                                   @checked = true
+                               })}
+                                else
+                                {
+                                    @Html.RadioButtonFor(model => model.formGroupHHdr.DevotionToDuty, 5, new
+                               {
+                                   id = "DevotionToDuty_5",
+                                   name = "DevotionToDuty",
+                                   @class = "mr-0 class-E",
+                                   @onclick = "radioOnChange(this.id)"
+                               })}
+                                @Html.Label("E", new { @for = "DevotionToDuty_5", @class = "control-label" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
+                        <div class="row">
+                            <div class="col-lg-7 col-md-7 col-xs-12 col-sm-7">
+                                5.	Cleanliness
+                            </div>
+                            <div class="col-lg-1 col-md-1 col-xs-12 col-sm-1">
+
+                                @if (Model.formGroupHHdr.Cleanliness == 1)
+                                {
+                                    @Html.RadioButtonFor(model => model.formGroupHHdr.Cleanliness, 1, new
+                               {
+                                   id = "Cleanliness_1",
+                                   name = "Cleanliness",
+                                   @class = "mr-0 class-A",
+                                   @onclick = "radioOnChange(this.id)",
+                                   @checked = true
+                               })}
+                                else
+                                {
+                                    @Html.RadioButtonFor(model => model.formGroupHHdr.Cleanliness, 1, new
+                               {
+                                   id = "Cleanliness_1",
+                                   name = "Cleanliness",
+                                   @class = "mr-0 class-A",
+                                   @onclick = "radioOnChange(this.id)"
+                               })}
+                                @Html.Label("A", new { @for = "Cleanliness_1", @class = "control-label" })
+                            </div>
+                            <div class="col-lg-1 col-md-1 col-xs-12 col-sm-1">
+                                @if (Model.formGroupHHdr.Cleanliness == 2)
+                                {
+                                    @Html.RadioButtonFor(model => model.formGroupHHdr.Cleanliness, 2, new
+                               {
+                                   id = "Cleanliness_2",
+                                   name = "Cleanliness",
+                                   @class = "mr-0 class-B",
+                                   @onclick = "radioOnChange(this.id)",
+                                   @checked = true
+                               })}
+                                else
+                                {
+                                    @Html.RadioButtonFor(model => model.formGroupHHdr.Cleanliness, 2, new
+                               {
+                                   id = "Cleanliness_2",
+                                   name = "Cleanliness",
+                                   @class = "mr-0 class-B",
+                                   @onclick = "radioOnChange(this.id)"
+                               })}
+                                @Html.Label("B", new { @for = "Cleanliness_2", @class = "control-label" })
+                            </div>
+                            <div class="col-lg-1 col-md-1 col-xs-12 col-sm-1">
+                                @if (Model.formGroupHHdr.Cleanliness == 3)
+                                {
+                                    @Html.RadioButtonFor(model => model.formGroupHHdr.Cleanliness, 3, new
+                               {
+                                   id = "Cleanliness_3",
+                                   name = "Cleanliness",
+                                   @class = "mr-0 class-C",
+                                   @onclick = "radioOnChange(this.id)",
+                                   @checked = true
+                               })}
+                                else
+                                {
+                                    @Html.RadioButtonFor(model => model.formGroupHHdr.Cleanliness, 3, new
+                               {
+                                   id = "Cleanliness_3",
+                                   name = "Cleanliness",
+                                   @class = "mr-0 class-C",
+                                   @onclick = "radioOnChange(this.id)"
+                               })}
+                                @Html.Label("C", new { @for = "Cleanliness_3", @class = "control-label" })
+                            </div>
+                            <div class="col-lg-1 col-md-1 col-xs-12 col-sm-1">
+                                @if (Model.formGroupHHdr.Cleanliness == 4)
+                                {
+                                    @Html.RadioButtonFor(model => model.formGroupHHdr.Cleanliness, 4, new
+                               {
+                                   id = "Cleanliness_4",
+                                   name = "Cleanliness",
+                                   @class = "mr-0 class-D",
+                                   @onclick = "radioOnChange(this.id)",
+                                   @checked = true
+                               })}
+                                else
+                                {
+                                    @Html.RadioButtonFor(model => model.formGroupHHdr.Cleanliness, 4, new
+                               {
+                                   id = "Cleanliness_4",
+                                   name = "Cleanliness",
+                                   @class = "mr-0 class-D",
+                                   @onclick = "radioOnChange(this.id)"
+                               })}
+                                @Html.Label("D", new { @for = "Cleanliness_4", @class = "control-label" })
+                            </div>
+                            <div class="col-lg-1 col-md-1 col-xs-12 col-sm-1">
+                                @if (Model.formGroupHHdr.Cleanliness == 4)
+                                {
+                                    @Html.RadioButtonFor(model => model.formGroupHHdr.Cleanliness, 5, new
+                               {
+                                   id = "Cleanliness_5",
+                                   name = "Cleanliness",
+                                   @class = "mr-0 class-E",
+                                   @onclick = "radioOnChange(this.id)",
+                                   @checked = true
+                               })}
+                                else
+                                {
+                                    @Html.RadioButtonFor(model => model.formGroupHHdr.Cleanliness, 5, new
+                               {
+                                   id = "Cleanliness_5",
+                                   name = "Cleanliness",
+                                   @class = "mr-0 class-E",
+                                   @onclick = "radioOnChange(this.id)"
+                               })}
+                                @Html.Label("E", new { @for = "Cleanliness_5", @class = "control-label" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
+                        <div class="row">
+
+                            <div class="col-lg-7 col-md-7 col-xs-12 col-sm-7">
+                                6.	Behaviour with superiors and colleagues
+                            </div>
+                            <div class="col-lg-1 col-md-1 col-xs-12 col-sm-1">
+                                @if (Model.formGroupHHdr.BehaviourWithSuperiorsAndColleagues == 1)
+                                {
+                                    @Html.RadioButtonFor(model => model.formGroupHHdr.BehaviourWithSuperiorsAndColleagues, 1, new
+                               {
+                                   id = "BehaviourWithSuperiorsAndColleagues_1",
+                                   name = "BehaviourWithSuperiorsAndColleagues",
+                                   @class = "mr-0 class-A",
+                                   @onclick = "radioOnChange(this.id)",
+                                   @checked = true
+                               })}
+                                else
+                                {
+                                    @Html.RadioButtonFor(model => model.formGroupHHdr.BehaviourWithSuperiorsAndColleagues, 1, new
+                               {
+                                   id = "BehaviourWithSuperiorsAndColleagues_1",
+                                   name = "BehaviourWithSuperiorsAndColleagues",
+                                   @class = "mr-0 class-A",
+                                   @onclick = "radioOnChange(this.id)"
+                               })}
+                                @Html.Label("A", new { @for = "BehaviourWithSuperiorsAndColleagues_1", @class = "control-label" })
+                            </div>
+                            <div class="col-lg-1 col-md-1 col-xs-12 col-sm-1">
+                                @if (Model.formGroupHHdr.BehaviourWithSuperiorsAndColleagues == 2)
+                                {
+                                    @Html.RadioButtonFor(model => model.formGroupHHdr.BehaviourWithSuperiorsAndColleagues, 2, new
+                               {
+                                   id = "BehaviourWithSuperiorsAndColleagues_2",
+                                   name = "BehaviourWithSuperiorsAndColleagues",
+                                   @class = "mr-0 class-B",
+                                   @onclick = "radioOnChange(this.id)",
+                                   @checked = true
+                               })}
+                                else
+                                {
+                                    @Html.RadioButtonFor(model => model.formGroupHHdr.BehaviourWithSuperiorsAndColleagues, 2, new
+                               {
+                                   id = "BehaviourWithSuperiorsAndColleagues_2",
+                                   name = "BehaviourWithSuperiorsAndColleagues",
+                                   @class = "mr-0 class-B",
+                                   @onclick = "radioOnChange(this.id)"
+                               })}
+                                @Html.Label("B", new { @for = "BehaviourWithSuperiorsAndColleagues_2", @class = "control-label" })
+                            </div>
+                            <div class="col-lg-1 col-md-1 col-xs-12 col-sm-1">
+                                @if (Model.formGroupHHdr.BehaviourWithSuperiorsAndColleagues == 3)
+                                {
+                                    @Html.RadioButtonFor(model => model.formGroupHHdr.BehaviourWithSuperiorsAndColleagues, 3, new
+                               {
+                                   id = "BehaviourWithSuperiorsAndColleagues_3",
+                                   name = "BehaviourWithSuperiorsAndColleagues",
+                                   @class = "mr-0 class-C",
+                                   @onclick = "radioOnChange(this.id)",
+                                   @checked = true
+                               })}
+                                else
+                                {
+                                    @Html.RadioButtonFor(model => model.formGroupHHdr.BehaviourWithSuperiorsAndColleagues, 3, new
+                               {
+                                   id = "BehaviourWithSuperiorsAndColleagues_3",
+                                   name = "BehaviourWithSuperiorsAndColleagues",
+                                   @class = "mr-0 class-C",
+                                   @onclick = "radioOnChange(this.id)"
+                               })}
+                                @Html.Label("C", new { @for = "BehaviourWithSuperiorsAndColleagues_3", @class = "control-label" })
+                            </div>
+                            <div class="col-lg-1 col-md-1 col-xs-12 col-sm-1">
+                                @if (Model.formGroupHHdr.BehaviourWithSuperiorsAndColleagues == 4)
+                                {
+                                    @Html.RadioButtonFor(model => model.formGroupHHdr.BehaviourWithSuperiorsAndColleagues, 4, new
+                               {
+                                   id = "BehaviourWithSuperiorsAndColleagues_4",
+                                   name = "BehaviourWithSuperiorsAndColleagues",
+                                   @class = "mr-0 class-D",
+                                   @onclick = "radioOnChange(this.id)",
+                                   @checked = true
+                               })}
+                                else
+                                {
+                                    @Html.RadioButtonFor(model => model.formGroupHHdr.BehaviourWithSuperiorsAndColleagues, 4, new
+                               {
+                                   id = "BehaviourWithSuperiorsAndColleagues_4",
+                                   name = "BehaviourWithSuperiorsAndColleagues",
+                                   @class = "mr-0 class-D",
+                                   @onclick = "radioOnChange(this.id)"
+                               })}
+                                @Html.Label("D", new { @for = "BehaviourWithSuperiorsAndColleagues_4", @class = "control-label" })
+                            </div>
+                            <div class="col-lg-1 col-md-1 col-xs-12 col-sm-1">
+                                @if (Model.formGroupHHdr.BehaviourWithSuperiorsAndColleagues == 5)
+                                {
+                                    @Html.RadioButtonFor(model => model.formGroupHHdr.BehaviourWithSuperiorsAndColleagues, 5, new
+                               {
+                                   id = "BehaviourWithSuperiorsAndColleagues_5",
+                                   name = "BehaviourWithSuperiorsAndColleagues",
+                                   @class = "mr-0 class-E",
+                                   @onclick = "radioOnChange(this.id)",
+                                   @checked = true
+                               })}
+                                else
+                                {
+                                    @Html.RadioButtonFor(model => model.formGroupHHdr.BehaviourWithSuperiorsAndColleagues, 5, new
+                               {
+                                   id = "BehaviourWithSuperiorsAndColleagues_5",
+                                   name = "BehaviourWithSuperiorsAndColleagues",
+                                   @class = "mr-0 class-E",
+                                   @onclick = "radioOnChange(this.id)"
+                               })}
+                                @Html.Label("E", new { @for = "BehaviourWithSuperiorsAndColleagues_5", @class = "control-label" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
+                        <div class="row">
+
+                            <div class="col-lg-6 col-md-6 col-xs-12 col-sm-6">
+                                7. Integrity
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-xs-12 col-sm-2">
+
+                                @if (Model.formGroupHHdr.Integrity == 1)
+                                {
+                                    @Html.RadioButtonFor(model => model.formGroupHHdr.Integrity, 1, new
+                               {
+                                   id = "Integrity_1",
+                                   name = "Integrity",
+                                   @class = "mr-0 class-A",
+                                   @onclick = "radioOnChange(this.id)",
+                                   @checked = true
+                               })}
+                                else
+                                {
+                                    @Html.RadioButtonFor(model => model.formGroupHHdr.Integrity, 1, new
+                               {
+                                   id = "Integrity_1",
+                                   name = "Integrity",
+                                   @class = "mr-0 class-A",
+                                   @onclick = "radioOnChange(this.id)"
+                               })}
+                                @Html.Label("ABOVE BOARD", new { @for = "Integrity_1", @class = "control-label" })
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-xs-12 col-sm-2">
+
+                                @if (Model.formGroupHHdr.Integrity == 2)
+                                {
+                                    @Html.RadioButtonFor(model => model.formGroupHHdr.Integrity, 2, new
+                               {
+                                   id = "Integrity_2",
+                                   name = "Integrity",
+                                   @class = "mr-0 class-B",
+                                   @onclick = "radioOnChange(this.id)",
+                                   @checked = true
+                               })}
+                                else
+                                {
+                                    @Html.RadioButtonFor(model => model.formGroupHHdr.Integrity, 2, new
+                               {
+                                   id = "Integrity_2",
+                                   name = "Integrity",
+                                   @class = "mr-0 class-B",
+                                   @onclick = "radioOnChange(this.id)"
+                               })}
+                                @Html.Label("NOTHING DEFINITE CAN BE SAID", new { @for = "Integrity_2", @class = "control-label" })
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-xs-12 col-sm-2">
+
+                                @if (Model.formGroupHHdr.Integrity == 3)
+                                {
+                                    @Html.RadioButtonFor(model => model.formGroupHHdr.Integrity, 3, new
+                               {
+                                   id = "Integrity_3",
+                                   name = "Integrity",
+                                   @class = "mr-0 class-C",
+                                   @onclick = "radioOnChange(this.id)",
+                                   @checked = true
+                               })}
+                                else
+                                {
+                                    @Html.RadioButtonFor(model => model.formGroupHHdr.Integrity, 3, new
+                               {
+                                   id = "Integrity_3",
+                                   name = "Integrity",
+                                   @class = "mr-0 class-C",
+                                   @onclick = "radioOnChange(this.id)"
+                               })}
+                                @Html.Label("DOUBTFUL", new { @for = "Integrity_3", @class = "control-label" })
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="col-lg-6 col-md-6 col-sm-0 col-xs-0 mb-2">
+
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6 mb-2 text-right">
+                        <p>Total :</p>
+                    </div>
+
+                    <div id="total_rating" class="col-lg-3 col-md-3 col-sm-6 col-xs-6 mb-2 underlineinput font-weight-bold">
+
+                        A =1 ; B=2 ; C=3 ; D=2 ; E=0;
+
+                        @*@Html.DisplayFor(model => model.formGroupHHdr.Total, new { @class = "form-control " })*@
+                    </div>
+
+                </div>
+
+                <div class="form-group">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2 ">
+                        <p><sup class="required"></sup> GENERAL COMMENTS OF THE REPORTING OFFICER :</p>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-7 col-md-7 col-sm-0 col-xs-0 mb-2">
+
+                        @Html.TextAreaFor(model => model.formGroupHHdr.ReportingOfficerRemark, new { @class = "form-control ", @maxlength = "200" })
+                        @Html.ValidationMessageFor(model => model.formGroupHHdr.ReportingOfficerRemark, "", new { @class = "text-danger" })
+
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-7 col-md-7 col-sm-0 col-xs-0 mb-2">
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6 mb-2 text-right">
+                        <p class="pull-right">Signature with date :</p>
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-sm-6 col-xs-6 mb-2 underlineinput font-weight-bold">
+                        @(Model.formGroupHHdr.RTSenddate.HasValue ? Model.formGroupHHdr.RTSenddate.Value.ToString("dd/MM/yyyy") : "" )
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-7 col-md-7 col-sm-0 col-xs-0 mb-2">
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6 mb-2 text-right ">
+                        <p>Name  :</p>
+                    </div>
+
+                    <div class="col-lg-2 col-md-2 col-sm-6 col-xs-6 mb-2 underlineinput font-weight-bold">
+                        @Html.DisplayFor(model => model.formGroupHHdr.ReportingTo, new { @class = "form-control " })
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-7 col-md-7 col-sm-0 col-xs-0 mb-2">
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6 mb-2 text-right">
+                        <p class="">Designation :</p>
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-sm-6 col-xs-6 mb-2 underlineinput font-weight-bold">
+                        @Html.DisplayFor(model => model.formGroupHHdr.ReportingDesignation, new { @class = "form-control " })
+                    </div>
+                </div>
+
+
+                @if ((Model.ReportingTo == Model.loggedInEmpID && Model.ApprovalHierarchy == 1) || Model.frmAttributes.ReportingButton)
+                    {
+                        if (!Model.isAdmin)
+                        {
+                        <div class="pull-right div-action pl-1">
+                            @Html.ActionLink("Back", "Index", "ApprovalRequest", null, new { @class = "btn btn-light btn-md", title = "Click here, to go to back on previous screen.", @data_toggle = "tooltip" })
+                        </div>
+                        if (Model.formGroupHHdr.FormState == (int)AppraisalFormState.SavedByReporting || (Model.formGroupHHdr.FormState == (int)AppraisalFormState.SubmitedByEmployee) || Model.frmAttributes.EmployeeSection || Model.frmAttributes.ReportingButton)
+                        {
+                            <div class="pull-right">
+
+                                <input type="submit" value="Save" id="btnSave" name="ButtonType" class="btn btn-info btn-md toggle-tooltip " title="Click here, to save the data." />
+                                <input type="submit" value="Save & Submit" id="btnSaveSubmit" name="ButtonType" class="btn btn-info btn-md toggle-tooltip " title="Click here, to save & submit the data." />
+
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <div class="pull-right div-action pl-1">
+                            @Html.ActionLink("Back", "Index", "AcarApar", null, new { @class = "btn btn-light btn-md", title = "Click here, to go to back on previous screen.", @data_toggle = "tooltip" })
+                        </div>
+                    }
+                }
+            </div>
+        }
+
+        if (Model.ReviewingTo == Model.loggedInEmpID || Model.AcceptanceAuthorityTo == Model.loggedInEmpID)
+        {
+            <div id="div-rv-section" class="@reviewingSectionClass">
+
+                <div class="form-group">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2 ">
+                        <p><sup class="required"></sup> GENERAL COMMENTS OF THE REVIEWING OFFICER :</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-7 col-md-7 col-sm-0 col-xs-0 mb-2">
+
+                        @Html.TextAreaFor(model => model.formGroupHHdr.ReviewingOfficerRemark, new { @class = "form-control ", @maxlength = "200" })
+                        @Html.ValidationMessageFor(model => model.formGroupHHdr.ReviewingOfficerRemark, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-7 col-md-7 col-sm-0 col-xs-0 mb-2">
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6 mb-2 text-right">
+                        <p class="pull-right">Signature with date :</p>
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-sm-6 col-xs-6 mb-2 underlineinput font-weight-bold">
+                        @(Model.formGroupHHdr.RVSenddate.HasValue ? Model.formGroupHHdr.RVSenddate.Value.ToString("dd/MM/yyyy") : "" )
+
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-7 col-md-7 col-sm-0 col-xs-0 mb-2">
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6 mb-2 text-right">
+                        <p>Name  :</p>
+                    </div>
+
+                    <div class="col-lg-2 col-md-2 col-sm-6 col-xs-6 mb-2 underlineinput font-weight-bold">
+                        @Html.DisplayFor(model => model.formGroupHHdr.ReviewerTo, new { @class = "form-control " })
+                    </div>
+
+                </div>
+
+                <div class="row">
+
+                    <div class="col-lg-7 col-md-7 col-sm-0 col-xs-0 mb-2">
+
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6 mb-2 text-right">
+                        <p class="">Designation :</p>
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-sm-6 col-xs-6 mb-2 underlineinput font-weight-bold">
+                        @Html.DisplayFor(model => model.formGroupHHdr.ReviewerDesignation, new { @class = "form-control " })
+                    </div>
+
+                </div>
+                @if (Model.ReviewingTo == Model.loggedInEmpID && (Model.ApprovalHierarchy == 2.0 || Model.ApprovalHierarchy == 1))
+                    {
+                        if (!Model.isAdmin)
+                        {<div class="pull-right div-action pl-1">
+                    @Html.ActionLink("Back", "Index", "ApprovalRequest", null, new { @class = "btn btn-light btn-md", title = "Click here, to go to back on previous screen.", @data_toggle = "tooltip" })
+                </div>
+                        if ((Model.formGroupHHdr.FormState == (int)AppraisalFormState.SavedByReviewer || (Model.formGroupHHdr.FormState == (int)AppraisalFormState.SubmitedByReporting) || (Model.formGroupHHdr.FormState == (int)AppraisalFormState.SavedByReporting) || (Model.formGroupHHdr.FormState == (int)AppraisalFormState.SubmitedByEmployee)) && (Model.ApprovalHierarchy == 2 || Model.ApprovalHierarchy == 1) && (Model.frmAttributes != null ? Model.frmAttributes.ReviewerButton : false))
+                        {
+                            <div class="row text-right">
+                                <div class="col-md-8 pull-left">
+                                </div>
+                                <div class="div-action col-md-4 text-right">
+                                    <input type="submit" value="Save" id="btnRVSave" name="ButtonType" class="btn btn-info btn-md toggle-tooltip " title="Click here, to save the data." />
+                                    <input type="submit" value="Save & Submit" id="btnRVSaveSubmit" name="ButtonType" class="btn btn-info btn-md toggle-tooltip " title="Click here, to save & submit the data." />
+                                </div>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <div class="pull-right div-action pl-1">
+                            @Html.ActionLink("Back", "Index", "AcarApar", null, new { @class = "btn btn-light btn-md", title = "Click here, to go to back on previous screen.", @data_toggle = "tooltip" })
+                        </div>
+                    }
+                }
+            </div>
+        }
+
+
+        if (Model.AcceptanceAuthorityTo == Model.loggedInEmpID)
+        {
+            <div id="div-aa-section">
+
+                <div class="form-group">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2 ">
+                        <p><sup class="required"></sup> GENERAL REMARKS OF THE ACCEPTING AUTHORITY :</p>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-7 col-md-7 col-sm-0 col-xs-0 mb-2">
+                        @Html.TextAreaFor(model => model.formGroupHHdr.AcceptanceAuthorityRemark, new { @class = "form-control ", @maxlength = "200" })
+                        @Html.ValidationMessageFor(model => model.formGroupHHdr.AcceptanceAuthorityRemark, "", new { @class = "text-danger" })
+                    </div>
+
+                </div>
+
+                <div class="row">
+
+                    <div class="col-lg-7 col-md-7 col-sm-0 col-xs-0 mb-2">
+
+                    </div>
+
+                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6 mb-2 text-right">
+                        <p class="pull-right">Signature with date :</p>
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-sm-6 col-xs-6 mb-2 underlineinput font-weight-bold">
+                        @(Model.formGroupHHdr.AASenddate.HasValue ? Model.formGroupHHdr.AASenddate.Value.ToString("dd/MM/yyyy") : "" )
+                    </div>
+                </div>
+
+                <div class="row">
+
+                    <div class="col-lg-7 col-md-7 col-sm-0 col-xs-0 mb-2">
+
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6 mb-2 text-right">
+                        <p>Name  :</p>
+                    </div>
+
+                    <div class="col-lg-2 col-md-2 col-sm-6 col-xs-6 mb-2 underlineinput font-weight-bold">
+                        @Html.DisplayFor(model => model.formGroupHHdr.AcceptanceAuth, new { @class = "form-control " })
+                    </div>
+
+                </div>
+
+                <div class="row">
+
+                    <div class="col-lg-7 col-md-7 col-sm-0 col-xs-0 mb-2">
+
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6 mb-2 text-right">
+                        <p class="">Designation :</p>
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-sm-6 col-xs-6 mb-2 underlineinput font-weight-bold">
+                        @Html.DisplayFor(model => model.formGroupHHdr.AcceptanceDesignation, new { @class = "form-control " })
+                    </div>
+
+                </div>
+
+
+                @if (Model.AcceptanceAuthorityTo == Model.loggedInEmpID)
+                {
+                    if (!Model.isAdmin)
+                    {<div class="pull-right div-action pl-1">
+                    @Html.ActionLink("Back", "Index", "ApprovalRequest", null, new { @class = "btn btn-light btn-md", title = "Click here, to go to back on previous screen.", @data_toggle = "tooltip" })
+                </div>
+                        if (Model.formGroupHHdr.FormState != (int)AppraisalFormState.SubmitedByAcceptanceAuth)
+                        {
+                            if (Model.formGroupHHdr.FormState == (int)AppraisalFormState.SavedByAcceptanceAuth ||
+                        (Model.formGroupHHdr.FormState == (int)AppraisalFormState.SubmitedByReviewer) ||
+                        (Model.formGroupHHdr.FormState == (int)AppraisalFormState.SavedByReporting) || (Model.formGroupHHdr.FormState == (int)AppraisalFormState.SubmitedByEmployee) || (Model.formGroupHHdr.FormState == (int)AppraisalFormState.SubmitedByReporting) || Model.ApprovalHierarchy == 1 || Model.ApprovalHierarchy == 2 || Model.ApprovalHierarchy == 2.1 || (Model.ApprovalHierarchy == 3 && (Model.frmAttributes != null ? Model.frmAttributes.AcceptanceButton : false)))
+                            {
+                                <div class="pull-right">
+                                    <input type="submit" value="Save" id="btnAASave" name="ButtonType" class="btn btn-info btn-md toggle-tooltip " title="Click here, to save the data." />
+                                    <input type="submit" value="Save & Submit" id="btnAASaveSubmit" name="ButtonType" class="btn btn-info btn-md toggle-tooltip " title="Click here, to save & submit the data." />
+
+                                </div>
+                            }
+                        }
+                    }
+                    else
+                    {
+                        <div class="pull-right div-action pl-1">
+                            @Html.ActionLink("Back", "Index", "AcarApar", null, new { @class = "btn btn-light btn-md", title = "Click here, to go to back on previous screen.", @data_toggle = "tooltip" })
+                        </div>
+                    }
+                }
+            </div>
+        }
+    }
+</div>
+
+<script type="text/javascript">
+
+    $('.noselect').find('input, textarea, button, select,radio').attr('readonly', 'readonly');
+
+    $('.noselect').find(':radio:not(:checked)').attr('disabled', true);
+
+    $("#formGroupHHdr_WorkedPeriodUnderROFrom").datepicker({ changeYear: true, dateFormat: 'dd/mm/yy' });
+    $("#formGroupHHdr_WorkedPeriodUnderROTo").datepicker({ changeYear: true, dateFormat: 'dd/mm/yy' });
+
+    function OnSuccess(data) {
+        debugger;
+        if (data.isTraining == 1) {
+            $("#div-main-form").html(data.htmlData);
+        }
+        else if (data.msgType == undefined) {
+            $("#div-main-form").html(data);
+        }
+        if ((data.formState != undefined && data.formState != 0) && (parseInt(data.formState) % 2) == 0)
+            $(".div-action").addClass('hide');
+
+        if (data.part == 0)
+            $("#div-main-form").html(data.htmlData);
+        if (data.msgType == "success") {
+            commonMessage(data.msgType, data.msg);
+            window.location.reload();
+        }
+
+        if (data.msgType == "error") {
+            commonMessage(data.msgType, data.msg);
+
+        }
+
+
+    }
+
+    calculateChkChecked();
+
+    $(".class-A,.class-B,.class-C,.class-D,.class-E").change(function () {
+        calculateChkChecked();
+    });
+
+    function calculateChkChecked() {
+
+        var A_checkedCount = 0; var B_checkedCount = 0; var C_checkedCount = 0; var D_checkedCount = 0; var E_checkedCount = 0;
+
+        $('.class-A').each(function (idx) {
+            A_checkedCount += $(this).is(":checked") ? 1 : 0;
+        });
+        $('.class-B').each(function (idx) {
+            B_checkedCount += $(this).is(":checked") ? 1 : 0;
+        });
+        $('.class-C').each(function (idx) {
+            C_checkedCount += $(this).is(":checked") ? 1 : 0;
+        });
+        $('.class-D').each(function (idx) {
+            D_checkedCount += $(this).is(":checked") ? 1 : 0;
+        });
+        $('.class-E').each(function (idx) {
+            E_checkedCount += $(this).is(":checked") ? 1 : 0;
+        });
+
+        var total = "A=" + A_checkedCount + "; B=" + B_checkedCount + "; C=" + C_checkedCount + "; D=" + D_checkedCount + "; E=" + E_checkedCount + "";
+        $("#total_rating").html(total);
+    }
+    function radioOnChange(controlID) {
+        var jj = $("#" + controlID).val();
+        $("#formGroupHHdr_INTEGRITY").val($("#" + controlID).val());
+    }
+</script>
+
+<style type="text/css">
+    
+    .noselect {
+        -webkit-touch-callout: none; /* iOS Safari */
+        -webkit-user-select: none; /* Safari */
+        -khtml-user-select: none; /* Konqueror HTML */
+        -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+        user-select: none; /* Non-prefixed version, currently supported by Chrome, Opera and Firefox */
+    }
+</style>
+

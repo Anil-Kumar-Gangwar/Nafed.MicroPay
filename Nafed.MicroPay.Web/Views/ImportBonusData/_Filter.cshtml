@@ -1,0 +1,98 @@
+﻿@using Nafed.MicroPay.Model
+@model ImportBonus
+
+@{
+    Layout = null;
+}
+@{
+    var yearDDl = Enumerable.Range(2006, DateTime.Now.Year - 2006 + 1).
+                              Select(i => new SelectListItem { Value = i.ToString(), Text = i.ToString() }).OrderByDescending(x => x.Value).ToList();
+
+    // yearDDl.Insert(0, new SelectListItem { Text = "Select", Value = "0", Selected = true });
+
+    var monthDDL = Enumerable.Range(1, 12).
+                           Select(i => new SelectListItem
+                           {
+                               Value = i.ToString(),
+                               Text = System.Globalization.CultureInfo.InvariantCulture.DateTimeFormat.GetMonthName(i)
+                           }).ToList();
+}
+
+@using (Ajax.BeginForm("_ExportTemplate", "ImportBonusData", new AjaxOptions { HttpMethod = "POST", OnBegin = "onBegin", UpdateTargetId = "dv-filter", OnSuccess = "onSuccess" }))
+{
+    <div class="row" id="exportDIV">
+
+        <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+            @Html.LabelFor(model => model.BranchID, new { @class = "required" })
+        </div>
+
+        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+
+            @Html.DropDownListFor(model => model.BranchID, new SelectList(Model.branches, "id", "value"), "All Branches Except HO", new { @class = "custom-select" })
+
+            @Html.ValidationMessage("BranchRequired", "", new { @class = "text-danger", @id = "branchRequired" })
+        </div>
+
+        <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+            @Html.LabelFor(model => model.SalMonth, new { @class = "required" })
+        </div>
+
+        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+
+            @Html.DropDownListFor(model => model.SalMonth, new SelectList(monthDDL, "Value", "Text"), "Select", new { @class = "custom-select" })
+
+            @Html.ValidationMessage("MonthRequired", "", new { @class = "text-danger", @id = "MonthRequired" })
+        </div>
+
+        <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+            @Html.LabelFor(model => model.SalYear, new { @class = "required" })
+        </div>
+
+        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+            @Html.DropDownListFor(model => model.SalYear, new SelectList(yearDDl, "Value", "Text"), "Select", new { @class = "custom-select" })
+
+            @Html.ValidationMessage("YearRequired", "", new { @class = "text-danger", @id = "YearRequired" })
+
+        </div>
+
+        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+            @*<input type="submit" value="Export Template" class="btn btn-warning pull-center toggle-tooltip" title="Click here, to download the template" />*@
+            <button type="submit" id="submitform" class="btn btn-warning pull-center toggle-tooltip" title="Click here, to download the template.">
+                <i class="fa fa-file-excel"></i> Export Template
+            </button>
+
+        </div>
+
+
+    </div>
+
+    <hr style="background-color:#fff !important;">
+
+    <div class="row mt-3">
+
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-right">
+
+            <span class="text-right">
+
+                @Html.ValidationMessage("OtherValidation", null, new { @class = "text-danger" })
+
+            </span>
+
+        </div>
+    </div>
+
+}
+
+<script type="text/javascript">
+
+    function onSuccess(data) {
+
+        if (data.fileName != "" && data.message == "success") {
+            window.location.href = "@Url.RouteUrl(new { Controller = "Base", Action = "DownloadAndDelete" })/?sFileName=" + data.fileName + "&sFileFullPath=" + data.fullPath;
+            $("#dv-filter").html(data.htmlData);
+        }
+    }
+    function onBegin() {
+        $('#waitLoading').modal('hide');
+    }
+</script>

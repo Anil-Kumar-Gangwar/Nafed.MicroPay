@@ -1,0 +1,23 @@
+﻿@using Nafed.MicroPay.Model
+@model LTCReport
+
+
+@Html.HiddenFor(model => model.LTCID)
+@Html.HiddenFor(model => model.ReportingToID)
+@Html.HiddenFor(model => model.ReviewerToID)
+@Html.HiddenFor(model => model.AcceptanceAuthID)
+@Html.HiddenFor(model => model.EmployeeId)
+
+<div class="form-group">
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                @Html.Label("LTC Reference Number", new { @class = "label  font-weight-bold" })
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                @Html.EditorFor(model => model.LTCReferenceNumber, new { htmlAttributes = new { @class = "form-control", @placeholder = "Reference Number", @maxlength = "50" } })
+                @Html.ValidationMessageFor(model => model.LTCReferenceNumber, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+</div>

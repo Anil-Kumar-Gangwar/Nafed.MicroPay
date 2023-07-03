@@ -1,0 +1,74 @@
+﻿@using Nafed.MicroPay.Model;
+@using Nafed.MicroPay.Common;
+@model List<EPFNomination>
+
+<table id="tblGrid" class="table table-centered table-striped dt-responsive w-100">
+    <thead>
+        <tr>
+            <th style="width:5%">
+                #
+            </th>
+            <th>
+                Application No
+            </th>
+            <th class="text-center">
+                Date
+            </th>     
+            <th class="text-center">
+                Status
+            </th>
+
+            <th class="text-center" style="width:60px">
+                Action
+            </th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            int index = 1;
+            if (Model != null)
+            {
+                foreach (var item in Model)
+                {
+                    <tr>
+                        <td> @index</td>
+                        <td> @item.EPFNoID</td>                     
+                        <td class="text-center"> @Convert.ToDateTime(item.CreatedOn).ToString("dd-MM-yyyy")</td>                                               
+                        <td class="text-center">
+                            @if (item.StatusID == (int)LoanApplicationStatus.Pending)
+                            {
+                                <h5>
+                                    <span class="badge badge-pill badge-warning col-md-12">
+                                        Pending
+                                    </span>
+                                </h5>
+                            }
+                            else if (item.StatusID == (int)LoanApplicationStatus.Accept)
+                            {<h5>
+                                <span class="badge badge-pill badge-success col-md-12">
+                                    Approved
+                                </span>
+                            </h5>
+                            }
+                           
+                        </td>
+                        <td class="text-center">
+                            @if (item.StatusID == (int)LoanApplicationStatus.Pending)
+                            {
+                                @*<a href="@Url.Action("Create", "EPFNomination", new { empID = item.EmployeeID, epfNo = item.EPFNoID })" title="Click here, to edit this record" data-toggle="tooltip">
+                                    <span class="far fa-edit text-info" aria-hidden="true"></span>
+                                </a>*@
+
+                                @Html.EncodedImageActionLink("", "Create", "EPFNomination", new { empID = item.EmployeeID, epfNo = item.EPFNoID }, new { @class = "toggle-tooltip", title = "Click here, to edit this record" }, "~/Images/edit.png")
+                            }
+                        </td>
+                    </tr>
+                    index++;
+                }
+            }
+
+        }
+
+    </tbody>
+</table>

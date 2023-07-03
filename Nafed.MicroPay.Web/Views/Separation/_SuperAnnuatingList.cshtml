@@ -1,0 +1,424 @@
+﻿@using Nafed.MicroPay.Model;
+
+@model List<SuperAnnuating>
+
+    <table id="tblGrid" class="table table-centered table-striped dt-responsive w-100 mt-2">
+        <thead>
+            <tr>
+                <th>
+                    #
+                </th>
+                <th>
+                    Mode of Separation
+                </th>
+                <th>
+                    Name
+                </th>
+                <th>
+                    Department
+                </th>
+                <th>
+                    Date of Joining
+                </th>
+                <th>
+                    SuperAnnuating/Resignation Date
+                </th>
+                <th>
+                    Status
+                </th>
+                <th>
+                    Document
+                </th>
+                <th class="text-center" style="width:60px">
+                    Action
+                </th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @{
+            int sno = 1;
+            for (int i = 0; i < Model.Count; i++)
+            {
+            <tr>
+                <td>@sno</td>
+                <td>
+                    @if (Model[i].SeprationType == 2)
+                    {
+                        <span class="badge badge-pill bg-warning col-md-10" style="font-size:80% !important">
+                            Resignation
+                        </span>
+
+                    }
+                    else
+                    {
+                        <span class="badge badge-pill bg-primary col-md-10" style="font-size:80% !important">
+                            SupperAnnuation
+                        </span>
+                    }
+                </td>
+                <td>
+                    @Html.RadioButton("Radio", Model[i].EmployeeId, new { id = "check_" + i, @onclick = "getValue(this.id);" }) @Model[i].EmployeeCode - @Model[i].Name
+                    @Html.HiddenFor(model => Model[i].EmployeeId, new { @id = @Model[i].EmployeeId })
+                    @Html.HiddenFor(model => Model[i].StatusId, new { @id = "statusId_" + i })
+                    @Html.HiddenFor(model => Model[i].SeprationId)
+                </td>
+                <td> @Model[i].DepartmentName</td>
+                <td> @Convert.ToDateTime(Model[i].Pr_Loc_DOJ).ToString("dd-MM-yyyy")</td>
+                <td>
+                    @if (Model[i].SeprationType == 2)
+                    {
+                    @Convert.ToDateTime(Model[i].DateOfAction).ToString("dd-MM-yyyy")
+
+                    }
+                    else
+                    {
+                    @Convert.ToDateTime(Model[i].DOSupAnnuating).ToString("dd-MM-yyyy")
+                    }
+
+                </td>
+                <td class="text-center">
+                    @if (Model[i].StatusId == 0)
+                    {
+                    }
+                    else if (Model[i].StatusId == (int)SeprationStatus.Start)
+                    {
+                    <h5>
+                        <span class="badge rounded-pill bg-primary col-md-12">
+                            Process Started
+                        </span>
+                    </h5>
+                    }
+                    else if (Model[i].StatusId == (int)SeprationStatus.Upload)
+                    {
+                    <h5>
+                        <span class="badge badge-pill bg-teal col-md-12">
+                            Separation Approved Doc Uploaded
+                        </span>
+                    </h5>
+                    }
+                    else if (Model[i].StatusId == (int)SeprationStatus.Clearance)
+                    {
+                    <h5>
+                        <span class="badge rounded-pill bg-info col-md-12">
+                            Sent for Clearance
+                        </span>
+                    </h5>
+                    }
+                    else if (Model[i].StatusId == (int)SeprationStatus.CircularUplaoded)
+                    {
+                    <h5>
+                        <span class="badge rounded-pill bg-primary col-md-12">
+                            No Dues Doc Uploaded
+                        </span>
+                    </h5>
+                    }
+                    else if (Model[i].StatusId == (int)SeprationStatus.ClearanceRejected)
+                    {
+                    <h5>
+                        <span class="badge rounded-pill bg-danger col-md-12">
+                            Clearance Rejected
+                        </span>
+                    </h5>
+                    }
+                    else if (Model[i].StatusId == (int)SeprationStatus.ClearanceApproved)
+                    {
+                    <h5>
+                        <span class="badge rounded-pill bg-success col-md-12">
+                            Clearance Approved
+                        </span>
+                    </h5>
+                    }
+                    else if (Model[i].StatusId >= (int)SeprationStatus.DivisionalApproval)
+                    {
+                    if (Model[i].StatusId == (int)SeprationStatus.DivisionalApproval)
+                    {
+                    <h5>
+                        @if (Model[i].ClearanceDateUpto.HasValue && Model[i].ClearanceDateUpto.Value > DateTime.Now)
+                        {
+                        <span class="badge rounded-pill bg-success col-md-12">
+                            No Dues Approval Approved
+                        </span>
+                        }
+                        else
+                        {
+                        <span class="badge rounded-pill bg-info col-md-12">
+                            Sent for No Dues Approval
+                        </span>
+                        }
+                    </h5>
+                    }
+                    else if (Model[i].StatusId == (int)SeprationStatus.DivisionalRejected)
+                    {
+                    <h5>
+                        <span class="badge rounded-pill bg-danger col-md-12">
+                            No Dues Approval Rejected
+                        </span>
+                    </h5>
+                    }
+                    else if (Model[i].StatusId == (int)SeprationStatus.DivisionalApproved)
+                    {
+                    <h5>
+                        <span class="badge rounded-pill bg-success col-md-12">
+                            No Dues Approval Approved
+                        </span>
+                    </h5>
+                    }
+                    }
+
+                </td>
+                <td>
+                    @if (!string.IsNullOrEmpty(Model[i].DocumentName))
+                    {
+                    <a aria-current="page" href="~/Document/Separation/@Model[i].DocumentName" data-toggle="tooltip" title="Click here, to download approved separation document." download="@Model[i].DocumentName">
+                        <i class="fas fa-download text-info"></i>
+                    </a>
+                    }
+                    @if (!string.IsNullOrEmpty(Model[i].CircularDocument))
+                    { <text>|</text>
+                    <a aria-current="page" href="~/Document/Separation/@Model[i].CircularDocument" data-toggle="tooltip" title="Click here, to download circular document." download="@Model[i].CircularDocument">
+                        <i class="fas fa-download text-info"></i>
+                    </a>
+                    }
+                </td>
+                <td class="text-center">
+                    @if (Model[i].StatusId == (int)SeprationStatus.Start)
+                    {
+                    <a data-ajax="true"
+                       method="GET" class="toggle-tooltip" title="Click here, to upload approved separation document."
+                       data-ajax-update="#div-documents-container" data-ajax-mode="replace"
+                       data-backdrop="static" data-keyboard="false"
+                       href="@Url.Action("GetUploadDocument", "Separation" , new {sepId=Model[i].SeprationId,empId =Model[i].EmployeeId})"
+                       id="a_uploadFiles" data-toggle="modal" data-target="#div-FileUpload">
+                        <i class="fas fa-upload text-info" aria-hidden="true"></i>
+                    </a>
+                    }
+                    @if (Model[i].StatusId >= (int)SeprationStatus.Clearance)
+                    {
+                    @*<a href="@Url.Action("ClearanceApproval", "Separation" , new { empId=Model[i].EmployeeId, sepId=Model[i].SeprationId, aprType=1})" title="Click here, to view clearance status." data-toggle="tooltip">
+                        <i class="far fa-eye text-info" aria-hidden="true"></i>
+                    </a>*@
+                    @Html.EncodedImageActionLink("", "ClearanceApproval", "Separation", new { empId = Model[i].EmployeeId, sepId = Model[i].SeprationId, aprType = 1 }, new { @class = "toggle-tooltip", title = "Click here, to view clearance status" }, "~/Images/view.png")
+                    }
+                    @if (Model[i].StatusId == (int)SeprationStatus.ClearanceApproved || Model[i].StatusId == (int)SeprationStatus.ClearanceRejected)
+                    {<text>|</text>
+                    <a data-ajax="true"
+                       method="GET" class="toggle-tooltip" title="Click here, to upload cicular document."
+                       data-ajax-update="#div-circular-container" data-ajax-mode="replace"
+                       data-backdrop="static" data-keyboard="false"
+                       href="@Url.Action("GetCirularDocument", "Separation" , new {sepId=Model[i].SeprationId,empId =Model[i].EmployeeId})"
+                       id="a_circularFiles" data-toggle="modal" data-target="#div-CircularUpload">
+                        <i class="fas fa-upload text-info" aria-hidden="true"></i>
+                    </a>
+                    }
+                    @if (Model[i].StatusId >= (int)SeprationStatus.DivisionalApproval)
+                    {
+                    <text>|</text>
+                    @*<a href="@Url.Action("ClearanceApproval", "Separation" , new { empId=Model[i].EmployeeId, sepId=Model[i].SeprationId, aprType=2})" title="Click here, to view no dues approval status." data-toggle="tooltip">
+                        <i class="far fa-eye text-info" aria-hidden="true"></i>
+                    </a>*@
+                    @Html.EncodedImageActionLink("", "ClearanceApproval", "Separation", new { empId = Model[i].EmployeeId, sepId = Model[i].SeprationId, aprType = 2 }, new { @class = "toggle-tooltip", title = "Click here, to view no dues approval status" }, "~/Images/view.png")
+                    }
+                </td>
+
+            </tr>
+            sno++;
+            }
+            }
+        </tbody>
+    </table>
+
+
+    <div class="modal" id="div-FileUpload">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4> Upload Approved Separation Document </h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <!-- Modal body -->
+                <div class="modal-body" id="div-documents-container">
+
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <input type="button" value="Upload" id="btnDocUpload" name="ButtonType" class="btn btn-info btn-md toggle-tooltip " title="Click here, to upload the document." />
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal" id="div-CircularUpload">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4> Upload Approval Documents </h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <!-- Modal body -->
+                <div class="modal-body" id="div-circular-container">
+
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <input type="button" value="Upload" id="btnCirUpload" name="ButtonType" class="btn btn-info btn-md toggle-tooltip " title="Click here, to upload the document." />
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function () {
+
+            $("#btnDocUpload").click(function () {
+                var files = $("#file").get(0).files;
+                var fileData = new FormData();
+                var totalFiles = files.length;
+
+                var validation = 0;
+                if (totalFiles == 0) {
+                    $("#fileUploadError").html("Please select file").css("color", "red");
+                    validation++;
+                }
+                else {
+                    $("#fileUploadError").html("");
+                }
+
+                if (validation > 0) {
+                    return false;
+                }
+
+                for (var i = 0; i < files.length; i++) {
+                    var filesze = files[i].size;
+                    var fileName = files[i].name;
+                    var ext = fileName.substr(fileName.lastIndexOf('.') + 1).toLowerCase();
+                    if (!(ext == "pdf")) {
+                        $("#fileUploadError").html("Invalid file type, please select a (pdf) file").css("color", "red");
+                        return false;
+                    }
+                    if (filesze > 3000000) {  // 3MB
+                        $("#fileUploadError").html("Please select pdf size less than 3MB.").css("color", "red");
+                        return false;
+                    }
+                    fileData.append("file", files[i]);
+                }
+                var sepId = $("#SeprationId").val();
+                var employeeId = $("#EmployeeId").val();
+
+                fileData.append("separationId", sepId);
+                fileData.append("employeeId", employeeId);
+
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("UploadFiles", "Separation")",
+                    dataType: "json",
+                    contentType: false, // Not to set any content header
+                    processData: false, // Not to process data
+                    data: fileData,
+                    success: function (result, status, xhr) {
+                        debugger;
+                        $("#div-FileUpload").modal("hide");
+                        commonMessage(status, result);
+                        window.location.reload();
+                    },
+                    error: function (xhr, status, error) {
+                        alert(status);
+                    }
+                });
+            });
+
+            $("#btnCirUpload").click(function () {
+                var files = $("#cirfile").get(0).files;
+                var fileData = new FormData();
+                var totalFiles = files.length;
+
+                var validation = 0;
+                if (totalFiles == 0) {
+                    $("#cirfileUploadError").html("Please select file").css("color", "red");
+                    validation++;
+                }
+                else {
+                    $("#cirfileUploadError").html("");
+                }
+                if ($("#FileNo").val() == '') {
+                    $("#FileNoError").html("Please enter file no.").css("color", "red");
+                    validation++;
+                }
+                else {
+                    $("#FileNoError").html("");
+                }
+                if ($("#ReferanceNo").val() == '') {
+                    $("#ReferanceNoError").html("Please enter reference no.").css("color", "red");
+                    validation++;
+                }
+                else {
+                    $("#ReferanceNoError").html("");
+                }
+                if ($("#ApprovedDate").val() == '') {
+                    $("#ApprovedDateError").html("Please enter date.").css("color", "red");
+                    validation++;
+                }
+                else {
+                    $("#ApprovedDateError").html("");
+                }
+
+                if (validation > 0) {
+                    return false;
+                }
+
+                for (var i = 0; i < files.length; i++) {
+                    var filesze = files[i].size;
+                    var fileName = files[i].name;
+                    var ext = fileName.substr(fileName.lastIndexOf('.') + 1).toLowerCase();
+                    if (!(ext == "pdf")) {
+                        $("#cirfileUploadError").html("Invalid file type, please select a (pdf) file").css("color", "red");
+                        return false;
+                    }
+                    if (filesze > 3000000) {  // 3MB
+                        $("#cirfileUploadError").html("Please select pdf size less than 3MB.").css("color", "red");
+                        return false;
+                    }
+                    fileData.append("file", files[i]);
+                }
+                var sepId = $("#SeprationId").val();
+                var employeeId = $("#EmployeeId").val();
+                var fileNo = $("#FileNo").val();
+                var referenceNo = $("#ReferenceNo").val();
+                var apprDate = $("#ApprovedDate").val();
+
+                fileData.append("separationId", sepId);
+                fileData.append("employeeId", employeeId);
+                fileData.append("fileNo", fileNo);
+                fileData.append("referenceNo", referenceNo);
+                fileData.append("apprDate", apprDate);
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("UploadCircular", "Separation")",
+                    dataType: "json",
+                    contentType: false, // Not to set any content header
+                    processData: false, // Not to process data
+                    data: fileData,
+                    success: function (result, status, xhr) {
+                        debugger;
+                        $("#div-CircularUpload").modal("hide");
+                        commonMessage(status, result);
+                        window.location.reload();
+                    },
+                    error: function (xhr, status, error) {
+                        alert(status);
+                    }
+                });
+            });
+        });
+
+
+
+    </script>

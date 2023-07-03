@@ -1,0 +1,18 @@
+﻿@model MicroPay.Web.Models.AcadmicProfessionalModel
+@{
+    ViewBag.Title = "Employee Qualification";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="">
+    <div class="card_new_body">
+        @using (Ajax.BeginForm("ShowReport", "EmployeeQualification", new AjaxOptions { HttpMethod = "POST", OnSuccess = "OnReportSuccess" }))
+        {
+            <div id="div-report-filters">
+                @Html.Action("_ReportFilter")
+            </div>
+        }
+    </div>
+</div>
+
+

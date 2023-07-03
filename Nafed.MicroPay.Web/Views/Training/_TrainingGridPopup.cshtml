@@ -1,0 +1,113 @@
+﻿@model MicroPay.Web.Models.TrainingViewModel
+@using Nafed.MicroPay.Model;
+
+<table id="tblGridpopup" class="table table-centered table-striped dt-responsive w-100">
+    <thead>
+        <tr>
+            <th>
+                #
+            </th>
+            <th>
+                Training Title
+            </th>
+            <th>
+                Start Date               
+            </th>
+            <th>
+                End Date
+            </th>
+
+            <th class="text-center" style="width:40px">
+                View Feedback Questions
+            </th>
+            <th>
+                Copy
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            if (Model != null && Model.TrainingList.Count > 0)
+            {
+                var sno = 1;
+                foreach (var item in Model.TrainingList)
+                {
+                    <tr>
+                        <td> @sno</td>
+                        <td> @item.TrainingTitle</td>
+                        <td> @item.StartDate.Value.ToString("dd-MM-yyyy")</td>
+                        <td> @item.EndDate.Value.ToString("dd-MM-yyyy")</td>
+                        <td class="text-center">
+                            <a data-ajax="true"
+                               method="GET" class="toggle-tooltip" title="Click here to see Questions List"
+                               data-ajax-update="#div-feedbacklist-body" data-ajax-mode="replace"
+                               data-backdrop="static" data-keyboard="false"
+                               href="@Url.Action("_GetFeedbackFormQuestions", "Training",new {trainingID=item.TrainingID })"
+                               id="a_feedbacklist" data-toggle="modal" data-target="#div-feedbacklist">
+                                <span class="far fa-eye text-info" aria-hidden="true"></span>
+                            </a>                                                       
+                        </td>                       
+
+                        <td class="text-center">
+                            @using (Ajax.BeginForm("QuesFromPrvtoNewTraining", new { trainingID = Model.trainingID, prevTrainingID = item.TrainingID }, new AjaxOptions { HttpMethod = "POST", OnSuccess = "TrainingFeedbackOnSuccess" }))
+                            {
+                                <button type="submit" class="btn btn-info"></button>
+                                @*<a data-ajax="true"
+                                   method="POST" class="toggle-tooltip" title="Click here to copy Questions"
+                                   data-ajax-update="#div-feedbacklist-body" data-ajax-mode="replace"
+                                   data-backdrop="static" data-keyboard="false"
+                                   href="@Url.Action("QuesFromPrvtoNewTraining", "Training", new { trainingID = Model.trainingID, prevTrainingID = item.TrainingID })"
+                                   id="a_feedbacklist" data-toggle="modal" data-target="#div-feedbacklist">
+                                    <span class="far fa-copy text-info" aria-hidden="true"></span>
+                                </a>*@
+                            }
+                            
+                        </td>                                                
+                    </tr>
+                    sno++;
+                }
+            }
+        }
+
+    </tbody>
+</table>
+
+<script>
+    $('.toggle-tooltip').tooltip();
+
+    var table = $('#tblGridpopup').DataTable({
+    });
+    $('#tblGridpopup_length').find('select').addClass('custom-select');
+
+    $("#btnquestions").click(function() {
+        $("#div-feedbacklist").model('hide');
+    })
+
+</script>
+
+
+
+<div class="modal" id="div-feedbacklist" style="max-height:600px;">
+    <div class="modal-dialog modal-big">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4>Feedback Questions</h4>
+                <button type="button" id="btnquestions" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body" id="div-feedbacklist-body" style="max-height:500px;overflow-x:scroll">
+
+
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+
+            </div>
+
+        </div>
+    </div>
+</div>

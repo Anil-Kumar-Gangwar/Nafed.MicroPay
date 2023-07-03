@@ -1,0 +1,88 @@
+﻿@model Nafed.MicroPay.Model.LeaveCreditRule
+@{
+    ViewBag.Title = "Create Credit Rule";
+    ViewBag.NavigationTitle = "Leave Credit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card_new_header alert alert-danger">
+
+    <div class="col-sm-6">
+        NOTE : Fields marked with (*) are compulsory fields
+    </div>
+    <div class="col-sm-6 text-right">
+        <b>@*[ Characters < > # ^ ; | $ are not allowed ]*@</b>
+    </div>
+
+</div>
+
+
+@using (Html.BeginForm("Create", "LeaveCreditRule"))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    
+        <div class="card_new_body">
+            <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
+
+                    <div class="row">
+                        @Html.LabelFor(model => model.EmployeeTypeID, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-6 col-xs-12 mb-2" })
+
+                        <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 mb-2">
+                            @Html.DropDownListFor(model => model.EmployeeTypeID, (IEnumerable<SelectListItem>)ViewBag.EmployeeType, new { id = "EmployeeTypeID", @class = "custom-select" })
+
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        @Html.LabelFor(model => model.C_YearID, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2 required" })
+                        <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 mb-2">
+                            @Html.DropDownListFor(model => model.C_YearID, (IEnumerable<SelectListItem>)ViewBag.FinancialYear, new { @class = "form-control" })
+                            @Html.ValidationMessage("FYearRequired", "", new { @class = "text-danger" })
+                            @*@Html.ValidationMessage("FYearAlreadyExists", "", new { @class = "text-danger" })*@
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        @Html.LabelFor(model => model.LeaveCategoryID, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2 required" })
+                        <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 mb-2">
+                            @Html.DropDownListFor(model => model.LeaveCategoryID, (IEnumerable<SelectListItem>)ViewBag.LeaveCategory, new { @class = "custom-select" })
+                            @Html.ValidationMessage("LeaveCategoryAlreadyExists", "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        @Html.LabelFor(model => model.FromMonth, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2 required" })
+                        <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 mb-2">
+                            @Html.DropDownListFor(model => model.FromMonth, (IEnumerable<SelectListItem>)ViewBag.FMonth, new { @class = "form-control" })
+                            @Html.ValidationMessage("FromMonthRequired", "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        @Html.LabelFor(model => model.ToMonth, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2 required" })
+                        <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 mb-2">
+                            @Html.DropDownListFor(model => model.ToMonth, (IEnumerable<SelectListItem>)ViewBag.TMonth, new { @class = "form-control" })
+                            @Html.ValidationMessage("ToMonthRequired", "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        @Html.LabelFor(model => model.Credit, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2 required" })
+                        <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 mb-2">
+                            @Html.EditorFor(model => model.Credit, new { htmlAttributes = new { @class = "form-control integerOnly", @placeholder = "Credit", @min = 0} })
+                            @Html.ValidationMessageFor(model => model.Credit, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <span class="pull-right">
+                        @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-light btn-sm toggle-tooltip", @title = "Click here, to redirect on list page", @data_toggle = "tooltip" })
+                        <input type="submit" value="Create" class="btn btn-info btn-sm pull-center toggle-tooltip" title="Click here, to Create current record" data-toggle="tooltip" />
+                    </span>
+                </div>
+            </div>
+        </div>
+ 
+}
+

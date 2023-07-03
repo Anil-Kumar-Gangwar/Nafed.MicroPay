@@ -1,0 +1,18 @@
+﻿@using Nafed.MicroPay.Model
+@{
+    ViewBag.Title = "Super Annuation Report";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="">
+    <div class="card_new_body">
+        @using (Ajax.BeginForm("ShowReport", "SuperAnnuationReport", new AjaxOptions { HttpMethod = "POST", OnSuccess = "OnReportSuccess" }))
+        {
+
+            <div id="div-report-filters">
+                @Html.Action("GetReportFilters")
+            </div>
+        }
+    </div>
+</div>
+
+

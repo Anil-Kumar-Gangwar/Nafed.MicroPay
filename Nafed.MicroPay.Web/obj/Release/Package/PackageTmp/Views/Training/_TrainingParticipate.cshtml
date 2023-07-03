@@ -1,0 +1,136 @@
+﻿@using Nafed.MicroPay.Model;
+@model MicroPay.Web.Models.TrainingViewModel
+
+@{
+    var tableID = "tblGrid";
+    if (Model.trainingParticipants.Count > 0 && ((EnumTrainingStatus)Model.TrainingStatus == EnumTrainingStatus.Completed))
+    {
+        tableID = "tblXL";
+    }
+
+    tableID = "tblParticipant";
+}
+
+
+<table id="@tableID" class="table table-centered table-striped dt-responsive w-100" style="width:100%;">
+    <thead>
+        <tr>
+            <th>
+                #
+            </th>
+
+            @if ((EnumTrainingStatus)Model.TrainingStatus == EnumTrainingStatus.Completed)
+            {
+                <th style="width:40px">
+                    Training Attended
+                </th>
+            }
+            <th>
+                Employee Code
+            </th>
+            <th>
+                Employee Name
+            </th>
+            <th>
+                Designation
+            </th>
+            <th>
+                Branch
+            </th>
+
+            @if ((EnumTrainingStatus)Model.TrainingStatus != EnumTrainingStatus.Completed)
+            {
+                <th class="text-center" style="width:40px">
+                    Delete
+                </th>
+            }
+
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            @Html.HiddenFor(model => model.TrainingStatus)
+
+            if (Model != null && Model.trainingParticipants.Count > 0)
+            {
+                var sno = 1;
+                for (int i = 0; i < Model.trainingParticipants.Count; i++)
+                {
+                    <tr>
+                        <td> @sno</td>
+                        @*<td> @Model.trainingParticipants[i].TrainingName</td>*@
+
+                        @if ((EnumTrainingStatus)Model.TrainingStatus == EnumTrainingStatus.Completed)
+                        {
+                            <td class="text-center" style="width:40px">
+                                @if (Model.trainingParticipants[i].FeedbackFormStatus)
+                                {
+                                    @Html.HiddenFor(model => Model.trainingParticipants[i].TrainingAttended)
+                                    @Html.CheckBoxFor(model => Model.trainingParticipants[i].TrainingAttended, new { Style = "vertical-align:3px;", @disabled = "disabled" })
+                                }
+                                else
+                                {
+                                    @Html.CheckBoxFor(model => Model.trainingParticipants[i].TrainingAttended, new { Style = "vertical-align:3px;" })
+                                }
+                            </td>
+                        }
+                        <td>
+                            @Html.HiddenFor(model => Model.trainingParticipants[i].TrainingParticipantID)
+                            @Html.HiddenFor(model => Model.trainingParticipants[i].EmployeeID)
+                            @Html.HiddenFor(model => Model.trainingParticipants[i].EmployeeCode)
+                            @Html.HiddenFor(model => Model.trainingParticipants[i].EmployeeName)
+                            @Html.HiddenFor(model => Model.trainingParticipants[i].DesignationName)
+                            @Html.HiddenFor(model => Model.trainingParticipants[i].EmployeeBranch)
+                            @Html.HiddenFor(model => Model.trainingParticipants[i].EmailID)
+
+                            @*@Html.HiddenFor(model => Model.trainingParticipants[i].UpdateBy)
+                                @Html.HiddenFor(model => Model.trainingParticipants[i].UpdateOn)*@
+
+                            @Model.trainingParticipants[i].EmployeeCode
+                        </td>
+                        <td> @Model.trainingParticipants[i].EmployeeName</td>
+                        <td> @Model.trainingParticipants[i].DesignationName</td>
+                        <td> @Model.trainingParticipants[i].EmployeeBranch</td>
+
+                        @*@if (Model.userRights.Delete)
+                            {*@
+
+                        @if ((EnumTrainingStatus)Model.TrainingStatus != EnumTrainingStatus.Completed && (EnumTrainingStatus)Model.TrainingStatus != EnumTrainingStatus.Cancel)
+                        {
+                            <td class="text-center">
+                                @*<a data-toggle="confirm" class="toggle-tooltip" href="@Url.Action("DeleteParticipants", "Training", new { trainingParticipantID = Model.trainingParticipants[i].TrainingParticipantID, trainingId = Model.trainingParticipants[i].TrainingID })" title="Click here, to delete this record">
+                                    <span class="far fa-trash-alt text-danger" aria-hidden="true"></span>
+                                    </a>*@
+
+                                <a data-ajax="true" data-ajax-confirm="Are you sure you want to remove this record?" method="GET" data-ajax-success="OnSucess" data-ajax-update="#div-inner-section" data-ajax-mode="replace" class="toggle-tooltip" href="@Url.Action("DeleteParticipants", "Training", new { trainingParticipantID = Model.trainingParticipants[i].TrainingParticipantID, trainingId = Model.trainingParticipants[i].TrainingID })" title="Click here, to delete this record">
+                                    <span class="far fa-trash-alt text-danger" aria-hidden="true"></span>
+                                </a>
+
+                            </td>
+                        }
+                        @*}*@
+                    </tr>
+                    sno++;
+                }
+            }
+        }
+
+    </tbody>
+</table>
+
+
+<script>
+    $('.toggle-tooltip').tooltip();
+    $('#tblGrid2_length').find('select').addClass('custom-select');
+    $('#tblXL_length').find('select').addClass('custom-select');
+
+    function OnSucess(data) {
+        commonMessage("success", "Deleted Successfully.");
+    }
+</script>
+
+
+
+
+
+

@@ -1,0 +1,12 @@
+﻿
+@model MicroPay.Web.Models.ApprovalRequestVM
+
+@Html.Partial("_APARFilters", Model.AppraisalFilters)
+
+@Html.Partial("_AppraisalStatusBar")
+
+<div id="div-appraisal-forms">
+
+      @Html.Partial("_AppraisalFormGridView",Model)
+
+</div>

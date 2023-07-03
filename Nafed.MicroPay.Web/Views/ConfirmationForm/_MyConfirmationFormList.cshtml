@@ -1,0 +1,57 @@
+﻿
+@model MicroPay.Web.Models.ConfirmationFormViewModel
+
+<table id="tblGrid" class="table table-centered table-striped dt-responsive w-100">
+    <thead>
+        <tr>
+            <th>
+                #
+            </th>
+
+            <th>
+                Form Type
+            </th>
+
+            <th>
+                Confirmation Type
+            </th>
+
+            <th>
+                Status
+            </th>
+            @*<th class="text-center" style="width:60px">
+                View
+            </th>*@
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            if (Model.formList != null && Model.formList.Count() > 0)
+            {
+                var sno = 1;
+                foreach (var item in Model.formList)
+                {
+                    <tr>
+                        <td>@sno</td>
+                        <td>@item.FormTypeName</td>
+                        <td>@item.FormConfirmationType</td>
+                        <td> </td>
+                        @*<td class="text-center">
+                            <a href="@Url.Action("_GetConfirmationForm", "ConfirmationForm",
+                                    new
+                                    {
+                                        @formTypeID = item.FormTypeID,
+                                        @processTypeID = item.ProcessID,
+                                        @employeeID = item.EmployeeID
+                                    })" title="Click here, to view this record" data-toggle="tooltip">
+                            <i class="far fa-eye text-info" aria-hidden="true"></i>
+                            </a>
+                        </td>*@
+                    </tr>
+                    sno++;
+                }
+            }
+        }
+
+    </tbody>
+</table>

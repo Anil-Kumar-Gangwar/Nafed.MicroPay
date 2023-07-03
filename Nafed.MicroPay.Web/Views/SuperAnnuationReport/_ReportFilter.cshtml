@@ -1,0 +1,55 @@
+﻿@using MicroPay.Web.Models
+@model EmployeeViewModel
+
+
+<div class="advance-search" style="">
+
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 pb-1 pt-2 form-inline align-middle">
+        <i class="fa fa-search fa-2x" style="color:#d4d4d4;" aria-hidden="true"></i><h4 class="desc" style="color:#0bb70b;">
+            @Html.Label("Search")
+        </h4>
+    </div>
+
+    <hr style="background-color:#fff !important;">
+
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="form-group">
+            <div class="row">
+                <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12 text-secondary pr-0">
+                    <i class="fas fa-filter"></i> Filter By :
+                </div>
+
+                <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+                    @Html.LabelFor(model => model.fromDate, htmlAttributes: new { @class = "control-label required" })
+                </div>
+
+                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 ">
+                    @Html.EditorFor(model => model.fromDate, new { htmlAttributes = new { @class = "form-control", type = "date" } })
+                    @Html.ValidationMessage("FromDateRequired", "", new { @class = "text-danger" })
+                </div>
+
+                <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+                    @Html.LabelFor(model => model.toDate, htmlAttributes: new { @class = " control-label required" })
+                </div>
+
+                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 ">
+                    @Html.EditorFor(model => model.toDate, new { htmlAttributes = new { @class = "form-control", type = "date" } })
+                    @Html.ValidationMessage("ToDateRequired", "", new { @class = "text-danger" })
+                    @Html.ValidationMessage("ToDateRangeValidation", "", new { @class = "text-danger" })
+                </div>
+
+                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 mt-2">
+                    @Html.CheckBoxFor(model => model.AllEmployee, new { @class = "" })
+                    @Html.Label("All Employee", new { @class = "label" })
+                </div>
+
+
+                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                    <button type="submit" id="submitform" value="View Report" title="Click here, to search records" name="eventType" class="btn btn-warning toggle-tooltip" formtarget="_blank">
+                        <i class="fa fa-eye"></i> View Report
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

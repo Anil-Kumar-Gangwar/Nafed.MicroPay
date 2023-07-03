@@ -1,0 +1,114 @@
+﻿
+@model MicroPay.Web.Models.OTAViewModel
+
+
+<table id="tblGrid" class="table table-centered table-striped dt-responsive w-100">
+    <thead>
+        <tr>
+            <th>
+                #
+            </th>
+            <th>
+                From Pay Scale
+            </th>
+            <th>
+                To Pay Scale
+            </th>
+            <th class="text-right">
+                Maximum Rate per Hour
+            </th>
+            <th class="text-right">
+                Maximum Amount
+            </th>
+
+            <th>
+                OTA Code
+            </th>
+            @if (Model.userRights.Edit)
+            {
+                <th class="text-center" style="width:60px">
+                    Edit
+                </th>
+            }
+            @if (Model.userRights.Delete)
+            {
+                <th class="text-center" style="width:60px">
+                    Delete
+                </th>
+            }
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            if (Model.OTAList != null && Model.OTAList.Count() > 0)
+            {
+                var sno = 1;
+                foreach (var item in Model.OTAList)
+                {
+                    <tr>
+                        <td> @sno</td>
+                        @switch (item.FromPay)
+                        {
+                            case "1":
+                                <td>200-500</td>
+                                break;
+
+                            case "2":
+                                <td>600-1000 </td>
+                                break;
+                            case "3":
+                                <td>1100-2000</td>
+                                break;
+
+                            default:
+                                <td>@item.FromPay</td>
+                                break;
+                        }
+                        @switch (item.ToPay)
+                        {
+                            case "1":
+                                <td>2000-5000</td>
+                                break;
+
+                            case "2":
+                                <td>6000-10000</td>
+                                break;
+                            case "3":
+                                <td>11000-20000</td>
+                                break;
+
+                            default:
+                                <td>@item.ToPay</td>
+                                break;
+                        }
+                        <td class="text-right"> @string.Format("{0:F2}", @item.MaxRateperHour)</td>
+                        <td class="text-right">@string.Format("{0:F2}", @item.MaxAmt)</td>
+                        <td> @item.OTACode</td>
+                        @if (Model.userRights.Edit)
+                        {
+                            <td class="text-center">
+                                @*<a href="@Url.Action("Edit", "OTA", new { oTACode = item.OTACode })" title="Click here, to edit this record" data-toggle="tooltip">
+                                    <i class="far fa-edit text-info" aria-hidden="true"></i>
+                                </a>*@
+                                @Html.EncodedImageActionLink("", "Edit", "OTA", new { oTACode = item.OTACode }, new { @class = "toggle-tooltip", title = "Click here, to edit this record" }, "~/Images/edit.png")
+                            </td>
+                        }
+                        @if (Model.userRights.Delete)
+                        {
+                            <td class="text-center">
+                                @*<a data-toggle="confirm" class="toggle-tooltip" href="@Url.Action("Delete", "OTA", new { oTACode = item.OTACode })" title="Click here, to delete this record">
+                                    <span class="far fa-trash-alt text-danger" aria-hidden="true"></span>
+                                </a>*@
+                                @Html.EncodedImageActionLink("", "Delete", "OTA", new { oTACode = item.OTACode }, new { @class = "toggle-tooltip", title = "Click here, to delete this record" }, "~/Images/delete.png", true)
+                            </td>
+                        }
+                    </tr>
+
+                    sno++;
+                }
+            }
+
+        }
+
+    </tbody>
+</table>

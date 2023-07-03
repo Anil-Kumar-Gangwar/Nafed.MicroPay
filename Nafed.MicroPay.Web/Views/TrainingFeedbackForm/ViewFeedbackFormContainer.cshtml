@@ -1,0 +1,16 @@
+﻿
+@{
+    ViewBag.Title = "Training Feedback Form";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+   var feedBackFormHdrID = Request["feedBackFormHdrID"];
+}
+
+
+<div>
+    <div class="card_new_body">
+        <div id="div-ViewFeedback-Form">
+            @Html.Action("_ViewFeedbackForm", "TrainingFeedbackForm", new { feedBackFormHdrID = feedBackFormHdrID })
+        </div>
+    </div>
+
+</div>

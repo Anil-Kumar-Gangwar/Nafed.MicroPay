@@ -1,0 +1,31 @@
+﻿@model Nafed.MicroPay.Model.UserAccessRight
+@{
+    ViewBag.Title = "Update Branch Designation";
+    ViewBag.NavigationTitle = "UpdateBranchDesignation";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    System.Globalization.CultureInfo Indian = new System.Globalization.CultureInfo("hi-IN");
+}
+<div class="">
+
+    <div class="card_new_body">
+        <div id="CadreGridDiv">
+            @Html.Action("UpdateBranchDesigGridView")
+        </div>
+    </div>
+    @*<div class="card_new_footer"></div>*@
+</div>
+@section scripts{
+
+
+}
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,102 @@
+﻿@model List<Nafed.MicroPay.Model.EmpAttendance>
+@using Nafed.MicroPay.Common
+<table id="tblGrid" class="table table-centered table-striped dt-responsive w-100">
+    <thead>
+        <tr>
+            <th scope="col">
+                #
+            </th>
+            <th scope="col" class="">
+                Name
+            </th>
+            <th scope="col">
+                Designation
+            </th>
+            <th scope="col" class="">
+                Tour Type
+            </th>
+            <th scope="col" class="">
+                Tour Location
+            </th>
+            <th scope="col" class="text-center">
+                Order Date
+            </th>
+            <th scope="col" class="text-center">
+                From Date
+            </th>
+            <th scope="col" class="text-center">
+              To Date
+            </th>
+            <th scope="col" class="text-center">
+               Duration
+            </th>
+            <th scope="col">
+                Remarks
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            int index = 1;
+            if ((Model != null && Model.Count > 0))
+            {
+                foreach (var item in Model)
+                {
+
+                    var place = string.Empty;
+
+                    if (item.TypeID == (int)PlaceOfAttendance.Office)
+                    {
+                        place = "Office";
+                    }
+                    if (item.TypeID == (int)PlaceOfAttendance.ClientSite)
+                    {
+                        place = "Local Tour";
+                    }
+                    if (item.TypeID == (int)PlaceOfAttendance.WorkFromHome)
+                    {
+                        place = "Work From Home";
+                    }
+                    if (item.TypeID == (int)PlaceOfAttendance.Tour)
+                    {
+                        place = "Remote Tour";
+                    }
+                    <tr>
+                        <td data-label="S.No."> @index</td>
+                        <td data-label="Name">@item.EmployeeName </td>
+                        <td data-label="Designation">@item.SenderDesignation </td>
+                        <td data-label="Tour Type">@place </td>
+                        <td data-label="Tour Location">@item.LocationName </td>
+                        <td data-label="Order Date" class="text-center"> @item.OrderDate.ToString("dd-MMM-yyyy")</td>
+                        <td data-label="From Date" class="text-center"> @item.ProxydateIn.ToString("dd-MMM-yyyy")</td>
+                        <td data-label="To Date" class="text-center">  @item.ProxyOutDate.ToString("dd-MMM-yyyy")</td>
+                        <td data-label="Duration" class="text-center">
+                            @{
+                                var day = (@item.ProxyOutDate - @item.ProxydateIn).Days + 1;
+                            }
+
+                            @day<text> Day(s)</text>
+                        </td>
+                        <td data-label="Remarks">
+                            @if (!string.IsNullOrEmpty(item.Remarks))
+                            {
+                                if (item.Remarks.Length > 50)
+                                {
+                                    <span class="toggle-tooltip" title="@item.Remarks">@item.Remarks.Substring(0, 50)...</span>
+                                }
+                                else
+                                {
+                                    @item.Remarks
+                                }
+                            }
+                        
+                        </td>
+                    </tr>
+                    index++;
+                }
+            }
+
+        }
+
+    </tbody>
+</table>

@@ -1,0 +1,814 @@
+﻿@model Nafed.MicroPay.Model.SanctionLoan
+@{
+    ViewBag.Title = "Sanction Loan";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@{
+    var modelValid = Model.IsModelValid;
+}
+
+@using (Html.BeginForm("Create", "SanctionLoan", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    @Html.HiddenFor(model => model.LoanMode)
+    <div class="row">
+
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+            <fieldset class="border p-2 col-md-12 col-xs-12 col-lg-12 col-xl-12">
+
+                <legend style="font-size:1.3rem !important;" class="w-auto">GENERAL</legend>
+
+                <div class="form-group">
+
+                    <div class="row">
+
+                        @Html.LabelFor(model => model.SerialNo, htmlAttributes: new { @class = "control-label col-lg-2 col-md-2 col-sm-12 col-xs-12 mb-2" })
+
+                        <div class="col-lg-2 col-md-4 col-sm-12 col-xs-12 mb-2">
+                            @Html.EditorFor(model => model.SerialNo, new { htmlAttributes = new { @class = "form-control", @placeholder = "To be generated", @maxlength = "20", @readonly = "readonly" } })
+                        </div>
+
+                        @Html.LabelFor(model => model.PFNumber, htmlAttributes: new { @class = "control-label col-lg-2 col-md-2 col-sm-12 col-xs-12 mb-2" })
+
+                        <div class="col-lg-2 col-md-4 col-sm-12 col-xs-12 mb-2">
+
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
+
+                                    <div class="input-group">
+                                        @Html.EditorFor(model => model.PFNumber, new { htmlAttributes = new { @class = "form-control", @placeholder = "Enter PF Number", @maxlength = "6" } })
+                                        <span class="input-group-addon primary">
+                                            <a href="javascript:void(0)" onclick="SearchByPF();" title="Click here, to find by PF number" class="toggle-tooltip">
+                                                <span class="fa fa-search text-white"></span>
+                                            </a>
+                                        </span>
+                                    </div>
+
+
+                                    <span id="pfNumberRequired"></span>
+                                </div>
+
+                            </div>
+                        </div>
+                        @*<div class="col-lg-1 col-md-1 col-sm-12 col-xs-12 mb-2">
+
+                                <input type="button" value="Find" class="btn btn-info btn-md pull-center toggle-tooltip" title="Click here, to find by PF number" onclick="SearchByPF();" />
+                            </div>*@
+
+                        @Html.LabelFor(model => model.EmployeeId, htmlAttributes: new { @class = "control-label col-lg-2 col-md-2 col-sm-12 col-xs-12 mb-2" })
+
+                        <div class="col-lg-2 col-md-4 col-sm-12 col-xs-12 mb-2">
+                            @Html.DropDownListFor(model => model.EmployeeId, new SelectList(Model.EmployeeList.OrderByDescending(x => x.value), "id", "value"), new { @class = "custom-select" })
+                            @Html.ValidationMessageFor(model => model.EmployeeId, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        @Html.LabelFor(model => model.DateofApp, htmlAttributes: new { @class = "control-label col-lg-2 col-md-2 col-sm-12 col-xs-12 mb-2" })
+
+                        <div class="col-lg-2 col-md-4 col-sm-12 col-xs-12 mb-2">
+                            @Html.EditorFor(model => model.DateofApp, new { htmlAttributes = new { @class = "form-control", @placeholder = "Date of Application", type = "date", @onfocusout = "ApplicationDate()" } })
+                            <span id="dateofAppRequired"></span>
+                            @Html.ValidationMessage("DateofAppValidation", "", new { @class = "text-danger" })
+                            @Html.ValidationMessageFor(model => model.DateofApp, "", new { @class = "text-danger" })
+                        </div>
+
+                        @Html.LabelFor(model => model.DateRcptApp, htmlAttributes: new { @class = "control-label col-lg-2 col-md-3 col-sm-12 col-xs-12 mb-2" })
+
+                        <div class="col-lg-2 col-md-3 col-sm-12 col-xs-12 mb-2">
+                            @Html.EditorFor(model => model.DateRcptApp, new { htmlAttributes = new { @class = "form-control", @placeholder = "Date of Application Receipt", type = "date" } })
+                            @Html.ValidationMessage("DateRcptAppValidation", "", new { @class = "text-danger" })
+                            @Html.ValidationMessageFor(model => model.DateRcptApp, "", new { @class = "text-danger" })
+                        </div>
+
+
+                        @Html.LabelFor(model => model.LoanTypeId, htmlAttributes: new { @class = "control-label col-lg-2 col-md-2 col-sm-12 col-xs-12 mb-2" })
+                        @Html.HiddenFor(model => model.AssignLoanTypeId)
+                        <div class="col-lg-2 col-md-4 col-sm-12 col-xs-12 mb-2">
+                            @Html.DropDownListFor(model => model.LoanTypeId, new SelectList(Model.LoanTypeList, "id", "value"), "Select", new { @class = "custom-select", @onChange = "ChangeLoanType()" })
+                            @Html.ValidationMessageFor(model => model.LoanTypeId, "", new { @class = "text-danger" })
+                        </div>
+
+                    </div>
+
+
+                    <div class="row">
+                        @Html.LabelFor(model => model.ReqAmt, htmlAttributes: new { @class = "control-label col-lg-2 col-md-2 col-sm-12 col-xs-12 mb-2" })
+
+                        <div class="col-lg-2 col-md-4 col-sm-12 col-xs-12 mb-2">
+                            @Html.EditorFor(model => model.ReqAmt, new { htmlAttributes = new { @class = "form-control", @placeholder = "Requested Amount", type = "number", @onfocusout = "RequestedAmount()" } })
+                            @Html.ValidationMessage("ReqAmtValidation", "", new { @class = "text-danger" })
+                            @Html.ValidationMessageFor(model => model.ReqAmt, "", new { @class = "text-danger" })
+                        </div>
+
+                        @Html.LabelFor(model => model.PriorityNo, htmlAttributes: new { @class = "control-label col-lg-2 col-md-2 col-sm-12 col-xs-12 mb-2" })
+
+                        <div class="col-lg-2 col-md-4 col-sm-12 col-xs-12 mb-2">
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
+                                    <div class="input-group">
+                                        @Html.EditorFor(model => model.PriorityNo, new { htmlAttributes = new { @class = "form-control", @placeholder = "Loan Number", @readonly = "readonly" } })
+                                        <span class="input-group-addon primary">
+                                            <a href="javascript:void(0)" onclick="AssignLoanNo();" title="Click here, to find by Assign Loan number" class="toggle-tooltip">
+                                                <span class="fa fa-tasks text-white"></span>
+                                            </a>
+                                        </span>
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.PriorityNo, "", new { @class = "text-danger" })
+                                </div>
+
+                                @*<div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 mb-2">
+                                        <a href="javascript:void(0)" onclick="AssignLoanNo();" title="Click here, to find by Assign Loan number" class="toggle-tooltip">
+                                            <i class="fa fa-tasks" aria-hidden="true"></i>
+                                        </a>
+                                    </div>*@
+                            </div>
+                        </div>
+
+
+                        @Html.LabelFor(model => model.ChkRound, new { @class = "control-label col-lg-2 col-md-2 col-sm-12 col-xs-12 mb-2" })
+
+                        <div class="col-lg-2 col-md-4 col-sm-12 col-xs-12 mb-4">
+                            <label class="switch">
+                                @Html.CheckBoxFor(model => model.ChkRound, new { @class = "form-control" })
+                                <div class="slider round">
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        @Html.LabelFor(model => model.AppStatus, htmlAttributes: new { @class = "control-label col-lg-2 col-md-2 col-sm-12 col-xs-12 mb-2" })
+
+                        <div class="col-lg-2 col-md-4 col-sm-12 col-xs-12 mb-2">
+                            @Html.EditorFor(model => model.AppStatus, new { htmlAttributes = new { @class = "form-control", @placeholder = "Application Status", @readonly = "readonly" } })
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        @Html.LabelFor(model => model.Surety, htmlAttributes: new { @class = "control-label col-lg-2 col-md-2 col-sm-12 col-xs-12 mb-2" })
+
+                        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 mb-2">
+
+                            @Html.TextAreaFor(model => model.Surety, new { @class = "form-control", @style = "min-height:80px;max-height:80px;min-width:605px;max-width:605px;", @maxlength = "500" })
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+
+            <div class="row">
+                <fieldset class="border p-2 col-md-12 col-lg-7 col-xs-12 col-xl-7">
+                    <legend style="font-size:1.3rem !important;" class="w-auto">
+
+                        <label class="switch mb-3">
+                            @Html.CheckBoxFor(model => model.LoanSanction, new { @class = "form-control", @disabled = "disabled", @onChange = "CheckedLoanSanction()" })
+                            <div class="slider round">
+                            </div>
+                        </label>
+                        Loan Sanctioned
+                    </legend>
+
+                    <div class="form-group">
+
+                        <div class="row">
+
+                            @Html.LabelFor(model => model.DateofSanc, htmlAttributes: new { @class = "control-label col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-2" })
+
+                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-2">
+                                @Html.EditorFor(model => model.DateofSanc, new { htmlAttributes = new { @class = "form-control", @placeholder = "Date of Sancation", type = "date", @readonly = "readonly" } })
+                                @Html.ValidationMessage("DateofSancValidation", "", new { @class = "text-danger" })
+                            </div>
+
+                            @Html.LabelFor(model => model.SancAmt, htmlAttributes: new { @class = "control-label col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-2" })
+
+                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-2">
+                                @Html.EditorFor(model => model.SancAmt, new { htmlAttributes = new { @class = "form-control", @placeholder = "Sancation Amount", @readonly = "readonly" } })
+                                @Html.ValidationMessage("SancAmtValidation", "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="row">
+
+                            @Html.LabelFor(model => model.OriginalPInstNo, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2" })
+
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 mb-2">
+                                @Html.EditorFor(model => model.OriginalPInstNo, new { htmlAttributes = new { @class = "form-control", @placeholder = "", @value = "0", @readonly = "readonly", @onfocusout = "changeInstallment()" } })
+                            </div>
+
+                            @Html.LabelFor(model => model.DateAvailLoan, htmlAttributes: new { @class = "control-label col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-2" })
+
+                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-2">
+                                @Html.EditorFor(model => model.DateAvailLoan, new { htmlAttributes = new { @class = "form-control", @placeholder = "Date of Availing Loan", @type = "date", @readonly = "readonly" } })
+                                @Html.ValidationMessage("DateAvailLoanValidation", "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="row">
+
+                            @Html.LabelFor(model => model.OriginalIInstNo, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2" })
+
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 mb-2">
+                                @Html.EditorFor(model => model.OriginalIInstNo, new { htmlAttributes = new { @class = "form-control", @placeholder = "", @value = "0", @readonly = "readonly", @onfocusout = "changeInstallment()" } })
+                            </div>
+
+                            @Html.LabelFor(model => model.EffDate, htmlAttributes: new { @class = "control-label col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-2" })
+
+                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-2">
+                                @Html.EditorFor(model => model.EffDate, new { htmlAttributes = new { @class = "form-control", @placeholder = "Effective Date", @type = "date", @readonly = "readonly" } })
+                            </div>
+                        </div>
+
+                    </div>
+                </fieldset>
+
+                <fieldset class="border p-2 col-md-12 col-xs-12 col-lg-5 col-xl-5">
+                    <legend style="font-size:1.3rem !important;" class="w-auto">Loan Refusal</legend>
+                    <div class="form-group">
+                        <div class="row">
+
+                            @Html.LabelFor(model => model.Reasonref, htmlAttributes: new { @class = "control-label col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-2" })
+
+                            <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12 mb-2">
+                                @Html.TextAreaFor(model => model.Reasonref, new { @class = "form-control", @style = "min-height:80px;max-height:80px;min-width:300px;max-width:400px;", @readonly = "readonly" })
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            @Html.LabelFor(model => model.Dateofref, htmlAttributes: new { @class = "control-label col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-2" })
+
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
+                                @Html.EditorFor(model => model.Dateofref, new { htmlAttributes = new { @class = "form-control", @placeholder = "Date of Refusal", type = "date", @readonly = "readonly" } })
+                            </div>
+                        </div>
+
+                    </div>
+                </fieldset>
+            </div>
+
+            <div class="row">
+                <fieldset class="border p-2 col-md-12 col-xs-12 col-lg-6 col-xl-6">
+                    <legend style="font-size:1.3rem !important;" class="w-auto">Document Submitted</legend>
+
+                    <div class="form-group">
+
+                        <div class="row">
+                            @Html.LabelFor(model => model.Asubmitted, new { @class = "control-label col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-2" })
+
+                            <div class="form-group">
+
+                                <label class="switch">
+                                    @Html.CheckBoxFor(model => model.Asubmitted, new { @class = "form-control" })
+                                    <div class="slider round">
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            @Html.LabelFor(model => model.Bsubmitted, new { @class = "control-label col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-2" })
+
+                            <div class="form-group">
+
+                                <label class="switch">
+                                    @Html.CheckBoxFor(model => model.Bsubmitted, new { @class = "form-control" })
+                                    <div class="slider round">
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            @Html.LabelFor(model => model.Csubmitted, new { @class = "control-label col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-2" })
+
+                            <div class="form-group">
+
+                                <label class="switch">
+                                    @Html.CheckBoxFor(model => model.Csubmitted, new { @class = "form-control" })
+                                    <div class="slider round">
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            @Html.LabelFor(model => model.Dsubmitted, new { @class = "control-label col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-2" })
+
+                            <div class="form-group">
+
+                                <label class="switch">
+                                    @Html.CheckBoxFor(model => model.Dsubmitted, new { @class = "form-control" })
+                                    <div class="slider round">
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            @Html.LabelFor(model => model.Esubmitted, new { @class = "control-label col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-2" })
+
+                            <div class="form-group">
+
+                                <label class="switch">
+                                    @Html.CheckBoxFor(model => model.Esubmitted, new { @class = "form-control" })
+                                    <div class="slider round">
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            @Html.LabelFor(model => model.Fsubmitted, new { @class = "control-label col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-2" })
+
+                            <div class="form-group">
+
+                                <label class="switch">
+                                    @Html.CheckBoxFor(model => model.Fsubmitted, new { @class = "form-control" })
+                                    <div class="slider round">
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            @Html.LabelFor(model => model.Gsubmitted, new { @class = "control-label col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-2" })
+
+                            <div class="form-group">
+
+                                <label class="switch">
+                                    @Html.CheckBoxFor(model => model.Gsubmitted, new { @class = "form-control" })
+                                    <div class="slider round">
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            @Html.LabelFor(model => model.Hsubmitted, new { @class = "control-label col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-2" })
+
+                            <div class="form-group">
+
+                                <label class="switch">
+                                    @Html.CheckBoxFor(model => model.Hsubmitted, new { @class = "form-control" })
+                                    <div class="slider round">
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                </fieldset>
+                <fieldset class="border p-2 col-md-12 col-xs-12 col-lg-6 col-xl-6">
+                    <legend style="font-size:1.3rem !important;" class="w-auto">Other Details</legend>
+                    <div class="form-group">
+                        <div class="row">
+
+                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 mt-2">
+                                @Html.LabelFor(model => model.MaxLoanAmt, new { @class = "control-label" })
+                            </div>
+
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
+                                @Html.EditorFor(model => model.MaxLoanAmt, new { htmlAttributes = new { @class = "form-control", @placeholder = "Max Loan Amount", @readonly = "readonly" } })
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 mt-2">
+                                @Html.LabelFor(model => model.RateOfIntrest, new { @class = "control-label" })
+                            </div>
+
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
+                                @Html.EditorFor(model => model.RateOfIntrest, new { htmlAttributes = new { @class = "form-control", @placeholder = "Rate Of Intrest", @readonly = "readonly" } })
+                            </div>
+
+                        </div>
+                        <br />
+                        <div class="row">
+                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 mt-2">
+                                @Html.LabelFor(model => model.Detail, new { @class = "control-label" })
+                            </div>
+
+                            <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12 mb-2">
+                                @Html.TextAreaFor(model => model.Detail, new { @class = "form-control", @style = "min-height:170px;max-height:170px;min-width:450px;max-width:450px;", @maxlength = "500" })
+                            </div>
+                        </div>
+
+                    </div>
+                </fieldset>
+            </div>
+
+            <fieldset class="border p-2 col-md-12 col-xs-12 col-lg-12 col-xl-12">
+                <legend style="font-size:1.3rem !important;" class="w-auto">Current Information</legend>
+                <div class="form-group">
+                    <div class="row">
+
+                        @Html.Label("Original Principle Installments", htmlAttributes: new { @class = "control-label col-lg-2 col-md-2 col-sm-12 col-xs-12 mb-2" })
+
+                        <div class="col-lg-2 col-md-4 col-sm-12 col-xs-12 mb-2">
+                            @Html.EditorFor(model => model.OriginalPrincipleInstallments, new { htmlAttributes = new { @class = "form-control", @placeholder = "", @readonly = "readonly" } })
+                        </div>
+
+                        @Html.LabelFor(model => model.BalancePAmt, htmlAttributes: new { @class = "control-label col-lg-2 col-md-2 col-sm-12 col-xs-12 mb-2" })
+
+                        <div class="col-lg-2 col-md-4 col-sm-12 col-xs-12 mb-2">
+                            @Html.EditorFor(model => model.BalancePAmt, new { htmlAttributes = new { @class = "form-control", @placeholder = "", @readonly = "readonly" } })
+                        </div>
+
+                        @Html.LabelFor(model => model.LastPaidInstDeduDt, htmlAttributes: new { @class = "control-label col-lg-2 col-md-2 col-sm-12 col-xs-12 mb-2" })
+
+                        <div class="col-lg-2 col-md-4 col-sm-12 col-xs-12 mb-2">
+                            @Html.EditorFor(model => model.LastPaidInstDeduDt, new { htmlAttributes = new { @class = "form-control", @placeholder = "", @readonly = "readonly" } })
+                        </div>
+
+
+                        @Html.Label("Original Interest Installments", htmlAttributes: new { @class = "control-label col-lg-2 col-md-2 col-sm-12 col-xs-12 mb-2" })
+
+                        <div class="col-lg-2 col-md-4 col-sm-12 col-xs-12 mb-2">
+                            @Html.EditorFor(model => model.OriginalInterestInstallments, new { htmlAttributes = new { @class = "form-control", @placeholder = "", @readonly = "readonly" } })
+                        </div>
+
+                        @Html.LabelFor(model => model.BalanceIAmt, htmlAttributes: new { @class = "control-label col-lg-2 col-md-2 col-sm-12 col-xs-12 mb-2" })
+
+                        <div class="col-lg-2 col-md-4 col-sm-12 col-xs-12 mb-2">
+                            @Html.EditorFor(model => model.BalanceIAmt, new { htmlAttributes = new { @class = "form-control", @placeholder = "", @readonly = "readonly" } })
+                        </div>
+
+                        @Html.LabelFor(model => model.LastPaidPInstAmt, htmlAttributes: new { @class = "control-label col-lg-2 col-md-2 col-sm-12 col-xs-12 mb-2" })
+
+                        <div class="col-lg-2 col-md-4 col-sm-12 col-xs-12 mb-2">
+                            @Html.EditorFor(model => model.LastPaidPInstAmt, new { htmlAttributes = new { @class = "form-control", @placeholder = "", @readonly = "readonly" } })
+                        </div>
+
+                        @Html.LabelFor(model => model.OriginalPinstAmt, htmlAttributes: new { @class = "control-label col-lg-2 col-md-2 col-sm-12 col-xs-12 mb-2" })
+
+                        <div class="col-lg-2 col-md-4 col-sm-12 col-xs-12 mb-2">
+                            @Html.EditorFor(model => model.OriginalPinstAmt, new { htmlAttributes = new { @class = "form-control", @placeholder = "", @readonly = "readonly" } })
+                       
+                            @Html.ValidationMessage("OriginalPInstAmtValidation", "", new { @class = "text-danger" })
+
+                         </div>
+
+                        @Html.LabelFor(model => model.TotalBalanceAmt, htmlAttributes: new { @class = "control-label col-lg-2 col-md-2 col-sm-12 col-xs-12 mb-2" })
+
+                        <div class="col-lg-2 col-md-4 col-sm-12 col-xs-12 mb-2">
+                            @Html.EditorFor(model => model.TotalBalanceAmt, new { htmlAttributes = new { @class = "form-control", @placeholder = "", @readonly = "readonly" } })
+                        </div>
+
+                        @Html.LabelFor(model => model.LastPaidPInstNo, htmlAttributes: new { @class = "control-label col-lg-2 col-md-2 col-sm-12 col-xs-12 mb-2" })
+
+                        <div class="col-lg-2 col-md-4 col-sm-12 col-xs-12 mb-2">
+                            @Html.EditorFor(model => model.LastPaidPInstNo, new { htmlAttributes = new { @class = "form-control", @placeholder = "", @readonly = "readonly" } })
+                        </div>
+
+                        @Html.LabelFor(model => model.InterestInstAmt, htmlAttributes: new { @class = "control-label col-lg-2 col-md-2 col-sm-12 col-xs-12 mb-2" })
+
+                        <div class="col-lg-2 col-md-4 col-sm-12 col-xs-12 mb-2">
+                            @Html.EditorFor(model => model.InterestInstAmt, new { htmlAttributes = new { @class = "form-control", @placeholder = "", @readonly = "readonly" } })
+                        </div>
+
+                        @Html.LabelFor(model => model.LastMonthInterest, htmlAttributes: new { @class = "control-label col-lg-2 col-md-2 col-sm-12 col-xs-12 mb-2" })
+
+                        <div class="col-lg-2 col-md-4 col-sm-12 col-xs-12 mb-2">
+                            @Html.EditorFor(model => model.LastMonthInterest, new { htmlAttributes = new { @class = "form-control", @placeholder = "", @readonly = "readonly" } })
+                        </div>
+
+                        @Html.LabelFor(model => model.LastPaidIInstAmt, htmlAttributes: new { @class = "control-label col-lg-2 col-md-2 col-sm-12 col-xs-12 mb-2" })
+
+                        <div class="col-lg-2 col-md-4 col-sm-12 col-xs-12 mb-2">
+                            @Html.EditorFor(model => model.LastPaidIInstAmt, new { htmlAttributes = new { @class = "form-control", @placeholder = "", @readonly = "readonly" } })
+                        </div>
+
+                        @Html.LabelFor(model => model.CurrentROI, htmlAttributes: new { @class = "control-label col-lg-2 col-md-2 col-sm-12 col-xs-12 mb-2" })
+
+                        <div class="col-lg-2 col-md-4 col-sm-12 col-xs-12 mb-2">
+                            @Html.EditorFor(model => model.CurrentROI, new { htmlAttributes = new { @class = "form-control", @placeholder = "", @readonly = "readonly" } })
+                        </div>
+
+                        @Html.LabelFor(model => model.RemainingPInstNo, htmlAttributes: new { @class = "control-label col-lg-2 col-md-2 col-sm-12 col-xs-12 mb-2" })
+
+                        <div class="col-lg-2 col-md-4 col-sm-12 col-xs-12 mb-2">
+                            @Html.EditorFor(model => model.RemainingPInstNo, new { htmlAttributes = new { @class = "form-control", @placeholder = "", @readonly = "readonly" } })
+                        </div>
+
+                        @Html.LabelFor(model => model.LastPaidIInstNo, htmlAttributes: new { @class = "control-label col-lg-2 col-md-2 col-sm-12 col-xs-12 mb-2" })
+
+                        <div class="col-lg-2 col-md-4 col-sm-12 col-xs-12 mb-2">
+                            @Html.EditorFor(model => model.LastPaidIInstNo, new { htmlAttributes = new { @class = "form-control", @placeholder = "", @readonly = "readonly" } })
+                        </div>
+
+                        @Html.LabelFor(model => model.LastInstAmt, htmlAttributes: new { @class = "control-label col-lg-2 col-md-2 col-sm-12 col-xs-12 mb-2" })
+
+                        <div class="col-lg-2 col-md-4 col-sm-12 col-xs-12 mb-2">
+                            @Html.EditorFor(model => model.LastInstAmt, new { htmlAttributes = new { @class = "form-control", @placeholder = "", @readonly = "readonly" } })
+                        </div>
+
+                        @Html.LabelFor(model => model.RemainingIInstNo, htmlAttributes: new { @class = "control-label col-lg-2 col-md-2 col-sm-12 col-xs-12 mb-2" })
+
+                        <div class="col-lg-2 col-md-4 col-sm-12 col-xs-12 mb-2">
+                            @Html.EditorFor(model => model.RemainingIInstNo, new { htmlAttributes = new { @class = "form-control", @placeholder = "", @readonly = "readonly" } })
+                        </div>
+
+                        @Html.LabelFor(model => model.TotalSkippedInst, htmlAttributes: new { @class = "control-label col-lg-2 col-md-2 col-sm-12 col-xs-12 mb-2" })
+
+                        <div class="col-lg-2 col-md-4 col-sm-12 col-xs-12 mb-2">
+                            @Html.EditorFor(model => model.TotalSkippedInst, new { htmlAttributes = new { @class = "form-control", @placeholder = "", @readonly = "readonly" } })
+                        </div>
+                    </div>
+
+                </div>
+            </fieldset>
+
+            <br />
+            <div class="divider-chevron"></div>
+            <span class="pull-right">
+                @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-light btn-md toggle-tooltip", @title = "Click here, to redirect on list page" })
+                <input type="submit" value="Save" class="btn btn-info btn-md pull-center toggle-tooltip" title="Click here, to save current record" />
+            </span>
+
+        </div>
+
+    </div>
+}
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        if ("@modelValid" == "False" && $("#ReqAmt").val() != "") {
+            $("#DateofSanc").removeAttr("readonly");
+            $("#SancAmt").removeAttr("readonly");
+            $("#OriginalPInstNo").removeAttr("readonly");
+            $("#OriginalIInstNo").removeAttr("readonly");
+            $("#DateAvailLoan").removeAttr("readonly");
+            if ($("#PriorityNo").val() != "") {
+                $("#LoanTypeId").attr("disabled", "disabled");
+            }
+        }
+    });
+
+    function CheckedLoanSanction() {
+        if (!$("#LoanSanction").is(":checked")) {
+            $("#Reasonref").removeAttr("readonly");
+            $("#Dateofref").removeAttr("readonly");
+            $("#DateofSanc").attr("readonly", "readonly");
+            $("#SancAmt").attr("readonly", "readonly");
+            $("#OriginalPInstNo").val("");
+            $("#OriginalIInstNo").val("");
+            $("#OriginalPInstNo").attr("readonly", "readonly");
+            $("#OriginalIInstNo").attr("readonly", "readonly");
+            $("#DateAvailLoan").attr("readonly", "readonly");
+        }
+        else {
+            $("#Reasonref").attr("readonly", "readonly");
+            $("#Dateofref").attr("readonly", "readonly");
+            $("#OriginalPInstNo").removeAttr("readonly");
+            $("#OriginalIInstNo").removeAttr("readonly");
+            $("#DateAvailLoan").removeAttr("readonly");
+            $("#DateofSanc").removeAttr("readonly");
+            $("#SancAmt").removeAttr("readonly");
+            AssignLoanNo();
+        }
+    }
+
+    function SearchByPF() {
+        if ($("#PFNumber").val() == "") {
+            $("#pfNumberRequired").html("Please Enter PF Number.").css("color", "red");
+            return false;
+        }
+        else {
+            $("#pfNumberRequired").html("").css("color", "");
+
+            $.ajax({
+                url: "@Url.Action("GetEmployeeByPFNumber", "SanctionLoan")",
+                type: "GET",
+                dataType: "JSON",
+                data: { PFNumber: parseInt($("#PFNumber").val()) },
+                success: function (data) {
+                    debugger;
+                    if (data.htmlData != "") {
+                        $("#EmployeeId").val(data.htmlData.id);
+                    }
+                }
+            });
+
+        }
+    }
+
+    function ApplicationDate() {
+        var dateOfApplication = $("#DateofApp").val();
+        $("#DateRcptApp").val(dateOfApplication);
+        $("#DateofSanc").val(dateOfApplication);
+        $("#DateAvailLoan").val(dateOfApplication);
+    }
+
+    function ChangeLoanType() {
+        debugger;
+        var loanType = parseInt($("#LoanTypeId").val());
+        $.ajax({
+            url: "@Url.Action("GetLoanTypeDetails", "SanctionLoan")",
+            type: "GET",
+            dataType: "JSON",
+            data: { LoanTypeID: loanType },
+            success: function (data) {
+                if (data.htmlData != "") {
+                    $("#MaxLoanAmt").val(data.htmlData.MaxLnAmount);
+                    $("#LoanMode").val(data.htmlData.loanMode);
+                    $("#RateOfIntrest").val(data.htmlData.LoanRate);
+                    if (data.htmlData.isinterestcalc == false || data.htmlData.loanMode == "EMI") {
+                        $("#OriginalIInstNo").attr("disabled", "disabled");
+                        $("#OriginalIInstNo").val(0);
+                    }
+                    else {
+                        $("#OriginalIInstNo").removeAttr("disabled");
+                    }
+                    if (data.htmlData.isinterestcalc == false) {
+                        $("#RateOfIntrest").val(0.0);
+                    }
+                    else {
+                        if (data.htmlData.isslabdependent == false) {
+                            $("#RateOfIntrest").val(data.htmlData.LoanRate);
+                        }
+                        else {
+                            $("#RateOfIntrest").val(data.htmlData.rateofInterest);
+                        }
+                    }
+                    if (loanType == "1")
+                        $("#RateOfIntrest").val(data.htmlData.LoanRate);
+                    CalculateLoanInterest();
+                    AssignLoanNo();
+                }
+            }
+        });
+    }
+
+    function RequestedAmount() {
+        if ($("#DateofApp").val() == "") {
+            $("#dateofAppRequired").html("Application Date Required.").css("color", "red");
+            $("#ReqAmt").val(0);
+            return false;
+        }
+        else {
+            $("#dateofAppRequired").html("").css("color", "");
+        }
+        var requestedAmount = parseFloat($("#ReqAmt").val() == "" ? 0 : $("#ReqAmt").val());
+        $("#SancAmt").val(requestedAmount);
+
+        if ($("#LoanSanction").is(":checked") && $("#SancAmt").val() != "")
+            $("#AppStatus").val("Loan Sanctioned");
+        if ($("#LoanSanction").is(":checked") && $("#SancAmt").val() == "")
+            $("#AppStatus").val("Is in Sanctioning Process");
+        if (!$("#LoanSanction").is(":checked") && $("#SancAmt").val() != "")
+            $("#AppStatus").val("Loan Refused");
+        if (!$("#LoanSanction").is(":checked") && $("#SancAmt").val() == "")
+            $("#AppStatus").val("Is in Sanctioning Process");
+
+        CalculateLoanInterest();
+        AssignLoanNo();
+    }
+
+    function CalculateLoanInterest() {
+        var dateOfSanction = $("#DateofSanc").val();
+        var sanctionAmount = parseFloat($("#SancAmt").val() == "" ? 0 : $("#SancAmt").val());
+        var rateOfInterest = parseFloat($("#RateOfIntrest").val() == "" ? 0 : $("#RateOfIntrest").val());
+        if (dateOfSanction != "") {
+            $.ajax({
+                url: "@Url.Action("CalculateLoanInterest", "SanctionLoan")",
+                type: "GET",
+                dataType: "JSON",
+                data: { dateOfSanction: dateOfSanction, sanctionAmnt: sanctionAmount, rOI: rateOfInterest },
+                success: function (data) {
+                    $("#LastMonthInterest").val(data.CalculateLoanInterest);
+                }
+            });
+        }
+    }
+
+    function AssignLoanNo() {
+        if ($("#EmployeeId").val() == "0") {
+            alert("Please Select Employee First.");
+            return false;
+        }
+        if ($("#LoanTypeId").val() == "") {
+            alert("Please Select Loan Type.");
+            return false;
+        }
+        var employeeId = parseInt($("#EmployeeId").val());
+        var empCode = $("#EmployeeId :selected").text().split('-')[0];
+        var loanType = parseInt($("#LoanTypeId").val());
+        $.ajax({
+            url: "@Url.Action("GetLoanNumberDetails", "SanctionLoan")",
+            type: "GET",
+            dataType: "JSON",
+            data: { LoanTypeID: loanType, EmpCode: empCode },
+            success: function (data) {
+                debugger;
+                if (data.htmlData != "") {
+                    if (data.htmlData.Message == "") {
+                        $("#PriorityNo").val(data.htmlData.PriorityNo);
+                        $("#OriginalPInstNo").val(data.htmlData.MaxInstallmentP);
+                        $("#OriginalIInstNo").val(data.htmlData.MaxInstallmentI);
+                        $("#AssignLoanTypeId").val(parseInt($("#LoanTypeId").val()));
+
+                        $("#LoanSanction").prop("checked", true);
+                        $("#LoanSanction").removeAttr("disabled");
+                        $("#btnAssignLoanNo").attr("disabled", "disabled");
+                        $("#LoanTypeId").attr("disabled", "disabled");
+                        $("#SancAmt").removeAttr("readonly");
+                        $("#OriginalPInstNo").removeAttr("readonly");
+                        $("#OriginalIInstNo").removeAttr("readonly");
+                        $("#DateAvailLoan").removeAttr("readonly");
+                        $("#DateofSanc").removeAttr("readonly");
+
+                        if ($("#LoanSanction").is(":checked") && $("#SancAmt").val() != "")
+                            $("#AppStatus").val("Loan Sanctioned");
+                        if ($("#LoanSanction").is(":checked") && $("#SancAmt").val() == "")
+                            $("#AppStatus").val("Is in Sanctioning Process");
+                        if (!$("#LoanSanction").is(":checked") && $("#SancAmt").val() != "")
+                            $("#AppStatus").val("Loan Refused");
+                        if (!$("#LoanSanction").is(":checked") && $("#SancAmt").val() == "")
+                            $("#AppStatus").val("Is in Sanctioning Process");
+
+                        if ($("#LoanSanction").is(":checked")) {
+                            $("#OriginalPrincipleInstallments").val(parseInt($("#OriginalPInstNo").val()));
+                            $("#OriginalInterestInstallments").val(parseInt($("#OriginalIInstNo").val()));
+                            if ($("#SancAmt").val() == "") {
+                                $("#OriginalPinstAmt").val(0.0);
+                            }
+                            else {
+                                if ($("#OriginalPInstNo").val() == "" || $("#OriginalPInstNo").val() == 0) {
+                                    $("#OriginalPinstAmt").val(0.0);
+                                }
+                                else {
+                                    if ($("#ChkRound").is(":checked")) {
+                                        var result = Math.floor(parseFloat($("#SancAmt").val() / $("#OriginalPInstNo").val()));
+                                        $("#OriginalPinstAmt").val(result);
+                                    }
+                                    else if (!$("#ChkRound").is(":checked")) {
+                                        var result = parseFloat($("#SancAmt").val() / $("#OriginalPInstNo").val());
+                                        $("#OriginalPinstAmt").val(result);
+                                    }
+                                }
+                            }
+                            $("#InterestInstAmt").val(0.0);
+                            $("#CurrentROI").val(0.0);
+                            $("#BalancePAmt").val($("#SancAmt").val() == "" ? 0.0 : parseFloat($("#SancAmt").val()));
+                            $("#BalanceIAmt").val(0.0);
+                            $("#TotalBalanceAmt").val(parseFloat($("#BalancePAmt").val()) + parseFloat($("#BalanceIAmt").val()));
+                            $("#RemainingPInstNo").val(parseInt($("#OriginalPrincipleInstallments").val()));
+                            $("#RemainingIInstNo").val(parseInt($("#OriginalInterestInstallments").val()));
+                            $("#LastPaidPInstAmt").val(0.0);
+                            $("#LastPaidIInstNo").val(0.0);
+                            $("#LastPaidIInstAmt").val(0.0);
+                            $("#TotalSkippedInst").val(0.0);
+                        }
+                        else {
+                            $("#OriginalPrincipleInstallments").val(0.0);
+                            $("#OriginalInterestInstallments").val(0.0);
+                            $("#OriginalPinstAmt").val(0.0);
+                            $("#InterestInstAmt").val(0.0);
+                            $("#CurrentROI").val(0.0);
+                            $("#BalancePAmt").val(0.0);
+                            $("#BalanceIAmt").val(0.0);
+                            $("#TotalBalanceAmt").val(0.0);
+                            $("#RemainingPInstNo").val(0.0);
+                            $("#RemainingIInstNo").val(0.0);
+                            $("#LastPaidPInstAmt").val(0.0);
+                            $("#LastPaidIInstNo").val(0.0);
+                            $("#LastPaidIInstAmt").val(0.0);
+                            $("#TotalSkippedInst").val(0.0);
+                        }
+                    }
+                    else {
+                        $("#LoanTypeId").val("");
+                        alert(data.htmlData.Message);
+                    }
+                }
+            }
+        });
+    }
+
+    function changeInstallment() {
+        $("#OriginalPrincipleInstallments").val(parseInt($("#OriginalPInstNo").val()));
+        $("#OriginalInterestInstallments").val(parseInt($("#OriginalIInstNo").val()));
+        if ($("#SancAmt").val() == "") {
+            $("#OriginalPinstAmt").val(0.0);
+        }
+        else {
+            if ($("#OriginalPInstNo").val() == "" || $("#OriginalPInstNo").val() == 0) {
+                $("#OriginalPinstAmt").val(0.0);
+            }
+            else {
+                if ($("#ChkRound").is(":checked")) {
+                    var result = Math.floor(parseFloat($("#SancAmt").val() / $("#OriginalPInstNo").val()));
+                    $("#OriginalPinstAmt").val(result);
+                }
+                else if (!$("#ChkRound").is(":checked")) {
+                    var result = parseFloat($("#SancAmt").val() / $("#OriginalPInstNo").val());
+                    $("#OriginalPinstAmt").val(result);
+                }
+            }
+        }
+        $("#RemainingPInstNo").val(parseInt($("#OriginalPrincipleInstallments").val()));
+        $("#RemainingIInstNo").val(parseInt($("#OriginalInterestInstallments").val()));
+    }
+
+</script>

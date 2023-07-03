@@ -1,0 +1,54 @@
+﻿@using MicroPay.Web.Models
+@model TrainingViewModel
+
+<div class="row">
+    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6" style="margin-top:60px;">
+        <div id="div-form-DocumentList-grid">
+            @Html.Partial("_TrainingDocumentList", Model)
+        </div>
+    </div>
+    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6" style="margin-top:60px;">
+        @*@using (Ajax.BeginForm("CreateTrainingDocument", "Training", new AjaxOptions
+            {
+                HttpMethod = "POST", OnSuccess = "OnCreateSuccess" }, new { id = "" }))
+            {*@
+        <div class="panel-body" id="divDocumentCenter">
+            <div id="div-form-Document-grid">
+                @Html.Partial("_TrainingDocumentUpload", Model)
+            </div>
+        </div>
+
+    </div>
+</div>
+<script type="text/javascript">
+    @*function DeleteTrainingDocument(trainingDocumentID, fileName) {
+        alert("hgghghj");
+        var trainingID=$("#hdnTrainingID").val();
+        $.ajax({
+            type: "POST",
+            url: @Url.Action("DeleteTrainingDocument", "Training"),
+            data: {trainingDocumentID: trainingDocumentID,fileName:fileName,trainingID:trainingID},
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+                if(response.htmlData!=""){
+                    $("#div-form-DocumentList-grid").html(result.htmlData);
+                }
+            },
+            failure: function (response) {
+                //alert(response.responseText);
+            },
+            error: function (response) {
+                //alert(response.responseText);
+            }
+        });
+    }*@
+    //function OnCreateSuccess(data) {
+    //    if (data.part == 1) {
+    //        $("#div-form-Document-grid").html(data.htmlData);
+    //    }
+    //    //if (data.part == undefined) {
+    //    //    $("#div-main-form").html(data);
+    //    //}
+    //}
+</script>

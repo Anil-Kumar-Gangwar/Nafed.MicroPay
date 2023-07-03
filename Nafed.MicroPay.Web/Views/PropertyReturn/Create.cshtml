@@ -1,0 +1,173 @@
+﻿@model Nafed.MicroPay.Model.PR
+@{
+    ViewBag.Title = "Create PR";
+    ViewBag.NavigationTitle = "PR";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script src="~/Scripts/bootstrap-multiselect.js"></script>
+
+
+
+<div class="card_new_header alert alert-danger">
+
+    <div class="col-sm-6">
+        NOTE : Fields marked with (*) are compulsory fields
+    </div>
+    <div class="col-sm-6 text-right">
+        <b>@*[ Characters < > # ^ ; | $ are not allowed ]*@</b>
+    </div>
+
+</div>
+
+
+
+@using (Html.BeginForm("Create", "Propertyreturn", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    @Html.Hidden("Employeecode");
+    <div class="card_new_body">
+        <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
+
+                <div class="row">
+                    @Html.LabelFor(model => model.Year, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-6 col-xs-12 mb-2 required" })
+                    <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 mb-2">
+                        @Html.DropDownListFor(model => model.Year, new SelectList(Model.CYearList, "id", "value"), "Select", new { @class = "custom-select" })
+                        @Html.ValidationMessageFor(model => model.Year, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+             
+
+                <div class="row">
+                    @Html.LabelFor(model => model.EmployeeId, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2 required" })
+                    <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 mb-2">
+                       
+                        @Html.DropDownListFor(model => model.EmployeeId, (IEnumerable<SelectListItem>)ViewBag.EmployeeDetails, new { @class = "custom-select ", @id = "ddlEmployee" })
+                        @Html.ValidationMessageFor(model => model.EmployeeId, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="row">
+                    @Html.LabelFor(model => model.PropertySituated, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2 required" })
+                    <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 mb-2">
+                       @Html.EditorFor(model => model.PropertySituated, new { htmlAttributes = new { @class = "form-control", @placeholder = "Property Situated", @maxlength = "1000" } })
+                    @Html.ValidationMessageFor(model => model.PropertySituated, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="row">
+                    @Html.LabelFor(model => model.PropertyType, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-6 col-xs-12 mb-2 " })
+                    <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 mb-2">
+                        @Html.DropDownListFor(model => model.PropertyType, (IEnumerable<SelectListItem>)ViewBag.PropertyTypeDetails, new { @class = "custom-select" })
+                    </div>
+                    </div>
+                
+               
+                <div class="row">
+                    @Html.LabelFor(model => model.PropertyDetails, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2" })
+                    <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 mb-2">
+                        @Html.EditorFor(model => model.PropertyDetails, new { htmlAttributes = new { @class = "form-control", @placeholder = "Property details", @maxlength = "500" } })
+                    </div>
+                </div>
+                <div class="row">
+                    @Html.LabelFor(model => model.PresentValue, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2" })
+                    <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 mb-2">
+                        @Html.EditorFor(model => model.PresentValue, new { htmlAttributes = new { @class = "form-control integerOnly ", @style = "text-align: right;", @placeholder = "Present Value", @type = "number" } })
+                  </div>
+                </div>
+
+                <div class="row">
+                    @Html.LabelFor(model => model.SelfProperty, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2 " })
+                    <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 mb-2">
+                        <div class="form-group">
+                            <label class="switch">
+                                @Html.CheckBoxFor(model => model.SelfProperty, new { @class = "form-control",@id= "chkSelfProperty" })
+                                <div class="slider round">
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    @Html.LabelFor(model => model.PropertyOwner, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2" })
+                    <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 mb-2">
+                        @Html.EditorFor(model => model.PropertyOwner, new { htmlAttributes = new { @class = "form-control",@id= "txtPropertyOwner", @placeholder = "Property Owner", @maxlength = "100" } })
+                    </div>
+                </div>
+                <div class="row">
+                    @Html.LabelFor(model => model.RelationID, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-6 col-xs-12 mb-2" })
+                    <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 mb-2">
+                        @Html.DropDownListFor(model => model.RelationID, (IEnumerable<SelectListItem>)ViewBag.RelationDetails, new { @class = "custom-select", @id = "ddlRelation" })
+                    </div>
+                </div>
+
+                <div class="row">
+                    @Html.LabelFor(model => model.AcquiredTypeID, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-6 col-xs-12 mb-2" })
+                    <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 mb-2">
+                        @Html.DropDownListFor(model => model.AcquiredTypeID, (IEnumerable<SelectListItem>)ViewBag.AcquiredTypeDetails, new { @class = "custom-select" })
+                    </div>
+                </div>
+                <div class="row">
+                    @Html.LabelFor(model => model.AcquisitionDate, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2" })
+                    <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 mb-2">
+                        @Html.TextBoxFor(model => model.AcquisitionDate, String.Format("{0:dd/MM/yyyy}", Model.AcquisitionDate), new { @type = "text", @class = "form-control datepicker", @id = "AcquisitionDate", autocomplete = "off", @placeholder = "dd/mm/yyyy" })
+                                               
+                        
+                    </div>
+                </div>
+                <div class="row">
+                    @Html.LabelFor(model => model.AcquiredPerson, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2" })
+                    <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 mb-2">
+                        @Html.EditorFor(model => model.AcquiredPerson, new { htmlAttributes = new { @class = "form-control", @placeholder = "Acquired Person", @maxlength = "100" } })
+                    </div>
+                </div>
+                <div class="row">
+                    @Html.LabelFor(model => model.AcquiredDetails, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2" })
+                    <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 mb-2">
+                        @Html.EditorFor(model => model.AcquiredDetails, new { htmlAttributes = new { @class = "form-control", @placeholder = "Acquired Details", @maxlength = "1000" } })
+                    </div>
+                </div>
+                <div class="row">
+                    @Html.LabelFor(model => model.PropertyIncome, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2 " })
+                    <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 mb-2">
+                        @Html.EditorFor(model => model.PropertyIncome, new { htmlAttributes = new { @class = "form-control integerOnly ", @style = "text-align: right;", @placeholder = "Property Income" } })
+                    </div>
+                </div>
+                <div class="row">
+                    @Html.LabelFor(model => model.Remarks, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2" })
+                    <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 mb-2">
+                        @Html.EditorFor(model => model.Remarks, new { htmlAttributes = new { @class = "form-control", @placeholder = "Remarks", @maxlength = "2000" } })
+                    </div>
+                </div>
+
+                <span class="pull-right">
+                    @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-light btn-sm toggle-tooltip", @title = "Click here, to redirect on list page", @data_toggle = "tooltip" })
+                    <input type="submit" value="Create" class="btn btn-info btn-md pull-center toggle-tooltip" title="Click here, to Create current record" data-toggle="tooltip" />
+                </span>
+
+            </div>
+        </div>
+    </div>
+
+}
+
+<script type="text/javascript">
+    $('#chkSelfProperty').on("change", function () {
+        
+    if ($(this).is(":checked")) {
+        $("#txtPropertyOwner").attr("disabled", "disabled");
+        $("#txtPropertyOwner").val("");
+        $("#ddlRelation").attr("disabled", "disabled");
+        $("#ddlRelation").val("0");
+       
+    }else {
+        $("#txtPropertyOwner").removeAttr('disabled');
+        $("#ddlRelation").removeAttr('disabled');
+    }
+})
+
+
+</script>

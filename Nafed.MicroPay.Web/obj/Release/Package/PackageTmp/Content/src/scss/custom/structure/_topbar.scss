@@ -1,0 +1,203 @@
+// 
+// topbar.scss
+//
+
+.navbar-custom {
+    padding: 0 40px;
+    background-color: $bg-topbar;
+    box-shadow: $shadow;
+    margin: -5px -30px 0;
+    .topbar-left {
+        background-color: $bg-topbar;
+        height: 70px;
+        position: fixed;
+        z-index: 1;
+        width: $leftbar-width;
+        text-align: center;
+        top: 0;
+        left: 0;
+        .logo {
+            line-height: 70px;
+            i {
+                display: none;
+            }
+        }
+    }
+    .topbar-right-menu {
+        li {
+            float: left;
+        }
+        .nav-link {
+            padding: 0;
+            color: $gray-700;
+            min-width: 32px;
+            display: block;
+            line-height: 68px;
+            border-radius: 50%;
+            text-align: center;
+            margin: 0 8px;
+        }
+    }
+}
+
+/* Search */
+
+.app-search {
+    padding: 16px 0;
+    overflow: hidden;
+    form {
+        max-width: 320px;
+    }
+    .form-control {
+        border: none;
+        height: 38px;
+        padding-left: 40px;
+        padding-right: 20px;
+        background-color: $gray-100;
+        box-shadow: none;
+    }
+    span {
+        position: absolute;
+        z-index: 10;
+        font-size: 20px;
+        line-height: 38px;
+        left: 10px;
+    }
+    .input-group-append {
+        margin-left: 0;
+        z-index: 4;
+    }
+}
+
+
+/* Notification */
+.notification-list {
+    margin-left: 0;
+
+    .dropdown-menu.dropdown-menu-right {
+        transform: none !important;
+        top: 100% !important;
+        right: 0 !important;
+        left: auto !important;
+    }
+
+    .noti-title {
+        background-color: $white;
+        padding: 15px 20px;
+    }
+
+    .noti-icon {
+        font-size: 24px;
+        vertical-align: middle;
+    }
+
+    .noti-icon-badge {
+        display: inline-block;
+        position: absolute;
+        top: 16px;
+        right: 5px;
+    }
+
+    .notify-item {
+        padding: 10px 20px;
+
+        .notify-icon {
+            float: left;
+            height: 36px;
+            width: 36px;
+            line-height: 36px;
+            text-align: center;
+            margin-right: 10px;
+            border-radius: 50%;
+            color: $white;
+        }
+
+        .notify-details {
+            margin-bottom: 0;
+            overflow: hidden;
+            margin-left: 45px;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            b {
+                font-weight: 500;
+            }
+            small {
+                display: block;
+            }
+            span {
+                display: block;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                font-size: 13px;
+            }
+        }
+        
+        .user-msg {
+            margin-left: 45px;
+            white-space: normal;
+            line-height: 16px;
+        }
+    }
+    .profile-dropdown {
+        .notify-item {
+            padding: 7px 20px;
+        }
+    }
+}
+
+.profile-dropdown {
+    width: 170px;
+    i {
+        vertical-align: middle;
+        margin-right: 5px;
+    }
+    span {
+        vertical-align: middle;
+    }
+}
+
+.nav-user {
+    padding: 0 12px !important;
+    img {
+        height: 32px;
+        width: 32px;
+    }
+}
+
+.button-menu-mobile {
+    border: none;
+    color: $dark;
+    display: inline-block;
+    height: 70px;
+    line-height: 70px;
+    width: 60px;
+    background-color: transparent;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.button-menu-mobile.disable-btn {
+    display: none;
+}
+
+@media (max-width: 1024px) {
+    .navbar-custom {
+        left: 70px;
+        right: 0;
+    }
+}
+
+@include media-breakpoint-down(sm) {
+    .app-search {
+        display: none;
+    }
+    .navbar-custom {
+        left: 0;
+        padding: 0 10px;
+        margin: -5px -10px 0;
+    }
+    .button-menu-mobile.disable-btn {
+        display: inline-block;
+    }
+}

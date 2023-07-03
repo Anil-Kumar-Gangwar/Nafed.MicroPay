@@ -1,0 +1,34 @@
+﻿@model Nafed.MicroPay.Model.Designation
+@{
+    ViewBag.Title = "Designation";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card_new_header alert alert-danger">
+    <div class="col-sm-6">
+        NOTE : Fields marked with (*) are compulsory fields
+    </div>
+    <div class="col-sm-6 text-right">
+        <b>@*[ Characters < > # ^ ; | $ are not allowed ]*@</b>
+    </div>
+</div>
+@using (Ajax.BeginForm("Edit", "Designation", new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "EditDesignation", OnSuccess = "OnSuccess" })) 
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    <div class="card_new_body" id="EditDesignation">
+           @Html.Action("DesignationDetailsByID", new { designationID = Model.DesignationID })
+    </div>
+   
+}
+@section scripts{
+   
+   
+}
+<script type="text/javascript">
+    
+    function OnSuccess(data) {
+        debugger;
+        commonMessage("success", "Updated Successfully.");
+    }
+</script>

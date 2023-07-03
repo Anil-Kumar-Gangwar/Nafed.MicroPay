@@ -1,0 +1,350 @@
+﻿@using Nafed.MicroPay.Model
+@model PR
+@{
+    //var fieldNameValue = Model.SelectedFieldName == 0 ? 0  : Model.SelectedFieldName;
+    var fieldNameValue = Model.SelectedEmployeeName == null ? "select" : Model.SelectedEmployeeName;
+    var PTValue = Model.SelectedPropertyType == null ? "select" : Model.SelectedPropertyType;
+
+    var ATValue = Model.SelectedAcquiredType == null ? "select" : Model.SelectedAcquiredType;
+    var RelationValue = Model.SelectedRelationName == null ? "select" : Model.SelectedRelationName;
+    var YearValue = Model.SelectedYear == null ? "select" : Model.SelectedYear;
+}
+
+
+<script type="text/javascript">
+    function onSuccessData(data) {
+        if (data.status == undefined) {
+            $("#div-salHead").html(data);
+            var SelectedEmployeeName = $("#ddlEmployee").attr('SelectedEmployeeName');
+            $("#ddlEmployee").val(SelectedEmployeeName);
+            var SelectedYear = $("#ddlYear").attr('SelectedYear');
+            $("#ddlYear").val(SelectedYear);
+            var SelectedPropertyType = $("#ddlPropertyType").attr('SelectedPropertyType');
+            $("#ddlYear").val(SelectedPropertyType);
+            var SelectedAcquiredType = $("#ddlAcquiredType").attr('SelectedAcquiredType');
+            $("#ddlAcquiredType").val(SelectedAcquiredType);
+            var SelectedRelationName = $("#ddlRelation").attr('SelectedRelationName');
+            $("#ddlRelation").val(SelectedRelationName);
+        }
+        if (data.status == true) {
+            commonMessage(data.type, data.msg);
+            $("#div-salHead").load("@Url.Action("_GetPRDtls", "PropertyReturn")");
+            var mainEmployeeID = $("#div-salHead").find("select [id*=ddlEmployee]").val();
+
+            if (mainEmployeeID != undefined)
+                $("#divSalaryHead").load("@Url.Action("_PropertyReturnGridView", "PropertyReturn")?EmployeeId=" + mainEmployeeID);
+            else
+                $("#divSalaryHead").load("@Url.Action("_PropertyReturnGridView", "PropertyReturn")");
+
+        }
+    }
+    function onchangeYear() {
+        debugger;
+        var SelectedYear = $("#ddlYear").val();
+        $("#div-salHead").find('select[id*=ddlYear]').val(SelectedYear);
+    }
+    function onchangeFieldName() {
+        debugger;
+        var SelectedEmployeeName = $("#ddlEmployee").val();
+        $("#div-salHead").find('select[id*=ddlEmployee]').val(SelectedEmployeeName);
+    }
+
+    function onchangePTName() {
+        debugger;
+        var SelectedPropertyType = $("#ddlPropertyType").val();
+        $("#div-salHead").find('select[id*=ddlPropertyType]').val(SelectedPropertyType);
+        //   $("#FieldName").val(selectedFieldName);;
+    }
+
+    function onchangeATName() {
+        debugger;
+        var SelectedAcquiredType = $("#ddlAcquiredType").val();
+        $("#div-salHead").find('select[id*=ddlAcquiredType]').val(SelectedAcquiredType);
+    }
+
+    function onchangeRelationName() {
+        debugger;
+        var SelectedRelationName = $("#ddlRelation").val();
+        $("#div-salHead").find('select[id*=ddlRelation]').val(SelectedRelationName);
+    }
+
+    $('#chkSelfProperty').on("change", function () {
+
+        if ($(this).is(":checked")) {
+            $("#txtPropertyOwner").attr("disabled", "disabled");
+            $("#txtPropertyOwner").val("");
+            $("#ddlRelation").attr("disabled", "disabled");
+            $("#ddlRelation").val("0");
+
+        } else {
+            $("#txtPropertyOwner").removeAttr('disabled');
+            $("#ddlRelation").removeAttr('disabled');
+        }
+    })
+
+    $(document).ready(function () {
+
+
+
+
+        if ($("#chkSelfProperty").is(":checked")) {
+            $("#txtPropertyOwner").attr("disabled", "disabled");
+            $("#txtPropertyOwner").val("");
+            $("#ddlRelation").attr("disabled", "disabled");
+            $("#ddlRelation").val("0");
+
+        } else {
+            $("#txtPropertyOwner").removeAttr('disabled');
+            $("#ddlRelation").removeAttr('disabled');
+        }
+    })
+
+
+
+
+</script>
+
+@using (Ajax.BeginForm("_PostPropertyReturn", "Propertyreturn", new AjaxOptions
+{
+    HttpMethod = "POST",
+    OnSuccess = "onSuccessData",
+}, new { defaultbutton = "Addsubmitform" }))
+{
+    @Html.AntiForgeryToken()
+
+    @Html.HiddenFor(model => model.CreatedOn)
+    @Html.HiddenFor(model => model.CreatedBy)
+    @Html.HiddenFor(model => model.PRID)
+    @Html.HiddenFor(model => model.Counter)
+    @Html.HiddenFor(model => model.EmployeeId)
+    @Html.HiddenFor(model => model.Year)
+
+
+    <div class="col-xl-12 col-lg-12 col-md-9 col-sm-12 col-xs-12 pt-2">
+        <div class="form-group">
+            <div class="row bg-light p-2 m-1">
+                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+
+                    @Html.LabelFor(model => model.Year, htmlAttributes: new { @class = "control-label mt-2 required" })
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+
+                    @if (Model.PRID > 0)
+                    {
+                        @Html.DropDownListFor(model => model.Year, new SelectList(Model.CYearList, "id", "value"), "Select", new { @class = "custom-select", @disabled = "disabled" })
+                    }
+                    else
+                    {
+                        @*@Html.DropDownListFor(model => model.Year, new SelectList(Model.CYearList, "id", "value"), "Select", new { @class = "custom-select" ,@id= "ddlYear"})*@
+                        @Html.DropDownListFor(model => model.Year, new SelectList(Model.CYearList, "id", "value"), "Select", new { @class = "custom-select", @disabled = "disabled", @onchange = "onchangeYear(this.id)", SelectedYear = @YearValue })
+                        @*@Html.DropDownList("ddlYear", new SelectList(Model.CYearList, "id", "value"), "Select", new { @class = "custom-select", @onchange = "onchangeYear(this.id)", SelectedYear = @YearValue })*@
+                    }
+                    @Html.ValidationMessage("YearRequired", "", new { @class = "text-danger" })
+
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                    @Html.LabelFor(model => model.EmployeeId, htmlAttributes: new { @class = "control-label mt-2 required" })
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+
+                    @if (Model.PRID > 0)
+                    {
+                        @Html.DropDownListFor(model => model.EmployeeId, new SelectList(Model.EmployeeList, "id", "value"), "Select", new { @class = "custom-select", @disabled = "disabled" })
+                    }
+                    else
+                    {
+                        @*@Html.DropDownListFor(model => model.FieldName, new SelectList(Model.fieldList, "FieldName", "FieldDesc"), "Select", new { @class = "custom-select"})*@
+                        @Html.DropDownListFor(model => model.EmployeeId, new SelectList(Model.EmployeeList, "id", "value"), "Select", new { @class = "custom-select", @disabled = "disabled", @onchange = "onchangeFieldName(this.id)", SelectedEmployeeName = @fieldNameValue })
+                        @*@Html.DropDownList("ddlEmployee", new SelectList(Model.EmployeeList, "id", "value"), "Select", new { @class = "custom-select", @onchange = "onchangeFieldName(this.id)", SelectedEmployeeName = @fieldNameValue })*@
+                    }
+                    @Html.ValidationMessage("EmployeeNameRequired", "", new { @class = "text-danger" })
+
+                </div>
+
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    @Html.LabelFor(model => model.PropertySituated, htmlAttributes: new { @class = "control-label mt-2 required" })
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    @Html.EditorFor(model => model.PropertySituated, new { htmlAttributes = new { @class = "form-control", @placeholder = "Property Situated", @maxlength = "1000" } })
+
+                    @Html.ValidationMessage("PropertySituatedRequired", "", new { @class = "text-danger" })
+                </div>
+
+
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">Name & details of property </div>
+            <div class="panel-body">
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                            @Html.LabelFor(model => model.PropertyType, htmlAttributes: new { @class = "control-label mt-2 mb-2 required" })
+
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                            @if (Model.PRID > 0)
+                            {
+                                @Html.DropDownListFor(model => model.PropertyType, new SelectList(Model.PropertyTypeDetails, "id", "value"), new { @class = "custom-select" })
+                            }
+                            else
+                            {
+                                @Html.DropDownList("ddlPropertyType", new SelectList(Model.PropertyTypeDetails, "id", "value"), new { @class = "custom-select", @onchange = "onchangePTName(this.id)", SelectedPropertyType = @PTValue })
+                            }
+                            @Html.ValidationMessage("PropertypeRequired", "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                            @Html.LabelFor(model => model.PropertyDetails, htmlAttributes: new { @class = "control-label mt-2 required" })
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                            @Html.EditorFor(model => model.PropertyDetails, new { htmlAttributes = new { @class = "form-control", @placeholder = "Property details", @maxlength = "500" } })
+                            @Html.ValidationMessage("PropertyDetailsRequired", "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                            @Html.LabelFor(model => model.PresentValue, htmlAttributes: new { @class = "control-label mt-2 required" })
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                            @Html.EditorFor(model => model.PresentValue, new { htmlAttributes = new { @class = "form-control integerOnly ", @style = "text-align: right;", @placeholder = "Present Value", @type = "number" } })
+                            @Html.ValidationMessage("PresentValueRequired", "", new { @class = "text-danger" })
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading"> If not in own name state in whose name held & his/her relationship with him/her</div>
+            <div class="panel-body">
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                            @Html.LabelFor(model => model.SelfProperty, htmlAttributes: new { @class = "control-label mt-2" })
+                        </div>
+                        <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+                            <label class="switch">
+                                @Html.CheckBoxFor(model => model.SelfProperty, new { @class = "form-control", @id = "chkSelfProperty" })
+                                <div class="slider round">
+                                </div>
+                            </label>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                            @Html.LabelFor(model => model.PropertyOwner, htmlAttributes: new { @class = "control-label mt-2" })
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                            @Html.EditorFor(model => model.PropertyOwner, new { htmlAttributes = new { @class = "form-control", @id = "txtPropertyOwner", @placeholder = "Property Owner", @maxlength = "100" } })
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                            @Html.LabelFor(model => model.RelationID, htmlAttributes: new { @class = "control-label mt-2" })
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                            @if (Model.PRID > 0)
+                            {
+                                @Html.DropDownListFor(model => model.RelationID, new SelectList(Model.RelationDetails, "id", "value"), new { @class = "custom-select", @id = "ddlRelation" })
+                            }
+                            else
+                            {
+                                @Html.DropDownList("ddlRelation", new SelectList(Model.RelationDetails, "id", "value"), new { @class = "custom-select", @onchange = "onchangeRelationName(this.id)", SelectedRelationName = @RelationValue })
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading"> How acquired whether purchase, lease mortgage, inheritance, gift or otherwise with date of acquisition & name with details of persons from whom acquired</div>
+            <div class="panel-body">
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                            @Html.LabelFor(model => model.AcquiredTypeID, htmlAttributes: new { @class = "control-label mt-2" })
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+
+                            @if (Model.PRID > 0)
+                            {
+                                @Html.DropDownListFor(model => model.AcquiredTypeID, new SelectList(Model.AcquiredTypeDetails, "id", "value"), new { @class = "custom-select" })
+                            }
+                            else
+                            {
+                                @Html.DropDownList("ddlAcquiredType", new SelectList(Model.AcquiredTypeDetails, "id", "value"), new { @class = "custom-select", @onchange = "onchangeATName(this.id)", SelectedAcquiredType = @ATValue })
+                            }
+
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                            @Html.LabelFor(model => model.AcquisitionDate, htmlAttributes: new { @class = "control-label mt-2" })
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                            @Html.TextBoxFor(model => model.AcquisitionDate, String.Format("{0:dd/MM/yyyy}", Model.AcquisitionDate), new { @type = "text", @class = "form-control datepicker", @id = "AcquisitionDate", autocomplete = "off", @placeholder = "dd/mm/yyyy" })                            
+
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                            @Html.LabelFor(model => model.AcquiredPerson, htmlAttributes: new { @class = "control-label mt-2" })
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                            @Html.EditorFor(model => model.AcquiredPerson, new { htmlAttributes = new { @class = "form-control", @placeholder = "Acquired Person", @maxlength = "100" } })
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                            @Html.LabelFor(model => model.AcquiredDetails, htmlAttributes: new { @class = "control-label mt-2" })
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                            @Html.EditorFor(model => model.AcquiredDetails, new { htmlAttributes = new { @class = "form-control", @placeholder = "Acquired Details", @maxlength = "1000" } })
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="row">
+                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                    @Html.LabelFor(model => model.PropertyIncome, htmlAttributes: new { @class = "control-label mt-2" })
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                    @Html.EditorFor(model => model.PropertyIncome, new { htmlAttributes = new { @class = "form-control integerOnly ", @style = "text-align: right;", @placeholder = "Property Income" } })
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                    @Html.LabelFor(model => model.Remarks, htmlAttributes: new { @class = "control-label mt-2" })
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                    @Html.EditorFor(model => model.Remarks, new { htmlAttributes = new { @class = "form-control", @placeholder = "Remarks", @maxlength = "2000" } })
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+        <div class="modal-footer">
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <input type="submit" value="Save" id="Addsubmitform" class="btn btn-info btn-md pull-right toggle-tooltip" />
+                </div>
+            </div>
+        </div>
+
+}
+<script>
+    $("#AcquisitionDate").datepicker({ dateFormat: 'dd/mm/yy'});
+</script>

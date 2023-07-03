@@ -1,0 +1,13 @@
+﻿@{
+    ViewBag.Title = "Report Type";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm("GetReportType", "SelectReport",FormMethod.Get))
+{
+    <div id="div-report-filters">
+        @Html.Action("GetReportOption")
+    </div>
+}
+
+

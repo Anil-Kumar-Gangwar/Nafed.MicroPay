@@ -1,0 +1,66 @@
+﻿@using Nafed.MicroPay.Common;
+@using Nafed.MicroPay.Model;
+@model IEnumerable<Process>
+@{
+    Layout = null;
+   
+}
+
+@using (Ajax.BeginForm("PostFormData", "ImportProcessApproverList", new AjaxOptions { HttpMethod = "POST", OnBegin = "onBegin", UpdateTargetId = "dv-filter", OnSuccess = "onSuccess" }))
+{
+    <div class="row" id="exportDIV">
+
+        <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+            @Html.Label("Process", new { @class = "required" })
+        </div>
+
+        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+
+            @Html.DropDownList("ddlProcess", new SelectList(Model, "processID", "ProcessName"), "Select", new { @class = "custom-select" })
+
+            @Html.ValidationMessage("ProcessRequired", "", new { @class = "text-danger", @id = "ProcessRequired" })
+        </div>
+
+
+        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+            @*<input type="submit" value="Export Template" class="btn btn-warning pull-center toggle-tooltip" title="Click here, to download the template" />*@
+            <button type="submit" id="submitform" class="btn btn-warning pull-center toggle-tooltip" title="Click here, to download the template.">
+                <i class=""></i> Submit
+            </button>
+
+        </div>
+
+    </div>
+
+   
+
+    <div class="row mt-3">
+
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-right">
+
+            <span class="text-right">
+
+                @Html.ValidationMessage("OtherValidation", null, new { @class = "text-danger" })
+
+            </span>
+
+        </div>
+    </div>
+
+}
+
+<script type="text/javascript">
+
+    function onSuccess(data) {
+
+        if (data.message == "success") {
+            
+            $("#dv-filter").html(data.htmlData);
+            $("#dv-Import-Section").removeClass('d-none');
+            $("#ddlProcess").val(data.selectedID);
+        }
+    }
+    function onBegin() {
+        $('#waitLoading').modal('hide');
+    }
+</script>

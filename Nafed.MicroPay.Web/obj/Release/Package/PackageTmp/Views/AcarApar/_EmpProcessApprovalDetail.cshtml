@@ -1,0 +1,57 @@
+﻿@using Nafed.MicroPay.Model;
+@model List<FormGroupAHdr>
+
+<table id="tblGrid-empApprv" class="table table-centered table-striped dt-responsive w-100 mt-2">
+    <thead>
+        <tr>
+            <th>
+                #
+            </th>
+            <th>
+                Employee
+            </th>
+            <th>
+                Designation
+            </th>
+            <th>
+                Branch
+            </th>
+            <th>
+                Reporting To
+            </th>
+            <th>
+                Reviewer To
+            </th>
+            <th>
+                Acceptance Authority
+            </th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @{
+            int sno = 1;
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td>@sno</td>
+                    <td><text>@item.EmployeeCode - @item.EmployeeName</text> </td>
+                    <td>@item.DesignationName</td>
+                    <td>@item.PlaceOfJoin</td>
+                    <td>@item.RPTEmpCode - @item.ReportingTo</td>
+                    <td>@item.RVEmpCode - @item.ReviewerTo</td>
+                    <td> @item.ACCEmpCode - @item.AcceptanceAuth</td>
+
+                </tr>
+                sno++;
+            }
+        }
+
+    </tbody>
+
+</table>
+
+<script>
+    $("#tblGrid-empApprv").dataTable();
+
+</script>

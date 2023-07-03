@@ -1,0 +1,685 @@
+﻿@using fileHelper = Nafed.MicroPay.Common.ExtensionMethods;
+@using Nafed.MicroPay.Model;
+@using Nafed.MicroPay.Common;
+@model Nafed.MicroPay.Model.EPFNomination
+
+
+@{
+    ViewBag.Title = "EPF Nomination";
+    var empSectionClass = (Model.ReportingTo == Model.loggedInEmpID) ? "noselect" : null;
+}
+<div id="div-main-form">
+    <div class="row">
+
+        <div class="col-lg-10 col-md-10 col-xl-10 col-sm-12 col-xs-12">
+            <div class="form-group">
+                <div class="col-lg-8 col-md-8 col-xl-8 col-sm-12 col-xs-12">
+                    <a data-toggle="modal" class="font-weight-bold text-danger" data-target="#form-guideline" href="#">
+                        <i class="fas fa-book-open"></i>
+                        Guideline
+                    </a>
+                </div>
+                <div class="col-lg-4 col-md-4 col-xl-4 col-sm-12 col-xs-12">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-lg-12 col-md-12 col-xl-12 col-sm-12 col-xs-12 pb-3">
+            <div class="row">
+                <div class="col-lg-5 col-md-4 col-xl-5 col-sm-4 col-xs-4">
+                </div>
+                <div class="col-lg-2 col-md-2 col-xl-2 col-sm-2 col-xs-2 pl-1">
+                    <div class="div-box">
+                        <div class="div-inner-box text-center font-weight-bold">
+                            FORM 2 (Revised)
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-5 col-md-5 col-xl-5 col-sm-5 col-xs-5">
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-lg-12 col-md-12 col-xl-12 col-sm-12 col-xs-12 text-center">
+            <h4 class="font-weight-bold">
+                NOMINATION AND DECLARATION FORM<br />
+                FOR UNEXEMPTED/EXEMPTED ESTABLISHMENTS
+            </h4>
+        </div>
+
+    </div>
+
+    <div class="form-group">
+        <div class="col-lg-12 col-md-12 col-xl-12 col-sm-12 col-xs-12 text-center font-weight-bold">
+
+            Declaration and Nomination Form under the Employees’ Provident Funds and Employees’ Pension Scheme
+
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-lg-12 col-md-12 col-xl-12 col-sm-12 col-xs-12 p-4">
+            (Paragraphs 33 & 61 (1) of the Employees Provident Fund Scheme, 1952 and Paragraph 18 of the Employees’ Pension scheme, 1995)
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
+
+            <div class="row">
+                <p class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                    1. Name (in Block letters) :
+                </p>
+                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 mb-2 font-weight-bold">
+                    @Model.EmployeeName
+                </div>
+            </div>
+            <div class="row">
+                <p class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                    2. Father’s/Husband’s Name :
+                </p>
+                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 mb-2 font-weight-bold">
+                    @Model.HBName
+                </div>
+            </div>
+            <div class="row">
+                <p class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                    3. Date of Birth :
+                </p>
+                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 mb-2 font-weight-bold">
+                    @(Model.DOB.HasValue ? Convert.ToDateTime(Model.DOB).ToString("dd/MM/yyyy") : "Not Available")
+                </div>
+            </div>
+            <div class="row">
+                <p class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                    4. Sex :
+                </p>
+                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 mb-2 font-weight-bold">
+                    @Model.Gender
+                </div>
+
+            </div>
+            <div class="row">
+                <p class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                    5. Marital Status :
+                </p>
+                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 mb-2 font-weight-bold">
+                    @Model.MaritalStatusName
+                </div>
+
+            </div>
+            <div class="row">
+                <p class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                    6. Account No. :
+                </p>
+                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 mb-2 font-weight-bold">
+
+
+                </div>
+            </div>
+            <div class="row">
+                <p class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                    7. Address :
+                </p>
+                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 mb-2">
+                    <div class="row">
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 mb-2">
+                            Permanent :
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 mb-2">
+                            @Model.PmtAddress
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 mb-2">
+                            Temporary :
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 mb-2">
+                            @Model.PresentAddress
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-2 mb-2">
+                            8.  Date of Joining :
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 mb-2 font-weight-bold">
+                            @(Model.DOJ.HasValue ? Convert.ToDateTime(Model.DOJ).ToString("dd/MM/yyyy") : "Not Available")
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 mb-2">
+                    <div class="row">
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 mb-2">
+                            EPF :
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 mb-2">
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 mb-2">
+                            EPS :
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 mb-2">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="mb-4">
+        @using (Html.BeginForm("Create", "EPFNomination", FormMethod.Post))
+        {
+            @Html.ValidationSummary(true)
+            @Html.HiddenFor(model => model.loggedInEmpID)
+            @Html.HiddenFor(model => model.ReportingTo)
+            @Html.HiddenFor(model => model.ReportingName)
+            @Html.HiddenFor(model => model.EPFNoID)
+            @Html.HiddenFor(model => model.EmpSenddate)
+            @Html.HiddenFor(model => model.RTSenddate)
+            @Html.HiddenFor(model => model.RTPlaceOfJoin)
+            @Html.HiddenFor(model => model.EmployeeID)
+            @Html.HiddenFor(model => model.EmployeeName)
+            <div id="div-Employee" class="@empSectionClass">
+
+
+                <div class="form-group">
+                    <div class="col-lg-12 col-md-12 col-xl-12 col-sm-12 col-xs-12 font-weight-bold p-4 text-center">
+                        PART – A (EPF)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-lg-12 col-md-12 col-xl-12 col-sm-12 col-xs-12 text-left">
+                        <h6>
+                            I hereby nominate the person(s) /cancel the nomination made by me previously and nominate the person(s) mentioned below <br /> to receive the amount standing to my credit in the Employees’ Provident Fund in the event of my death  :
+                        </h6>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                @*<div class="row mb-3 text-right">
+                                        <div class="col-md-12 pull-right">
+
+                                            <input type="submit" value="Add Row" id="btnAddRow" name="ButtonType" class="btn btn-info btn-md pull-center toggle-tooltip btn-sectionAddRow"
+                                                   title="Click here, to add new row." />
+                                        </div>
+                                    </div>*@
+                                <div id="div-grid">
+
+                                    @Html.Partial("_EPFGridView", Model)
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
+                                <p>
+                                    1 * Certified that I have no family as defined in para 2(g) of the Employees’ Provident Fund Scheme, 1952 and should <br />
+                                    I acquire a Family hereafter, the above nomination should be deemed as cancelled.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
+                                <p>
+                                    2 * Certified that my father/mother is/are dependent upon me.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 font-weight-bold">
+
+                                <p class="pull-right">Signature or thumb impression of the subscriber</p>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 text-left">
+                                *Strike out whichever is not applicable.
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-lg-12 col-md-12 col-xl-12 col-sm-12 col-xs-12 text-center font-weight-bold p-4">
+                                Part B (EPS) (Para 18)
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-lg-12 col-md-12 col-xl-12 col-sm-12 col-xs-12">
+                                <h6>
+                                    I hereby furnish below particulars of the members of my family who would be eligible to receive widow/children pension<br /> in the event of my death.
+                                </h6>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                @*<div class="row mb-3 text-right">
+                                        <div class="col-md-12 pull-right">
+
+                                            <input type="submit" value="Add Row" id="btnAddRow" name="ButtonType" class="btn btn-info btn-md pull-center toggle-tooltip btn-sectionAddRow"
+                                                   title="Click here, to add new row." />
+                                        </div>
+                                    </div>*@
+                                <div>
+
+                                    @Html.Partial("_EPSGridView", Model)
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
+                                <p>
+                                    ** Certified that I have no family, as defined in para 2(vii) of Employees’ Pension Scheme, 1995 and should I acquire a family<br />  hereafter I shall furnish particulars thereon in the above form.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
+                                <p>
+                                    I hereby nominate the following person for receiving the monthly widow pension (admissible under para 16 2(a)(i) and (ii)<br />  in the event of my death without leaving any eligible family member for receiving Pension.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div>
+
+                                    @Html.Partial("_MaleEmpNomGridView", Model)
+
+                                </div>
+                            </div>
+                        </div>                                                
+
+                        <div class="row">
+                            <div class="col-lg-8 col-md-8 col-sm-6 col-xs-6">
+                                <div class="row">
+                                    <div class="col-lg-2 col-md-2 col-sm-4 col-xs-4">
+                                        <p>Date :</p>
+                                    </div>
+                                    <div class="col-lg-3 col-md-3 col-sm-8 col-xs-12">
+                                        @(Model.EmpSenddate.HasValue ? Convert.ToDateTime(Model.EmpSenddate).ToString("dd/MM/yyyy") : "")
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6">
+                                <div class="row">
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 font-weight-bold">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 font-weight-bold">
+
+                                <p class="pull-right">Signature or thumb impression <br /> of the subscriber</p>
+                            </div>
+                        </div>  
+
+                        <div class="row">
+                            <div class="col-lg-8 col-md-8 col-sm-6 col-xs-6">
+                                <div class="row">
+                                    <div class="col-lg-2 col-md-2 col-sm-4 col-xs-4">
+                                        <p>Place :</p>
+                                    </div>
+                                    <div class="col-lg-3 col-md-3 col-sm-8 col-xs-12">
+                                   @Model.PlaceOfJoin
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6">
+                                <div class="row">
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 font-weight-bold">
+                                       
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 text-left">
+                                **Strike out whichever is not applicable.
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="div-RO">
+
+                @if ((Model.ReportingTo == Model.loggedInEmpID))
+                {
+                    <div class="form-group">
+                        <div class="col-lg-12 col-md-12 col-xl-12 col-sm-12 col-xs-12 p-4 text-center">
+                            <h4>  CERTIFICATE BY EMPLOYER</h4>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="row">
+                                <p class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    Certified that the above declaration and nomination has been signed/thumb impressed before me by Shri/Smt./Kum.
+
+                                    @Html.EditorFor(model=>model.EmployeeName, new { htmlAttributes = new { @class = "form-textbox col-lg-4 col-md-4 col-sm-4 col-xs-4 underlineinput", @maxlength = "100", @readonly = "readonly" } })  employed in my establishment after he/she has read the entries/entries have been read over to him/her
+
+                                    by me and got confirmed by him/her.
+                                </p>
+
+                            </div>
+                        </div>
+                    </div>
+                             
+
+                    <div class="row">
+                        <div class="col-lg-8 col-md-8 col-sm-6 col-xs-6">
+                            <div class="row">
+                                <div class="col-lg-2 col-md-2 col-sm-4 col-xs-4">
+                                    <p>Place :</p>
+                                </div>
+                                <div class="col-lg-3 col-md-3 col-sm-8 col-xs-12">
+                                    @Model.RTPlaceOfJoin
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6">
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 font-weight-bold">
+                                    <p class="pull-right"> Signature of the employer or other <br />Authoried Officers of the Establishment.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-lg-8 col-md-8 col-sm-6 col-xs-6">
+
+                            <div class="row">
+                                <div class="col-lg-2 col-md-2 col-sm-4 col-xs-4">
+                                  
+                                </div>
+                                <div class="col-lg-3 col-md-3 col-sm-8 col-xs-12">
+                                 
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6">
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 font-weight-bold">
+                                    <div class="pull-right"> Designation : <br />  @Model.ReportingDesignation</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>                   
+                    <div class="row">
+                        <div class="col-lg-8 col-md-8 col-sm-6 col-xs-6">
+                            <div class="row">
+                                <div class="col-lg-2 col-md-2 col-sm-4 col-xs-4 font-weight-bold">
+                                    <p>Dated the :</p>
+                                </div>
+                                <div class="col-lg-3 col-md-3 col-sm-8 col-xs-12">
+                                    @(Model.RTSenddate.HasValue ? Convert.ToDateTime(Model.RTSenddate).ToString("dd/MM/yyyy") : "")
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6">
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 font-weight-bold">
+                                    <p class="pull-right">  Name & Address of the Factory/ <br /> Establishment or Rubber Stamp Thereon </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+
+            </div>
+            if ((Model.StatusID == 0 ||  Model.StatusID == (int)LoanApplicationStatus.Pending) && Model.loggedInEmpID==Model.EmployeeID) 
+            {
+                <div class="pull-right div-action pl-1">
+                    @Html.ActionLink("Back", "Index", "EPFNomination", null, new { @class = "btn btn-light btn-md", title = "Click here, to go to back on previous screen.", @data_toggle = "tooltip" })
+                </div>
+            }
+            else
+            {
+                <div class="pull-right div-action pl-1">
+                    @Html.ActionLink("Back", "Index", "ApprovalRequest", null, new { @class = "btn btn-light btn-md", title = "Click here, to go to back on previous screen.", @data_toggle = "tooltip" })
+                </div>
+            }
+            //if (Model.FormState != (int)AppraisalFormState.SubmitedByAcceptanceAuth)
+            //{
+            <div class="pull-right div-action">
+                @if (Model.StatusID == 0 || Model.StatusID == (int)LoanApplicationStatus.Pending)
+                {
+                    <input type="submit" value="Submit" id="btnAASaveSubmit" name="ButtonType" class="btn btn-info  toggle-tooltip " title="Click here, to submit the data." />
+                }
+            </div>
+            @*}*@
+        }
+    </div>
+
+</div>
+
+
+<style>
+    .noselect {
+        -webkit-touch-callout: none; /* iOS Safari */
+        -webkit-user-select: none; /* Safari */
+        -khtml-user-select: none; /* Konqueror HTML */
+        -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+        user-select: none; /* Non-prefixed version, currently supported by Chrome, Opera and Firefox */
+    }
+
+
+    .div-box {
+        width: 200px;
+        height: 50px;
+        border: 4px solid;
+        /*padding: 50px;
+    margin: 20px;*/
+    }
+
+    .div-inner-box {
+        width: 182px;
+        height: 30px;
+        border: 1px solid;
+        padding: 5px;
+        margin: 5px;
+    }
+</style>
+
+<script type="text/javascript">
+
+    $('.noselect').find('input, textarea, button, select').attr('readonly', 'readonly').removeAttr('href');
+    $('.noselect .drpdown-section').attr("style", "pointer-events: none;");
+
+    function OnSuccess(data) {
+        debugger;
+        if (data.isTraining == 1) {
+            $("#div-main-form").html(data);
+        }
+        else if (data.part == undefined) {
+            $("#div-main-form").html(data);
+        }
+        else if (data.part == 0)
+            $("#div-main-form").html(data.htmlData);
+        else if (data.part == 1)
+            $("#div-form-part2-grid").html(data.htmlData);
+        else if (data.part == 2)
+            $("#div-form-training-grid").html(data.htmlData);
+
+        if (data.msgType == "success") {
+            commonMessage(data.msgType, data.msg);
+            window.location.reload();
+        }
+        if (data.msgType == "error") {
+            commonMessage(data.msgType, data.msg);
+        }
+    }
+</script>
+
+
+<div class="modal fade" id="form-guideline" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <h3 class="modal-title w-100 font-weight-bold">GUIDANCE FOR FILLING THE FORM No - 2 </h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body mx-3">
+
+                <p><strong><i><u>Employee’s Provident Fund Scheme, 1952:- </u></i></strong></p>
+                <h3>( E P F )</h3>
+                <p><strong><i><u>Para 33  :-   Declaration by persons already employed at the time of institution of the fund :-  </u></i></strong></p>
+
+                <p><strong>Every person who is required or entitled to become a member of the Fund shall be asked forthwith by his employer to furnish and shall, on such demand, furnish to him, for communication to the Commissioner, particulars concerning himself and his nominee required for the declaration form in Form 2.  Such employer shall enter the particulars in the declaration form and obtain the signature or thumb impression of the person concerned.</strong></p>
+                <p><strong><i><u>Para 61  :  Nomination </u></i></strong></p>
+                <ol start="1">
+                    <li>
+                        Each member shall make in his declaration in Form 2, a nomination conferring the right to receive the amount that may stand to his credit in the Fund in the event of his death before the amount standing to his credit has become payable, or where the amount has become payable before payment has been made.
+                    </li>
+                </ol>
+
+                <ol start="2">
+                    <li>
+                        A member may in this nomination distribute the amount that may stand to his credit in the Fund amongst his nominees at his own discretion.
+                    </li>
+                </ol>
+
+                <ol start="3">
+                    <li>
+                        If a member has a family at the time of making a nomination, the nomination shall be in favour of one or more persons belonging to his family.  Any nomination made by such member in favour of a person not belonging to his family shall be invalid.
+                        <br />
+                        Provided that a fresh nomination shall be made by the member on his marriage and any nomination made before such marriage shall be deemed to be invalid.
+                    </li>
+                </ol>
+
+
+                <ol start="4">
+                    <li>
+                        If at the time of making a nomination the member has no family, the nomination may be in favour of any person or persons but if the member subsequently acquires a family, such nomination shall forthwith be deemed to be invalid and the member shall make a fresh nomination in favour of one or more persons belonging to his family.
+                    </li>
+                </ol>
+                <ol start="4">
+                    <li>
+                        Where the nomination is wholly or partly in favour of a minor, the member may, for the purposes of this scheme appoint a major person of his family, as defined in clause (g) of paragraph 2, to be the guardian of the minor nominee in the event of the member predeceasing the nominee and the guardian so appointed.
+                        <br />
+                        Provided that where there is no major person in the family, the member may, at his discretion, appoint any other person to be a guardian of the minor nominee.
+                    </li>
+                </ol>
+                <ol start="5">
+                    <li>
+                        A nomination made under sub-paragraph(1) may at any time be modified by a member after giving a written notice of his intention of doing so in form 2.  If the nominee predeceases the member, the interest of the nominee shall revert to the member who may make a fresh nomination in respect of such interest.
+                    </li>
+                </ol>
+
+                <ol start="6">
+                    <li>
+                        A nomination or its modification shall take effect to the extent that it is valid on the date on which it is received by the commissioner.
+                    </li>
+                </ol>
+
+            </div>
+
+            <div class="modal-body mx-3">
+
+                <p><strong><i><u>Para 2(g)    :  Family Means :-  </u></i></strong></p>
+                <ul>
+                    <li>
+                        in the case of a male member, his wife, his children, whether married or unmarried, his dependent parents and his deceased son’s widow and children;
+                    </li>
+                </ul>
+                <p>
+                    <strong><i><u>Provided that</u></i></strong>
+                    if a member proves that his wife has ceased, under the personal law governing him or the customary law of the community to which the spouses belong, to be entitled to maintenance she shall no longer be deemed to be a part of the member’s family for the purpose of this scheme, unless the member subsequently intimates by express notice in writing to the commissioner that she shall continue to be so regarded; and
+                </p>
+                <ul>
+                    <li>
+                        In the case of a female member, her husband, her children, whether married or unmarried, her dependent parents, her husband’s, dependent parents, her deceased sons’s widow and children;
+                    </li>
+                </ul>
+                <p>
+                    <strong><i><u>Provided that</u></i></strong>
+                    if a member by notice in writing to the commissioner expresses her desire to exclude her husband from the family, the husband and his dependent parents shall no longer be deemed to be a part of the member’s family for the purpose of this scheme, unless the member subsequently cancels in writing any such notice.
+                </p>
+
+                <p>
+                    <strong><i><u>Explanation :- </u></i></strong>
+                    In either of the above two cases, if the child of a member [or as the case may be, the child of a deceased son of the member ] has been adopted by another person and if, under the personal law of the adopter, adoption is legally recognised, such a child shall be considered as excluded from the family of the member.
+                </p>
+
+                <h3><i><u>EMPLOYEES PENSION SCHEME, 1995 </u></i></h3>
+                <h3>( E P S ) </h3>ss
+                <p><i><u>Para 18  :  Particulars to be supplied by the Employees already employed at the time of commencement of the Employees Pension Scheme. </u></i></p>
+
+                <p>
+                    Every person who is entitled to become a member of the Employees Pension Fund shall be asked forthwith by his employer to furnish and that person shall, on such demand, furnish to him for communication to the Commissioner particulars concerning himself and his family in the form prescribed by the Central Provident Fund  Commissioner.
+                </p>
+                <h3><i><u>Para 2(vii)  :- Family means :- </u></i></h3>
+                <ul>
+                    <li>
+                        (i) Wife in the case of male member of the Employees’ Pension Fund;
+                    </li>
+                    <li>
+                        (ii) Husband in the case of a female member of the Employees’ Pension fund;and
+                    </li>
+                    <li>
+                        (iii) Sons and daughters of a member of the Employees Pension fund;
+                    </li>
+                </ul>
+
+                <p>
+                    <strong><i><u>Explanation - </u></i></strong>
+                    The expression “Sons” and “daughters” shall include children [ Legally adopted by the member]
+                </p>
+                <p>
+                    <h>NOTE :</h>
+                    Members can nominate a person to receive benefits under the Employees’ Pension Scheme 1995 where a member is unmarried or does not have any family.  Such nominee shall be paid pension equal to widow pension in case of death of member.
+                </p>
+
+            </div>
+            <div class="modal-footer d-flex justify-content-center">
+                <button data-dismiss="modal" class="btn btn-info">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,106 @@
+﻿@model MicroPay.Web.Models.NonRefunPFLoanDataViewModel
+
+
+
+
+<table id="tblGrid" class="table table-centered table-striped dt-responsive w-100">
+    <thead>
+        <tr>
+            <th>
+                #
+            </th>
+            <th>
+                Code
+            </th>
+            <th>
+                Name
+            </th>
+            <th>
+                Branch
+            </th>
+            <th>
+                Designation
+            </th>
+            <th>
+                Department
+            </th>
+          
+            <th>
+                Amount of advanced
+            </th>
+            <th>
+               Request Date
+            </th>
+            <th>
+                Status
+            </th>
+           
+                <th class="text-center" style="width:60px">
+
+                </th>
+           
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            if (Model.NRPFLoanList != null && Model.NRPFLoanList.Count > 0)
+            {
+                var sno = 1;
+                foreach (var item in Model.NRPFLoanList)
+                {
+                    <tr>
+                        <td> @sno</td>
+                        <td > @item.Employeecode</td>
+                        <td > @item.Employeename</td>
+                        <td> @item.Branchname</td>
+                        <td > @item.DesignationName</td>
+                        <td> @item.DepartmentName</td>
+                        <td class="text-right"> @item.Amount_of_Advanced</td>
+                        <td> @item.Requestdate</td>
+                        <td>
+                            @if (@item.StatusID == 0)
+                            {
+                                <span class="badge badge-danger badge-pill col-md-12">Pending</span>
+                            }
+                            else if (@item.StatusID == 1)
+                            {
+                                <span class="badge badge-success badge-pill col-md-12">Saved by employee</span>
+                            }
+                            else if (@item.StatusID == 2)
+                            {
+                                <span class="badge badge-success badge-pill col-md-12">Submitted by employee</span>
+                            }
+                            else if (@item.StatusID == 3)
+                            {
+                                <span class="badge badge-success badge-pill col-md-12">Accepted by seceratry</span>
+                            }
+                            else if (@item.StatusID == 4)
+                            {
+                                <span class="badge badge-danger badge-pill col-md-12">Rejected by seceratry</span>
+                            }
+                        </td>
+
+                        
+                            <td class="text-center">
+                                @*<a class="toggle-tooltip" href="@Url.Action("Create", "NonRefundablePFLoan", new { NRPFLoanID =item.NRPFLoanID,StatusID=item.StatusID,empID=item.EmployeeId,RequestType=0 })" title="Click here, to add Non Refundable PF loan Details">
+                                    <span class="far fa-edit text-info" aria-hidden="true"></span>
+                                </a>*@
+                                @Html.EncodedImageActionLink("", "Create", "NonRefundablePFLoan", new { NRPFLoanID = item.NRPFLoanID, StatusID = item.StatusID, empID = item.EmployeeId, RequestType = 0 }, new { @class = "toggle-tooltip", title = "Click here, to add Non Refundable PF loan Details" }, "~/Images/edit.png")
+                            </td>
+                        
+                    </tr>
+
+                    sno++;
+                }
+            }
+
+        }
+
+
+    </tbody>
+</table>
+
+
+
+
+

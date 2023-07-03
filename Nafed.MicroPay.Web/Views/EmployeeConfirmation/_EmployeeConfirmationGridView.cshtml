@@ -1,0 +1,131 @@
+﻿@using Nafed.MicroPay.Model;
+@*@model List<EmployeeConfirmationViewDetails>*@
+@model EmployeeConfirmationFormFilters
+@{
+    var uDetails = (UserDetail)Session["user"];
+}
+@Html.ValidationMessage("NoRecordInConfChild", null, new { @class = "text-danger font-weight-bold" })
+<table id="tblGrid-Confirmation1" class="table table-centered table-striped dt-responsive w-100 mt-2">
+    <thead>
+        <tr>
+            <th>
+                #
+            </th>
+            <th>
+                Employee
+            </th>
+            <th>
+                Designation
+            </th>
+            <th>Place of Posting</th>
+            <th>
+                Type
+            </th>
+            <th>
+                Due Date
+            </th>
+            <th>
+                Status
+            </th>
+            <th class="text-center" style="width:60px">
+                Action
+            </th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @{
+            int sno = 1;
+            foreach (var item in Model.employeeConfirmationViewDetails)
+            {
+                <tr>
+                    <td>@sno</td>
+                    <td>@item.Employee</td>
+                    <td>@item.Designation</td>
+                    <td>@item.BranchName</td>
+                    <td>@item.ProcessName.Split(' ')[0]</td>
+                    <td>@item.DueDate.Date.ToString("dd/MM/yyyy")</td>
+                    <td class="text-center"><span class="badge badge-pill @item.BadgeStatus col-md-12">@item.Status</span></td>
+                    <td class="text-center">
+                        @if (item.FormState == 0)
+                        {
+                            if (item.DueDate <= DateTime.Now.Date)
+                            {
+                                <a data-ajax="true" method="GET" data-ajax-mode="replace" data-backdrop="static" data-keyboard="false" href="@Url.Action("UpdateEmployeeConfirmationStatus", "EmployeeConfirmation", new { formHdrID = item.FormHdrID, headerId = item.HeaderId, formTypeId = item.FormTypeID, employeeID = item.EmployeeId, processID = item.ProcessID, filterFormTypeID = Model.FormTypeId, fromDate = Model.FromDate, toDate = Model.ToDate })" target="_blank" title="Click here, to send for confirmation" data-toggle="tooltip" data-ajax-update="#div-employeeConfirmation-forms">
+                                    <i class="fa fa-paper-plane" aria-hidden="true"></i>
+                                </a>
+                            }
+                        }
+
+                        @if (item.FormState > 0)
+                        {
+                            <a data-ajax="true" method="GET" data-ajax-mode="replace" data-backdrop="static" data-keyboard="false" href="@Url.Action("GetEmployeeRemarks", "EmployeeConfirmation", new { formHdrID = item.FormHdrID, headerId = item.HeaderId, formTypeId = item.FormTypeID, employeeID=item.EmployeeId,pid=item.ProcessID,duedt= item.DueDate })" title="Click here, to enter remarks" data-toggle="modal" data-target="#PersonalSectionModal" data-ajax-update="#div-PersonalSectionModal-container">
+                                <i class="fa fa-comment text-info" aria-hidden="true"></i>
+                            </a>
+                        }
+                        @if (item.FormState > 7)
+                        {<text>|</text>
+
+                            <a id="lnk-Export"
+                               href="@Url.Action("DownloadReport", "EmployeeConfirmation",
+                                    new {fno=item.FileNo,empID=item.EmployeeId,formHdID=item.HeaderId,formHeaderID=item.FormHdrID,statusID=item.FormState })"
+                               title="Click here ,to download confirmation order." target="_blank">
+                                <i class="fas fa-file-pdf text-danger"></i>
+                            </a>
+                        }
+                    </td>
+                </tr>
+                sno++;
+            }
+        }
+        <script type="text/javascript">
+            var table = $('#tblGrid-Confirmation1').DataTable({
+            });
+            $('#tblGrid-Confirmation1').find('select').addClass('custom-select');
+        </script>
+        @*}*@
+
+    </tbody>
+
+</table>
+
+
+<div class="modal" id="PersonalSectionModal">
+    <div class="modal-dialog modal-big">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 id="PersonalSectionHead">Personal Section Remarks</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <!-- Modal body -->
+
+            <div class="modal-body" id="div-PersonalSectionModal-container" style="max-height:600px;overflow-y:auto;">
+
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function OnSuccess(data) {
+        if (data.msgType != "required") {
+            commonMessage(data.msgType, data.msg);
+            $("#PersonalSectionModal").modal('hide');
+            if (data.htmlData != "") {
+                $("#div-employeeConfirmation-forms").html("").html(data.htmlData);
+            }
+        }
+        else {
+            $("#PersonalSectionModal").modal('show');
+            $("#div-PersonalSection-remark").html("").html(data.htmlData);
+        }
+
+    }
+</script>

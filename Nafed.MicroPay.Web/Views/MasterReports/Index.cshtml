@@ -1,0 +1,193 @@
+﻿
+@{
+    ViewBag.Title = "Report Options";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div>
+
+    @using (Ajax.BeginForm("PrintReports", "MasterReports", new AjaxOptions { HttpMethod = "POST", OnSuccess = "tt" }))
+    {
+        <div id="div-report-filters">
+            @Html.Action("_ReportFilter")
+        </div>
+
+    }
+
+</div>
+
+<script type="text/javascript">
+
+    function tt(data)
+    {
+        if (data.type == undefined) {
+            if (data.IsValidFilter) {
+                window.open("@Url.Action("ReportViewer", "Base")", "_blank");
+            }
+            else if (!data.result && data.type == "0") {
+                commonMessage("error", data.msg);
+            }
+        }
+        else {
+            if (data.fileName != "" && data.type == 1)
+            {
+                window.location.href = "@Url.RouteUrl(new { Controller = "Base", Action = "DownloadAndDelete" })/?sFileName=" + encodeURIComponent(data.fileName) + "&sFileFullPath=" + encodeURIComponent(data.fullPath);
+            }
+        }
+    }
+
+    $(document).ready(function () {
+        $("#AllBranch").attr("disabled", "disabled");
+        $("#BranchID").attr("disabled", "disabled");
+
+    });
+
+    function OnReportSuccess(data) {
+        //  debugger;
+        if (!data.result && data.type == "0") {
+            commonMessage("error", data.msg);
+        }
+    }
+
+
+    function radioChangeEvents(events) {
+        if (events.id == "EmployeewiseBankAcnt") {
+            $("#setfunction").val(0)
+            $("#btnprint").removeAttr("formtarget", "_blank");
+            $("#EmployeewiseBankAcnt").prop("checked", true);
+            $("#BranchID").attr("disabled", "disabled");
+            $("#BranchID").val(44);
+            $("#Year").removeAttr("disabled");
+            $("#Month").removeAttr("disabled");
+            $("#EmployeeTypeID").removeAttr("disabled");
+            $("#BankCode").removeAttr("disabled");
+            $("#AllEmployee").removeAttr("disabled");
+            $("#AllBranch").attr("disabled", "disabled");
+        }
+        else if (events.id == "BankAcnt") {
+            $("#setfunction").val(1)
+            $("#btnprint").attr("formtarget", "_blank");
+            $("#BankCode").attr("disabled", "disabled");
+            $("#BranchID").val(44);
+            $("#Year").removeAttr("disabled");
+            $("#Month").removeAttr("disabled");
+            $("#EmployeeTypeID").removeAttr("disabled");
+            $("#BranchID").removeAttr("disabled");
+            $("#AllEmployee").removeAttr("disabled");
+            $("#AllBranch").removeAttr("disabled");
+        }
+
+        if (events.id == "CCA") {
+            $("#btnprint").attr("formtarget", "_blank");
+            $("#BranchID").attr("disabled", "disabled");
+            $("#BranchID").val(44);
+            $("#Year").attr("disabled", "disabled");
+            $("#Month").attr("disabled", "disabled");
+            $("#EmployeeTypeID").removeAttr("disabled");
+            $("#BankCode").attr("disabled", "disabled");
+            $("#AllEmployee").removeAttr("disabled");
+            $("#AllBranch").attr("disabled", "disabled");
+        }
+        else if (events.id == "SpeciaPay") {
+            $("#btnprint").attr("formtarget", "_blank");
+            $("#BranchID").attr("disabled", "disabled");
+            $("#BranchID").val(44);
+            $("#Year").removeAttr("disabled");
+            $("#Month").removeAttr("disabled");
+            $("#EmployeeTypeID").attr("disabled", "disabled");
+            $("#BankCode").attr("disabled", "disabled");
+            $("#AllEmployee").removeAttr("disabled");
+            $("#AllBranch").removeAttr("disabled");
+        }
+        else if (events.id == "IncometaxDedc") {
+            $("#btnprint").attr("formtarget", "_blank");
+            $("#BranchID").attr("disabled", "disabled");
+            $("#BranchID").val(44);
+            $("#Year").removeAttr("disabled");
+            $("#Month").removeAttr("disabled");
+            $("#EmployeeTypeID").attr("disabled", "disabled");
+            $("#BankCode").attr("disabled", "disabled");
+            $("#AllEmployee").removeAttr("disabled");
+            $("#AllBranch").removeAttr("disabled");
+        }
+        else if (events.id == "Classificationofcitiesgrade") {
+            $("#btnprint").attr("formtarget", "_blank");
+            $("#BranchID").attr("disabled", "disabled");
+            $("#BranchID").val(44);
+            $("#Year").attr("disabled", "disabled");
+            $("#Month").attr("disabled", "disabled");
+            $("#EmployeeTypeID").removeAttr("disabled");
+            $("#BankCode").attr("disabled", "disabled");
+            $("#AllEmployee").removeAttr("disabled");
+            $("#AllBranch").attr("disabled", "disabled");
+        }
+        else if (events.id == "Locationwisettl") {
+            $("#btnprint").attr("formtarget", "_blank");
+            $("#BranchID").attr("disabled", "disabled");
+            $("#BranchID").val(44);
+            $("#Year").attr("disabled", "disabled");
+            $("#Month").attr("disabled", "disabled");
+            $("#EmployeeTypeID").removeAttr("disabled");
+            $("#BankCode").attr("disabled", "disabled");
+            $("#AllEmployee").removeAttr("disabled");
+            $("#AllBranch").attr("disabled", "disabled");
+        }
+        else if (events.id == "Locationwiselstttlemployess") {
+            $("#btnprint").attr("formtarget", "_blank");
+            $("#BranchID").removeAttr("disabled");
+            $("#BranchID").val(44);
+            $("#Year").attr("disabled", "disabled");
+            $("#Month").attr("disabled", "disabled");
+            $("#EmployeeTypeID").removeAttr("disabled");
+            $("#BankCode").attr("disabled", "disabled");
+            $("#AllEmployee").removeAttr("disabled");
+            $("#AllBranch").removeAttr("disabled");
+        }
+        else if (events.id == "locationwisenetPay") {
+            $("#btnprint").attr("formtarget", "_blank");
+            $("#BranchID").removeAttr("disabled");
+            $("#BranchID").val(44);
+            $("#Year").removeAttr("disabled")
+            $("#Month").removeAttr("disabled")
+            $("#EmployeeTypeID").removeAttr("disabled");
+            $("#BankCode").attr("disabled", "disabled");
+            $("#AllEmployee").removeAttr("disabled");
+            $("#AllBranch").removeAttr("disabled");
+        }
+        else if (events.id == "EmployeelstDOB") {
+            $("#btnprint").attr("formtarget", "_blank");
+            $("#BranchID").removeAttr("disabled");
+            $("#BranchID").val(44);
+            $("#Year").removeAttr("disabled");
+            $("#Month").removeAttr("disabled");
+            $("#EmployeeTypeID").removeAttr("disabled");
+            $("#BankCode").attr("disabled", "disabled");
+            $("#AllEmployee").removeAttr("disabled");
+            $("#AllBranch").removeAttr("disabled");
+        }
+        else if (events.id == "EmployeelstAdmngft") {
+            $("#btnprint").attr("formtarget", "_blank");
+            $("#BranchID").attr("disabled", "disabled");
+            $("#BranchID").val(44);
+            $("#Year").removeAttr("disabled");
+            $("#Month").removeAttr("disabled");
+            $("#EmployeeTypeID").removeAttr("disabled");
+            $("#BankCode").attr("disabled", "disabled");
+            $("#AllEmployee").removeAttr("disabled");
+            $("#AllBranch").removeAttr("disabled");
+        }
+    }
+
+    function BankCodeChange(cntrl) {
+        if (cntrl.id == "BankCode") {
+            var val = $("#" + cntrl.id).val();
+            if (val == "IC" || val == "PS") {
+                $("#btnprint").removeAttr("formtarget", "_blank");
+            }
+            else
+                $("#btnprint").attr("formtarget", "_blank");
+        }
+    }
+
+</script>

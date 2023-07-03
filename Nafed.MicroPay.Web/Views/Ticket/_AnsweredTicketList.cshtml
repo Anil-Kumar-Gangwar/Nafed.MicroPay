@@ -1,0 +1,127 @@
+﻿@using MicroPay.Web.Models
+@model HelpDesk
+<div class="mt-4">
+  
+    <table id="tblGrid1" class="table table-centered table-striped dt-responsive w-100">
+        <thead>
+            <tr>
+                <th>
+                    #
+                </th>
+                <th>
+                    Ticket No.
+                </th>
+                <th>
+                    Name
+                </th>
+                <th>
+                    Subject
+                </th>
+                <th>
+                    Message
+                </th>
+                <th>
+                    Forwarded To
+                </th>
+                <th>
+                   Your Remark
+                </th>               
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                if (Model.TList != null && Model.TList.Count > 0)
+                {
+                    var sno = 1;
+                    for (int i = 0; i < Model.TList.Count; i++)
+                    {
+                        <tr>
+                            <td> @sno</td>
+                            <td>
+                                @Html.HiddenFor(model => Model.TList[i].ID)
+                                @Model.TList[i].ID
+                            </td>
+                            <td>@Model.TList[i].name</td>
+                            <td>
+                                @Model.TList[i].subject
+                            </td> 
+                            <td id="@("messag_"+i)">
+                                @if (!string.IsNullOrEmpty(Model.TList[i].Message))
+                                {
+                                    if (@Model.TList[i].Message.Length > 50)
+                                    {
+                                        @Html.HiddenFor(model => @Model.TList[i].Message)
+                                        <a href="#" data-toggle="tooltip" title="Click here to see message">@Model.TList[i].Message.Substring(0, 50)...</a>
+                                    }
+                                    else
+                                    {
+                                        @Model.TList[i].Message
+                                    }
+                                }
+                            </td>
+                            <td>
+                                @Model.TList[i].Department
+                            </td>
+                            <td id="@("remark_"+i)">
+                                @if (!string.IsNullOrEmpty(Model.TList[i].Remark))
+                                {
+                                    if (@Model.TList[i].Remark.Length > 50)
+                                    {
+                                        @Html.HiddenFor(model => @Model.TList[i].Remark)
+                                        <a href="#" data-toggle="tooltip" title="Click here to see your remark">@Model.TList[i].Remark.Substring(0, 50)...</a>
+
+                                    }
+                                    else
+                                    {
+                                        @Model.TList[i].Remark
+                                    }
+                                }
+                            </td>
+                            
+                        </tr>
+                        sno++;
+                    }
+                }
+            }
+        </tbody>
+    </table>
+</div>
+
+
+<script type="text/javascript">
+    $("#tblGrid1").dataTable();
+    $('.toggle-tooltip').tooltip();
+
+    $('#tblGrid1 tr td').click(function () {
+        debugger;
+        var cid = $(this).attr('id');
+        var res = cid.substring(0, 6);
+        if (res == "messag") {
+            var id_indx = cid.substring(7);
+            var filemanagmtid = "TList_0__Message";
+            var filemgn = filemanagmtid.substring(0, 6);
+            var hdnremark = filemgn + id_indx + "__Message";
+            if (res == "messag") {
+                var rmk = $("#" + hdnremark).val();
+                if (rmk.length > 50) {
+                    $("#div-message-body").text(rmk)
+                    $('#div-message-popup').modal('show');
+                }
+            }
+        }
+        else if (res == "remark") {
+            var id_indx = cid.substring(7);
+            var filemanagmtid = "TList_0__Remark";
+            var filemgn = filemanagmtid.substring(0, 6);
+            var hdnremark = filemgn + id_indx + "__Remark";
+            if (res == "remark") {
+                var rmk = $("#" + hdnremark).val();
+                if (rmk.length > 50) {
+                    $("#div-remarks").text(rmk)
+                    $('#div-remarks-popup').modal('show');
+                }
+            }
+        }
+    });
+
+</script>

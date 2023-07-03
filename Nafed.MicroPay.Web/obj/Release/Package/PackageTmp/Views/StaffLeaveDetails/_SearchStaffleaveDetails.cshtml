@@ -1,0 +1,147 @@
+﻿@model MicroPay.Web.Models.StaffLeaveDetailsViewModel
+<style>
+    .require {
+        color: red;
+        margin-left: 134px;
+    }
+</style>
+
+<div class="advance-search" style="">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 pb-1 pt-2 form-inline align-middle">
+
+        <i class="fa fa-search fa-2x" style="color:#d4d4d4;" aria-hidden="true"></i><h4 class="desc" style="color:#0bb70b;">
+            @Html.Label("Search")
+        </h4>
+
+    </div>
+    <hr style="background-color:#fff !important;">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="form-group">
+
+            <div class="row">
+                <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12 text-secondary">
+                    <i class="fas fa-filter"></i> Filter By :
+                </div>
+                <div class="form-group col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                    <div>
+                        @Html.Label("Status", htmlAttributes: new { @class = "Control-label required" })
+                    </div>
+                    <div>
+                        @Html.DropDownList("ddlStatus", (IEnumerable<SelectListItem>)ViewBag.LeaveStatus, new { required = "required", @class = "custom-select" })
+                    </div>
+                </div>
+
+                <div class="form-group col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                    <div>
+                        @Html.Label("Branch", htmlAttributes: new { @class = "Control-label required" })
+                    </div>
+
+                    <div>
+                        @Html.DropDownList("ddlBranchList", (IEnumerable<SelectListItem>)ViewBag.Branch, new { required = "required", @class = "custom-select", @onchange = "BindEmployeeOnBranch()" })
+                    </div>
+                </div>
+
+                <div class="form-group col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                    <div>
+                        @Html.Label("Employee", htmlAttributes: new { @class = "Control-label required" })
+                    </div>
+
+                    <div>
+                        @Html.DropDownList("ddlEmployee", (IEnumerable<SelectListItem>)ViewBag.Employee, new { required = "required", @class = "custom-select" })
+                    </div>
+                </div>
+
+                <div class="form-group col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                    <div>
+                        @Html.Label("From Date", htmlAttributes: new { @class = "Control-label required" })
+                    </div>
+
+                    <div>
+                        @Html.Editor("FromDate", new { htmlAttributes = new { required = "required", @class = "form-control", @placeholder = "From Date", @type = "date"} })
+                    </div>
+                </div>
+
+                <div class="form-group col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                    <div>
+                        @Html.Label("To Date", htmlAttributes: new { @class = "Control-label required" })
+                    </div>
+                    <div>
+                        @Html.Editor("ToDate", new { htmlAttributes = new { required = "required", @class = "form-control ", @placeholder = "To Date", @type = "date" } })
+                    </div>
+                </div>
+               
+            </div>
+        </div>
+    </div>
+    <hr style="background-color:#fff !important;">
+    <div class="row mt-3">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-right">
+          
+            <button type="submit" class="btn btn-warning" title="Click here, to search records." onclick="GetEmployeeLeaveGridData();">
+                <i class="fa fa-search"></i> Search
+            </button>
+        </div>
+    </div>
+    <br />
+</div>
+
+<script type="text/javascript">
+   
+    $(document).ready(function () {
+        GetEmployeeLeaveGridData();
+    });
+
+    function GetEmployeeLeaveGridData() {
+       
+        var statusID = $("#ddlStatus").val();
+        var branchID = $("#ddlBranchList").val();
+        var employeeID = $("#ddlEmployee").val();
+        var dateFrom = $("#FromDate").val();
+        var dateTo = $("#ToDate").val();
+
+        jQuery.post("@Url.Action("StaffLeaveDetailsGridView", "StaffLeaveDetails")", {
+            StatusID: statusID,
+            BranchID: branchID,
+            DateFrom: dateFrom,
+            DateTo: dateTo,
+            EmployeeId: employeeID
+        }).done(function (data) {
+            debugger;
+            if (data != "") {
+
+                $("#MarkDiv").html(data);
+                var table = $('#tblGrid').DataTable({
+                });
+                $('#tblGrid_length').find('select').addClass('custom-select');
+            }
+            else {
+            }
+        });
+    }
+
+
+    function BindEmployeeOnBranch(e) {
+        debugger;
+        var branchId = 0;
+        branchId = $("#ddlBranchList").val();
+        $("#ddlEmployee").html("");
+        //if (branchId > 0) {
+            jQuery.post("@Url.Action("GetBranchEmployee", "StaffLeaveDetails")", {
+            branchID: branchId,
+            }).done(function (data) {
+
+                if (data.employees != "") {
+                    $("#ddlEmployee").html("");
+                    $.each(data.employees, function (key, value) {
+                        $("#ddlEmployee").append($("<option></option>").val(value.Value).html(value.Text));
+                    });
+                }
+            });
+        //}
+        //else {
+        //    $("#ddlEmployee").append($("<option></option>").val(0).html('Select'));
+  //  }
+    }
+</script>
+
+

@@ -1,0 +1,14 @@
+﻿@using Nafed.MicroPay.Model;
+@model CommonFilter
+
+<script src="~/Scripts/bootstrap-multiselect.js"></script>
+<link href="~/Content/bootstrap-multiselect.css" rel="stylesheet" />
+@Html.DropDownListFor(model => model.CheckBoxList, (IEnumerable<SelectListItem>)ViewBag.TrainingProvider, new {@class = "col-lg-8 col-md-8 col-sm-8 col-xs-12 form-control", id="lstListBox", @Multiple = "multiple" })
+
+<script>
+    $("#lstListBox").multiselect({ includeSelectAllOption: false })
+
+    $(".multiselect").addClass('col-lg-8 col-md-8 col-sm-8 col-xs-12');
+    $(".multiselect-container").addClass('col-lg-8 col-md-8 col-sm-8 col-xs-12');  
+    $(".multiselect-selected-text").addClass("text-wrap");
+</script>

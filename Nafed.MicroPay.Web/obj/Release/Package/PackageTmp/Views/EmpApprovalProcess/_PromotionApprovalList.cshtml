@@ -1,0 +1,123 @@
+﻿@using Nafed.MicroPay.Model;
+@model EmployeeProcessApprovalVM
+
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        Reporting Details
+        @if (Model._reportingError)
+        {
+            @Html.ValidationMessage("ReportingErrorModel", "You can't select same reporting multiple times.", new { @class = "text-danger text-weight-bold ml-2" })
+        }
+    </div>
+    <div class="panel-body pb-0">
+        <div class="form-group">
+            <div class="row">
+                <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+                    <table id="tblGridprom" class="table table-centered table-striped dt-responsive w-100">
+
+                        <thead>
+                            <tr>
+                                <th style="width:10px">
+                                    #
+                                </th>
+                                <th>
+                                    Reporting To
+                                </th>
+                                <th>
+                                    Reviewer To
+                                </th>
+                                <th>
+                                    Reporting 3
+                                </th>
+                                <th class="text-center" style="width:40px">
+                                    Delete
+                                </th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            @{
+                                if (Model.empProcessApp != null && Model.empProcessApp.Count > 0)
+                                {
+                                    Model.empProcessApp = Model.empProcessApp.Where(x => x.IsDeleted==false).ToList();
+                                    var sno = 1;
+                                    for (int i = 0; i < Model.empProcessApp.Count; i++)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @sno
+
+                                            </td>
+                                            <td>
+                                                @Html.HiddenFor(model => Model.empProcessApp[i].ReportingTo)
+                                                @Model.empProcessApp[i].ReportingToName
+
+                                            </td>
+                                            <td>
+                                                @Html.HiddenFor(model => Model.empProcessApp[i].ReviewingTo)
+                                                @if (Model.empProcessApp[i].ReviewingTo.HasValue && Model.empProcessApp[i].ReviewingTo > 0)
+                                                {
+                                                    @Model.empProcessApp[i].ReviewerName
+                                                }
+                                                else
+                                                {
+                                                    <text>Not Available</text>
+                                                }
+                                            </td>
+                                            <td>
+                                                @Html.HiddenFor(model => Model.empProcessApp[i].AcceptanceAuthority)
+                                                @if (Model.empProcessApp[i].AcceptanceAuthority.HasValue && Model.empProcessApp[i].AcceptanceAuthority > 0)
+                                                {
+                                                    @Model.empProcessApp[i].AcceptanceAuthorityName
+                                                }
+                                                else
+                                                {
+                                                    <text>Not Available</text>
+                                                }
+                                            </td>
+                                            <td class="text-center align-middle">
+
+                                                @Ajax.ActionLink("Remove",
+                             "_RemovePromotionRow", new
+                             {
+                                 sNo = Model.empProcessApp[i].sno
+                             },
+                             new AjaxOptions
+                             {
+                              //   UpdateTargetId = "div-ConApprovalList-grid",
+                                // InsertionMode = InsertionMode.Replace,
+                                 Confirm = "Are you sure you want to remove this record?",
+                                 HttpMethod = "GET", OnSuccess="OnPromotionRowRemove"
+                             }, new { @class = "btn btn-danger btn-xs toggle-tooltip btn-sectionAddRow", @title = "Click here, to remove this row." })
+                                            </td>
+                                        </tr>
+                                        sno++;
+                                    }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td colspan="5" class="text-center"> No Record Found.</td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+

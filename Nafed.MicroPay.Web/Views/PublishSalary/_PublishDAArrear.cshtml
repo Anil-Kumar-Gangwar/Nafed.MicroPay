@@ -1,0 +1,79 @@
+﻿@using Nafed.MicroPay.Model
+@model List<PayrollApprovalRequest>
+
+
+<div class="" style="margin-top:10px;">
+
+    <table id="tblGrid_DAArrer" class="table table-centered table-striped dt-responsive w-100 mt-2">
+        <thead>
+            <tr>
+                <th>
+                    #
+                </th>
+                <th>
+                    Branch
+                </th>
+                <th>
+                    Period
+                </th>
+                <th>
+                    Type
+                </th>
+                <th class="text-center">
+
+                    Status
+                </th>
+
+                <th>
+                    Comments
+                </th>
+
+                <th class="text-center">
+
+                    Report
+
+                </th>
+
+                @*<th class="text-center">
+                        View
+                    </th>*@
+                <th class="text-center" style="width:60px">
+                    Action
+                </th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                if (Model.Count() > 0)
+                {
+                    var sno = 1;
+                    for (int i = 0; i < Model.Count(); i++)
+                    {
+                        {
+                            Model[i].sno = sno;
+                        }
+
+                        <tr id="@sno">
+
+                            @Html.Partial("_DAArrearApprovalRequestRow", Model[i])
+
+                        </tr>
+                        sno++;
+                    }
+                }
+            }
+
+        </tbody>
+    </table>
+
+</div>
+
+<script>
+    $('.toggle-tooltip').tooltip();
+    ///==== Adding jquery datatable reference to all master grid ==== (Sujeet G)
+    var table = $('#tblGrid_DAArrer').DataTable({
+    });
+    $('#tblGrid_DAArrer_length').find('select').addClass('custom-select');
+    //========= End==================================================
+</script>

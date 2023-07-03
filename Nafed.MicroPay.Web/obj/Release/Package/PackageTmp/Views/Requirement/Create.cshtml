@@ -1,0 +1,39 @@
+﻿@model Nafed.MicroPay.Model.Requirement
+@using MicroPay.Web.Models;
+@{
+    ViewBag.Title = "Create Requirement";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+ 
+@using (Ajax.BeginForm("Create", "Requirement", new AjaxOptions { HttpMethod = "POST", OnSuccess = "OnCreateSuccess" }, new { id = "RequirementForm" }))
+{
+    <div id="div-main-form" class="" style="margin-top:10px;">
+        @Html.Partial("_CreateRequirement", Model)
+    </div>
+}
+
+<script type="text/javascript">
+    function OnCreateSuccess(data) {
+        if (data.part == 1) {
+            $("#div-form-ExamCenter-grid").html(data.htmlData);
+        }
+
+        if (data.part == 6 && data.msgType == "success") {
+            //commonMessage(data.msgType, data.msg);
+            window.location.href = "@Url.Action("Index","Requirement")";
+        }
+
+        if (data.part == undefined) {
+            $("#div-main-form").html(data);
+        }
+    }
+
+    function FeesApplicableChange(value) {
+        if (value.checked) {
+            $("#ApplicationFees").removeAttr("readonly");
+        }
+        else {
+            $("#ApplicationFees").attr("readonly", "readonly");
+        }
+    }
+</script>

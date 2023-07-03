@@ -1,0 +1,180 @@
+.calendar{
+    background: #2CA8C2;
+    color: #FFF;
+    width:100%;
+    font-family: 'Oxygen';
+    table-layout:fixed;
+    font-size: 12px;
+
+}
+
+
+.calendar.purple{
+    background:#913CCD;
+}
+
+.calendar.pink{
+    background: #F15F74;
+}
+
+.calendar.orange{
+    background: #F76D3C;
+}
+
+.calendar.yellow{
+    background: #F7D842;
+}
+
+.calendar.green{
+    background: #98CB4A;
+}
+
+.calendar.grey{
+    background: #839098;
+}
+
+.calendar.blue{
+    background: #5481E6;
+}
+
+.calendar-title th {
+    font-size: 22px;
+    font-weight: bold;
+    padding: 10px;
+    text-align: center;
+    text-transform: uppercase;
+    background: rgba(0, 0, 0, 0.05);
+}
+
+.calendar-header th {
+    padding: 5px;
+    text-align: center;
+    background: rgba(0, 0, 0, 0.1);
+    font-size: 10px;
+}
+
+.calendar tbody tr td{
+    text-align: center;
+    vertical-align: top;
+    width: 14.28%;
+}
+
+.calendar tbody tr td.pad{
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.calendar tbody tr td.day{
+}
+
+.calendar tbody tr td.day div:first-child{
+    padding:2px;
+    line-height:10px;
+    height:12px;
+}
+
+.calendar tbody tr td.day div:last-child{
+    font-size:15px;
+    padding:5px;
+    min-height:28px;
+}
+
+.calendar tbody tr td.today{
+    background: rgba(0, 0, 0, 0.25);
+}
+
+.calendar tbody tr td.mask-start,
+.calendar tbody tr td.mask,
+.calendar tbody tr td.mask-end {
+    background: #C23B22;
+}
+
+.calendar1{
+    background: #2CA8C2;
+    color: #FFF;
+    width:100%;
+    font-family: 'Oxygen';
+    table-layout:fixed;
+    font-size: 14px;
+
+}
+
+
+.calendar1.purple{
+    background:#913CCD;
+}
+
+.calendar1.pink{
+    background: #F15F74;
+}
+
+.calendar1.orange{
+    background: #F76D3C;
+}
+
+.calendar1.yellow{
+    background: #F7D842;
+}
+
+.calendar1.green{
+    background: #98CB4A;
+}
+
+.calendar1.grey{
+    background: #839098;
+}
+
+.calendar1.blue{
+    background: #5481E6;
+}
+
+.calendar1-title th {
+    font-size: 20px;
+    font-weight: bold;
+    padding: 2px;
+    text-align: center;
+    text-transform: uppercase;
+    background: rgba(0, 0, 0, 0.05);
+}
+
+.calendar1-header th {
+    padding: 5px;
+    text-align: center;
+    background: rgba(0, 0, 0, 0.1);
+    font-size: 14px;
+}
+
+.calendar1 tbody tr td{
+    text-align: center;
+    vertical-align: top;
+    width: 14.28%;
+}
+
+.calendar1 tbody tr td.pad{
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.calendar1 tbody tr td.day{
+}
+
+.calendar1 tbody tr td.day div:first-child{
+    padding:2px;
+    line-height:12px;
+    height:10px;
+    
+}
+
+.calendar1 tbody tr td.day div:last-child{
+    font-size:14px;
+    padding:5px;
+    min-height:15px;
+}
+
+.calendar1 tbody tr td.today{
+    background: rgba(0, 0, 0, 0.25);
+}
+
+.calendar1 tbody tr td.mask-start,
+.calendar1 tbody tr td.mask,
+.calendar1 tbody tr td.mask-end {
+    background: #C23B22;
+}

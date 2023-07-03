@@ -1,0 +1,32 @@
+﻿@*@model Nafed.MicroPay.Model.TicketType*@
+@{
+    ViewBag.Title = "Ticket Types";
+    ViewBag.NavigationTitle = "Ticket Types";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    System.Globalization.CultureInfo Indian = new System.Globalization.CultureInfo("hi-IN");
+}
+
+<div>
+
+
+    <div class="card_new_header text-right">
+        @Html.ActionLink("NEW TYPE", "Create", "TicketType", null, new { @class = "btn btn-info", title = "Click here, to create New Type", @data_toggle = "tooltip" })
+
+    </div>
+    <div class="card_new_body">
+        <div id="div-TicketType">
+            @Html.Action("_GetTicketTypeGridView")
+        </div>
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+

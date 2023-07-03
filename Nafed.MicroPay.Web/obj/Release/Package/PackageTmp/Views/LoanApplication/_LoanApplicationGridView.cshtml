@@ -1,0 +1,92 @@
+﻿@using Nafed.MicroPay.Model;
+@model List<LoanApplication>
+
+<table id="tblUser" class="table table-centered table-striped dt-responsive w-100">
+    <thead>
+        <tr>
+            <th>
+                #
+            </th>
+            <th style="width:15%">
+                Application No
+            </th>
+            <th>
+                Ceremony
+            </th>
+            <th class="text-center">
+                Ceremony Date
+            </th>
+            <th>
+                Place of Ceremony
+            </th>
+            <th class="text-center">
+                Loan Amount
+            </th>
+            <th class="text-center">
+                Status
+            </th>
+
+            <th class="text-center" style="width:60px">
+                Action
+            </th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            int index = 1;
+            if (Model != null)
+            {
+                foreach (var item in Model)
+                {
+                    <tr>
+                        <td> @index</td>
+                        <td> @item.ApplicationID</td>
+                        <td> @item.Ceremony</td>
+                        <td class="text-center"> @Convert.ToDateTime(item.CeremonyDate).ToString("dd-MM-yyyy")</td>
+                        <td> @item.CeremonyPlace</td>
+                        <td class="text-right"> @item.LoanAmount</td>
+
+                        <td class="text-center">
+                            @if (item.StatusID == (int)LoanApplicationStatus.Pending)
+                            {
+                                <h5>
+                                    <span class="badge badge-pill badge-warning col-md-12">
+                                        Pending
+                                    </span>
+                                </h5>
+                            }
+                            else if (item.StatusID == (int)LoanApplicationStatus.Accept)
+                            {<h5>
+                                <span class="badge badge-pill badge-success col-md-12">
+                                    Accepted
+                                </span>
+                            </h5>
+
+                            }
+                            else if (item.StatusID == (int)LoanApplicationStatus.Reject)
+                            {<h5>
+                                <span class="badge badge-pill badge-danger col-md-12">
+                                    Rejected
+                                </span>
+                            </h5>
+                            }
+                        </td>
+                        <td class="text-center">
+                            @if (item.StatusID == (int)LoanApplicationStatus.Pending)
+                            {
+                                @*<a href="@Url.Action("Edit", "LoanApplication", new { EmpID = item.EmployeeID, AppNo = item.ApplicationID })" title="Click here, to edit this record" data-toggle="tooltip">
+                                    <span class="far fa-edit text-info" aria-hidden="true"></span>
+                                </a>*@
+                                @Html.EncodedImageActionLink("", "Edit", "LoanApplication", new { EmpID = item.EmployeeID, AppNo = item.ApplicationID }, new { @class = "toggle-tooltip", title = "Click here, to edit this record" }, "~/Images/edit.png")
+                            }
+                        </td>
+                    </tr>
+                    index++;
+                }
+            }
+
+        }
+
+    </tbody>
+</table>

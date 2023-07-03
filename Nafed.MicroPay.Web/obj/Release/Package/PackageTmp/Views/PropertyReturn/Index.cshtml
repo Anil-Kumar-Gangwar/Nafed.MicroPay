@@ -1,0 +1,296 @@
+﻿
+
+@using MicroPay.Web.Models
+@model PropertyReturnViewModel
+
+@{
+    ViewBag.Title = "Annual Property Return Form";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@using (Ajax.BeginForm("_PropertyReturnGridView", "PropertyReturn", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "divSalaryHead" }, new { }))
+{
+    @Html.HiddenFor(model => model.StatusID)
+    @Html.Hidden("isApplicable")
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 pb-1 pt-2 mb-4">
+            <div class="col-md-12 text-center  mb-2"><h4>NAFED</h4></div>
+            <div class="col-md-12 text-center"><h4>STATEMENT OF IMMOVABLE PROPERTY RETURN</h4></div>
+        </div>
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 pb-1 pt-2 mt-4">
+            <div class="col-md-6 pull-left">
+                Name of the Employee:
+
+                <label class="col-lg-4 col-md-4 col-sm-8 col-xs-8 mb-2 underlineinput" id="lblEmployeeName"></label>
+            </div>
+            <div class="col-md-6 pull-right  text-right">Year ending: <label class="col-lg-3 col-md-3 col-sm-8 col-xs-8 mb-2 underlineinput" id="lblYear"></label></div>
+        </div>
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 pb-1 pt-2 mt-4">
+            <div class="col-md-6 pull-left">1. Designation:<label class="col-lg-3 col-md-3 col-sm-8 col-xs-8 mb-2 underlineinput" id="lblDesignation"></label></div>
+            <div class="col-md-6 pull-right  text-right">2. Basic pay :<label class="col-lg-3 col-md-3 col-sm-8 col-xs-8 mb-2 underlineinput" id="lblBasicPay"></label></div>
+        </div>
+        <hr style="background-color:#fff !important;">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                        @*@Html.Label("Name", htmlAttributes: new { @class = "" })*@
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+
+                        @*@Html.DropDownList("ddlEmployee", (IEnumerable<SelectListItem>)ViewBag.EmployeeDetails, new { @class = "custom-select" })*@
+
+
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                        @*<input type="submit" id="Search" value="Search" title="Click here, to search records" class="btn btn-warning toggle-tooltip" onclick="GetEmployeePRGridData();">*@
+                        @*<input type="submit" value="Search" id="btnSearch" class="btn btn-warning" onclick="GetEmployeePRGridData();">*@
+                    </div>
+
+                    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row col-md-12 mt-2 mb-2 ml-1">
+
+            @*@if (Model.userRights.Create)
+                {*@
+            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 text-left ">
+                <input name="" class="" type="checkbox" id="NotApplicable" /> <label>Not Applicable</label>
+                <span class="font-weight-bold text-muted ml-2"> <i class="fas fa-hand-point-left"></i>  Check not applicable, in case you don't have any property.</span>
+            </div>
+            @if (Model.StatusID == 0)
+            {
+            <div id="addrowsection" class="col-lg-6 col-md-6 col-sm-12 col-xs-12 text-right">
+
+                <span class="font-weight-bold text-muted"> Click on Add Row button, If you want to add property details in below table  <i class="fas fa-hand-point-right"></i> </span>
+                <a data-ajax="true" class="btn btn-info btn-md toggle-tooltip"
+                   style="text-decoration:none;text-align:center;"
+                   href="@Url.Action("_GetPRDtls", "PropertyReturn")"
+                   id="lnkLocFormulaEditor"
+                   method="GET" title="Click here, to create new record"
+                   data-ajax-update="#div-salHead" data-ajax-mode="replace"
+                   data-backdrop="static" data-keyboard="false"
+                   data-toggle="modal" data-target="#PRHeadSlabModal">
+                    Add Row
+                </a>
+                @*}*@
+            </div>
+            }
+        </div>
+
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div id="divSalaryHead">
+                @Html.Action("_PropertyReturnGridView", "PropertyReturn")
+            </div>
+        </div>
+
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mt-2">
+
+            <div class="col-md-6 pull-left"></div>
+            <div class="col-md-6 pull-right  text-right">Name <label class="col-lg-4 col-md-4 col-sm-8 col-xs-8 mb-2 underlineinput" id="lblFEmployeeName"></label></div>
+        </div>
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="col-md-6 pull-left"></div>
+            <div class="col-md-6 pull-right  text-right">Place of posting<label class="col-lg-3 col-md-3 col-sm-8 col-xs-8 mb-2 underlineinput" id="lblPlaceofposting"></label></div>
+        </div>
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="col-md-6 pull-left"></div>
+
+            <div class="col-md-6 pull-right  text-right">
+                Date
+            
+                <label class="col-lg-3 col-md-3 col-sm-8 col-xs-8 mb-2 underlineinput" id="lblFDate">@ViewBag.submitDate</label>
+            </div>
+        </div>
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12  text-right mt-2">
+            @if (Model.StatusID == 0)
+            {
+                <input type="button" value="Submit" id="btnSubmit" name="ButtonType" class="btn btn-info btn-md toggle-tooltip " title="Click here, submit the data." onclick="submitdata()" />
+            }
+            @Html.ActionLink("Back to List", "Index", "PRHeader", null, new { @class = "btn btn-light btn-md toggle-tooltip", @title = "Click here, to redirect on list page" })
+        </div>
+
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 pb-1 pt-2 mt-4">
+            <h4>Notes </h4>
+
+        </div>
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 pb-1 pt-2 mt-4">
+            <p>1.	(*) In case where it is not possible to assess the value accurately, the approximate value in relation to present condition may be indicated.</p>
+            <p>2.	(**) Includes short-term lease also.</p>
+            <p>3.	The declaration form is required to be filled in and submitted by every employee under relevant provision of Conduct Rules and the first appointment to the service and thereafter, at the interval of every twelve months, giving particulars of all immovable property owned, acquired or inherited by him or held by him/her on lease or mortgage, either in his/her own name or in the name of any member of his/her family or in the name of any other person dependent on him/her.</p>
+            <p>4.	The wording “No change or No addition or as in previous year” may be avoided and all details filled up.</p>
+        </div>
+    </div>
+
+}
+
+
+<div class="modal" id="PRHeadSlabModal">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Add your property details</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body scrollbar" style="overflow-x:hidden; height:550px;" id="div-salHead">
+
+            </div>
+
+            <!-- Modal footer -->
+            <div class="">
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        //set initial state.
+
+        $('#isApplicable').val(false);
+        $('#NotApplicable').change(function () {
+            if (this.checked) {
+
+                $('#addrowsection').addClass("d-none");
+                $('#isApplicable').val(true);
+
+
+            }
+            else {
+                $('#addrowsection').removeClass("d-none");
+                $('#isApplicable').val(false);
+
+            }
+
+        });
+    });
+
+    window.onload = function () {
+        if (!navigator.userAgent.match('Macintosh')) {
+            var element = document.querySelectorAll('.slimScroll');
+
+
+            // Apply slim scroll plugin
+            var one = new slimScroll(element[0], {
+                'wrapperClass': 'scroll-wrapper unselectable mac',
+                'scrollBarContainerClass': 'scrollBarContainer',
+                'scrollBarContainerSpecialClass': 'animate',
+                'scrollBarClass': 'scroll',
+                'keepFocus': true
+            });
+            var two = new slimScroll(element[1], {
+                'wrapperClass': 'wrapper',
+                'scrollBarContainerClass': 'scrollBarContainer',
+                'scrollBarClass': 'scrollBar'
+            });
+
+            var three = new slimScroll(element[2], {
+                'wrapperClass': 'scroll-wrap',
+                'scrollBarContainerClass': 'scroll-bar-wrap',
+                'scrollBarClass': 'scroll-bar'
+            });
+
+            // resize example
+            // To make the resizing work, set the height of the container in PERCENTAGE
+            window.onresize = function () {
+                one.resetValues();
+                two.resetValues();
+                three.resetValues();
+            }
+        }
+        else {
+            document.write("For Mac users, this custom slimscroll styles will not be applied");
+        }
+    }
+
+    $(document).ready(function () {
+
+
+
+        $("#lblYear").html(@ViewBag.Year);
+        $("#lblEmployeeName").html("@ViewBag.Employeename");
+        $("#lblFEmployeeName").html("@ViewBag.Employeename");
+        $("#lblPlaceofposting").text("@ViewBag.BranchName");
+        $("#lblDesignation").html("@ViewBag.DesignationName");
+        $("#lblBasicPay").text(@ViewBag.BasicPay);
+
+        var today = new Date();
+        var month = today.getMonth() + 1;
+        var day = today.getDate();
+        if (day < 10) {
+            day = '0' + day
+        }
+        if (month < 10) {
+            month = '0' + month
+        }
+
+        var year = today.getFullYear();
+        // $("#lblFDate").html(day + "/" + month + "/" + year);
+    });
+
+    function GetEmployeePRGridData() {
+        var employeeId = $("#ddlEmployee").val();
+        //alert(employeeId);
+        jQuery.post("@Url.Action("_PropertyReturnGridView", "PropertyReturn")", {
+            EmployeeId: employeeId,
+
+        }).done(function (data) {
+            //  debugger;
+            if (data != "") {
+                alert("Hi");
+
+                var table = $('#tblGrid').DataTable({
+                });
+                $('#tblGrid_length').find('select').addClass('custom-select');
+            }
+            else {
+            }
+        });
+    }
+
+    function submitdata() {
+        var isApp = $("#isApplicable").val();
+
+        jQuery.post("@Url.Action("_SubmitData", "PropertyReturn")", {
+            isApplic: isApp,
+        }).done(function (data) {
+            //  debugger;
+            if (data != "") {
+                if (data.msg == "success") {
+                    commonMessage(data.msg, "Data Submitted Successfully.");
+                    window.location.href = '@Url.Action("Index", "PRHeader")';
+                }
+
+            }
+
+        });
+    }
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

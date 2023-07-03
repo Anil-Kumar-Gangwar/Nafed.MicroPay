@@ -1,0 +1,996 @@
+﻿@model Nafed.MicroPay.Model.EmployeePayScale
+@{
+    Layout = null;
+    var message = TempData["Message"] == null ? "" : TempData["Message"].ToString();
+    var messageError = TempData["Error"] == null ? "" : TempData["Error"].ToString();
+    var modelMessage = Model.AlertMessage == null ? "" : Model.AlertMessage.ToString();
+}
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        if ("@modelMessage" != "")
+            commonMessage("error", "@modelMessage");
+    });
+    function EditSuccess(data) {
+       
+            var i=@ViewBag.ActiveTab;
+            $('.nav-tabs li:eq(' + i + ') a').tab('show');
+
+            if ('@messageError' != "") {
+                var str = '@WebUtility.HtmlEncode(@messageError)';
+                str = str.replace(/&amp;lt;/g, "<").replace(/&amp;gt;/g, ">").replace(/&amp;#39;/g, "'");
+                $.bootstrapGrowl("<i class='mdi-android-debug-bridge' aria-hidden='true'></i> " + str + "", {
+                    type: 'warning',
+                    align: 'center',
+                    width: 'auto',
+                    allow_dismiss: true,
+                    delay: 50000
+                });
+            }
+            if ('@message' != "") {
+                $.bootstrapGrowl("<i class='mdi-checkbox-marked-circle-outline' aria-hidden='true'></i> " + '@message', {
+                    type: 'success',
+                    align: 'center',
+                    width: 'auto',
+                    allow_dismiss: true,
+                    delay: 20000
+                });
+            }
+       
+    }
+
+</script>
+
+@using (Ajax.BeginForm("_EditPayScaleDetails", "Employee", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "PayScale", OnSuccess = "EditSuccess" }, new { defaultbutton = "submitform" }))
+{
+    @Html.HiddenFor(model => model.employeeID)
+    @Html.HiddenFor(model => model.designationID)
+    @Html.HiddenFor(model => model.level)
+
+    @Html.AntiForgeryToken()
+   
+       <div class="" style="margin-top:10px;">
+
+            <div class="">
+
+            <div class="row">
+
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-12">
+                    
+                    <div class="form-group">
+
+                        <div class="row">
+
+                            <div class="col-lg-1 col-md-2 col-sm-12 col-xs-12">
+                              1.
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                Basic
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+
+                                @Html.EditorFor(model => model.B1, new { htmlAttributes = new { @class = "form-control integerOnly text-right", @min="0", onblur = "CalculateBasic();" } })
+
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                Increment
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+
+                                @Html.EditorFor(model => model.I1, new { htmlAttributes = new { @class = "form-control integerOnly text-right"  , @min = "0" } })
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                      
+                           <div class="row">
+
+                            <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+                                2.
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                 Basic
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                @Html.EditorFor(model => model.B2, new { htmlAttributes = new { @class = "form-control integerOnly text-right", @min = "0" } })
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                Increment
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                @Html.EditorFor(model => model.I2, new { htmlAttributes = new { @class = "form-control integerOnly text-right", @min = "0" } })
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+                                3.
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                Basic
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                @Html.EditorFor(model => model.B3, new { htmlAttributes = new { @class = "form-control integerOnly text-right" } })
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                Increment
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                @Html.EditorFor(model => model.I3, new { htmlAttributes = new { @class = "form-control integerOnly text-right" } })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+
+                        <div class="row">
+
+                            <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+                                4.
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                Basic
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                @Html.EditorFor(model => model.B4, new { htmlAttributes = new { @class = "form-control integerOnly text-right" } })
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                Increment
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                @Html.EditorFor(model => model.I4, new { htmlAttributes = new { @class = "form-control integerOnly text-right" } })
+                            </div>                          
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+                                5.
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                Basic
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                @Html.EditorFor(model => model.B5, new { htmlAttributes = new { @class = "form-control integerOnly text-right" } })
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                Increment
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                @Html.EditorFor(model => model.I5, new { htmlAttributes = new { @class = "form-control integerOnly text-right" } })
+                            </div>
+                         
+
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="row">
+
+                            <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+                                6.
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                Basic
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                @Html.EditorFor(model => model.B6, new { htmlAttributes = new { @class = "form-control integerOnly text-right" } })
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                Increment
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                @Html.EditorFor(model => model.I6, new { htmlAttributes = new { @class = "form-control integerOnly text-right" } })
+                            </div>
+                          
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+                                7.
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                Basic
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                @Html.EditorFor(model => model.B7, new { htmlAttributes = new { @class = "form-control integerOnly text-right" } })
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                Increment
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                @Html.EditorFor(model => model.I7, new { htmlAttributes = new { @class = "form-control integerOnly text-right" } })
+                            </div>                         
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+                                8.
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                Basic
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                @Html.EditorFor(model => model.B8, new { htmlAttributes = new { @class = "form-control integerOnly text-right" } })
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                Increment
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                @Html.EditorFor(model => model.I8, new { htmlAttributes = new { @class = "form-control integerOnly text-right" } })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+                                9.
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                Basic
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+
+                                @Html.EditorFor(model => model.B9, new { htmlAttributes = new { @class = "form-control integerOnly text-right" } })
+
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                Increment
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                @Html.EditorFor(model => model.I9, new { htmlAttributes = new { @class = "form-control integerOnly text-right" } })
+                            </div> 
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+                                10.
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                Basic
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                @Html.EditorFor(model => model.B10, new { htmlAttributes = new { @class = "form-control integerOnly text-right" } })
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                Increment
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                @Html.EditorFor(model => model.I10, new { htmlAttributes = new { @class = "form-control integerOnly text-right" } })
+                            </div>                           
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+
+                            <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+                                11.
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                Basic
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                @Html.EditorFor(model => model.B11, new { htmlAttributes = new { @class = "form-control integerOnly text-right" } })
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                Increment
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                @Html.EditorFor(model => model.I11, new { htmlAttributes = new { @class = "form-control integerOnly text-right" } })
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+
+                            <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+                                  12.
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                  Basic
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                  @Html.EditorFor(model => model.B12, new { htmlAttributes = new { @class = "form-control integerOnly text-right" } })
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                Increment
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                 @Html.EditorFor(model => model.I12, new { htmlAttributes = new { @class = "form-control integerOnly text-right" } })
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+
+                        <div class="row">
+
+                            <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+                                  13.
+                            </div>
+
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                 Basic
+                            </div>
+                           
+                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">                               
+                                 @Html.EditorFor(model => model.B13, new { htmlAttributes = new { @class = "form-control integerOnly text-right" } })
+                            </div>
+
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                Increment
+                            </div>
+
+                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                              
+                                  @Html.EditorFor(model => model.I13, new { htmlAttributes = new { @class = "form-control integerOnly text-right" } })
+
+                            </div>                         
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+                                14.
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                Basic
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                @Html.EditorFor(model => model.B14, new { htmlAttributes = new { @class = "form-control integerOnly text-right" } })
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                Increment
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                @Html.EditorFor(model => model.I14, new { htmlAttributes = new { @class = "form-control integerOnly text-right" } })
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+
+                            <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+                                15.
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                Basic
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                @Html.EditorFor(model => model.B15, new { htmlAttributes = new { @class = "form-control integerOnly text-right" } })
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                Increment
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                @Html.EditorFor(model => model.I15, new { htmlAttributes = new { @class = "form-control integerOnly text-right" } })
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+
+                            <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+                                16.
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                Basic
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                @Html.EditorFor(model => model.B16, new { htmlAttributes = new { @class = "form-control integerOnly text-right" } })
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                Increment
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                @Html.EditorFor(model => model.I16, new { htmlAttributes = new { @class = "form-control integerOnly text-right" } })
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+
+                        <div class="row">
+
+                            <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+                                17.
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                Basic
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                @Html.EditorFor(model => model.B17, new { htmlAttributes = new { @class = "form-control integerOnly text-right" } })
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                Increment
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                @Html.EditorFor(model => model.I17, new { htmlAttributes = new { @class = "form-control integerOnly text-right" } })
+                            </div>                          
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+
+                            <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+                                18.
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                Basic
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                @Html.EditorFor(model => model.B18, new { htmlAttributes = new { @class = "form-control integerOnly text-right" } })
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                Increment
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                @Html.EditorFor(model => model.I18, new { htmlAttributes = new { @class = "form-control integerOnly text-right" } })
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+                                19.
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                Basic
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                @Html.EditorFor(model => model.B19, new { htmlAttributes = new { @class = "form-control integerOnly text-right" } })
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                Increment
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                @Html.EditorFor(model => model.I19, new { htmlAttributes = new { @class = "form-control integerOnly text-right" } })
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+                                20.
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                Basic
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                @Html.EditorFor(model => model.B20, new { htmlAttributes = new { @class = "form-control integerOnly text-right" } })
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                Increment
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                @Html.EditorFor(model => model.I20, new { htmlAttributes = new { @class = "form-control integerOnly text-right" } })
+                            </div>
+
+
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+
+                        <div class="row">
+                            <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+                                21.
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                Basic
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                @Html.EditorFor(model => model.B21, new { htmlAttributes = new { @class = "form-control integerOnly text-right" } })
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                Increment
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                @Html.EditorFor(model => model.I21, new { htmlAttributes = new { @class = "form-control integerOnly text-right" } })
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <div class="row">
+                            <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+                                22.
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                Basic
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                @Html.EditorFor(model => model.B22, new { htmlAttributes = new { @class = "form-control integerOnly text-right" } })
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                Increment
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                @Html.EditorFor(model => model.I22, new { htmlAttributes = new { @class = "form-control integerOnly text-right" } })
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <div class="row">
+                            <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+                                23.
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                Basic
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                @Html.EditorFor(model => model.B23, new { htmlAttributes = new { @class = "form-control integerOnly text-right" } })
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                Increment
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                @Html.EditorFor(model => model.I23, new { htmlAttributes = new { @class = "form-control integerOnly text-right" } })
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <div class="row">
+                            <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+                                24.
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                Basic
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                @Html.EditorFor(model => model.B24, new { htmlAttributes = new { @class = "form-control integerOnly text-right" } })
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                Increment
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                @Html.EditorFor(model => model.I24, new { htmlAttributes = new { @class = "form-control integerOnly text-right" } })
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <div class="row">
+                            <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+                                25.
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                Basic
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                @Html.EditorFor(model => model.B25, new { htmlAttributes = new { @class = "form-control integerOnly text-right" } })
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                Increment
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                @Html.EditorFor(model => model.I25, new { htmlAttributes = new { @class = "form-control integerOnly text-right" } })
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+
+                        <div class="row">
+
+                            <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+                                26.
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                Basic
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                @Html.EditorFor(model => model.B26, new { htmlAttributes = new { @class = "form-control integerOnly text-right" } })
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                Increment
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                @Html.EditorFor(model => model.I26, new { htmlAttributes = new { @class = "form-control integerOnly text-right" } })
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <div class="row">
+                            <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+                                27.
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                Basic
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                @Html.EditorFor(model => model.B27, new { htmlAttributes = new { @class = "form-control integerOnly text-right" } })
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                Increment
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                @Html.EditorFor(model => model.I27, new { htmlAttributes = new { @class = "form-control integerOnly text-right" } })
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <div class="row">
+                            <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+                                28.
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                Basic
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                @Html.EditorFor(model => model.B28, new { htmlAttributes = new { @class = "form-control integerOnly text-right" } })
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                Increment
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                @Html.EditorFor(model => model.I28, new { htmlAttributes = new { @class = "form-control integerOnly text-right" } })
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+
+                        <div class="row">
+                            <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+                                29.
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                Basic
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                @Html.EditorFor(model => model.B29, new { htmlAttributes = new { @class = "form-control integerOnly text-right" } })
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                Increment
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                @Html.EditorFor(model => model.I29, new { htmlAttributes = new { @class = "form-control integerOnly text-right" } })
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <div class="row">
+                            <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+                                30.
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                Basic
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                @Html.EditorFor(model => model.B30, new { htmlAttributes = new { @class = "form-control integerOnly text-right" } })
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                Increment
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                @Html.EditorFor(model => model.I30, new { htmlAttributes = new { @class = "form-control integerOnly text-right" } })
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <div class="row">
+                            <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+                                31.
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                Basic
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                @Html.EditorFor(model => model.B31, new { htmlAttributes = new { @class = "form-control integerOnly text-right" } })
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                Increment
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                @Html.EditorFor(model => model.I31, new { htmlAttributes = new { @class = "form-control integerOnly text-right" } })
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <div class="row">
+                            <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+                                32.
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                Basic
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                @Html.EditorFor(model => model.B32, new { htmlAttributes = new { @class = "form-control integerOnly text-right" } })
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                Increment
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                @Html.EditorFor(model => model.I32, new { htmlAttributes = new { @class = "form-control integerOnly text-right" } })
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <div class="row">
+                            <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+                                33.
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                Basic
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                @Html.EditorFor(model => model.B33, new { htmlAttributes = new { @class = "form-control integerOnly text-right" } })
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                Increment
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                @Html.EditorFor(model => model.I33, new { htmlAttributes = new { @class = "form-control integerOnly text-right" } })
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <div class="row">
+                            <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+                                34.
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                Basic
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                @Html.EditorFor(model => model.B34, new { htmlAttributes = new { @class = "form-control integerOnly text-right" } })
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                Increment
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                @Html.EditorFor(model => model.I34, new { htmlAttributes = new { @class = "form-control integerOnly text-right" } })
+                            </div>
+
+                        </div>
+
+
+                    </div>
+                    <div class="form-group">
+
+                        <div class="row">
+                            <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+                                35.
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                Basic
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                @Html.EditorFor(model => model.B35, new { htmlAttributes = new { @class = "form-control integerOnly text-right" } })
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                Increment
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                @Html.EditorFor(model => model.I35, new { htmlAttributes = new { @class = "form-control integerOnly text-right" } })
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <div class="row">
+                            <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+                                36.
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                Basic
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                @Html.EditorFor(model => model.B36, new { htmlAttributes = new { @class = "form-control integerOnly text-right" } })
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                Increment
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                @Html.EditorFor(model => model.I36, new { htmlAttributes = new { @class = "form-control integerOnly text-right" } })
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <div class="row">
+                            <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+                                37.
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                Basic
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                @Html.EditorFor(model => model.B37, new { htmlAttributes = new { @class = "form-control integerOnly text-right" } })
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                Increment
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                @Html.EditorFor(model => model.I37, new { htmlAttributes = new { @class = "form-control integerOnly text-right" } })
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <div class="row">
+                            <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+                                38.
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                Basic
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                @Html.EditorFor(model => model.B38, new { htmlAttributes = new { @class = "form-control integerOnly text-right" } })
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                Increment
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                @Html.EditorFor(model => model.I38, new { htmlAttributes = new { @class = "form-control integerOnly text-right" } })
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+
+                        <div class="row">
+                            <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+                                39.
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                Basic
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                @Html.EditorFor(model => model.B39, new { htmlAttributes = new { @class = "form-control integerOnly text-right" } })
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                Increment
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                @Html.EditorFor(model => model.I39, new { htmlAttributes = new { @class = "form-control integerOnly text-right" } })
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+
+                        <div class="row">
+                            <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+                                40.
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                Basic
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                @Html.EditorFor(model => model.B40, new { htmlAttributes = new { @class = "form-control integerOnly text-right" } })
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                Increment
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                @Html.EditorFor(model => model.I40, new { htmlAttributes = new { @class = "form-control integerOnly text-right" } })
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+                    <div class="form-group">
+                        <span class="pull-right">
+                            @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-light btn-md toggle-tooltip", @title = "Click here, to redirect on list page" })
+                            <input type="submit" value="Update" class="btn btn-info btn-md pull-center toggle-tooltip" title="Click here, to update this record" />
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+}
+<script type="text/javascript">
+   $('.toggle-tooltip').tooltip();
+   function CalculateBasic() {
+       var B1 = $("#B1").val();
+       var employeeID=$("#employeeID").val();
+       var designationID=$("#designationID").val();
+       jQuery.get("@Url.Action("CalculateBasic", "Employee")", {
+           B1: B1,
+           employeeID:employeeID,
+           designationID:designationID
+       }).done(function (data) {
+           $("#PayScale").html("");
+           if (data != "") {
+               $("#PayScale").html(data);
+           }
+       });
+   }
+</script>

@@ -1,0 +1,631 @@
+﻿@model Nafed.MicroPay.Model.SalaryManualData
+@{
+    ViewBag.Title = "Enter Manual Data For Salary";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@{
+
+    var yearDDl = Enumerable.Range(2006, DateTime.Now.Year - 2006 + 1).
+                              Select(i => new SelectListItem { Value = i.ToString(), Text = i.ToString() }).OrderByDescending(x => x.Value).ToList();
+
+    yearDDl.Insert(0, new SelectListItem { Text = "Select", Value = "0", Selected = true });
+
+    var monthDDL = Enumerable.Range(1, 12).
+                           Select(i => new SelectListItem
+                           {
+                               Value = i.ToString(),
+                               Text = System.Globalization.CultureInfo.InvariantCulture.DateTimeFormat.GetMonthName(i)
+                           }).ToList();
+
+    monthDDL.Insert(0, new SelectListItem { Text = "Select", Value = "0", Selected = true });
+
+
+    var arreartype = new List<SelectListItem>();
+    arreartype.Insert(0, new SelectListItem { Text = "Select", Value = "0", Selected = true });
+    arreartype.Insert(1, new SelectListItem { Text = "DA Arrear", Value = "1", Selected = false });
+    arreartype.Insert(2, new SelectListItem { Text = "Basic Arrear", Value = "2", Selected = false });
+}
+
+
+@using (Html.BeginForm("Edit", "SalaryManualData", FormMethod.Post))
+    {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    @Html.HiddenFor(model => model.ID)
+    @Html.HiddenFor(model => model.SalMonth)
+    @Html.HiddenFor(model => model.SalYear)
+    @Html.HiddenFor(model => model.EmployeeId)
+    @Html.HiddenFor(model => model.BranchID)
+    @Html.HiddenFor(model => model.DesignationID)
+    @Html.HiddenFor(model => model.ArrearType)
+    <div class="" style="margin-top:3px;">
+
+        <div class="">
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">Employee Details</div>
+                        <div class="panel-body">
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                        @Html.LabelFor(model => model.BranchID, htmlAttributes: new { @class = "control-label required" })
+
+                                    </div>
+                                    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                        @Html.DropDownListFor(model => model.BranchID, (IEnumerable<SelectListItem>)ViewBag.Branch, new { @class = "custom-select", onchange = "BindEmployeeOnBranch(this)", @disabled = "disabled" })
+                                        @Html.ValidationMessageFor(model => model.BranchID, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                        @Html.LabelFor(model => model.EmployeeId, htmlAttributes: new { @class = "control-label required" })
+
+                                    </div>
+                                    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                        @Html.DropDownListFor(model => model.EmployeeId, (IEnumerable<SelectListItem>)ViewBag.EmployeeDetails, new { @class = "custom-select ", @id = "ddlEmployee", @disabled = "disabled" })
+                                        @Html.ValidationMessageFor(model => model.EmployeeId, "", new { @class = "text-danger" })
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+
+                                        @Html.LabelFor(model => model.SalMonth, htmlAttributes: new { @class = "control-label  required" })
+                                    </div>
+                                    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                        @Html.DropDownListFor(model => model.SalMonth, monthDDL, new { @class = "custom-select", @id = "ddlmonth", @disabled = "disabled" })
+                                        @Html.ValidationMessageFor(model => model.SalMonth, "", new { @class = "text-danger" })
+                                    </div>
+
+                                    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                        @Html.LabelFor(model => model.SalYear, htmlAttributes: new { @class = "control-label  required" })
+                                    </div>
+                                    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                        @Html.DropDownListFor(model => model.SalYear, yearDDl, new { @class = "custom-select", @id = "ddlyear", @disabled = "disabled" })
+                                        @Html.ValidationMessageFor(model => model.SalYear, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                        @Html.LabelFor(model => model.DesignationID, htmlAttributes: new { @class = "control-label required" })
+
+                                    </div>
+                                    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                        @Html.DropDownListFor(model => model.DesignationID, (IEnumerable<SelectListItem>)ViewBag.Designation, new { @class = "custom-select", @disabled = "disabled" })
+                                        @Html.ValidationMessageFor(model => model.DesignationID, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                        @Html.LabelFor(model => model.ArrearType, htmlAttributes: new { @class = "control-label required" })
+                                    </div>
+                                    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                        @*@Html.DropDownListFor(model => model.ArrearType, (IEnumerable<SelectListItem>)ViewBag.ArrearType, new { @class = "custom-select ", @id = "ddlArrearType" })
+                                        @Html.ValidationMessageFor(model => model.ArrearType, "", new { @class = "text-danger" })*@
+
+                                        @Html.DropDownListFor(model => model.ArrearType, arreartype, new { @class = "custom-select", @id = "ddlArrearType", @disabled = "disabled" })
+                                        @Html.ValidationMessageFor(model => model.ArrearType, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading">Earnings Heads</div>
+                        <div class="panel-body">
+
+                            <div class="form-group">
+                                <div class="row">
+
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                        Basic
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                        @Html.EditorFor(model => model.E_Basic_A, new { htmlAttributes = new { @class = "form-control integerOnly text-right", @min = "0", @maxlength = "6", onblur = "CalculateBasic();" } })
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                        Fixed Da
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                        @Html.EditorFor(model => model.E_FDA_A, new { htmlAttributes = new { @class = "form-control integerOnly text-right", @min = "0", @maxlength = "6", onblur = "CalculateBasic();" } })
+
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                        Special pay
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                        @Html.EditorFor(model => model.E_SP_A, new { htmlAttributes = new { @class = "form-control integerOnly text-right", @min = "0", @maxlength = "6", onblur = "CalculateBasic();" } })
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="row">
+
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                        Additional DA
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                        @Html.EditorFor(model => model.E_01_A, new { htmlAttributes = new { @class = "form-control integerOnly text-right", @min = "0", @maxlength = "6", onblur = "CalculateBasic();" } })
+
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                        House Rent ALW
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                        @Html.EditorFor(model => model.E_02_A, new { htmlAttributes = new { @class = "form-control integerOnly text-right", @min = "0", @maxlength = "6", onblur = "CalculateBasic();" } })
+
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                        Over Time ALW
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                        @Html.EditorFor(model => model.E_03_A, new { htmlAttributes = new { @class = "form-control integerOnly text-right", @min = "0", @maxlength = "6", onblur = "CalculateBasic();" } })
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="row">
+
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                        City Comp. ALW
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                        @Html.EditorFor(model => model.E_05_A, new { htmlAttributes = new { @class = "form-control integerOnly text-right", @min = "0", @maxlength = "6", onblur = "CalculateBasic();" } })
+
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                        Ad. O. T. ALW
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                        @Html.EditorFor(model => model.E_04_A, new { htmlAttributes = new { @class = "form-control integerOnly text-right", @min = "0", @maxlength = "6", onblur = "CalculateBasic();" } })
+
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                        CEA
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                        @Html.EditorFor(model => model.E_06_A, new { htmlAttributes = new { @class = "form-control integerOnly text-right", @min = "0", @maxlength = "6", onblur = "CalculateBasic();" } })
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="row">
+
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                        Wash
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                        @Html.EditorFor(model => model.E_07_A, new { htmlAttributes = new { @class = "form-control integerOnly text-right", @min = "0", @maxlength = "6", onblur = "CalculateBasic();" } })
+
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                        Hill Comp. ALW
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                        @Html.EditorFor(model => model.E_08_A, new { htmlAttributes = new { @class = "form-control integerOnly text-right", @min = "0", @maxlength = "6", onblur = "CalculateBasic();" } })
+
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                        Special Allowance
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                        @Html.EditorFor(model => model.E_09_A, new { htmlAttributes = new { @class = "form-control integerOnly text-right", @min = "0", @maxlength = "6", onblur = "CalculateBasic();" } })
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="row">
+
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                        Winter Allowance
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                        @Html.EditorFor(model => model.E_10_A, new { htmlAttributes = new { @class = "form-control integerOnly text-right", @min = "0", @maxlength = "6", onblur = "CalculateBasic();" } })
+
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                        Misc. Income 1
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                        @Html.EditorFor(model => model.E_11_A, new { htmlAttributes = new { @class = "form-control integerOnly text-right", @min = "0", @maxlength = "6", onblur = "CalculateBasic();" } })
+
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                        Misc. Income 2
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                        @Html.EditorFor(model => model.E_12_A, new { htmlAttributes = new { @class = "form-control integerOnly text-right", @min = "0", @maxlength = "6", onblur = "CalculateBasic();" } })
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="row">
+
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                        Misc. Income 3
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                        @Html.EditorFor(model => model.E_13_A, new { htmlAttributes = new { @class = "form-control integerOnly text-right", @min = "0", @maxlength = "6", onblur = "CalculateBasic();" } })
+
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                        Other
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                        @Html.EditorFor(model => model.E_30_A, new { htmlAttributes = new { @class = "form-control integerOnly text-right", @min = "0", @maxlength = "6", onblur = "CalculateBasic();" } })
+
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                        Total
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                        @Html.EditorFor(model => model.C_TotEarn, new { htmlAttributes = new { @class = "form-control integerOnly text-right", @min = "0", onblur = "CalculateBasic()", @disabled = "disabled" } })
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading">Deduction Heads</div>
+                        <div class="panel-body">
+
+                            <div class="form-group">
+                                <div class="row">
+
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                        Provident Fund
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                        @Html.EditorFor(model => model.D_PF_A, new { htmlAttributes = new { @class = "form-control integerOnly text-right", @min = "0", @maxlength = "6", onblur = "CalculateBasic();" } })
+
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                        Voluntary PF
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                        @Html.EditorFor(model => model.D_VPF_A, new { htmlAttributes = new { @class = "form-control integerOnly text-right", @min = "0", @maxlength = "6", onblur = "CalculateBasic();" } })
+
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                        Income Tax
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                        @Html.EditorFor(model => model.D_01_A, new { htmlAttributes = new { @class = "form-control integerOnly text-right", @min = "0", @maxlength = "6", onblur = "CalculateBasic();" } })
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="row">
+
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                        Profession Tax
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                        @Html.EditorFor(model => model.D_02_A, new { htmlAttributes = new { @class = "form-control integerOnly text-right", @min = "0", @maxlength = "6", onblur = "CalculateBasic();" } })
+
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                        TCS Loan
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                        @Html.EditorFor(model => model.D_03_A, new { htmlAttributes = new { @class = "form-control integerOnly text-right", @min = "0", @maxlength = "6", onblur = "CalculateBasic();" } })
+
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                        Life Insurance
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                        @Html.EditorFor(model => model.D_04_A, new { htmlAttributes = new { @class = "form-control integerOnly text-right", @min = "0", @maxlength = "6", onblur = "CalculateBasic();" } })
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="row">
+
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                        Benevolent Fund
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                        @Html.EditorFor(model => model.D_05_A, new { htmlAttributes = new { @class = "form-control integerOnly text-right", @min = "0", @maxlength = "6", onblur = "CalculateBasic();" } })
+
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                        Sports Club
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                        @Html.EditorFor(model => model.D_06_A, new { htmlAttributes = new { @class = "form-control integerOnly text-right", @min = "0", @maxlength = "6", onblur = "CalculateBasic();" } })
+
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                        Flat Deduction
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                        @Html.EditorFor(model => model.D_07_A, new { htmlAttributes = new { @class = "form-control integerOnly text-right", @min = "0", @maxlength = "6", onblur = "CalculateBasic();" } })
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="row">
+
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                        Nafed Bazaar Ded.
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                        @Html.EditorFor(model => model.D_08_A, new { htmlAttributes = new { @class = "form-control integerOnly text-right", @min = "0", @maxlength = "6", onblur = "CalculateBasic();" } })
+
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                        GIS Deduction
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                        @Html.EditorFor(model => model.D_09_A, new { htmlAttributes = new { @class = "form-control integerOnly text-right", @min = "0", @maxlength = "6", onblur = "CalculateBasic();" } })
+
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                        Relief Fund Dedn.
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                        @Html.EditorFor(model => model.D_11_A, new { htmlAttributes = new { @class = "form-control integerOnly text-right", @min = "0", @maxlength = "6", onblur = "CalculateBasic();" } })
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="row">
+
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                        Misc. Dedn. 1
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                        @Html.EditorFor(model => model.D_10_A, new { htmlAttributes = new { @class = "form-control integerOnly text-right", @min = "0", @maxlength = "6", onblur = "CalculateBasic();" } })
+
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                        Misc. Dedn. 2
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                        @Html.EditorFor(model => model.D_12_A, new { htmlAttributes = new { @class = "form-control integerOnly text-right", @min = "0", @maxlength = "6", onblur = "CalculateBasic();" } })
+
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                        Misc. Dedn. 3
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                        @Html.EditorFor(model => model.D_13_A, new { htmlAttributes = new { @class = "form-control integerOnly text-right", @min = "0", @maxlength = "6", onblur = "CalculateBasic();" } })
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="row">
+
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                        Union Fee
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                        @Html.EditorFor(model => model.D_14_A, new { htmlAttributes = new { @class = "form-control integerOnly text-right", @min = "0", @maxlength = "6", onblur = "CalculateBasic();" } })
+
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                        PF Loan
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                        @Html.EditorFor(model => model.D_15_A, new { htmlAttributes = new { @class = "form-control integerOnly text-right", @min = "0", @maxlength = "6", onblur = "CalculateBasic();" } })
+
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                        Scooter Loan
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                        @Html.EditorFor(model => model.D_16_A, new { htmlAttributes = new { @class = "form-control integerOnly text-right", @min = "0", @maxlength = "6", onblur = "CalculateBasic()" } })
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <div class="row">
+
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                        House Bldg. Loan
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                        @Html.EditorFor(model => model.D_17_A, new { htmlAttributes = new { @class = "form-control integerOnly text-right", @min = "0", @maxlength = "6", onblur = "CalculateBasic();" } })
+
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                        Festival Loan
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                        @Html.EditorFor(model => model.D_18_A, new { htmlAttributes = new { @class = "form-control integerOnly text-right", @min = "0", @maxlength = "6", onblur = "CalculateBasic();" } })
+
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                        Car Loan
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                        @Html.EditorFor(model => model.D_19_A, new { htmlAttributes = new { @class = "form-control integerOnly text-right", @min = "0", @maxlength = "6", onblur = "CalculateBasic()" } })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="row">
+
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                        Sundry Advance
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                        @Html.EditorFor(model => model.D_20_A, new { htmlAttributes = new { @class = "form-control integerOnly text-right", @min = "0", @maxlength = "6", onblur = "CalculateBasic();" } })
+
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                        Other
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                        @Html.EditorFor(model => model.D_30_A, new { htmlAttributes = new { @class = "form-control integerOnly text-right", @min = "0", @maxlength = "6", onblur = "CalculateBasic();" } })
+
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                        Total
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                        @Html.EditorFor(model => model.C_TotDedu, new { htmlAttributes = new { @class = "form-control integerOnly text-right", @min = "0", @maxlength = "6", @disabled = "disabled" } })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="row">
+
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                        LWP
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                        @Html.EditorFor(model => model.LWP, new { htmlAttributes = new { @class = "form-control integerOnly text-right", @min = "0", @maxlength = "2", onblur = "CalculateAttendance();" } })
+
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                        Total Days
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                        @Html.EditorFor(model => model.totaldays, new { htmlAttributes = new { @class = "form-control integerOnly text-right", @min = "0", @disabled = "disabled" } })
+
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                        Attendance
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                        @Html.EditorFor(model => model.Attendance, new { htmlAttributes = new { @class = "form-control integerOnly text-right", @min = "0", @disabled = "disabled" } })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="row">
+
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                        VPF
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                        @Html.EditorFor(model => model.RateVPFA, new { htmlAttributes = new { @class = "form-control integerOnly text-right", @min = "0", @maxlength = "2", onblur = "CalculateBasic();" } })
+
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                        Net
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                        @Html.EditorFor(model => model.C_NetSal, new { htmlAttributes = new { @class = "form-control integerOnly text-right", @min = "0", @disabled = "disabled" } })
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <span class="pull-right">
+                            @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-light btn-md toggle-tooltip", @title = "Click here, to redirect on list page" })
+                            <input type="submit" value="Update" class="btn btn-info btn-md pull-center toggle-tooltip" title="Click here, to Create current record" />
+                        </span>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<script type="text/javascript">
+
+    $('.toggle-tooltip').tooltip();
+
+    function BindEmployeeOnBranch(e) {
+
+        var branchId = 0;
+        var filldropdown = 0;
+        branchId = $("#ddlBranchList").val();
+
+        if (branchId > 0) {
+            jQuery.post("@Url.Action("GetBranchEmployee", "SalaryManualData")", {
+            branchID: branchId,
+            }).done(function (data) {
+                debugger;
+                if (data.employees != "") {
+                    $("#ddlEmployee").html("");
+                    $.each(data.employees, function (key, value) {
+                        $("#ddlEmployee").append($("<option></option>").val(value.Value).html(value.Text));
+                    });
+
+                }
+            });
+      }
+    }
+
+    function CalculateBasic() {
+        var totEarn = parseInt($("#E_Basic_A").val() == "" ? 0 : $("#E_Basic_A").val()) + parseInt($("#E_SP_A").val() == "" ? 0 : $("#E_SP_A").val()) + parseInt($("#E_FDA_A").val() == "" ? 0 : $("#E_FDA_A").val()) +
+            +parseInt($("#E_01_A").val() == "" ? 0 : $("#E_01_A").val()) + parseInt($("#E_02_A").val() == "" ? 0 : $("#E_02_A").val()) + parseInt($("#E_03_A").val() == "" ? 0 : $("#E_03_A").val()) +
+             parseInt($("#E_04_A").val() == "" ? 0 : $("#E_04_A").val()) + parseInt($("#E_05_A").val() == "" ? 0 : $("#E_05_A").val()) + parseInt($("#E_06_A").val() == "" ? 0 : $("#E_06_A").val()) +
+              parseInt($("#E_07_A").val() == "" ? 0 : $("#E_07_A").val()) + parseInt($("#E_08_A").val() == "" ? 0 : $("#E_08_A").val()) + parseInt($("#E_09_A").val() == "" ? 0 : $("#E_09_A").val()) +
+                +parseInt($("#E_10_A").val() == "" ? 0 : $("#E_10_A").val()) + parseInt($("#E_11_A").val() == "" ? 0 : $("#E_11_A").val()) +parseInt( $("#E_12_A").val() == "" ? 0 : $("#E_12_A").val()) +
+             parseInt($("#E_13_A").val() == "" ? 0 : $("#E_13_A").val()) + parseInt($("#E_30_A").val() == "" ? 0 : $("#E_30_A").val())
+
+        var totDedu = parseInt($("#D_PF_A").val() == "" ? 0 : $("#D_PF_A").val()) + parseInt($("#D_VPF_A").val() == "" ? 0 : $("#D_VPF_A").val()) + parseInt($("#D_01_A").val() == "" ? 0 : $("#D_01_A").val()) +
+        +parseInt($("#D_02_A").val() == "" ? 0 : $("#D_02_A").val()) + parseInt($("#D_03_A").val() == "" ? 0 : $("#D_03_A").val()) + parseInt($("#D_04_A").val() == "" ? 0 : $("#D_04_A").val()) +
+         parseInt($("#D_05_A").val() == "" ? 0 : $("#D_05_A").val()) + parseInt($("#D_06_A").val() == "" ? 0 : $("#D_06_A").val()) + parseInt($("#D_07_A").val() == "" ? 0 : $("#D_07_A").val()) +
+          parseInt($("#D_08_A").val() == "" ? 0 : $("#D_08_A").val()) + parseInt($("#D_09_A").val() == "" ? 0 : $("#D_09_A").val()) + parseInt($("#D_10_A").val() == "" ? 0 : $("#D_10_A").val()) +
+            +parseInt($("#D_11_A").val() == "" ? 0 : $("#D_11_A").val()) + parseInt($("#D_12_A").val() == "" ? 0 : $("#D_12_A").val()) + parseInt($("#D_13_A").val() == "" ? 0 : $("#D_13_A").val()) +
+         +parseInt($("#D_14_A").val() == "" ? 0 : $("#D_14_A").val()) + parseInt($("#D_15_A").val() == "" ? 0 : $("#D_15_A").val()) + parseInt($("#D_16_A").val() == "" ? 0 : $("#D_16_A").val()) +
+          +parseInt($("#D_17_A").val() == "" ? 0 : $("#D_17_A").val()) + parseInt($("#D_18_A").val() == "" ? 0 : $("#D_18_A").val()) + parseInt($("#D_19_A").val() == "" ? 0 : $("#D_19_A").val()) +
+        parseInt($("#D_20_A").val() == "" ? 0 : $("#D_20_A").val()) + parseInt($("#D_30_A").val() == "" ? 0 : $("#D_30_A").val())
+
+        $("#C_TotEarn").val(totEarn);
+        $("#C_TotDedu").val(totDedu);
+        $("#C_NetSal").val(totEarn - totDedu);
+    }
+
+ 
+
+    $(document).ready(function () {
+        CalculateBasic();
+        var monthID = $("#ddlmonth").val() == "0" ? null : $("#ddlmonth").val();
+        var yearID = $("#ddlyear").val() == "0" ? null : $("#ddlyear").val();
+        $("#totaldays").val(new Date(yearID, monthID, 0).getDate());
+        CalculateAttendance();
+    });
+    function CalculateAttendance() {
+        var totaldays = parseInt($("#totaldays").val() == "" ? 0 : $("#totaldays").val()) - parseInt($("#LWP").val() == "" ? 0 : $("#LWP").val());
+        $("#Attendance").val(totaldays);
+    }
+</script>
+

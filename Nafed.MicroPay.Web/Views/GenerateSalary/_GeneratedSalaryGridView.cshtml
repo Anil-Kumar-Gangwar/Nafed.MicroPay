@@ -1,0 +1,145 @@
+﻿@using Nafed.MicroPay.Model
+@model List<FinalMonthlySalary>
+
+
+<table id="tblGrid" class="table table-centered table-striped dt-responsive w-100 mt-2">
+
+    <thead>
+        <tr>
+            <th rowspan="2">#</th>
+            <th  rowspan="2" >Period </th>
+            <th  rowspan="2" >Type</th>
+            <th colspan="2" >Pay Slip</th>
+            <th colspan="2" >Pay Summary</th>
+           
+        </tr>
+        <tr>
+           
+            <th>Head Office</th>
+            <th>All Branches</th>
+
+            <th>Head Office</th>
+            <th>All Branches</th>
+
+        </tr>
+
+    </thead>
+
+    <tbody>
+        @{
+            if (Model.Count() > 0)
+            {
+                var sno = 1;
+                for (int i = 0; i < Model.Count(); i++)
+                {
+                   <tr>
+                       <td> @sno</td>
+                     
+                       <td>
+                               <text>
+                                   @Model[i].periodInDateFormat.ToString("MMM, yyyy")
+                               </text>
+                          
+                       </td>
+
+                       <td style='vertical-align:middle;'> Regular </td>
+
+                     
+
+                       <td class="text-center" style='vertical-align:middle;'>
+
+
+                           <a data-ajax="true" data-toggle="tooltip"
+                              href="@Url.Action("_ExportMonthlyPaySlip", "PublishSalary",
+                new { branchID = 44, empTypeID= Model[i].EmployeeTypeID,
+                    salMonth = Model[i].periodInDateFormat.Month,
+                    salYear= Model[i].periodInDateFormat.Year })"
+                              method="GET" title="Click here ,to export monthly pay slip report."
+                              data-ajax-success="OnExportSuccess">
+                               <span class="far fa-file-excel text-info" aria-hidden="true"></span>
+                           </a>
+
+                       </td>
+                       <td class="text-center" style='vertical-align:middle;'>
+
+
+                           <a data-ajax="true" data-toggle="tooltip"
+                              href="@Url.Action("_ExportMonthlyPaySlip", "PublishSalary",
+                new { empTypeID= Model[i].EmployeeTypeID,
+                    salMonth = Model[i].periodInDateFormat.Month,
+                    salYear= Model[i].periodInDateFormat.Year })"
+                              method="GET" title="Click here ,to export monthly pay slip report."
+                              data-ajax-success="OnExportSuccess">
+                               <span class="far fa-file-excel text-info" aria-hidden="true"></span>
+                           </a>
+
+                       </td>
+                       <td class="text-center" style='vertical-align:middle;'>
+
+
+                           <a data-ajax="true" data-toggle="tooltip"
+                              href="@Url.Action("_ExportMonthlyPaySummary", "PublishSalary",
+                new { branchID = 44, empTypeID= Model[i].EmployeeTypeID,
+                    salMonth =  Model[i].periodInDateFormat.Month,
+                    salYear=  Model[i].periodInDateFormat.Year})"
+                              method="GET" title="Click here ,to export monthly pay summary report."
+                              data-ajax-success="OnExportSuccess">
+
+                               <span class="far fa-file-excel text-info" aria-hidden="true"></span>
+                           </a>
+
+                       </td>
+                       <td class="text-center" style='vertical-align:middle;'>
+
+
+                           <a data-ajax="true" data-toggle="tooltip"
+                              href="@Url.Action("_ExportMonthlyPaySummary", "PublishSalary",
+                new {  empTypeID= Model[i].EmployeeTypeID,
+                    salMonth =  Model[i].periodInDateFormat.Month,
+                    salYear=  Model[i].periodInDateFormat.Year
+                })"
+                              method="GET" title="Click here ,to export monthly pay summary report."
+                              data-ajax-success="OnExportSuccess">
+
+                               <span class="far fa-file-excel text-info" aria-hidden="true"></span>
+                           </a>
+
+                       </td>
+                   </tr>
+
+
+                    sno++;
+                }
+            }
+        }
+
+
+    </tbody>
+</table>
+
+<script>
+    $('.toggle-tooltip').tooltip();
+    ///==== Adding jquery datatable reference to all master grid ==== (Sujeet G)
+    var table = $('#tblGrid').DataTable({
+    });
+    $('#tblGrid_length').find('select').addClass('custom-select');
+    //========= End==================================================
+
+
+
+    function OnExportSuccess(data) {
+      
+        if (data.fileName == "" || data.fileName == undefined) {
+            $("#branchRequired").text('Please select branch.');
+        }
+        if (data.fileName != "" && data.message == "success") {
+            //  $("#div-report-filters").load("@Url.Action("_ReportFilter", "ExportSalaryReport")");
+            window.location.href = "@Url.RouteUrl(new { Controller = "Base", Action = "DownloadAndDelete" })/?sFileName=" + data.fileName + "&sFileFullPath=" + data.fullPath;
+
+        }
+
+        if (data.message == "error" && data.part == 1) {
+            $("#div-report-filters").html(data.htmlData);
+        }
+    }
+</script>

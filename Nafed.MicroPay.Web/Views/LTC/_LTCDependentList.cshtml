@@ -1,0 +1,47 @@
+﻿@using Nafed.MicroPay.Model;
+@model List<LTCDependentList>
+
+<table id="tblGrid-LTC" class="table table-centered table-striped dt-responsive w-100">
+    <thead>
+        <tr>
+            <th>
+                S.N.
+            </th>
+            <th>
+                Name Of Member
+            </th>
+            <th>
+                Relation
+            </th>
+            <th>
+                Age
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            int index = 1;
+            if (Model != null && Model.Count > 0)
+            {
+                foreach (var item in Model)
+                {
+                    <tr>
+                        <td> @index</td>
+                        <td> @item.DependentName</td>
+                        <td> @item.RelationName</td>
+                        <td> @item.Age</td>
+                    </tr>
+                    index++;
+                }
+            }
+
+        }
+
+    </tbody>
+</table>
+
+<script>
+    $(document).ready(function () {
+        var table = $('#tblGrid-LTC').DataTable({ searching: false, paging: false });
+    });
+</script>

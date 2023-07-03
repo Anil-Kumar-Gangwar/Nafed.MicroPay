@@ -1,0 +1,40 @@
+﻿@model Nafed.MicroPay.Model.EmployeeLeave
+@using (Ajax.BeginForm("Create", "EmployeeLeave", new AjaxOptions { HttpMethod = "POST" }))
+{
+
+    <div class="divider-chevron"></div>
+    <div class="row mb-3 text-right">
+        <div class="col-md-12 pull-right">
+            @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-light btn-sm toggle-tooltip", @title = "Click here, to redirect on list page" })
+            <input type="button" value="FAQ" id="btnFAQ" data-toggle="modal" data-target="#myModal" class="btn btn-info btn-sm pull-center toggle-tooltip"
+                   title="Click here, to know the leave policy" />
+            @*<input type="submit" value="Apply" id="btnApply" class="btn btn-info btn-sm pull-center toggle-tooltip" title="Click here, to save current record" />*@
+        </div>
+    </div>
+    <div class="divider-chevron"></div>
+
+    <div class="row mb-3 bg-info text-white pt-3 pb-3">
+        <div class="col-lg-12 col-md-6 col-sm-6 col-xs-12 ">
+            <div class="row">
+                <div class="col-lg-3 col-md-2 col-sm-12 col-xs-12" style="font-weight:700;">
+                    @Html.LabelFor(model => model.Branch, htmlAttributes: new { @class = "h6" })
+                    @Html.DisplayFor(model => model.Branch, new { @class = "h4" })
+                </div>
+
+                <div class="col-lg-3 col-md-2 col-sm-12 col-xs-12" style="font-weight:700;">
+                    @Html.LabelFor(model => model.EmployeeName, htmlAttributes: new { @class = "h6" })
+                    @Html.DisplayFor(model => model.EmployeeName, new { @class = "h4" })
+                </div>
+                <div class="col-lg-3 col-md-2 col-sm-12 col-xs-12" style="font-weight:700;">
+                    @Html.LabelFor(model => model.DesignationName, htmlAttributes: new { @class = "h6" })
+                    @Html.DisplayFor(model => model.DesignationName, new { @class = "h4" })
+                </div>
+                <div class="col-lg-3 col-md-2 col-sm-12 col-xs-12" style="font-weight:700;">
+
+                    @Html.LabelFor(model => model.ReviewerName, htmlAttributes: new { @class = "h6" })
+                    @Html.DisplayFor(model => model.ReviewerName, new { @class = "h4" })
+                </div>
+            </div>
+        </div>
+    </div>
+}

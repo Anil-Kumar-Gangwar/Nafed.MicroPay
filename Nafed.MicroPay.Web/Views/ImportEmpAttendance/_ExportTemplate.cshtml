@@ -1,0 +1,48 @@
+﻿@{ 
+
+    Layout = null;
+}
+<script type="text/javascript">
+
+    function onSuccess(data) {
+
+        $("#branchRequired").text('');
+        if (data.fileName == "" || data.fileName==undefined) {
+            $("#branchRequired").text('Please select branch.');
+        }
+        if (data.fileName != "" && data.message == "success") {
+             
+            window.location.href = "@Url.RouteUrl(new { Controller = "Base", Action = "DownloadAndDelete" })/?sFileName=" + data.fileName + "&sFileFullPath=" + data.fullPath;
+        }
+    }
+
+    function onBegin() {
+            $('#waitLoading').modal('hide');
+        }
+</script>
+
+
+@using (Ajax.BeginForm("_ExportTemplate", "ImportEmpAttendance", new AjaxOptions { HttpMethod = "POST", OnBegin = "onBegin", OnSuccess = "onSuccess",LoadingElementId= "waitLoading" }))
+{
+
+    @Html.Hidden("BranchID")
+    <div class="row" id="exportDIV">
+        <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12 mt-3">
+            @Html.Label("Branch", htmlAttributes: new { @class = "required font-weight-bold" })
+        </div>
+        <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12 mt-2">
+
+            @Html.DropDownList("ddlBranch", (IEnumerable<SelectListItem>)ViewBag.Branch, new { @class = "custom-select" })
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 mt-2 text-right">
+
+            <button type="submit" id="submitform" class="btn btn-warning pull-center toggle-tooltip" title="Click here, to download the template.">
+                <i class="fa fa-file-excel"></i> Export Template
+            </button>
+        </div>
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mt-2">
+
+            @Html.ValidationMessage("BranchRequired", "", new { @class = "text-danger", @id = "branchRequired" })
+        </div>
+    </div>
+}

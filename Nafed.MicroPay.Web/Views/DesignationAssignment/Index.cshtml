@@ -1,0 +1,159 @@
+﻿@using Nafed.MicroPay.Model
+@using MicroPay.Web.Models
+@model DesignationAssignmentVM
+@{
+    ViewBag.Title = "Designation Assignment";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var employeeID = Request.Form["employeeID"];
+}
+<div>
+    <div class="row patty_panel" style="background-color:#0c858e;box-shadow: 0px 1px 2px;padding-top:0px;">
+
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 pb-1 pt-2">
+            <h4>
+                @Html.Label("Employee Current Information")
+            </h4>
+        </div>
+
+        <hr style="background-color:#fff !important;">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12 pr-0">
+                        Employee
+                    </div>
+
+                    <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 pl-0 pr-0">
+
+                        <b>    @(Model.designationAssignment.employeeName + "-" + Model.designationAssignment.employeeCode)</b>
+
+                    </div>
+
+                    <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12 pr-0">
+                        Cadre
+                    </div>
+
+                    <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12 pr-0">
+
+                        <b> @(Model.designationAssignment.cadre ?? "Not Available")</b>
+
+                    </div>
+
+                    <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12 pr-0">
+
+                        Designation
+                    </div>
+
+                    <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 pr-0 ">
+
+                        <b> @Model.designationAssignment.designation</b>
+                    </div>
+
+                    <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12 pr-0">
+                        Basic Salary
+
+                    </div>
+
+                    <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12 pr-0 ">
+                        <b>  @Model.designationAssignment.basicSalary</b>
+
+                    </div>
+
+                    <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12 pr-0">
+                        Seniority No
+                    </div>
+
+                    <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12 ">
+
+                        <b>  @Model.designationAssignment.Sen_Code</b>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="card_new_header text-right">
+
+        @if (Model.userRights != null && Model.userRights.Create || 1 > 0 && !Model.designationAssignment.promotionList.Any(x => x.ToDate == null))
+        {
+            @Ajax.ActionLink("Assign New Designation", "ChangeDesignation",
+            new
+            {
+                @currentCadreID = Model.designationAssignment.CurrentCadreID,
+                @employeeID = Model.designationAssignment.employeeID,
+                @employeeCode = Model.designationAssignment.employeeCode
+            }, null,
+           new
+           {
+               @class = "btn btn-info btn-md toggle-tooltip",
+               @data_target = "#assignNewDesignationModal",
+               title = "Click here, to create new record",
+               @data_toggle = "modal",
+               @method = "GET",
+               @data_backdrop = "static",
+               @data_keyboard = "false",
+               @data_ajax_update = "#div-result-body",
+               @data_ajax_mode = "replace"
+           })
+        }
+    </div>
+
+    <div class="card_new_body">
+        <div id="div-promtion-history">
+            @*@{ ViewBag.DeleteRight = Model.userRights.Delete;  }*@
+
+            @if (Model.designationAssignment.promotionList != null)
+            {
+                ViewBag.DeleteRight = Model.userRights.Delete;
+                ViewBag.EditRight = true;
+
+                @Html.Partial("_PromotionHistory", Model.designationAssignment.promotionList)
+            }
+
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="assignNewDesignationModal" data-backdrop="static" data-keyboard="false" role="dialog" style="overflow:auto;">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Change Designation</h4>
+                <button type="button" class="close toggle-tooltip" data-dismiss="modal">&times;</button>
+            </div>
+
+            @using (Ajax.BeginForm("ChangeDesignation", "DesignationAssignment", null,
+                 new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "div-result-body", OnSuccess = "ChangeDesignation_OnSuccess" }))
+            {
+
+            <!-- Modal body -->
+                <div class="modal-body" id="div-result-body">
+                    <!-- div to show result data -->
+                </div>
+
+            <!-- Modal footer -->
+                <div class="modal-footer">
+
+                    <input type="submit" value="Save" id="btnSave" class="btn btn-primary btn-md" />
+
+                </div>
+            }
+
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function ChangeDesignation_OnSuccess(data) {
+        if (data.saved) {
+            $("#assignNewDesignationModal").modal("hide");
+            window.location.reload();
+        }
+    }
+</script>

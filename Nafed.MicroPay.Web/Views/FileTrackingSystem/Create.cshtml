@@ -1,0 +1,273 @@
+﻿@using MicroPay.Web.Models;
+@model FileTrackingViewModel
+@{
+    ViewBag.Title = "Set File Initiator";
+    ViewBag.NavigationTitle = "File Tracking System";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    System.Globalization.CultureInfo Indian = new System.Globalization.CultureInfo("hi-IN");
+}
+@using (@Html.BeginForm("Create", "FileTrackingSystem", FormMethod.Post))
+{
+
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">Select Department for which you want to set file initiator</div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 mb-2">
+                            @Html.HiddenFor(model => Model.fileWorkFlow.WorkFlowID)
+                            @Html.HiddenFor(model => Model.lstEmployeeList)
+                            @Html.LabelFor(model => model.fileWorkFlow.initiateDepartmentID, htmlAttributes: new { @class = "control-label required" })
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 mb-2">
+                            @Html.DropDownListFor(model => model.fileWorkFlow.initiateDepartmentID, new SelectList(ViewBag.Department, "id", "value"), "Select", new { @class = "custom-select" })
+                            @Html.ValidationMessageFor(model => model.fileWorkFlow.initiateDepartmentID, "", new { @class = "text-danger" })
+                            <span id="initiateDepartmentIDError"></span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">Initiator</div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 mb-2">
+                            @Html.LabelFor(model => model.fileWorkFlow.initiateDesignationID, htmlAttributes: new { @class = "control-label"})
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 mb-2">
+                            @Html.DropDownListFor(model => model.fileWorkFlow.initiateDesignationID, new SelectList(ViewBag.Designation, "id", "value"), "Select", new { @class = "custom-select", @onchange = "BindInitiatedEmployeeOnDesignation(this)" })
+                            @Html.ValidationMessageFor(model => model.fileWorkFlow.initiateDesignationID, "", new { @class = "text-danger" })
+
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 mb-2">
+                            @Html.LabelFor(model => model.fileWorkFlow.initiateEmployeeID, htmlAttributes: new { @class = "control-label required" })
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 mb-2">
+                            <div id="div-emplist">
+                                @Html.Partial("_CheckBoxList",Model)
+                                @*@Html.DropDownListFor(model => model.fileWorkFlow.initiateEmployeeID, new SelectList(ViewBag.InitiatedEmployee, "id", "value"), "Select", new { @class = "custom-select" })*@
+                            </div>
+                            @*@Html.ListBoxFor(model => model.fileWorkFlow.intEmployeeID, new MultiSelectList(ViewBag.InitiatedEmployee, "id", "value"), new {@class = "form-control", @Multiple = "multiple" })*@
+                            @Html.ValidationMessage("InitiateEmployeeValidator", "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 mb-2">
+                            @Html.LabelFor(model => model.fileWorkFlow.fromdate, htmlAttributes: new { @class = "control-label required" })
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 mb-2">
+                            @Html.TextBoxFor(model => model.fileWorkFlow.fromdate, String.Format("{0:dd/MM/yyyy}", Model.fileWorkFlow.fromdate), new { @type = "text", @class = "form-control datepicker", @id = "fromdate", @placeholder = "dd/mm/yyyy" })                            
+                            @Html.ValidationMessageFor(model => model.fileWorkFlow.fromdate, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @*<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">Park By</div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 mb-2">
+                            @Html.LabelFor(model => model.fileWorkFlow.ParkByDepartmentID, htmlAttributes: new { @class = "control-label required" })
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 mb-2">
+                            @Html.DropDownListFor(model => model.fileWorkFlow.ParkByDepartmentID, new SelectList(ViewBag.Department, "id", "value"), "Select", new { @class = "custom-select" })
+                            @Html.ValidationMessageFor(model => model.fileWorkFlow.ParkByDepartmentID, "", new { @class = "text-danger" })
+                            <span id="ParkByDepartmentIDError"></span>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 mb-2">
+                            @Html.LabelFor(model => model.fileWorkFlow.ParkByDesignationID, htmlAttributes: new { @class = "control-label required" })
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 mb-2">
+                            @Html.DropDownListFor(model => model.fileWorkFlow.ParkByDesignationID, new SelectList(ViewBag.Designation, "id", "value"), "Select", new { @class = "custom-select", @onchange = "BindParkEmployeeOnDesignation(this)" })
+                            @Html.ValidationMessageFor(model => model.fileWorkFlow.ParkByDesignationID, "", new { @class = "text-danger" })
+
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 mb-2">
+                            @Html.LabelFor(model => model.fileWorkFlow.ParkByEmployeeID, htmlAttributes: new { @class = "control-label required" })
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 mb-2">
+                            @Html.DropDownListFor(model => model.fileWorkFlow.ParkByEmployeeID, new SelectList(ViewBag.ParkedEmployee, "id", "value"), "Select", new { @class = "custom-select" })
+                            @Html.ValidationMessageFor(model => model.fileWorkFlow.ParkByEmployeeID, "", new { @class = "text-danger" })
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>*@
+    </div>
+
+    <div class="form-group">
+
+        <span class="pull-right">
+            @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-light btn-md toggle-tooltip", @title = "Click here, to redirect on list page" })
+            @*<a data-ajax="true" id="a_depID"
+               method="POST" class="toggle-tooltip btn btn-warning btn-md" title="Click here, to view logs of selected department file initiator."
+               data-ajax-update="#div-logs-list" data-ajax-mode="replace"
+               data-backdrop="static" data-keyboard="false"
+               href="@Url.Action("GetTrackingListForPopup", "FileTrackingSystem", new
+                    {
+                       // departmentID = depID
+                    })"
+               data-toggle="modal" data-target="#div-file-tracking-log">
+                View Logs
+            </a>*@
+
+            <input type="submit" value="Save" class="btn btn-info btn-md pull-center toggle-tooltip" />
+        </span>
+    </div>
+}
+<script type="text/javascript">
+    var depIDs = 0;
+    var href = $("#a_depID").attr('href');
+
+    depIDs = $("#fileWorkFlow_initiateDepartmentID").val();
+    var href1 = href + "?departmentID=" + depIDs;
+    $("#a_depID").attr("href", href1);
+    //$("#fileWorkFlow_intEmployeeID").multiselect()
+
+    function BindInitiatedEmployeeOnDesignation(e) {
+        debugger;
+        if ($("#fileWorkFlow_initiateDepartmentID").val() != "") {
+            var departmentId = 0;
+            departmentId = $("#fileWorkFlow_initiateDepartmentID").val();
+            var designationId = 0;
+            designationId = $("#fileWorkFlow_initiateDesignationID").val();
+
+            $("#fileWorkFlow_initiateEmployeeID").html("");
+            $("#initiateDepartmentIDError").html("");
+            if (departmentId > 0) {
+                jQuery.post("@Url.Action("GetEmpCheckboxList", "FileTrackingSystem")", {
+                    departmentID: departmentId,
+                    designationID: designationId
+                }).done(function (data) {
+
+                    if (data.employees != "") {
+                        $("#div-emplist").html(data.employees)
+                        //$("#fileWorkFlow_initiateEmployeeID").html("");
+                        //$.each(data.employees, function (key, value) {
+                         
+                        //    //var listBox = $("[id*=fileWorkFlow_intEmployeeID]");
+                        //    //var option = $("<option/>").val(value.Value).html(value.Text);
+                        //    //listBox.append(option);
+
+                        //    $("#fileWorkFlow_initiateEmployeeID").append($("<option></option>").val(value.Value).html(value.Text));
+                        //});
+                       
+                    }
+                });
+            } else {
+                $("#fileWorkFlow_initiateEmployeeID").append($("<option></option>").val(0).html('Select'));
+            }
+        }
+        else {
+            if ($("#fileWorkFlow_initiateDepartmentID").val() == "") {
+                $("#initiateDepartmentIDError").html("Please select Department").css("color", "red");
+            }
+        }
+    }
+
+    function BindParkEmployeeOnDesignation(e) {
+        if ($("#fileWorkFlow_ParkByDepartmentID").val() != "") {
+            var departmentId = 0;
+            departmentId = $("#fileWorkFlow_ParkByDepartmentID").val();
+            var designationId = 0;
+            designationId = $("#fileWorkFlow_ParkByDesignationID").val();
+
+            $("#fileWorkFlow_ParkByEmployeeID").html("");
+            $("#ParkByDepartmentIDError").html("");
+            if (departmentId > 0) {
+                jQuery.post("@Url.Action("GetEmployeeByDesignation", "FileTrackingSystem")", {
+                    departmentID: departmentId,
+                    designationID: designationId
+                }).done(function (data) {
+
+                    if (data.employees != "") {
+                        $("#fileWorkFlow_ParkByEmployeeID").html("");
+                        $.each(data.employees, function (key, value) {
+                            $("#fileWorkFlow_ParkByEmployeeID").append($("<option></option>").val(value.Value).html(value.Text));
+                        });
+                    }
+                });
+            } else {
+                $("#fileWorkFlow_ParkByEmployeeID").append($("<option></option>").val(0).html('Select'));
+            }
+        }
+        else {
+            if ($("#fileWorkFlow_ParkByDepartmentID").val() == "") {
+                $("#ParkByDepartmentIDError").html("Please select Department").css("color", "red");
+            }
+        }
+    }
+
+    $("#fileWorkFlow_initiateDepartmentID").change(function () {
+        debugger;
+        depIDs = $("#fileWorkFlow_initiateDepartmentID").val();
+        var href1 = href + "?departmentID=" + depIDs;
+        $("#a_depID").attr("href", href1);
+
+
+
+        var departmentId = 0;
+        departmentId = depIDs;
+        var designationId = 0;
+
+        $("#fileWorkFlow_initiateEmployeeID").html("");
+        $("#initiateDepartmentIDError").html("");
+        if (departmentId > 0) {
+            jQuery.post("@Url.Action("GetEmpCheckboxList", "FileTrackingSystem")", {
+                departmentID: departmentId,
+                designationID: designationId
+            }).done(function (data) {
+
+                if (data.employees != "") {
+                    $("#div-emplist").html(data.employees)
+
+                }
+            });
+        }
+    });
+    $('.toggle-tooltip').tooltip();
+</script>
+
+<div class="modal" id="div-file-tracking-log">
+    <div class="modal-dialog modal-big" style="max-height:400px;">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4>File Initiator Logs</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body" id="div-logs-list">
+
+
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+
+            </div>
+
+        </div>
+    </div>
+</div>

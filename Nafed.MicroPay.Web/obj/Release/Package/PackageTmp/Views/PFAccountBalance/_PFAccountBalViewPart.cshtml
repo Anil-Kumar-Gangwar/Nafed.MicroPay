@@ -1,0 +1,285 @@
+﻿@model Nafed.MicroPay.Model.EmpPFOpBalance
+    @using Nafed.MicroPay.Common
+
+    <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+
+            <fieldset class="border col-md-12 col-xs-12 col-lg-12 col-xl-12 mb-1">
+                <legend style="font-size:1.3rem !important;" class="w-auto">Employee</legend>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            Employee's PF Opening Balance
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 text-sm-right font-weight-bold">
+                            @Html.EditorFor(model => model.EmplOpBal, new { htmlAttributes = new { @class = "form-control text-right required", @type = "number", @min = "1", @max = "999999999", @readonly = true } })
+                            @* @Model.EmplOpBal.ThousandSeprator()*@
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            Employee's PF Contribution
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 text-sm-right font-weight-bold">
+                            @Html.EditorFor(model => model.EmployeePFCont, new { htmlAttributes = new { @class = "form-control text-right required", @type = "number", @required = true, @max = "999999999" } })
+                            @*@Model.EmployeePFCont.ThousandSeprator()*@
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            Employee's VPF Contribution
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 text-sm-right font-weight-bold">
+                            @Html.EditorFor(model => model.VPF, new { htmlAttributes = new { @class = "form-control text-right required", @type = "number", @required = true, @max = "999999999" } })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            Employee's Head Interest
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 text-sm-right font-weight-bold">
+                            @Html.EditorFor(model => model.EmployeeInterest, new { htmlAttributes = new { @class = "form-control text-right required", @type = "number",  @max = "999999999", @readonly = true } })
+                            @*@Model.EmployeeInterest.ThousandSeprator()*@
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            Non Refundable Loan
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 text-sm-right font-weight-bold">
+                            @Html.EditorFor(model => model.NonRefundLoan, new { htmlAttributes = new { @class = "form-control text-right required", @type = "number", @min = "1", @max = "999999999", @readonly = true } })
+                            @*@Model.NonRefundLoan.ThousandSeprator()*@
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            Non Refundable Loan Interest
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 text-sm-right font-weight-bold">
+                            @Html.EditorFor(model => model.InterestNRPFLoan, new { htmlAttributes = new { @class = "form-control text-right required", @type = "number", @min = "1", @max = "999999999", @readonly = true } })
+                            @*@Model.InterestNRPFLoan.ThousandSeprator()*@
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            Addition to Employee's Account
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 text-sm-right font-weight-bold">
+                            @Html.EditorFor(model => model.AdditionEmployeeAc, new { htmlAttributes = new { @class = "form-control text-right required", @type = "number", @required = true, @max = "999999999" } })
+                            @*@Model.AdditionEmployeeAc.ThousandSeprator()*@
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            Withdrawal to Employee's Account
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 text-sm-right font-weight-bold">
+                            @Html.EditorFor(model => model.WithdrawlEmployeeAc, new { htmlAttributes = new { @class = "form-control text-right required", @type = "number", @required = true, @max = "999999999" } })
+                            @*@Model.WithdrawlEmployeeAc.ThousandSeprator()*@
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            Interest Withdrawal to Employee's Account
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 text-sm-right font-weight-bold">
+                            @Html.EditorFor(model => model.IntWDempl, new { htmlAttributes = new { @class = "form-control text-right required", @type = "number",  @required = true, @max = "999999999" } })
+                            @*@Model.IntWDempl.ThousandSeprator()*@
+                        </div>
+                    </div>
+                </div>
+
+            </fieldset>
+
+            <fieldset class="border col-md-12 col-xs-12 col-lg-12 col-xl-12 mb-1">
+                <legend style="font-size:1.3rem !important;" class="w-auto"></legend>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            Employee's PF Opening For Next Month
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 text-sm-right font-weight-bold">
+                            <span id="TotalPFOpeningEmpl">0.00</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            Employer's PF Opening For Next Month
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 text-sm-right font-weight-bold">
+                            <span id="TotalPFOpeningEmplr">0.00</span>
+                        </div>
+                    </div>
+                </div>
+
+            </fieldset>
+
+        </div>
+
+        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+            <fieldset class="border col-md-12 col-xs-12 col-lg-12 col-xl-12 mb-1">
+                <legend style="font-size:1.3rem !important;" class="w-auto">Employer</legend>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                            Upto Period
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12  text-sm-right font-weight-bold">
+                            @DateTime.Now.Month<text>/@DateTime.Now.Year</text>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group mb-md-2">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            Interest Rate
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 text-sm-right font-weight-bold">
+                            @Html.EditorFor(model => model.InterestRate, new { htmlAttributes = new { @class = "form-control text-right required", @type = "number", @required = true, @min = "1", @max = "100", @step = "0.01" } })
+                            @*@Model.InterestRate.ThousandSeprator()*@
+                        </div>
+                    </div>
+                </div>
+
+            </fieldset>
+
+            <fieldset class="border  col-md-12 col-xs-12 col-lg-12 col-xl-12 mb-1">
+                <legend style="font-size:1.3rem !important;" class="w-auto"></legend>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            Employeer's PF Opening Balance
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 text-sm-right font-weight-bold">
+                            @Html.EditorFor(model => model.EmplrOpBal, new { htmlAttributes = new { @class = "form-control text-right ", @type = "number",  @max = "999999999", @readonly = true } })
+                            @*@Model.EmplrOpBal.ThousandSeprator()*@
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            Employeer's PF Contribution
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 text-sm-right font-weight-bold">
+                            @Html.EditorFor(model => model.EmployerPFCont, new { htmlAttributes = new { @class = "form-control text-right ", @type = "number",  @max = "999999999" } })
+                            @*@Model.EmployerPFCont.ThousandSeprator()*@
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            Employeer's Pension contribution
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 text-sm-right font-weight-bold">
+                            @Html.EditorFor(model => model.Pension, new { htmlAttributes = new { @class = "form-control text-right ", @type = "number",  @max = "999999999" } })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            Employer's Head Interest
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 text-sm-right font-weight-bold">
+                            @Html.EditorFor(model => model.EmployerInterest, new { htmlAttributes = new { @class = "form-control text-right ", @type = "number",  @max = "100" } })
+                            @*@Model.EmployerInterest.ThousandSeprator()*@
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            Addition to Employer's Account
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 text-sm-right font-weight-bold">
+                            @Html.EditorFor(model => model.AdditionEmployerAc, new { htmlAttributes = new { @class = "form-control text-right ", @type = "number",   @max = "999999999" } })
+                            @*@Model.AdditionEmployerAc.ThousandSeprator()*@
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            Withdrawal to Employer's Account
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 text-sm-right font-weight-bold">
+                            @Html.EditorFor(model => model.WithdrawlEmployerAc, new { htmlAttributes = new { @class = "form-control text-right ", @type = "number",  @max = "999999999" } })
+                            @*@Model.WithdrawlEmployerAc.ThousandSeprator()*@
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            Interest Withdrawal to Employer's Account
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 text-sm-right font-weight-bold">
+                            @Html.EditorFor(model => model.IntWDemplr, new { htmlAttributes = new { @class = "form-control text-right ", @type = "number",  @max = "999999999" } })
+                            @*@Model.IntWDemplr.ThousandSeprator()*@
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+
+            <fieldset class="border  col-md-12 col-xs-12 col-lg-12 col-xl-12 mb-1">
+                <legend style="font-size:1.3rem !important;" class="w-auto"></legend>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            Total PF Balance
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 text-sm-right font-weight-bold">
+                            @Model.TotalPFBalance.ThousandSeprator()
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            Total Interest on PF Balance
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 text-sm-right font-weight-bold">
+                            @Model.InterestTotal.ThousandSeprator()
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+    </div>

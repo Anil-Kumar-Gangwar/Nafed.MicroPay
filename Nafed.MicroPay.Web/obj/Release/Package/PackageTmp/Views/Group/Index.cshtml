@@ -1,0 +1,32 @@
+﻿
+@{
+    ViewBag.Title = "Group";
+    ViewBag.NavigationTitle = "Group";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    System.Globalization.CultureInfo Indian = new System.Globalization.CultureInfo("hi-IN");
+}
+
+<div>
+
+
+    <div class="card_new_header text-right">
+        @Html.ActionLink("NEW GROUP", "Create", "Group", null, new { @class = "btn btn-info", title = "Click here, to create New Group", @data_toggle = "tooltip" })
+
+    </div>
+    <div class="card_new_body">
+        <div id="div-TicketType">
+            @Html.Action("_GetSupportGroupGridView")
+        </div>
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+

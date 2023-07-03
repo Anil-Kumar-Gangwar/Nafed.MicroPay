@@ -1,0 +1,174 @@
+﻿@using Nafed.MicroPay.Model
+@model SalaryReportFilter
+
+@{
+    var yearDDl = Enumerable.Range(2005, (DateTime.Now.Year - 2005) + 1).
+                                  Select(i => new SelectListModel { id = i, value = i.ToString() }).OrderByDescending(x => x.value).ToList();
+
+    yearDDl.Insert(0, new SelectListModel { value = "Select", id = 0 });
+
+
+
+    var monthDDL = Enumerable.Range(1, 12).
+                            Select(i => new SelectListModel
+                            {
+                                id = i,
+                                value = System.Globalization.CultureInfo.InvariantCulture.DateTimeFormat.GetMonthName(i)
+                            }).ToList();
+
+    monthDDL.Insert(0, new SelectListModel { value = "Select", id = 0 });
+    Model.employeeList.Insert(0, new SelectListModel { value = "All Employee", id = 0 });
+    Model.branchList.Insert(0, new SelectListModel { value = "All Branch", id = 0 });
+    Model.financialYearList.Insert(0, new SelectListModel { value = "Select", id = 0 });
+    Model.employeeTypeList.Insert(0, new SelectListModel { value = "Select", id = 0 });
+}
+
+<div class="row">
+    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+        <fieldset class="border p-2 col-md-12 col-xs-12 col-lg-12 col-xl-12">
+            <legend style="font-size:1.3rem !important;" class="w-auto"></legend>
+            <div class="form-group">
+                <div class="row">
+                    @Html.LabelFor(model => model.branchID, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2" })
+                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
+                        @Html.DropDownListFor(model => model.branchID, new SelectList(Model.branchList, "id", "value"), new { @class = "custom-select", @onChange = "GetEmployeeDetails()" })
+                        @Html.ValidationMessage("branchRequired", "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="row">
+                    @Html.LabelFor(model => model.employeeTypeID, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2" })
+
+                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
+                        @Html.DropDownListFor(model => model.employeeTypeID, new SelectList(Model.employeeTypeList, "id", "value"), new { @class = "custom-select", @onChange = "GetEmployeeDetails()" })
+                        @Html.ValidationMessage("employeeTypeRequired", "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="row">
+                    @Html.LabelFor(model => model.salYear, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2" })
+
+                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
+                        @Html.DropDownListFor(model => model.salYear, new SelectList(yearDDl, "id", "value"), new { @class = "custom-select", @onChange = "EnableRadioBtn(this.id)" })
+                        @Html.ValidationMessage("yearRequired", "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="row">
+                    @Html.LabelFor(model => model.salMonth, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2" })
+
+                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
+                        @Html.DropDownListFor(model => model.salMonth, new SelectList(monthDDL, "id", "value"), new { @class = "custom-select" })
+                        @Html.ValidationMessage("monthRequired", "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="row">
+                    @Html.LabelFor(model => model.employeeID, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2" })
+
+                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
+                        @Html.DropDownListFor(model => model.employeeID, new SelectList(Model.employeeList, "id", "value"), new { @class = "custom-select" })
+                    </div>
+                </div>
+
+                <div class="row">
+                    @Html.LabelFor(model => model.financialYear, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2" })
+
+                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
+                        @Html.DropDownListFor(model => model.financialYear, new SelectList(Model.financialYearList, "value", "value"), new { @class = "custom-select", @onChange = "EnableRadioBtn(this.id)" })
+                        @Html.ValidationMessage("financialYearRequired", "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                @*<div class="row">
+                    @Html.LabelFor(model => model.AllbranchExceptHeadOffice, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2" })
+                    <label class="switch">
+                        @Html.CheckBoxFor(model => model.AllbranchExceptHeadOffice, new { @class = "form-control", @onChange = "AllbranchExceptHeadOfficeResult(this)" })
+                        <div class="slider round">
+                        </div>
+                    </label>
+                </div>*@
+            </div>
+        </fieldset>
+        <br />
+
+    </div>
+    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+        <fieldset class="border p-2 col-md-12 col-xs-12 col-lg-12 col-xl-12">
+            <legend style="font-size:1.3rem !important;" class="w-auto"></legend>
+            <div class="form-group" style="margin-top:50px;">
+                <div>
+                    <div class="row">
+                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+                            @Html.RadioButtonFor(model => model.enumSalReportType, "MonthlyBranchWise", new { id = "MonthlyBranchWise", @disabled = "disabled" })
+                        </div>
+                        @Html.Label(SalaryReportType.MonthlyBranchWise.GetDisplayName().ToString(), htmlAttributes: new { @for = "MonthlyBranchWise", @class = "control-label col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2" })
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+                            @Html.RadioButtonFor(model => model.enumSalReportType, "MonthlyEmployeeWise", new { id = "MonthlyEmployeeWise", @disabled = "disabled" })
+                        </div>
+                        @Html.Label(SalaryReportType.MonthlyEmployeeWise.GetDisplayName().ToString(), htmlAttributes: new { @for = "MonthlyEmployeeWise", @class = "control-label col-lg-5 col-md-5 col-sm-12 col-xs-12 mb-2" })
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+                            @Html.RadioButtonFor(model => model.enumSalReportType, "EmployeeWiseAnnual", new { id = "EmployeeWiseAnnual", @disabled = "disabled" })
+                        </div>
+                        @Html.Label(SalaryReportType.EmployeeWiseAnnual.GetDisplayName().ToString(), htmlAttributes: new { @for = "EmployeeWiseAnnual", @class = "control-label col-lg-5 col-md-5 col-sm-12 col-xs-12 mb-2" })
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+                            @Html.RadioButtonFor(model => model.enumSalReportType, "BranchWiseAnnual", new { id = "BranchWiseAnnual", @disabled = "disabled" })
+                        </div>
+                        @Html.Label(SalaryReportType.BranchWiseAnnual.GetDisplayName().ToString(), htmlAttributes: new { @for = "BranchWiseAnnual", @class = "control-label col-lg-5 col-md-5 col-sm-12 col-xs-12 mb-2" })
+                    </div>
+                </div>
+
+                <div>
+                    @Html.ValidationMessage("ReportTypeRequired", "", new { @class = "text-danger" })
+
+                </div>
+                <br />
+                <span class="pull-left">
+                    <input type="submit" value="Export Report" class="btn btn-info btn-md pull-center toggle-tooltip" title="Click here, to export salary report." name="ButtonType" />
+                </span>
+            </div>
+
+        </fieldset>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        if ($("#salYear").val() > "0") {
+            $("#MonthlyBranchWise").removeAttr("disabled");
+            $("#MonthlyEmployeeWise").removeAttr("disabled");
+            $("#financialYear").val("Select");
+        }
+        else {
+            $("#MonthlyBranchWise").attr("disabled", "disabled");
+            $("#MonthlyEmployeeWise").attr("disabled", "disabled");
+        }
+
+        if ($("#financialYear").val() != "Select") {
+            $("#EmployeeWiseAnnual").removeAttr("disabled");
+            $("#BranchWiseAnnual").removeAttr("disabled");
+            $("#salYear").val("0");
+        }
+        else {
+            $("#EmployeeWiseAnnual").attr("disabled", "disabled");
+            $("#BranchWiseAnnual").attr("disabled", "disabled");
+        }
+    });
+
+    //function AllbranchExceptHeadOfficeResult(check) {
+    //    debugger;
+    //    if (check.checked) {
+    //        $("#branchID").val("0");
+    //        $("#branchID").attr("disabled", "disabled");
+    //    }
+    //    else {            
+    //        $("#branchID").removeAttr("disabled");
+    //    }
+    //}
+</script>

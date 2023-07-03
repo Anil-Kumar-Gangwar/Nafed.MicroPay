@@ -1,0 +1,31 @@
+﻿@using Nafed.MicroPay.Model
+@model CommonFilter
+@{
+    ViewBag.Title = "Ticket List";
+    ViewBag.NavigationTitle = "Ticket List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div id="div-view-ticket">
+
+    <div class="card_new_header">
+        @using (Ajax.BeginForm("GetTicketTrackingGV", "Ticket", new AjaxOptions { HttpMethod = "Get", UpdateTargetId = "TicketGridDiv" }))
+        {
+            @Html.Partial("_FilterAdmin",Model)
+        }
+    </div>
+
+    <div class="card_new_body">
+        <div id="TicketGridDiv">
+            @Html.Action("GetTicketTrackList")
+        </div>
+    </div>
+
+</div>
+
+
+
+
+
+

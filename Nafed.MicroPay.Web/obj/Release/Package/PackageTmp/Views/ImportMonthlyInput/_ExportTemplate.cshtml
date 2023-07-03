@@ -1,0 +1,119 @@
+﻿@{
+
+    Layout = null;
+}
+
+@{
+
+    var yearDDl = Enumerable.Range(2006, DateTime.Now.Year - 2006 + 1).
+                              Select(i => new SelectListItem { Value = i.ToString(), Text = i.ToString() }).OrderByDescending(x => x.Value).ToList();
+
+    yearDDl.Insert(0, new SelectListItem { Text = "Select", Value = "0", Selected = true });
+
+    var monthDDL = Enumerable.Range(1, 12).
+                           Select(i => new SelectListItem
+                           {
+                               Value = i.ToString(),
+                               Text = System.Globalization.CultureInfo.InvariantCulture.DateTimeFormat.GetMonthName(i)
+                           }).ToList();
+
+    monthDDL.Insert(0, new SelectListItem { Text = "Select", Value = "0", Selected = true });
+
+}
+<script type="text/javascript">
+
+    function onSuccess(data) {
+        $("#employeeTypeReq").text('');
+        if (data.fileName == "" || data.fileName == undefined) {
+            $("#employeeTypeReq").text('Please select employee type.');
+        }
+        $("#BranchRequired").text('');
+        //if (data.fileName == "" || data.fileName == undefined) {
+        //    $("#branchRequired").text('Please select branch.');
+        //}
+        $("#MonthRequired").text('');
+        if (data.fileName == "" || data.fileName == undefined) {
+            $("#MonthRequired").text('Please select month.');
+        }
+        $("#YearRequired").text('');
+        if (data.fileName == "" || data.fileName == undefined) {
+            $("#YearRequired").text('Please select year.');
+        }
+        if (data.fileName != "" && data.message == "success") {
+            if (data.AlertMsg == "") {
+                window.location.href = "@Url.RouteUrl(new { Controller = "Base", Action = "DownloadAndDelete" })/?sFileName=" + data.fileName + "&sFileFullPath=" + data.fullPath;
+            }
+            else {
+                commonMessage("warning", "No Record Found");
+            }
+        }
+
+        if (data.message == "error") {
+            commonMessage("warning", data.AlertMsg);
+        }
+    }
+
+    function onBegin() {
+        $('#waitLoading').modal('hide');
+    }
+</script>
+
+
+@using (Ajax.BeginForm("_ExportTemplate", "ImportMonthlyInput", new AjaxOptions { HttpMethod = "POST", OnBegin = "onBegin", OnSuccess = "onSuccess", LoadingElementId = "waitLoading" }))
+{
+    @Html.Hidden("BranchID")
+    @Html.Hidden("Month")
+    @Html.Hidden("Year")
+
+    <div class="row" id="exportDIV">
+
+        <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+            @Html.Label("Employee Type", htmlAttributes: new { @class = "required" })
+        </div>
+
+        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+            @Html.DropDownList("ddlEmployeeType", (IEnumerable<SelectListItem>)ViewBag.EmployeeType, new { @class = "custom-select" })
+            @Html.ValidationMessage("EmployeeTypeRequired", "", new { @class = "text-danger", @id = "employeeTypeReq" })
+        </div>
+
+        <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+            @Html.Label("Branch", htmlAttributes: new { @class = "required" })
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+
+            @Html.DropDownList("ddlBranch", (IEnumerable<SelectListItem>)ViewBag.Branch, new { @class = "custom-select" })
+
+            @Html.ValidationMessage("BranchRequired", "", new { @class = "text-danger", @id = "branchRequired" })
+        </div>
+
+        <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+            @Html.Label("Month", htmlAttributes: new { @class = "required" })
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+            @Html.DropDownList("ddlMonth", monthDDL, new { @class = "custom-select", @id = "ddlMonth" })
+
+            @Html.ValidationMessage("MonthRequired", "", new { @class = "text-danger", @id = "MonthRequired" })
+        </div>
+
+        <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+            @Html.Label("Year", htmlAttributes: new { @class = "required" })
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+            @Html.DropDownList("ddlYear", yearDDl, new { @class = "custom-select", @id = "ddlYear" })
+
+            @Html.ValidationMessage("YearRequired", "", new { @class = "text-danger", @id = "YearRequired" })
+        </div>
+
+
+        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+            @*<input type="submit" value="Export Template" class="btn btn-warning pull-center toggle-tooltip" title="Click here, to download the template" />*@
+            <button type="submit" id="submitform" class="btn btn-warning pull-center toggle-tooltip" title="Click here, to download the template.">
+                <i class="fa fa-file-excel"></i> Export Template
+            </button>
+        </div>
+
+    </div>
+
+}
+
+

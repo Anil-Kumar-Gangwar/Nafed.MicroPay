@@ -1,0 +1,91 @@
+﻿@using Nafed.MicroPay.Model
+@model List<Promotion>
+@{
+    var deleteRight = ViewBag.DeleteRight;
+}
+
+<table id="tblGrid" class="table table-centered table-striped dt-responsive w-100">
+    <thead>
+        <tr>
+            <th>
+                #
+            </th>
+            <th>
+                Cadre
+            </th>
+            <th>
+                Designation
+            </th>
+            <th>
+                Date of Joining
+            </th>
+            <th>
+                To Date
+            </th>
+            <th>
+                Confirmation Date
+            </th>
+
+            <th class="text-right">
+
+                Basic Salary
+            </th>
+
+            <th>
+                Edit
+            </th>
+
+            @if (deleteRight || 1 > 0)
+            {
+                <th>
+                    Delete
+                </th>
+            }
+
+        </tr>
+    </thead>
+    <tbody>
+
+        @{
+            if (Model != null && Model.Count > 0)
+            {
+                var sno = 1;
+                foreach (var item in Model)
+                {
+                    <tr>
+                        <td> @sno</td>
+                        <td> @item.CaderName</td>
+                        <td> @item.DesgName</td>
+                        <td> @item.FromDate.Value.ToString("dd/MM/yyyy")</td>
+                        <td> @(item.ToDate.HasValue ? item.ToDate.Value.ToString("dd/MM/yyyy") : "")</td>
+                        <td> @(item.ConfirmationDate.HasValue ? item.ConfirmationDate.Value.ToString("dd/MM/yyyy") : "")</td>
+                        <td class="text-right"> @String.Format("{0:0.00}", item.E_Basic)  </td>
+
+                        <td class="text-center">
+
+                            <a class="toggle-tooltip" href="@Url.Action("ChangeDesignation", "DesignationAssignment",
+                                                           new { employeeID = item.EmployeeID , transID= item.TransID , currentCadreID= item.CadreID})"
+                               data-ajax="true" data-target="#assignNewDesignationModal" data-toggle="modal"
+                               data-ajax-update="#div-result-body" data-ajax-mode="replace" method="GET"
+                               title="Click here, to edit this record">
+                                <span class="far fa-edit text-info" aria-hidden="true"></span>
+                            </a>
+                        </td>
+                        @if (deleteRight || 1 > 0 @*&& item.ToDate.HasValue*@)
+                        {
+                            <td class="text-center">
+                                @*<a data-toggle="confirm" class="toggle-tooltip" href="@Url.Action("Delete", "DesignationAssignment", new {@employeeID= item.EmployeeID,@transID = item.TransID })" title="Click here, to delete this record">
+                                    <span class="far fa-trash-alt text-danger" aria-hidden="true"></span>
+                                </a>*@
+                                @Html.EncodedImageActionLink("", "Delete", "DesignationAssignment", new { @employeeID = item.EmployeeID, @transID = item.TransID }, new { @class = "toggle-tooltip", title = "Click here, to delete this record" }, "~/Images/delete.png", true)
+                            </td>
+                        }
+                    </tr>
+
+                    sno++;
+                }
+            }
+
+        }
+    </tbody>
+</table>

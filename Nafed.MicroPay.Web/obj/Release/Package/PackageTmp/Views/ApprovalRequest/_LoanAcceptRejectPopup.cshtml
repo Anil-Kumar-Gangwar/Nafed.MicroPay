@@ -1,0 +1,66 @@
+﻿@using Nafed.MicroPay.Model;
+@model LoanApplication
+
+
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+    @using (Ajax.BeginForm("AcceptRejectApplication", "ApprovalRequest", new AjaxOptions() { HttpMethod = "POST", OnSuccess = "onSuccessSubmit" }))
+            {
+        @Html.AntiForgeryToken()
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="row">
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 mb-2">
+                        @Html.HiddenFor(model => model.EmployeeID)
+                        @Html.HiddenFor(model => model.ApplicationID)
+                        @Html.HiddenFor(model => model.StatusID)
+                        @Html.HiddenFor(model => model.approvalSetting.ReportingTo)
+                        @Html.Label("Remark", htmlAttributes: new { @class = "control-label required" })
+                    </div>
+                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12 mb-2">
+                        @*@Html.TextAreaFor(model => model.Remarks, new { htmlAttributes = new { @class = "form-control lg-textarea", @placeholder = "Max. 500 characters", @maxlength = "500"} }) <br />*@
+                        @Html.TextAreaFor(model => model.Remarks, new { @class = "form-control required remarks", @maxlength = "4000", @style = "min-height:100px;max-height:150px" })
+                        <span id="RemarkValidator" class="text-danger"> </span>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+            <div class="form-group">
+                <span class="pull-right">
+                    <input type="button" value="Submit" onclick="onBeginPopup()" id="btnSubmit" class="btn btn-info btn-md pull-center toggle-tooltip" />
+                </span>
+            </div>
+
+    }
+</div>
+
+
+
+
+<script type="text/javascript">
+
+    function onSuccessSubmit(data) {
+        if (data.status == 1) {
+            $("#div-accept").modal("hide");
+            $("#div-reject").modal("hide");
+            commonMessage(data.type, data.msg);
+            @*$("#TabLoan").load("@Url.Action("GetLoanApplicationPendingList", "ApprovalRequest")");*@
+            window.location.reload();
+
+
+        }
+    }
+
+    function onBeginPopup() {
+        debugger;
+        if ($('.remarks').val().trim().length == 0) {
+            $("#RemarkValidator").html("Please enter remark");
+
+            return false;
+        } else {
+            $("#btnSubmit").submit();
+        }
+    }
+</script>

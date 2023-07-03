@@ -1,0 +1,216 @@
+﻿@using Nafed.MicroPay.Model
+@model CandidateRegistration
+
+
+
+
+@{
+
+    var monthList = new List<SelectListModel>();
+    var yearList = new List<SelectListModel>();
+
+    for (int i = 1; i <= 12; i++)
+    {
+        monthList.Add(new SelectListModel { id = i, value = i.ToString() });
+    }
+
+    for (int i = 1; i <= 35; i++)
+    {
+        yearList.Add(new SelectListModel { id = i, value = i.ToString() });
+    }
+}
+
+
+<script type="text/javascript">
+    $('.toggle-tooltip').tooltip();
+</script>
+
+
+<table class="table table-bordered table-centered dt-responsive w-100">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th class="required">Organization Type</th>
+            <th class="required">From Date</th>
+            <th class="required">To Date</th>
+            <th class="required">Name of Employer</th>
+            <th class="required">Designation</th>
+            <th class="required">Annual Turnover of the employer (Rs. In Crore)</th>
+            <th class="required">Nature of duties in detail.</th>
+            <th>Remove</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @if (Model.candidateWorkExperience != null && Model.candidateWorkExperience.Count() > 0)
+            {
+                for (int i = 0; i < Model.candidateWorkExperience.Count(); i++)
+                {
+                <tr>
+                    <td class="text-right">@(i + 1)<text>.</text> </td>
+                    <td>@Html.EnumDropDownListFor(model => model.candidateWorkExperience[i].OrganizationType, "Select", new { @class = "custom-select" })
+                        @Html.ValidationMessageFor(model => Model.candidateWorkExperience[i].OrganizationType, "", new { @class = "text-danger" })
+                    </td>
+                    <td>
+                        @if (Model.candidateWorkExperience[i].RegistrationID > 0)
+
+                        {
+                            @Html.EditorFor(model => model.candidateWorkExperience[i].FromDate, new { htmlAttributes = new { @class = "form-control", @type = "date" } })
+                        }
+                        else
+                        {
+                            @Html.EditorFor(model => model.candidateWorkExperience[i].FromDate, new { htmlAttributes = new { @class = "form-control", @type = "date" } })
+                        }
+                        @Html.HiddenFor(model => model.candidateWorkExperience[i].CreatedBy)
+                        @Html.HiddenFor(model => model.candidateWorkExperience[i].CraetedOn)
+                        @Html.HiddenFor(model => model.candidateWorkExperience[i].RegistrationID)
+                        @Html.ValidationMessageFor(m => Model.candidateWorkExperience[i].FromDate, "", new { @class = "text-danger" })
+
+                        @*@Html.EditorFor(model => model.candidateWorkExperience[i].FromDate, new { htmlAttributes = new { @class = "form-control", @type = "year" } })*@
+
+                    </td>
+                    <td>
+                        @*@Html.EditorFor(model => model.candidateWorkExperience[i].ToDate, new { htmlAttributes = new { @class = "form-control", @type = "date" } })*@
+                        @if (Model.candidateWorkExperience[i].RegistrationID > 0)
+
+                        {
+                            @Html.EditorFor(model => model.candidateWorkExperience[i].ToDate, new { htmlAttributes = new { @class = "form-control", @type = "date" } })
+                        }
+                        else
+                        {
+                            @Html.EditorFor(model => model.candidateWorkExperience[i].ToDate, new { htmlAttributes = new { @class = "form-control", @type = "date" } })
+                        }
+                        @Html.ValidationMessageFor(m => Model.candidateWorkExperience[i].ToDate, "", new { @class = "text-danger" })
+                    </td>
+
+                    <td>
+                        @Html.EditorFor(model => model.candidateWorkExperience[i].OrganisationName, new { htmlAttributes = new { @class = "form-control", @maxlength = "200" } })
+                        @Html.ValidationMessageFor(m => Model.candidateWorkExperience[i].OrganisationName, "", new { @class = "text-danger" })
+                    </td>
+
+                    <td>
+                        @Html.EditorFor(model => model.candidateWorkExperience[i].Designation, new { htmlAttributes = new { @class = "form-control", @maxlength = "100" } })
+                        @Html.ValidationMessageFor(m => Model.candidateWorkExperience[i].Designation, "", new { @class = "text-danger" })
+                    </td>
+
+
+                    <td>
+                        @Html.EditorFor(model => model.candidateWorkExperience[i].AnnualTurnoveroftheEmployer, new { htmlAttributes = new { @class = "form-control text-right", @type = "number", @maxlength = "10"  } })
+                        @Html.ValidationMessageFor(m => Model.candidateWorkExperience[i].AnnualTurnoveroftheEmployer, "", new { @class = "text-danger" })
+                    </td>
+
+                    <td>
+                        @Html.TextAreaFor(model => model.candidateWorkExperience[i].Natureofdutiesindetail, new { htmlAttributes = new { @class = "form-control", @maxlength = "4000" }, @style = "min-height:100px;max-height:200px;" })
+                        @Html.ValidationMessageFor(m => Model.candidateWorkExperience[i].Natureofdutiesindetail, "", new { @class = "text-danger" })
+                    </td>
+                    <td class="text-center">
+
+                        @Ajax.ActionLink("Remove",
+                             "_RemoveTargetRow", new
+                             {
+                                 sNo = Model.candidateWorkExperience[i].sno
+                             },
+                             new AjaxOptions
+                             {
+                                 UpdateTargetId = "div-form-CandidateWorkExperience-grid",
+                                 InsertionMode = InsertionMode.Replace,
+                                 Confirm = "Are you sure you want to remove this row?",
+                                 HttpMethod = "GET"
+                             }, new { @class = "btn btn-danger btn-xs toggle-tooltip btn-sectionAddRow", @title = "Click here, to remove this row." })
+                    </td>
+
+                </tr>
+
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="12" class="text-center">No Record Found. </td>
+            </tr>
+        }
+    </tbody>
+
+</table>
+
+@if (Model.candidateWorkExperience != null && Model.candidateWorkExperience.Count() > 0)
+{
+    <div class="form-group">
+
+        <div class="row">
+
+            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+
+                Total relevent experience
+
+            </div>
+
+            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+
+                Year
+
+            </div>
+
+            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                @Html.DropDownListFor(model => model.TotalExperienceInYear, new SelectList(yearList, "id", "value"), "Select", new { @class = "custom-select" })
+
+            </div>
+
+            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+
+                Month
+
+            </div>
+
+            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                @Html.DropDownListFor(model => model.TotalExperienceInMonth, new SelectList(monthList, "id", "value"), "Select", new { @class = "custom-select" })
+                
+            </div>
+
+
+        </div>
+    </div>
+
+    <div class="form-group">
+
+        <div class="row">
+
+            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+
+                Relevent experience after required minimum qualification
+
+            </div>
+
+            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+
+                Year
+
+            </div>
+
+            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                @Html.DropDownListFor(model => model.RelevantExperienceInYear, new SelectList(yearList, "id", "value"), "Select", new { @class = "custom-select" })
+                
+            </div>
+
+            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+
+                Month
+
+            </div>
+
+            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                @Html.DropDownListFor(model => model.RelevantExperienceInMonth, new SelectList(monthList, "id", "value"), "Select", new { @class = "custom-select" })
+
+
+
+
+            </div>
+
+
+
+        </div>
+    </div>
+
+}
+
+

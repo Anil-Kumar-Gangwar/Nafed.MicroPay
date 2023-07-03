@@ -1,0 +1,91 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+    <META HTTP-EQUIV="Expires" CONTENT="-1">
+    <title>Index</title>
+    @Styles.Render("~/Content/style") 
+
+</head>
+<body>
+    
+    <div class="container-fluid">
+        <div class="row">
+            <div class="logoff_bg div_pos">
+                <div class="container">
+                    <div class="row ">
+                        <div class="col-sm-12 text-right pt-2">
+                            <span style="color: #5198ff;">Powered By: </span>
+                            <img src="~/Images/mini_logo.png" style="height: 35px;"/>
+                        </div>
+                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                            <div style="margin-top: calc(50% - 15%);margin-left: 50px;">
+                                <h1 class="bb">Sign Out</h1>
+                                <div style="float: left;width: 100%;height: auto; margin-top: 15px;">
+                                    <div style="float: left;width: 100px;height: auto;">
+                                        <img src="~/Images/logout_icon.png" style="height:80px" />
+                                    </div>
+                                    <div style="float: left;width: calc(100% - 100px);height: auto;margin-top: 15px;color: #fff;">
+                                        <h4>See you again!</h4>
+                                        <p>You are now successfully signout.</p>
+                                        <button type="button" class="btn btn-warning btn-rp" onclick="location.href='@Url.Action("Index", "Login")'">Login Again</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 text-right  d-none d-sm-block">
+                            <img src="~/Images/wheel.png" style="width: 85%;margin-top: calc(50% - 40%);"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="logoff-footer">Copyright © 2019 Nafed-india.com, All rights Reserved</div>
+            </div>
+        </div>
+    </div>
+    @*<div class="container">
+        <div class="row">
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                <div class="row" style="margin-top: calc(50% - 20%);">
+                    <div class="col-xl-10 col-lg-10 col-md-10 col-sm-12  m-auto">
+                        <h2 class="text-success text-center">Sign Out</h2>
+                        <hr>
+                        <h5 class="text-center">See you again !</h5>
+                        <p class="text-center" style="color:#818181;"> You are now Successfully sign out. </p>
+                        <div class="text-center mt-5 mb-5">
+                            <img src="~/Images/right.png" />
+                        </div>
+                        <p class="text-center">
+                            Back to <a href=@Url.Action("Index","Login")>Log In</a>
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 pt-2 d-none d-sm-block" style="margin-top: calc(100% - 95%);">
+                <img src="~/Images/wheel.png" style="height: 80%;" />
+            </div>
+        </div>
+
+    </div>
+    <div class="container-fluid">
+        <div class="row bg-success" style="position:fixed;bottom:0px;width:100%;">
+            <div class="col-sm-10 m-auto pt-2 pb-2">
+                <p class="text-white m-0" style="color: #818181;font-size: 12px;">
+                    Copyright © 2019 Nafed-india.com, All rights Reserved
+                    <span style="float: right;">
+                        Powered By:
+                        <img src="~/Images/mw.png" />
+                    </span>
+                </p>
+            </div>
+        </div>
+    </div>*@
+</body>
+</html>

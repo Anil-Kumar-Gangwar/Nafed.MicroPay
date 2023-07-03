@@ -1,0 +1,47 @@
+﻿@using Nafed.MicroPay.Model
+@model List<EmployeeSuspensionPeriod>
+
+<table id="tblGrid" class="table table-centered table-striped dt-responsive w-100">
+    <thead>
+        <tr>
+            <th>
+                #
+            </th>
+          
+            <th>
+                Date From
+            </th>
+            <th>
+                Date To
+            </th>
+            <th>
+                Basic (%age)
+            </th>
+          
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            if (Model != null && Model.Count() > 0)
+            {
+                var sno = 1;
+                foreach (var item in Model)
+                {
+                    <tr>
+                        <td> @sno</td>
+                        <td> @item.PeriodFrom.ToString("dd/MM/yyyy")</td>
+                        <td> @item.PeriodTo.ToString("dd/MM/yyyy")</td>
+                        <td> @item.BasicSalaryPercentage</td>
+                    </tr>
+                    sno++;
+                }
+            }
+        }
+
+    </tbody>
+</table>
+
+<script>
+    $('.toggle-tooltip').tooltip();
+  
+</script>

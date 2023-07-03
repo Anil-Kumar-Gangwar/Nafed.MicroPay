@@ -1,0 +1,32 @@
+﻿@model Nafed.MicroPay.Model.FileTrackingType
+@{
+    ViewBag.Title = "File Tracking Type List";
+    ViewBag.NavigationTitle = "File Tracking Type";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    System.Globalization.CultureInfo Indian = new System.Globalization.CultureInfo("hi-IN");
+}
+
+<div>
+
+
+    <div class="card_new_header text-right">
+        @Html.ActionLink("Create New", "Create", "FileTrackingType", null, new { @class = "btn btn-info", title = "Click here, to create File Type", @data_toggle = "tooltip" })
+
+    </div>
+    <div class="card_new_body">
+        <div id="div-FileType">
+            @Html.Action("_GetFileTrackingTypeGridView")
+        </div>
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+

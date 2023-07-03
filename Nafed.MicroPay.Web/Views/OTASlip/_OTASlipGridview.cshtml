@@ -1,0 +1,101 @@
+﻿@using Nafed.MicroPay.Model;
+@using Nafed.MicroPay.Common;
+@model List<OTASlip>
+
+<table id="tblUser" class="table table-centered table-striped dt-responsive w-100">
+    <thead>
+        <tr>
+            <th style="width:5%">
+                #
+            </th>
+            <th>
+                Application No
+            </th>
+            <th class="text-center">
+                Date
+            </th>
+            <th class="text-center">
+               Time
+            </th>
+                    
+            <th class="text-center">
+                Status
+            </th>
+
+            <th class="text-center" style="width:60px">
+                Action
+            </th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            int index = 1;
+            if (Model != null)
+            {
+                foreach (var item in Model)
+                {
+                    <tr>
+                        <td> @index</td>
+                        <td> @item.ApplicationID</td>                     
+                        <td class="text-center"> @Convert.ToDateTime(item.HolidayDate).ToString("dd-MM-yyyy")</td>
+                        <td class="text-center"> @item.HolidayFromTime <text>- </text>@item.HolidayToTime</td>
+                       
+                        <td class="text-center">
+                            @if (item.StatusID == (int)EmpAttendanceStatus.Pending)
+                            {
+                                <h5>
+                                    <span class="badge badge-pill badge-warning col-md-12">
+                                        Pending
+                                    </span>
+                                </h5>
+                            }
+                            else if (item.StatusID == (int)EmpAttendanceStatus.InProcess)
+                            {<h5>
+                                <span class="badge badge-pill badge-info col-md-12">
+                                    In Process
+                                </span>
+                            </h5>
+
+                            }
+                            else if (item.StatusID == (int)EmpAttendanceStatus.RejectedByReportingOfficer)
+                            {<h5>
+                                <span class="badge badge-pill badge-danger col-md-12">
+                                    Rejected
+                                </span>
+                            </h5>
+
+                            }
+                            else if (item.StatusID == (int)EmpAttendanceStatus.Approved)
+                            {<h5>
+                                <span class="badge badge-pill badge-success col-md-12">
+                                    Approved
+                                </span>
+                            </h5>
+                            }
+                            else if (item.StatusID == (int)EmpAttendanceStatus.RejectedByAcceptanceAuthority)
+                            {<h5>
+                                <span class="badge badge-pill badge-danger col-md-12">
+                                    Rejected
+                                </span>
+                            </h5>
+                            }
+                        </td>
+                        <td class="text-center">
+                            @if (item.StatusID == (int)EmpAttendanceStatus.Pending)
+                            {
+                                @*<a href="@Url.Action("Create", "OTASlip", new { empID = item.EmployeeID, appNo = item.ApplicationID })" title="Click here, to edit this record" data-toggle="tooltip">
+                                    <span class="far fa-edit text-info" aria-hidden="true"></span>
+                                </a>*@
+                                @Html.EncodedImageActionLink("", "Create", "OTASlip", new { empID = item.EmployeeID, appNo = item.ApplicationID }, new { @class = "toggle-tooltip", title = "Click here, to edit this record" }, "~/Images/edit.png")
+                            }
+                        </td>
+                    </tr>
+                    index++;
+                }
+            }
+
+        }
+
+    </tbody>
+</table>

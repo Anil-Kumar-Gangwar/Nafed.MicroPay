@@ -1,0 +1,148 @@
+﻿
+@using Nafed.MicroPay.Common
+
+@model MicroPay.Web.Models.InventorymanagementViewModel
+
+<table id="tblGrid" class="table table-centered table-striped dt-responsive w-100">
+    <thead>
+        <tr>
+            <th>
+                #
+            </th>
+            <th>
+                Code
+            </th>            
+            <th>
+                Asset Name
+            </th>
+            <th>
+                Asset Type
+            </th>
+            <th>
+                Allocation Date
+            </th>
+            <th>
+                Deallocation Date
+            </th>
+            <th>
+                Status
+            </th>
+            <th>
+                Last Updated On
+            </th>
+            <th>
+                Last Updated
+            </th>
+            @if (Model.userRights != null)
+            {
+                if (Model.userRights.Edit)
+                {
+                    <th class="text-center" style="width:60px">
+                        Action
+                    </th>
+                }
+            }
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            if (Model.listInventoryManagement != null && Model.listInventoryManagement.Count() > 0)
+            {
+                var sno = 1;
+                foreach (var item in Model.listInventoryManagement)
+                {
+                    <tr>
+                        <td> @sno</td>                      
+                        <td>@item.Employeecode <text> - </text> @item.EmployeeName</td>
+                        <td> @item.AssetName</td>
+                        <td> @item.AssetTypeName</td>
+                        <td>
+                            @if (item.AllocationDate.HasValue)
+                            {
+                                @item.AllocationDate.Value.ToString("dd-MM-yyyy")
+                            }
+                        </td>
+                        <td>
+                            @if (item.DeAllocationDate.HasValue)
+                            {
+                                @item.DeAllocationDate.Value.ToString("dd-MM-yyyy")
+                            }
+
+                        </td>
+                        <td>
+                            @if (@item.StatusID == 1)
+                            {
+                                <span class="badge badge-success badge-pill col-md-12">In Stock</span>
+                            }
+                            else if (@item.StatusID == 2)
+                            {
+                                <span class="badge badge-danger badge-pill col-md-12">Damage</span>
+                            }
+                            else if (@item.StatusID == 3)
+                            {
+                                <span class="badge badge-warning badge-pill col-md-12">Missing</span>
+                            }
+                            else if (@item.StatusID == 4)
+                            {
+                                <span class="badge badge-info badge-pill col-md-12">Allocated</span>
+                            }
+                            else if (@item.StatusID == 5)
+                            {
+                                <span class="badge badge-dark badge-pill col-md-12">Repair</span>
+                            }
+                        </td>
+                        <td>
+                            @if (item.UpdatedOn.HasValue)
+                            {
+                                @Convert.ToDateTime(item.UpdatedOn).ToString("dd-MM-yyyy")
+                            }
+                            else
+                            {
+                                @Convert.ToDateTime(item.CreatedOn).ToString("dd-MM-yyyy")
+                            }
+                        </td>
+                        <td>
+                            @if (item.UpdatedBy.HasValue)
+                            {
+                                @item.UpdatedName
+                            }
+                            else
+                            {
+                                @item.CreatedName
+                            }
+                        </td>
+                        @if (Model.userRights != null)
+                        {
+                            if (Model.userRights.Edit)
+                            {
+
+                                if (@item.StatusID == 4)
+                                {
+                                    <td class="text-center">
+                                        @*<a href="@Url.Action("Edit", "Assetmanagementdetails", new { ID = item.ID })" title="Click here, to edit this record" data-toggle="tooltip">
+                                            <i class="far fa-edit text-info" aria-hidden="true"></i>
+                                        </a>*@
+
+                                        @Html.EncodedImageActionLink("", "Edit", "Assetmanagementdetails", new { ID = item.ID }, new { @class = "toggle-tooltip", title = "Click here, to edit this record" }, "~/Images/edit.png")
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td class="text-center"></td>
+
+                                }
+
+                            }
+                        }
+                    </tr>
+                    sno++;
+                }
+            }
+        }
+
+    </tbody>
+</table>
+
+
+
+

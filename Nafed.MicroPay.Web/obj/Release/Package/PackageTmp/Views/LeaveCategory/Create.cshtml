@@ -1,0 +1,156 @@
+﻿@model MicroPay.Web.Models.LeaveCategoryVM
+@{
+    ViewBag.Title = "Create Leave Category";
+    ViewBag.NavigationTitle = "Leave Category";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card_new_header alert alert-danger">
+
+    <div class="col-sm-6">
+        NOTE : Fields marked with (*) are compulsory fields
+    </div>
+    <div class="col-sm-6 text-right">
+        <b>@*[ Characters < > # ^ ; | $ are not allowed ]*@</b>
+    </div>
+
+</div>
+
+
+@using (Html.BeginForm("Create", "LeaveCategory"))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <div class="card_new_body">
+        <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
+
+
+                <div class="row">
+                    @Html.LabelFor(model => model.EmployeeTypeID, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-6 col-xs-12 mb-2" })
+
+                    <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 mb-2">
+                        @Html.DropDownListFor(model => model.EmployeeTypeID, (IEnumerable<SelectListItem>)ViewBag.EmployeeType, new { id = "EmployeeTypeID", @class = "custom-select" })
+
+                    </div>
+                </div>
+
+                <div class="row">
+                    @Html.LabelFor(model => model.LeaveCategoryName, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2 required" })
+                    <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 mb-2">
+                        @Html.EditorFor(model => model.LeaveCategoryName, new { htmlAttributes = new { @class = "form-control", @placeholder = "Leave Category", @maxlength = "100" } })
+                        @Html.ValidationMessageFor(model=>model.LeaveCategoryName, "", new { @class = "text-danger" })
+                        @Html.ValidationMessage("LeaveCategoryAlreadyExists", "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="row">
+                    @Html.LabelFor(model => model.LeaveCode, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2 required" })
+                    <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 mb-2">
+                        @Html.EditorFor(model => model.LeaveCode, new { htmlAttributes = new { @class = "form-control", @placeholder = "Leave Code", @maxlength = "10" } })
+                        @Html.ValidationMessageFor(model => model.LeaveCode, "", new { @class = "text-danger" })
+                        @Html.ValidationMessage("LeaveCodeAlreadyExists", "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="row">
+                    @Html.LabelFor(model => model.DeductFromSalary, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2 required" })
+                    <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 mb-2">
+                        <div class="form-group">
+                            <label class="switch">
+                                @Html.CheckBoxFor(model => model.DeductFromSalary, new { @class = "form-control" })
+                                <div class="slider round">
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    @Html.LabelFor(model => model.CarryForward, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2 required" })
+                    <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 mb-2">
+                        <div class="form-group">
+                            <label class="switch">
+                                @Html.CheckBoxFor(model => model.CarryForward, new { @class = "form-control" })
+                                <div class="slider round">
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    @Html.LabelFor(model => model.MaxCFUnit, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2 required" })
+                    <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 mb-2">
+                        @Html.EditorFor(model => model.MaxCFUnit, new { htmlAttributes = new { @class = "form-control integerOnly", @placeholder = "Max carry Forward Unit", @min = 0 } })
+                        @Html.ValidationMessageFor(model => model.MaxCFUnit, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="row">
+                    @Html.LabelFor(model => model.MaxLeave, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2 required" })
+                    <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 mb-2">
+                        @Html.EditorFor(model => model.MaxLeave, new { htmlAttributes = new { @class = "form-control integerOnly", @placeholder = "Max Leave", @min = 0 } })
+                        @Html.ValidationMessageFor(model => model.MaxLeave, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+              
+
+                <div class="row">
+                    @Html.LabelFor(model => model.SeqNo, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2" })
+                    <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 mb-2">
+                        @Html.EditorFor(model => model.SeqNo, new { htmlAttributes = new { @class = "form-control", @placeholder = "Sequence Number" } })
+                    </div>
+                </div>
+
+                <div class="row">
+                    @Html.LabelFor(model => model.IsSanwichSystem, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2 required" })
+                    <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 mb-2">
+                        <div class="form-group">
+                            <label class="switch">
+                                @Html.CheckBoxFor(model => model.IsSanwichSystem, new { @class = "form-control" })
+                                <div class="slider round">
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    @Html.LabelFor(model => model.ApprovalRequiredUpto, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-6 col-xs-12 mb-2" })
+
+                    <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 mb-2">
+                        @Html.EnumDropDownListFor(model => model.ApprovalLevel, "Select",new {  @class = "custom-select" })
+
+                    </div>
+                </div>
+               
+                <div class="row">
+                    @Html.LabelFor(model => model.Remarks, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2" })
+                    <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 mb-2">
+                        @Html.EditorFor(model => model.Remarks, new { htmlAttributes = new { @class = "form-control", @placeholder = "Max Length : 200", @maxlength = "200" } })
+
+                    </div>
+                </div>
+                <div class="row">
+                    @Html.LabelFor(model => model.leaveGuidelines, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2" })
+                    <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 mb-2">
+                       @Html.TextAreaFor(model => model.leaveGuidelines, new { @id = "HelpEditor", @class = "form-control TextEditor", @maxlength = "1000", @style = "min-height:130px;max-height:130px;", @placeholder = "Max Length : 1000" })
+                    </div>
+                </div>
+
+
+                <span class="pull-right">
+                    @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-light btn-sm toggle-tooltip", @title = "Click here, to redirect on list page", @data_toggle = "tooltip" })
+                    <input type="submit" value="Create" class="btn btn-info btn-md pull-center toggle-tooltip" title="Click here, to Create current record" data-toggle="tooltip" />
+                </span>
+
+            </div>
+        </div>
+    </div>
+      
+}
+

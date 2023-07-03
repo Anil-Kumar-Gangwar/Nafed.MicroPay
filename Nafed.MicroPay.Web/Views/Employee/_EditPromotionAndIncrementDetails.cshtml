@@ -1,0 +1,201 @@
+﻿@model Nafed.MicroPay.Model.Employee
+@{
+    Layout = null;
+    var message = TempData["Message"] == null ? "" : TempData["Message"].ToString();
+    var messageError = TempData["Error"] == null ? "" : TempData["Error"].ToString();
+}
+
+<script type="text/javascript">
+
+    function EditSuccess(data) {
+
+            var i=@ViewBag.ActiveTab;
+            $('.nav-tabs li:eq(' + i + ') a').tab('show');
+
+            if ('@messageError' != "") {
+                var str = '@WebUtility.HtmlEncode(@messageError)';
+                str = str.replace(/&amp;lt;/g, "<").replace(/&amp;gt;/g, ">").replace(/&amp;#39;/g, "'");
+                $.bootstrapGrowl("<i class='mdi-android-debug-bridge' aria-hidden='true'></i> " + str + "", {
+                    type: 'warning',
+                    align: 'center',
+                    width: 'auto',
+                    allow_dismiss: true,
+                    delay: 50000
+                });
+            }
+            if ('@message' != "") {
+                $.bootstrapGrowl("<i class='mdi-checkbox-marked-circle-outline' aria-hidden='true'></i> " + '@message', {
+                    type: 'success',
+                    align: 'center',
+                    width: 'auto',
+                    allow_dismiss: true,
+                    delay: 20000
+                });
+            }
+    }
+
+    $("#IncrementDate").datepicker({ dateFormat: 'dd/mm/yy', changeYear: true });
+    $("#S_DOJ").datepicker({ dateFormat: 'dd/mm/yy', changeYear: true });
+    $("#PromotionDate").datepicker({ dateFormat: 'dd/mm/yy', changeYear: true });
+    $("#orderofpromotion").datepicker({ dateFormat: 'dd/mm/yy', changeYear: true });
+</script>
+
+
+@using (Ajax.BeginForm("_EditPromotionAndIncrementDtls", "Employee", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "PromotionAndIncrement", OnSuccess = "EditSuccess" }, new { defaultbutton = "submitform" }))
+{
+    @Html.HiddenFor(model => model.EmployeeID)
+    @Html.AntiForgeryToken()
+
+    @Html.HiddenFor(model=>model.EmployeeCode)
+    @Html.HiddenFor(model=>model.BranchCode)
+    @Html.HiddenFor(model => model.CreatedOn)
+    @Html.HiddenFor(model => model.CreatedBy)
+    @Html.HiddenFor(model=>model.BranchID)
+
+    <div class="" style="margin-top:10px;">
+
+        <div class="">
+            <div class="form-group">
+
+                <div class="row">
+
+                    <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2">
+                        @Html.LabelFor(model => model.IncrementMonth, htmlAttributes: new { @class = "control-label" })
+                    </div>
+                    <div class="col-lg-4 col-sm-4 col-md-4 col-xs-4">
+
+                        <div class="container-fluid">
+                            <div class="custom-control custom-radio">
+
+                                <input id="inc_m1" name="incrMnth" value="1"
+                                         checked="@((Model.IncrementMonth.HasValue &&     Model.IncrementMonth==1) ? true : false)"
+                                           type="radio" />
+                                    <label for="inc_m1">January</label>
+
+                                <input id="inc_m2" name="incrMnth" value="7"
+                                       checked="@((Model.IncrementMonth.HasValue &&   Model.IncrementMonth==7) ? true : false)"
+                                       type="radio" />
+                                <label for="inc_m2">July</label>
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2">
+                        @Html.LabelFor(model => model.IncrementDate, htmlAttributes: new { @class = "control-label" })
+                    </div>
+                    <div class="col-lg-4 col-sm-4 col-md-4 col-xs-4">
+                        @Html.TextBoxFor(model => model.IncrementDate, String.Format("{0:dd/MM/yyyy}", Model.IncrementDate), new { @type = "text", @class = "form-control datepicker", id = "IncrementDate", @placeholder = "dd/mm/yyyy" })
+                        @*@Html.EditorFor(model => model.IncrementDate, new { htmlAttributes = new { @class = "form-control", @type = "date" } })*@
+                    </div>
+
+                </div>
+            </div>
+            <div class="form-group">
+
+                <div class="row">
+                    <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2">
+
+                        @Html.LabelFor(model => model.ValidateIncrement, htmlAttributes: new { @class = "control-label" })
+                    </div>
+                    <div class="col-lg-4 col-sm-4 col-md-4 col-xs-4">
+
+
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <label class="switch">
+                                        @Html.CheckBoxFor(model => model.ValidateIncrement, new { @class = "form-control" })
+                                        <div class="slider round">
+                                        </div>
+                                    </label>
+                                </div>
+                                <div class="col-sm-9">
+                                    <div class="row">
+                                        <label class="col-sm-4">
+                                            @Html.LabelFor(model => model.E_Basic, htmlAttributes: new { @class = "control-label" })
+                                        
+                                        </label>
+                                        <div class="col-sm-8">
+                                           
+                                            @Html.EditorFor(model => model.E_Basic, new { htmlAttributes = new { @class = "form-control", @placeholder = "Basic Salary"} })
+                                            @Html.ValidationMessageFor(model => model.E_Basic, "", new { @class = "text-danger" })
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2">
+                        @Html.LabelFor(model => model.Reason, htmlAttributes: new { @class = "control-label" })
+                    </div>
+                    <div class="col-lg-4 col-sm-4 col-md-4 col-xs-4">
+                        @Html.EditorFor(model => model.Reason, new { htmlAttributes = new { @class = "form-control", @maxlength="500" } })
+
+                    </div>
+                </div>
+            </div>
+
+
+
+
+            <div class="row">
+
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-12">
+
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-lg-2 col-md-2 col-sm-2">
+                                @Html.LabelFor(model => model.PromotionDate, htmlAttributes: new { @class = "control-label" })
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-4">
+                                @*@Html.EditorFor(model => model.PromotionDate, new { htmlAttributes = new { @class = "form-control", @placeholder = "Promotion Date", @type="date" } })*@
+                                @Html.TextBoxFor(model => model.PromotionDate, String.Format("{0:dd/MM/yyyy}", Model.PromotionDate), new { @type = "text", @class = "form-control datepicker", id = "PromotionDate", @placeholder = "dd/mm/yyyy" })
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-2">
+                                @Html.LabelFor(model => model.PerfLCT, htmlAttributes: new { @class = "control-label" })
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-4">
+                                @Html.EditorFor(model => model.PerfLCT, new { htmlAttributes = new { @class = "form-control", @maxlength = "50" } })
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+
+                        <div class="row">
+
+                            <div class="col-lg-2 col-md-2 col-sm-2">
+                                @Html.LabelFor(model => model.orderofpromotion, htmlAttributes: new { @class = "control-label " })
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-4">
+                                @Html.TextBoxFor(model => model.orderofpromotion, String.Format("{0:dd/MM/yyyy}", Model.orderofpromotion), new { @type = "text", @class = "form-control datepicker", id = "orderofpromotion", @placeholder = "dd/mm/yyyy" })
+                                @*@Html.EditorFor(model => model.orderofpromotion, new { htmlAttributes = new { @class = "form-control", @type = "date" } })*@
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-2">
+
+                                @Html.LabelFor(model => model.S_DOJ, htmlAttributes: new { @class = "control-label " })
+
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-4">
+                                @Html.TextBoxFor(model => model.S_DOJ, String.Format("{0:dd/MM/yyyy}", Model.S_DOJ), new { @type = "text", @class = "form-control datepicker", id = "S_DOJ", @placeholder = "dd/mm/yyyy" })
+                                @*@Html.EditorFor(model => model.S_DOJ, new { htmlAttributes = new { @class = "form-control" , @type="date"} })*@
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <span class="pull-right">
+                        @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-light btn-md toggle-tooltip", @title = "Click here, to redirect on list page" })
+                        <input type="submit" id="submitform" value="Update" class="btn btn-info btn-md pull-center toggle-tooltip" title="Click here, to update this record" />
+                    </span>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+  }

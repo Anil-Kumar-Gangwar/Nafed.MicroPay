@@ -1,0 +1,25 @@
+﻿
+@using MicroPay.Web.Models
+@model EmployeeViewModel
+@{
+    ViewBag.Title = "Training Feedback";
+    ViewBag.NavigationTitle = "Training";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    System.Globalization.CultureInfo Indian = new System.Globalization.CultureInfo("hi-IN");
+}
+
+<div>
+    <div class="card_new_body">     
+            @Html.Action("_ViewFeedbackTrainings")
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+

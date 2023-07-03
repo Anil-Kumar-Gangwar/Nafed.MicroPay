@@ -1,0 +1,51 @@
+﻿@model IEnumerable<Nafed.MicroPay.Model.ActivityLog>
+@{
+    ViewBag.Title = "Activity Log";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<table id="tblGrid" class="table table-centered table-striped dt-responsive w-100">
+    <thead>
+        <tr>
+            <th>
+                #
+            </th>
+            <th>
+                Process Name
+            </th>
+            <th>
+                User Name
+            </th>           
+            <th class="text-center">
+                Action Performed
+            </th>
+            <th class="text-center">
+               Transaction Date
+            </th>
+           
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            if (Model != null && Model.Count() > 0)
+            {
+                var sno = 1;
+                foreach (var item in Model)
+                {
+                    <tr>
+                        <td> @sno</td>
+                        <td> @item.ProcessName</td>
+                        <td> @item.User</td>
+                        <td class="text-center"> @item.ActionPerformed</td>
+                        <td class="text-center"> @item.TransactionDate</td>
+                    </tr>
+                    sno++;
+                }
+            }
+
+        }
+
+    </tbody>
+</table>
+
+

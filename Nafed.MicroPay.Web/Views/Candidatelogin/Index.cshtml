@@ -1,0 +1,63 @@
+﻿@model Nafed.MicroPay.Model.CandidateLogin
+@using CaptchaMvc.HtmlHelpers
+@{
+    ViewBag.Title = "Registered Candidate Login";
+    Layout = "~/Views/Shared/_OuterPageLayout.cshtml";
+}
+<title>Micro Pay</title>
+
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/bootstrap")
+
+<div style="">
+    <div class="container-fluid">
+        <div class="row" style="margin-top: 20px;">
+            <div class="col-xl-4 col-lg-4 col-md-5 col-sm-12 m-auto">
+                <div class="card" style="">
+                    <div class="card-header " style="background-color: #17a2b8;color:white">
+                        <h4 class="card-title mb-0">Candidate Login</h4>
+                    </div>
+                    <div class="card-body" style="">
+                        <div class="login-help login-help-desktop">
+                            @using (Html.BeginForm())
+                            {
+                                <div class="form-group">
+
+                                    @Html.LabelFor(Model => Model.RegistrationNo)
+                                    @Html.TextBoxFor(Model => Model.RegistrationNo, null, new { @class = "form-control", placeholder = "Registration No", maxlength = 75, autofocus = "autofocus", @autocomplete = "off" })
+                                    @Html.ValidationMessageFor(Model => Model.RegistrationNo, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(Model => Model.DOB)
+                                    @Html.EditorFor(model => Model.DOB, new { htmlAttributes = new { @class = "form-control", @placeholder = "DD/MM/YYYY", @type = "date", @autocomplete = "off" } })
+                                    @Html.ValidationMessageFor(model => Model.DOB, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="form-group">
+                                    @Html.Captcha("Try Another", "Enter the text you see above", 5, requiredMessageText: "Enter the captcha")
+                                </div>
+                                <div><p class="text-danger">@MvcHtmlString.Create(@ViewBag.LoginMessage)</p></div>
+                                <div class="form-group text-center mb-0">
+                                    <a href="@Url.Action("Index", "JobList")" title="Click here, to go back." data-toggle="tooltip" class="btn btn-light btn-md pull-left toggle-tooltip btn-rp">
+                                        Back
+                                    </a>
+                                    <button type="submit" class="btn btn-primary float-right btn-rp">Log In</button>
+                                </div>
+                            }
+                        </div>
+                    </div>
+
+                    <div style="float:left; width:100%; text-align:center; padding-bottom:15px;">
+                        <span style="color: #007bff;font-size: 12px;"> Copyright © 2019 Nafed-india.com, All rights Reserved </span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#CaptchaInputText").addClass("form-control");
+    });
+</script>

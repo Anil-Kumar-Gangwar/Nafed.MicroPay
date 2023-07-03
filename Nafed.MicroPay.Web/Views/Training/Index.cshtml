@@ -1,0 +1,39 @@
+﻿
+@using MicroPay.Web.Models
+@model EmployeeViewModel
+@{
+    ViewBag.Title = "Training Calendar";
+    ViewBag.NavigationTitle = "Training";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    System.Globalization.CultureInfo Indian = new System.Globalization.CultureInfo("hi-IN");
+}
+
+<div>
+    <div>
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                @using (Ajax.BeginForm("PostFilter", "Training", new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "div-Training" }))
+                {
+                    @Html.Action("GetFilter")
+                }
+            </div>           
+        </div>
+      
+    </div>
+    <div class="card_new_body">
+        <div id="div-Training">
+            @Html.Action("_GetTrainingGridView")
+        </div>
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+

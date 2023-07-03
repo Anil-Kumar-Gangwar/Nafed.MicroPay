@@ -1,0 +1,1599 @@
+F:\MicroPay\Nafed.MicroPay\MicroPay.Web\bin\roslyn\csc.exe
+F:\MicroPay\Nafed.MicroPay\MicroPay.Web\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+F:\MicroPay\Nafed.MicroPay\MicroPay.Web\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+F:\MicroPay\Nafed.MicroPay\MicroPay.Web\bin\roslyn\Microsoft.CodeAnalysis.dll
+F:\MicroPay\Nafed.MicroPay\MicroPay.Web\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+F:\MicroPay\Nafed.MicroPay\MicroPay.Web\bin\roslyn\Microsoft.CSharp.Core.targets
+F:\MicroPay\Nafed.MicroPay\MicroPay.Web\bin\roslyn\Microsoft.VisualBasic.Core.targets
+F:\MicroPay\Nafed.MicroPay\MicroPay.Web\bin\roslyn\System.Collections.Immutable.dll
+F:\MicroPay\Nafed.MicroPay\MicroPay.Web\bin\roslyn\System.Reflection.Metadata.dll
+F:\MicroPay\Nafed.MicroPay\MicroPay.Web\bin\roslyn\vbc.exe
+F:\MicroPay\Nafed.MicroPay\MicroPay.Web\bin\roslyn\VBCSCompiler.exe
+F:\MicroPay\Nafed.MicroPay\MicroPay.Web\bin\roslyn\VBCSCompiler.exe.config
+F:\MicroPay\Nafed.MicroPay\MicroPay.Web\bin\MicroPay.Web.dll.config
+F:\MicroPay\Nafed.MicroPay\MicroPay.Web\bin\MicroPay.Web.dll
+F:\MicroPay\Nafed.MicroPay\MicroPay.Web\bin\MicroPay.Web.pdb
+F:\MicroPay\Nafed.MicroPay\MicroPay.Web\bin\Antlr3.Runtime.dll
+F:\MicroPay\Nafed.MicroPay\MicroPay.Web\bin\EntityFramework.dll
+F:\MicroPay\Nafed.MicroPay\MicroPay.Web\bin\EntityFramework.SqlServer.dll
+F:\MicroPay\Nafed.MicroPay\MicroPay.Web\bin\Microsoft.AspNet.Identity.Core.dll
+F:\MicroPay\Nafed.MicroPay\MicroPay.Web\bin\Microsoft.AspNet.Identity.EntityFramework.dll
+F:\MicroPay\Nafed.MicroPay\MicroPay.Web\bin\Microsoft.AspNet.Identity.Owin.dll
+F:\MicroPay\Nafed.MicroPay\MicroPay.Web\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+F:\MicroPay\Nafed.MicroPay\MicroPay.Web\bin\Microsoft.Owin.dll
+F:\MicroPay\Nafed.MicroPay\MicroPay.Web\bin\Microsoft.Owin.Host.SystemWeb.dll
+F:\MicroPay\Nafed.MicroPay\MicroPay.Web\bin\Microsoft.Owin.Security.Cookies.dll
+F:\MicroPay\Nafed.MicroPay\MicroPay.Web\bin\Microsoft.Owin.Security.dll
+F:\MicroPay\Nafed.MicroPay\MicroPay.Web\bin\Microsoft.Owin.Security.Facebook.dll
+F:\MicroPay\Nafed.MicroPay\MicroPay.Web\bin\Microsoft.Owin.Security.Google.dll
+F:\MicroPay\Nafed.MicroPay\MicroPay.Web\bin\Microsoft.Owin.Security.MicrosoftAccount.dll
+F:\MicroPay\Nafed.MicroPay\MicroPay.Web\bin\Microsoft.Owin.Security.OAuth.dll
+F:\MicroPay\Nafed.MicroPay\MicroPay.Web\bin\Microsoft.Owin.Security.Twitter.dll
+F:\MicroPay\Nafed.MicroPay\MicroPay.Web\bin\Microsoft.Web.Infrastructure.dll
+F:\MicroPay\Nafed.MicroPay\MicroPay.Web\bin\Newtonsoft.Json.dll
+F:\MicroPay\Nafed.MicroPay\MicroPay.Web\bin\Owin.dll
+F:\MicroPay\Nafed.MicroPay\MicroPay.Web\bin\System.Web.Helpers.dll
+F:\MicroPay\Nafed.MicroPay\MicroPay.Web\bin\System.Web.Mvc.dll
+F:\MicroPay\Nafed.MicroPay\MicroPay.Web\bin\System.Web.Optimization.dll
+F:\MicroPay\Nafed.MicroPay\MicroPay.Web\bin\System.Web.Razor.dll
+F:\MicroPay\Nafed.MicroPay\MicroPay.Web\bin\System.Web.WebPages.Deployment.dll
+F:\MicroPay\Nafed.MicroPay\MicroPay.Web\bin\System.Web.WebPages.dll
+F:\MicroPay\Nafed.MicroPay\MicroPay.Web\bin\System.Web.WebPages.Razor.dll
+F:\MicroPay\Nafed.MicroPay\MicroPay.Web\bin\WebGrease.dll
+F:\MicroPay\Nafed.MicroPay\MicroPay.Web\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+F:\MicroPay\Nafed.MicroPay\MicroPay.Web\bin\System.Web.Helpers.xml
+F:\MicroPay\Nafed.MicroPay\MicroPay.Web\bin\System.Web.Mvc.xml
+F:\MicroPay\Nafed.MicroPay\MicroPay.Web\bin\System.Web.Optimization.xml
+F:\MicroPay\Nafed.MicroPay\MicroPay.Web\bin\System.Web.Razor.xml
+F:\MicroPay\Nafed.MicroPay\MicroPay.Web\bin\System.Web.WebPages.xml
+F:\MicroPay\Nafed.MicroPay\MicroPay.Web\bin\System.Web.WebPages.Deployment.xml
+F:\MicroPay\Nafed.MicroPay\MicroPay.Web\bin\System.Web.WebPages.Razor.xml
+F:\MicroPay\Nafed.MicroPay\MicroPay.Web\bin\Antlr3.Runtime.pdb
+F:\MicroPay\Nafed.MicroPay\MicroPay.Web\bin\Newtonsoft.Json.xml
+F:\MicroPay\Nafed.MicroPay\MicroPay.Web\bin\EntityFramework.xml
+F:\MicroPay\Nafed.MicroPay\MicroPay.Web\bin\EntityFramework.SqlServer.xml
+F:\MicroPay\Nafed.MicroPay\MicroPay.Web\bin\Microsoft.AspNet.Identity.Core.xml
+F:\MicroPay\Nafed.MicroPay\MicroPay.Web\bin\Microsoft.AspNet.Identity.Owin.xml
+F:\MicroPay\Nafed.MicroPay\MicroPay.Web\bin\Microsoft.AspNet.Identity.EntityFramework.xml
+F:\MicroPay\Nafed.MicroPay\MicroPay.Web\bin\Microsoft.Owin.xml
+F:\MicroPay\Nafed.MicroPay\MicroPay.Web\bin\Microsoft.Owin.Host.SystemWeb.xml
+F:\MicroPay\Nafed.MicroPay\MicroPay.Web\bin\Microsoft.Owin.Security.xml
+F:\MicroPay\Nafed.MicroPay\MicroPay.Web\bin\Microsoft.Owin.Security.Facebook.xml
+F:\MicroPay\Nafed.MicroPay\MicroPay.Web\bin\Microsoft.Owin.Security.Cookies.xml
+F:\MicroPay\Nafed.MicroPay\MicroPay.Web\bin\Microsoft.Owin.Security.OAuth.xml
+F:\MicroPay\Nafed.MicroPay\MicroPay.Web\bin\Microsoft.Owin.Security.Google.xml
+F:\MicroPay\Nafed.MicroPay\MicroPay.Web\bin\Microsoft.Owin.Security.Twitter.xml
+F:\MicroPay\Nafed.MicroPay\MicroPay.Web\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
+F:\MicroPay\Nafed.MicroPay\MicroPay.Web\obj\Debug\Nafed.MicroPay.Web.csprojResolveAssemblyReference.cache
+F:\MicroPay\Nafed.MicroPay\MicroPay.Web\obj\Debug\MicroPay.Web.dll
+F:\MicroPay\Nafed.MicroPay\MicroPay.Web\obj\Debug\MicroPay.Web.pdb
+F:\MicroPay\Nafed.MicroPay\MicroPay.Web\bin\log4net.dll
+F:\MicroPay\Nafed.MicroPay\MicroPay.Web\bin\Nafed.MicroPay.Data.dll
+F:\MicroPay\Nafed.MicroPay\MicroPay.Web\bin\Nafed.MicroPay.Services.dll
+F:\MicroPay\Nafed.MicroPay\MicroPay.Web\bin\Nafef.MicroPay.Model.dll
+F:\MicroPay\Nafed.MicroPay\MicroPay.Web\bin\System.Runtime.CompilerServices.Unsafe.dll
+F:\MicroPay\Nafed.MicroPay\MicroPay.Web\bin\Unity.Abstractions.dll
+F:\MicroPay\Nafed.MicroPay\MicroPay.Web\bin\Unity.Container.dll
+F:\MicroPay\Nafed.MicroPay\MicroPay.Web\bin\Unity.Mvc5.dll
+F:\MicroPay\Nafed.MicroPay\MicroPay.Web\bin\Nafed.MicroPay.Data.pdb
+F:\MicroPay\Nafed.MicroPay\MicroPay.Web\bin\Nafed.MicroPay.Services.pdb
+F:\MicroPay\Nafed.MicroPay\MicroPay.Web\bin\Nafef.MicroPay.Model.pdb
+F:\MicroPay\Nafed.MicroPay\MicroPay.Web\bin\log4net.xml
+F:\MicroPay\Nafed.MicroPay\MicroPay.Web\bin\System.Runtime.CompilerServices.Unsafe.xml
+F:\MicroPay\Nafed.MicroPay\MicroPay.Web\bin\Unity.Abstractions.pdb
+F:\MicroPay\Nafed.MicroPay\MicroPay.Web\bin\Unity.Container.pdb
+F:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\csc.exe
+F:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+F:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+F:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\Microsoft.CodeAnalysis.dll
+F:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+F:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\Microsoft.CSharp.Core.targets
+F:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\Microsoft.VisualBasic.Core.targets
+F:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\System.Collections.Immutable.dll
+F:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\System.Reflection.Metadata.dll
+F:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\vbc.exe
+F:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\VBCSCompiler.exe
+F:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\VBCSCompiler.exe.config
+F:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\MicroPay.Web.dll.config
+F:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\MicroPay.Web.dll
+F:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\MicroPay.Web.pdb
+F:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Antlr3.Runtime.dll
+F:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\EntityFramework.dll
+F:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\EntityFramework.SqlServer.dll
+F:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\log4net.dll
+F:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.AspNet.Identity.Core.dll
+F:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.AspNet.Identity.EntityFramework.dll
+F:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.AspNet.Identity.Owin.dll
+F:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+F:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.dll
+F:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Host.SystemWeb.dll
+F:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.Cookies.dll
+F:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.dll
+F:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.Facebook.dll
+F:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.Google.dll
+F:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.MicrosoftAccount.dll
+F:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.OAuth.dll
+F:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.Twitter.dll
+F:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Web.Infrastructure.dll
+F:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Nafed.MicroPay.Data.dll
+F:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Nafed.MicroPay.Model.dll
+F:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Nafed.MicroPay.Services.dll
+F:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Newtonsoft.Json.dll
+F:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Owin.dll
+F:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Runtime.CompilerServices.Unsafe.dll
+F:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Helpers.dll
+F:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Mvc.dll
+F:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Optimization.dll
+F:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Razor.dll
+F:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.WebPages.Deployment.dll
+F:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.WebPages.dll
+F:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.WebPages.Razor.dll
+F:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Unity.Abstractions.dll
+F:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Unity.Container.dll
+F:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Unity.Mvc5.dll
+F:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\WebGrease.dll
+F:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Nafed.MicroPay.Data.pdb
+F:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Nafed.MicroPay.Model.pdb
+F:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Nafed.MicroPay.Services.pdb
+F:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\log4net.xml
+F:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+F:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Runtime.CompilerServices.Unsafe.xml
+F:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Helpers.xml
+F:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Mvc.xml
+F:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Razor.xml
+F:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.WebPages.xml
+F:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.WebPages.Deployment.xml
+F:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.WebPages.Razor.xml
+F:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Optimization.xml
+F:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Unity.Abstractions.pdb
+F:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Unity.Container.pdb
+F:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Antlr3.Runtime.pdb
+F:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Newtonsoft.Json.xml
+F:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\EntityFramework.xml
+F:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\EntityFramework.SqlServer.xml
+F:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.AspNet.Identity.Core.xml
+F:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.AspNet.Identity.Owin.xml
+F:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.AspNet.Identity.EntityFramework.xml
+F:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.xml
+F:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Host.SystemWeb.xml
+F:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.xml
+F:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.Facebook.xml
+F:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.Cookies.xml
+F:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.OAuth.xml
+F:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.Google.xml
+F:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.Twitter.xml
+F:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
+F:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\obj\Debug\Nafed.MicroPay.Web.csprojResolveAssemblyReference.cache
+F:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\obj\Debug\MicroPay.Web.dll
+F:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\obj\Debug\MicroPay.Web.pdb
+F:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\AutoMapper.dll
+F:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\AutoMapper.xml
+D:\Rajdarbaar Project\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\csc.exe
+D:\Rajdarbaar Project\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+D:\Rajdarbaar Project\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+D:\Rajdarbaar Project\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\Microsoft.CodeAnalysis.dll
+D:\Rajdarbaar Project\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+D:\Rajdarbaar Project\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\Microsoft.CSharp.Core.targets
+D:\Rajdarbaar Project\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\Microsoft.VisualBasic.Core.targets
+D:\Rajdarbaar Project\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\System.Collections.Immutable.dll
+D:\Rajdarbaar Project\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\System.Reflection.Metadata.dll
+D:\Rajdarbaar Project\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\vbc.exe
+D:\Rajdarbaar Project\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\VBCSCompiler.exe
+D:\Rajdarbaar Project\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\VBCSCompiler.exe.config
+D:\Rajdarbaar Project\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\MicroPay.Web.dll.config
+D:\Rajdarbaar Project\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\MicroPay.Web.dll
+D:\Rajdarbaar Project\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\MicroPay.Web.pdb
+D:\Rajdarbaar Project\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Antlr3.Runtime.dll
+D:\Rajdarbaar Project\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\EntityFramework.dll
+D:\Rajdarbaar Project\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\EntityFramework.SqlServer.dll
+D:\Rajdarbaar Project\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\log4net.dll
+D:\Rajdarbaar Project\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.AspNet.Identity.Core.dll
+D:\Rajdarbaar Project\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.AspNet.Identity.EntityFramework.dll
+D:\Rajdarbaar Project\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.AspNet.Identity.Owin.dll
+D:\Rajdarbaar Project\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+D:\Rajdarbaar Project\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.dll
+D:\Rajdarbaar Project\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Host.SystemWeb.dll
+D:\Rajdarbaar Project\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.Cookies.dll
+D:\Rajdarbaar Project\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.dll
+D:\Rajdarbaar Project\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.Facebook.dll
+D:\Rajdarbaar Project\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.Google.dll
+D:\Rajdarbaar Project\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.MicrosoftAccount.dll
+D:\Rajdarbaar Project\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.OAuth.dll
+D:\Rajdarbaar Project\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.Twitter.dll
+D:\Rajdarbaar Project\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Web.Infrastructure.dll
+D:\Rajdarbaar Project\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Nafed.MicroPay.Data.dll
+D:\Rajdarbaar Project\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Nafed.MicroPay.Model.dll
+D:\Rajdarbaar Project\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Nafed.MicroPay.Services.dll
+D:\Rajdarbaar Project\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Newtonsoft.Json.dll
+D:\Rajdarbaar Project\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Owin.dll
+D:\Rajdarbaar Project\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Runtime.CompilerServices.Unsafe.dll
+D:\Rajdarbaar Project\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Helpers.dll
+D:\Rajdarbaar Project\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Mvc.dll
+D:\Rajdarbaar Project\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Optimization.dll
+D:\Rajdarbaar Project\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Razor.dll
+D:\Rajdarbaar Project\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.WebPages.Deployment.dll
+D:\Rajdarbaar Project\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.WebPages.dll
+D:\Rajdarbaar Project\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.WebPages.Razor.dll
+D:\Rajdarbaar Project\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Unity.Abstractions.dll
+D:\Rajdarbaar Project\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Unity.Container.dll
+D:\Rajdarbaar Project\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Unity.Mvc5.dll
+D:\Rajdarbaar Project\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\WebGrease.dll
+D:\Rajdarbaar Project\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\AutoMapper.dll
+D:\Rajdarbaar Project\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Nafed.MicroPay.Data.pdb
+D:\Rajdarbaar Project\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Nafed.MicroPay.Model.pdb
+D:\Rajdarbaar Project\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Nafed.MicroPay.Services.pdb
+D:\Rajdarbaar Project\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\log4net.xml
+D:\Rajdarbaar Project\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+D:\Rajdarbaar Project\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Runtime.CompilerServices.Unsafe.xml
+D:\Rajdarbaar Project\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Helpers.xml
+D:\Rajdarbaar Project\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Mvc.xml
+D:\Rajdarbaar Project\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Razor.xml
+D:\Rajdarbaar Project\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.WebPages.xml
+D:\Rajdarbaar Project\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.WebPages.Deployment.xml
+D:\Rajdarbaar Project\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.WebPages.Razor.xml
+D:\Rajdarbaar Project\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Optimization.xml
+D:\Rajdarbaar Project\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Unity.Abstractions.pdb
+D:\Rajdarbaar Project\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Unity.Container.pdb
+D:\Rajdarbaar Project\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Antlr3.Runtime.pdb
+D:\Rajdarbaar Project\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Newtonsoft.Json.xml
+D:\Rajdarbaar Project\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\EntityFramework.xml
+D:\Rajdarbaar Project\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\EntityFramework.SqlServer.xml
+D:\Rajdarbaar Project\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.AspNet.Identity.Core.xml
+D:\Rajdarbaar Project\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.AspNet.Identity.Owin.xml
+D:\Rajdarbaar Project\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.AspNet.Identity.EntityFramework.xml
+D:\Rajdarbaar Project\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.xml
+D:\Rajdarbaar Project\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Host.SystemWeb.xml
+D:\Rajdarbaar Project\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.xml
+D:\Rajdarbaar Project\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.Facebook.xml
+D:\Rajdarbaar Project\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.Cookies.xml
+D:\Rajdarbaar Project\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.OAuth.xml
+D:\Rajdarbaar Project\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.Google.xml
+D:\Rajdarbaar Project\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.Twitter.xml
+D:\Rajdarbaar Project\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
+D:\Rajdarbaar Project\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\AutoMapper.xml
+D:\Rajdarbaar Project\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\obj\Debug\Nafed.MicroPay.Web.csprojResolveAssemblyReference.cache
+D:\Rajdarbaar Project\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\obj\Debug\MicroPay.Web.dll
+D:\Rajdarbaar Project\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\obj\Debug\MicroPay.Web.pdb
+D:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\csc.exe
+D:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+D:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+D:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\Microsoft.CodeAnalysis.dll
+D:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+D:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\Microsoft.CSharp.Core.targets
+D:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\Microsoft.VisualBasic.Core.targets
+D:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\System.Collections.Immutable.dll
+D:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\System.Reflection.Metadata.dll
+D:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\vbc.exe
+D:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\VBCSCompiler.exe
+D:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\VBCSCompiler.exe.config
+D:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\MicroPay.Web.dll.config
+D:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\MicroPay.Web.dll
+D:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\MicroPay.Web.pdb
+D:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Antlr3.Runtime.dll
+D:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\AutoMapper.dll
+D:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\EntityFramework.dll
+D:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\EntityFramework.SqlServer.dll
+D:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\log4net.dll
+D:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.AspNet.Identity.Core.dll
+D:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.AspNet.Identity.EntityFramework.dll
+D:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.AspNet.Identity.Owin.dll
+D:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+D:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.dll
+D:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Host.SystemWeb.dll
+D:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.Cookies.dll
+D:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.dll
+D:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.Facebook.dll
+D:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.Google.dll
+D:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.MicrosoftAccount.dll
+D:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.OAuth.dll
+D:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.Twitter.dll
+D:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Web.Infrastructure.dll
+D:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Nafed.MicroPay.Data.dll
+D:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Nafed.MicroPay.Model.dll
+D:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Nafed.MicroPay.Services.dll
+D:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Newtonsoft.Json.dll
+D:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Owin.dll
+D:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\PagedList.dll
+D:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\PagedList.Mvc.dll
+D:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Runtime.CompilerServices.Unsafe.dll
+D:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Helpers.dll
+D:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Mvc.dll
+D:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Optimization.dll
+D:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Razor.dll
+D:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.WebPages.Deployment.dll
+D:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.WebPages.dll
+D:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.WebPages.Razor.dll
+D:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Unity.Abstractions.dll
+D:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Unity.Container.dll
+D:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Unity.Mvc5.dll
+D:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\WebGrease.dll
+D:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Nafed.MicroPay.Data.pdb
+D:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Nafed.MicroPay.Model.pdb
+D:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Nafed.MicroPay.Services.pdb
+D:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\AutoMapper.xml
+D:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\log4net.xml
+D:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+D:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\PagedList.xml
+D:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\PagedList.Mvc.xml
+D:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Runtime.CompilerServices.Unsafe.xml
+D:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Helpers.xml
+D:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Mvc.xml
+D:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Razor.xml
+D:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.WebPages.xml
+D:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.WebPages.Deployment.xml
+D:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.WebPages.Razor.xml
+D:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Optimization.xml
+D:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Unity.Abstractions.pdb
+D:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Unity.Container.pdb
+D:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Antlr3.Runtime.pdb
+D:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Newtonsoft.Json.xml
+D:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\EntityFramework.xml
+D:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\EntityFramework.SqlServer.xml
+D:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.AspNet.Identity.Core.xml
+D:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.AspNet.Identity.Owin.xml
+D:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.AspNet.Identity.EntityFramework.xml
+D:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.xml
+D:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Host.SystemWeb.xml
+D:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.xml
+D:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.Facebook.xml
+D:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.Cookies.xml
+D:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.OAuth.xml
+D:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.Google.xml
+D:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.Twitter.xml
+D:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
+D:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\obj\Debug\Nafed.MicroPay.Web.csprojResolveAssemblyReference.cache
+D:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\obj\Debug\MicroPay.Web.dll
+D:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\obj\Debug\MicroPay.Web.pdb
+D:\CHKK-BOOT-4.0.0\Nafed\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\obj\Debug\Nafed.MicroPay.Web.csprojResolveAssemblyReference.cache
+D:\CHKK-BOOT-4.0.0\Nafed\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\obj\Debug\MicroPay.Web.dll
+D:\CHKK-BOOT-4.0.0\Nafed\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\obj\Debug\MicroPay.Web.pdb
+D:\CHKK-BOOT-4.0.0\Nafed\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\csc.exe
+D:\CHKK-BOOT-4.0.0\Nafed\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+D:\CHKK-BOOT-4.0.0\Nafed\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+D:\CHKK-BOOT-4.0.0\Nafed\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\Microsoft.CodeAnalysis.dll
+D:\CHKK-BOOT-4.0.0\Nafed\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+D:\CHKK-BOOT-4.0.0\Nafed\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\Microsoft.CSharp.Core.targets
+D:\CHKK-BOOT-4.0.0\Nafed\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\Microsoft.VisualBasic.Core.targets
+D:\CHKK-BOOT-4.0.0\Nafed\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\System.Collections.Immutable.dll
+D:\CHKK-BOOT-4.0.0\Nafed\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\System.Reflection.Metadata.dll
+D:\CHKK-BOOT-4.0.0\Nafed\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\vbc.exe
+D:\CHKK-BOOT-4.0.0\Nafed\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\VBCSCompiler.exe
+D:\CHKK-BOOT-4.0.0\Nafed\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\VBCSCompiler.exe.config
+D:\CHKK-BOOT-4.0.0\Nafed\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\MicroPay.Web.dll.config
+D:\CHKK-BOOT-4.0.0\Nafed\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\MicroPay.Web.dll
+D:\CHKK-BOOT-4.0.0\Nafed\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\MicroPay.Web.pdb
+D:\CHKK-BOOT-4.0.0\Nafed\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Antlr3.Runtime.dll
+D:\CHKK-BOOT-4.0.0\Nafed\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\EntityFramework.dll
+D:\CHKK-BOOT-4.0.0\Nafed\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\EntityFramework.SqlServer.dll
+D:\CHKK-BOOT-4.0.0\Nafed\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\log4net.dll
+D:\CHKK-BOOT-4.0.0\Nafed\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.AspNet.Identity.Core.dll
+D:\CHKK-BOOT-4.0.0\Nafed\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.AspNet.Identity.EntityFramework.dll
+D:\CHKK-BOOT-4.0.0\Nafed\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.AspNet.Identity.Owin.dll
+D:\CHKK-BOOT-4.0.0\Nafed\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+D:\CHKK-BOOT-4.0.0\Nafed\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.dll
+D:\CHKK-BOOT-4.0.0\Nafed\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Host.SystemWeb.dll
+D:\CHKK-BOOT-4.0.0\Nafed\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.Cookies.dll
+D:\CHKK-BOOT-4.0.0\Nafed\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.dll
+D:\CHKK-BOOT-4.0.0\Nafed\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.Facebook.dll
+D:\CHKK-BOOT-4.0.0\Nafed\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.Google.dll
+D:\CHKK-BOOT-4.0.0\Nafed\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.MicrosoftAccount.dll
+D:\CHKK-BOOT-4.0.0\Nafed\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.OAuth.dll
+D:\CHKK-BOOT-4.0.0\Nafed\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.Twitter.dll
+D:\CHKK-BOOT-4.0.0\Nafed\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Web.Infrastructure.dll
+D:\CHKK-BOOT-4.0.0\Nafed\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Nafed.MicroPay.Data.dll
+D:\CHKK-BOOT-4.0.0\Nafed\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Nafed.MicroPay.Model.dll
+D:\CHKK-BOOT-4.0.0\Nafed\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Nafed.MicroPay.Services.dll
+D:\CHKK-BOOT-4.0.0\Nafed\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Newtonsoft.Json.dll
+D:\CHKK-BOOT-4.0.0\Nafed\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Owin.dll
+D:\CHKK-BOOT-4.0.0\Nafed\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\PagedList.dll
+D:\CHKK-BOOT-4.0.0\Nafed\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\PagedList.Mvc.dll
+D:\CHKK-BOOT-4.0.0\Nafed\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Runtime.CompilerServices.Unsafe.dll
+D:\CHKK-BOOT-4.0.0\Nafed\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Helpers.dll
+D:\CHKK-BOOT-4.0.0\Nafed\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Mvc.dll
+D:\CHKK-BOOT-4.0.0\Nafed\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Optimization.dll
+D:\CHKK-BOOT-4.0.0\Nafed\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Razor.dll
+D:\CHKK-BOOT-4.0.0\Nafed\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.WebPages.Deployment.dll
+D:\CHKK-BOOT-4.0.0\Nafed\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.WebPages.dll
+D:\CHKK-BOOT-4.0.0\Nafed\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.WebPages.Razor.dll
+D:\CHKK-BOOT-4.0.0\Nafed\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Unity.Abstractions.dll
+D:\CHKK-BOOT-4.0.0\Nafed\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Unity.Container.dll
+D:\CHKK-BOOT-4.0.0\Nafed\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Unity.Mvc5.dll
+D:\CHKK-BOOT-4.0.0\Nafed\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\WebGrease.dll
+D:\CHKK-BOOT-4.0.0\Nafed\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Nafed.MicroPay.Data.pdb
+D:\CHKK-BOOT-4.0.0\Nafed\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Nafed.MicroPay.Model.pdb
+D:\CHKK-BOOT-4.0.0\Nafed\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Nafed.MicroPay.Services.pdb
+D:\CHKK-BOOT-4.0.0\Nafed\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\log4net.xml
+D:\CHKK-BOOT-4.0.0\Nafed\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+D:\CHKK-BOOT-4.0.0\Nafed\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\PagedList.xml
+D:\CHKK-BOOT-4.0.0\Nafed\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\PagedList.Mvc.xml
+D:\CHKK-BOOT-4.0.0\Nafed\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Runtime.CompilerServices.Unsafe.xml
+D:\CHKK-BOOT-4.0.0\Nafed\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Helpers.xml
+D:\CHKK-BOOT-4.0.0\Nafed\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Mvc.xml
+D:\CHKK-BOOT-4.0.0\Nafed\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Razor.xml
+D:\CHKK-BOOT-4.0.0\Nafed\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.WebPages.xml
+D:\CHKK-BOOT-4.0.0\Nafed\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.WebPages.Deployment.xml
+D:\CHKK-BOOT-4.0.0\Nafed\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.WebPages.Razor.xml
+D:\CHKK-BOOT-4.0.0\Nafed\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Optimization.xml
+D:\CHKK-BOOT-4.0.0\Nafed\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Unity.Abstractions.pdb
+D:\CHKK-BOOT-4.0.0\Nafed\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Unity.Container.pdb
+D:\CHKK-BOOT-4.0.0\Nafed\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Antlr3.Runtime.pdb
+D:\CHKK-BOOT-4.0.0\Nafed\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Newtonsoft.Json.xml
+D:\CHKK-BOOT-4.0.0\Nafed\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\EntityFramework.xml
+D:\CHKK-BOOT-4.0.0\Nafed\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\EntityFramework.SqlServer.xml
+D:\CHKK-BOOT-4.0.0\Nafed\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.AspNet.Identity.Core.xml
+D:\CHKK-BOOT-4.0.0\Nafed\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.AspNet.Identity.Owin.xml
+D:\CHKK-BOOT-4.0.0\Nafed\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.AspNet.Identity.EntityFramework.xml
+D:\CHKK-BOOT-4.0.0\Nafed\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.xml
+D:\CHKK-BOOT-4.0.0\Nafed\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Host.SystemWeb.xml
+D:\CHKK-BOOT-4.0.0\Nafed\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.xml
+D:\CHKK-BOOT-4.0.0\Nafed\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.Facebook.xml
+D:\CHKK-BOOT-4.0.0\Nafed\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.Cookies.xml
+D:\CHKK-BOOT-4.0.0\Nafed\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.OAuth.xml
+D:\CHKK-BOOT-4.0.0\Nafed\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.Google.xml
+D:\CHKK-BOOT-4.0.0\Nafed\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.Twitter.xml
+D:\CHKK-BOOT-4.0.0\Nafed\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
+F:\Nafed By Rajesh Sir\Chandan\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\csc.exe
+F:\Nafed By Rajesh Sir\Chandan\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+F:\Nafed By Rajesh Sir\Chandan\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+F:\Nafed By Rajesh Sir\Chandan\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\Microsoft.CodeAnalysis.dll
+F:\Nafed By Rajesh Sir\Chandan\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+F:\Nafed By Rajesh Sir\Chandan\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\Microsoft.CSharp.Core.targets
+F:\Nafed By Rajesh Sir\Chandan\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\Microsoft.VisualBasic.Core.targets
+F:\Nafed By Rajesh Sir\Chandan\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\System.Collections.Immutable.dll
+F:\Nafed By Rajesh Sir\Chandan\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\System.Reflection.Metadata.dll
+F:\Nafed By Rajesh Sir\Chandan\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\vbc.exe
+F:\Nafed By Rajesh Sir\Chandan\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\VBCSCompiler.exe
+F:\Nafed By Rajesh Sir\Chandan\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\VBCSCompiler.exe.config
+F:\Nafed By Rajesh Sir\Chandan\Nafed.MicroPay\Nafed.MicroPay.Web\bin\MicroPay.Web.dll.config
+F:\Nafed By Rajesh Sir\Chandan\Nafed.MicroPay\Nafed.MicroPay.Web\bin\MicroPay.Web.dll
+F:\Nafed By Rajesh Sir\Chandan\Nafed.MicroPay\Nafed.MicroPay.Web\bin\MicroPay.Web.pdb
+F:\Nafed By Rajesh Sir\Chandan\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Antlr3.Runtime.dll
+F:\Nafed By Rajesh Sir\Chandan\Nafed.MicroPay\Nafed.MicroPay.Web\bin\EntityFramework.dll
+F:\Nafed By Rajesh Sir\Chandan\Nafed.MicroPay\Nafed.MicroPay.Web\bin\EntityFramework.SqlServer.dll
+F:\Nafed By Rajesh Sir\Chandan\Nafed.MicroPay\Nafed.MicroPay.Web\bin\log4net.dll
+F:\Nafed By Rajesh Sir\Chandan\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.AspNet.Identity.Core.dll
+F:\Nafed By Rajesh Sir\Chandan\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.AspNet.Identity.EntityFramework.dll
+F:\Nafed By Rajesh Sir\Chandan\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.AspNet.Identity.Owin.dll
+F:\Nafed By Rajesh Sir\Chandan\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+F:\Nafed By Rajesh Sir\Chandan\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.dll
+F:\Nafed By Rajesh Sir\Chandan\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Host.SystemWeb.dll
+F:\Nafed By Rajesh Sir\Chandan\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.Cookies.dll
+F:\Nafed By Rajesh Sir\Chandan\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.dll
+F:\Nafed By Rajesh Sir\Chandan\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.Facebook.dll
+F:\Nafed By Rajesh Sir\Chandan\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.Google.dll
+F:\Nafed By Rajesh Sir\Chandan\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.MicrosoftAccount.dll
+F:\Nafed By Rajesh Sir\Chandan\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.OAuth.dll
+F:\Nafed By Rajesh Sir\Chandan\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.Twitter.dll
+F:\Nafed By Rajesh Sir\Chandan\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Web.Infrastructure.dll
+F:\Nafed By Rajesh Sir\Chandan\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Nafed.MicroPay.Data.dll
+F:\Nafed By Rajesh Sir\Chandan\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Nafed.MicroPay.Model.dll
+F:\Nafed By Rajesh Sir\Chandan\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Nafed.MicroPay.Services.dll
+F:\Nafed By Rajesh Sir\Chandan\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Newtonsoft.Json.dll
+F:\Nafed By Rajesh Sir\Chandan\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Owin.dll
+F:\Nafed By Rajesh Sir\Chandan\Nafed.MicroPay\Nafed.MicroPay.Web\bin\PagedList.dll
+F:\Nafed By Rajesh Sir\Chandan\Nafed.MicroPay\Nafed.MicroPay.Web\bin\PagedList.Mvc.dll
+F:\Nafed By Rajesh Sir\Chandan\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Runtime.CompilerServices.Unsafe.dll
+F:\Nafed By Rajesh Sir\Chandan\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Helpers.dll
+F:\Nafed By Rajesh Sir\Chandan\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Mvc.dll
+F:\Nafed By Rajesh Sir\Chandan\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Optimization.dll
+F:\Nafed By Rajesh Sir\Chandan\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Razor.dll
+F:\Nafed By Rajesh Sir\Chandan\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.WebPages.Deployment.dll
+F:\Nafed By Rajesh Sir\Chandan\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.WebPages.dll
+F:\Nafed By Rajesh Sir\Chandan\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.WebPages.Razor.dll
+F:\Nafed By Rajesh Sir\Chandan\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Unity.Abstractions.dll
+F:\Nafed By Rajesh Sir\Chandan\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Unity.Container.dll
+F:\Nafed By Rajesh Sir\Chandan\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Unity.Mvc5.dll
+F:\Nafed By Rajesh Sir\Chandan\Nafed.MicroPay\Nafed.MicroPay.Web\bin\WebGrease.dll
+F:\Nafed By Rajesh Sir\Chandan\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Nafed.MicroPay.Data.pdb
+F:\Nafed By Rajesh Sir\Chandan\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Nafed.MicroPay.Model.pdb
+F:\Nafed By Rajesh Sir\Chandan\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Nafed.MicroPay.Services.pdb
+F:\Nafed By Rajesh Sir\Chandan\Nafed.MicroPay\Nafed.MicroPay.Web\bin\log4net.xml
+F:\Nafed By Rajesh Sir\Chandan\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+F:\Nafed By Rajesh Sir\Chandan\Nafed.MicroPay\Nafed.MicroPay.Web\bin\PagedList.xml
+F:\Nafed By Rajesh Sir\Chandan\Nafed.MicroPay\Nafed.MicroPay.Web\bin\PagedList.Mvc.xml
+F:\Nafed By Rajesh Sir\Chandan\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Runtime.CompilerServices.Unsafe.xml
+F:\Nafed By Rajesh Sir\Chandan\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Helpers.xml
+F:\Nafed By Rajesh Sir\Chandan\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Mvc.xml
+F:\Nafed By Rajesh Sir\Chandan\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Razor.xml
+F:\Nafed By Rajesh Sir\Chandan\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.WebPages.xml
+F:\Nafed By Rajesh Sir\Chandan\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.WebPages.Deployment.xml
+F:\Nafed By Rajesh Sir\Chandan\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.WebPages.Razor.xml
+F:\Nafed By Rajesh Sir\Chandan\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Optimization.xml
+F:\Nafed By Rajesh Sir\Chandan\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Unity.Abstractions.pdb
+F:\Nafed By Rajesh Sir\Chandan\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Unity.Container.pdb
+F:\Nafed By Rajesh Sir\Chandan\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Antlr3.Runtime.pdb
+F:\Nafed By Rajesh Sir\Chandan\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Newtonsoft.Json.xml
+F:\Nafed By Rajesh Sir\Chandan\Nafed.MicroPay\Nafed.MicroPay.Web\bin\EntityFramework.xml
+F:\Nafed By Rajesh Sir\Chandan\Nafed.MicroPay\Nafed.MicroPay.Web\bin\EntityFramework.SqlServer.xml
+F:\Nafed By Rajesh Sir\Chandan\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.AspNet.Identity.Core.xml
+F:\Nafed By Rajesh Sir\Chandan\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.AspNet.Identity.Owin.xml
+F:\Nafed By Rajesh Sir\Chandan\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.AspNet.Identity.EntityFramework.xml
+F:\Nafed By Rajesh Sir\Chandan\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.xml
+F:\Nafed By Rajesh Sir\Chandan\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Host.SystemWeb.xml
+F:\Nafed By Rajesh Sir\Chandan\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.xml
+F:\Nafed By Rajesh Sir\Chandan\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.Facebook.xml
+F:\Nafed By Rajesh Sir\Chandan\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.Cookies.xml
+F:\Nafed By Rajesh Sir\Chandan\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.OAuth.xml
+F:\Nafed By Rajesh Sir\Chandan\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.Google.xml
+F:\Nafed By Rajesh Sir\Chandan\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.Twitter.xml
+F:\Nafed By Rajesh Sir\Chandan\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
+F:\Nafed By Rajesh Sir\Chandan\Nafed.MicroPay\Nafed.MicroPay.Web\obj\Debug\Nafed.MicroPay.Web.csprojResolveAssemblyReference.cache
+F:\Nafed By Rajesh Sir\Chandan\Nafed.MicroPay\Nafed.MicroPay.Web\obj\Debug\MicroPay.Web.dll
+F:\Nafed By Rajesh Sir\Chandan\Nafed.MicroPay\Nafed.MicroPay.Web\obj\Debug\MicroPay.Web.pdb
+F:\Nafed By Rajesh Sir\Nafed.MicroPayLatest\Nafed.MicroPay.Web\obj\Debug\Nafed.MicroPay.Web.csprojResolveAssemblyReference.cache
+F:\Nafed By Rajesh Sir\Nafed.MicroPayLatest\Nafed.MicroPay.Web\bin\roslyn\csc.exe
+F:\Nafed By Rajesh Sir\Nafed.MicroPayLatest\Nafed.MicroPay.Web\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+F:\Nafed By Rajesh Sir\Nafed.MicroPayLatest\Nafed.MicroPay.Web\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+F:\Nafed By Rajesh Sir\Nafed.MicroPayLatest\Nafed.MicroPay.Web\bin\roslyn\Microsoft.CodeAnalysis.dll
+F:\Nafed By Rajesh Sir\Nafed.MicroPayLatest\Nafed.MicroPay.Web\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+F:\Nafed By Rajesh Sir\Nafed.MicroPayLatest\Nafed.MicroPay.Web\bin\roslyn\Microsoft.CSharp.Core.targets
+F:\Nafed By Rajesh Sir\Nafed.MicroPayLatest\Nafed.MicroPay.Web\bin\roslyn\Microsoft.VisualBasic.Core.targets
+F:\Nafed By Rajesh Sir\Nafed.MicroPayLatest\Nafed.MicroPay.Web\bin\roslyn\System.Collections.Immutable.dll
+F:\Nafed By Rajesh Sir\Nafed.MicroPayLatest\Nafed.MicroPay.Web\bin\roslyn\System.Reflection.Metadata.dll
+F:\Nafed By Rajesh Sir\Nafed.MicroPayLatest\Nafed.MicroPay.Web\bin\roslyn\vbc.exe
+F:\Nafed By Rajesh Sir\Nafed.MicroPayLatest\Nafed.MicroPay.Web\bin\roslyn\VBCSCompiler.exe
+F:\Nafed By Rajesh Sir\Nafed.MicroPayLatest\Nafed.MicroPay.Web\bin\roslyn\VBCSCompiler.exe.config
+F:\Nafed By Rajesh Sir\Nafed.MicroPayLatest\Nafed.MicroPay.Web\bin\MicroPay.Web.dll.config
+F:\Nafed By Rajesh Sir\Nafed.MicroPayLatest\Nafed.MicroPay.Web\bin\MicroPay.Web.dll
+F:\Nafed By Rajesh Sir\Nafed.MicroPayLatest\Nafed.MicroPay.Web\bin\MicroPay.Web.pdb
+F:\Nafed By Rajesh Sir\Nafed.MicroPayLatest\Nafed.MicroPay.Web\bin\Antlr3.Runtime.dll
+F:\Nafed By Rajesh Sir\Nafed.MicroPayLatest\Nafed.MicroPay.Web\bin\EntityFramework.dll
+F:\Nafed By Rajesh Sir\Nafed.MicroPayLatest\Nafed.MicroPay.Web\bin\EntityFramework.SqlServer.dll
+F:\Nafed By Rajesh Sir\Nafed.MicroPayLatest\Nafed.MicroPay.Web\bin\log4net.dll
+F:\Nafed By Rajesh Sir\Nafed.MicroPayLatest\Nafed.MicroPay.Web\bin\Microsoft.AspNet.Identity.Core.dll
+F:\Nafed By Rajesh Sir\Nafed.MicroPayLatest\Nafed.MicroPay.Web\bin\Microsoft.AspNet.Identity.EntityFramework.dll
+F:\Nafed By Rajesh Sir\Nafed.MicroPayLatest\Nafed.MicroPay.Web\bin\Microsoft.AspNet.Identity.Owin.dll
+F:\Nafed By Rajesh Sir\Nafed.MicroPayLatest\Nafed.MicroPay.Web\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+F:\Nafed By Rajesh Sir\Nafed.MicroPayLatest\Nafed.MicroPay.Web\bin\Microsoft.Owin.dll
+F:\Nafed By Rajesh Sir\Nafed.MicroPayLatest\Nafed.MicroPay.Web\bin\Microsoft.Owin.Host.SystemWeb.dll
+F:\Nafed By Rajesh Sir\Nafed.MicroPayLatest\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.Cookies.dll
+F:\Nafed By Rajesh Sir\Nafed.MicroPayLatest\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.dll
+F:\Nafed By Rajesh Sir\Nafed.MicroPayLatest\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.Facebook.dll
+F:\Nafed By Rajesh Sir\Nafed.MicroPayLatest\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.Google.dll
+F:\Nafed By Rajesh Sir\Nafed.MicroPayLatest\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.MicrosoftAccount.dll
+F:\Nafed By Rajesh Sir\Nafed.MicroPayLatest\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.OAuth.dll
+F:\Nafed By Rajesh Sir\Nafed.MicroPayLatest\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.Twitter.dll
+F:\Nafed By Rajesh Sir\Nafed.MicroPayLatest\Nafed.MicroPay.Web\bin\Microsoft.Web.Infrastructure.dll
+F:\Nafed By Rajesh Sir\Nafed.MicroPayLatest\Nafed.MicroPay.Web\bin\Nafed.MicroPay.Data.dll
+F:\Nafed By Rajesh Sir\Nafed.MicroPayLatest\Nafed.MicroPay.Web\bin\Nafed.MicroPay.Model.dll
+F:\Nafed By Rajesh Sir\Nafed.MicroPayLatest\Nafed.MicroPay.Web\bin\Nafed.MicroPay.Services.dll
+F:\Nafed By Rajesh Sir\Nafed.MicroPayLatest\Nafed.MicroPay.Web\bin\Newtonsoft.Json.dll
+F:\Nafed By Rajesh Sir\Nafed.MicroPayLatest\Nafed.MicroPay.Web\bin\Owin.dll
+F:\Nafed By Rajesh Sir\Nafed.MicroPayLatest\Nafed.MicroPay.Web\bin\PagedList.dll
+F:\Nafed By Rajesh Sir\Nafed.MicroPayLatest\Nafed.MicroPay.Web\bin\PagedList.Mvc.dll
+F:\Nafed By Rajesh Sir\Nafed.MicroPayLatest\Nafed.MicroPay.Web\bin\System.Runtime.CompilerServices.Unsafe.dll
+F:\Nafed By Rajesh Sir\Nafed.MicroPayLatest\Nafed.MicroPay.Web\bin\System.Web.Helpers.dll
+F:\Nafed By Rajesh Sir\Nafed.MicroPayLatest\Nafed.MicroPay.Web\bin\System.Web.Mvc.dll
+F:\Nafed By Rajesh Sir\Nafed.MicroPayLatest\Nafed.MicroPay.Web\bin\System.Web.Optimization.dll
+F:\Nafed By Rajesh Sir\Nafed.MicroPayLatest\Nafed.MicroPay.Web\bin\System.Web.Razor.dll
+F:\Nafed By Rajesh Sir\Nafed.MicroPayLatest\Nafed.MicroPay.Web\bin\System.Web.WebPages.Deployment.dll
+F:\Nafed By Rajesh Sir\Nafed.MicroPayLatest\Nafed.MicroPay.Web\bin\System.Web.WebPages.dll
+F:\Nafed By Rajesh Sir\Nafed.MicroPayLatest\Nafed.MicroPay.Web\bin\System.Web.WebPages.Razor.dll
+F:\Nafed By Rajesh Sir\Nafed.MicroPayLatest\Nafed.MicroPay.Web\bin\Unity.Abstractions.dll
+F:\Nafed By Rajesh Sir\Nafed.MicroPayLatest\Nafed.MicroPay.Web\bin\Unity.Container.dll
+F:\Nafed By Rajesh Sir\Nafed.MicroPayLatest\Nafed.MicroPay.Web\bin\Unity.Mvc5.dll
+F:\Nafed By Rajesh Sir\Nafed.MicroPayLatest\Nafed.MicroPay.Web\bin\WebGrease.dll
+F:\Nafed By Rajesh Sir\Nafed.MicroPayLatest\Nafed.MicroPay.Web\bin\Nafed.MicroPay.Data.pdb
+F:\Nafed By Rajesh Sir\Nafed.MicroPayLatest\Nafed.MicroPay.Web\bin\Nafed.MicroPay.Model.pdb
+F:\Nafed By Rajesh Sir\Nafed.MicroPayLatest\Nafed.MicroPay.Web\bin\Nafed.MicroPay.Services.pdb
+F:\Nafed By Rajesh Sir\Nafed.MicroPayLatest\Nafed.MicroPay.Web\bin\log4net.xml
+F:\Nafed By Rajesh Sir\Nafed.MicroPayLatest\Nafed.MicroPay.Web\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+F:\Nafed By Rajesh Sir\Nafed.MicroPayLatest\Nafed.MicroPay.Web\bin\PagedList.xml
+F:\Nafed By Rajesh Sir\Nafed.MicroPayLatest\Nafed.MicroPay.Web\bin\PagedList.Mvc.xml
+F:\Nafed By Rajesh Sir\Nafed.MicroPayLatest\Nafed.MicroPay.Web\bin\System.Runtime.CompilerServices.Unsafe.xml
+F:\Nafed By Rajesh Sir\Nafed.MicroPayLatest\Nafed.MicroPay.Web\bin\System.Web.Helpers.xml
+F:\Nafed By Rajesh Sir\Nafed.MicroPayLatest\Nafed.MicroPay.Web\bin\System.Web.Mvc.xml
+F:\Nafed By Rajesh Sir\Nafed.MicroPayLatest\Nafed.MicroPay.Web\bin\System.Web.Razor.xml
+F:\Nafed By Rajesh Sir\Nafed.MicroPayLatest\Nafed.MicroPay.Web\bin\System.Web.WebPages.xml
+F:\Nafed By Rajesh Sir\Nafed.MicroPayLatest\Nafed.MicroPay.Web\bin\System.Web.WebPages.Deployment.xml
+F:\Nafed By Rajesh Sir\Nafed.MicroPayLatest\Nafed.MicroPay.Web\bin\System.Web.WebPages.Razor.xml
+F:\Nafed By Rajesh Sir\Nafed.MicroPayLatest\Nafed.MicroPay.Web\bin\System.Web.Optimization.xml
+F:\Nafed By Rajesh Sir\Nafed.MicroPayLatest\Nafed.MicroPay.Web\bin\Unity.Abstractions.pdb
+F:\Nafed By Rajesh Sir\Nafed.MicroPayLatest\Nafed.MicroPay.Web\bin\Unity.Container.pdb
+F:\Nafed By Rajesh Sir\Nafed.MicroPayLatest\Nafed.MicroPay.Web\bin\Antlr3.Runtime.pdb
+F:\Nafed By Rajesh Sir\Nafed.MicroPayLatest\Nafed.MicroPay.Web\bin\Newtonsoft.Json.xml
+F:\Nafed By Rajesh Sir\Nafed.MicroPayLatest\Nafed.MicroPay.Web\bin\EntityFramework.xml
+F:\Nafed By Rajesh Sir\Nafed.MicroPayLatest\Nafed.MicroPay.Web\bin\EntityFramework.SqlServer.xml
+F:\Nafed By Rajesh Sir\Nafed.MicroPayLatest\Nafed.MicroPay.Web\bin\Microsoft.AspNet.Identity.Core.xml
+F:\Nafed By Rajesh Sir\Nafed.MicroPayLatest\Nafed.MicroPay.Web\bin\Microsoft.AspNet.Identity.Owin.xml
+F:\Nafed By Rajesh Sir\Nafed.MicroPayLatest\Nafed.MicroPay.Web\bin\Microsoft.AspNet.Identity.EntityFramework.xml
+F:\Nafed By Rajesh Sir\Nafed.MicroPayLatest\Nafed.MicroPay.Web\bin\Microsoft.Owin.xml
+F:\Nafed By Rajesh Sir\Nafed.MicroPayLatest\Nafed.MicroPay.Web\bin\Microsoft.Owin.Host.SystemWeb.xml
+F:\Nafed By Rajesh Sir\Nafed.MicroPayLatest\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.xml
+F:\Nafed By Rajesh Sir\Nafed.MicroPayLatest\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.Facebook.xml
+F:\Nafed By Rajesh Sir\Nafed.MicroPayLatest\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.Cookies.xml
+F:\Nafed By Rajesh Sir\Nafed.MicroPayLatest\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.OAuth.xml
+F:\Nafed By Rajesh Sir\Nafed.MicroPayLatest\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.Google.xml
+F:\Nafed By Rajesh Sir\Nafed.MicroPayLatest\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.Twitter.xml
+F:\Nafed By Rajesh Sir\Nafed.MicroPayLatest\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
+F:\Nafed By Rajesh Sir\Nafed.MicroPayLatest\Nafed.MicroPay.Web\obj\Debug\MicroPay.Web.dll
+F:\Nafed By Rajesh Sir\Nafed.MicroPayLatest\Nafed.MicroPay.Web\obj\Debug\MicroPay.Web.pdb
+F:\Nafed-Work\22-July-19\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\csc.exe
+F:\Nafed-Work\22-July-19\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+F:\Nafed-Work\22-July-19\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+F:\Nafed-Work\22-July-19\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\Microsoft.CodeAnalysis.dll
+F:\Nafed-Work\22-July-19\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+F:\Nafed-Work\22-July-19\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\Microsoft.CSharp.Core.targets
+F:\Nafed-Work\22-July-19\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\Microsoft.VisualBasic.Core.targets
+F:\Nafed-Work\22-July-19\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\System.Collections.Immutable.dll
+F:\Nafed-Work\22-July-19\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\System.Reflection.Metadata.dll
+F:\Nafed-Work\22-July-19\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\vbc.exe
+F:\Nafed-Work\22-July-19\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\VBCSCompiler.exe
+F:\Nafed-Work\22-July-19\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\VBCSCompiler.exe.config
+F:\Nafed-Work\22-July-19\Nafed.MicroPay\Nafed.MicroPay.Web\bin\MicroPay.Web.dll.config
+F:\Nafed-Work\22-July-19\Nafed.MicroPay\Nafed.MicroPay.Web\bin\MicroPay.Web.dll
+F:\Nafed-Work\22-July-19\Nafed.MicroPay\Nafed.MicroPay.Web\bin\MicroPay.Web.pdb
+F:\Nafed-Work\22-July-19\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Antlr3.Runtime.dll
+F:\Nafed-Work\22-July-19\Nafed.MicroPay\Nafed.MicroPay.Web\bin\EntityFramework.dll
+F:\Nafed-Work\22-July-19\Nafed.MicroPay\Nafed.MicroPay.Web\bin\EntityFramework.SqlServer.dll
+F:\Nafed-Work\22-July-19\Nafed.MicroPay\Nafed.MicroPay.Web\bin\log4net.dll
+F:\Nafed-Work\22-July-19\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.AspNet.Identity.Core.dll
+F:\Nafed-Work\22-July-19\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.AspNet.Identity.EntityFramework.dll
+F:\Nafed-Work\22-July-19\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.AspNet.Identity.Owin.dll
+F:\Nafed-Work\22-July-19\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+F:\Nafed-Work\22-July-19\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.dll
+F:\Nafed-Work\22-July-19\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Host.SystemWeb.dll
+F:\Nafed-Work\22-July-19\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.Cookies.dll
+F:\Nafed-Work\22-July-19\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.dll
+F:\Nafed-Work\22-July-19\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.Facebook.dll
+F:\Nafed-Work\22-July-19\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.Google.dll
+F:\Nafed-Work\22-July-19\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.MicrosoftAccount.dll
+F:\Nafed-Work\22-July-19\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.OAuth.dll
+F:\Nafed-Work\22-July-19\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.Twitter.dll
+F:\Nafed-Work\22-July-19\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Web.Infrastructure.dll
+F:\Nafed-Work\22-July-19\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Nafed.MicroPay.Data.dll
+F:\Nafed-Work\22-July-19\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Nafed.MicroPay.Model.dll
+F:\Nafed-Work\22-July-19\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Nafed.MicroPay.Services.dll
+F:\Nafed-Work\22-July-19\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Newtonsoft.Json.dll
+F:\Nafed-Work\22-July-19\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Owin.dll
+F:\Nafed-Work\22-July-19\Nafed.MicroPay\Nafed.MicroPay.Web\bin\PagedList.dll
+F:\Nafed-Work\22-July-19\Nafed.MicroPay\Nafed.MicroPay.Web\bin\PagedList.Mvc.dll
+F:\Nafed-Work\22-July-19\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Runtime.CompilerServices.Unsafe.dll
+F:\Nafed-Work\22-July-19\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Helpers.dll
+F:\Nafed-Work\22-July-19\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Mvc.dll
+F:\Nafed-Work\22-July-19\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Optimization.dll
+F:\Nafed-Work\22-July-19\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Razor.dll
+F:\Nafed-Work\22-July-19\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.WebPages.Deployment.dll
+F:\Nafed-Work\22-July-19\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.WebPages.dll
+F:\Nafed-Work\22-July-19\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.WebPages.Razor.dll
+F:\Nafed-Work\22-July-19\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Unity.Abstractions.dll
+F:\Nafed-Work\22-July-19\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Unity.Container.dll
+F:\Nafed-Work\22-July-19\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Unity.Mvc5.dll
+F:\Nafed-Work\22-July-19\Nafed.MicroPay\Nafed.MicroPay.Web\bin\WebGrease.dll
+F:\Nafed-Work\22-July-19\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Nafed.MicroPay.Data.pdb
+F:\Nafed-Work\22-July-19\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Nafed.MicroPay.Model.pdb
+F:\Nafed-Work\22-July-19\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Nafed.MicroPay.Services.pdb
+F:\Nafed-Work\22-July-19\Nafed.MicroPay\Nafed.MicroPay.Web\bin\log4net.xml
+F:\Nafed-Work\22-July-19\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+F:\Nafed-Work\22-July-19\Nafed.MicroPay\Nafed.MicroPay.Web\bin\PagedList.xml
+F:\Nafed-Work\22-July-19\Nafed.MicroPay\Nafed.MicroPay.Web\bin\PagedList.Mvc.xml
+F:\Nafed-Work\22-July-19\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Runtime.CompilerServices.Unsafe.xml
+F:\Nafed-Work\22-July-19\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Helpers.xml
+F:\Nafed-Work\22-July-19\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Mvc.xml
+F:\Nafed-Work\22-July-19\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Razor.xml
+F:\Nafed-Work\22-July-19\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.WebPages.xml
+F:\Nafed-Work\22-July-19\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.WebPages.Deployment.xml
+F:\Nafed-Work\22-July-19\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.WebPages.Razor.xml
+F:\Nafed-Work\22-July-19\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Optimization.xml
+F:\Nafed-Work\22-July-19\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Unity.Abstractions.pdb
+F:\Nafed-Work\22-July-19\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Unity.Container.pdb
+F:\Nafed-Work\22-July-19\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Antlr3.Runtime.pdb
+F:\Nafed-Work\22-July-19\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Newtonsoft.Json.xml
+F:\Nafed-Work\22-July-19\Nafed.MicroPay\Nafed.MicroPay.Web\bin\EntityFramework.xml
+F:\Nafed-Work\22-July-19\Nafed.MicroPay\Nafed.MicroPay.Web\bin\EntityFramework.SqlServer.xml
+F:\Nafed-Work\22-July-19\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.AspNet.Identity.Core.xml
+F:\Nafed-Work\22-July-19\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.AspNet.Identity.Owin.xml
+F:\Nafed-Work\22-July-19\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.AspNet.Identity.EntityFramework.xml
+F:\Nafed-Work\22-July-19\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.xml
+F:\Nafed-Work\22-July-19\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Host.SystemWeb.xml
+F:\Nafed-Work\22-July-19\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.xml
+F:\Nafed-Work\22-July-19\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.Facebook.xml
+F:\Nafed-Work\22-July-19\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.Cookies.xml
+F:\Nafed-Work\22-July-19\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.OAuth.xml
+F:\Nafed-Work\22-July-19\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.Google.xml
+F:\Nafed-Work\22-July-19\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.Twitter.xml
+F:\Nafed-Work\22-July-19\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
+F:\Nafed-Work\22-July-19\Nafed.MicroPay\Nafed.MicroPay.Web\obj\Debug\Nafed.MicroPay.Web.csprojResolveAssemblyReference.cache
+F:\Nafed-Work\22-July-19\Nafed.MicroPay\Nafed.MicroPay.Web\obj\Debug\MicroPay.Web.dll
+F:\Nafed-Work\22-July-19\Nafed.MicroPay\Nafed.MicroPay.Web\obj\Debug\MicroPay.Web.pdb
+F:\Nafed By Rajesh Sir\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\csc.exe
+F:\Nafed By Rajesh Sir\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+F:\Nafed By Rajesh Sir\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+F:\Nafed By Rajesh Sir\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\Microsoft.CodeAnalysis.dll
+F:\Nafed By Rajesh Sir\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+F:\Nafed By Rajesh Sir\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\Microsoft.CSharp.Core.targets
+F:\Nafed By Rajesh Sir\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\Microsoft.VisualBasic.Core.targets
+F:\Nafed By Rajesh Sir\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\System.Collections.Immutable.dll
+F:\Nafed By Rajesh Sir\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\System.Reflection.Metadata.dll
+F:\Nafed By Rajesh Sir\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\vbc.exe
+F:\Nafed By Rajesh Sir\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\VBCSCompiler.exe
+F:\Nafed By Rajesh Sir\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\VBCSCompiler.exe.config
+F:\Nafed By Rajesh Sir\Nafed.MicroPay\Nafed.MicroPay.Web\bin\MicroPay.Web.dll.config
+F:\Nafed By Rajesh Sir\Nafed.MicroPay\Nafed.MicroPay.Web\bin\MicroPay.Web.dll
+F:\Nafed By Rajesh Sir\Nafed.MicroPay\Nafed.MicroPay.Web\bin\MicroPay.Web.pdb
+F:\Nafed By Rajesh Sir\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Antlr3.Runtime.dll
+F:\Nafed By Rajesh Sir\Nafed.MicroPay\Nafed.MicroPay.Web\bin\EntityFramework.dll
+F:\Nafed By Rajesh Sir\Nafed.MicroPay\Nafed.MicroPay.Web\bin\EntityFramework.SqlServer.dll
+F:\Nafed By Rajesh Sir\Nafed.MicroPay\Nafed.MicroPay.Web\bin\log4net.dll
+F:\Nafed By Rajesh Sir\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.AspNet.Identity.Core.dll
+F:\Nafed By Rajesh Sir\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.AspNet.Identity.EntityFramework.dll
+F:\Nafed By Rajesh Sir\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.AspNet.Identity.Owin.dll
+F:\Nafed By Rajesh Sir\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+F:\Nafed By Rajesh Sir\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.dll
+F:\Nafed By Rajesh Sir\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Host.SystemWeb.dll
+F:\Nafed By Rajesh Sir\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.Cookies.dll
+F:\Nafed By Rajesh Sir\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.dll
+F:\Nafed By Rajesh Sir\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.Facebook.dll
+F:\Nafed By Rajesh Sir\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.Google.dll
+F:\Nafed By Rajesh Sir\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.MicrosoftAccount.dll
+F:\Nafed By Rajesh Sir\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.OAuth.dll
+F:\Nafed By Rajesh Sir\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.Twitter.dll
+F:\Nafed By Rajesh Sir\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Web.Infrastructure.dll
+F:\Nafed By Rajesh Sir\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Nafed.MicroPay.Data.dll
+F:\Nafed By Rajesh Sir\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Nafed.MicroPay.Model.dll
+F:\Nafed By Rajesh Sir\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Nafed.MicroPay.Services.dll
+F:\Nafed By Rajesh Sir\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Newtonsoft.Json.dll
+F:\Nafed By Rajesh Sir\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Owin.dll
+F:\Nafed By Rajesh Sir\Nafed.MicroPay\Nafed.MicroPay.Web\bin\PagedList.dll
+F:\Nafed By Rajesh Sir\Nafed.MicroPay\Nafed.MicroPay.Web\bin\PagedList.Mvc.dll
+F:\Nafed By Rajesh Sir\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Runtime.CompilerServices.Unsafe.dll
+F:\Nafed By Rajesh Sir\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Helpers.dll
+F:\Nafed By Rajesh Sir\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Mvc.dll
+F:\Nafed By Rajesh Sir\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Optimization.dll
+F:\Nafed By Rajesh Sir\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Razor.dll
+F:\Nafed By Rajesh Sir\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.WebPages.Deployment.dll
+F:\Nafed By Rajesh Sir\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.WebPages.dll
+F:\Nafed By Rajesh Sir\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.WebPages.Razor.dll
+F:\Nafed By Rajesh Sir\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Unity.Abstractions.dll
+F:\Nafed By Rajesh Sir\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Unity.Container.dll
+F:\Nafed By Rajesh Sir\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Unity.Mvc5.dll
+F:\Nafed By Rajesh Sir\Nafed.MicroPay\Nafed.MicroPay.Web\bin\WebGrease.dll
+F:\Nafed By Rajesh Sir\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Nafed.MicroPay.Data.pdb
+F:\Nafed By Rajesh Sir\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Nafed.MicroPay.Model.pdb
+F:\Nafed By Rajesh Sir\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Nafed.MicroPay.Services.pdb
+F:\Nafed By Rajesh Sir\Nafed.MicroPay\Nafed.MicroPay.Web\bin\log4net.xml
+F:\Nafed By Rajesh Sir\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+F:\Nafed By Rajesh Sir\Nafed.MicroPay\Nafed.MicroPay.Web\bin\PagedList.xml
+F:\Nafed By Rajesh Sir\Nafed.MicroPay\Nafed.MicroPay.Web\bin\PagedList.Mvc.xml
+F:\Nafed By Rajesh Sir\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Runtime.CompilerServices.Unsafe.xml
+F:\Nafed By Rajesh Sir\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Helpers.xml
+F:\Nafed By Rajesh Sir\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Mvc.xml
+F:\Nafed By Rajesh Sir\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Razor.xml
+F:\Nafed By Rajesh Sir\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.WebPages.xml
+F:\Nafed By Rajesh Sir\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.WebPages.Deployment.xml
+F:\Nafed By Rajesh Sir\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.WebPages.Razor.xml
+F:\Nafed By Rajesh Sir\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Optimization.xml
+F:\Nafed By Rajesh Sir\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Unity.Abstractions.pdb
+F:\Nafed By Rajesh Sir\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Unity.Container.pdb
+F:\Nafed By Rajesh Sir\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Antlr3.Runtime.pdb
+F:\Nafed By Rajesh Sir\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Newtonsoft.Json.xml
+F:\Nafed By Rajesh Sir\Nafed.MicroPay\Nafed.MicroPay.Web\bin\EntityFramework.xml
+F:\Nafed By Rajesh Sir\Nafed.MicroPay\Nafed.MicroPay.Web\bin\EntityFramework.SqlServer.xml
+F:\Nafed By Rajesh Sir\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.AspNet.Identity.Core.xml
+F:\Nafed By Rajesh Sir\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.AspNet.Identity.Owin.xml
+F:\Nafed By Rajesh Sir\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.AspNet.Identity.EntityFramework.xml
+F:\Nafed By Rajesh Sir\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.xml
+F:\Nafed By Rajesh Sir\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Host.SystemWeb.xml
+F:\Nafed By Rajesh Sir\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.xml
+F:\Nafed By Rajesh Sir\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.Facebook.xml
+F:\Nafed By Rajesh Sir\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.Cookies.xml
+F:\Nafed By Rajesh Sir\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.OAuth.xml
+F:\Nafed By Rajesh Sir\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.Google.xml
+F:\Nafed By Rajesh Sir\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.Twitter.xml
+F:\Nafed By Rajesh Sir\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
+F:\Nafed By Rajesh Sir\Nafed.MicroPay\Nafed.MicroPay.Web\obj\Debug\Nafed.MicroPay.Web.csprojResolveAssemblyReference.cache
+F:\Nafed By Rajesh Sir\Nafed.MicroPay\Nafed.MicroPay.Web\obj\Debug\MicroPay.Web.dll
+F:\Nafed By Rajesh Sir\Nafed.MicroPay\Nafed.MicroPay.Web\obj\Debug\MicroPay.Web.pdb
+F:\HR_And_Payroll\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\csc.exe
+F:\HR_And_Payroll\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+F:\HR_And_Payroll\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+F:\HR_And_Payroll\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\Microsoft.CodeAnalysis.dll
+F:\HR_And_Payroll\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+F:\HR_And_Payroll\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\Microsoft.CSharp.Core.targets
+F:\HR_And_Payroll\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\Microsoft.VisualBasic.Core.targets
+F:\HR_And_Payroll\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\System.Collections.Immutable.dll
+F:\HR_And_Payroll\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\System.Reflection.Metadata.dll
+F:\HR_And_Payroll\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\vbc.exe
+F:\HR_And_Payroll\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\VBCSCompiler.exe
+F:\HR_And_Payroll\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\VBCSCompiler.exe.config
+F:\HR_And_Payroll\Nafed.MicroPay\Nafed.MicroPay.Web\bin\MicroPay.Web.dll.config
+F:\HR_And_Payroll\Nafed.MicroPay\Nafed.MicroPay.Web\bin\MicroPay.Web.dll
+F:\HR_And_Payroll\Nafed.MicroPay\Nafed.MicroPay.Web\bin\MicroPay.Web.pdb
+F:\HR_And_Payroll\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Antlr3.Runtime.dll
+F:\HR_And_Payroll\Nafed.MicroPay\Nafed.MicroPay.Web\bin\EntityFramework.dll
+F:\HR_And_Payroll\Nafed.MicroPay\Nafed.MicroPay.Web\bin\EntityFramework.SqlServer.dll
+F:\HR_And_Payroll\Nafed.MicroPay\Nafed.MicroPay.Web\bin\log4net.dll
+F:\HR_And_Payroll\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.AspNet.Identity.Core.dll
+F:\HR_And_Payroll\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.AspNet.Identity.EntityFramework.dll
+F:\HR_And_Payroll\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.AspNet.Identity.Owin.dll
+F:\HR_And_Payroll\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+F:\HR_And_Payroll\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.dll
+F:\HR_And_Payroll\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Host.SystemWeb.dll
+F:\HR_And_Payroll\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.Cookies.dll
+F:\HR_And_Payroll\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.dll
+F:\HR_And_Payroll\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.Facebook.dll
+F:\HR_And_Payroll\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.Google.dll
+F:\HR_And_Payroll\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.MicrosoftAccount.dll
+F:\HR_And_Payroll\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.OAuth.dll
+F:\HR_And_Payroll\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.Twitter.dll
+F:\HR_And_Payroll\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Web.Infrastructure.dll
+F:\HR_And_Payroll\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Nafed.MicroPay.Common.dll
+F:\HR_And_Payroll\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Nafed.MicroPay.Data.dll
+F:\HR_And_Payroll\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Nafed.MicroPay.Model.dll
+F:\HR_And_Payroll\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Nafed.MicroPay.Services.dll
+F:\HR_And_Payroll\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Newtonsoft.Json.dll
+F:\HR_And_Payroll\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Owin.dll
+F:\HR_And_Payroll\Nafed.MicroPay\Nafed.MicroPay.Web\bin\PagedList.dll
+F:\HR_And_Payroll\Nafed.MicroPay\Nafed.MicroPay.Web\bin\PagedList.Mvc.dll
+F:\HR_And_Payroll\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Net.Http.Formatting.dll
+F:\HR_And_Payroll\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Runtime.CompilerServices.Unsafe.dll
+F:\HR_And_Payroll\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Helpers.dll
+F:\HR_And_Payroll\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Http.dll
+F:\HR_And_Payroll\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Http.WebHost.dll
+F:\HR_And_Payroll\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Mvc.dll
+F:\HR_And_Payroll\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Optimization.dll
+F:\HR_And_Payroll\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Razor.dll
+F:\HR_And_Payroll\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.WebPages.Deployment.dll
+F:\HR_And_Payroll\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.WebPages.dll
+F:\HR_And_Payroll\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.WebPages.Razor.dll
+F:\HR_And_Payroll\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Unity.Abstractions.dll
+F:\HR_And_Payroll\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Unity.Container.dll
+F:\HR_And_Payroll\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Unity.Mvc5.dll
+F:\HR_And_Payroll\Nafed.MicroPay\Nafed.MicroPay.Web\bin\WebGrease.dll
+F:\HR_And_Payroll\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Nafed.MicroPay.Data.pdb
+F:\HR_And_Payroll\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Nafed.MicroPay.Model.pdb
+F:\HR_And_Payroll\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Nafed.MicroPay.Services.pdb
+F:\HR_And_Payroll\Nafed.MicroPay\Nafed.MicroPay.Web\bin\log4net.xml
+F:\HR_And_Payroll\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+F:\HR_And_Payroll\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Nafed.MicroPay.Common.pdb
+F:\HR_And_Payroll\Nafed.MicroPay\Nafed.MicroPay.Web\bin\PagedList.xml
+F:\HR_And_Payroll\Nafed.MicroPay\Nafed.MicroPay.Web\bin\PagedList.Mvc.xml
+F:\HR_And_Payroll\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Net.Http.Formatting.xml
+F:\HR_And_Payroll\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Runtime.CompilerServices.Unsafe.xml
+F:\HR_And_Payroll\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Helpers.xml
+F:\HR_And_Payroll\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Http.xml
+F:\HR_And_Payroll\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Http.WebHost.xml
+F:\HR_And_Payroll\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Mvc.xml
+F:\HR_And_Payroll\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Razor.xml
+F:\HR_And_Payroll\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.WebPages.xml
+F:\HR_And_Payroll\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.WebPages.Deployment.xml
+F:\HR_And_Payroll\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.WebPages.Razor.xml
+F:\HR_And_Payroll\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Optimization.xml
+F:\HR_And_Payroll\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Unity.Abstractions.pdb
+F:\HR_And_Payroll\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Unity.Container.pdb
+F:\HR_And_Payroll\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Antlr3.Runtime.pdb
+F:\HR_And_Payroll\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Newtonsoft.Json.xml
+F:\HR_And_Payroll\Nafed.MicroPay\Nafed.MicroPay.Web\bin\EntityFramework.xml
+F:\HR_And_Payroll\Nafed.MicroPay\Nafed.MicroPay.Web\bin\EntityFramework.SqlServer.xml
+F:\HR_And_Payroll\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.AspNet.Identity.Core.xml
+F:\HR_And_Payroll\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.AspNet.Identity.Owin.xml
+F:\HR_And_Payroll\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.AspNet.Identity.EntityFramework.xml
+F:\HR_And_Payroll\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.xml
+F:\HR_And_Payroll\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Host.SystemWeb.xml
+F:\HR_And_Payroll\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.xml
+F:\HR_And_Payroll\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.Facebook.xml
+F:\HR_And_Payroll\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.Cookies.xml
+F:\HR_And_Payroll\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.OAuth.xml
+F:\HR_And_Payroll\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.Google.xml
+F:\HR_And_Payroll\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.Twitter.xml
+F:\HR_And_Payroll\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
+F:\HR_And_Payroll\Nafed.MicroPay\Nafed.MicroPay.Web\obj\Debug\Nafed.MicroPay.Web.csprojResolveAssemblyReference.cache
+F:\HR_And_Payroll\Nafed.MicroPay\Nafed.MicroPay.Web\obj\Debug\MicroPay.Web.dll
+F:\HR_And_Payroll\Nafed.MicroPay\Nafed.MicroPay.Web\obj\Debug\MicroPay.Web.pdb
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\csc.exe
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\Microsoft.CodeAnalysis.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\Microsoft.CSharp.Core.targets
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\Microsoft.VisualBasic.Core.targets
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\System.Collections.Immutable.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\System.Reflection.Metadata.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\vbc.exe
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\VBCSCompiler.exe
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\VBCSCompiler.exe.config
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\MicroPay.Web.dll.config
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\MicroPay.Web.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\MicroPay.Web.pdb
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Antlr3.Runtime.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\EntityFramework.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\EntityFramework.SqlServer.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\log4net.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.AspNet.Identity.Core.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.AspNet.Identity.EntityFramework.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.AspNet.Identity.Owin.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Host.SystemWeb.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.Cookies.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.Facebook.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.Google.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.MicrosoftAccount.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.OAuth.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.Twitter.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Web.Infrastructure.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Nafed.MicroPay.Common.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Nafed.MicroPay.Data.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Nafed.MicroPay.ImportExport.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Nafed.MicroPay.Model.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Nafed.MicroPay.Services.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Newtonsoft.Json.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Owin.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\PagedList.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\PagedList.Mvc.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Net.Http.Formatting.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Runtime.CompilerServices.Unsafe.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Helpers.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Http.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Http.WebHost.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Mvc.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Optimization.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Razor.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.WebPages.Deployment.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.WebPages.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.WebPages.Razor.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Unity.Abstractions.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Unity.Container.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Unity.Mvc5.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\WebGrease.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\NPOI.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\NPOI.OOXML.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\ICSharpCode.SharpZipLib.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\NPOI.OpenXml4Net.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\NPOI.OpenXmlFormats.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Nafed.MicroPay.Data.pdb
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Nafed.MicroPay.ImportExport.pdb
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Nafed.MicroPay.Model.pdb
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Nafed.MicroPay.Services.pdb
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\log4net.xml
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Nafed.MicroPay.Common.pdb
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\PagedList.xml
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\PagedList.Mvc.xml
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Net.Http.Formatting.xml
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Runtime.CompilerServices.Unsafe.xml
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Helpers.xml
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Http.xml
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Http.WebHost.xml
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Mvc.xml
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Razor.xml
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.WebPages.xml
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.WebPages.Deployment.xml
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.WebPages.Razor.xml
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Optimization.xml
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Unity.Abstractions.pdb
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Unity.Container.pdb
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Antlr3.Runtime.pdb
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Newtonsoft.Json.xml
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\EntityFramework.xml
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\EntityFramework.SqlServer.xml
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.AspNet.Identity.Core.xml
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.AspNet.Identity.Owin.xml
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.AspNet.Identity.EntityFramework.xml
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.xml
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Host.SystemWeb.xml
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.xml
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.Facebook.xml
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.Cookies.xml
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.OAuth.xml
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.Google.xml
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.Twitter.xml
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\bin\ICSharpCode.SharpZipLib.xml
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\obj\Debug\Nafed.MicroPay.Web.csprojResolveAssemblyReference.cache
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\obj\Debug\MicroPay.Web.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.Web\obj\Debug\MicroPay.Web.pdb
+F:\NAFED\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\csc.exe
+F:\NAFED\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+F:\NAFED\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+F:\NAFED\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\Microsoft.CodeAnalysis.dll
+F:\NAFED\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+F:\NAFED\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\Microsoft.CSharp.Core.targets
+F:\NAFED\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\Microsoft.VisualBasic.Core.targets
+F:\NAFED\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\System.Collections.Immutable.dll
+F:\NAFED\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\System.Reflection.Metadata.dll
+F:\NAFED\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\vbc.exe
+F:\NAFED\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\VBCSCompiler.exe
+F:\NAFED\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\VBCSCompiler.exe.config
+F:\NAFED\Nafed.MicroPay\Nafed.MicroPay.Web\bin\MicroPay.Web.dll.config
+F:\NAFED\Nafed.MicroPay\Nafed.MicroPay.Web\bin\MicroPay.Web.dll
+F:\NAFED\Nafed.MicroPay\Nafed.MicroPay.Web\bin\MicroPay.Web.pdb
+F:\NAFED\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Antlr3.Runtime.dll
+F:\NAFED\Nafed.MicroPay\Nafed.MicroPay.Web\bin\EntityFramework.dll
+F:\NAFED\Nafed.MicroPay\Nafed.MicroPay.Web\bin\EntityFramework.SqlServer.dll
+F:\NAFED\Nafed.MicroPay\Nafed.MicroPay.Web\bin\log4net.dll
+F:\NAFED\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.AspNet.Identity.Core.dll
+F:\NAFED\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.AspNet.Identity.EntityFramework.dll
+F:\NAFED\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.AspNet.Identity.Owin.dll
+F:\NAFED\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+F:\NAFED\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.dll
+F:\NAFED\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Host.SystemWeb.dll
+F:\NAFED\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.Cookies.dll
+F:\NAFED\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.dll
+F:\NAFED\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.Facebook.dll
+F:\NAFED\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.Google.dll
+F:\NAFED\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.MicrosoftAccount.dll
+F:\NAFED\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.OAuth.dll
+F:\NAFED\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.Twitter.dll
+F:\NAFED\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Web.Infrastructure.dll
+F:\NAFED\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Nafed.MicroPay.Common.dll
+F:\NAFED\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Nafed.MicroPay.Data.dll
+F:\NAFED\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Nafed.MicroPay.ImportExport.dll
+F:\NAFED\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Nafed.MicroPay.Model.dll
+F:\NAFED\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Nafed.MicroPay.Services.dll
+F:\NAFED\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Newtonsoft.Json.dll
+F:\NAFED\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Owin.dll
+F:\NAFED\Nafed.MicroPay\Nafed.MicroPay.Web\bin\PagedList.dll
+F:\NAFED\Nafed.MicroPay\Nafed.MicroPay.Web\bin\PagedList.Mvc.dll
+F:\NAFED\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Net.Http.Formatting.dll
+F:\NAFED\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Runtime.CompilerServices.Unsafe.dll
+F:\NAFED\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Helpers.dll
+F:\NAFED\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Http.dll
+F:\NAFED\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Http.WebHost.dll
+F:\NAFED\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Mvc.dll
+F:\NAFED\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Optimization.dll
+F:\NAFED\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Razor.dll
+F:\NAFED\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.WebPages.Deployment.dll
+F:\NAFED\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.WebPages.dll
+F:\NAFED\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.WebPages.Razor.dll
+F:\NAFED\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Unity.Abstractions.dll
+F:\NAFED\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Unity.Container.dll
+F:\NAFED\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Unity.Mvc5.dll
+F:\NAFED\Nafed.MicroPay\Nafed.MicroPay.Web\bin\WebGrease.dll
+F:\NAFED\Nafed.MicroPay\Nafed.MicroPay.Web\bin\NPOI.dll
+F:\NAFED\Nafed.MicroPay\Nafed.MicroPay.Web\bin\NPOI.OOXML.dll
+F:\NAFED\Nafed.MicroPay\Nafed.MicroPay.Web\bin\ICSharpCode.SharpZipLib.dll
+F:\NAFED\Nafed.MicroPay\Nafed.MicroPay.Web\bin\NPOI.OpenXml4Net.dll
+F:\NAFED\Nafed.MicroPay\Nafed.MicroPay.Web\bin\NPOI.OpenXmlFormats.dll
+F:\NAFED\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Nafed.MicroPay.Data.pdb
+F:\NAFED\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Nafed.MicroPay.ImportExport.pdb
+F:\NAFED\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Nafed.MicroPay.Model.pdb
+F:\NAFED\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Nafed.MicroPay.Services.pdb
+F:\NAFED\Nafed.MicroPay\Nafed.MicroPay.Web\bin\AutoMapper.xml
+F:\NAFED\Nafed.MicroPay\Nafed.MicroPay.Web\bin\log4net.xml
+F:\NAFED\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+F:\NAFED\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Nafed.MicroPay.Common.pdb
+F:\NAFED\Nafed.MicroPay\Nafed.MicroPay.Web\bin\PagedList.xml
+F:\NAFED\Nafed.MicroPay\Nafed.MicroPay.Web\bin\PagedList.Mvc.xml
+F:\NAFED\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Net.Http.Formatting.xml
+F:\NAFED\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Runtime.CompilerServices.Unsafe.xml
+F:\NAFED\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Helpers.xml
+F:\NAFED\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Http.xml
+F:\NAFED\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Http.WebHost.xml
+F:\NAFED\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Mvc.xml
+F:\NAFED\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Razor.xml
+F:\NAFED\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.WebPages.xml
+F:\NAFED\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.WebPages.Deployment.xml
+F:\NAFED\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.WebPages.Razor.xml
+F:\NAFED\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Optimization.xml
+F:\NAFED\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Unity.Abstractions.pdb
+F:\NAFED\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Unity.Container.pdb
+F:\NAFED\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Antlr3.Runtime.pdb
+F:\NAFED\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Newtonsoft.Json.xml
+F:\NAFED\Nafed.MicroPay\Nafed.MicroPay.Web\bin\EntityFramework.xml
+F:\NAFED\Nafed.MicroPay\Nafed.MicroPay.Web\bin\EntityFramework.SqlServer.xml
+F:\NAFED\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.AspNet.Identity.Core.xml
+F:\NAFED\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.AspNet.Identity.Owin.xml
+F:\NAFED\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.AspNet.Identity.EntityFramework.xml
+F:\NAFED\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.xml
+F:\NAFED\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Host.SystemWeb.xml
+F:\NAFED\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.xml
+F:\NAFED\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.Facebook.xml
+F:\NAFED\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.Cookies.xml
+F:\NAFED\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.OAuth.xml
+F:\NAFED\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.Google.xml
+F:\NAFED\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.Twitter.xml
+F:\NAFED\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
+F:\NAFED\Nafed.MicroPay\Nafed.MicroPay.Web\bin\ICSharpCode.SharpZipLib.xml
+F:\NAFED\Nafed.MicroPay\Nafed.MicroPay.Web\obj\Debug\Nafed.MicroPay.Web.csprojResolveAssemblyReference.cache
+F:\NAFED\Nafed.MicroPay\Nafed.MicroPay.Web\obj\Debug\MicroPay.Web.dll
+F:\NAFED\Nafed.MicroPay\Nafed.MicroPay.Web\obj\Debug\MicroPay.Web.pdb
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\csc.exe
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\Microsoft.CodeAnalysis.dll
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\Microsoft.CSharp.Core.targets
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\Microsoft.VisualBasic.Core.targets
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\System.Collections.Immutable.dll
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\System.Reflection.Metadata.dll
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\vbc.exe
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\VBCSCompiler.exe
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\VBCSCompiler.exe.config
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Web\bin\MicroPay.Web.dll.config
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Web\bin\MicroPay.Web.dll
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Web\bin\MicroPay.Web.pdb
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Antlr3.Runtime.dll
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Web\bin\CrystalDecisions.CrystalReports.Engine.dll
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Web\bin\CrystalDecisions.ReportSource.dll
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Web\bin\CrystalDecisions.Shared.dll
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Web\bin\CrystalDecisions.Web.dll
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Web\bin\EntityFramework.dll
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Web\bin\EntityFramework.SqlServer.dll
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Web\bin\log4net.dll
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.AspNet.Identity.Core.dll
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.AspNet.Identity.EntityFramework.dll
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.AspNet.Identity.Owin.dll
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.dll
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Host.SystemWeb.dll
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.Cookies.dll
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.dll
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.Facebook.dll
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.Google.dll
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.MicrosoftAccount.dll
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.OAuth.dll
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.Twitter.dll
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Web.Infrastructure.dll
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Web\bin\MvcCheckBoxList.dll
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Nafed.MicroPay.Common.dll
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Nafed.MicroPay.Data.dll
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Nafed.MicroPay.ImportExport.dll
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Nafed.MicroPay.Model.dll
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Nafed.MicroPay.Services.dll
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Newtonsoft.Json.dll
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Owin.dll
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Web\bin\PagedList.dll
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Web\bin\PagedList.Mvc.dll
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Net.Http.Formatting.dll
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Runtime.CompilerServices.Unsafe.dll
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Helpers.dll
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Http.dll
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Http.WebHost.dll
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Mvc.dll
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Optimization.dll
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Razor.dll
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.WebPages.Deployment.dll
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.WebPages.dll
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.WebPages.Razor.dll
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Unity.Abstractions.dll
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Unity.Container.dll
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Unity.Mvc5.dll
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Web\bin\WebGrease.dll
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Web\bin\NPOI.dll
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Web\bin\NPOI.OOXML.dll
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Web\bin\itextsharp.dll
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Web\bin\CrystalDecisions.ReportAppServer.DataDefModel.dll
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Web\bin\CrystalDecisions.ReportAppServer.ClientDoc.dll
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Web\bin\CrystalDecisions.ReportAppServer.ReportDefModel.dll
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Web\bin\CrystalDecisions.ReportAppServer.Controllers.dll
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Web\bin\CrystalDecisions.ReportAppServer.CommLayer.dll
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Web\bin\CrystalDecisions.ReportAppServer.DataSetConversion.dll
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Web\bin\CrystalDecisions.ReportAppServer.Prompting.dll
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Web\bin\CrystalDecisions.ReportAppServer.XmlSerialize.dll
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Web\bin\CrystalDecisions.ReportAppServer.CubeDefModel.dll
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Web\bin\CrystalDecisions.ReportAppServer.CommonObjectModel.dll
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Web\bin\CrystalDecisions.ReportAppServer.ObjectFactory.dll
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Web\bin\ICSharpCode.SharpZipLib.dll
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Web\bin\NPOI.OpenXml4Net.dll
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Web\bin\NPOI.OpenXmlFormats.dll
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Web\bin\CrystalDecisions.ReportAppServer.CommonControls.dll
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Web\bin\stdole.dll
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Nafed.MicroPay.Common.pdb
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Nafed.MicroPay.Data.pdb
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Nafed.MicroPay.ImportExport.pdb
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Nafed.MicroPay.Model.pdb
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Nafed.MicroPay.Services.pdb
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Web\bin\log4net.xml
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Web\bin\PagedList.xml
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Web\bin\PagedList.Mvc.xml
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Net.Http.Formatting.xml
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Runtime.CompilerServices.Unsafe.xml
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Helpers.xml
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Http.xml
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Http.WebHost.xml
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Mvc.xml
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Razor.xml
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.WebPages.xml
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.WebPages.Deployment.xml
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.WebPages.Razor.xml
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Optimization.xml
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Unity.Abstractions.pdb
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Unity.Container.pdb
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Antlr3.Runtime.pdb
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Newtonsoft.Json.xml
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Web\bin\EntityFramework.xml
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Web\bin\EntityFramework.SqlServer.xml
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.AspNet.Identity.Core.xml
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.AspNet.Identity.Owin.xml
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.AspNet.Identity.EntityFramework.xml
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.xml
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Host.SystemWeb.xml
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.xml
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.Facebook.xml
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.Cookies.xml
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.OAuth.xml
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.Google.xml
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.Twitter.xml
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Web\bin\itextsharp.xml
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Web\bin\ICSharpCode.SharpZipLib.xml
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Web\obj\Debug\Nafed.MicroPay.Web.csprojResolveAssemblyReference.cache
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Web\obj\Debug\MicroPay.Web.dll
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Web\obj\Debug\MicroPay.Web.pdb
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\csc.exe
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\Microsoft.CodeAnalysis.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\Microsoft.CSharp.Core.targets
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\Microsoft.VisualBasic.Core.targets
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\System.Collections.Immutable.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\System.Reflection.Metadata.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\vbc.exe
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\VBCSCompiler.exe
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\VBCSCompiler.exe.config
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Web\bin\MicroPay.Web.dll.config
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Web\bin\MicroPay.Web.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Web\bin\MicroPay.Web.pdb
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Antlr3.Runtime.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Web\bin\CrystalDecisions.CrystalReports.Engine.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Web\bin\CrystalDecisions.ReportSource.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Web\bin\CrystalDecisions.Shared.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Web\bin\CrystalDecisions.Web.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Web\bin\EntityFramework.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Web\bin\EntityFramework.SqlServer.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Web\bin\log4net.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.AspNet.Identity.Core.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.AspNet.Identity.EntityFramework.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.AspNet.Identity.Owin.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Host.SystemWeb.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.Cookies.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.Facebook.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.Google.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.MicrosoftAccount.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.OAuth.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.Twitter.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Web.Infrastructure.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Web\bin\MvcCheckBoxList.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Nafed.MicroPay.Common.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Nafed.MicroPay.Data.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Nafed.MicroPay.ImportExport.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Nafed.MicroPay.Model.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Nafed.MicroPay.Services.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Newtonsoft.Json.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Owin.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Web\bin\PagedList.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Web\bin\PagedList.Mvc.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Net.Http.Formatting.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Runtime.CompilerServices.Unsafe.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Helpers.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Http.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Http.WebHost.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Mvc.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Optimization.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Razor.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.WebPages.Deployment.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.WebPages.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.WebPages.Razor.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Unity.Abstractions.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Unity.Container.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Unity.Mvc5.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Web\bin\WebGrease.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Web\bin\NPOI.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Web\bin\NPOI.OOXML.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Web\bin\itextsharp.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Web\bin\CrystalDecisions.ReportAppServer.DataDefModel.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Web\bin\CrystalDecisions.ReportAppServer.ClientDoc.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Web\bin\CrystalDecisions.ReportAppServer.ReportDefModel.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Web\bin\CrystalDecisions.ReportAppServer.Controllers.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Web\bin\CrystalDecisions.ReportAppServer.CommLayer.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Web\bin\CrystalDecisions.ReportAppServer.DataSetConversion.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Web\bin\CrystalDecisions.ReportAppServer.Prompting.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Web\bin\CrystalDecisions.ReportAppServer.XmlSerialize.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Web\bin\CrystalDecisions.ReportAppServer.CubeDefModel.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Web\bin\CrystalDecisions.ReportAppServer.CommonObjectModel.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Web\bin\CrystalDecisions.ReportAppServer.ObjectFactory.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Web\bin\ICSharpCode.SharpZipLib.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Web\bin\NPOI.OpenXml4Net.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Web\bin\NPOI.OpenXmlFormats.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Web\bin\CrystalDecisions.ReportAppServer.CommonControls.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Web\bin\stdole.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Nafed.MicroPay.Common.pdb
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Nafed.MicroPay.Data.pdb
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Nafed.MicroPay.ImportExport.pdb
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Nafed.MicroPay.Model.pdb
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Nafed.MicroPay.Services.pdb
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Web\bin\log4net.xml
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Web\bin\PagedList.xml
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Web\bin\PagedList.Mvc.xml
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Net.Http.Formatting.xml
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Runtime.CompilerServices.Unsafe.xml
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Helpers.xml
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Http.xml
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Http.WebHost.xml
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Mvc.xml
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Razor.xml
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.WebPages.xml
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.WebPages.Deployment.xml
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.WebPages.Razor.xml
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Optimization.xml
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Unity.Abstractions.pdb
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Unity.Container.pdb
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Antlr3.Runtime.pdb
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Newtonsoft.Json.xml
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Web\bin\EntityFramework.xml
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Web\bin\EntityFramework.SqlServer.xml
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.AspNet.Identity.Core.xml
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.AspNet.Identity.Owin.xml
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.AspNet.Identity.EntityFramework.xml
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.xml
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Host.SystemWeb.xml
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.xml
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.Facebook.xml
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.Cookies.xml
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.OAuth.xml
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.Google.xml
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.Twitter.xml
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Web\bin\itextsharp.xml
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Web\bin\ICSharpCode.SharpZipLib.xml
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Web\obj\Debug\Nafed.MicroPay.Web.csprojResolveAssemblyReference.cache
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Web\obj\Debug\MicroPay.Web.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Web\obj\Debug\MicroPay.Web.pdb
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\csc.exe
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\Microsoft.CodeAnalysis.dll
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\Microsoft.CSharp.Core.targets
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\Microsoft.VisualBasic.Core.targets
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\System.Collections.Immutable.dll
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\System.Reflection.Metadata.dll
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\vbc.exe
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\VBCSCompiler.exe
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\VBCSCompiler.exe.config
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Web\bin\MicroPay.Web.dll.config
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Web\bin\MicroPay.Web.dll
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Web\bin\MicroPay.Web.pdb
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Antlr3.Runtime.dll
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Web\bin\CrystalDecisions.CrystalReports.Engine.dll
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Web\bin\CrystalDecisions.ReportSource.dll
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Web\bin\CrystalDecisions.Shared.dll
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Web\bin\CrystalDecisions.Web.dll
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Web\bin\EntityFramework.dll
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Web\bin\EntityFramework.SqlServer.dll
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Web\bin\log4net.dll
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.AspNet.Identity.Core.dll
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.AspNet.Identity.EntityFramework.dll
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.AspNet.Identity.Owin.dll
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.dll
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Host.SystemWeb.dll
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.Cookies.dll
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.dll
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.Facebook.dll
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.Google.dll
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.MicrosoftAccount.dll
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.OAuth.dll
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.Twitter.dll
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Web.Infrastructure.dll
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Web\bin\MvcCheckBoxList.dll
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Nafed.MicroPay.Common.dll
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Nafed.MicroPay.Data.dll
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Nafed.MicroPay.ImportExport.dll
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Nafed.MicroPay.Model.dll
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Nafed.MicroPay.Services.dll
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Newtonsoft.Json.dll
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Owin.dll
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Web\bin\PagedList.dll
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Web\bin\PagedList.Mvc.dll
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Net.Http.Formatting.dll
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Runtime.CompilerServices.Unsafe.dll
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Helpers.dll
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Http.dll
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Http.WebHost.dll
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Mvc.dll
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Optimization.dll
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Razor.dll
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.WebPages.Deployment.dll
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.WebPages.dll
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.WebPages.Razor.dll
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Unity.Abstractions.dll
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Unity.Container.dll
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Unity.Mvc5.dll
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Web\bin\WebGrease.dll
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Web\bin\NPOI.OOXML.dll
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Web\bin\NPOI.dll
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Web\bin\itextsharp.dll
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Web\bin\CrystalDecisions.ReportAppServer.DataDefModel.dll
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Web\bin\CrystalDecisions.ReportAppServer.ClientDoc.dll
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Web\bin\CrystalDecisions.ReportAppServer.ReportDefModel.dll
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Web\bin\CrystalDecisions.ReportAppServer.Controllers.dll
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Web\bin\CrystalDecisions.ReportAppServer.CommLayer.dll
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Web\bin\CrystalDecisions.ReportAppServer.DataSetConversion.dll
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Web\bin\CrystalDecisions.ReportAppServer.Prompting.dll
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Web\bin\CrystalDecisions.ReportAppServer.XmlSerialize.dll
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Web\bin\CrystalDecisions.ReportAppServer.CubeDefModel.dll
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Web\bin\CrystalDecisions.ReportAppServer.CommonObjectModel.dll
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Web\bin\CrystalDecisions.ReportAppServer.ObjectFactory.dll
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Web\bin\NPOI.OpenXml4Net.dll
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Web\bin\NPOI.OpenXmlFormats.dll
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Web\bin\ICSharpCode.SharpZipLib.dll
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Web\bin\CrystalDecisions.ReportAppServer.CommonControls.dll
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Web\bin\stdole.dll
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Nafed.MicroPay.Common.pdb
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Nafed.MicroPay.Data.pdb
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Nafed.MicroPay.ImportExport.pdb
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Nafed.MicroPay.Model.pdb
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Nafed.MicroPay.Services.pdb
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Web\bin\log4net.xml
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Web\bin\PagedList.xml
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Web\bin\PagedList.Mvc.xml
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Net.Http.Formatting.xml
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Runtime.CompilerServices.Unsafe.xml
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Helpers.xml
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Http.xml
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Http.WebHost.xml
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Mvc.xml
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Razor.xml
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.WebPages.xml
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.WebPages.Deployment.xml
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.WebPages.Razor.xml
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Optimization.xml
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Unity.Abstractions.pdb
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Unity.Container.pdb
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Antlr3.Runtime.pdb
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Newtonsoft.Json.xml
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Web\bin\EntityFramework.xml
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Web\bin\EntityFramework.SqlServer.xml
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.AspNet.Identity.Core.xml
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.AspNet.Identity.Owin.xml
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.AspNet.Identity.EntityFramework.xml
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.xml
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Host.SystemWeb.xml
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.xml
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.Facebook.xml
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.Cookies.xml
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.OAuth.xml
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.Google.xml
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.Twitter.xml
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Web\bin\itextsharp.xml
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Web\bin\ICSharpCode.SharpZipLib.xml
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Web\obj\Debug\MicroPay.Web.dll
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Web\obj\Debug\MicroPay.Web.pdb
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Web\obj\Debug\Nafed.MicroPay.Web.csprojResolveAssemblyReference.cache
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\csc.exe
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\Microsoft.CodeAnalysis.dll
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\Microsoft.CSharp.Core.targets
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\Microsoft.VisualBasic.Core.targets
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\System.Collections.Immutable.dll
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\System.Reflection.Metadata.dll
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\vbc.exe
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\VBCSCompiler.exe
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\bin\roslyn\VBCSCompiler.exe.config
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\bin\MicroPay.Web.dll.config
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\bin\MicroPay.Web.dll
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\bin\MicroPay.Web.pdb
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\bin\AntiXssLibrary.dll
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Antlr3.Runtime.dll
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\bin\CaptchaMvc.dll
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\bin\EntityFramework.dll
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\bin\EntityFramework.SqlServer.dll
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\bin\HtmlSanitizationLibrary.dll
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\bin\log4net.dll
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.AspNet.Identity.Core.dll
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.AspNet.Identity.EntityFramework.dll
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.AspNet.Identity.Owin.dll
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.dll
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Host.SystemWeb.dll
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.Cookies.dll
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.dll
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.Facebook.dll
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.Google.dll
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.MicrosoftAccount.dll
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.OAuth.dll
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.Twitter.dll
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Web.Infrastructure.dll
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\bin\MvcCheckBoxList.dll
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Nafed.MicroPay.Common.dll
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Nafed.MicroPay.Data.dll
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Nafed.MicroPay.ImportExport.dll
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Nafed.MicroPay.Model.dll
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Nafed.MicroPay.Services.dll
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Newtonsoft.Json.dll
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Owin.dll
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\bin\PagedList.dll
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\bin\PagedList.Mvc.dll
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Net.Http.Formatting.dll
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Runtime.CompilerServices.Unsafe.dll
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Helpers.dll
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Http.dll
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Http.WebHost.dll
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Mvc.dll
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Optimization.dll
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Razor.dll
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.WebPages.Deployment.dll
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.WebPages.dll
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.WebPages.Razor.dll
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Unity.Abstractions.dll
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Unity.Container.dll
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Unity.Mvc5.dll
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\bin\WebGrease.dll
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\bin\NPOI.OOXML.dll
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\bin\NPOI.dll
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\bin\itextsharp.dll
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\bin\CrystalDecisions.ReportAppServer.DataDefModel.dll
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\bin\CrystalDecisions.ReportAppServer.ClientDoc.dll
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\bin\CrystalDecisions.ReportAppServer.ReportDefModel.dll
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\bin\CrystalDecisions.ReportAppServer.Controllers.dll
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\bin\CrystalDecisions.ReportAppServer.CommLayer.dll
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\bin\CrystalDecisions.ReportAppServer.DataSetConversion.dll
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\bin\CrystalDecisions.ReportAppServer.Prompting.dll
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\bin\CrystalDecisions.ReportAppServer.XmlSerialize.dll
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\bin\CrystalDecisions.ReportAppServer.CubeDefModel.dll
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\bin\CrystalDecisions.ReportAppServer.CommonObjectModel.dll
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\bin\CrystalDecisions.ReportAppServer.ObjectFactory.dll
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\bin\NPOI.OpenXml4Net.dll
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\bin\NPOI.OpenXmlFormats.dll
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\bin\ICSharpCode.SharpZipLib.dll
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\bin\CrystalDecisions.ReportAppServer.CommonControls.dll
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\bin\stdole.dll
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Nafed.MicroPay.Common.pdb
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Nafed.MicroPay.Data.pdb
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Nafed.MicroPay.ImportExport.pdb
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Nafed.MicroPay.Model.pdb
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Nafed.MicroPay.Services.pdb
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\bin\AntiXssLibrary.xml
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\bin\CaptchaMvc.pdb
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\bin\CaptchaMvc.xml
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\bin\HtmlSanitizationLibrary.xml
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\bin\log4net.xml
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\bin\PagedList.xml
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\bin\PagedList.Mvc.xml
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Net.Http.Formatting.xml
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Runtime.CompilerServices.Unsafe.xml
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Helpers.xml
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Http.xml
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Http.WebHost.xml
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Mvc.xml
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Razor.xml
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.WebPages.xml
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.WebPages.Deployment.xml
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.WebPages.Razor.xml
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\bin\System.Web.Optimization.xml
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Unity.Abstractions.pdb
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Unity.Container.pdb
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Antlr3.Runtime.pdb
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Newtonsoft.Json.xml
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\bin\EntityFramework.xml
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\bin\EntityFramework.SqlServer.xml
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.AspNet.Identity.Core.xml
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.AspNet.Identity.Owin.xml
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.AspNet.Identity.EntityFramework.xml
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.xml
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Host.SystemWeb.xml
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.xml
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.Facebook.xml
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.Cookies.xml
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.OAuth.xml
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.Google.xml
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.Twitter.xml
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\bin\itextsharp.xml
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\bin\ICSharpCode.SharpZipLib.xml
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\obj\Debug\MicroPay.Web.dll
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\obj\Debug\MicroPay.Web.pdb
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Nafed.MicroPay.Data.dll.config
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Nafed.MicroPay.ImportExport.dll.config
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\bin\Nafed.MicroPay.Services.dll.config
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\obj\Debug\Nafed.MicroPay.Web.csproj.AssemblyReference.cache
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\obj\Debug\Nafed.MicroPay.Web.csproj.CoreCompileInputs.cache
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\obj\Debug\Nafed.MicroPay.Web.csproj.CopyComplete
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\bin\CrystalDecisions.CrystalReports.Engine.dll
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\bin\CrystalDecisions.ReportSource.dll
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\bin\CrystalDecisions.Shared.dll
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\bin\CrystalDecisions.Web.dll

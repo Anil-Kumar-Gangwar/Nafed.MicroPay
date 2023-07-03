@@ -1,0 +1,98 @@
+﻿@using Nafed.MicroPay.Model
+@using MicroPay.Web.Models
+@model TrainingFeedBackFormViewModel
+
+<script type="text/javascript">
+    $('.toggle-tooltip').tooltip();
+</script>
+
+
+<table class="table table-bordered table-centered dt-responsive w-100 mb-0">
+    <thead>
+        <tr>
+            <th colspan="3">
+                Part-I	Training Relevance and Structure
+            </th>
+        </tr>
+        <tr>
+            <th colspan="3">
+                Please tick one box for each question
+                <span style="font-weight:normal">(on the rating scale of 0 to 5 where 0 being the lowest and 5 being the highest)</span>
+
+            </th>
+        </tr>
+<tr>
+            @*<th>#</th>*@
+            <th class="required" style="width:10%">Prefix</th>
+            <th class="text-center required">Question</th>
+            @*<th class="text-center required" style="width:10%">DisplayOrder</th>
+            <th class="text-center" style="width:10%">Display In Bold</th>*@
+            <th class="text-center" style="width:10%">
+                <button type="submit" value="Part1" name="ButtonType" class="btn btn-info btn-md pull-center toggle-tooltip btn-sectionAddRow">
+                    Add Row
+                </button>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.TrainingFeedBackFormList != null && Model.TrainingFeedBackFormList.Count() > 0)
+        {
+            TempData["EmployeeFeedbackFormpart1List"] = Model;
+
+            for (int i = 0; i < Model.TrainingFeedBackFormList.Count(); i++)
+            {
+                <tr>
+                    @*<td class="text-right" style="width:5%">@(i + 1)<text>.</text> </td>*@
+                    <td style="width:10%">
+                        @Html.HiddenFor(model => model.TrainingFeedBackFormList[i].PartNo)
+                        @Html.EditorFor(model => model.TrainingFeedBackFormList[i].SectionPrefix, new { htmlAttributes = new { @class = "form-control", @maxlength = "5" } })
+                        @Html.ValidationMessageFor(m => Model.TrainingFeedBackFormList[i].SectionPrefix, "", new { @class = "text-danger" })
+
+                    </td>
+
+                    <td>
+                        @Html.EditorFor(model => model.TrainingFeedBackFormList[i].Section, new { htmlAttributes = new { @class = "form-control", @maxlength = "1000" } })
+                        @Html.ValidationMessageFor(m => Model.TrainingFeedBackFormList[i].Section, "", new { @class = "text-danger" })
+                    </td>
+
+                    @*<td>
+
+                        @Html.EditorFor(model => model.TrainingFeedBackFormList[i].DisplayOrder, new { htmlAttributes = new { @class = "form-control text-right", @type = "number", @min = "1", @max = "100" } })
+                        @Html.ValidationMessageFor(m => Model.TrainingFeedBackFormList[i].DisplayOrder, "", new { @class = "text-danger" })
+                    </td>
+                    <td>
+
+                        @Html.EditorFor(model => model.TrainingFeedBackFormList[i].DisplayInBold, new { htmlAttributes = new { @class = "form-control text-center", @style = "width:20px;height:20px;" } })
+                        @Html.ValidationMessageFor(m => Model.TrainingFeedBackFormList[i].DisplayInBold, "", new { @class = "text-danger" })
+                    </td>*@
+
+
+                    <td class="text-center">
+
+                        @Ajax.ActionLink("Remove",
+                             "_RemoveFeedbackRowPart1", new
+                             {
+                                 sNo = Model.TrainingFeedBackFormList[i].sno
+                             },
+                             new AjaxOptions
+                             {
+                                 // OnBegin = "OnBegin('tr_" + @sno + "')",
+                                 // OnSuccess = "OnRowDeletedSuccess",
+                                 UpdateTargetId = "div-Feedbackpart1-grid",
+                                 InsertionMode = InsertionMode.Replace,
+                                 Confirm = "Are you sure you want to remove this row?",
+                                 HttpMethod = "GET"
+                             }, new { @class = "btn btn-danger btn-xs toggle-tooltip btn-sectionAddRow", @title = "Click here, to remove this row." })
+                    </td>
+                </tr>
+
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="3" class="text-center">No Record Found. </td>
+            </tr>
+        }
+    </tbody>
+</table>

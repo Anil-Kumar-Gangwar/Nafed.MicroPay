@@ -1,0 +1,13 @@
+﻿@{
+    ViewBag.Title = "Yearly Report";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Ajax.BeginForm("_YearlyRegisterReport", "YearlyReport", new AjaxOptions { HttpMethod = "POST", OnSuccess = "OnReportSuccess" }))
+{
+    <div id="div-report-filters">
+        @Html.Action("_YearlyRegisterReportDetails")
+    </div>
+}
+
+

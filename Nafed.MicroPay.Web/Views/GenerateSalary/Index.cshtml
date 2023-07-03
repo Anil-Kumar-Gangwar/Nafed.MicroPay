@@ -1,0 +1,140 @@
+﻿@using Nafed.MicroPay.Model
+@model RegularEmployeeSalary
+@{
+    ViewBag.Title = "Generate Salary";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var yearDDl = Enumerable.Range(2006, DateTime.Now.Year - 2006 + 1)
+        .Select(i => new SelectListModel { id = i, value = i.ToString() })
+        .OrderByDescending(x => x.value).ToList();
+}
+
+<div class="row">
+
+    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12" id="dv-left-section">
+        @using (Ajax.BeginForm("_GenerateSalaryForm", "GenerateSalary", new AjaxOptions
+        {
+            HttpMethod = "POST",
+            OnSuccess = "OnSuccess" @*,UpdateTargetId= "div-sal-form"*@
+        }))
+        {
+            <div class="row" id="div-sal-form">
+
+                @Html.Action("_GenerateSalaryForm")
+
+            </div>
+        }
+    </div>
+
+    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12" id="dv-right-section">
+
+        <script type="text/javascript">
+
+            $(function () {
+                $("#frm-generated-sal").submit();
+
+            });
+        </script>
+
+        <fieldset class="border p-2 col-md-12 col-xs-12 col-lg-12 col-xl-12">
+
+            <legend class="w-auto">Generated Salary List</legend>
+
+            @using (Ajax.BeginForm("_GeneratedSalaryGridView", "GenerateSalary",
+                new AjaxOptions
+                {
+                    HttpMethod = "POST",
+                    UpdateTargetId = "dv-generated-sal-grid"
+                    //   ,  OnSuccess = "loadGrid_Success"
+                },
+                new { id = "frm-generated-sal" }))
+            {
+                <div class="form-group">
+
+                    <div class="row">
+
+                        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                            @Html.LabelFor(model => model.salYear, new { @class = "control-label" })
+                        </div>
+
+                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+
+                            @Html.DropDownListFor(model => model.salYear, new SelectList(yearDDl, "id", "value"), new { @class = "custom-select" })
+
+                        </div>
+
+                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+
+                            <input type="submit" value="View" class="btn btn-info btn-md pull-center toggle-tooltip" title="Click here, to view generated salary list." />
+
+                        </div>
+                    </div>
+
+                </div>
+
+                <hr />
+
+                <div id="dv-generated-sal-grid">
+
+                    @{
+                        Html.RenderAction("_GeneratedSalaryGridView");
+                    }
+
+                </div>
+                        }
+        </fieldset>
+    </div>
+
+
+</div>
+
+<style>
+    .C_error {
+        border: 1px solid #e9b4b4;
+        color: #a93538;
+        background-color: #f5dede;
+    }
+</style>
+
+
+<script type="text/javascript">
+
+
+    function OnSuccess(data) {
+
+        if (data.rdct == 1)
+            window.location.href = data.Url;
+
+        if (data.success != undefined && data.success == "1") {
+
+            commonMessage("success", data.msg);
+            window.location.reload();
+            // $("#div-sal-form").html(data.HTMLDATA);
+            //  $("#dv-msg").removeClass("hide");
+        }
+        else if (data.success != undefined && data.success == "0") {
+            commonMessage("success", data.msg);
+
+        }
+        else {
+            $("#dv-msg").addClass("hide");
+            $("#div-sal-form").html(data);
+        }
+
+    }
+    function handleError(xhr, status) {
+
+        //debugger;;
+        //  alert(xhr.statusCode);
+        //   alert('Error: ' + xhr.statusText);
+
+        $('#waitLoading').modal('hide');
+        if (xhr.statusText == "Connection Timed Out") {
+            commonMessage("success", "Salary calculated successfully.");
+            window.location.reload();
+        }
+        $("#dv-msg").removeClass("hide");
+    }
+</script>
+
+

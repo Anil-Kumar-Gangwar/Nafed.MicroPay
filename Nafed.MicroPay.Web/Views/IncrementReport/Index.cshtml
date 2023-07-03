@@ -1,0 +1,19 @@
+﻿@model Nafed.MicroPay.Model.UserAccessRight
+@{
+    ViewBag.Title = "Increment Report";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="">
+    <div class="card_new_body">
+        @using (Ajax.BeginForm("IncrementReportDetails", "IncrementReport", new AjaxOptions { HttpMethod = "POST", OnSuccess = "OnReportSuccess" }))
+        {
+            <div id="div-report-filters">
+                @Html.Action("GetIncrementReportFilters")
+            </div>
+        }
+    </div>
+</div>
+ 
+

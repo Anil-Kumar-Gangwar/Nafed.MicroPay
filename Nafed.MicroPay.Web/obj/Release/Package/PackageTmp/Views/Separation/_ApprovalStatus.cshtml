@@ -1,0 +1,95 @@
+﻿@using Nafed.MicroPay.Model;
+@model List<SeparationClearance>
+<div class="row mb-2">
+    <div class="col-12 font-weight-bold">
+        @{ 
+            if (Model != null)
+            {
+                var empName = Model.FirstOrDefault().EmployeeName;
+                <text> Employee : @empName</text>
+            }
+           
+             }
+    </div>
+</div>
+   <table id="tblGrid" class="table table-centered table-striped dt-responsive w-100 mt-2">
+    <thead>
+        <tr>
+            <th style="width:5%">
+                #
+            </th>
+            <th style="width:25%">
+                Department
+            </th>
+            <th style="width:25%">
+                Concerned Officer
+            </th>
+            <th style="width:10%">
+                Status
+            </th>
+            <th style="width:10%">
+                Date of Action
+            </th>
+            <th style="width:60%">
+                Remark
+            </th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @{
+            int sno = 1;
+            for (int i = 0; i < Model.Count; i++)
+            {
+                <tr>
+                    <td>@sno</td>
+                    <td> @Model[i].ReportingDepartment</td>    
+                    <td> @Model[i].ReportingManager</td>                   
+                    <td class="text-center">
+                       @if (Model[i].StatusId == true)
+                        {
+                            <h5>
+                                <span class="badge rounded-pill bg-success col-md-12">
+                                    Accepted
+                                </span>
+                            </h5>
+                        }
+                        else if (Model[i].StatusId == false)
+                        {
+                            <h5>
+                                <span class="badge badge-pill bg-danger col-md-12">
+                                   Rejected
+                                </span>
+                            </h5>
+                        }
+                        else
+                        {
+                            <h5>
+                                <span class="badge rounded-pill bg-info col-md-12">
+                                   InProcess
+                                </span>
+                            </h5>
+                        }
+                    </td>
+                    <td>
+                        @if (Model[i].DateofAction.HasValue)
+                        {
+                            @Convert.ToDateTime(Model[i].DateofAction).ToString("dd-MM-yyyy")
+                        }
+                    </td>
+                   <td>
+                       @if (Model[i].ApprovalType == "2" && Model[i].ClearanceDateUpto.HasValue && Model[i].ClearanceDateUpto<DateTime.Now)
+                       {
+                           <text>No Objection</text>
+                       }
+                       else
+                       {
+                       @Model[i].Remark
+                       }
+                   </td>
+                </tr>
+                sno++;
+            }
+        }
+    </tbody>
+</table>

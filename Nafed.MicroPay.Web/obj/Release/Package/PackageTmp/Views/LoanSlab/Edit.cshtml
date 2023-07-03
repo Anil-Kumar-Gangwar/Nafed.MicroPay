@@ -1,0 +1,92 @@
+﻿
+
+@model Nafed.MicroPay.Model.LoanSlab
+@{
+    ViewBag.Title = "Edit Loan Slab";
+    ViewBag.NavigationTitle = "Loan Slab";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="card_new_header alert alert-danger">
+    <div class="col-sm-6">
+        NOTE : Fields marked with (*) are compulsory fields
+    </div>
+    <div class="col-sm-6 text-right">
+        <b>@*[ Characters < > # ^ ; | $ are not allowed ]*@</b>
+    </div>
+</div>
+@using (Html.BeginForm("Edit", "LoanSlab", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    @Html.HiddenFor(model => model.CreatedBy)
+    @Html.HiddenFor(model => model.CreatedOn)
+    @Html.HiddenFor(model => model.SlabNo)
+    @Html.HiddenFor(model => model.EffectiveDate)
+    @Html.HiddenFor(model => model.LoanType)
+    @Html.HiddenFor(model => model.LoanTypeId)
+    <div class="card_new_body">
+        <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 mb-2">
+
+                <div class="row">
+
+                    @Html.LabelFor(model => model.SlabNo, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-6 col-xs-12 mb-2 required" })
+                    <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 mb-2">
+                        @Html.EditorFor(model => model.SlabNo, new { htmlAttributes = new { @class = "form-control",@disabled="disabled" } })
+                        @Html.ValidationMessageFor(model => model.SlabNo, "", new { @class = "text-danger" })
+
+                    </div>
+                </div>
+
+                <div class="row">
+                    @Html.LabelFor(model => model.LoanType, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-6 col-xs-12 mb-2 required" })
+
+                    <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 mb-2">
+
+                        @Html.DropDownListFor(model => model.LoanTypeId, new SelectList(Model.LoanTypeList, "id", "value"), "Select", new { @class = "custom-select", @disabled = "disabled" })
+                        @Html.ValidationMessageFor(model => model.LoanTypeId, "", new { @class = "text-danger" })
+
+                    </div>
+                </div>
+
+                <div class="row">
+                    @Html.LabelFor(model => model.EffectiveDate, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-6 col-xs-12 mb-2 required" })
+
+                    <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 mb-2">
+
+                        @*@Html.EditorFor(model => model.EffectiveDate, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })*@
+                        @Html.TextBoxFor(model => model.EffectiveDate, String.Format("{0:dd/MM/yyyy}", Model.EffectiveDate), new { @type = "text", @class = "form-control datepicker", id = "EffectiveDate", @placeholder = "dd/mm/yyyy", @disabled = "disabled" })
+                        @Html.ValidationMessageFor(model => model.EffectiveDate, "", new { @class = "text-danger" })
+
+                    </div>
+                </div>
+
+                <div class="row">
+
+                    @Html.LabelFor(model => model.AmountOfSlab, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-6 col-xs-12 mb-2 required" })
+                    <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 mb-2">
+                        @Html.EditorFor(model => model.AmountOfSlab, new { htmlAttributes = new { @class = "form-control text-right", @type = "number" } })
+                        @Html.ValidationMessageFor(model => model.AmountOfSlab, "", new { @class = "text-danger" })
+
+                    </div>
+                </div>
+                <div class="row">
+
+                    @Html.LabelFor(model => model.RateOfInterest, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-6 col-xs-12 mb-2 required" })
+                    <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 mb-2">
+                        @Html.EditorFor(model => model.RateOfInterest, new { htmlAttributes = new { @class = "form-control text-right", @type = "number" } })
+                        @Html.ValidationMessageFor(model => model.RateOfInterest, "", new { @class = "text-danger" })
+
+                    </div>
+                </div>
+                <div class="divider-chevron"></div>
+                <span class="pull-right">
+                    @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-light btn-sm toggle-tooltip", @title = "Click here, to redirect on list page" })
+                    <input type="submit" value="Update" class="btn btn-info btn-sm pull-center toggle-tooltip" title="Click here, to update current record" />
+                </span>
+            </div>
+        </div>
+
+    </div>
+}
+

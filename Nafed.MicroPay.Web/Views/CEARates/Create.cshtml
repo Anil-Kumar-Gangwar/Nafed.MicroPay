@@ -1,0 +1,75 @@
+﻿@model Nafed.MicroPay.Model.CEARates
+@{
+    ViewBag.Title = "Create CEA Rates";
+    ViewBag.NavigationTitle = "CEA Rates";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card_new_header alert alert-danger">
+    <div class="col-sm-6">
+        NOTE : Fields marked with (*) are compulsory fields
+    </div>
+    <div class="col-sm-6 text-right">
+        <b>@*[ Characters < > # ^ ; | $ are not allowed ]*@</b>
+    </div>
+</div>
+@using (Html.BeginForm("Create", "CEARates", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <div class="card_new_body">
+        <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 mb-2">
+
+                <div class="row">
+                    @Html.LabelFor(model => model.EffectiveDate, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-6 col-xs-12 mb-2 required" })
+
+                    <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 mb-2">
+
+                        @Html.EditorFor(model => model.EffectiveDate, new { htmlAttributes = new { @class = "form-control", @placeholder = "Effective Date" } })
+                        @Html.ValidationMessageFor(model => model.EffectiveDate, "", new { @class = "text-danger" })
+                        @Html.ValidationMessage("CEARatesAlreadyExist", "", new { @class = "text-danger" })
+
+                    </div>
+                </div>
+
+                <div class="row control-label col-lg-4 col-md-4 col-sm-6 col-xs-12 mb-2">
+                    <b>Children Detail</b>
+                </div>
+                <div class="row">
+
+                    @Html.LabelFor(model => model.MaxNoofChildren, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-6 col-xs-12 mb-2 required" })
+                    <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 mb-2">
+                        @Html.EditorFor(model => model.MaxNoofChildren, new { htmlAttributes = new { @class = "form-control text-right", @type = "number" } })
+                        @Html.ValidationMessageFor(model => model.MaxNoofChildren, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="row">
+
+                    @Html.LabelFor(model => model.MaxAgeofEachChild, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-6 col-xs-12 mb-2 required" })
+                    <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 mb-2">
+                        @Html.EditorFor(model => model.MaxAgeofEachChild, new { htmlAttributes = new { @class = "form-control text-right", @type = "number"} })
+                        @Html.ValidationMessageFor(model => model.MaxAgeofEachChild, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="row">
+
+                    @Html.LabelFor(model => model.MaxAmtperChild, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-6 col-xs-12 mb-2 required" })
+                    <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 mb-2">
+                        @Html.EditorFor(model => model.MaxAmtperChild, new { htmlAttributes = new { @class = "form-control text-right", @type = "number" } })
+                        @Html.ValidationMessageFor(model => model.MaxAmtperChild, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="divider-chevron"></div>
+                <span class="pull-right">
+                    @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-light btn-sm toggle-tooltip", @title = "Click here, to redirect on list page" })
+                    <input type="submit" value="Create" class="btn btn-info btn-sm pull-center toggle-tooltip" title="Click here, to save current record" />
+                </span>
+            </div>
+        </div>
+
+    </div>
+}

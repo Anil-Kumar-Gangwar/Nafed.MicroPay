@@ -1,0 +1,414 @@
+﻿@using Nafed.MicroPay.Model
+@model FinalMonthlySalary
+
+@using (Ajax.BeginForm("UpdateEmployeeSalary", "GenerateSalary", new AjaxOptions
+{
+    HttpMethod = "PUT",
+    OnSuccess = "OnUpdateSuccess"
+}))
+{
+    @Html.HiddenFor(m => m.EmployeeID)
+    @Html.HiddenFor(m => m.SalMonth)
+    @Html.HiddenFor(m => m.SalYear)
+    @Html.HiddenFor(m => m.C_TotEarn)
+    @Html.HiddenFor(m => m.C_TotDedu)
+    @Html.HiddenFor(m => m.C_NetSal)
+    @Html.HiddenFor(m => m.EmployeeCode)
+    <div class="row">        
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="dv-right-section">
+            <fieldset class="border p-2 col-md-12 col-xs-12 col-lg-12 col-xl-12">
+                <legend class="w-auto">Total Deduction</legend>
+
+                <div class="row">
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 pt-2">
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                                    @Html.Label("Provident Fund", new { @class = "control-label mt-2" })
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                                    @Html.EditorFor(model => model.D_PF_A, new { htmlAttributes = new { @class = "form-control text-right deduction", @type = "number", @step = "0.01" } })
+                                    @Html.ValidationMessageFor(model => model.D_PF_A, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                                    @Html.Label("Voluntary Provident Fund", new { @class = "control-label mt-2" })
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                                    @Html.EditorFor(model => model.D_VPF_A, new { htmlAttributes = new { @class = "form-control text-right deduction", @type = "number", @step = "0.01" } })
+                                    @Html.ValidationMessageFor(model => model.D_VPF_A, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                                    @Html.Label("Income Tax Deduction", new { @class = "control-label mt-2" })
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                                    @Html.EditorFor(model => model.D_01_A, new { htmlAttributes = new { @class = "form-control text-right deduction", @type = "number", @step = "0.01" } })
+                                    @Html.ValidationMessageFor(model => model.D_01_A, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                        <div class="form-group">
+                            <div class="row">
+                               
+                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                                    @Html.Label("Professional Tax", new { @class = "control-label mt-2" })
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                                    @Html.EditorFor(model => model.D_02_A, new { htmlAttributes = new { @class = "form-control text-right deduction", @type = "number", @step = "0.01" } })
+                                    @Html.ValidationMessageFor(model => model.D_02_A, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                                    @Html.Label("TCS", new { @class = "control-label mt-2" })
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                                    @Html.EditorFor(model => model.D_03_A, new { htmlAttributes = new { @class = "form-control text-right deduction", @type = "number", @step = "0.01" } })
+                                    @Html.ValidationMessageFor(model => model.D_03_A, "", new { @class = "text-danger" })
+                                </div>
+
+                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                                    @Html.Label("Life Insurance", new { @class = "control-label mt-2" })
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                                    @Html.EditorFor(model => model.D_04_A, new { htmlAttributes = new { @class = "form-control text-right deduction", @type = "number", @step = "0.01" } })
+                                    @Html.ValidationMessageFor(model => model.D_04_A, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                                    @Html.Label("Benevolent Fund", new { @class = "control-label mt-2" })
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                                    @Html.EditorFor(model => model.D_05_A, new { htmlAttributes = new { @class = "form-control text-right deduction", @type = "number", @step = "0.01" } })
+                                    @Html.ValidationMessageFor(model => model.D_05_A, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                                    @Html.Label("Sports Club Members", new { @class = "control-label mt-2" })
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                                    @Html.EditorFor(model => model.D_06_A, new { htmlAttributes = new { @class = "form-control text-right deduction", @type = "number", @step = "0.01" } })
+                                    @Html.ValidationMessageFor(model => model.D_06_A, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                                    @Html.Label("Flat Deduction", new { @class = "control-label mt-2" })
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                                    @Html.EditorFor(model => model.D_07_A, new { htmlAttributes = new { @class = "form-control text-right deduction", @type = "number", @step = "0.01" } })
+                                    @Html.ValidationMessageFor(model => model.D_07_A, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="row">
+                             
+                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                                    @Html.Label("Nafed Bazaar Deduction", new { @class = "control-label mt-2" })
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                                    @Html.EditorFor(model => model.D_08_A, new { htmlAttributes = new { @class = "form-control text-right deduction", @type = "number", @step = "0.01" } })
+                                    @Html.ValidationMessageFor(model => model.D_08_A, "", new { @class = "text-danger" })
+                                </div>
+
+                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                                    @Html.Label("GIS Deduction", new { @class = "control-label mt-2" })
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                                    @Html.EditorFor(model => model.D_09_A, new { htmlAttributes = new { @class = "form-control text-right deduction", @type = "number", @step = "0.01" } })
+                                    @Html.ValidationMessageFor(model => model.D_09_A, "", new { @class = "text-danger" })
+                                </div>
+
+                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                                    @Html.Label("Relief Fund Deduction", new { @class = "control-label mt-2" })
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                                    @Html.EditorFor(model => model.D_10_A, new { htmlAttributes = new { @class = "form-control text-right deduction", @type = "number", @step = "0.01" } })
+                                    @Html.ValidationMessageFor(model => model.D_10_A, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="row">                               
+                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                                    @Html.Label("Miscellaneous Deduction 1", new { @class = "control-label mt-2" })
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                                    @Html.EditorFor(model => model.D_11_A, new { htmlAttributes = new { @class = "form-control text-right deduction", @type = "number", @step = "0.01" } })
+                                    @Html.ValidationMessageFor(model => model.D_11_A, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                                    @Html.Label("Miscellaneous Deduction 2", new { @class = "control-label mt-2" })
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                                    @Html.EditorFor(model => model.D_12_A, new { htmlAttributes = new { @class = "form-control text-right deduction", @type = "number", @step = "0.01" } })
+                                    @Html.ValidationMessageFor(model => model.D_12_A, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                                    @Html.Label("Miscellaneous Deduction 3", new { @class = "control-label mt-2" })
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                                    @Html.EditorFor(model => model.D_13_A, new { htmlAttributes = new { @class = "form-control text-right deduction", @type = "number", @step = "0.01" } })
+                                    @Html.ValidationMessageFor(model => model.D_13_A, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                                    @Html.Label("Union Fee", new { @class = "control-label mt-2" })
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                                    @Html.EditorFor(model => model.D_14_A, new { htmlAttributes = new { @class = "form-control text-right deduction", @type = "number", @step = "0.01" } })
+                                    @Html.ValidationMessageFor(model => model.D_14_A, "", new { @class = "text-danger" })
+                                </div>
+
+                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                                    @Html.Label("PF Loan", new { @class = "control-label mt-2" })
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                                    @Html.EditorFor(model => model.D_15_A, new { htmlAttributes = new { @class = "form-control text-right deduction", @type = "number", @step = "0.01" } })
+                                    @Html.ValidationMessageFor(model => model.D_15_A, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                                    @Html.Label("Conveyance Loan", new { @class = "control-label mt-2" })
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                                    @Html.EditorFor(model => model.D_16_A, new { htmlAttributes = new { @class = "form-control text-right deduction", @type = "number", @step = "0.01" } })
+                                    @Html.ValidationMessageFor(model => model.D_16_A, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                                    @Html.Label("House Building Loan", new { @class = "control-label mt-2" })
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                                    @Html.EditorFor(model => model.D_17_A, new { htmlAttributes = new { @class = "form-control text-right deduction", @type = "number", @step = "0.01" } })
+                                    @Html.ValidationMessageFor(model => model.D_17_A, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                                    @Html.Label("Festival Loan", new { @class = "control-label mt-2" })
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                                    @Html.EditorFor(model => model.D_18_A, new { htmlAttributes = new { @class = "form-control text-right deduction", @type = "number", @step = "0.01" } })
+                                    @Html.ValidationMessageFor(model => model.D_18_A, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                                    @Html.Label("Car Loan", new { @class = "control-label mt-2" })
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                                    @Html.EditorFor(model => model.D_19_A, new { htmlAttributes = new { @class = "form-control text-right deduction", @type = "number", @step = "0.01" } })
+                                    @Html.ValidationMessageFor(model => model.D_19_A, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                                    @Html.Label("Sundry Advance", new { @class = "control-label mt-2" })
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                                    @Html.EditorFor(model => model.D_20_A, new { htmlAttributes = new { @class = "form-control text-right deduction", @type = "number", @step = "0.01" } })
+                                    @Html.ValidationMessageFor(model => model.D_20_A, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                                    @Html.Label("Scooter Loan", new { @class = "control-label mt-2" })
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                                    @Html.EditorFor(model => model.D_21_A, new { htmlAttributes = new { @class = "form-control text-right deduction", @type = "number", @step = "0.01" } })
+                                    @Html.ValidationMessageFor(model => model.D_21_A, "", new { @class = "text-danger" })
+                                </div>
+
+                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                                    @Html.Label("D_22", new { @class = "control-label mt-2" })
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                                    @Html.EditorFor(model => model.D_22_A, new { htmlAttributes = new { @class = "form-control text-right deduction", @type = "number", @step = "0.01" } })
+                                    @Html.ValidationMessageFor(model => model.D_22_A, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                                    @Html.Label("D_23", new { @class = "control-label mt-2" })
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                                    @Html.EditorFor(model => model.D_23_A, new { htmlAttributes = new { @class = "form-control text-right deduction", @type = "number", @step = "0.01" } })
+                                    @Html.ValidationMessageFor(model => model.D_23_A, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                                    @Html.Label("D_24", new { @class = "control-label mt-2" })
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                                    @Html.EditorFor(model => model.D_24_A, new { htmlAttributes = new { @class = "form-control text-right deduction", @type = "number", @step = "0.01" } })
+                                    @Html.ValidationMessageFor(model => model.D_24_A, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                                    @Html.Label("D_25", new { @class = "control-label mt-2" })
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                                    @Html.EditorFor(model => model.D_25_A, new { htmlAttributes = new { @class = "form-control text-right deduction", @type = "number", @step = "0.01" } })
+                                    @Html.ValidationMessageFor(model => model.D_25_A, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                                    @Html.Label("D_26", new { @class = "control-label mt-2" })
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                                    @Html.EditorFor(model => model.D_26_A, new { htmlAttributes = new { @class = "form-control text-right deduction", @type = "number", @step = "0.01" } })
+                                    @Html.ValidationMessageFor(model => model.D_26_A, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                                    @Html.Label("D_27", new { @class = "control-label mt-2" })
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                                    @Html.EditorFor(model => model.D_27_A, new { htmlAttributes = new { @class = "form-control text-right deduction", @type = "number", @step = "0.01" } })
+                                    @Html.ValidationMessageFor(model => model.D_27_A, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                                    @Html.Label("D_28", new { @class = "control-label mt-2" })
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                                    @Html.EditorFor(model => model.D_28_A, new { htmlAttributes = new { @class = "form-control text-right deduction", @type = "number", @step = "0.01" } })
+                                    @Html.ValidationMessageFor(model => model.D_28_A, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                                    @Html.Label("D_29", new { @class = "control-label mt-2" })
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                                    @Html.EditorFor(model => model.D_29_A, new { htmlAttributes = new { @class = "form-control text-right deduction", @type = "number", @step = "0.01" } })
+                                    @Html.ValidationMessageFor(model => model.D_29_A, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                                    @Html.Label("D_30", new { @class = "control-label mt-2" })
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                                    @Html.EditorFor(model => model.D_30_A, new { htmlAttributes = new { @class = "form-control text-right deduction", @type = "number", @step = "0.01" } })
+                                    @Html.ValidationMessageFor(model => model.D_30_A, "", new { @class = "text-danger" })
+                                </div>
+                              
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+
+        </div>
+
+        <div class="col-md-12 col-xs-12 col-lg-12 col-xl-12">
+
+
+            <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 pt-2">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                                @Html.Label("Total Earning", new { @class = "control-label mt-2 font-weight-bold" })
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 text-right font-weight-bold mt-2">
+                                <span id="spC_TotEarn">@Model.C_TotEarn</span>
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                                @Html.Label("Total Deduction", new { @class = "control-label mt-2 font-weight-bold" })
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 text-right  font-weight-bold mt-2">
+                                <span id="spC_TotDedu">@Model.C_TotDedu</span>
+
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                                @Html.Label("Net Salary", new { @class = "control-label mt-2 font-weight-bold" })
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 text-right font-weight-bold mt-2">
+                                <span id="spC_NetSal">@Model.C_NetSal</span>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12 col-md-12 cold-sm-12 cols-xs-12 text-right">
+            <input type="submit" value="Update" class="btn btn-md btn-primary" />
+        </div>
+    </div>
+}
+
+<script>
+
+    function OnUpdateSuccess(response) {
+        if (response.success)
+            commonMessage('success', 'Salary adjusted successfully.');
+    }
+    // we used jQuery 'keyup' to trigger the computation as the user type
+    $('.earning1').keyup(function () {
+
+        // initialize the sum (total price) to zero
+        var totalearn = 0;
+
+        // we use jQuery each() to loop through all the textbox with 'price' class
+        // and compute the sum for each loop
+        $('.earning').each(function () {
+            totalearn += Number($(this).val());
+        });
+
+        // set the computed value to 'totalPrice' textbox
+        debugger;
+        $('#spC_TotEarn').html(totalearn);
+
+        var C_TotDuc = $('#spC_TotDedu').html();
+        $('#spC_NetSal').html(totalearn - C_TotDuc);
+
+        $('#C_TotEarn').val(totalearn);
+        $('#C_NetSal').val(totalearn - C_TotDuc);
+    });
+
+    //--- For deduction
+    // we used jQuery 'keyup' to trigger the computation as the user type
+    $('.deduction').keyup(function () {
+
+        // initialize the sum (total price) to zero
+        var totaldeduc = 0;
+
+        // we use jQuery each() to loop through all the textbox with 'price' class
+        // and compute the sum for each loop
+        $('.deduction').each(function () {
+            totaldeduc += Number($(this).val());
+        });
+
+        // set the computed value to 'totalPrice' textbox
+        debugger;
+        $('#spC_TotDedu').html((totaldeduc).toFixed(2));
+
+        var C_TotEarn = $('#spC_TotEarn').html();
+        $('#spC_NetSal').html((C_TotEarn - totaldeduc).toFixed(2));
+
+        $('#C_TotDedu').val(totaldeduc);
+        $('#C_NetSal').val((C_TotEarn - totaldeduc).toFixed(2));
+    });
+</script>

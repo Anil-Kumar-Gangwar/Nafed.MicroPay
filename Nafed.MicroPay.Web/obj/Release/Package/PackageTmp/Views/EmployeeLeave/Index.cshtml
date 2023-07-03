@@ -1,0 +1,31 @@
+﻿
+@model Nafed.MicroPay.Model.UserAccessRight
+@{
+    ViewBag.Title = "Leave History";
+    ViewBag.NavigationTitle = "Leave History";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    System.Globalization.CultureInfo Indian = new System.Globalization.CultureInfo("hi-IN");
+} 
+<div class="">
+   
+
+    <div class="card_new_body">
+        <div id="UserGridDiv">
+            @{Html.RenderAction("SearchleavehistoryDetails");}
+        </div>
+    </div>
+    <div class="card_new_body">
+        <div id="MarkDiv">
+            @*@Html.Action("LeaveApplicationGridView")*@
+        </div>
+    </div>
+
+   
+
+</div>
+
+
+
+
+
+

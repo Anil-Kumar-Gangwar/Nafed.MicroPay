@@ -1,0 +1,22 @@
+﻿@using Nafed.MicroPay.Model
+@model FileTrackingDocuments
+
+<tr class="filesvalidate">
+    <td>
+    <input type="checkbox" name="record">
+    </td>
+
+    <td>
+        @Html.EditorFor(model => model.DocName, new { htmlAttributes = new { @class = "form-control name", @maxlength = "100", @autocomplete = "off" } })
+   
+    </td>
+
+    <td>
+        <input type="file" name="Files" class="file" id="Files" accept=".jpg,.jpeg,.png,.pdf,.xlsx,.xls,.doc,.docx" />
+   
+    </td>
+
+ 
+</tr>
+
+

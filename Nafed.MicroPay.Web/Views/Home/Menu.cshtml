@@ -1,0 +1,52 @@
+﻿
+@{
+    ViewBag.Title = "Menu";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<ul id="menu">
+    <!--   YOUR LINKS GOES HERE   -->
+</ul>
+<h1>Swipe to open only smartphone →</h1>
+
+<style>
+
+
+#menu {
+  background-color: #E64A4A;
+  width: 80%;
+  height: 400px;
+  position: fixed;
+  top: 0;
+  left: -100%;
+  color: #fff;
+}
+
+h1 {
+  text-align: center;
+  margin: 20px;
+}
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-mobile/1.4.5/jquery.mobile.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // only small screens
+        if ($(window).width() <= 1000) {
+            // show menu on swipe to right
+            $(document).on('swiperight', function (e) {
+                e.preventDefault();
+                $('#menu').animate({
+                    left: '0'
+                });
+            });
+            // hide menu on swipe to left
+            $(document).on('swipeleft', function (e) {
+                e.preventDefault();
+                $('#menu').animate({
+                    left: '-100%'
+                });
+            });
+        }
+
+    });
+</script>

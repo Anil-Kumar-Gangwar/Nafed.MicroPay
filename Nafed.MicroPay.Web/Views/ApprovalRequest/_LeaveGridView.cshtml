@@ -1,0 +1,1775 @@
+﻿@using Nafed.MicroPay.Model;
+@model MicroPay.Web.Models.ApprovalRequestVM
+@using Nafed.MicroPay.Common;
+
+@{
+    var uDetails = (UserDetail)Session["user"];
+}
+
+
+<table id="tblGrid-leave" class="table_card table table-centered table-striped text-left dt-responsive w-100 mt-2">
+    <thead>
+        <tr>
+            <th scope="col">
+                #
+            </th>
+            <th scope="col">
+                Employee
+            </th>
+            <th scope="col">
+                Leave Type
+            </th>
+
+            <th scope="col" class="text-center">
+                From Date
+            </th>
+            <th scope="col" class="text-center">
+                To Date
+            </th>
+            <th scope="col" class="text-center">
+                Applied On
+            </th>
+            <th scope="col" class="text-center">
+                Unit
+            </th>
+
+            <th scope="col">
+                Reason
+            </th>
+            <th scope="col" class="text-center">
+                Doc
+            </th>
+            <th scope="col" class="text-center">
+                Status
+            </th>
+
+            <th scope="col" class="text-center" style="width:60px">
+                Action
+            </th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            if (Model != null && (Model.leaveList != null && Model.leaveList.Count > 0))
+            {
+                var sno = 1;
+                var totalLeavepending = 0;
+                foreach (var item in Model.leaveList)
+                {
+                    if (item.ApprovalRequiredUpto == 3)
+                    {
+                        if (item.AcceptanceAuthority == item.ReviewerTo && item.AcceptanceAuthority == item.ReportingTo && item.AcceptanceAuthority == uDetails.EmployeeID)
+                        {
+                            if (item.StatusID == (int)EmpLeaveStatus.Pending || item.StatusID == (int)EmpLeaveStatus.Approved || item.StatusID == (int)EmpLeaveStatus.RejectedByAcceptanceAuthority)
+                            {
+                                <tr>
+                                    <td data-label="S.No."> @sno</td>
+                                    <td data-label="Employee"> @item.EmployeeCode <text> - </text>  @item.EmployeeName </td>
+                                    @*<td> @item.EmployeeName </td>*@
+                                    <td data-label="Leave Type"> @item.LeaveCategoryName</td>
+                                    <td data-label="From Date" class="text-center"> @item.DateFrom.Value.ToString("dd/MM/yyyy")</td>
+                                    <td data-label="To Date" class="text-center"> @item.DateTo.Value.ToString("dd/MM/yyyy")</td>
+                                    <td data-label="Applied On" class="text-center">@item.CreatedOn.ToString("dd/MM/yyyy")</td>
+                                    <td data-label="Unit" class="text-center"> @(item.Unit)</td>
+                                    <td data-label="Reason"> @item.Reason</td>
+                                    <td data-label="Doc" class="text-center">
+                                        @if (@item.DocumentName != null)
+                                        {   @*<a class="toggle-tooltip" href="@Url.Action("DownloadDocument", "EmployeeLeave", new { FileID = @item.DocumentName })" title="Click here, to download document" data-target="#myModal">
+                                                <span class="fa fa-paperclip fa-2x" aria-hidden="true"></span>
+                                            </a>*@
+                                            @Html.EncodedImageActionLink("", "DownloadDocument", "EmployeeLeave", new { FileID = @item.DocumentName }, new { @class = "toggle-tooltip", title = "Click here, to download document" }, "~/Images/document.png", false, "#myModal")
+                                        }
+                                    </td>
+
+                                    <td data-label="Status" class="text-center">
+                                        @if (item.StatusID == (int)EmpLeaveStatus.Pending)
+                                        {
+                                            <h5 class="mb-0">
+                                                <span class="badge badge-pill badge-warning col-md-12 toggle-tooltip"
+                                                      title="Employee Remark : @(item.Reason ?? "Not Available")">Pending</span>
+                                            </h5>
+                                        }
+                                        else if (item.StatusID == (int)EmpLeaveStatus.InProcess)
+                                        {
+                                            <h5 class="mb-0">
+                                                <span class="badge badge-pill badge-info col-md-12 toggle-tooltip"
+                                                      title="Employee Remark : @(item.Reason ?? "Not Available")
+                                                 Reporting Remark : @(item.ReporotingToRemark ?? "Not Available")">In Process</span>
+                                            </h5>
+                                        }
+                                        else if (item.StatusID == (int)EmpLeaveStatus.RejectedByReportingOfficer)
+                                        {
+                                            <h5 class="mb-0">
+                                                <span class="badge badge-pill badge-danger col-md-12 toggle-tooltip"
+                                                      title="Employee Remark : @(item.Reason ?? "Not Available")
+                                                 Reporting Remark : @(item.ReporotingToRemark ?? "Not Available")">Rejected</span>
+                                            </h5>
+                                        }
+                                        else if (item.StatusID == (int)EmpLeaveStatus.AcceptedByReviewerOfficer)
+                                        {
+                                            <h5 class="mb-0">
+                                                <span class="badge badge-pill badge-info col-md-12 toggle-tooltip"
+                                                      title="Employee Remark : @(item.Reason ?? "Not Available")
+                                                 Reporting Remark : @(item.ReporotingToRemark ?? "Not Available")
+                                                 Reviewer Remark : @(item.ReviewerToRemark ?? "Not Available") ">
+                                                    Accepted by Reviewer Officer
+                                                </span>
+                                                @*<span class="badge badge-pill badge-success col-md-12 toggle-tooltip" title="Employee Remark: @item.Reason <br/> Reporting Remark: @item.ReporotingToRemark <br/> Reviwer Remark: @item.ReviewerToRemark">Approved</span>*@
+                                            </h5>
+                                        }
+                                        else if (item.StatusID == (int)EmpLeaveStatus.RejectedByReviwerOfficer)
+                                        {
+                                            <h5 class="mb-0">
+                                                <span class="badge badge-pill badge-danger col-md-12 toggle-tooltip"
+                                                      title="Employee Remark : @(item.Reason ?? "Not Available")
+                                                 Reporting Remark : @(item.ReporotingToRemark ?? "Not Available")
+                                                 Reviewer Remark : @(item.ReviewerToRemark ?? "Not Available") ">Rejected</span>
+                                            </h5>
+                                        }
+                                        else if (item.StatusID == (int)EmpLeaveStatus.Approved)
+                                        {
+                                            <h5 class="mb-0">
+                                                <span class="badge badge-pill badge-success col-md-12 toggle-tooltip"
+                                                      title="Employee Remark : @(item.Reason ?? "Not Available")
+                                                 Reporting Remark : @(item.ReporotingToRemark ?? "Not Available")
+                                                 Reviewer Remark : @(item.ReviewerToRemark ?? "Not Available")
+                                                 Acceptance Remark : @(item.AcceptanceAuthorityRemark ?? "Not Available") ">Approved</span>
+                                            </h5>
+                                        }
+                                        else if (item.StatusID == (int)EmpLeaveStatus.RejectedByAcceptanceAuthority)
+                                        {
+                                            <h5 class="mb-0">
+                                                <span class="badge badge-pill badge-danger col-md-12 toggle-tooltip"
+                                                      title="Employee Remark : @(item.Reason ?? "Not Available")
+                                                 Reporting Remark : @(item.ReporotingToRemark ?? "Not Available")
+                                                 Reviewer Remark : @(item.ReviewerToRemark ?? "Not Available")
+                                                 Acceptance Remark : @(item.AcceptanceAuthorityRemark ?? "Not Available") ">Rejected</span>
+                                            </h5>
+                                        }
+                                    </td>
+
+                                    <td data-label="Action" class="text-center">
+
+                                        @if (item.StatusID == (int)EmpLeaveStatus.Pending)
+                                        {
+                                            totalLeavepending = Model.leaveList.Where(x => x.StatusID == (int)EmpLeaveStatus.Pending).Count();
+                                            <a data-ajax="true"
+                                               method="POST" class="toggle-tooltip" title="Click here, to approve request."
+                                               data-ajax-update="#div-approvalLeavePopup" data-ajax-mode="replace"
+                                               data-backdrop="static" data-keyboard="false"
+                                               href="@Url.Action("_GetLeaveApprovalPopup", "ApprovalRequest", new
+                                            {
+                                                empID = item.EmployeeId,
+                                                empLeaveID = item.LeaveID,
+                                                status = item.StatusID,
+                                                reportingToRemark = item.ReporotingToRemark,
+                                                reviewerToRemark = item.ReviewerToRemark,
+                                                actionType = "accept",
+                                                ApproverType = 3,
+                                                reportingTo = item.ReportingTo,
+                                                reviewerTo = item.ReviewerTo,
+                                                acceptanceAuthority = item.AcceptanceAuthority,
+                                                approvalRequiredUpto = item.ApprovalRequiredUpto// PurposeOthers column is used for acceptance Authority Remark
+                                               ,leaveCategoryName= item.LeaveCategoryName
+                                            })"
+                                               id="a_leavepopup" data-toggle="modal" data-target="#div-leave-approval-popup">
+                                                <i class="fa fa-check-square text-success fa-2x" aria-hidden="true"></i>
+                                            </a>
+
+                                            <text> | </text>
+
+                                            <a data-ajax="true"
+                                               method="POST" class="toggle-tooltip" title="Click here, to reject request."
+                                               data-ajax-update="#div-approvalLeavePopup" data-ajax-mode="replace"
+                                               data-backdrop="static" data-keyboard="false"
+                                               href="@Url.Action("_GetLeaveApprovalPopup", "ApprovalRequest", new
+                                            {
+                                                empID = item.EmployeeId,
+                                                empLeaveID = item.LeaveID,
+                                                status = item.StatusID,
+                                                actionType = "reject",
+                                                ApproverType = 3,
+                                                reportingTo = item.ReportingTo,
+                                                reviewerTo = item.ReviewerTo,
+                                                acceptanceAuthority = item.AcceptanceAuthority,
+                                                approvalRequiredUpto = item.ApprovalRequiredUpto// PurposeOthers column is used for acceptance Authority Remark
+                                                ,leaveCategoryName= item.LeaveCategoryName
+                                            })"
+                                               id="a_leavepopup" data-toggle="modal" data-target="#div-leave-approval-popup">
+                                                <i class="fa fa-window-close text-danger fa-2x" aria-hidden="true"></i>
+                                            </a>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        if (item.AcceptanceAuthority.HasValue && item.AcceptanceAuthority == uDetails.EmployeeID)
+                        {
+                            if (item.StatusID == (int)EmpLeaveStatus.Approved || item.StatusID == (int)EmpLeaveStatus.RejectedByAcceptanceAuthority || item.StatusID == (int)EmpLeaveStatus.AcceptedByReviewerOfficer)
+                            {
+                                <tr>
+                                    <td data-label="S.No."> @sno</td>
+                                    <td data-label="Employee"> @item.EmployeeCode <text> - </text>  @item.EmployeeName </td>
+                                    @*<td> @item.EmployeeName </td>*@
+                                    <td data-label="Leave Type"> @item.LeaveCategoryName</td>
+                                    <td data-label="From Date" class="text-center"> @item.DateFrom.Value.ToString("dd/MM/yyyy")</td>
+                                    <td data-label="To Date" class="text-center"> @item.DateTo.Value.ToString("dd/MM/yyyy")</td>
+                                    <td data-label="Applied On" class="text-center">@item.CreatedOn.ToString("dd/MM/yyyy")</td>
+                                    <td data-label="Unit" class="text-center"> @(item.Unit)</td>
+                                    <td data-label="Reason"> @item.Reason</td>
+
+                                    <td data-label="Doc" class="text-center">
+                                        @if (@item.DocumentName != null)
+                                        {   @*<a class="toggle-tooltip" href="@Url.Action("DownloadDocument", "EmployeeLeave", new { FileID = @item.DocumentName })" title="Click here, to download document" data-target="#myModal">
+                                            <span class="fa fa-paperclip fa-2x" aria-hidden="true"></span>
+                                        </a>*@
+                                        @Html.EncodedImageActionLink("", "DownloadDocument", "EmployeeLeave", new { FileID = @item.DocumentName }, new { @class = "toggle-tooltip", title = "Click here, to download document" }, "~/Images/document.png", false, "#myModal")
+                                        }
+                                    </td>
+
+                                    <td data-label="Status" class="text-center">
+                                        @if (item.StatusID == (int)EmpLeaveStatus.Pending)
+                                        {
+                                            <h5 class="mb-0">
+                                                <span class="badge badge-pill badge-warning col-md-12 toggle-tooltip"
+                                                      title="Employee Remark : @(item.Reason ?? "Not Available")">Pending</span>
+                                            </h5>
+                                        }
+                                        else if (item.StatusID == (int)EmpLeaveStatus.InProcess)
+                                        {
+                                            <h5 class="mb-0">
+                                                <span class="badge badge-pill badge-info col-md-12 toggle-tooltip"
+                                                      title="Employee Remark : @(item.Reason ?? "Not Available")
+                                                 Reporting Remark : @(item.ReporotingToRemark ?? "Not Available")">In Process</span>
+                                            </h5>
+                                        }
+                                        else if (item.StatusID == (int)EmpLeaveStatus.RejectedByReportingOfficer)
+                                        {
+                                            <h5 class="mb-0">
+                                                <span class="badge badge-pill badge-danger col-md-12 toggle-tooltip"
+                                                      title="Employee Remark : @(item.Reason ?? "Not Available")
+                                                 Reporting Remark : @(item.ReporotingToRemark ?? "Not Available")">Rejected</span>
+                                            </h5>
+                                        }
+                                        else if (item.StatusID == (int)EmpLeaveStatus.AcceptedByReviewerOfficer)
+                                        {
+                                            <h5 class="mb-0">
+                                                <span class="badge badge-pill badge-info col-md-12 toggle-tooltip"
+                                                      title="Employee Remark : @(item.Reason ?? "Not Available")
+                                                 Reporting Remark : @(item.ReporotingToRemark ?? "Not Available")
+                                                 Reviewer Remark : @(item.ReviewerToRemark ?? "Not Available") ">
+                                                    Accepted by Reviewer Officer
+                                                </span>
+                                                @*<span class="badge badge-pill badge-success col-md-12 toggle-tooltip" title="Employee Remark: @item.Reason <br/> Reporting Remark: @item.ReporotingToRemark <br/> Reviwer Remark: @item.ReviewerToRemark">Approved</span>*@
+                                            </h5>
+                                        }
+                                        else if (item.StatusID == (int)EmpLeaveStatus.RejectedByReviwerOfficer)
+                                        {
+                                            <h5 class="mb-0">
+                                                <span class="badge badge-pill badge-danger col-md-12 toggle-tooltip"
+                                                      title="Employee Remark : @(item.Reason ?? "Not Available")
+                                                 Reporting Remark : @(item.ReporotingToRemark ?? "Not Available")
+                                                 Reviewer Remark : @(item.ReviewerToRemark ?? "Not Available") ">Rejected</span>
+                                            </h5>
+                                        }
+                                        else if (item.StatusID == (int)EmpLeaveStatus.Approved)
+                                        {
+                                            <h5 class="mb-0">
+                                                <span class="badge badge-pill badge-success col-md-12 toggle-tooltip"
+                                                      title="Employee Remark : @(item.Reason ?? "Not Available")
+                                                 Reporting Remark : @(item.ReporotingToRemark ?? "Not Available")
+                                                 Reviewer Remark : @(item.ReviewerToRemark ?? "Not Available")
+                                                 Acceptance Remark : @(item.AcceptanceAuthorityRemark ?? "Not Available") ">Approved</span>
+                                            </h5>
+                                        }
+                                        else if (item.StatusID == (int)EmpLeaveStatus.RejectedByAcceptanceAuthority)
+                                        {
+                                            <h5 class="mb-0">
+                                                <span class="badge badge-pill badge-danger col-md-12 toggle-tooltip"
+                                                      title="Employee Remark : @(item.Reason ?? "Not Available")
+                                                 Reporting Remark : @(item.ReporotingToRemark ?? "Not Available")
+                                                 Reviewer Remark : @(item.ReviewerToRemark ?? "Not Available")
+                                                 Acceptance Remark : @(item.AcceptanceAuthorityRemark ?? "Not Available") ">Rejected</span>
+                                            </h5>
+                                        }
+                                    </td>
+
+                                    <td data-label="Action" class="text-center">
+
+                                        @if (item.StatusID == (int)EmpLeaveStatus.AcceptedByReviewerOfficer)
+                                        {
+                                            totalLeavepending = Model.leaveList.Where(x => x.StatusID == (int)EmpLeaveStatus.AcceptedByReviewerOfficer).Count();
+                                            <a data-ajax="true"
+                                               method="POST" class="toggle-tooltip" title="Click here, to approve request."
+                                               data-ajax-update="#div-approvalLeavePopup" data-ajax-mode="replace"
+                                               data-backdrop="static" data-keyboard="false"
+                                               href="@Url.Action("_GetLeaveApprovalPopup", "ApprovalRequest", new
+                                            {
+                                                empID = item.EmployeeId,
+                                                empLeaveID = item.LeaveID,
+                                                status = item.StatusID,
+                                                reportingToRemark = item.ReporotingToRemark,
+                                                reviewerToRemark = item.ReviewerToRemark,
+                                                actionType = "accept",
+                                                ApproverType = 3,
+                                                reportingTo = item.ReportingTo,
+                                                reviewerTo = item.ReviewerTo,
+                                                acceptanceAuthority = item.AcceptanceAuthority,
+                                                approvalRequiredUpto = item.ApprovalRequiredUpto// PurposeOthers column is used for acceptance Authority Remark
+                                       ,
+                                                leaveCategoryName = item.LeaveCategoryName
+                                            })"
+                                               id="a_leavepopup" data-toggle="modal" data-target="#div-leave-approval-popup">
+                                                <i class="fa fa-check-square text-success fa-2x" aria-hidden="true"></i>
+                                            </a>
+
+                                            <text> | </text>
+
+                                            <a data-ajax="true"
+                                               method="POST" class="toggle-tooltip" title="Click here, to reject request."
+                                               data-ajax-update="#div-approvalLeavePopup" data-ajax-mode="replace"
+                                               data-backdrop="static" data-keyboard="false"
+                                               href="@Url.Action("_GetLeaveApprovalPopup", "ApprovalRequest", new
+                                            {
+                                                empID = item.EmployeeId,
+                                                empLeaveID = item.LeaveID,
+                                                status = item.StatusID,
+                                                actionType = "reject",
+                                                ApproverType = 3,
+                                                reportingTo = item.ReportingTo,
+                                                reviewerTo = item.ReviewerTo,
+                                                acceptanceAuthority = item.AcceptanceAuthority,
+                                                approvalRequiredUpto = item.ApprovalRequiredUpto// PurposeOthers column is used for acceptance Authority Remark
+                                        ,
+                                                leaveCategoryName = item.LeaveCategoryName
+                                            })"
+                                               id="a_leavepopup" data-toggle="modal" data-target="#div-leave-approval-popup">
+                                                <i class="fa fa-window-close text-danger fa-2x" aria-hidden="true"></i>
+                                            </a>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else if (!item.AcceptanceAuthority.HasValue && item.ReviewerTo.HasValue && item.ReviewerTo == item.ReportingTo && item.ReviewerTo == uDetails.EmployeeID)
+                        {
+                            if (item.AcceptanceAuthority.HasValue)
+                            {
+                                if (item.StatusID == (int)EmpLeaveStatus.Pending || item.StatusID == (int)EmpLeaveStatus.RejectedByReviwerOfficer || item.StatusID == (int)EmpLeaveStatus.AcceptedByReviewerOfficer)
+                                {
+                                    <tr>
+                                        <td data-label="S.No."> @sno</td>
+                                        <td data-label="Employee"> @item.EmployeeCode <text> - </text>  @item.EmployeeName </td>
+                                        <td data-label="Leave Type"> @item.LeaveCategoryName</td>
+                                        <td data-label="From Date" class="text-center"> @item.DateFrom.Value.ToString("dd/MM/yyyy")</td>
+                                        <td data-label="To Date" class="text-center"> @item.DateTo.Value.ToString("dd/MM/yyyy")</td>
+                                        <td data-label="Applied On" class="text-center">@item.CreatedOn.ToString("dd/MM/yyyy")</td>
+                                        <td data-label="Unit" class="text-center"> @(item.Unit)</td>
+                                        <td data-label="Reason"> @item.Reason</td>
+                                        <td data-label="Doc" class="text-center">
+                                            @if (@item.DocumentName != null)
+                                            {   @*<a class="toggle-tooltip" href="@Url.Action("DownloadDocument", "EmployeeLeave", new { FileID = @item.DocumentName })" title="Click here, to download document" data-target="#myModal">
+                                                <span class="fa fa-paperclip fa-2x" aria-hidden="true"></span>
+                                            </a>*@
+                                            @Html.EncodedImageActionLink("", "DownloadDocument", "EmployeeLeave", new { FileID = @item.DocumentName }, new { @class = "toggle-tooltip", title = "Click here, to download document" }, "~/Images/document.png", false, "#myModal")
+                                            }
+                                        </td>
+                                        <td data-label="Status" class="text-center">
+
+                                            @if (item.StatusID == (int)EmpLeaveStatus.InProcess)
+                                            {
+                                                <h5 class="mb-0">
+                                                    <span class="badge badge-pill badge-info col-md-12 toggle-tooltip"
+                                                          title="Employee Remark : @(item.Reason ?? "Not Available")
+                                                 Reporting Remark : @(item.ReporotingToRemark ?? "Not Available")">In Process</span>
+                                                </h5>
+                                            }
+
+                                            else if (item.StatusID == (int)EmpLeaveStatus.RejectedByReviwerOfficer)
+                                            {
+                                                <h5 class="mb-0">
+                                                    <span class="badge badge-pill badge-danger col-md-12 toggle-tooltip"
+                                                          title="Employee Remark : @(item.Reason ?? "Not Available")
+                                                 Reporting Remark : @(item.ReporotingToRemark ?? "Not Available")
+                                                 Reviewer Remark : @(item.ReviewerToRemark ?? "Not Available") ">Rejected</span>
+                                                </h5>
+                                            }
+                                            else if (item.StatusID == (int)EmpLeaveStatus.AcceptedByReviewerOfficer)
+                                            {
+                                                <h5 class="mb-0">
+                                                    <span class="badge badge-pill badge-info col-md-12 toggle-tooltip"
+                                                          title="Employee Remark : @(item.Reason ?? "Not Available")
+                                                 Reporting Remark : @(item.ReporotingToRemark ?? "Not Available")
+                                                 Reviewer Remark : @(item.ReviewerToRemark ?? "Not Available") ">Accepted by Reviewer Officer</span>
+                                                </h5>
+                                            }
+                                            else if (item.StatusID == (int)EmpLeaveStatus.RejectedByAcceptanceAuthority)
+                                            {
+                                                <h5 class="mb-0">
+                                                    <span class="badge badge-pill badge-danger col-md-12 toggle-tooltip"
+                                                          title="Employee Remark : @(item.Reason ?? "Not Available")
+                                                 Reporting Remark : @(item.ReporotingToRemark ?? "Not Available")
+                                                 Reviewer Remark : @(item.ReviewerToRemark ?? "Not Available")
+                                                 Acceptance Authority Remark : @(item.ReviewerToRemark ?? "Not Available")">Rejected</span>
+                                                </h5>
+                                            }
+                                        </td>
+
+                                        <td data-label="Action" class="text-center">
+                                            @if (item.StatusID == (int)EmpLeaveStatus.Pending || item.StatusID == (int)EmpLeaveStatus.RejectedByAcceptanceAuthority)
+                                            {
+                                                totalLeavepending = Model.leaveList.Where(x => x.StatusID == (int)EmpLeaveStatus.Pending).Count();
+                                                <a data-ajax="true"
+                                                   method="POST" class="toggle-tooltip" title="Click here, to approve request."
+                                                   data-ajax-update="#div-approvalLeavePopup" data-ajax-mode="replace"
+                                                   data-backdrop="static" data-keyboard="false"
+                                                   href="@Url.Action("_GetLeaveApprovalPopup", "ApprovalRequest", new
+                                                    {
+                                                        empID = item.EmployeeId,
+                                                        empLeaveID = item.LeaveID,
+                                                        status = item.StatusID,
+                                                        reportingToRemark = item.ReporotingToRemark,
+                                                        reviewerToRemark = item.ReviewerToRemark,
+                                                        actionType = "accept",
+                                                        ApproverType = 2,
+                                                        reportingTo = item.ReportingTo,
+                                                        reviewerTo = item.ReviewerTo,
+                                                        acceptanceAuthority = item.AcceptanceAuthority,
+                                                        approvalRequiredUpto = item.ApprovalRequiredUpto
+                                            ,
+                                                        leaveCategoryName = item.LeaveCategoryName
+
+                                                    })"
+                                                   id="a_leavepopup" data-toggle="modal" data-target="#div-leave-approval-popup">
+                                                    <i class="fa fa-check-square text-success fa-2x" aria-hidden="true"></i>
+                                                </a>
+
+                                                <text> | </text>
+                                                <a data-ajax="true"
+                                                   method="POST" class="toggle-tooltip" title="Click here, to reject request."
+                                                   data-ajax-update="#div-approvalLeavePopup" data-ajax-mode="replace"
+                                                   data-backdrop="static" data-keyboard="false"
+                                                   href="@Url.Action("_GetLeaveApprovalPopup", "ApprovalRequest", new
+                                                    {
+                                                        empID = item.EmployeeId,
+                                                        empLeaveID = item.LeaveID,
+                                                        status = item.StatusID,
+                                                        actionType = "reject",
+                                                        ApproverType = 2,
+                                                        reportingTo = item.ReportingTo,
+                                                        reviewerTo = item.ReviewerTo,
+                                                        acceptanceAuthority = item.AcceptanceAuthority,
+                                                        approvalRequiredUpto = item.ApprovalRequiredUpto,
+                                                        leaveCategoryName = item.LeaveCategoryName
+
+                                                    })"
+                                                   id="a_leavepopup" data-toggle="modal" data-target="#div-leave-approval-popup">
+                                                    <i class="fa fa-window-close text-danger fa-2x" aria-hidden="true"></i>
+                                                </a>
+                                            }
+
+                                        </td>
+
+                                    </tr>
+                                }
+                            }
+                            else if (!item.AcceptanceAuthority.HasValue)
+                            {
+                                if (item.StatusID == (int)EmpLeaveStatus.Pending || item.StatusID == (int)EmpLeaveStatus.RejectedByAcceptanceAuthority || item.StatusID == (int)EmpLeaveStatus.Approved)
+                                {
+                                    <tr>
+                                        <td> @sno</td>
+                                        <td> @item.EmployeeCode <text> - </text>  @item.EmployeeName </td>
+                                        <td> @item.LeaveCategoryName</td>
+                                        <td class="text-center"> @item.DateFrom.Value.ToString("dd/MM/yyyy")</td>
+                                        <td class="text-center"> @item.DateTo.Value.ToString("dd/MM/yyyy")</td>
+                                        <td class="text-center">@item.CreatedOn.ToString("dd/MM/yyyy")</td>
+                                        <td class="text-center"> @(item.Unit)</td>
+                                        <td> @item.Reason</td>
+                                        <td class="text-center">
+                                            @if (@item.DocumentName != null)
+                                    {   @*<a class="toggle-tooltip" href="@Url.Action("DownloadDocument", "EmployeeLeave", new { FileID = @item.DocumentName })" title="Click here, to download document" data-target="#myModal">
+                                                <span class="fa fa-paperclip fa-2x" aria-hidden="true"></span>
+                                            </a>*@
+                                            @Html.EncodedImageActionLink("", "DownloadDocument", "EmployeeLeave", new { FileID = @item.DocumentName }, new { @class = "toggle-tooltip", title = "Click here, to download document" }, "~/Images/document.png", false, "#myModal")
+                                            }
+                                        </td>
+                                        <td class="text-center">
+                                            @if (item.StatusID == (int)EmpLeaveStatus.Pending)
+                                    {
+                                                <h5>
+                                                    <span class="badge badge-pill badge-warning col-md-12 toggle-tooltip"
+                                                          title="Employee Remark : @(item.Reason ?? "Not Available")">Pending</span>
+                                                </h5>
+                                            }
+                                            else if (item.StatusID == (int)EmpLeaveStatus.InProcess)
+                                            {
+                                                <h5>
+                                                    <span class="badge badge-pill badge-info col-md-12 toggle-tooltip"
+                                                          title="Employee Remark : @(item.Reason ?? "Not Available")
+                                                 Reporting Remark : @(item.ReporotingToRemark ?? "Not Available")">In Process</span>
+                                                </h5>
+                                            }
+                                            else if (item.StatusID == (int)EmpLeaveStatus.RejectedByReportingOfficer)
+                                            {
+                                                <h5>
+                                                    <span class="badge badge-pill badge-danger col-md-12 toggle-tooltip"
+                                                          title="Employee Remark : @(item.Reason ?? "Not Available")
+                                                 Reporting Remark : @(item.ReporotingToRemark ?? "Not Available")">Rejected</span>
+                                                </h5>
+                                            }
+                                            else if (item.StatusID == (int)EmpLeaveStatus.Approved)
+                                            {
+                                                <h5>
+                                                    <span class="badge badge-pill badge-success col-md-12 toggle-tooltip"
+                                                          title="Employee Remark : @(item.Reason ?? "Not Available")
+                                                 Reporting Remark : @(item.ReporotingToRemark ?? "Not Available")
+                                                 Reviewer Remark : @(item.ReviewerToRemark ?? "Not Available") ">
+                                                        Approved
+                                                    </span>
+                                                    @*<span class="badge badge-pill badge-success col-md-12 toggle-tooltip" title="Employee Remark: @item.Reason <br/> Reporting Remark: @item.ReporotingToRemark <br/> Reviwer Remark: @item.ReviewerToRemark">Approved</span>*@
+                                                </h5>
+                                            }
+                                            else if (item.StatusID == (int)EmpLeaveStatus.RejectedByReviwerOfficer)
+                                            {
+                                                <h5>
+                                                    <span class="badge badge-pill badge-danger col-md-12 toggle-tooltip"
+                                                          title="Employee Remark : @(item.Reason ?? "Not Available")
+                                                 Reporting Remark : @(item.ReporotingToRemark ?? "Not Available")
+                                                 Reviewer Remark : @(item.ReviewerToRemark ?? "Not Available") ">Rejected</span>
+                                                </h5>
+                                            }
+                                            else if (item.StatusID == (int)EmpLeaveStatus.RejectedByAcceptanceAuthority)
+                                            {
+                                                <h5>
+                                                    <span class="badge badge-pill badge-danger col-md-12 toggle-tooltip"
+                                                          title="Employee Remark : @(item.Reason ?? "Not Available")
+                                                 Reporting Remark : @(item.ReporotingToRemark ?? "Not Available")
+                                                 Acceptance Remark : @(item.ReviewerToRemark ?? "Not Available") ">Rejected</span>
+                                                </h5>
+                                            }
+                                        </td>
+
+                                        <td class="text-center">
+                                            @if (item.StatusID == (int)EmpLeaveStatus.Pending)
+                                    {
+                                        totalLeavepending = Model.leaveList.Where(x => x.StatusID == (int)EmpLeaveStatus.Pending).Count();
+                                                <a data-ajax="true"
+                                                   method="POST" class="toggle-tooltip" title="Click here, to approve request."
+                                                   data-ajax-update="#div-approvalLeavePopup" data-ajax-mode="replace"
+                                                   data-backdrop="static" data-keyboard="false"
+                                                   href="@Url.Action("_GetLeaveApprovalPopup", "ApprovalRequest", new
+                                            {
+                                                empID = item.EmployeeId,
+                                                empLeaveID = item.LeaveID,
+                                                status = item.StatusID,
+                                                reportingToRemark = item.ReporotingToRemark,
+                                                reviewerToRemark = item.ReviewerToRemark,
+                                                actionType = "accept",
+                                                ApproverType = 2,
+                                                reportingTo = item.ReportingTo,
+                                                reviewerTo = item.ReviewerTo,
+                                                acceptanceAuthority = item.AcceptanceAuthority,
+                                                approvalRequiredUpto = item.ApprovalRequiredUpto
+                                                    ,
+                                                leaveCategoryName = item.LeaveCategoryName
+                                            })"
+                                                   id="a_leavepopup" data-toggle="modal" data-target="#div-leave-approval-popup">
+                                                    <i class="fa fa-check-square text-success fa-2x" aria-hidden="true"></i>
+                                                </a>
+
+                                                <text> | </text>
+                                                <a data-ajax="true"
+                                                   method="POST" class="toggle-tooltip" title="Click here, to reject request."
+                                                   data-ajax-update="#div-approvalLeavePopup" data-ajax-mode="replace"
+                                                   data-backdrop="static" data-keyboard="false"
+                                                   href="@Url.Action("_GetLeaveApprovalPopup", "ApprovalRequest", new
+                                                    {
+                                                        empID = item.EmployeeId,
+                                                        empLeaveID = item.LeaveID,
+                                                        status = item.StatusID,
+                                                        actionType = "reject",
+                                                        ApproverType = 2,
+                                                        reportingTo = item.ReportingTo,
+                                                        reviewerTo = item.ReviewerTo,
+                                                        acceptanceAuthority = item.AcceptanceAuthority,
+                                                        approvalRequiredUpto = item.ApprovalRequiredUpto,
+                                                        leaveCategoryName = item.LeaveCategoryName
+
+                                                    })"
+                                                   id="a_leavepopup" data-toggle="modal" data-target="#div-leave-approval-popup">
+                                                    <i class="fa fa-window-close text-danger fa-2x" aria-hidden="true"></i>
+                                                </a>
+                                            }
+
+                                        </td>
+
+                                    </tr>
+                                }
+                            }
+                        }
+                        else if (item.ReviewerTo.HasValue && item.ReviewerTo == uDetails.EmployeeID)
+                        {
+                            if (item.AcceptanceAuthority.HasValue)
+                            {
+                                if (item.StatusID == (int)EmpLeaveStatus.InProcess || item.StatusID == (int)EmpLeaveStatus.RejectedByAcceptanceAuthority || item.StatusID == (int)EmpLeaveStatus.RejectedByReviwerOfficer || item.StatusID == (int)EmpLeaveStatus.AcceptedByReviewerOfficer)
+                                {
+                                    <tr>
+                                        <td> @sno</td>
+                                        <td> @item.EmployeeCode <text> - </text>  @item.EmployeeName </td>
+                                        <td> @item.LeaveCategoryName</td>
+                                        <td class="text-center"> @item.DateFrom.Value.ToString("dd/MM/yyyy")</td>
+                                        <td class="text-center"> @item.DateTo.Value.ToString("dd/MM/yyyy")</td>
+                                        <td class="text-center">@item.CreatedOn.ToString("dd/MM/yyyy")</td>
+                                        <td class="text-center"> @(item.Unit)</td>
+                                        <td> @item.Reason</td>
+                                        <td class="text-center">
+                                            @if (@item.DocumentName != null)
+                                            {   @*<a class="toggle-tooltip" href="@Url.Action("DownloadDocument", "EmployeeLeave", new { FileID = @item.DocumentName })" title="Click here, to download document" data-target="#myModal">
+                                                <span class="fa fa-paperclip fa-2x" aria-hidden="true"></span>
+                                            </a>*@
+                                            @Html.EncodedImageActionLink("", "DownloadDocument", "EmployeeLeave", new { FileID = @item.DocumentName }, new { @class = "toggle-tooltip", title = "Click here, to download document" }, "~/Images/document.png", false, "#myModal")
+                                            }
+                                        </td>
+                                        <td class="text-center">
+
+                                            @if (item.StatusID == (int)EmpLeaveStatus.InProcess)
+                                            {
+                                                <h5>
+                                                    <span class="badge badge-pill badge-info col-md-12 toggle-tooltip"
+                                                          title="Employee Remark : @(item.Reason ?? "Not Available")
+                                                 Reporting Remark : @(item.ReporotingToRemark ?? "Not Available")">In Process</span>
+                                                </h5>
+                                            }
+
+                                            else if (item.StatusID == (int)EmpLeaveStatus.RejectedByReviwerOfficer)
+                                            {
+                                                <h5>
+                                                    <span class="badge badge-pill badge-danger col-md-12 toggle-tooltip"
+                                                          title="Employee Remark : @(item.Reason ?? "Not Available")
+                                                 Reporting Remark : @(item.ReporotingToRemark ?? "Not Available")
+                                                 Reviewer Remark : @(item.ReviewerToRemark ?? "Not Available") ">Rejected</span>
+                                                </h5>
+                                            }
+                                            else if (item.StatusID == (int)EmpLeaveStatus.AcceptedByReviewerOfficer)
+                                            {
+                                                <h5>
+                                                    <span class="badge badge-pill badge-info col-md-12 toggle-tooltip"
+                                                          title="Employee Remark : @(item.Reason ?? "Not Available")
+                                                 Reporting Remark : @(item.ReporotingToRemark ?? "Not Available")
+                                                 Reviewer Remark : @(item.ReviewerToRemark ?? "Not Available") ">Accepted by Reviewer Officer</span>
+                                                </h5>
+                                            }
+                                            else if (item.StatusID == (int)EmpLeaveStatus.RejectedByAcceptanceAuthority)
+                                            {
+                                                <h5>
+                                                    <span class="badge badge-pill badge-danger col-md-12 toggle-tooltip"
+                                                          title="Employee Remark : @(item.Reason ?? "Not Available")
+                                                 Reporting Remark : @(item.ReporotingToRemark ?? "Not Available")
+                                                 Reviewer Remark : @(item.ReviewerToRemark ?? "Not Available")
+                                                 Acceptance Authority Remark : @(item.ReviewerToRemark ?? "Not Available")">Rejected</span>
+                                                </h5>
+                                            }
+                                        </td>
+
+                                        <td class="text-center">
+                                            @if (item.StatusID == (int)EmpLeaveStatus.InProcess || item.StatusID == (int)EmpLeaveStatus.RejectedByAcceptanceAuthority)
+                                            {
+                                                totalLeavepending = Model.leaveList.Where(x => x.StatusID == (int)EmpLeaveStatus.InProcess).Count();
+                                                <a data-ajax="true"
+                                                   method="POST" class="toggle-tooltip" title="Click here, to approve request."
+                                                   data-ajax-update="#div-approvalLeavePopup" data-ajax-mode="replace"
+                                                   data-backdrop="static" data-keyboard="false"
+                                                   href="@Url.Action("_GetLeaveApprovalPopup", "ApprovalRequest", new
+                                                    {
+                                                        empID = item.EmployeeId,
+                                                        empLeaveID = item.LeaveID,
+                                                        status = item.StatusID,
+                                                        reportingToRemark = item.ReporotingToRemark,
+                                                        reviewerToRemark = item.ReviewerToRemark,
+                                                        actionType = "accept",
+                                                        ApproverType = 2,
+                                                        reportingTo = item.ReportingTo,
+                                                        reviewerTo = item.ReviewerTo,
+                                                        acceptanceAuthority = item.AcceptanceAuthority,
+                                                        approvalRequiredUpto = item.ApprovalRequiredUpto
+        ,
+                                                        leaveCategoryName = item.LeaveCategoryName
+
+                                                    })"
+                                                   id="a_leavepopup" data-toggle="modal" data-target="#div-leave-approval-popup">
+                                                    <i class="fa fa-check-square text-success fa-2x" aria-hidden="true"></i>
+                                                </a>
+
+                                                <text> | </text>
+                                                <a data-ajax="true"
+                                                   method="POST" class="toggle-tooltip" title="Click here, to reject request."
+                                                   data-ajax-update="#div-approvalLeavePopup" data-ajax-mode="replace"
+                                                   data-backdrop="static" data-keyboard="false"
+                                                   href="@Url.Action("_GetLeaveApprovalPopup", "ApprovalRequest", new
+                                                    {
+                                                        empID = item.EmployeeId,
+                                                        empLeaveID = item.LeaveID,
+                                                        status = item.StatusID,
+                                                        actionType = "reject",
+                                                        ApproverType = 2,
+                                                        reportingTo = item.ReportingTo,
+                                                        reviewerTo = item.ReviewerTo,
+                                                        acceptanceAuthority = item.AcceptanceAuthority,
+                                                        approvalRequiredUpto = item.ApprovalRequiredUpto
+        ,
+                                                        leaveCategoryName = item.LeaveCategoryName
+
+                                                    })"
+                                                   id="a_leavepopup" data-toggle="modal" data-target="#div-leave-approval-popup">
+                                                    <i class="fa fa-window-close text-danger fa-2x" aria-hidden="true"></i>
+                                                </a>
+                                            }
+
+                                        </td>
+
+                                    </tr>
+                                }
+                            }
+                            else if (!item.AcceptanceAuthority.HasValue)
+                            {
+                                if (item.StatusID == (int)EmpLeaveStatus.InProcess || item.StatusID == (int)EmpLeaveStatus.RejectedByAcceptanceAuthority || item.StatusID == (int)EmpLeaveStatus.Approved)
+                                {
+                                    <tr>
+                                        <td data-label="S.No."> @sno</td>
+                                        <td data-label="Employee"> @item.EmployeeCode <text> - </text>  @item.EmployeeName </td>
+                                        <td data-label="Leave Type"> @item.LeaveCategoryName</td>
+                                        <td data-label="From Date" class="text-center"> @item.DateFrom.Value.ToString("dd/MM/yyyy")</td>
+                                        <td data-label="To Date" class="text-center"> @item.DateTo.Value.ToString("dd/MM/yyyy")</td>
+                                        <td data-label="Applied On" class="text-center">@item.CreatedOn.ToString("dd/MM/yyyy")</td>
+                                        <td data-label="Unit" class="text-center"> @(item.Unit)</td>
+                                        <td data-label="Reason"> @item.Reason</td>
+
+                                        <td data-label="Doc" class="text-center">
+                                            @if (@item.DocumentName != null)
+                                            {   @*<a class="toggle-tooltip" href="@Url.Action("DownloadDocument", "EmployeeLeave", new { FileID = @item.DocumentName })" title="Click here, to download document" data-target="#myModal">
+                                                <span class="fa fa-paperclip fa-2x" aria-hidden="true"></span>
+                                            </a>*@
+                                            @Html.EncodedImageActionLink("", "DownloadDocument", "EmployeeLeave", new { FileID = @item.DocumentName }, new { @class = "toggle-tooltip", title = "Click here, to download document" }, "~/Images/document.png", false, "#myModal")
+                                            }
+                                        </td>
+                                        <td data-label="Status" class="text-center">
+                                            @if (item.StatusID == (int)EmpLeaveStatus.Pending)
+                                            {
+                                                <h5 class="mb-0">
+                                                    <span class="badge badge-pill badge-warning col-md-12 toggle-tooltip"
+                                                          title="Employee Remark : @(item.Reason ?? "Not Available")">Pending</span>
+                                                </h5>
+                                            }
+                                            else if (item.StatusID == (int)EmpLeaveStatus.InProcess)
+                                            {
+                                                <h5 class="mb-0">
+                                                    <span class="badge badge-pill badge-info col-md-12 toggle-tooltip"
+                                                          title="Employee Remark : @(item.Reason ?? "Not Available")
+                                                 Reporting Remark : @(item.ReporotingToRemark ?? "Not Available")">In Process</span>
+                                                </h5>
+                                            }
+                                            else if (item.StatusID == (int)EmpLeaveStatus.RejectedByReportingOfficer)
+                                            {
+                                                <h5 class="mb-0">
+                                                    <span class="badge badge-pill badge-danger col-md-12 toggle-tooltip"
+                                                          title="Employee Remark : @(item.Reason ?? "Not Available")
+
+                                                 Reporting Remark : @(item.ReporotingToRemark ?? "Not Available")">Rejected</span>
+                                                </h5>
+                                            }
+                                            else if (item.StatusID == (int)EmpLeaveStatus.Approved)
+                                            {
+                                                <h5 class="mb-0">
+                                                    <span class="badge badge-pill badge-success col-md-12 toggle-tooltip"
+                                                          title="Employee Remark : @(item.Reason ?? "Not Available")
+                                                 Reporting Remark : @(item.ReporotingToRemark ?? "Not Available")
+                                                 Reviewer Remark : @(item.ReviewerToRemark ?? "Not Available") ">
+                                                        Approved
+                                                    </span>
+                                                    @*<span class="badge badge-pill badge-success col-md-12 toggle-tooltip" title="Employee Remark: @item.Reason <br/> Reporting Remark: @item.ReporotingToRemark <br/> Reviwer Remark: @item.ReviewerToRemark">Approved</span>*@
+                                                </h5>
+                                            }
+                                            else if (item.StatusID == (int)EmpLeaveStatus.RejectedByReviwerOfficer)
+                                            {
+                                                <h5 class="mb-0">
+                                                    <span class="badge badge-pill badge-danger col-md-12 toggle-tooltip"
+                                                          title="Employee Remark : @(item.Reason ?? "Not Available")
+                                                 Reporting Remark : @(item.ReporotingToRemark ?? "Not Available")
+                                                 Reviewer Remark : @(item.ReviewerToRemark ?? "Not Available") ">Rejected</span>
+                                                </h5>
+                                            }
+                                            else if (item.StatusID == (int)EmpLeaveStatus.RejectedByAcceptanceAuthority)
+                                            {
+                                                <h5 class="mb-0">
+                                                    <span class="badge badge-pill badge-danger col-md-12 toggle-tooltip"
+                                                          title="Employee Remark : @(item.Reason ?? "Not Available")
+                                                 Reporting Remark : @(item.ReporotingToRemark ?? "Not Available")
+                                                 Acceptance Remark : @(item.ReviewerToRemark ?? "Not Available") ">Rejected</span>
+                                                </h5>
+                                            }
+                                        </td>
+
+                                        <td data-label="Action" class="text-center">
+                                            @if (item.StatusID == (int)EmpLeaveStatus.InProcess)
+                                            {
+                                                totalLeavepending = Model.leaveList.Where(x => x.StatusID == (int)EmpLeaveStatus.InProcess).Count();
+                                                <a data-ajax="true"
+                                                   method="POST" class="toggle-tooltip" title="Click here, to approve request."
+                                                   data-ajax-update="#div-approvalLeavePopup" data-ajax-mode="replace"
+                                                   data-backdrop="static" data-keyboard="false"
+                                                   href="@Url.Action("_GetLeaveApprovalPopup", "ApprovalRequest", new
+                                                    {
+                                                        empID = item.EmployeeId,
+                                                        empLeaveID = item.LeaveID,
+                                                        status = item.StatusID,
+                                                        reportingToRemark = item.ReporotingToRemark,
+                                                        reviewerToRemark = item.ReviewerToRemark,
+                                                        actionType = "accept",
+                                                        ApproverType = 2,
+                                                        reportingTo = item.ReportingTo,
+                                                        reviewerTo = item.ReviewerTo,
+                                                        acceptanceAuthority = item.AcceptanceAuthority,
+                                                        approvalRequiredUpto = item.ApprovalRequiredUpto
+                ,
+                                                        leaveCategoryName = item.LeaveCategoryName
+                                                    })"
+                                                   id="a_leavepopup" data-toggle="modal" data-target="#div-leave-approval-popup">
+                                                    <i class="fa fa-check-square text-success fa-2x" aria-hidden="true"></i>
+                                                </a>
+
+                                                <text> | </text>
+                                                <a data-ajax="true"
+                                                   method="POST" class="toggle-tooltip" title="Click here, to reject request."
+                                                   data-ajax-update="#div-approvalLeavePopup" data-ajax-mode="replace"
+                                                   data-backdrop="static" data-keyboard="false"
+                                                   href="@Url.Action("_GetLeaveApprovalPopup", "ApprovalRequest", new
+                                                    {
+                                                        empID = item.EmployeeId,
+                                                        empLeaveID = item.LeaveID,
+                                                        status = item.StatusID,
+                                                        actionType = "reject",
+                                                        ApproverType = 2,
+                                                        reportingTo = item.ReportingTo,
+                                                        reviewerTo = item.ReviewerTo,
+                                                        acceptanceAuthority = item.AcceptanceAuthority,
+                                                        approvalRequiredUpto = item.ApprovalRequiredUpto
+                ,
+                                                        leaveCategoryName = item.LeaveCategoryName
+
+                                                    })"
+                                                   id="a_leavepopup" data-toggle="modal" data-target="#div-leave-approval-popup">
+                                                    <i class="fa fa-window-close text-danger fa-2x" aria-hidden="true"></i>
+                                                </a>
+                                            }
+
+                                        </td>
+
+                                    </tr>
+                                }
+                            }
+                        }
+                        else if (item.ReportingTo.HasValue && item.ReportingTo == uDetails.EmployeeID)
+                        {
+                            if (item.AcceptanceAuthority.HasValue && item.ReviewerTo.HasValue)
+                            {
+                                if (item.StatusID == (int)EmpLeaveStatus.Pending || item.StatusID == (int)EmpLeaveStatus.InProcess || item.StatusID == (int)EmpLeaveStatus.RejectedByReportingOfficer || item.StatusID == (int)EmpLeaveStatus.AcceptedByReviewerOfficer || item.StatusID == (int)EmpLeaveStatus.RejectedByReviwerOfficer || item.StatusID == (int)EmpLeaveStatus.RejectedByAcceptanceAuthority || item.StatusID == (int)EmpLeaveStatus.Approved)
+                                {
+                                    <tr>
+                                        <td data-label="S.No."> @sno</td>
+                                        <td data-label="Employee"> @item.EmployeeCode <text> - </text>  @item.EmployeeName </td>
+                                        <td data-label="Leave Type"> @item.LeaveCategoryName</td>
+                                        <td data-label="From Date" class="text-center"> @item.DateFrom.Value.ToString("dd/MM/yyyy")</td>
+                                        <td data-label="To Date" class="text-center"> @item.DateTo.Value.ToString("dd/MM/yyyy")</td>
+                                        <td data-label="Applied On" class="text-center">@item.CreatedOn.ToString("dd/MM/yyyy")</td>
+                                        <td data-label="Unit" class="text-center"> @(item.Unit)</td>
+                                        <td data-label="Reason"> @item.Reason</td>
+
+                                        <td data-label="Doc" class="text-center">
+                                            @if (@item.DocumentName != null)
+                                            {   @*<a class="toggle-tooltip" href="@Url.Action("DownloadDocument", "EmployeeLeave", new { FileID = @item.DocumentName })" title="Click here, to download document" data-target="#myModal">
+                                                <span class="fa fa-paperclip fa-2x" aria-hidden="true"></span>
+                                            </a>*@
+                                            @Html.EncodedImageActionLink("", "DownloadDocument", "EmployeeLeave", new { FileID = @item.DocumentName }, new { @class = "toggle-tooltip", title = "Click here, to download document" }, "~/Images/document.png", false, "#myModal")
+                                            }
+                                        </td>
+                                        <td data-label="Status" class="text-center">
+                                            @if (item.StatusID == (int)EmpLeaveStatus.Pending)
+                                            {
+                                                <h5 class="mb-0">
+                                                    <span class="badge badge-pill badge-warning col-md-12 toggle-tooltip"
+                                                          title="Employee Remark : @(item.Reason ?? "Not Available")">Pending</span>
+                                                </h5>
+                                            }
+                                            else if (item.StatusID == (int)EmpLeaveStatus.InProcess)
+                                            {
+                                                <h5 class="mb-0">
+                                                    <span class="badge badge-pill badge-info col-md-12 toggle-tooltip"
+                                                          title="Employee Remark : @(item.Reason ?? "Not Available")
+                                                 Reporting Remark : @(item.ReporotingToRemark ?? "Not Available")">In Process</span>
+                                                </h5>
+                                            }
+                                            else if (item.StatusID == (int)EmpLeaveStatus.RejectedByReportingOfficer)
+                                            {
+                                                <h5 class="mb-0">
+                                                    <span class="badge badge-pill badge-danger col-md-12 toggle-tooltip"
+                                                          title="Employee Remark : @(item.Reason ?? "Not Available")
+                                                 Reporting Remark : @(item.ReporotingToRemark ?? "Not Available")">Rejected</span>
+                                                </h5>
+                                            }
+                                            else if (item.StatusID == (int)EmpLeaveStatus.Approved)
+                                            {
+                                                <h5 class="mb-0">
+                                                    <span class="badge badge-pill badge-success col-md-12 toggle-tooltip"
+                                                          title="Employee Remark : @(item.Reason ?? "Not Available")
+                                                 Reporting Remark : @(item.ReporotingToRemark ?? "Not Available")
+                                                 Reviewer Remark : @(item.ReviewerToRemark ?? "Not Available") ">
+                                                        Approved
+                                                    </span>
+                                                    @*<span class="badge badge-pill badge-success col-md-12 toggle-tooltip" title="Employee Remark: @item.Reason <br/> Reporting Remark: @item.ReporotingToRemark <br/> Reviwer Remark: @item.ReviewerToRemark">Approved</span>*@
+                                                </h5>
+                                            }
+                                            else if (item.StatusID == (int)EmpLeaveStatus.RejectedByReviwerOfficer)
+                                            {
+                                                <h5 class="mb-0">
+                                                    <span class="badge badge-pill badge-danger col-md-12 toggle-tooltip"
+                                                          title="Employee Remark : @(item.Reason ?? "Not Available")
+                                                 Reporting Remark : @(item.ReporotingToRemark ?? "Not Available")
+                                                 Reviewer Remark : @(item.ReviewerToRemark ?? "Not Available") ">Rejected</span>
+                                                </h5>
+                                            }
+                                        </td>
+
+                                        <td data-label="Action" class="text-center">
+                                            @if (item.StatusID == (int)EmpLeaveStatus.Pending || item.StatusID == (int)EmpLeaveStatus.RejectedByReviwerOfficer)
+                                            {
+                                                totalLeavepending = Model.leaveList.Where(x => x.StatusID == (int)EmpLeaveStatus.Pending).Count();
+                                                <a data-ajax="true"
+                                                   method="POST" class="toggle-tooltip" title="Click here, to approve request."
+                                                   data-ajax-update="#div-approvalLeavePopup" data-ajax-mode="replace"
+                                                   data-backdrop="static" data-keyboard="false"
+                                                   href="@Url.Action("_GetLeaveApprovalPopup", "ApprovalRequest", new
+                                                    {
+                                                        empID = item.EmployeeId,
+                                                        empLeaveID = item.LeaveID,
+                                                        status = item.StatusID,
+                                                        reportingToRemark = item.ReporotingToRemark,
+                                                        reviewerToRemark = item.ReviewerToRemark,
+                                                        actionType = "accept",
+                                                        ApproverType = 1,
+                                                        reportingTo = item.ReportingTo,
+                                                        reviewerTo = item.ReviewerTo,
+                                                        acceptanceAuthority = item.AcceptanceAuthority,
+                                                        approvalRequiredUpto = item.ApprovalRequiredUpto
+                    ,
+                                                        leaveCategoryName = item.LeaveCategoryName
+
+                                                    })"
+                                                   id="a_leavepopup" data-toggle="modal" data-target="#div-leave-approval-popup">
+                                                    <i class="fa fa-check-square text-success fa-2x" aria-hidden="true"></i>
+                                                </a>
+
+                                                <text> | </text>
+                                                <a data-ajax="true"
+                                                   method="POST" class="toggle-tooltip" title="Click here, to reject request."
+                                                   data-ajax-update="#div-approvalLeavePopup" data-ajax-mode="replace"
+                                                   data-backdrop="static" data-keyboard="false"
+                                                   href="@Url.Action("_GetLeaveApprovalPopup", "ApprovalRequest", new
+                                                    {
+                                                        empID = item.EmployeeId,
+                                                        empLeaveID = item.LeaveID,
+                                                        status = item.StatusID,
+                                                        actionType = "reject",
+                                                        ApproverType = 1,
+                                                        reportingTo = item.ReportingTo,
+                                                        reviewerTo = item.ReviewerTo,
+                                                        acceptanceAuthority = item.AcceptanceAuthority,
+                                                        approvalRequiredUpto = item.ApprovalRequiredUpto
+                    ,
+                                                        leaveCategoryName = item.LeaveCategoryName
+
+                                                    })"
+                                                   id="a_leavepopup" data-toggle="modal" data-target="#div-leave-approval-popup">
+                                                    <i class="fa fa-window-close text-danger fa-2x" aria-hidden="true"></i>
+                                                </a>
+                                            }
+
+                                        </td>
+
+                                    </tr>
+                                }
+                            }
+                            else if (!item.AcceptanceAuthority.HasValue && item.ReviewerTo.HasValue)
+                            {
+                                if (item.StatusID == (int)EmpLeaveStatus.Pending || item.StatusID == (int)EmpLeaveStatus.InProcess || item.StatusID == (int)EmpLeaveStatus.RejectedByReportingOfficer || item.StatusID == (int)EmpLeaveStatus.Approved || item.StatusID == (int)EmpLeaveStatus.RejectedByAcceptanceAuthority)
+                                {
+                                    <tr>
+                                        <td data-label="S.No."> @sno</td>
+                                        <td data-label="Employee"> @item.EmployeeCode <text> - </text>  @item.EmployeeName </td>
+                                        <td data-label="Leave Type"> @item.LeaveCategoryName</td>
+                                        <td data-label="From Date" class="text-center"> @item.DateFrom.Value.ToString("dd/MM/yyyy")</td>
+                                        <td data-label="To Date" class="text-center"> @item.DateTo.Value.ToString("dd/MM/yyyy")</td>
+                                        <td data-label="Applied On" class="text-center">@item.CreatedOn.ToString("dd/MM/yyyy")</td>
+                                        <td data-label="Unit" class="text-center"> @(item.Unit)</td>
+                                        <td data-label="Reason"> @item.Reason</td>
+
+                                        <td data-label="Doc" class="text-center">
+                                            @if (@item.DocumentName != null)
+                                            {   @*<a class="toggle-tooltip" href="@Url.Action("DownloadDocument", "EmployeeLeave", new { FileID = @item.DocumentName })" title="Click here, to download document" data-target="#myModal">
+                                                <span class="fa fa-paperclip fa-2x" aria-hidden="true"></span>
+                                            </a>*@
+                                            @Html.EncodedImageActionLink("", "DownloadDocument", "EmployeeLeave", new { FileID = @item.DocumentName }, new { @class = "toggle-tooltip", title = "Click here, to download document" }, "~/Images/document.png", false, "#myModal")
+                                            }
+                                        </td>
+                                        <td data-label="Status" class="text-center">
+                                            @if (item.StatusID == (int)EmpLeaveStatus.Pending)
+                                            {
+                                                <h5 class="mb-0">
+                                                    <span class="badge badge-pill badge-warning col-md-12 toggle-tooltip"
+                                                          title="Employee Remark : @(item.Reason ?? "Not Available")">Pending</span>
+                                                </h5>
+                                            }
+                                            else if (item.StatusID == (int)EmpLeaveStatus.InProcess)
+                                            {
+                                                <h5 class="mb-0">
+                                                    <span class="badge badge-pill badge-info col-md-12 toggle-tooltip"
+                                                          title="Employee Remark : @(item.Reason ?? "Not Available")
+                                                 Reporting Remark : @(item.ReporotingToRemark ?? "Not Available")">In Process</span>
+                                                </h5>
+                                            }
+                                            else if (item.StatusID == (int)EmpLeaveStatus.RejectedByReportingOfficer)
+                                            {
+                                                <h5 class="mb-0">
+                                                    <span class="badge badge-pill badge-danger col-md-12 toggle-tooltip"
+                                                          title="Employee Remark : @(item.Reason ?? "Not Available")
+                                                 Reporting Remark : @(item.ReporotingToRemark ?? "Not Available")">Rejected</span>
+                                                </h5>
+                                            }
+                                            else if (item.StatusID == (int)EmpLeaveStatus.Approved)
+                                            {
+                                                <h5 class="mb-0">
+                                                    <span class="badge badge-pill badge-success col-md-12 toggle-tooltip"
+                                                          title="Employee Remark : @(item.Reason ?? "Not Available")
+                                                 Reporting Remark : @(item.ReporotingToRemark ?? "Not Available")
+                                                 Reviewer Remark : @(item.ReviewerToRemark ?? "Not Available") ">
+                                                        Approved
+                                                    </span>
+                                                    @*<span class="badge badge-pill badge-success col-md-12 toggle-tooltip" title="Employee Remark: @item.Reason <br/> Reporting Remark: @item.ReporotingToRemark <br/> Reviwer Remark: @item.ReviewerToRemark">Approved</span>*@
+                                                </h5>
+                                            }
+                                            else if (item.StatusID == (int)EmpLeaveStatus.RejectedByAcceptanceAuthority)
+                                            {
+                                                <h5 class="mb-0">
+                                                    <span class="badge badge-pill badge-danger col-md-12 toggle-tooltip"
+                                                          title="Employee Remark : @(item.Reason ?? "Not Available")
+                                                 Reporting Remark : @(item.ReporotingToRemark ?? "Not Available")
+                                                 Reviewer Remark : @(item.ReviewerToRemark ?? "Not Available") ">Rejected</span>
+                                                </h5>
+                                            }
+                                        </td>
+
+                                        <td data-label="Action" class="text-center">
+                                            @if (item.StatusID == (int)EmpLeaveStatus.Pending || item.StatusID == (int)EmpLeaveStatus.RejectedByReviwerOfficer)
+                                            {
+                                                totalLeavepending = Model.leaveList.Where(x => x.StatusID == (int)EmpLeaveStatus.Pending).Count();
+                                                <a data-ajax="true"
+                                                   method="POST" class="toggle-tooltip" title="Click here, to approve request."
+                                                   data-ajax-update="#div-approvalLeavePopup" data-ajax-mode="replace"
+                                                   data-backdrop="static" data-keyboard="false"
+                                                   href="@Url.Action("_GetLeaveApprovalPopup", "ApprovalRequest", new
+                                                    {
+                                                        empID = item.EmployeeId,
+                                                        empLeaveID = item.LeaveID,
+                                                        status = item.StatusID,
+                                                        reportingToRemark = item.ReporotingToRemark,
+                                                        reviewerToRemark = item.ReviewerToRemark,
+                                                        actionType = "accept",
+                                                        ApproverType = 1,
+                                                        reportingTo = item.ReportingTo,
+                                                        reviewerTo = item.ReviewerTo,
+                                                        acceptanceAuthority = item.AcceptanceAuthority,
+                                                        approvalRequiredUpto = item.ApprovalRequiredUpto
+                    ,
+                                                        leaveCategoryName = item.LeaveCategoryName
+
+                                                    })"
+                                                   id="a_leavepopup" data-toggle="modal" data-target="#div-leave-approval-popup">
+                                                    <i class="fa fa-check-square text-success fa-2x" aria-hidden="true"></i>
+                                                </a>
+
+                                                <text> | </text>
+                                                <a data-ajax="true"
+                                                   method="POST" class="toggle-tooltip" title="Click here, to reject request."
+                                                   data-ajax-update="#div-approvalLeavePopup" data-ajax-mode="replace"
+                                                   data-backdrop="static" data-keyboard="false"
+                                                   href="@Url.Action("_GetLeaveApprovalPopup", "ApprovalRequest", new
+                                                    {
+                                                        empID = item.EmployeeId,
+                                                        empLeaveID = item.LeaveID,
+                                                        status = item.StatusID,
+                                                        actionType = "reject",
+                                                        ApproverType = 1,
+                                                        reportingTo = item.ReportingTo,
+                                                        reviewerTo = item.ReviewerTo,
+                                                        acceptanceAuthority = item.AcceptanceAuthority,
+                                                        approvalRequiredUpto = item.ApprovalRequiredUpto
+                    ,
+                                                        leaveCategoryName = item.LeaveCategoryName
+
+                                                    })"
+                                                   id="a_leavepopup" data-toggle="modal" data-target="#div-leave-approval-popup">
+                                                    <i class="fa fa-window-close text-danger fa-2x" aria-hidden="true"></i>
+                                                </a>
+                                            }
+
+                                        </td>
+
+                                    </tr>
+                                }
+                            }
+                            else if (!item.AcceptanceAuthority.HasValue && !item.ReviewerTo.HasValue)
+                            {
+                                if (item.StatusID == (int)EmpLeaveStatus.Pending || item.StatusID == (int)EmpLeaveStatus.RejectedByAcceptanceAuthority || item.StatusID == (int)EmpLeaveStatus.Approved)
+                                {
+                                    <tr>
+                                        <td data-label="S.No."> @sno</td>
+                                        <td data-label="Employee"> @item.EmployeeCode <text> - </text>  @item.EmployeeName </td>
+                                        <td data-label="Leave Type"> @item.LeaveCategoryName</td>
+                                        <td data-label="From Date" class="text-center"> @item.DateFrom.Value.ToString("dd/MM/yyyy")</td>
+                                        <td data-label="To Date" class="text-center"> @item.DateTo.Value.ToString("dd/MM/yyyy")</td>
+                                        <td data-label="Applied On" class="text-center">@item.CreatedOn.ToString("dd/MM/yyyy")</td>
+                                        <td data-label="Unit" class="text-center"> @(item.Unit)</td>
+                                        <td data-label="Reason"> @item.Reason</td>
+
+                                        <td data-label="Doc" class="text-center">
+                                            @if (@item.DocumentName != null)
+                                            {   @*<a class="toggle-tooltip" href="@Url.Action("DownloadDocument", "EmployeeLeave", new { FileID = @item.DocumentName })" title="Click here, to download document" data-target="#myModal">
+                                                <span class="fa fa-paperclip fa-2x" aria-hidden="true"></span>
+                                            </a>*@
+                                            @Html.EncodedImageActionLink("", "DownloadDocument", "EmployeeLeave", new { FileID = @item.DocumentName }, new { @class = "toggle-tooltip", title = "Click here, to download document" }, "~/Images/document.png", false, "#myModal")
+                                            }
+                                        </td>
+                                        <td data-label="Status" class="text-center">
+                                            @if (item.StatusID == (int)EmpLeaveStatus.Pending)
+                                            {
+                                                <h5 class="mb-0">
+                                                    <span class="badge badge-pill badge-warning col-md-12 toggle-tooltip"
+                                                          title="Employee Remark : @(item.Reason ?? "Not Available")">Pending</span>
+                                                </h5>
+                                            }
+                                            else if (item.StatusID == (int)EmpLeaveStatus.InProcess)
+                                            {
+                                                <h5 class="mb-0">
+                                                    <span class="badge badge-pill badge-info col-md-12 toggle-tooltip"
+                                                          title="Employee Remark : @(item.Reason ?? "Not Available")
+                                                 Reporting Remark : @(item.ReporotingToRemark ?? "Not Available")">In Process</span>
+                                                </h5>
+                                            }
+                                            else if (item.StatusID == (int)EmpLeaveStatus.RejectedByReportingOfficer)
+                                            {
+                                                <h5 class="mb-0">
+                                                    <span class="badge badge-pill badge-danger col-md-12 toggle-tooltip"
+                                                          title="Employee Remark : @(item.Reason ?? "Not Available")
+                                                 Reporting Remark : @(item.ReporotingToRemark ?? "Not Available")">Rejected</span>
+                                                </h5>
+                                            }
+                                            else if (item.StatusID == (int)EmpLeaveStatus.Approved)
+                                            {
+                                                <h5 class="mb-0">
+                                                    <span class="badge badge-pill badge-success col-md-12 toggle-tooltip"
+                                                          title="Employee Remark : @(item.Reason ?? "Not Available")
+                                                 Reporting Remark : @(item.ReporotingToRemark ?? "Not Available")
+                                                 Reviewer Remark : @(item.ReviewerToRemark ?? "Not Available") ">
+                                                        Approved
+                                                    </span>
+                                                    @*<span class="badge badge-pill badge-success col-md-12 toggle-tooltip" title="Employee Remark: @item.Reason <br/> Reporting Remark: @item.ReporotingToRemark <br/> Reviwer Remark: @item.ReviewerToRemark">Approved</span>*@
+                                                </h5>
+                                            }
+                                            else if (item.StatusID == (int)EmpLeaveStatus.RejectedByReviwerOfficer)
+                                            {
+                                                <h5 class="mb-0">
+                                                    <span class="badge badge-pill badge-danger col-md-12 toggle-tooltip"
+                                                          title="Employee Remark : @(item.Reason ?? "Not Available")
+                                                 Reporting Remark : @(item.ReporotingToRemark ?? "Not Available")
+                                                 Reviewer Remark : @(item.ReviewerToRemark ?? "Not Available") ">Rejected</span>
+                                                </h5>
+                                            }
+                                        </td>
+
+                                        <td data-label="Action" class="text-center">
+                                            @if (item.StatusID == (int)EmpLeaveStatus.Pending)
+                                            {
+                                                totalLeavepending = Model.leaveList.Where(x => x.StatusID == (int)EmpLeaveStatus.Pending).Count();
+                                                <a data-ajax="true"
+                                                   method="POST" class="toggle-tooltip" title="Click here, to approve request."
+                                                   data-ajax-update="#div-approvalLeavePopup" data-ajax-mode="replace"
+                                                   data-backdrop="static" data-keyboard="false"
+                                                   href="@Url.Action("_GetLeaveApprovalPopup", "ApprovalRequest", new
+                                                    {
+                                                        empID = item.EmployeeId,
+                                                        empLeaveID = item.LeaveID,
+                                                        status = item.StatusID,
+                                                        reportingToRemark = item.ReporotingToRemark,
+                                                        reviewerToRemark = item.ReviewerToRemark,
+                                                        actionType = "accept",
+                                                        ApproverType = 1,
+                                                        reportingTo = item.ReportingTo,
+                                                        reviewerTo = item.ReviewerTo,
+                                                        acceptanceAuthority = item.AcceptanceAuthority,
+                                                        approvalRequiredUpto = item.ApprovalRequiredUpto
+                    ,
+                                                        leaveCategoryName = item.LeaveCategoryName
+
+                                                    })"
+                                                   id="a_leavepopup" data-toggle="modal" data-target="#div-leave-approval-popup">
+                                                    <i class="fa fa-check-square text-success fa-2x" aria-hidden="true"></i>
+                                                </a>
+
+                                                <text> | </text>
+                                                <a data-ajax="true"
+                                                   method="POST" class="toggle-tooltip" title="Click here, to reject request."
+                                                   data-ajax-update="#div-approvalLeavePopup" data-ajax-mode="replace"
+                                                   data-backdrop="static" data-keyboard="false"
+                                                   href="@Url.Action("_GetLeaveApprovalPopup", "ApprovalRequest", new
+                                                    {
+                                                        empID = item.EmployeeId,
+                                                        empLeaveID = item.LeaveID,
+                                                        status = item.StatusID,
+                                                        actionType = "reject",
+                                                        ApproverType = 1,
+                                                        reportingTo = item.ReportingTo,
+                                                        reviewerTo = item.ReviewerTo,
+                                                        acceptanceAuthority = item.AcceptanceAuthority,
+                                                        approvalRequiredUpto = item.ApprovalRequiredUpto
+                    ,
+                                                        leaveCategoryName = item.LeaveCategoryName
+
+                                                    })"
+                                                   id="a_leavepopup" data-toggle="modal" data-target="#div-leave-approval-popup">
+                                                    <i class="fa fa-window-close text-danger fa-2x" aria-hidden="true"></i>
+                                                </a>
+                                            }
+
+                                        </td>
+
+                                    </tr>
+                                }
+                            }
+                        }
+                    }
+                    else if (item.ApprovalRequiredUpto == 2)
+                    {
+                        if (!item.ReviewerTo.HasValue && item.ReportingTo == uDetails.EmployeeID)
+                        {
+                            if (item.StatusID == (int)EmpLeaveStatus.Pending || item.StatusID == (int)EmpLeaveStatus.RejectedByAcceptanceAuthority || item.StatusID == (int)EmpLeaveStatus.RejectedByReportingOfficer || item.StatusID == (int)EmpLeaveStatus.InProcess)
+                            {
+                                <tr>
+                                    <td data-label="S.No."> @sno</td>
+                                    <td data-label="Employee"> @item.EmployeeCode <text> - </text>  @item.EmployeeName </td>
+                                    <td data-label="Leave Type"> @item.LeaveCategoryName</td>
+                                    <td data-label="From Date" class="text-center"> @item.DateFrom.Value.ToString("dd/MM/yyyy")</td>
+                                    <td data-label="To Date" class="text-center"> @item.DateTo.Value.ToString("dd/MM/yyyy")</td>
+                                    <td data-label="Applied On" class="text-center">@item.CreatedOn.ToString("dd/MM/yyyy")</td>
+                                    <td data-label="Unit" class="text-center"> @(item.Unit)</td>
+                                    <td data-label="Reason"> @item.Reason</td>
+                                    <td data-label="Doc" class="text-center">
+                                        @if (@item.DocumentName != null)
+                                        {   @*<a class="toggle-tooltip" href="@Url.Action("DownloadDocument", "EmployeeLeave", new { FileID = @item.DocumentName })" title="Click here, to download document" data-target="#myModal">
+                                            <span class="fa fa-paperclip fa-2x" aria-hidden="true"></span>
+                                        </a>*@
+                                        @Html.EncodedImageActionLink("", "DownloadDocument", "EmployeeLeave", new { FileID = @item.DocumentName }, new { @class = "toggle-tooltip", title = "Click here, to download document" }, "~/Images/document.png", false, "#myModal")
+                                        }
+                                    </td>
+                                    <td data-label="Status" class="text-center">
+                                        @if (item.StatusID == (int)EmpLeaveStatus.Pending)
+                                        {
+                                            <h5 class="mb-0">
+                                                <span class="badge badge-pill badge-warning col-md-12 toggle-tooltip"
+                                                      title="Employee Remark : @(item.Reason ?? "Not Available")">Pending</span>
+                                            </h5>
+                                        }
+                                        else if (item.StatusID == (int)EmpLeaveStatus.InProcess)
+                                        {
+                                            <h5 class="mb-0">
+                                                <span class="badge badge-pill badge-info col-md-12 toggle-tooltip"
+                                                      title="Employee Remark : @(item.Reason ?? "Not Available")
+                                                 Reporting Remark : @(item.ReporotingToRemark ?? "Not Available")">In Process</span>
+                                            </h5>
+                                        }
+                                        else if (item.StatusID == (int)EmpLeaveStatus.RejectedByReportingOfficer)
+                                        {
+                                            <h5 class="mb-0">
+                                                <span class="badge badge-pill badge-danger col-md-12 toggle-tooltip"
+                                                      title="Employee Remark : @(item.Reason ?? "Not Available")
+                                                 Reporting Remark : @(item.ReporotingToRemark ?? "Not Available")">Rejected</span>
+                                            </h5>
+                                        }
+                                        else if (item.StatusID == (int)EmpLeaveStatus.Approved)
+                                        {
+                                            <h5 class="mb-0">
+                                                <span class="badge badge-pill badge-success col-md-12 toggle-tooltip"
+                                                      title="Employee Remark : @(item.Reason ?? "Not Available")
+                                                 Reporting Remark : @(item.ReporotingToRemark ?? "Not Available")
+                                                 Reviewer Remark : @(item.ReviewerToRemark ?? "Not Available") ">
+                                                    Approved
+                                                </span>
+                                                @*<span class="badge badge-pill badge-success col-md-12 toggle-tooltip" title="Employee Remark: @item.Reason <br/> Reporting Remark: @item.ReporotingToRemark <br/> Reviwer Remark: @item.ReviewerToRemark">Approved</span>*@
+                                            </h5>
+                                        }
+                                        else if (item.StatusID == (int)EmpLeaveStatus.RejectedByReviwerOfficer)
+                                        {
+                                            <h5 class="mb-0">
+                                                <span class="badge badge-pill badge-danger col-md-12 toggle-tooltip"
+                                                      title="Employee Remark : @(item.Reason ?? "Not Available")
+                                                 Reporting Remark : @(item.ReporotingToRemark ?? "Not Available")
+                                                 Reviewer Remark : @(item.ReviewerToRemark ?? "Not Available") ">Rejected</span>
+                                            </h5>
+                                        }
+                                    </td>
+
+                                    <td data-label="Action" class="text-center">
+                                        @if (item.StatusID == (int)EmpLeaveStatus.Pending || item.StatusID == (int)EmpLeaveStatus.RejectedByReviwerOfficer || item.StatusID == (int)EmpLeaveStatus.RejectedByReportingOfficer)
+                                        {
+                                            totalLeavepending = Model.leaveList.Where(x => x.StatusID == (int)EmpLeaveStatus.Pending).Count();
+                                            <a data-ajax="true"
+                                               method="POST" class="toggle-tooltip" title="Click here, to approve request."
+                                               data-ajax-update="#div-approvalLeavePopup" data-ajax-mode="replace"
+                                               data-backdrop="static" data-keyboard="false"
+                                               href="@Url.Action("_GetLeaveApprovalPopup", "ApprovalRequest", new
+                                            {
+                                                empID = item.EmployeeId,
+                                                empLeaveID = item.LeaveID,
+                                                status = item.StatusID,
+                                                reportingToRemark = item.ReporotingToRemark,
+                                                reviewerToRemark = item.ReviewerToRemark,
+                                                actionType = "accept",
+                                                ApproverType = 1,
+                                                reportingTo = item.ReportingTo,
+                                                reviewerTo = item.ReviewerTo,
+                                                acceptanceAuthority = item.AcceptanceAuthority,
+                                                approvalRequiredUpto = item.ApprovalRequiredUpto
+                                                ,leaveCategoryName= item.LeaveCategoryName
+
+                                            })"
+                                               id="a_leavepopup" data-toggle="modal" data-target="#div-leave-approval-popup">
+                                                <i class="fa fa-check-square text-success fa-2x" aria-hidden="true"></i>
+                                            </a>
+
+                                            <text> | </text>
+                                            <a data-ajax="true"
+                                               method="POST" class="toggle-tooltip" title="Click here, to reject request."
+                                               data-ajax-update="#div-approvalLeavePopup" data-ajax-mode="replace"
+                                               data-backdrop="static" data-keyboard="false"
+                                               href="@Url.Action("_GetLeaveApprovalPopup", "ApprovalRequest", new
+                                            {
+                                                empID = item.EmployeeId,
+                                                empLeaveID = item.LeaveID,
+                                                status = item.StatusID,
+                                                actionType = "reject",
+                                                ApproverType = 1,
+                                                reportingTo = item.ReportingTo,
+                                                reviewerTo = item.ReviewerTo,
+                                                acceptanceAuthority = item.AcceptanceAuthority,
+                                                approvalRequiredUpto = item.ApprovalRequiredUpto
+                                                ,leaveCategoryName= item.LeaveCategoryName
+
+                                            })"
+                                               id="a_leavepopup" data-toggle="modal" data-target="#div-leave-approval-popup">
+                                                <i class="fa fa-window-close text-danger fa-2x" aria-hidden="true"></i>
+                                            </a>
+                                        }
+
+                                    </td>
+
+                                </tr>
+                            }
+                        }
+                        else if (item.ReviewerTo.HasValue && item.ReportingTo == uDetails.EmployeeID)
+                        {
+                            <tr>
+                                <td data-label="S.No."> @sno</td>
+                                <td data-label="Employee"> @item.EmployeeCode <text> - </text>  @item.EmployeeName </td>
+                                <td data-label="Leave Type"> @item.LeaveCategoryName</td>
+                                <td data-label="From Date" class="text-center"> @item.DateFrom.Value.ToString("dd/MM/yyyy")</td>
+                                <td data-label="To Date" class="text-center"> @item.DateTo.Value.ToString("dd/MM/yyyy")</td>
+                                <td data-label="Applied On" class="text-center">@item.CreatedOn.ToString("dd/MM/yyyy")</td>
+                                <td data-label="Unit" class="text-center"> @(item.Unit)</td>
+                                <td data-label="Reason"> @item.Reason</td>
+                                <td data-label="Doc" class="text-center">
+                                    @if (@item.DocumentName != null)
+                                    {   @*<a class="toggle-tooltip" href="@Url.Action("DownloadDocument", "EmployeeLeave", new { FileID = @item.DocumentName })" title="Click here, to download document" data-target="#myModal">
+                                        <span class="fa fa-paperclip fa-2x" aria-hidden="true"></span>
+                                    </a>*@
+                                    @Html.EncodedImageActionLink("", "DownloadDocument", "EmployeeLeave", new { FileID = @item.DocumentName }, new { @class = "toggle-tooltip", title = "Click here, to download document" }, "~/Images/document.png", false, "#myModal")
+                                    }
+                                </td>
+                                <td data-label="Status" class="text-center">
+                                    @if (item.StatusID == (int)EmpLeaveStatus.Pending)
+                                    {
+                                        <h5 class="mb-0">
+                                            <span class="badge badge-pill badge-warning col-md-12 toggle-tooltip"
+                                                  title="Employee Remark : @(item.Reason ?? "Not Available")">Pending</span>
+                                        </h5>
+                                    }
+                                    else if (item.StatusID == (int)EmpLeaveStatus.InProcess)
+                                    {
+                                        <h5 class="mb-0">
+                                            <span class="badge badge-pill badge-info col-md-12 toggle-tooltip"
+                                                  title="Employee Remark : @(item.Reason ?? "Not Available")
+                                                 Reporting Remark : @(item.ReporotingToRemark ?? "Not Available")">In Process</span>
+                                        </h5>
+                                    }
+                                    else if (item.StatusID == (int)EmpLeaveStatus.RejectedByReportingOfficer)
+                                    {
+                                        <h5 class="mb-0">
+                                            <span class="badge badge-pill badge-danger col-md-12 toggle-tooltip"
+                                                  title="Employee Remark : @(item.Reason ?? "Not Available")
+                                                 Reporting Remark : @(item.ReporotingToRemark ?? "Not Available")">Rejected</span>
+                                        </h5>
+                                    }
+                                    else if (item.StatusID == (int)EmpLeaveStatus.Approved)
+                                    {
+                                        <h5 class="mb-0">
+                                            <span class="badge badge-pill badge-success col-md-12 toggle-tooltip"
+                                                  title="Employee Remark : @(item.Reason ?? "Not Available")
+                                                 Reporting Remark : @(item.ReporotingToRemark ?? "Not Available")
+                                                 Reviewer Remark : @(item.ReviewerToRemark ?? "Not Available") ">
+                                                Approved
+                                            </span>
+                                            @*<span class="badge badge-pill badge-success col-md-12 toggle-tooltip" title="Employee Remark: @item.Reason <br/> Reporting Remark: @item.ReporotingToRemark <br/> Reviwer Remark: @item.ReviewerToRemark">Approved</span>*@
+                                        </h5>
+                                    }
+                                    else if (item.StatusID == (int)EmpLeaveStatus.RejectedByReviwerOfficer)
+                                    {
+                                        <h5 class="mb-0">
+                                            <span class="badge badge-pill badge-danger col-md-12 toggle-tooltip"
+                                                  title="Employee Remark : @(item.Reason ?? "Not Available")
+                                                 Reporting Remark : @(item.ReporotingToRemark ?? "Not Available")
+                                                 Reviewer Remark : @(item.ReviewerToRemark ?? "Not Available") ">Rejected</span>
+                                        </h5>
+                                    }
+                                </td>
+
+                                <td data-label="Action" class="text-center">
+                                    @if (item.StatusID == (int)EmpLeaveStatus.Pending || item.StatusID == (int)EmpLeaveStatus.RejectedByReviwerOfficer || item.StatusID == (int)EmpLeaveStatus.RejectedByReportingOfficer)
+                                    {
+                                        totalLeavepending = Model.leaveList.Where(x => x.StatusID == (int)EmpLeaveStatus.Pending).Count();
+                                        <a data-ajax="true"
+                                           method="POST" class="toggle-tooltip" title="Click here, to approve request."
+                                           data-ajax-update="#div-approvalLeavePopup" data-ajax-mode="replace"
+                                           data-backdrop="static" data-keyboard="false"
+                                           href="@Url.Action("_GetLeaveApprovalPopup", "ApprovalRequest", new
+                                            {
+                                                empID = item.EmployeeId,
+                                                empLeaveID = item.LeaveID,
+                                                status = item.StatusID,
+                                                reportingToRemark = item.ReporotingToRemark,
+                                                reviewerToRemark = item.ReviewerToRemark,
+                                                actionType = "accept",
+                                                ApproverType = 1,
+                                                reportingTo = item.ReportingTo,
+                                                reviewerTo = item.ReviewerTo,
+                                                acceptanceAuthority = item.AcceptanceAuthority,
+                                                approvalRequiredUpto = item.ApprovalRequiredUpto
+                                                ,leaveCategoryName= item.LeaveCategoryName
+
+                                            })"
+                                           id="a_leavepopup" data-toggle="modal" data-target="#div-leave-approval-popup">
+                                            <i class="fa fa-check-square text-success fa-2x" aria-hidden="true"></i>
+                                        </a>
+
+                                        <text> | </text>
+                                        <a data-ajax="true"
+                                           method="POST" class="toggle-tooltip" title="Click here, to reject request."
+                                           data-ajax-update="#div-approvalLeavePopup" data-ajax-mode="replace"
+                                           data-backdrop="static" data-keyboard="false"
+                                           href="@Url.Action("_GetLeaveApprovalPopup", "ApprovalRequest", new
+                                            {
+                                                empID = item.EmployeeId,
+                                                empLeaveID = item.LeaveID,
+                                                status = item.StatusID,
+                                                actionType = "reject",
+                                                ApproverType = 1,
+                                                reportingTo = item.ReportingTo,
+                                                reviewerTo = item.ReviewerTo,
+                                                acceptanceAuthority = item.AcceptanceAuthority,
+                                                approvalRequiredUpto = item.ApprovalRequiredUpto
+                                                ,leaveCategoryName= item.LeaveCategoryName
+
+                                            })"
+                                           id="a_leavepopup" data-toggle="modal" data-target="#div-leave-approval-popup">
+                                            <i class="fa fa-window-close text-danger fa-2x" aria-hidden="true"></i>
+                                        </a>
+                                    }
+
+                                </td>
+
+                            </tr>
+                        }
+                        else if (item.ReviewerTo.HasValue && item.ReviewerTo == uDetails.EmployeeID)
+                        {
+                            if (item.StatusID == (int)EmpLeaveStatus.InProcess || item.StatusID == (int)EmpLeaveStatus.RejectedByAcceptanceAuthority || item.StatusID == (int)EmpLeaveStatus.Approved)
+                            {
+                                <tr>
+                                    <td data-label="S.No."> @sno </td>
+                                    <td data-label="Employee"> @item.EmployeeCode <text> - </text>  @item.EmployeeName </td>
+                                    <td data-label="Leave Type"> @item.LeaveCategoryName </td>
+                                    <td data-label="From Date" class="text-center"> @item.DateFrom.Value.ToString("dd/MM/yyyy")</td>
+                                    <td data-label="To Date" class="text-center"> @item.DateTo.Value.ToString("dd/MM/yyyy")</td>
+                                    <td data-label="Applied On" class="text-center">@item.CreatedOn.ToString("dd/MM/yyyy")</td>
+                                    <td data-label="Unit" class="text-center"> @(item.Unit)</td>
+                                    <td data-label="Reason"> @item.Reason</td>
+
+                                    <td data-label="Doc" class="text-center">
+                                        @if (@item.DocumentName != null)
+                                        {   @*<a class="toggle-tooltip" href="@Url.Action("DownloadDocument", "EmployeeLeave", new { FileID = @item.DocumentName })" title="Click here, to download document" data-target="#myModal">
+                                            <span class="fa fa-paperclip fa-2x" aria-hidden="true"></span>
+                                        </a>*@
+                                        @Html.EncodedImageActionLink("", "DownloadDocument", "EmployeeLeave", new { FileID = @item.DocumentName }, new { @class = "toggle-tooltip", title = "Click here, to download document" }, "~/Images/document.png", false, "#myModal")
+                                        }
+                                    </td>
+                                    <td data-label="Status" class="text-center">
+                                        @if (item.StatusID == (int)EmpLeaveStatus.Pending)
+                                        {
+                                            <h5 class="mb-0">
+                                                <span class="badge badge-pill badge-warning col-md-12 toggle-tooltip"
+                                                      title="Employee Remark : @(item.Reason ?? "Not Available")">Pending</span>
+                                            </h5>
+                                        }
+                                        else if (item.StatusID == (int)EmpLeaveStatus.InProcess)
+                                        {
+                                            <h5 class="mb-0">
+                                                <span class="badge badge-pill badge-info col-md-12 toggle-tooltip"
+                                                      title="Employee Remark : @(item.Reason ?? "Not Available")
+                                                 Reporting Remark : @(item.ReporotingToRemark ?? "Not Available")">In Process</span>
+                                            </h5>
+                                        }
+                                        else if (item.StatusID == (int)EmpLeaveStatus.RejectedByReportingOfficer)
+                                        {
+                                            <h5 class="mb-0">
+                                                <span class="badge badge-pill badge-danger col-md-12 toggle-tooltip"
+                                                      title="Employee Remark : @(item.Reason ?? "Not Available")
+                                                 Reporting Remark : @(item.ReporotingToRemark ?? "Not Available")">Rejected</span>
+                                            </h5>
+                                        }
+                                        else if (item.StatusID == (int)EmpLeaveStatus.Approved)
+                                        {
+                                            <h5 class="mb-0">
+                                                <span class="badge badge-pill badge-success col-md-12 toggle-tooltip"
+                                                      title="Employee Remark : @(item.Reason ?? "Not Available")
+                                                 Reporting Remark : @(item.ReporotingToRemark ?? "Not Available")
+                                                 Reviewer Remark : @(item.ReviewerToRemark ?? "Not Available") ">
+                                                    Approved
+                                                </span>
+                                                @*<span class="badge badge-pill badge-success col-md-12 toggle-tooltip" title="Employee Remark: @item.Reason <br/> Reporting Remark: @item.ReporotingToRemark <br/> Reviwer Remark: @item.ReviewerToRemark">Approved</span>*@
+                                            </h5>
+                                        }
+                                        else if (item.StatusID == (int)EmpLeaveStatus.RejectedByReviwerOfficer)
+                                        {
+                                            <h5 class="mb-0">
+                                                <span class="badge badge-pill badge-danger col-md-12 toggle-tooltip"
+                                                      title="Employee Remark : @(item.Reason ?? "Not Available")
+                                                 Reporting Remark : @(item.ReporotingToRemark ?? "Not Available")
+                                                 Reviewer Remark : @(item.ReviewerToRemark ?? "Not Available") ">Rejected</span>
+                                            </h5>
+                                        }
+                                    </td>
+
+                                    <td data-label="Action" class="text-center">
+                                        @if (item.StatusID == (int)EmpLeaveStatus.InProcess || item.StatusID == (int)EmpLeaveStatus.RejectedByAcceptanceAuthority)
+                                        {
+                                            totalLeavepending = Model.leaveList.Where(x => x.StatusID == (int)EmpLeaveStatus.InProcess).Count();
+                                            <a data-ajax="true"
+                                               method="POST" class="toggle-tooltip" title="Click here, to approve request."
+                                               data-ajax-update="#div-approvalLeavePopup" data-ajax-mode="replace"
+                                               data-backdrop="static" data-keyboard="false"
+                                               href="@Url.Action("_GetLeaveApprovalPopup", "ApprovalRequest", new
+                                            {
+                                                empID = item.EmployeeId,
+                                                empLeaveID = item.LeaveID,
+                                                status = item.StatusID,
+                                                reportingToRemark = item.ReporotingToRemark,
+                                                reviewerToRemark = item.ReviewerToRemark,
+                                                actionType = "accept",
+                                                ApproverType = 2,
+                                                reportingTo = item.ReportingTo,
+                                                reviewerTo = item.ReviewerTo,
+                                                acceptanceAuthority = item.AcceptanceAuthority,
+                                                approvalRequiredUpto = item.ApprovalRequiredUpto
+                                                ,leaveCategoryName= item.LeaveCategoryName
+
+                                            })"
+                                               id="a_leavepopup" data-toggle="modal" data-target="#div-leave-approval-popup">
+                                                <i class="fa fa-check-square text-success fa-2x" aria-hidden="true"></i>
+                                            </a>
+
+                                            <text> | </text>
+                                            <a data-ajax="true"
+                                               method="POST" class="toggle-tooltip" title="Click here, to reject request."
+                                               data-ajax-update="#div-approvalLeavePopup" data-ajax-mode="replace"
+                                               data-backdrop="static" data-keyboard="false"
+                                               href="@Url.Action("_GetLeaveApprovalPopup", "ApprovalRequest", new
+                                            {
+                                                empID = item.EmployeeId,
+                                                empLeaveID = item.LeaveID,
+                                                status = item.StatusID,
+                                                actionType = "reject",
+                                                ApproverType = 2,
+                                                reportingTo = item.ReportingTo,
+                                                reviewerTo = item.ReviewerTo,
+                                                acceptanceAuthority = item.AcceptanceAuthority,
+                                                approvalRequiredUpto = item.ApprovalRequiredUpto
+                                                ,leaveCategoryName= item.LeaveCategoryName
+
+                                            })"
+                                               id="a_leavepopup" data-toggle="modal" data-target="#div-leave-approval-popup">
+                                                <i class="fa fa-window-close text-danger fa-2x" aria-hidden="true"></i>
+                                            </a>
+                                        }
+
+                                    </td>
+
+                                </tr>
+                            }
+                        }
+                    }
+                    else if (item.ApprovalRequiredUpto == 1)
+                    {
+                        if (item.ReportingTo.HasValue && item.ReportingTo == uDetails.EmployeeID)
+                        {
+                            if (item.StatusID == (int)EmpLeaveStatus.Pending || item.StatusID == (int)EmpLeaveStatus.Approved || item.StatusID == (int)EmpLeaveStatus.RejectedByAcceptanceAuthority)
+                            {
+                                <tr>
+                                    <td data-label="S.No."> @sno</td>
+                                    <td data-label="Employee"> @item.EmployeeCode <text> - </text>  @item.EmployeeName </td>
+                                    <td data-label="Leave Type"> @item.LeaveCategoryName</td>
+                                    <td data-label="From Date" class="text-center"> @item.DateFrom.Value.ToString("dd/MM/yyyy")</td>
+                                    <td data-label="To Date" class="text-center"> @item.DateTo.Value.ToString("dd/MM/yyyy")</td>
+                                    <td data-label="Applied On" class="text-center">@item.CreatedOn.ToString("dd/MM/yyyy")</td>
+                                    <td data-label="Unit" class="text-center"> @(item.Unit)</td>
+                                    <td data-label="Reason"> @item.Reason</td>
+
+                                    <td data-label="Doc" class="text-center">
+                                        @if (@item.DocumentName != null)
+                                        {   @*<a class="toggle-tooltip" href="@Url.Action("DownloadDocument", "EmployeeLeave", new { FileID = @item.DocumentName })" title="Click here, to download document" data-target="#myModal">
+                                            <span class="fa fa-paperclip fa-2x" aria-hidden="true"></span>
+                                        </a>*@
+                                        @Html.EncodedImageActionLink("", "DownloadDocument", "EmployeeLeave", new { FileID = @item.DocumentName }, new { @class = "toggle-tooltip", title = "Click here, to download document" }, "~/Images/document.png", false, "#myModal")
+                                        }
+                                    </td>
+                                    <td data-label="Status" class="text-center">
+                                        @if (item.StatusID == (int)EmpLeaveStatus.Pending)
+                                        {
+                                            <h5 class="mb-0">
+                                                <span class="badge badge-pill badge-warning col-md-12 toggle-tooltip"
+                                                      title="Employee Remark : @(item.Reason ?? "Not Available")">Pending</span>
+                                            </h5>
+                                        }
+                                        else if (item.StatusID == (int)EmpLeaveStatus.Approved)
+                                        {
+                                            <h5 class="mb-0">
+                                                <span class="badge badge-pill badge-success col-md-12 toggle-tooltip"
+                                                      title="Employee Remark : @(item.Reason ?? "Not Available")
+                                                 Acceptance Authority Remark : @(item.ReporotingToRemark ?? "Not Available")
+                                                 ">Approved</span>
+                                            </h5>
+                                        }
+                                        else if (item.StatusID == (int)EmpLeaveStatus.RejectedByAcceptanceAuthority)
+                                        {
+                                            <h5 class="mb-0">
+                                                <span class="badge badge-pill badge-danger col-md-12 toggle-tooltip"
+                                                      title="Employee Remark : @(item.Reason ?? "Not Available")
+                                                 Acceptance Authority Remark : @(item.ReporotingToRemark ?? "Not Available")
+                                                 ">Rejected</span>
+                                            </h5>
+                                        }
+                                    </td>
+
+                                    <td data-label="Action" class="text-center">
+                                        @if (item.StatusID == (int)EmpLeaveStatus.Pending)
+                                        {
+                                            totalLeavepending = Model.leaveList.Where(x => x.StatusID == (int)EmpLeaveStatus.Pending).Count();
+                                            <a data-ajax="true"
+                                               method="POST" class="toggle-tooltip" title="Click here, to approve request."
+                                               data-ajax-update="#div-approvalLeavePopup" data-ajax-mode="replace"
+                                               data-backdrop="static" data-keyboard="false"
+                                               href="@Url.Action("_GetLeaveApprovalPopup", "ApprovalRequest", new
+                                            {
+                                                empID = item.EmployeeId,
+                                                empLeaveID = item.LeaveID,
+                                                status = item.StatusID,
+                                                reportingToRemark = item.ReporotingToRemark,
+                                                reviewerToRemark = item.ReviewerToRemark,
+                                                actionType = "accept",
+                                                ApproverType = 1,
+                                                reportingTo = item.ReportingTo,
+                                                reviewerTo = item.ReviewerTo,
+                                                acceptanceAuthority = item.AcceptanceAuthority,
+                                                approvalRequiredUpto = item.ApprovalRequiredUpto
+                                                ,leaveCategoryName= item.LeaveCategoryName
+
+                                            })"
+                                               id="a_leavepopup" data-toggle="modal" data-target="#div-leave-approval-popup">
+                                                <i class="fa fa-check-square text-success fa-2x" aria-hidden="true"></i>
+                                            </a>
+
+                                            <text> | </text>
+
+                                            <a data-ajax="true"
+                                               method="POST" class="toggle-tooltip" title="Click here, to reject request."
+                                               data-ajax-update="#div-approvalLeavePopup" data-ajax-mode="replace"
+                                               data-backdrop="static" data-keyboard="false"
+                                               href="@Url.Action("_GetLeaveApprovalPopup", "ApprovalRequest", new
+                                            {
+                                                empID = item.EmployeeId,
+                                                empLeaveID = item.LeaveID,
+                                                status = item.StatusID,
+                                                actionType = "reject",
+                                                ApproverType = 1,
+                                                reportingTo = item.ReportingTo,
+                                                reviewerTo = item.ReviewerTo,
+                                                acceptanceAuthority = item.AcceptanceAuthority,
+                                                approvalRequiredUpto = item.ApprovalRequiredUpto // PurposeOthers column is used for acceptance Authority Remark
+                                                ,leaveCategoryName= item.LeaveCategoryName
+                                            })"
+                                               id="a_leavepopup" data-toggle="modal" data-target="#div-leave-approval-popup">
+                                                <i class="fa fa-window-close text-danger fa-2x" aria-hidden="true"></i>
+                                            </a>
+                                        }
+
+                                    </td>
+
+                                </tr>
+                            }
+                        }
+                    }
+
+                    sno++;
+                }
+
+                <script type="text/javascript">
+                    $("#leaveCount").text(@totalLeavepending);
+
+
+                </script>
+            }
+            <script type="text/javascript">
+
+                var table = $('#tblGrid-leave').DataTable({
+                    responsive: true,
+                    lengthMenu: [[100, 200, 500, -1], [100, 200, 500, "All"]],
+                    pageLength: 100
+                });
+                $('#tblGrid-leave').find('select').addClass('custom-select');
+            </script>
+        }
+
+    </tbody>
+</table>
+
+<style>
+    .tooltip-inner {
+        text-align: left;
+    }
+</style>

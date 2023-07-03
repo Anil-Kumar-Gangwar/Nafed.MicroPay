@@ -1,0 +1,71 @@
+﻿@using Nafed.MicroPay.Model
+@model Requirement
+
+<script type="text/javascript">
+    $('.toggle-tooltip').tooltip();
+</script>
+
+
+<table class="table table-bordered table-centered dt-responsive w-100">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th class="required" style="width:250px;">Location</th>
+            <th class="required">Address of Examination Centre</th>
+            <th class="required">Reporting Time</th>
+            <th class="required">Entry Close Time</th>
+            <th class="required">Exam Timings</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @if (Model.JobExamCenterDetails != null && Model.JobExamCenterDetails.Count() > 0)
+            {
+                for (int j = 0; j < Model.JobExamCenterDetails.Count(); j++)
+                {
+                <tr>
+                    <td class="text-right">@(j + 1)<text>.</text> </td>
+                    <td class="text-bold">
+                        @Html.DropDownListFor(model => model.JobExamCenterDetails[j].SelectedLocID, new SelectList(Model.LocationList, "id", "value", Model.JobExamCenterDetails[j].SelectedLocID), "Select", new { @class = "custom-select" })
+                        @Html.ValidationMessageFor(m => Model.JobExamCenterDetails[j].SelectedLocID, "", new { @class = "text-danger" })
+                    </td>
+                    <td>
+                        @Html.TextAreaFor(model => model.JobExamCenterDetails[j].ExamCentreAddress, htmlAttributes: new { @class = "form-control", @placeholder = "Exam Center Address", @style = "min-height:60px;max-height:60px;", @maxlength = "250", @cols = "60", @rows = "3" })
+                        @Html.ValidationMessageFor(m => Model.JobExamCenterDetails[j].ExamCentreAddress, "", new { @class = "text-danger" })
+                    </td>
+                    <td>
+                        @Html.EditorFor(model => model.JobExamCenterDetails[j].ReportingTime, new { htmlAttributes = new { @class = "form-control", @type = "time" } })
+                        @Html.ValidationMessageFor(m => Model.JobExamCenterDetails[j].ReportingTime, "", new { @class = "text-danger" })
+                    </td>
+
+                    <td>
+                        @Html.EditorFor(model => model.JobExamCenterDetails[j].EntryCloseTime, new { htmlAttributes = new { @class = "form-control", @type = "time" } })
+                        @Html.ValidationMessageFor(m => Model.JobExamCenterDetails[j].EntryCloseTime, "", new { @class = "text-danger" })
+                    </td>
+
+                    <td>
+                        @Html.EditorFor(model => model.JobExamCenterDetails[j].ExamTiming, new { htmlAttributes = new { @class = "form-control", @type = "time" } })
+                        @Html.ValidationMessageFor(m => Model.JobExamCenterDetails[j].ExamTiming, "", new { @class = "text-danger" })
+                    </td>
+                    <td class="text-center">
+
+                        @Ajax.ActionLink("Remove",
+                             "_RemoveExamCenterRow", new
+                             {
+                                 sNo = Model.JobExamCenterDetails[j].sno
+                             },
+                             new AjaxOptions
+                             {
+                                 UpdateTargetId = "div-form-ExamCenter-grid",
+                                 InsertionMode = InsertionMode.Replace,
+                                 Confirm = "Are you sure you want to remove this row?",
+                                 HttpMethod = "GET"
+                             }, new { @class = "btn btn-danger btn-xs toggle-tooltip btn-sectionAddRow", @title = "Click here, to remove this row." })
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+
+</table>

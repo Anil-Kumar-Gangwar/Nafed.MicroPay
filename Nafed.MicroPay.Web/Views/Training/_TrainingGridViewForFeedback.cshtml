@@ -1,0 +1,187 @@
+﻿@model MicroPay.Web.Models.TrainingViewModel
+@using Nafed.MicroPay.Model;
+
+<table id="tblGrid" class="table table-centered table-striped dt-responsive w-100">
+    <thead>
+        <tr>
+            <th style="width:2%">
+                #
+            </th>
+            <th style="width:10%">
+                Training Title
+            </th>
+            <th style="width:5%">
+                External/Internal
+            </th>
+            <th style="width:10%">
+                Training Type
+            </th>
+            <th style="width:15%">
+                Training Provider/Vendor
+            </th>
+            <th>
+                Trainer
+            </th>
+
+            <th style="width:8%">
+                Date (From - To)
+            </th>
+
+            <th style="width:8%">
+                Duration
+            </th>
+            <th style="width:12%">
+                Mode of Training
+            </th>
+
+            <th style="width:5%">
+                Status
+            </th>
+
+            @*@if (Model.userRights.Edit)
+                {*@
+            <th class="text-center" style="width:5%">
+                Edit
+            </th>
+            @*}*@
+
+            @*@if (Model.userRights.Delete)
+                {
+                    <th class="text-center" style="width:40px">
+                        Delete
+                    </th>
+                }*@
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            if (Model != null && Model.TrainingList.Count > 0)
+            {
+                var sno = 1;
+                foreach (var item in Model.TrainingList)
+                {
+                    <tr>
+                        <td style="width:2%"> @sno</td>
+                        <td style="width:10%"> @item.TrainingTitle</td>
+                        <td style="width:5%">
+                            @if (item.ExternalTrainer)
+                            {
+                                <span>External</span>
+                            }
+                            else
+                            {
+                                <span>Internal</span>}
+                        </td>
+                        <td style="width:5%">@item.enumTrainingList</td>
+                        <td style="width:10%">
+                            <label class="label-ellipsis toggle-tooltip"
+                                   title="@item.VendorName" style="width:150px;">
+                                @item.VendorName
+                            </label>
+                        </td>
+                        <td style="width:10%">
+                            @foreach (var tlist in item.trainerList)
+                            {
+                                <label class="label-ellipsis toggle-tooltip"
+                                       title="@tlist.TrainerName" style="width:150px;">
+                                    @tlist.TrainerName
+                                </label><br />
+                            }
+
+                        </td>
+
+                        <td style="width:8%" class="text-center"> @item.StartDate.Value.ToString("dd-MM-yyyy") <text>-</text> @item.EndDate.Value.ToString("dd-MM-yyyy")</td>
+                        <td style="width:8%" class="text-center">
+
+                            @{
+                                var day = (@item.EndDate.Value - @item.StartDate.Value).Days + 1;
+                            }
+
+                            @day<text> Day(s)</text>
+                        <td>
+                            <label style="width:100px;" class="label-ellipsis"
+                                   data-toggle="tooltip"
+                                   title="@item.ModeofTraining">
+                                @item.ModeofTraining
+                            </label>
+                        </td>
+                        <td style="width:5%">
+                            @if (item.TrainingStatus == (int)EnumTrainingStatus.Planned)
+                            {
+                                <span class="badge badge-pill badge-info col-md-12">Planned </span>
+                            }
+                            @if (item.TrainingStatus == (int)EnumTrainingStatus.Schedule)
+                            {
+                                <span class="badge badge-pill badge-info col-md-12">Scheduled </span>
+                            }
+                            else if (item.TrainingStatus == (int)EnumTrainingStatus.Completed)
+                            {
+                                <span class="badge badge-pill badge-success col-md-12">Completed</span>
+                            }
+                            else if (item.TrainingStatus == (int)EnumTrainingStatus.Cancel)
+                            {
+                                <span class="badge badge-pill badge-danger col-md-12">Cancel</span>
+                            }
+                            else if (item.TrainingStatus == (int)EnumTrainingStatus.Reschedule)
+                            {
+                                <span class="badge badge-pill badge-warning col-md-12">Reschedule</span>
+                            }
+                        </td>
+
+                        <td class="text-center" style="width:5%">
+                            @if (Model.ViewMode == 2)
+                            {
+                                if (item.TrainingStatus != (int)EnumTrainingStatus.Cancel)
+                                {
+                                @*<a class="toggle-tooltip" href="@Url.Action("TrainingSchedule", "Training", new { trainingID = item.TrainingID })" title="Click here, to edit this record">
+                                    <span class="far fa-edit text-info" aria-hidden="true"></span>
+                                </a>*@
+                                @Html.EncodedImageActionLink("", "TrainingSchedule", "Training", new { trainingID = item.TrainingID }, new { @class = "toggle-tooltip", title = "Click here, to edit this record" }, "~/Images/edit.png")
+                                }
+                            }
+                            else if (Model.ViewMode == 3)
+                            {
+                                if (item.TrainingStatus != (int)EnumTrainingStatus.Cancel)
+                                {
+                                @*<a class="toggle-tooltip" href="@Url.Action("TrainingFeedback", "Training", new { trainingID = item.TrainingID })" title="Click here, to edit this record">
+                                    <span class="far fa-edit text-info" aria-hidden="true"></span>
+                                </a>*@
+                                @Html.EncodedImageActionLink("", "TrainingFeedback", "Training", new { trainingID = item.TrainingID }, new { @class = "toggle-tooltip", title = "Click here, to edit this record" }, "~/Images/edit.png")
+                                }
+                            }
+                            else
+                            {
+                                @*<a class="toggle-tooltip" href="@Url.Action("Edit", "Training", new { trainingID = item.TrainingID })" title="Click here, to edit this record">
+                                    <span class="far fa-edit text-info" aria-hidden="true"></span>
+                                </a>*@
+                                @Html.EncodedImageActionLink("", "Edit", "Training", new { trainingID = item.TrainingID }, new { @class = "toggle-tooltip", title = "Click here, to edit this record" }, "~/Images/edit.png")
+                            }
+                        </td>
+
+                        @*@if (Model.userRights.Delete)
+                            {
+                                <td class="text-center">
+                                    <a data-toggle="confirm" class="toggle-tooltip" href="@Url.Action("Delete", "Training", new { trainingID = item.TrainingID })" title="Click here, to delete this record">
+                                        <span class="far fa-trash-alt text-danger" aria-hidden="true"></span>
+                                    </a>
+                                </td>
+                            }*@
+                    </tr>
+
+                                        sno++;
+                                    }
+                                }
+
+        }
+
+    </tbody>
+</table>
+
+<script>
+    $('.toggle-tooltip').tooltip();
+    ///==== Adding jquery datatable reference to all master grid ==== (Sujeet G)
+    var table = $('#tblGrid').DataTable({
+    });
+    $('#tblGrid_length').find('select').addClass('custom-select');
+    //========= End==================================================
+</script>

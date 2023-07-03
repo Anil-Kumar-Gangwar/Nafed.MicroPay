@@ -1,0 +1,18 @@
+﻿
+@{
+    ViewBag.Title = "Employee Salary Report";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Ajax.BeginForm("_EmpWiseSalaryReport", "EmpWiseSalaryReport", new AjaxOptions { HttpMethod = "POST", UpdateTargetId="div-error", OnSuccess = "OnReportSuccess" }))
+{
+    <div id="div-EmpSal-Report">
+        @Html.Action("_EmpWiseSalaryFilters")
+    </div>
+}
+
+<div id="div-error" class="text-danger font-weight-bold">
+    
+</div>
+
+

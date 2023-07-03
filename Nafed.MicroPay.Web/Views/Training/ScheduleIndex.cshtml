@@ -1,0 +1,39 @@
+﻿
+@using MicroPay.Web.Models
+@model EmployeeViewModel
+@{
+    if (Model._viewmode.HasValue && Model._viewmode == 1)
+    {
+        ViewBag.Title = "Mark Attendance";
+    }
+    else
+    {
+        ViewBag.Title = "Schedule Training";
+    }
+    ViewBag.NavigationTitle = "Training";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    System.Globalization.CultureInfo Indian = new System.Globalization.CultureInfo("hi-IN");
+}
+
+<div>
+    <div class="card_new_body">     
+        @if (Model._viewmode.HasValue && Model._viewmode == 1)
+        {
+            @Html.Action("_ViewAttendanceTrainings")
+        }
+        else
+        {
+            @Html.Action("_ViewTrainings")
+        }
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+

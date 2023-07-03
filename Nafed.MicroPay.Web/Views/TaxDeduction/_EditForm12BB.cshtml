@@ -1,0 +1,107 @@
+﻿@using Nafed.MicroPay.Model;
+@model Form12BBInfo
+
+@{
+    ViewBag.Title = "Income Tax Declaration";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    int? employeeID = Request.QueryString["employeeID"] != null ? (int?)int.Parse(Request.QueryString["employeeID"].ToString()) : (int?)null;
+    short? view = Request.QueryString["view"] != null ? (short?)int.Parse(Request.QueryString["view"].ToString()) : (short?)null;
+
+    var cMonth = DateTime.Now.Month;
+    var cYear = DateTime.Now.Year;
+    var fYear = Convert.ToInt32(Model.FYear.Split('-')[1]);
+    bool btnShow = false;
+    if (fYear > cYear || (fYear == cYear && cMonth < 4))
+    {
+        btnShow = true;
+    }
+    TempData["btnShow"] = btnShow;
+    TempData["viewHasValue"] = view.HasValue;
+}
+
+<div id="div-form-12BB">
+
+    @using (Ajax.BeginForm("_PostForm12BB", "TaxDeduction", new AjaxOptions
+    {
+        HttpMethod = "POST",
+        UpdateTargetId = "div-main-form",
+        OnSuccess = "OnSuccess",
+        InsertionMode = InsertionMode.Replace
+
+    }, new { id = "Form12BB" }))
+    {
+        <div id="div-main-form">
+
+            @{
+                Html.RenderPartial("_Form12BB", Model);
+            }
+        </div>
+
+                }
+</div>
+
+<div id="dvXX">
+
+    @*@if (!view.HasValue && Model.EmpFormID > 0 && Model.FormState == 1)*@
+    @if (!view.HasValue && Model.EmpFormID > 0 && btnShow)
+    {
+        <div id="div-upload-docs">
+
+            @Html.Action("_GetUploadDocumentForm", new { @empFormID = Model.EmpFormID, @fYear = Model.FYear })
+
+        </div>
+    }
+    @*//!view.HasValue &&*@ 
+    @if (Model.EmpFormID > 0)
+    {
+        <div id="div-list-docs">
+
+            @Html.Action("_GetUploadDocument", new { @empFormID = Model.EmpFormID })
+
+        </div>
+
+    }
+
+</div>
+
+
+@if (employeeID.HasValue)
+{
+
+    if (!string.IsNullOrEmpty(Model.FYear))
+    {
+        <br />
+        <div id="dv-nav-buttons">
+
+            <span class="pull-right">
+
+                @if (!view.HasValue)
+                {
+
+                    @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-info  toggle-tooltip btn-md toggle-tooltip", @title = "Click here, to redirect on list page" })
+
+                }
+                else
+                {
+                    <a class="btn btn-info  toggle-tooltip btn-md toggle-tooltip" title="Click here, to redirect on list page" href="@Url.Action("Index", "ViewForm12BBList")">Back to List  </a>
+                }
+
+
+            </span>
+
+        </div>
+    }
+}
+
+
+
+<script type="text/javascript">
+
+    function OnSuccess(data) {
+        if (data.success != undefined && data.success == "1") {
+            commonMessage(data.msgType, data.msg);
+            window.location.reload();
+        }
+    }
+</script>

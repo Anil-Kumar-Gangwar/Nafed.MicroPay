@@ -1,0 +1,11 @@
+﻿@model MicroPay.Web.Models.ApprovalRequestVM
+
+@Html.Partial("_Form11Filter", Model.Form11Filters)
+
+@*@Html.Partial("_Form11StatusBar")*@
+
+<div id="div-forms11">
+
+    @Html.Partial("_Form11GridView", Model.Form11Hdr)
+
+</div>

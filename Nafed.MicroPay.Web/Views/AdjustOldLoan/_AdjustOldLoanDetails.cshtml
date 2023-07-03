@@ -1,0 +1,338 @@
+﻿@model Nafed.MicroPay.Model.SanctionLoan
+@using Nafed.MicroPay.Model
+@{
+    var yearDDl = Enumerable.Range(2005, (DateTime.Now.Year - 2005) + 1).
+                              Select(i => new SelectListModel { id = i, value = i.ToString() }).OrderByDescending(x => x.value).ToList();
+
+    yearDDl.Insert(0, new SelectListModel { value = "Select", id = 0 });
+
+
+
+    var monthDDL = Enumerable.Range(1, 12).
+                        Select(i => new SelectListModel
+                        {
+                            id = i,
+                            value = System.Globalization.CultureInfo.InvariantCulture.DateTimeFormat.GetMonthName(i)
+                        }).ToList();
+    monthDDL.Insert(0, new SelectListModel { value = "Select", id = 0 });
+}
+
+<div class="row">
+    <div class="card_new">
+        <div class="card_new_body">
+            <div class="row p-2">
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 border border-dark p-2">
+                    <div class="form-group">
+                        @Html.HiddenFor(model => model.LastPaidPInstNo)
+                        @Html.HiddenFor(model => model.LastPaidIInstNo)
+                        @Html.HiddenFor(model => model.oldP1)
+                        @Html.HiddenFor(model => model.oldI2)
+                        @Html.HiddenFor(model => model.Status)
+                        <div class="row">
+                            @Html.LabelFor(model => model.LoanTypeId, htmlAttributes: new { @class = "control-label col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2 required" })
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
+                                @Html.DropDownListFor(model => model.LoanTypeId, new SelectList(Model.LoanTypeList, "id", "value"), "Select", new { @class = "custom-select", @onChange = "ShowEmployeeByLoanType()" })
+                                <span id="loantypeRequired"></span>
+                                @Html.ValidationMessageFor(model => model.LoanTypeId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="row">
+                            @Html.LabelFor(model => model.EmployeeId, htmlAttributes: new { @class = "control-label col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2 required" })
+
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
+                                @Html.DropDownListFor(model => model.EmployeeId, new SelectList(Model.EmployeeList.OrderByDescending(x => x.value), "id", "value"), new { @class = "custom-select", @onChange = "GetAdjustLoanDetails()" })
+                                @Html.ValidationMessageFor(model => model.EmployeeId, "", new { @class = "text-danger" })
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+                            @Html.Label("Show Old Loan Employee", htmlAttributes: new { @class = "control-label col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2" })
+
+                            @if (Model.OldLoanEmployee == false)
+                            {
+                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
+                                    <div class="form-group">
+                                        <label class="switch">
+                                            @Html.CheckBoxFor(model => model.OldLoanEmployee, new { @class = "form-control", @onChange = "ShowEmployeeByLoanType()" })
+                                            <div class="slider round">
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
+                                    <div class="form-group">
+                                        <label class="switch">
+                                            @Html.CheckBoxFor(model => model.OldLoanEmployee, new { @class = "form-control", @checked = "checked", @onChange = "ShowEmployeeByLoanType()" })
+                                            <div class="slider round">
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+
+                        <div class="row">
+                            @Html.LabelFor(model => model.PFNumber, htmlAttributes: new { @class = "control-label col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2" })
+
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
+                                <div class="row">
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
+                                        <div class="input-group">
+                                            @Html.EditorFor(model => model.PFNumber, new { htmlAttributes = new { @class = "form-control", @placeholder = "Enter PF Number", @maxlength = "6" } })
+                                            <span class="input-group-addon primary">
+                                                <a href="javascript:void(0)" onclick="SearchByPF();" title="Click here, to find by PF number" class="toggle-tooltip">
+                                                    <span class="fa fa-search text-white"></span>
+                                                </a>
+                                            </span>
+                                        </div>
+                                        <span id="pfNumberRequired"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            @Html.Label("Priority Number", htmlAttributes: new { @class = "control-label col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2" })
+
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
+                                @Html.EditorFor(model => model.PriorityNo, new { htmlAttributes = new { @class = "form-control text-right", @placeholder = "", @readonly = "readonly" } })
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            @Html.Label("Principal Installment Amount", htmlAttributes: new { @class = "control-label col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2" })
+
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
+                                @Html.EditorFor(model => model.OriginalPinstAmt, new { htmlAttributes = new { @class = "form-control text-right", @placeholder = "", @readonly = "readonly", @type = "number" } })
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            @Html.Label("Remaining Principal Installment Amount", htmlAttributes: new { @class = "control-label col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2" })
+
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
+                                @Html.EditorFor(model => model.RemainingPInstNo, new { htmlAttributes = new { @class = "form-control text-right", @placeholder = "", @readonly = "readonly", @type = "number" } })
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            @Html.Label("Interest Installment Amount", htmlAttributes: new { @class = "control-label col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2" })
+
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
+                                @Html.EditorFor(model => model.InterestInstAmt, new { htmlAttributes = new { @class = "form-control text-right", @placeholder = "", @readonly = "readonly", @type = "number" } })
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            @Html.Label("Remaining Interest Installment Amount", htmlAttributes: new { @class = "control-label col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2" })
+
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
+                                @Html.EditorFor(model => model.RemainingIInstNo, new { htmlAttributes = new { @class = "form-control text-right", @placeholder = "", @readonly = "readonly", @type = "number" } })
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 border border-dark p-2">
+
+
+                    @{
+                        var hide = Model.OldLoanEmployee == true ? "" : "hide";
+                    }
+
+                    <div id="tblAdjustLoan" style="max-width:100%;min-width:100%;min-height:200px;max-height:200px;overflow-x:scroll;overflow-y:scroll;">
+                        <table id="tblGrid4" class="table table-centered table-striped dt-responsive w-100">
+                            <thead>
+                                <tr>
+                                    <th class="@hide">
+                                        Employee Code
+                                    </th>
+                                    <th class="@hide">
+                                        Branch Code
+                                    </th>
+                                    <th class="">
+                                        PriorityNo
+                                    </th>
+                                    <th class="">
+                                        DateOfDeposit
+                                    </th>
+                                    <th class="@hide">
+                                        BalanceAmount
+                                    </th>
+                                    <th class="">
+                                        ActualInstNoRem
+                                    </th>
+                                    <th class="">
+                                        ChangedInstNoRem
+                                    </th>
+                                    <th class="">
+                                        ActualInstAmt
+                                    </th>
+                                    <th class="">
+                                        ChangedInstAmt
+                                    </th>
+                                    <th class="">
+                                        ActualIntAmt
+                                    </th>
+                                    <th class="">
+                                        ChangeIntAmt
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+                                    if (Model.SanctionLoanList != null && Model.SanctionLoanList.Count() > 0)
+                                    {
+                                        var sno = 1;
+                                        foreach (var item in Model.SanctionLoanList)
+                                        {
+                                            <tr>
+                                                <td class="@hide"> @item.EmpCode</td>
+                                                <td class="@hide"> @item.Branchcode</td>
+                                                <td class=""> @item.PriorityNo</td>
+                                                <td class=""> @(item.DateofSanc.HasValue ? item.DateofSanc.Value.ToShortDateString() : item.DateofSanc.ToString())</td>
+                                                <td class="@hide"> @item.BalancePAmt</td>
+                                                <td class=""> @item.ActualInstNoRem</td>
+                                                <td class=""> @item.ChangedInstNoRem</td>
+                                                <td class=""> @item.OriginalPinstAmt</td>
+                                                <td class=""> @item.ChangedInstAmt</td>
+                                                <td class=""> @item.InterestInstAmt</td>
+                                                <td class=""> @item.ChangeIntAmt</td>
+
+                                            </tr>
+                                            sno++;
+                                        }
+                                    }
+
+                                }
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <br />
+
+
+
+                    <div class="bg-dark m-2 p-4 text-white">
+                        <div class="row form-inline">
+                            <div class="radio form-inline col-md-6 col-lg-6 col-sm-12 col-xs-12">
+                                @Html.RadioButtonFor(model => model.sanctionLoanRadio, "TotalRefund", new { id = "TotalRefund", @onChange = "radioChangeEvents(this)", @class = "radio mr-2" })
+                                @Html.Label("Total Refund", htmlAttributes: new { @class = "control-label" })
+                            </div>
+
+
+                            <div class="radio form-inline col-md-6 col-lg-6 col-sm-12 col-xs-12">
+                                @Html.RadioButtonFor(model => model.sanctionLoanRadio, "PartialRefund", new { id = "PartialRefund", @onChange = "radioChangeEvents(this)", @class = "radio mr-2" })
+                                @Html.Label("Partial Refund", htmlAttributes: new { @class = "control-label" })
+                            </div>
+
+                        </div>
+                        <div class="row form-inline">
+                            <div class="radio form-inline col-md-6 col-lg-6 col-sm-12 col-xs-12">
+                                @Html.RadioButtonFor(model => model.sanctionLoanRadio, "LastInstallAdjust", new { id = "LastInstallAdjust", @onChange = "radioChangeEvents(this)", @class = "radio mr-2" })
+                                @Html.Label("Last Installment Adjustment", htmlAttributes: new { @class = "control-label" })
+                            </div>
+
+
+                            <div class="radio form-inline col-md-6 col-lg-6 col-sm-12 col-xs-12">
+                                @Html.RadioButtonFor(model => model.sanctionLoanRadio, "DebitCreditEntry", new { id = "DebitCreditEntry", @class = "radio mr-2" })
+                                @Html.Label("Debit & Credit Entry", htmlAttributes: new { @class = "control-label" })
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        @Html.Label("Principal Installment Amount", htmlAttributes: new { @class = "control-label col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2" })
+
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
+                            @Html.EditorFor(model => model.BalancePAmt, new { htmlAttributes = new { @class = "form-control text-right", @placeholder = "", @type = "number", @readonly = "readonly" } })
+                            @Html.ValidationMessage("IInstallmentAmount", "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="row">
+                        @Html.Label("Interest Amount", htmlAttributes: new { @class = "control-label col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2" })
+
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
+                            @Html.EditorFor(model => model.BalanceIAmt, new { htmlAttributes = new { @class = "form-control text-right", @placeholder = "", @type = "number", @readonly = "readonly" } })
+                            @Html.ValidationMessage("InterestAmount", "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="row">
+                        @Html.Label("Remaining Installment", htmlAttributes: new { @class = "control-label col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2", @id = "remainingInstallment" })
+
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2" id="DivRemainingInstallment">
+                            @Html.EditorFor(model => model.RemainingPInstNo1, new { htmlAttributes = new { @class = "form-control text-right", @placeholder = "", @type = "number", @readonly = "readonly" } })
+                        </div>
+
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2 hide" id="DivRefundDate">
+                            @Html.TextBoxFor(model => model.RefundDate, String.Format("{0:dd/MM/yyyy}", Model.RefundDate), new { @type = "text", @class = "form-control datepicker", @id = "RefundDate", autocomplete = "off", @placeholder = "dd/mm/yyyy" })
+                            
+                            @Html.ValidationMessage("RefundDate", "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="row hide" id="DivRefundMonth">
+                        @Html.Label("Refund Month/Year", htmlAttributes: new { @class = "control-label col-col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2", @id = "remainingInstallment" })
+
+                        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12 mb-2">
+                            @Html.DropDownListFor(model => model.totlRefundMonthId, new SelectList(monthDDL, "id", "value"), new { @class = "custom-select" })
+                            @Html.ValidationMessage("RefundMonth", "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12 mb-2">
+                            @Html.DropDownListFor(model => model.totlRefundYearId, new SelectList(yearDDl, "id", "value"), new { @class = "custom-select" })
+                            @Html.ValidationMessage("RefundYear", "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        @Html.Label("Installment Number", htmlAttributes: new { @class = "control-label col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2" })
+
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
+                            @Html.EditorFor(model => model.InstNo, new { htmlAttributes = new { @class = "form-control text-right", @placeholder = "", @type = "number", @readonly = "readonly" } })
+                        </div>
+                    </div>
+
+                    <input type="hidden" id="hddnpayFlag" />
+
+                </div>
+            </div>
+        </div>
+        <div class="card_new_footer">
+            <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 form-inline">
+                    <div class="radio form-inline mr-4">
+                        @Html.RadioButtonFor(model => model.sanctionLoanRadio, "InstallmentAdjestment", new { id = "InstallmentAdjestment", @onChange = "radioChangeEvents(this)", @class = "radio mr-2" })
+                        @Html.Label("Installment Adjustment", htmlAttributes: new { @class = "control-label" })
+                    </div>
+
+
+                    <div class="radio form-inline">
+                        @Html.RadioButtonFor(model => model.sanctionLoanRadio, "LoanFinish", new { id = "LoanFinish", @class = "radio mr-2" })
+                        @Html.Label("Loan Finish", htmlAttributes: new { @class = "control-label" })
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 text-right">
+
+                    <input type="submit" id="btnLastInstallment" value="Update All Last Installment" class="btn btn-info btn-md pull-center toggle-tooltip hide" title="" name="ButtonType" />
+                    <input type="submit" value="Save" class="btn btn-info btn-md pull-center toggle-tooltip" title="Click here, to save current record" name="ButtonType" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<script type="text/javascript">
+
+    $(function () {
+
+        $("#RefundDate").datepicker({ changeYear: true, dateFormat: 'dd/mm/yy' });
+
+    });
+</script>

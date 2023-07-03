@@ -1,0 +1,24 @@
+﻿@using MicroPay.Web.Models
+@model FileTrackingViewModel
+@{
+    ViewBag.Title = "File Initiate";
+    ViewBag.NavigationTitle = "File Initiate";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    System.Globalization.CultureInfo Indian = new System.Globalization.CultureInfo("hi-IN");
+}
+
+
+<div>
+
+
+    <div class="card_new_header text-right">
+       
+        @Html.ActionLink("Set File Initiator ", "Create", "FileTrackingSystem", null, new { @class = "btn btn-info", title = "Click here, to assign file tracking", @data_toggle = "tooltip" })      
+    </div>
+    <div class="card_new_body">
+        <div id="div-fileTracking-grid">
+            @Html.Action("GetTrackingFileList")
+        </div>
+    </div>
+
+</div>

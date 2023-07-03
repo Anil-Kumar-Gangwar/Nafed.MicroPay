@@ -1,0 +1,102 @@
+﻿@model List<MicroPay.Web.Models.MenuVM>
+@{
+    if (Model != null && Model.Count > 0)
+    {
+        var pModel = Model.Where(x => x.ParentID == null);
+        foreach (var item in pModel)
+        {           
+            <div class="card mb-4" style="background-color: #fbfbfb;">
+                <div class="col-sm-12" style="background-color: #17a2b8;">
+                    <h6 class="text-white m-0 pt-2 pb-2">@item.MenuName </h6>
+                </div>
+                @{
+                    var subModel = Model.Where(x => x.ParentID == item.MenuID);
+                    if (subModel != null && subModel.Count() > 0)
+                    {
+                        <div class="row">
+                            @foreach (var sitem in subModel)
+                            {
+                                var subChildActionName = sitem.URL == "#" ? "" : sitem.URL.Split(new char[] { '/' })[1];
+                                var subChildControllerName = sitem.URL == "#" ? "" : sitem.URL.Split(new char[] { '/' })[0];
+                                if (sitem.URL != "#")
+                                {
+                                        <div class="col-md-1 col-sm-3 ml-4 pt-4 pb-2">
+                                            <div class="card">
+                                                <div class="card-body pl-1 pt-0 pb-0">
+                                                    <a href="@Url.Action(subChildActionName, subChildControllerName)" data-toggle="tooltip" data-placement="bottom" title="@sitem.MenuName" class="text-decoration-none">
+                                                        @if (string.IsNullOrEmpty(sitem.IconClass))
+                                                        {
+                                                        <div class="no_icon">
+                                                        </div>
+                                                        }
+                                                        else
+                                                        {
+                                                            <div class="@sitem.IconClass">
+                                                            </div>
+                                                        }
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    }
+                                    else
+                                    {
+                                    <div class="col-xl-12 col-lg-12 col-md-12 py-2">
+                                        <div class="card text-black">
+                                            <div class="card-header text-left">
+                                                <span class="" style="font-size: 14px;">@sitem.MenuName </span>
+                                            </div>
+                                            <div class="card-body">
+                                                @{
+                                                    var subsubModel = Model.Where(x => x.ParentID == sitem.MenuID);
+                                                    if (subsubModel != null && subsubModel.Count() > 0)
+                                                    {
+                                                        <div class="row p-1">
+                                                            @foreach (var ssitem in subsubModel)
+                                                            {
+                                                                var subSubChildActionName = ssitem.URL == "#" ? "" : ssitem.URL.Split(new char[] { '/' })[1];
+                                                                var subSubChildControllerName = ssitem.URL == "#" ? "" : ssitem.URL.Split(new char[] { '/' })[0];
+                                                                <div class="col-md-1 col-sm-3 att_box-shadow-eve pb-4">
+                                                                    <div class="card">
+                                                                        <div class="card-body pl-1 pt-0 pb-0">
+                                                                            <a href="@Url.Action(subSubChildActionName, subSubChildControllerName)" title="@ssitem.MenuName" class="text-decoration-none">
+                                                                                                                                                        
+                                                                                @if (string.IsNullOrEmpty(ssitem.IconClass))
+                                                                                {
+                                                                                    <div class="no_icon">
+                                                                                    </div>
+                                                                                }
+                                                                                else
+                                                                                {
+                                                                                    <div class="@ssitem.IconClass">
+                                                                                    </div>
+                                                                                }
+
+                                                                                @*<input type="checkbox"
+                                                                                           name="selectedCourses"
+                                                                                           value="@item.IsActive"
+                                                                                           @(Html.Raw(item.IsActive ? "checked=\"checked\"" : "")) />
+                                                                                    @item.MenuName*@
+                                                                            </a>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            }
+                                                                    </div>
+                                                                    }
+                                                                    }
+                                                                </div>
+                                        </div>
+                                    </div>
+
+                                                        }
+                                                    }
+                        </div>
+                                                    }
+                }
+
+            </div>
+                                                        }
+                                                    }
+}

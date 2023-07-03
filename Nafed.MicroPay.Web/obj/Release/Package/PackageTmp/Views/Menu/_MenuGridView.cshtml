@@ -1,0 +1,58 @@
+﻿@model MicroPay.Web.Models.MenuViewModel
+
+<table id="tblGrid" class="table table-centered table-striped dt-responsive w-100">
+    <thead>
+        <tr>
+            <th>
+                #
+            </th>
+            <th>
+                Menu Name
+            </th>
+            <th>
+                Parent Name
+            </th>
+            <th>
+                Url
+            </th>
+            <th class="text-center" style="width:60px">
+                Edit
+            </th>
+            <th class="text-center" style="width:60px">
+                Delete
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            if (Model != null && Model.MenuList.Count > 0)
+            {
+                var sno = 1;
+                foreach (var item in Model.MenuList)
+                {
+                    <tr>
+                        <td> @sno</td>
+                        <td> @item.MenuName</td>
+                        <td> @item.ParentName</td>
+                        <td> @item.URL</td>
+                        <td class="text-center">
+                            @*<a href="@Url.Action("Edit","Menu",new { menuID = item.MenuID })" title = "Click here, to edit this record" data-toggle = "tooltip">
+                                <span class="far fa-edit text-info" aria-hidden="true"></span>
+                            </a>*@
+                            @Html.EncodedImageActionLink("", "Edit", "Menu", new { menuID = item.MenuID }, new { @class = "toggle-tooltip", title = "Click here, to edit this record" }, "~/Images/edit.png")
+                        </td>
+                        <td class="text-center">
+                            @*<a data-toggle="confirm" class="toggle-tooltip" href="@Url.Action("Delete","Menu",new { menuID = item.MenuID })"  title = "Click here, to delete this record" >
+                                <span class="far fa-trash-alt text-danger" aria-hidden="true"></span>
+                            </a>*@
+                            @Html.EncodedImageActionLink("", "Delete", "Menu", new { menuID = item.MenuID }, new { @class = "toggle-tooltip", title = "Click here, to delete this record" }, "~/Images/delete.png", true)
+                        </td>
+                    </tr>
+                    sno++;
+                }
+            }
+
+        }
+
+    </tbody>
+</table>

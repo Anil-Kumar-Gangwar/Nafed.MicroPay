@@ -1,0 +1,58 @@
+﻿@using Nafed.MicroPay.Model
+@model BranchManagerDetails
+@Html.HiddenFor(model => model.CreatedBy)
+@Html.HiddenFor(model => model.CreatedOn)
+@Html.HiddenFor(model => model.EmployeeID)
+@Html.HiddenFor(model => model.EmployeeCode)
+@Html.HiddenFor(model => model.Id)
+
+<div class="form-group">
+    <div class="row">
+
+        <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12">
+            @Html.LabelFor(m => m.branchID, new { @class = "label" })
+        </div>
+
+        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+            @if (Model.Id == 0)
+            {
+                @Html.DropDownListFor(model => model.branchID, new SelectList(Model.branchList, "id", "value"), "Select", new { @class = "custom-select" })
+            }
+            else
+            {
+                @Html.DropDownListFor(model => model.branchID, new SelectList(Model.branchList, "id", "value"), "Select", new { @class = "custom-select", @disabled = "disabled" })
+            }
+               @Html.HiddenFor(model => model.branchID)
+               @Html.ValidationMessageFor(model => model.branchID, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+
+            @Html.LabelFor(m => m.DateFrom, new { @class = "label" })
+
+        </div>
+
+        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+            @Html.EditorFor(model => model.DateFrom, new { htmlAttributes = new { @class = "form-control", @type = "date" } })
+            @Html.ValidationMessageFor(model => model.DateFrom, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-12">
+            @Html.LabelFor(m => m.DateTo, new { @class = "label" })
+        </div>
+
+        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+            @Html.EditorFor(model => model.DateTo, new { htmlAttributes = new { @class = "form-control", @type = "date" } })
+            @Html.ValidationMessageFor(model => model.DateTo, "", new { @class = "text-danger" })
+            @Html.ValidationMessage("ToDateRangeValidation", new { @class = "text-danger" })
+        </div>
+
+    </div>
+
+    @if (!Model.IsValidInputs)
+    {
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center text-danger mt-2">
+            @Model.ValidationMessage
+        </div>
+    }
+</div>

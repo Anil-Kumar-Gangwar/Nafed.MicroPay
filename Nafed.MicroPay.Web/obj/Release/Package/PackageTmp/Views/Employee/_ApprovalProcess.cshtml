@@ -1,0 +1,124 @@
+﻿@using Nafed.MicroPay.Model;
+
+@model EmployeeProcessApprovalVM
+
+
+<div id="div-main-form">
+
+@using (Ajax.BeginForm("_PostEmpProcessApproval", "Employee", new AjaxOptions { HttpMethod = "POST",OnSuccess= "OnSuccess" }))
+{
+
+       <div class="" style="margin-top:10px;">
+<table id="tblTargetGoal" class="table table-bordered table-centered dt-responsive w-100">
+    <thead>
+        <tr>
+            <th class="text-right" style="width:5%">#</th>
+            <th class="text-center" style="width:20%">Process</th>
+            
+            <th class="text-center" style="width:20%">Reporting 1 @Html.CheckBox("isRep1Same",false,new { @style="margin-left:20px"}) @Html.Label("Apply to All",new { @for= "isRep1Same" }) </th>
+            <th class="text-center" style="width:20%">Reporting 2 @Html.CheckBox("isRep2Same", false, new { @style = "margin-left:20px" }) @Html.Label("Apply to All", new { @for = "isRep2Same" })</th>
+            <th class="text-center" style="width:20%">Reporting 3 @Html.CheckBox("isRep3Same", false, new { @style = "margin-left:20px" }) @Html.Label("Apply to All", new { @for = "isRep3Same" })</th>
+        </tr>
+    </thead>
+    <tbody>
+      
+            @if (Model != null && Model.empProcessApp.Count > 0)
+            {
+                var Sno = 1;
+                for (int i = 0; i < Model.empProcessApp.Count; i++)
+                {
+                    <tr>
+                        <td class="text-right">@Sno</td>
+                        <td>
+                            <div class="row">
+                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                    @Html.HiddenFor(model => model.empProcessApp[i].ProcessID)
+                                    @Html.HiddenFor(model => model.empProcessApp[i].EmpProcessAppID)
+                                    @Html.HiddenFor(model => model.empProcessApp[i].EmployeeID)
+                                    @Html.HiddenFor(model => model.empProcessApp[i].RoleID)
+                                    @Html.HiddenFor(model => model.empProcessApp[i].ProcessName)                                   
+                                    @Html.HiddenFor(model => model.empProcessApp[i].OldReportingTo)
+                                    @Html.HiddenFor(model => model.empProcessApp[i].OldReviewingTo)
+                                    @Html.HiddenFor(model => model.empProcessApp[i].OldAcceptanceAuthority)
+
+                                    @Html.DisplayFor(model => model.empProcessApp[i].ProcessName, new { @class = "form-control" })
+                                </div>
+                                </div>
+                        </td>
+                        <td>
+                            <div class="row">
+                                <div class="col-lg-12 col-md-8 col-sm-6 col-xs-12">
+                                    @Html.DropDownListFor(model => Model.empProcessApp[i].ReportingTo, new SelectList(Model.EmployeeList, "id", "value", Model.empProcessApp[i].ReportingTo), new { @class = "custom-select rep1"})
+                                  @*  @Html.ValidationMessageFor(model=>model.empProcessApp[i].ReportingTo,"", new { @class = "text-danger" })*@
+
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="row">
+                                <div class="col-lg-12 col-md-8 col-sm-6 col-xs-12">
+                                    @Html.DropDownListFor(model => Model.empProcessApp[i].ReviewingTo, new SelectList(Model.EmployeeList, "id", "value", Model.empProcessApp[i].ReviewingTo), new { @class = "custom-select rep2" })                                 
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="row">
+                                <div class="col-lg-12 col-md-8 col-sm-6 col-xs-12">
+                                    @Html.DropDownListFor(model => Model.empProcessApp[i].AcceptanceAuthority, new SelectList(Model.EmployeeList, "id", "value", Model.empProcessApp[i].AcceptanceAuthority), new { @class = "custom-select rep3" })
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    Sno++;
+                }
+            }
+        
+    </tbody>
+</table>
+        </div>
+
+    if (Model != null && Model.empProcessApp.Count > 0)
+    {
+        <div class="form-group">
+
+            <span class="pull-right">
+                @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-light btn-md toggle-tooltip", @title = "Click here, to redirect on list page" })
+                <input type="submit" value="Update" class="btn btn-info btn-md pull-center toggle-tooltip" title="Click here, to update this record" />
+            </span>
+        </div>
+    }
+
+}
+</div>
+
+<script type="text/javascript">
+
+    $('.toggle-tooltip').tooltip();
+
+    function OnSuccess(data) {
+        if (data.msgType == "success") {   
+            commonMessage(data.msgType, data.msg);
+           $("#div-main-form").load("/Employee/_GetEmpProcessApproval?employeeID=" + data.employeeID + "&userTypeID=" + data.userTypeID);
+        }
+        else
+            $("#div-main-form").html(data);
+    }
+
+    $('#isRep1Same').change(function () {
+        if ($(this).is(":checked")) {
+            $(".rep1").val($("#empProcessApp_0__ReportingTo").val());
+        }
+    });
+    $('#isRep2Same').change(function () {
+        if ($(this).is(":checked")) {
+            $(".rep2").val($("#empProcessApp_0__ReviewingTo").val());
+        }
+    });
+    $('#isRep3Same').change(function () {
+        if ($(this).is(":checked")) {
+            $(".rep3").val($("#empProcessApp_0__AcceptanceAuthority").val());
+        }
+    });
+
+</script>
+

@@ -1,0 +1,56 @@
+﻿
+@model Nafed.MicroPay.Model.EmployeeAttendanceDetails
+@{
+    ViewBag.Title = "Get Attendance";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<div class="card_new_header alert alert-danger">
+    <div class="col-sm-6">
+        NOTE : Fields marked with (*) are compulsory fields
+    </div>
+    <div class="col-sm-6 text-right">
+        <b> </b>
+    </div>
+</div>
+@using (Html.BeginForm("Create", "EmployeeAttendancedetails", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    <div class="card_new_body">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
+               
+                <div class="row">
+                    @Html.LabelFor(model => model.fromdate, htmlAttributes: new { @class = "control-label col-lg-2 col-md-2 col-sm-2 col-xs-6 mb-2  required" })
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 mb-2">
+                       
+                        @Html.EditorFor(model => model.fromdate, new { htmlAttributes = new { @class = "form-control", @placeholder = "From Date", @type = "date" } })
+                        @Html.ValidationMessageFor(model => model.fromdate, "", new { @class = "text-danger" })
+                    
+                      </div>
+                </div>
+                <div class="row">
+                    @Html.LabelFor(model => model.todate, htmlAttributes: new { @class = "control-label col-lg-2 col-md-2 col-sm-2 col-xs-6 mb-2  required" })
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 mb-2">
+                        @Html.EditorFor(model => model.todate, new { htmlAttributes = new { @class = "form-control", @placeholder = "To Date",  @type = "date"} })
+                        @Html.ValidationMessageFor(model => model.todate, "", new { @class = "text-danger" })
+
+                    </div>
+                </div>
+
+                <div class="divider-chevron"></div>
+                <span class="pull-right">
+                    @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-light btn-md toggle-tooltip", @title = "Click here, to redirect on list page" })
+                    <input type="submit" value="Get Attendance" class="btn btn-info btn-md pull-center toggle-tooltip" title="Click here, to get attendance" />
+                </span>
+            </div>
+        </div>
+    </div>
+
+}
+
+
+

@@ -1,0 +1,583 @@
+﻿
+@using Nafed.MicroPay.Model
+@model EmpSalaryConfiguration
+
+@{
+    var hasData = Model != null && Model.EmpCode != "" ? true : false;
+    var suspendEmpRateRadioBtnsVisiibility = Model != null && Model.EmpCode != null && Model.IsSuspended ? null : "hide";
+
+    var otaCodeTextVisibility = Model != null && Model.EmpCode != null && Model.IsOTACode ? null : "hide";
+    var otaCodeReadOnlyValue = Model != null && Model.EmpCode != null && Model.IsOTACode ? null : "readOnly";
+
+    var vw_SHistoryLinkVisibilityClass = Model.IsSuspended ? null : "hide";
+
+}
+
+
+<script type="text/javascript">
+    $('.toggle-tooltip').tooltip();
+
+    function IsRateVPF_OnChange(cntrlID) {
+        var checked = $("#" + cntrlID).is(":checked");
+        if (checked) {
+            $("#VPFValueRA").removeClass("hide");
+            $("#D_VPF").addClass("hide");
+        }
+        else {
+            $("#VPFValueRA").addClass("hide");
+            $("#D_VPF").removeClass("hide");
+        }
+    }
+
+
+    function OTACodeChkClick() {
+
+        var isChecked = $("#IsOTACode").is(":checked");
+        if (isChecked) {
+            $("#dv-otaCode").removeClass('hide');
+        }
+        else
+            $("#dv-otaCode").addClass('hide');
+    }
+
+    function SuspendEmpChkClick() {
+        var isChecked = $("#IsSuspended").is(":checked");
+        if (isChecked)
+            $("#dv-suspendEmpRto,#dv-ActualSalary,#dv-suspensionPeriod,#dv-suspensionPeriodBasic").removeClass('hide');
+        else
+            $("#dv-suspendEmpRto,#dv-ActualSalary,#dv-suspensionPeriod,#dv-suspensionPeriodBasic").addClass('hide');
+    }
+
+    function suspendEmpSalRationRbtClick(value) {
+
+        var basicSalary = $("#E_Basic").val();
+        var calculatedValue = basicSalary * value / 100.00;
+        $("#spTT").text(calculatedValue.toFixed(2));
+    }
+
+    function onSuccessData(data) {
+
+        debugger;;
+        if (data.status == true) {
+
+            $('#myModal').modal('hide');
+            var message = "Record updated successfully.";
+            $.bootstrapGrowl("<i class='mdi-checkbox-marked-circle-outline' aria-hidden='true'></i> " + message, {
+                type: 'success',
+                align: 'center',
+                width: 'auto',
+                allow_dismiss: true,
+                delay: 20000
+            });
+        }
+    }
+
+</script>
+
+
+@using (Ajax.BeginForm("_PostSalaryConfigDtls", "EmpSalaryConfig", new AjaxOptions
+{
+    HttpMethod = "POST",
+    OnSuccess = "onSuccessData",
+    UpdateTargetId = "div-salHead"
+}, new { defaultbutton = "btnSave" }))
+{
+    @Html.HiddenFor(model => model.EmployeeID)
+
+    @Html.HiddenFor(model => model.EmpBranchID)
+    @Html.HiddenFor(model => model.BranchCode)
+
+    @Html.HiddenFor(model => model.E_Basic)
+    @Html.HiddenFor(model => model.EmpCode)
+
+    @Html.HiddenFor(model => model.ActualSalary)
+    @Html.HiddenFor(model => model.CreatedOn)
+    @Html.HiddenFor(model => model.CreatedBy)
+
+    @Html.AntiForgeryToken()
+
+
+    <h3> Employee: @Model.EmpCode- @Model.EmployeeName ,  DOJ: 
+    @if (Model.DOJ.HasValue)
+    {
+        <text>@Convert.ToDateTime(Model.DOJ).ToString("dd-MM-yyyy")</text>
+    }
+    else
+    {
+        <text></text>
+    }
+    ,
+     
+    DOL: 
+        @if (Model.DOLeaveOrg.HasValue)
+        {
+           <text> @Convert.ToDateTime(Model.DOLeaveOrg).ToString("dd-MM-yyyy")</text>
+        }
+        else
+        {
+            <text></text>
+        }
+  </h3>
+
+
+
+    <div class="row patty_panel pt-2">
+
+        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12">
+
+            <div class="form-group">
+
+                <div class="row m-0">
+
+                    @Html.RadioButtonFor(model => model.deduction, "HRA", new { id = "HRA", @class = "mr-1 mt-1 " })
+                    @Html.LabelFor(model => model.HRA, new { @for = "HRA" })
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12">
+
+            <div class="form-group">
+
+                <div class="row m-0">
+                    @Html.RadioButtonFor(model => model.deduction, "FlatDeduction", new { id = "IsFlatDeduction", @class = "mr-1 mt-1 " })
+                    @Html.LabelFor(model => model.IsFlatDeduction, new { @for = "IsFlatDeduction" })
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12">
+
+            <div class="form-group">
+
+                <div class="row m-0">
+                    @Html.RadioButtonFor(model => model.deduction, "None", new { id = "None", @class = "mr-1 mt-1 " })
+                    @Html.LabelFor(model => model.None, new { @for = "None" })
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="form-group mb-0">
+        <div class="row">
+
+            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12">
+                <div class="form-group">
+
+                    <div class="row">
+
+                        @Html.LabelFor(model => model.E_Basic, htmlAttributes: new { @class = "control-label col-sm-4 mt-2" })
+                        <div class="col-sm-8">
+
+                            <label class="control-label col-sm-4 mt-2">
+
+                                @Model.E_Basic
+                            </label>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12">
+                <div class="form-group mb-0">
+
+                    <div class="row">
+
+
+                        @Html.LabelFor(model => model.CCA, htmlAttributes: new { @class = "control-label col-sm-4 mt-2" })
+                        <div class="col-sm-8">
+
+                            <label class="switch">
+                                @Html.CheckBoxFor(model => model.CCA, new { @class = "form-control" })
+                                <div class="slider round">
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12">
+                <div class="form-group mb-0">
+
+                    <div class="row">
+
+                        @Html.LabelFor(model => model.WASHING, htmlAttributes: new { @class = "control-label col-sm-4 mt-2" })
+                        <div class="col-sm-8">
+
+                            <label class="switch">
+                                @Html.CheckBoxFor(model => model.WASHING, new { @class = "form-control" })
+                                <div class="slider round">
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="row">
+
+            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12">
+                <div class="form-group mb-0">
+
+                    <div class="row">
+
+                        @Html.LabelFor(model => model.UnionFee, htmlAttributes: new { @class = "control-label col-sm-4 mt-2" })
+                        <div class="col-sm-8">
+
+                            <label class="switch">
+                                @Html.CheckBoxFor(model => model.UnionFee, new { @class = "form-control" })
+                                <div class="slider round">
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12">
+                <div class="form-group mb-0">
+
+                    <div class="row">
+
+                        @Html.LabelFor(model => model.ProfTax, htmlAttributes: new { @class = "control-label col-sm-4 mt-2" })
+                        <div class="col-sm-8">
+
+                            <label class="switch">
+                                @Html.CheckBoxFor(model => model.ProfTax, new { @class = "form-control" })
+                                <div class="slider round">
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
+                <div class="form-group mb-0">
+
+                    <div class="row">
+
+                        @Html.LabelFor(model => model.SportClub, htmlAttributes: new { @class = "control-label col-sm-4 mt-2" })
+                        <div class="col-sm-8">
+
+                            <label class="switch">
+                                @Html.CheckBoxFor(model => model.SportClub, new { @class = "form-control" })
+                                <div class="slider round">
+                                </div>
+                            </label>
+                        </div>
+
+
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="form-group mb-0">
+        <div class="row">
+            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12">
+                <div class="form-group mb-0">
+                    <div class="row">
+                        @Html.LabelFor(model => model.IsSuspended, htmlAttributes: new { @class = "control-label col-sm-4 mt-2" })
+                        <div class="col-sm-8">
+                            <label class="switch">
+                                @Html.CheckBoxFor(model => model.IsSuspended, new { @class = "form-control", @onChange = "SuspendEmpChkClick();" })
+                                <div class="slider round">
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-lg-5 col-sm-5 col-md-5 col-xs-4">
+
+                <div class="form-group @suspendEmpRateRadioBtnsVisiibility" id="dv-suspensionPeriod">
+
+                    <div class="row pull-right pr-4">
+
+                        <a data-ajax="true" class="toggle-tooltip @vw_SHistoryLinkVisibilityClass"
+                           href="@Url.Action("_GetEmpSuspnesionHistory", "EmpSalaryConfig",
+                           new { @employeeID = Model.EmployeeID})"
+                           method="GET" title="Click here, to view suspension history."
+                           data-ajax-update="#div-Suspension" data-ajax-mode="replace"
+                           data-backdrop="static" data-keyboard="false"
+                           data-toggle="modal" data-target="#suspensionHistory">
+                            <span class="pl-5"> <i class="fa fa-eye"></i> View Suspension History</span>
+                        </a>
+                    </div>
+
+                    <fieldset class="border p-2 col-md-12 col-xs-12 col-lg-12 col-xl-12">
+
+                        <legend style="font-size:1.3rem !important;" class="w-auto">SUSPENSION PERIOD</legend>
+
+                        <div class="row">
+
+                            <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+                                @Html.LabelFor(model => model.SuspensionPeriodFrom, htmlAttributes: new { @class = "control-label" })
+
+                            </div>
+
+                            <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                                @Html.EditorFor(model => model.SuspensionPeriodFrom, new { htmlAttributes = new { @class = "form-control", @placeholder = "From", @type = "date" } })
+
+                            </div>
+                            <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+                                @Html.LabelFor(model => model.SuspensionPeriodTo, htmlAttributes: new { @class = "control-label" })
+
+                            </div>
+                            <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+
+                                @Html.EditorFor(model => model.SuspensionPeriodTo, new { htmlAttributes = new { @class = "form-control", @placeholder = "From", @type = "date" } })
+
+                            </div>
+
+                        </div>
+
+                        <div class="row m-1 pull-right">
+
+                            @Html.ValidationMessage("SuspensionPeriodRequired", "", new { @class = "text-danger" })
+                            @Html.ValidationMessage("SuspensionPeriodDateValidation", "", new { @class = "text-danger" })
+                        </div>
+                    </fieldset>
+                </div>
+
+
+            </div>
+
+            <div class="col-lg-4 col-sm-4 col-md-4 col-xs-4">
+
+                <div class="form-group @suspendEmpRateRadioBtnsVisiibility" id="dv-suspensionPeriodBasic">
+
+                    <fieldset class="border p-2 col-md-12 col-xs-12 col-lg-12 col-xl-12">
+
+                        <legend style="font-size:1.3rem !important;" class="w-auto">BASIC (%age) IN SUSPENSION PERIOD</legend>
+
+                        <div class="row">
+
+                            <div class="col-sm-8 @suspendEmpRateRadioBtnsVisiibility" id="dv-suspendEmpRto">
+
+                                @Html.RadioButtonFor(model => model.salPerForSuspendedEmp, "Fifty", new
+                           {
+                               id = "Fifty",
+                               @class = "mr-1 mt-1 " @*@onClick="suspendEmpSalRationRbtClick();"*@ ,
+                               onclick = "suspendEmpSalRationRbtClick('50');"
+                           })
+                                @Html.LabelFor(model => model.Fifty, new { @for = "Fifty" })
+
+                                @Html.RadioButtonFor(model => model.salPerForSuspendedEmp, "SeventyFive", new
+                           {
+                               id = "SeventyFive",
+                               @class = "mr-1 mt-1 ",
+                               onclick = "suspendEmpSalRationRbtClick('75');"
+                           })
+                                @Html.LabelFor(model => model.SeventyFive, new { @for = "SeventyFive" })
+
+                            </div>
+                        </div>
+
+                        <div class="row @suspendEmpRateRadioBtnsVisiibility" id="dv-ActualSalary">
+
+                            @Html.LabelFor(model => model.ActualSalary, htmlAttributes: new { @class = "control-label col-sm-6 mt-2" })
+
+                            <div class="col-sm-6">
+
+                                <label id="spTT" class="control-label col-sm-4 mt-2">
+
+                                    @Model.ActualSalary
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="row m-1 pull-right">
+
+                            @Html.ValidationMessage("SuspensionPeriodBasicRatio", "", new { @class = "text-danger" })
+
+                        </div>
+
+                    </fieldset>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+    <div class="form-group mb-0">
+        <div class="row">
+
+            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12">
+
+                <div class="form-group">
+
+                    <div class="row">
+
+                        @Html.LabelFor(model => model.IsPensionDeducted, htmlAttributes: new { @class = "control-label col-sm-4 mt-2" })
+                        <div class="col-sm-8">
+
+                            <label class="switch">
+                                @Html.CheckBoxFor(model => model.IsPensionDeducted, new { @class = "form-control" })
+                                <div class="slider round">
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12">
+
+                <div class="form-group">
+
+                    <div class="row">
+
+                        @Html.LabelFor(model => model.IsRateVPF, htmlAttributes: new { @class = "control-label col-sm-4 mt-2" })
+                        <div class="col-sm-8">
+
+                            <label class="switch">
+                                @Html.CheckBoxFor(model => model.IsRateVPF, new { @class = "form-control", @onchange = "IsRateVPF_OnChange(this.id);" })
+                                <div class="slider round">
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
+
+                <div class="form-group">
+
+                    <div class="row">
+
+                        @Html.LabelFor(model => model.VPFValueRA, htmlAttributes: new { @class = "control-label col-sm-4 mt-2" })
+
+                        <div class="col-sm-8">
+
+                            @*@if (!Model.IsRateVPF)
+                                {*@
+                            @Html.EditorFor(model => model.D_VPF, new { htmlAttributes = new { @class = "form-control", @placeholder = "Voluntary PF" } })
+                            @*}
+                                else
+                                {*@
+                            @Html.EditorFor(model => model.VPFValueRA, new { htmlAttributes = new { @class = "form-control", @placeholder = "Voluntary PF", @type = "number", @step = "0.01" } })
+                            @Html.ValidationMessageFor(model => model.VPFValueRA, "", new { @class = "text-danger" })
+
+                            @*}*@
+
+                        </div>
+                        @if (!Model.IsRateVPF)
+                        {
+                            <script type="text/javascript">
+                                $("#VPFValueRA").addClass("hide");
+                                $("#D_VPF").removeClass("hide");
+                            </script>
+                        }
+                        else
+                        {
+                            <script type="text/javascript">
+                                $("#VPFValueRA").removeClass("hide");
+                                $("#D_VPF").addClass("hide");
+                            </script>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group mb-0">
+        <div class="row">
+            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12">
+                <div class="form-group mb-0">
+                    <div class="row">
+                        @Html.LabelFor(model => model.IsOTACode, htmlAttributes: new { @class = "control-label col-sm-4 mt-2" })
+                        <div class="col-sm-8">
+                            <label class="switch">
+                                @Html.CheckBoxFor(model => model.IsOTACode, new { @class = "form-control", @onChange = "OTACodeChkClick();" })
+                                <div class="slider round">
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12">
+
+                <div class="form-group">
+
+                    <div class="row @otaCodeTextVisibility" id="dv-otaCode">
+                        @Html.LabelFor(model => model.OTACode, htmlAttributes: new { @class = "control-label col-sm-4 mt-2" })
+                        <div class="col-sm-8">
+
+                            @Html.EditorFor(model => model.OTACode, new { htmlAttributes = new { @class = "form-control", @maxlength = "10", @placeholder = "OTA Code", @otaCodeReadOnlyValue } })
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
+           
+            </div>
+
+        </div>
+    </div>
+    <hr />
+    <div class="form-group mb-0">
+        <div class="row">
+            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12">
+                <div class="form-group mb-0">
+                    <div class="row">
+                        @Html.Label("E_Basic For Salary Process", htmlAttributes: new { @class = "control-label col-sm-4 mt-2" })
+                        <div class="col-sm-8">
+                           @Html.EditorFor(model => model.E_Basic_Pay, new { htmlAttributes = new { @class = "form-control text-right", @min="1", @maxlength = "18", @placeholder = "Enter E_Basic for Salary Process",@type="number" } })
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
+
+                <div class="form-group">
+                    <div class="row">
+                        @Html.Label("Branch For Salary Process", htmlAttributes: new { @class = "control-label col-sm-4 mt-2" })
+                        <div class="col-sm-8">
+                            @Html.DropDownListFor(model => model.BranchID_Pay, new SelectList(ViewBag.ddlBranchPay, "id", "value"), "Select", new { @class = "custom-select" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
+                
+            </div>
+
+        </div>
+    </div>
+    <span class="pull-right">
+        @*@Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-light btn-sm toggle-tooltip", @title = "Click here, to redirect on list page" })*@
+        <input type="submit" value="Save" id="btnSave" class="btn btn-info btn-md pull-center toggle-tooltip"
+               @*title="Click here, to update this record"
+                           data-toggle="modal"
+                           data-target="#myModal"
+                           data-dismiss="modal"*@ />
+    </span>
+
+
+
+
+}

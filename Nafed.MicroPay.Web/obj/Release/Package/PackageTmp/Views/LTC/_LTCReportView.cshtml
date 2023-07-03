@@ -1,0 +1,97 @@
+﻿@model Nafed.MicroPay.Model.LTCReport
+<div class="form-group">
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-xl-12 col-sm-12 col-xs-12 text-center">
+            <img class="pull-center" src="~/Images/logo.png" />
+        </div>
+    </div>
+</div>
+
+
+<div class="form-group">
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-xl-12 col-sm-12 col-xs-12 text-center">
+            <h4 class="font-weight-bold">
+                National Agricultural Cooperative Marketing Federation of India Ltd.<br />
+                Nafed House, Sidhartha Enclave, Ashram Chowk, Ring Road,<br />
+                <span style="text-decoration:underline">New Delhi - 110 014</span>
+            </h4>
+        </div>
+    </div>
+</div>
+
+<div class="form-group">
+    <div class="row m-5">
+        <div class="col-lg-6 col-md-6 col-xl-6 col-sm-12 col-xs-12 text-left">
+            @Model.LTCReferenceNumber
+        </div>
+        <div class="col-lg-6 col-md-6 col-xl-6 col-sm-12 col-xs-12 text-right">
+            Dated:- @DateTime.Now.ToString("dd-MM-yyyy")
+        </div>
+    </div>
+</div>
+
+<div class="form-group">
+    <div class="row m-5">
+        @if (Model.HomeTown == 1)
+        {
+            <div class="col-lg-12 col-md-12 col-xl-12 col-sm-12 col-xs-12">
+                <p>
+                    With reference to your application dated  @Html.DisplayFor(model => model.DateofApplication, new { @class = "form-control" }), Shri @Html.DisplayFor(model => model.Employeename, new { @class = "form-control" }), @Html.DisplayFor(model => model.DesignationName, new { @class = "form-control" }), @Html.DisplayFor(model => model.DepartmentName, new { @class = "form-control" }) is hereby permitted to avail Leave Travel  Concession for self and his family members for visiting his Home Town Gram  - @*Navtol, Post: Bhawanipur,  Darbhanga*@ @Html.DisplayFor(model => model.WhereDetail, new { @class = "form-control" })  under the scheme of visiting  Home Town once in three years as per class of entitlement of travel for the  Block/Calendar years starting with 2019-22  as detailed below:-
+                </p>
+            </div>
+        }
+        else
+        {
+            <div class="col-lg-12 col-md-12 col-xl-12 col-sm-12 col-xs-12">
+                <p>
+                    With reference to your application dated @Html.DisplayFor(model => model.DateofApplication, new { @class = "form-control" }), Shri @Html.DisplayFor(model => model.Employeename, new { @class = "form-control" }), @Html.DisplayFor(model => model.DesignationName, new { @class = "form-control" }), @Html.DisplayFor(model => model.DepartmentName, new { @class = "form-control" }) branch is hereby permitted to avail Leave Travel Concession for self and his family members under the scheme of visiting any place in India once in a Block of four  calendar years  starting with 2019 - 22 to visit @Html.DisplayFor(model => model.WhereDetail, new { @class = "form-control" }) with his family as detailed below.
+                </p>
+            </div>
+        }
+    </div>
+</div>
+
+<div class="form-group">
+    <div class="row m-5">
+        <div class="col-lg-12 col-md-12 col-xl-12 col-sm-12 col-xs-12">
+            @Html.Partial("_LTCDependentList", Model.listDependentList)
+        </div>
+    </div>
+</div>
+
+<div class="form-group">
+    <div class="row m-5">
+        <div class="col-lg-12 col-md-12 col-xl-12 col-sm-12 col-xs-12">
+            <p>
+                Shri @Html.DisplayFor(model => model.Employeename, new { @class = "form-control" }) has also been granted @Html.DisplayFor(model => model.TotalLeaveDays, new { @class = "form-control" }) days @Html.DisplayFor(model => model.leaveType, new { @class = "form-control" })  from  @Html.DisplayFor(model => model.DateAvailLTC, new { @class = "form-control" }) to @Html.DisplayFor(model => model.DateofReturn, new { @class = "form-control" }), details as @Html.DisplayFor(model => model.AppliedLeave, new { @class = "form-control" })    (@Html.DisplayFor(model => model.HolidayLeave, new { @class = "form-control" }) being holidays.).
+            </p>
+            @*30.09.2019 to 01.10.2019,03.10.2019 to 04.10.2019, 07.10.2019,09.10.2019 to 11.10.2019 and 0n 14.10.2019  (2nd,5th , 6 th  8th 12th & 13th October 2019 being holidays).*@
+        </div>
+    </div>
+</div>
+
+<div class="form-group">
+    <div class="row m-5">
+        <div class="col-lg-6 col-md-6 col-xl-6 col-sm-12 col-xs-12 text-left font-weight-bold">
+            Shri @Html.DisplayFor(model => model.Employeename, new { @class = "form-control" })
+            <br />
+            @Html.DisplayFor(model => model.DesignationName, new { @class = "form-control" })
+            <br />
+            @Html.DisplayFor(model => model.DepartmentName, new { @class = "form-control" })
+        </div>
+        <div class="col-lg-6 col-md-6 col-xl-6 col-sm-12 col-xs-12 text-right font-weight-bold">
+            (@Html.DisplayFor(model => model.ReportingTo, new { @class = "form-control" }))
+            <br />
+            @Html.DisplayFor(model => model.ReportingDesignation, new { @class = "form-control" })
+            <br />
+            @Html.DisplayFor(model => model.ReportingDepartment, new { @class = "form-control" })
+        </div>
+    </div>
+</div>
+
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
+    <span class="pull-right">
+        @Html.ActionLink("Back to List", "LTCStatus", null, new { @class = "btn btn-light btn-md toggle-tooltip", @title = "Click here, to redirect on list page" })
+    </span>
+</div>

@@ -1,0 +1,93 @@
+﻿@using fileHelper = Nafed.MicroPay.Common.ExtensionMethods;
+@using Nafed.MicroPay.Model;
+@model Nafed.MicroPay.Model.ConveyanceBillForm
+
+@{
+    TempData["ConveyanceBillDescriptionData"] = Model.conveyanceBillDescriptionList;
+}
+
+
+<table id="tblGrid" class="table table-bordered table-centered dt-responsive w-100">
+    <thead>
+        <tr>
+            <th class="text-right">#</th>
+            <th class="text-left">Car/Scooter/Taxi<span class="text-danger ml-2">*</span> </th>
+            <th class="text-center">Dated <span class="text-danger ml-2">*</span></th>
+            <th class="text-center">From <span class="text-danger ml-2">*</span></th>
+            <th class="text-center">To <span class="text-danger ml-2">*</span></th>
+            <th class="text-right">Amount Claimed <span class="text-danger ml-2">*</span></th>
+            <th class="text-right">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.conveyanceBillDescriptionList != null && Model.conveyanceBillDescriptionList.Count() > 0)
+            {
+                for (int i = 0; i < Model.conveyanceBillDescriptionList.Count(); i++)
+                {
+                <tr>
+                    <td class="text-center">@fileHelper.GetRomanValueByNumber(i + 1) <text>.</text> </td>
+                    <td>
+                        @*@Html.EditorFor(model => model.conveyanceBillDescriptionList[i].VehicleInfo, new { htmlAttributes = new { @class = "form-control", @maxlength = "50" } })*@
+
+                        @Html.EnumDropDownListFor(model => model.conveyanceBillDescriptionList[i].conveyanceBillDesc, "Select", new { @class = "custom-select" })
+                        @Html.ValidationMessageFor(model => model.conveyanceBillDescriptionList[i].conveyanceBillDesc, "", new { @class = "text-danger" })
+                    </td>
+                    <td>
+                        @Html.EditorFor(model => model.conveyanceBillDescriptionList[i].Dated, new { htmlAttributes = new { @class = "form-control", @type = "date", max = DateTime.Now.ToString("yyyy-MM-dd") } })
+                        @Html.ValidationMessageFor(model => model.conveyanceBillDescriptionList[i].Dated, "", new { @class = "text-danger" })
+                    </td>
+                    <td>
+                        @Html.EditorFor(model => model.conveyanceBillDescriptionList[i].From, new { htmlAttributes = new { @class = "form-control", @maxlength = "100" } })
+                        @Html.ValidationMessageFor(model => model.conveyanceBillDescriptionList[i].From, "", new { @class = "text-danger" })
+                    </td>
+                    <td>
+                        @Html.EditorFor(model => model.conveyanceBillDescriptionList[i].To, new { htmlAttributes = new { @class = "form-control", @maxlength = "100" } })
+                        @Html.ValidationMessageFor(model => model.conveyanceBillDescriptionList[i].To, "", new { @class = "text-danger" })
+                    </td>
+                    <td>
+                        @Html.EditorFor(model => model.conveyanceBillDescriptionList[i].Amount, new { htmlAttributes = new { @class = "form-control totalAmount text-right ", @min = "0", @max = "50000", @maxlength = "6", @type = "number" } })
+                        @Html.ValidationMessageFor(model => model.conveyanceBillDescriptionList[i].Amount, "", new { @class = "text-danger" })
+                    </td>
+                    <td class="text-center">
+                        @Ajax.ActionLink("Remove",
+                                 "_RemoveConveyanceRow", new
+                                 {
+                                     sNo = Model.conveyanceBillDescriptionList[i].sno
+                                 },
+                                 new AjaxOptions
+                                 {
+                                     OnSuccess = "AfterRemove",
+                                     //UpdateTargetId = "div-form-Conveyance-grid",
+                                     InsertionMode = InsertionMode.Replace,
+                                     Confirm = "Are you sure you want to remove this row?",
+                                     HttpMethod = "GET"
+                                 }, new { @class = "btn btn-danger btn-xs toggle-tooltip btn-sectionAddRow", @title = "Click here, to remove this row." })
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="7" class="text-center">No Record Found. </td>
+            </tr>
+        }
+    </tbody>
+</table>
+@*///}*@
+<script type="text/javascript">
+    $(document).ready(function () {
+        var table = $('#tblGrid').DataTable({ destroy: true, searching: false, paging: false });
+        $(".totalAmount").on('keyup change', calculateSum);
+        $(".allownumericwithdecimal").on("keypress keyup blur", function (event) {
+            $(this).val($(this).val().replace(/[^0-9\.]/g, ''));
+            if ((event.which != 46 || $(this).val().indexOf('.') != -1) && (event.which < 48 || event.which > 57)) {
+                event.preventDefault();
+            }
+        });
+    });
+</script>
+
+
+
+

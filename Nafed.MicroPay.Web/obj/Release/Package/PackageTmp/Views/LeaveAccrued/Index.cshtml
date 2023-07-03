@@ -1,0 +1,65 @@
+﻿@model Nafed.MicroPay.Model.UserAccessRight
+@{
+    ViewBag.Title = "Credit Leaves";
+    ViewBag.NavigationTitle = "Credit Leaves";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    System.Globalization.CultureInfo Indian = new System.Globalization.CultureInfo("hi-IN");
+}
+
+
+<style>
+    .patty_panel {
+        background-color: #0c858e;
+        color: #ffffff;
+        font-size: 14px;
+    }
+</style>
+
+<div class="card_new_body">
+    <div id="UserGridDiv">
+        @{Html.RenderAction("AddLeaveAccrueddetails");}
+    </div>
+</div>
+
+<br />
+
+<div class="card_new_body">
+    <div id="MarkDiv">
+        @*@{Html.RenderAction("LeaveAccrueddetailsGridView");}*@
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    function CreditELMLLeaves() {
+
+        var MonthID = $("#ddlMonth").val();
+        var leavecategoryId = $("#ddlleavetype").val();
+        var YearID = new Date().getFullYear()
+
+        jQuery.post("@Url.Action("LeaveAccruedDetailsGridView", "LeaveAccrued")", {
+            Month: MonthID,
+            leavecategoryId: leavecategoryId,
+            Year: YearID,
+
+        }).done(function (data) {
+            if (data != "") {
+                $("#MarkDiv").html(data);
+
+
+                if (data != "") {
+                    $.bootstrapGrowl("<i class='mdi-checkbox-marked-circle-outline' aria-hidden='true'></i> " + '@TempData["Message"]', {
+                        type: 'success',
+                        align: 'center',
+                        width: 'auto',
+                        allow_dismiss: true,
+                        delay: 20000
+                    });
+                }
+            }
+            else {
+            }
+
+        });
+    }
+</script>

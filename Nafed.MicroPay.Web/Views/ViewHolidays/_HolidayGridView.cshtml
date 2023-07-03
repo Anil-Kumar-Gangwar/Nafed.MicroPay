@@ -1,0 +1,43 @@
+﻿@using Nafed.MicroPay.Model;
+@model IEnumerable<Holiday>
+
+<table  class="table_card table table-centered table-striped text-left dt-responsive w-100 mt-2">
+    <thead>
+        <tr>
+            <th scope="col">
+                #
+            </th>
+            <th scope="col">
+                Holiday Name
+            </th>
+            <th scope="col">
+                Holiday Date
+            </th>
+           
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            if (Model != null && Model.Count() > 0)
+            {
+                var sno = 1;
+                foreach (var item in Model)
+                {
+                    //var bName = item.BranchName != null ? item.BranchName : "All";
+
+                    <tr>
+                        <td data-label="S.No."> @sno</td>
+                       
+                        <td data-label="Holiday Name"> @item.HolidayName</td>
+                        <td data-label="Holiday Date">@Convert.ToDateTime(item.HolidayDate).ToString("dd-MM-yyyy") </td>
+
+                    </tr>
+                    sno++;
+                }
+            }
+
+        }
+
+    </tbody>
+</table>
+

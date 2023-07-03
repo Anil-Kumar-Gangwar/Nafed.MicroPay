@@ -1,0 +1,42 @@
+﻿@using Nafed.MicroPay.Model
+@model CommonFilter
+@{
+    ViewBag.Title = "Training Report";
+    ViewBag.NavigationTitle = "Training";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    System.Globalization.CultureInfo Indian = new System.Globalization.CultureInfo("hi-IN");
+}
+
+<div class="">
+    <div class="card_new_body">
+        @using (Ajax.BeginForm("EmployeeReport", "Training", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "div-Report",OnSuccess = "OnReportSuccess" }, new {}))
+        {
+            <div id="div-filters">
+                @if (Model.ReportType == "E")
+                {
+                @Html.Action("_ReportFilter")
+                }
+                else if (Model.ReportType == "A")
+                {
+                    @Html.Action("_ReportFilterAdmin")
+                }
+            </div>
+        }
+    </div>
+    <div class="card_new_body">
+        <div id="div-Report">
+
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+

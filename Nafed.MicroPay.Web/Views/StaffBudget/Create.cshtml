@@ -1,0 +1,17 @@
+﻿@model Nafed.MicroPay.Model.StaffBudget
+@{
+    ViewBag.Title = "Staff Budget";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@*@using (Html.BeginForm("Create", "StaffBudget", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)*@
+
+    <div class="card_new_body" id="divStaffBudgetCreate">
+        @Html.Action("_CreateStaffBudget")
+    </div>
+@*}*@
+

@@ -1,0 +1,1508 @@
+﻿@using exmethod = Nafed.MicroPay.Common.ExtensionMethods;
+@using Nafed.MicroPay.Model;
+@model Nafed.MicroPay.Model.ConfirmationFormHdr
+
+@{
+    bool ReportingSectionAsLabel = false;  //==== if it is true ,then dislay all reporting section values as Label...
+
+    var reportingSectionClass = (Model.ApprovalHierarchy == 1 && (Model.ReviewingTo == Model.loggedInEmpID) ? "noselect" :
+        (Model.ApprovalHierarchy == 1 && (Model.ReportingTo == Model.loggedInEmpID)) ? null : (Model.ApprovalHierarchy == 2) ? null : "");
+
+    var reviewingSectionClass = (Model.ApprovalHierarchy == 1 && Model.ReportingTo == Model.loggedInEmpID)
+        ? "hide" : (Model.ApprovalHierarchy == 2) ? null : "";
+
+    var reviewingtextarea = reviewingSectionClass == "" ? true : false;
+
+    if (Model.confirmationFormRulesAttributes != null && Model.confirmationFormRulesAttributes.ReportingSection) { reportingSectionClass = null; }
+    if (Model.confirmationFormRulesAttributes != null && Model.confirmationFormRulesAttributes.ReviewerSection) { reviewingSectionClass = null; }
+
+    if (Model.ApprovalHierarchy == 1 && (Model.ReviewingTo == Model.loggedInEmpID))
+    {
+        ReportingSectionAsLabel = true;
+    }
+    else if (Model.confirmationFormDetail.FormState >= 6)
+    {
+        ReportingSectionAsLabel = true;
+    }
+}
+
+@{
+    <input id="printdiv" type="submit" value="Print" onclick="printContent('div-main-form')" />
+    try
+    {
+        <div id="div-main-form" class="">
+            <div class="row">
+
+                <div class="col-lg-10 col-md-10 col-xl-10 col-sm-12 col-xs-12">
+
+                    <div class="form-group">
+
+                        <div class="col-lg-8 col-md-8 col-xl-8 col-sm-12 col-xs-12">
+                            <img class="pull-right" src="~/Images/logo.png" />
+                        </div>
+
+                        <div class="col-lg-4 col-md-4 col-xl-4 col-sm-12 col-xs-12">
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-2 col-md-2 col-xl-2 col-sm-12 col-xs-12">
+                    <div>
+                        <div class="form-group">
+                            <div class="col-lg-12 col-md-12 col-xl-12 col-sm-12 col-xs-12 text-right font-weight-bold">
+                                Form 'A'
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-lg-12 col-md-12 col-xl-12 col-sm-12 col-xs-12 text-center">
+                    <h4 class="font-weight-bold">
+                        National Agricultural Cooperative Marketing Federation of India Ltd.<br />
+                        Nafed House, Sidhartha Enclave, Ashram Chowk, Ring Road,<br />
+                        <span style="text-decoration:underline">New Delhi - 110 014</span>
+                    </h4>
+                </div>
+
+            </div>
+
+            <div class="form-group">
+                <div class="col-lg-12 col-md-12 col-xl-12 col-sm-12 col-xs-12 text-center">
+                    <h4>
+                        (Proforma for obtaining report on work,conduct and performance of officer for the purpose of confirmation in the services of Federation - for officers in the scale of)
+                    </h4>
+                    <p style="word-break: break-all">@Model.confirmationFormDetail.PayScale</p>
+                </div>
+
+            </div>
+
+            <div class="form-group">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
+
+                    <div class="row">
+                        <p class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                            1. Name and designation of officer
+                        </p>
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 mb-2 font-weight-bold">
+                            @Model.confirmationFormDetail.EmployeeName <b>(@Model.confirmationFormDetail.DesignationName)</b>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <p class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                            2. Place of posting
+                        </p>
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 mb-2 font-weight-bold">
+                            @Model.confirmationFormDetail.BranchName
+                        </div>
+                    </div>
+                    <div class="row">
+                        <p class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                            3. Date of issue of appt./promotion order
+                        </p>
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 mb-2 font-weight-bold">
+                            @Model.confirmationFormDetail.orderOfPromotion
+                        </div>
+                    </div>
+                    <div class="row">
+                        <p class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                            4. Date of joining in the present post
+                        </p>
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 mb-2 font-weight-bold">
+                            @Model.confirmationFormDetail.DOJ
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+                        <p class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                            5. Due date of confirmation
+                        </p>
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 mb-2 font-weight-bold">
+                            @Model.confirmationFormDetail.DueConfirmationDate
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+                        <p class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                            6. Whether copies of necessary certificate received from the employee
+                        </p>
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 mb-2 font-weight-bold">
+                            @exmethod.BoolToYesNo(@Model.confirmationFormDetail.CertificatesReceived)
+                        </div>
+                    </div>
+                    <div class="row">
+                        <p class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                            7. Whether Police verification report received
+                        </p>
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 mb-2 font-weight-bold">
+                            @exmethod.BoolToYesNo(@Model.confirmationFormDetail.PoliceVerification)
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <p class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                            8. ASSESSMENT OF WORK, CONDUCT AND PERFORMANCE (State outstanding/Very good/good/fair/poor,as may be deemed Fit against each column.)
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                @using (Ajax.BeginForm("PostConfirmationFormAData", "ConfirmationForm", new AjaxOptions { HttpMethod = "POST", OnSuccess = "OnSuccess" }, new { id = "FormA" }))
+                {
+                    @Html.ValidationSummary(true)
+                    @Html.HiddenFor(model => model.confirmationFormDetail.EmployeeName)
+                    @Html.HiddenFor(model => model.confirmationFormDetail.EmployeeCode)
+                    @Html.HiddenFor(model => model.confirmationFormDetail.EmployeeId)
+                    @Html.HiddenFor(model => model.confirmationFormDetail.FormAHeaderId)
+                    @Html.HiddenFor(model => model.confirmationFormDetail.DesignationName)
+                    @Html.HiddenFor(model => model.confirmationFormDetail.DesignationId)
+                    @Html.HiddenFor(model => model.confirmationFormDetail.BranchName)
+                    @Html.HiddenFor(model => model.confirmationFormDetail.BranchId)
+                    @Html.HiddenFor(model => model.confirmationFormDetail.CertificatesReceived)
+                    @Html.HiddenFor(model => model.confirmationFormDetail.PoliceVerification)
+                    @Html.HiddenFor(model => model.confirmationFormDetail.PoliceVerification)
+                    @Html.HiddenFor(model => model.ReportingTo)
+                    @Html.HiddenFor(model => model.ReviewingTo)
+                    @Html.HiddenFor(model => model.ApprovalHierarchy)
+                    @Html.HiddenFor(model => model.loggedInEmpID)
+                    @Html.HiddenFor(model => Model.confirmationFormDetail.FormState)
+                    @Html.HiddenFor(model => model.ProcessID)
+                    @Html.HiddenFor(model => model.confirmationFormRulesAttributes.ReportingSubmissionDate)
+                    @Html.HiddenFor(model => model.confirmationFormRulesAttributes.ReviewerSubmissionDate)
+                    @Html.HiddenFor(model => model.EmployeeID)
+                    @Html.HiddenFor(model => model.confirmationFormRulesAttributes.FormState)
+                    @Html.HiddenFor(model => model.confirmationFormRulesAttributes.ReportingButton)
+                    @Html.HiddenFor(model => model.confirmationFormRulesAttributes.ReviewerButton)
+                    @Html.HiddenFor(model => model.ReportingName)
+                    @Html.HiddenFor(model => model.ReportingDesignation)
+                    @Html.HiddenFor(model => model.ReviewingName)
+                    @Html.HiddenFor(model => model.ReviewingDesignation)
+                    @Html.HiddenFor(model => model.ReviewingName)
+                    @Html.HiddenFor(model => model.ReviewingDesignation)
+                    @Html.HiddenFor(model => model.confirmationFormDetail.FormState)
+                    @Html.HiddenFor(model => model.confirmationFormDetail.FormAHeaderId)
+                    @Html.HiddenFor(model => model.confirmationFormDetail.orderOfPromotion)
+                    @Html.HiddenFor(model => model.confirmationFormDetail.DOJ)
+                    @Html.HiddenFor(model => model.confirmationFormDetail.DueConfirmationDate)
+                    @Html.HiddenFor(model => model.FormTypeID)
+                    @Html.HiddenFor(model => model.FormHdrID)
+                    @Html.HiddenFor(model => model.EmpProcessAppID)
+                    @Html.HiddenFor(model => model.FormABHeaderID)
+
+                    if (ReportingSectionAsLabel)
+                    {
+                        @Html.HiddenFor(model => model.confirmationFormDetail.point8_1_Gr)
+                        @Html.HiddenFor(model => model.confirmationFormDetail.point8_2_Gr)
+                        @Html.HiddenFor(model => model.confirmationFormDetail.point8_3_Gr)
+                        @Html.HiddenFor(model => model.confirmationFormDetail.point8_4_Gr)
+                        @Html.HiddenFor(model => model.confirmationFormDetail.point8_5_Gr)
+                        @Html.HiddenFor(model => model.confirmationFormDetail.point8_6_Gr)
+                        @Html.HiddenFor(model => model.confirmationFormDetail.point8_7_Gr)
+                        @Html.HiddenFor(model => model.confirmationFormDetail.point8_8_Gr)
+                        @Html.HiddenFor(model => model.confirmationFormDetail.point8_9_Gr)
+                        @Html.HiddenFor(model => model.confirmationFormDetail.point8_10_Gr)
+                        @Html.HiddenFor(model => model.confirmationFormDetail.point8_11_Gr)
+                        @Html.HiddenFor(model => model.confirmationFormDetail.point8_12_Gr)
+                        @Html.HiddenFor(model => model.confirmationFormDetail.point8_13_Gr)
+                        @Html.HiddenFor(model => model.confirmationFormDetail.point_9_Option)
+                        @Html.HiddenFor(model => model.confirmationFormDetail.point_10_Option)
+                        @Html.HiddenFor(model => model.confirmationFormDetail.point_11_Option)
+                        @Html.HiddenFor(model => model.confirmationFormDetail.point_12_Option)
+                        @Html.HiddenFor(model => model.confirmationFormDetail.recommnded_Option)
+                    }
+                    <div id="div-Employee" @*class="@reportingSectionClass"*@>
+
+                        <div class="form-group">
+
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+                                <div class="row">
+                                    <div style="background:#808080" class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12">
+
+                                    </div>
+
+                                    <div style="background:#808080" class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12 text-left font-weight-bold text-white p-1">
+                                        Reporting Officer
+                                    </div>
+                                    <div style="background:#808080" class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12 text-left font-weight-bold text-white p-1 @reviewingSectionClass">
+
+                                        Reviewing Officer
+
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
+                                <div class="row">
+                                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2">
+                                        i) @Html.LabelFor(model => model.confirmationFormDetail.Point8_1, htmlAttributes: new { @class = "required" })
+                                    </div>
+                                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2">
+
+                                        @if (!ReportingSectionAsLabel)
+                                        {
+                                            @Html.EnumDropDownListFor(model => model.confirmationFormDetail.point8_1_Gr, new { @class = "custom-select drpdown-section", @size = 5 })
+                                            @Html.ValidationMessageFor(model => model.confirmationFormDetail.point8_1_Gr, "", new { @class = "text-danger" })
+                                        }
+                                        else
+                                        {<b>
+                                            @Model.confirmationFormDetail.point8_1_Gr.GetDisplayName()
+                                        </b>
+                                        }
+                                    </div>
+
+                                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2 @reviewingSectionClass">
+
+                                        @if (Model.confirmationFormDetail.FormState >= 6)
+                                        {
+                                            <b>@Model.confirmationFormDetail.RVpoint8_1_Gr.GetDisplayName() </b>
+                                        }
+                                        else
+                                        {
+                                            @Html.EnumDropDownListFor(model => model.confirmationFormDetail.RVpoint8_1_Gr, new { @class = "custom-select drpdown-section", @size = 5 })
+                                            @Html.ValidationMessageFor(model => model.confirmationFormDetail.RVpoint8_1_Gr, "", new { @class = "text-danger" })
+                                        }
+
+
+                                    </div>
+
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2">
+                                        ii) @Html.LabelFor(model => model.confirmationFormDetail.Point8_2, htmlAttributes: new { @class = "required" })
+                                    </div>
+                                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2">
+
+                                        @if (!ReportingSectionAsLabel)
+                                        {
+                                            @Html.EnumDropDownListFor(model => model.confirmationFormDetail.point8_2_Gr, new { @class = "custom-select drpdown-section selectClass1", @size = 5 })
+                                            @Html.ValidationMessageFor(model => model.confirmationFormDetail.point8_2_Gr, "", new { @class = "text-danger" })
+                                        }
+                                        else
+                                        {
+                                            <b>
+                                                @Model.confirmationFormDetail.point8_2_Gr.GetDisplayName()
+                                            </b>
+                                        }
+                                    </div>
+                                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2 @reviewingSectionClass">
+
+                                        @if (Model.confirmationFormDetail.FormState >= 6)
+                                        {
+                                            <b>@Model.confirmationFormDetail.RVpoint8_2_Gr.GetDisplayName() </b>
+                                        }
+                                        else
+                                        {
+
+                                            @Html.EnumDropDownListFor(model => model.confirmationFormDetail.RVpoint8_2_Gr, new { @class = "custom-select drpdown-section selectClass1", @size = 5 })
+                                            @Html.ValidationMessageFor(model => model.confirmationFormDetail.RVpoint8_2_Gr, "", new { @class = "text-danger" })
+                                        }
+                                    </div>
+
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2">
+                                        iii) @Html.LabelFor(model => model.confirmationFormDetail.Point8_3, htmlAttributes: new { @class = "required" })
+                                    </div>
+                                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2">
+                                        @if (!ReportingSectionAsLabel)
+                                        {
+                                            @Html.EnumDropDownListFor(model => model.confirmationFormDetail.point8_3_Gr, new { @class = "custom-select drpdown-section selectClass1", @size = 5 })
+                                            @Html.ValidationMessageFor(model => model.confirmationFormDetail.point8_3_Gr, "", new { @class = "text-danger" })
+                                        }
+                                        else
+                                        {
+                                            <b>
+                                                @Model.confirmationFormDetail.point8_3_Gr.GetDisplayName()
+                                            </b>
+                                        }
+                                    </div>
+                                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2 @reviewingSectionClass">
+
+                                        @if (Model.confirmationFormDetail.FormState >= 6)
+                                        {
+                                            <b>@Model.confirmationFormDetail.RVpoint8_3_Gr.GetDisplayName() </b>
+                                        }
+                                        else
+                                        {
+
+                                            @Html.EnumDropDownListFor(model => model.confirmationFormDetail.RVpoint8_3_Gr, new { @class = "custom-select drpdown-section selectClass1", @size = 5 })
+                                            @Html.ValidationMessageFor(model => model.confirmationFormDetail.RVpoint8_3_Gr, "", new { @class = "text-danger" })
+                                        }
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2">
+                                        iv) @Html.LabelFor(model => model.confirmationFormDetail.Point8_4, htmlAttributes: new { @class = "required" })
+                                    </div>
+                                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2">
+                                        @if (!ReportingSectionAsLabel)
+                                        {
+                                            @Html.EnumDropDownListFor(model => model.confirmationFormDetail.point8_4_Gr, new { @class = "custom-select drpdown-section selectClass1", @size = 5 })
+                                            @Html.ValidationMessageFor(model => model.confirmationFormDetail.point8_4_Gr, "", new { @class = "text-danger" })
+                                        }
+                                        else
+                                        {
+                                            <b>
+                                                @Model.confirmationFormDetail.point8_4_Gr.GetDisplayName()
+
+                                            </b>
+                                        }
+                                    </div>
+                                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2 @reviewingSectionClass">
+
+                                        @if (Model.confirmationFormDetail.FormState >= 6)
+                                        {
+                                            <b>@Model.confirmationFormDetail.RVpoint8_4_Gr.GetDisplayName() </b>
+                                        }
+                                        else
+                                        {
+
+                                            @Html.EnumDropDownListFor(model => model.confirmationFormDetail.RVpoint8_4_Gr, new { @class = "custom-select drpdown-section selectClass1", @size = 5 })
+                                            @Html.ValidationMessageFor(model => model.confirmationFormDetail.RVpoint8_4_Gr, "", new { @class = "text-danger" })
+                                        }
+                                    </div>
+
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2">
+                                        v) @Html.LabelFor(model => model.confirmationFormDetail.Point8_5, htmlAttributes: new { @class = "required" })
+                                    </div>
+                                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2">
+                                        @if (!ReportingSectionAsLabel)
+                                        {
+                                            @Html.EnumDropDownListFor(model => model.confirmationFormDetail.point8_5_Gr, new { @class = "custom-select drpdown-section ", @size = 5 })
+                                            @Html.ValidationMessageFor(model => model.confirmationFormDetail.point8_5_Gr, "", new { @class = "text-danger" })
+                                        }
+                                        else
+                                        {
+                                            <b>  @Model.confirmationFormDetail.point8_5_Gr.GetDisplayName()</b>
+                                        }
+                                    </div>
+                                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2 @reviewingSectionClass">
+
+                                        @if (Model.confirmationFormDetail.FormState >= 6)
+                                        {
+                                            <b>@Model.confirmationFormDetail.RVpoint8_5_Gr.GetDisplayName() </b>
+                                        }
+                                        else
+                                        {
+                                            @Html.EnumDropDownListFor(model => model.confirmationFormDetail.RVpoint8_5_Gr, new { @class = "custom-select drpdown-section ", @size = 5 })
+                                            @Html.ValidationMessageFor(model => model.confirmationFormDetail.RVpoint8_5_Gr, "", new { @class = "text-danger" })
+                                        }
+                                    </div>
+
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2">
+                                        vi) @Html.LabelFor(model => model.confirmationFormDetail.Point8_6, htmlAttributes: new { @class = "required" })
+                                    </div>
+                                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2">
+                                        @if (!ReportingSectionAsLabel)
+                                        {
+                                            @Html.EnumDropDownListFor(model => model.confirmationFormDetail.point8_6_Gr, new { @class = "custom-select drpdown-section", @size = 5 })
+                                            @Html.ValidationMessageFor(model => model.confirmationFormDetail.point8_6_Gr, "", new { @class = "text-danger" })
+                                        }
+                                        else
+                                        {
+                                            <b> @Model.confirmationFormDetail.point8_6_Gr.GetDisplayName() </b>
+                                        }
+                                    </div>
+                                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2 @reviewingSectionClass">
+
+                                        @if (Model.confirmationFormDetail.FormState >= 6)
+                                        {
+                                            <b> @Model.confirmationFormDetail.RVpoint8_6_Gr.GetDisplayName() </b>
+                                        }
+                                        else
+                                        {
+                                            @Html.EnumDropDownListFor(model => model.confirmationFormDetail.RVpoint8_6_Gr, new { @class = "custom-select drpdown-section", @size = 5 })
+                                            @Html.ValidationMessageFor(model => model.confirmationFormDetail.RVpoint8_6_Gr, "", new { @class = "text-danger" })
+                                        }
+                                    </div>
+
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2">
+                                        vii) @Html.LabelFor(model => model.confirmationFormDetail.Point8_7, htmlAttributes: new { @class = "required" })
+                                    </div>
+                                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2">
+                                        @if (!ReportingSectionAsLabel)
+                                        {
+                                            @Html.EnumDropDownListFor(model => model.confirmationFormDetail.point8_7_Gr, new { @class = "custom-select drpdown-section", @size = 5 })
+                                            @Html.ValidationMessageFor(model => model.confirmationFormDetail.point8_7_Gr, "", new { @class = "text-danger" })
+                                        }
+                                        else
+                                        {
+                                            <b>  @Model.confirmationFormDetail.point8_7_Gr.GetDisplayName() </b>
+                                        }
+                                    </div>
+                                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2 @reviewingSectionClass">
+
+                                        @if (Model.confirmationFormDetail.FormState >= 6)
+                                        {
+                                            <b>  @Model.confirmationFormDetail.RVpoint8_7_Gr.GetDisplayName() </b>
+                                        }
+                                        else
+                                        {
+
+                                            @Html.EnumDropDownListFor(model => model.confirmationFormDetail.RVpoint8_7_Gr, new { @class = "custom-select drpdown-section", @size = 5 })
+                                            @Html.ValidationMessageFor(model => model.confirmationFormDetail.RVpoint8_7_Gr, "", new { @class = "text-danger" })
+                                        }
+
+                                    </div>
+
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2">
+                                        viii) @Html.LabelFor(model => model.confirmationFormDetail.Point8_8, htmlAttributes: new { @class = "required" })
+                                    </div>
+                                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2">
+                                        @if (!ReportingSectionAsLabel)
+                                        {
+                                            @Html.EnumDropDownListFor(model => model.confirmationFormDetail.point8_8_Gr, new { @class = "custom-select drpdown-section", @size = 5 })
+                                            @Html.ValidationMessageFor(model => model.confirmationFormDetail.point8_8_Gr, "", new { @class = "text-danger" })
+                                        }
+                                        else
+                                        {
+                                            <b>   @Model.confirmationFormDetail.point8_8_Gr.GetDisplayName()  </b>
+                                        }
+                                    </div>
+                                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2 @reviewingSectionClass">
+
+                                        @if (Model.confirmationFormDetail.FormState >= 6)
+                                        {
+                                            <b>   @Model.confirmationFormDetail.RVpoint8_8_Gr.GetDisplayName()  </b>
+                                        }
+                                        else
+                                        {
+                                            @Html.EnumDropDownListFor(model => model.confirmationFormDetail.RVpoint8_8_Gr, new { @class = "custom-select drpdown-section", @size = 5 })
+                                            @Html.ValidationMessageFor(model => model.confirmationFormDetail.RVpoint8_8_Gr, "", new { @class = "text-danger" })
+
+                                        }
+                                    </div>
+
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2">
+                                        ix) @Html.LabelFor(model => model.confirmationFormDetail.Point8_9, htmlAttributes: new { @class = "required" })
+                                    </div>
+                                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2">
+                                        @if (!ReportingSectionAsLabel)
+                                        {
+                                            @Html.EnumDropDownListFor(model => model.confirmationFormDetail.point8_9_Gr, new { @class = "custom-select drpdown-section", @size = 5 })
+                                            @Html.ValidationMessageFor(model => model.confirmationFormDetail.point8_9_Gr, "", new { @class = "text-danger" })
+                                        }
+                                        else
+                                        {
+                                            <b>  @Model.confirmationFormDetail.point8_9_Gr.GetDisplayName() </b>
+                                        }
+                                    </div>
+                                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2 @reviewingSectionClass">
+
+                                        @if (Model.confirmationFormDetail.FormState >= 6)
+                                        {
+                                            <b>  @Model.confirmationFormDetail.RVpoint8_9_Gr.GetDisplayName() </b>
+                                        }
+                                        else
+                                        {
+                                            @Html.EnumDropDownListFor(model => model.confirmationFormDetail.RVpoint8_9_Gr, new { @class = "custom-select drpdown-section", @size = 5 })
+                                            @Html.ValidationMessageFor(model => model.confirmationFormDetail.RVpoint8_9_Gr, "", new { @class = "text-danger" })
+                                        }
+                                    </div>
+
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2">
+                                        x) @Html.LabelFor(model => model.confirmationFormDetail.Point8_10, htmlAttributes: new { @class = "required" })
+                                    </div>
+                                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2">
+                                        @if (!ReportingSectionAsLabel)
+                                        {
+                                            @Html.EnumDropDownListFor(model => model.confirmationFormDetail.point8_10_Gr, new { @class = "custom-select drpdown-section", @size = 5 })
+                                            @Html.ValidationMessageFor(model => model.confirmationFormDetail.point8_10_Gr, "", new { @class = "text-danger" })
+                                        }
+                                        else
+                                        {
+                                            <b>  @Model.confirmationFormDetail.point8_10_Gr.GetDisplayName() </b>
+                                        }
+                                    </div>
+                                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2 @reviewingSectionClass">
+
+                                        @if (Model.confirmationFormDetail.FormState >= 6)
+                                        {
+                                            <b>  @Model.confirmationFormDetail.RVpoint8_10_Gr.GetDisplayName() </b>
+                                        }
+                                        else
+                                        {
+                                            @Html.EnumDropDownListFor(model => model.confirmationFormDetail.RVpoint8_10_Gr, new { @class = "custom-select drpdown-section", @size = 5 })
+                                            @Html.ValidationMessageFor(model => model.confirmationFormDetail.RVpoint8_10_Gr, "", new { @class = "text-danger" })
+                                        }
+
+
+                                    </div>
+
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2">
+                                        xi) @Html.LabelFor(model => model.confirmationFormDetail.Point8_11, htmlAttributes: new { @class = "required" })
+                                    </div>
+                                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2">
+                                        @if (!ReportingSectionAsLabel)
+                                        {
+                                            @Html.EnumDropDownListFor(model => model.confirmationFormDetail.point8_11_Gr, new { @class = "custom-select drpdown-section", @size = 5 })
+                                            @Html.ValidationMessageFor(model => model.confirmationFormDetail.point8_11_Gr, "", new { @class = "text-danger" })
+                                        }
+                                        else
+                                        {
+                                            <b>  @Model.confirmationFormDetail.point8_11_Gr.GetDisplayName() </b>
+                                        }
+                                    </div>
+                                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2 @reviewingSectionClass">
+
+                                        @if (Model.confirmationFormDetail.FormState >= 6)
+                                        {
+                                            <b>  @Model.confirmationFormDetail.RVpoint8_11_Gr.GetDisplayName() </b>
+                                        }
+                                        else
+                                        {
+                                            @Html.EnumDropDownListFor(model => model.confirmationFormDetail.RVpoint8_11_Gr, new { @class = "custom-select drpdown-section", @size = 5 })
+                                            @Html.ValidationMessageFor(model => model.confirmationFormDetail.RVpoint8_11_Gr, "", new { @class = "text-danger" })
+                                        }
+                                    </div>
+
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2">
+                                        xii) @Html.LabelFor(model => model.confirmationFormDetail.Point8_12, htmlAttributes: new { @class = "required" })
+                                    </div>
+                                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2">
+                                        @if (!ReportingSectionAsLabel)
+                                        {
+                                            @Html.EnumDropDownListFor(model => model.confirmationFormDetail.point8_12_Gr, new { @class = "custom-select drpdown-section", @size = 5 })
+                                            @Html.ValidationMessageFor(model => model.confirmationFormDetail.point8_12_Gr, "", new { @class = "text-danger" })
+                                        }
+                                        else
+                                        {
+                                            <b> @Model.confirmationFormDetail.point8_12_Gr.GetDisplayName() </b>
+                                        }
+                                    </div>
+                                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2 @reviewingSectionClass">
+
+                                        @if (Model.confirmationFormDetail.FormState >= 6)
+                                        {
+                                            <b> @Model.confirmationFormDetail.RVpoint8_12_Gr.GetDisplayName() </b>
+                                        }
+                                        else
+                                        {
+                                            @Html.EnumDropDownListFor(model => model.confirmationFormDetail.RVpoint8_12_Gr, new { @class = "custom-select drpdown-section", @size = 5 })
+                                            @Html.ValidationMessageFor(model => model.confirmationFormDetail.RVpoint8_12_Gr, "", new { @class = "text-danger" })
+                                        }
+                                    </div>
+
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2">
+                                        xiii) @Html.LabelFor(model => model.confirmationFormDetail.Point8_13, htmlAttributes: new { @class = "required" })
+                                    </div>
+                                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2">
+                                        @if (!ReportingSectionAsLabel)
+                                        {
+                                            @Html.EnumDropDownListFor(model => model.confirmationFormDetail.point8_13_Gr, new { @class = "custom-select drpdown-section", @size = 5 })
+                                            @Html.ValidationMessageFor(model => model.confirmationFormDetail.point8_13_Gr, "", new { @class = "text-danger" })
+                                        }
+                                        else
+                                        {
+                                            <b>  @Model.confirmationFormDetail.point8_13_Gr.GetDisplayName() </b>
+                                        }
+                                    </div>
+                                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2 @reviewingSectionClass">
+
+                                        @if (Model.confirmationFormDetail.FormState >= 6)
+                                        {
+                                            <b>  @Model.confirmationFormDetail.RVpoint8_13_Gr.GetDisplayName() </b>
+                                        }
+                                        else
+                                        {
+                                            @Html.EnumDropDownListFor(model => model.confirmationFormDetail.RVpoint8_13_Gr, new { @class = "custom-select drpdown-section", @size = 5 })
+                                            @Html.ValidationMessageFor(model => model.confirmationFormDetail.RVpoint8_13_Gr, "", new { @class = "text-danger" })
+                                        }
+                                    </div>
+
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2">
+                                        9) @Html.LabelFor(model => model.confirmationFormDetail.Point9, htmlAttributes: new { @class = "required" })
+                                    </div>
+                                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+
+                                        <div class="row">
+
+                                            @if (!ReportingSectionAsLabel)
+                                            {
+                                                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 mb-2">
+                                                    @if (Model.confirmationFormDetail.Point9 == true)
+                                                    {
+                                                        @Html.RadioButtonFor(model => model.confirmationFormDetail.point_9_Option, "Yes", new { @class = "radio-section", id = "radPoint9_Yes", @checked = true }) <b>Yes</b>
+                                                    }
+                                                    else
+                                                    {
+                                                        @Html.RadioButtonFor(model => model.confirmationFormDetail.point_9_Option, "Yes", new { @class = "radio-section", id = "radPoint9_Yes" }) <b>Yes</b>
+                                                    }
+                                                </div>
+
+                                                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 mb-2">
+                                                    @if (Model.confirmationFormDetail.Point9 == false)
+                                                    {
+                                                        @Html.RadioButtonFor(model => model.confirmationFormDetail.point_9_Option, "No", new { @class = "radio-section", id = "radPoint9_No", @checked = true }) <b>No</b>
+                                                    }
+                                                    else
+                                                    {
+                                                        @Html.RadioButtonFor(model => model.confirmationFormDetail.point_9_Option, "No", new { @class = "radio-section", id = "radPoint9_No" }) <b>No</b>
+                                                    }
+                                                </div>
+
+                                                <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 mb-2">
+                                                    @Html.TextAreaFor(model => model.confirmationFormDetail.Point9_Remark, new { @class = "form-control lg-textarea", Placeholder = "Remark", @maxlength = "4000" })
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12 col-xs-12 font-weight-bold">
+
+                                                    @exmethod.BoolToYesNo(@Model.confirmationFormDetail.Point9)
+                                                </div>
+
+                                                if (!string.IsNullOrEmpty(Model.confirmationFormDetail.Point9_Remark))
+                                                {
+                                                    <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
+
+
+                                                        <b>   @Model.confirmationFormDetail.Point9_Remark </b>
+
+                                                    </div>
+                                                }
+                                            }
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 @reviewingSectionClass">
+                                        <div class="row">
+
+                                            @if (Model.confirmationFormDetail.FormState >= 6)
+                                            {
+                                                <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12 col-xs-12 font-weight-bold">
+
+                                                    @exmethod.BoolToYesNo(@Model.confirmationFormDetail.RVPoint9)
+                                                </div>
+
+                                                if (!string.IsNullOrEmpty(Model.confirmationFormDetail.RVPoint9_Remark))
+                                                {
+                                                    <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
+
+
+                                                        <b>   @Model.confirmationFormDetail.RVPoint9_Remark </b>
+
+                                                    </div>
+                                                }
+
+                                            }
+                                            else
+                                            {
+                                                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 mb-2">
+                                                    @if (Model.confirmationFormDetail.RVPoint9 == true)
+                                                    {
+                                                        @Html.RadioButtonFor(model => model.confirmationFormDetail.RVpoint_9_Option, "Yes", new { @class = "radio-section", id = "radPoint9_Yes", @checked = true }) <b>Yes</b>
+                                                    }
+                                                    else
+                                                    {
+                                                        @Html.RadioButtonFor(model => model.confirmationFormDetail.RVpoint_9_Option, "Yes", new { @class = "radio-section", id = "radPoint9_Yes" }) <b>Yes</b>
+                                                    }
+                                                </div>
+                                                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 mb-2">
+                                                    @if (Model.confirmationFormDetail.RVPoint9 == false)
+                                                    {
+                                                        @Html.RadioButtonFor(model => model.confirmationFormDetail.RVpoint_9_Option, "No", new { @class = "radio-section", id = "radPoint9_No", @checked = true }) <b>No</b>
+                                                    }
+                                                    else
+                                                    {
+                                                        @Html.RadioButtonFor(model => model.confirmationFormDetail.RVpoint_9_Option, "No", new { @class = "radio-section", id = "radPoint9_No" }) <b>No</b>
+                                                    }
+                                                </div>
+                                                <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 mb-2">
+                                                    @Html.TextAreaFor(model => model.confirmationFormDetail.RVPoint9_Remark, new { @class = "form-control lg-textarea", Placeholder = "Remark", @maxlength = "200" })
+                                                </div>
+                                            }
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2">
+                                        10) @Html.LabelFor(model => model.confirmationFormDetail.Point10, htmlAttributes: new { @class = "required" })
+                                    </div>
+                                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+
+                                        <div class="row">
+
+                                            @if (!ReportingSectionAsLabel)
+                                            {
+                                                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 mb-2">
+                                                    @if (Model.confirmationFormDetail.Point10 == true)
+                                                    {
+                                                        @Html.RadioButtonFor(model => model.confirmationFormDetail.point_10_Option, "Yes", new { @class = "radio-section", id = "radPoint10_Yes", name = "radPoint10", @checked = true }) <b>Yes</b>
+                                                    }
+                                                    else
+                                                    {
+                                                        @Html.RadioButtonFor(model => model.confirmationFormDetail.point_10_Option, "Yes", new { @class = "radio-section", id = "radPoint10_Yes", name = "radPoint10" }) <b>Yes</b>
+                                                    }
+                                                </div>
+                                                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 mb-2">
+                                                    @if (Model.confirmationFormDetail.Point10 == false)
+                                                    {
+                                                        @Html.RadioButtonFor(model => model.confirmationFormDetail.point_10_Option, "No", new { @class = "radio-section", id = "radPoint10_No", name = "radPoint10", @checked = true }) <b>No</b>
+                                                    }
+                                                    else
+                                                    {
+                                                        @Html.RadioButtonFor(model => model.confirmationFormDetail.point_10_Option, "No", new { @class = "radio-section", id = "radPoint10_No", name = "radPoint10" }) <b>No</b>
+                                                    }
+                                                </div>
+                                                <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 mb-2">
+                                                    @Html.TextAreaFor(model => model.confirmationFormDetail.Point10_Remark, new { @class = "form-control lg-textarea", Placeholder = "Remark", @maxlength = "4000" })
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12 col-xs-12 font-weight-bold">
+
+                                                    @exmethod.BoolToYesNo(@Model.confirmationFormDetail.Point10)
+
+                                                </div>
+                                                if (string.IsNullOrEmpty(Model.confirmationFormDetail.Point10_Remark))
+                                                {
+                                                    <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
+
+                                                        <b>   @Model.confirmationFormDetail.Point10_Remark  </b>
+
+                                                    </div>
+                                                }
+                                            }
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 @reviewingSectionClass">
+
+                                        <div class="row">
+
+                                            @if (Model.confirmationFormDetail.FormState >= 6)
+                                            {
+                                                <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12 col-xs-12 font-weight-bold">
+
+                                                    @exmethod.BoolToYesNo(@Model.confirmationFormDetail.RVPoint10)
+                                                </div>
+
+                                                if (!string.IsNullOrEmpty(Model.confirmationFormDetail.RVPoint10_Remark))
+                                                {
+                                                    <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
+
+
+                                                        <b>   @Model.confirmationFormDetail.RVPoint10_Remark </b>
+
+                                                    </div>
+                                                }
+
+                                            }
+                                            else
+                                            {
+                                                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 mb-2">
+                                                    @if (Model.confirmationFormDetail.RVPoint10 == true)
+                                                    {
+                                                        @Html.RadioButtonFor(model => model.confirmationFormDetail.RVpoint_10_Option, "Yes", new { @class = "radio-section", id = "radPoint10_Yes", name = "radPoint10", @checked = true }) <b>Yes</b>
+                                                    }
+                                                    else
+                                                    {
+                                                        @Html.RadioButtonFor(model => model.confirmationFormDetail.RVpoint_10_Option, "Yes", new { @class = "radio-section", id = "radPoint10_Yes", name = "radPoint10" }) <b>Yes</b>
+                                                    }
+                                                </div>
+                                                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 mb-2">
+                                                    @if (Model.confirmationFormDetail.RVPoint10 == false)
+                                                    {
+                                                        @Html.RadioButtonFor(model => model.confirmationFormDetail.RVpoint_10_Option, "No", new { @class = "radio-section", id = "radPoint10_No", name = "radPoint10", @checked = true }) <b>No</b>
+                                                    }
+                                                    else
+                                                    {
+                                                        @Html.RadioButtonFor(model => model.confirmationFormDetail.RVpoint_10_Option, "No", new { @class = "radio-section", id = "radPoint10_No", name = "radPoint10" }) <b>No</b>
+                                                    }
+                                                </div>
+                                                <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 mb-2">
+                                                    @Html.TextAreaFor(model => model.confirmationFormDetail.RVPoint10_Remark, new { @class = "form-control lg-textarea", Placeholder = "Remark", @maxlength = "200" })
+                                                </div>
+                                            }
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2">
+                                        11) @Html.LabelFor(model => model.confirmationFormDetail.Point11, htmlAttributes: new { @class = "required" })
+                                    </div>
+                                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+
+                                        <div class="row">
+
+                                            @if (!ReportingSectionAsLabel)
+                                            {
+                                                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 mb-2">
+                                                    @if (Model.confirmationFormDetail.Point11 == true)
+                                                    {
+                                                        @Html.RadioButtonFor(model => model.confirmationFormDetail.point_11_Option, "Yes", new { @class = "radio-section", id = "radPoint11_Yes", @checked = true }) <b>Yes</b>
+                                                    }
+                                                    else
+                                                    {
+                                                        @Html.RadioButtonFor(model => model.confirmationFormDetail.point_11_Option, "Yes", new { @class = "radio-section", id = "radPoint11_Yes" }) <b>Yes</b>
+                                                    }
+                                                </div>
+                                                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 mb-2">
+                                                    @if (Model.confirmationFormDetail.Point11 == false)
+                                                    {
+                                                        @Html.RadioButtonFor(model => model.confirmationFormDetail.point_11_Option, "No", new { @class = "radio-section", id = "radPoint11_No", @checked = true }) <b>No</b>
+                                                    }
+                                                    else
+                                                    {
+                                                        @Html.RadioButtonFor(model => model.confirmationFormDetail.point_11_Option, "No", new { @class = "radio-section", id = "radPoint11_No" }) <b>No</b>
+                                                    }
+                                                </div>
+                                                <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 mb-2">
+                                                    @Html.TextAreaFor(model => model.confirmationFormDetail.Point11_Remark, new { @class = "form-control lg-textarea", Placeholder = "Remark", @maxlength = "4000" })
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12 col-xs-12 font-weight-bold">
+                                                    @exmethod.BoolToYesNo(@Model.confirmationFormDetail.Point11)
+                                                </div>
+
+                                                if (string.IsNullOrEmpty(Model.confirmationFormDetail.Point11_Remark))
+                                                {
+                                                    <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
+
+
+                                                        <b>  @Model.confirmationFormDetail.Point11_Remark </b>
+
+                                                    </div>
+                                                }
+                                            }
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 @reviewingSectionClass">
+
+                                        <div class="row">
+
+                                            @if (Model.confirmationFormDetail.FormState >= 6)
+                                            {
+                                                <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12 col-xs-12 font-weight-bold">
+
+                                                    @exmethod.BoolToYesNo(@Model.confirmationFormDetail.RVPoint11)
+                                                </div>
+
+                                                if (!string.IsNullOrEmpty(Model.confirmationFormDetail.RVPoint11_Remark))
+                                                {
+                                                    <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
+
+
+                                                        <b>   @Model.confirmationFormDetail.RVPoint11_Remark </b>
+
+                                                    </div>
+                                                }
+
+                                            }
+                                            else
+                                            {
+                                                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 mb-2">
+                                                    @if (Model.confirmationFormDetail.RVPoint11 == true)
+                                                    {
+                                                        @Html.RadioButtonFor(model => model.confirmationFormDetail.RVpoint_11_Option, "Yes", new { @class = "radio-section", id = "radPoint11_Yes", @checked = true }) <b>Yes</b>
+                                                    }
+                                                    else
+                                                    {
+                                                        @Html.RadioButtonFor(model => model.confirmationFormDetail.RVpoint_11_Option, "Yes", new { @class = "radio-section", id = "radPoint11_Yes" }) <b>Yes</b>
+                                                    }
+                                                </div>
+                                                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 mb-2">
+                                                    @if (Model.confirmationFormDetail.RVPoint11 == false)
+                                                    {
+                                                        @Html.RadioButtonFor(model => model.confirmationFormDetail.RVpoint_11_Option, "No", new { @class = "radio-section", id = "radPoint11_No", @checked = true }) <b>No</b>
+                                                    }
+                                                    else
+                                                    {
+                                                        @Html.RadioButtonFor(model => model.confirmationFormDetail.RVpoint_11_Option, "No", new { @class = "radio-section", id = "radPoint11_No" }) <b>No</b>
+                                                    }
+                                                </div>
+                                                <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 mb-2">
+                                                    @Html.TextAreaFor(model => model.confirmationFormDetail.RVPoint11_Remark, new { @class = "form-control lg-textarea", Placeholder = "Remark", @maxlength = "200" })
+                                                </div>
+                                            }
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2">
+                                        12) @Html.LabelFor(model => model.confirmationFormDetail.Point12, htmlAttributes: new { @class = "required" })
+                                    </div>
+                                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+
+                                        <div class="row">
+
+                                            @if (!ReportingSectionAsLabel)
+                                            {
+                                                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 mb-2">
+                                                    @if (Model.confirmationFormDetail.Point12 == true)
+                                                    {
+                                                        @Html.RadioButtonFor(model => model.confirmationFormDetail.point_12_Option, "Yes", new { @class = "radio-section", id = "radPoint12_Yes", @checked = true }) <b>Yes</b>
+                                                    }
+                                                    else
+                                                    {
+                                                        @Html.RadioButtonFor(model => model.confirmationFormDetail.point_12_Option, "Yes", new { @class = "radio-section", id = "radPoint12_Yes" }) <b>Yes</b>
+                                                    }
+                                                </div>
+                                                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 mb-2">
+                                                    @if (Model.confirmationFormDetail.Point12 == false)
+                                                    {
+                                                        @Html.RadioButtonFor(model => model.confirmationFormDetail.point_12_Option, "No", new { @class = "radio-section", id = "radPoint12_No", @checked = true }) <b>No</b>
+                                                    }
+                                                    else
+                                                    {
+                                                        @Html.RadioButtonFor(model => model.confirmationFormDetail.point_12_Option, "No", new { @class = "radio-section", id = "radPoint12_No" }) <b>No</b>
+                                                    }
+                                                </div>
+                                                <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 mb-2">
+                                                    @Html.TextAreaFor(model => model.confirmationFormDetail.Point12_Remark, new { @class = "form-control lg-textarea", Placeholder = "Remark", @maxlength = "4000" })
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12 col-xs-12 font-weight-bold">
+                                                    @exmethod.BoolToYesNo(@Model.confirmationFormDetail.Point12)
+                                                </div>
+
+                                                if (!string.IsNullOrEmpty(Model.confirmationFormDetail.Point12_Remark))
+                                                {
+                                                    <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12 font-weight-bold">
+
+                                                        @Model.confirmationFormDetail.Point12_Remark
+                                                    </div>
+                                                }
+                                            }
+
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 @reviewingSectionClass">
+
+                                        <div class="row">
+                                            @if (Model.confirmationFormDetail.FormState >= 6)
+                                            {
+                                                <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12 col-xs-12 font-weight-bold">
+
+                                                    @exmethod.BoolToYesNo(@Model.confirmationFormDetail.RVPoint12)
+                                                </div>
+
+                                                if (!string.IsNullOrEmpty(Model.confirmationFormDetail.RVPoint12_Remark))
+                                                {
+                                                    <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
+
+
+                                                        <b>   @Model.confirmationFormDetail.RVPoint12_Remark </b>
+
+                                                    </div>
+                                                }
+
+                                            }
+                                            else
+                                            {
+                                                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 mb-2">
+                                                    @if (Model.confirmationFormDetail.RVPoint12 == true)
+                                                    {
+                                                        @Html.RadioButtonFor(model => model.confirmationFormDetail.RVpoint_12_Option, "Yes", new { @class = "radio-section", id = "radPoint12_Yes", @checked = true }) <b>Yes</b>
+                                                    }
+                                                    else
+                                                    {
+                                                        @Html.RadioButtonFor(model => model.confirmationFormDetail.RVpoint_12_Option, "Yes", new { @class = "radio-section", id = "radPoint12_Yes" }) <b>Yes</b>
+                                                    }
+                                                </div>
+                                                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 mb-2">
+                                                    @if (Model.confirmationFormDetail.RVPoint12 == false)
+                                                    {
+                                                        @Html.RadioButtonFor(model => model.confirmationFormDetail.RVpoint_12_Option, "No", new { @class = "radio-section", id = "radPoint12_No", @checked = true }) <b>No</b>
+                                                    }
+                                                    else
+                                                    {
+                                                        @Html.RadioButtonFor(model => model.confirmationFormDetail.RVpoint_12_Option, "No", new { @class = "radio-section", id = "radPoint12_No" }) <b>No</b>
+                                                    }
+                                                </div>
+                                                <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 mb-2">
+                                                    @Html.TextAreaFor(model => model.confirmationFormDetail.RVPoint12_Remark, new { @class = "form-control lg-textarea", Placeholder = "Remark", @maxlength = "200" })
+                                                </div>
+                                            }
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2 font-weight-bold">
+                                        <h3>For Reporting Authority:</h3>
+                                    </div>
+
+                                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2">
+                                        @Html.LabelFor(model => model.confirmationFormDetail.ConfirmationRecommendedReporting, htmlAttributes: new { @class = "" })
+                                    </div>
+
+                                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+
+                                        <div class="row">
+
+                                            @if (!ReportingSectionAsLabel)
+                                            {
+                                                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 mb-2">
+                                                    @if (Model.confirmationFormDetail.ConfirmationRecommendedReporting == true)
+                                                    {
+                                                        @Html.RadioButtonFor(model => model.confirmationFormDetail.recommnded_Option, "Yes", new { @class = "radio-section", id = "radConfirmation_Yes", @checked = true }) <b>Yes</b>
+                                                    }
+                                                    else
+                                                    {
+                                                        @Html.RadioButtonFor(model => model.confirmationFormDetail.recommnded_Option, "Yes", new { @class = "radio-section", id = "radConfirmation_Yes" }) <b>Yes</b>
+                                                    }
+                                                </div>
+                                                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 mb-2">
+                                                    @if (Model.confirmationFormDetail.ConfirmationRecommendedReporting == false)
+                                                    {
+                                                        @Html.RadioButtonFor(model => model.confirmationFormDetail.recommnded_Option, "No", new { @class = "radio-section", id = "radConfirmation_No", @checked = true }) <b>No</b>
+                                                    }
+                                                    else
+                                                    {
+                                                        @Html.RadioButtonFor(model => model.confirmationFormDetail.recommnded_Option, "No", new { @class = "radio-section", id = "radConfirmation_No" }) <b>No</b>
+                                                    }
+                                                </div>
+
+                                                <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 mb-2">
+                                                    @Html.TextAreaFor(model => model.confirmationFormDetail.ReportingOfficerComment, new { @class = "form-control lg-textarea", Placeholder = "Remark", @maxlength = "2000" })
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12 col-xs-12 font-weight-bold">
+
+                                                    @exmethod.BoolToYesNo(Model.confirmationFormDetail.ConfirmationRecommendedReporting)
+                                                </div>
+
+                                                if (!string.IsNullOrEmpty(Model.confirmationFormDetail.ReportingOfficerComment))
+                                                {
+                                                    <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12 font-weight-bold">
+
+                                                        @Model.confirmationFormDetail.ReportingOfficerComment
+
+                                                    </div>
+                                                }
+                                            }
+
+                                        </div>
+
+                                    </div>
+
+
+
+                                    @if (Model.confirmationFormDetail.ConfirmationClarification && Model.confirnationClarification != null && Model.confirnationClarification.Count > 0)
+                                    {
+                                        if (!ReportingSectionAsLabel)
+                                        {
+                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+                                                <div class="row">
+
+                                                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+
+                                                        @Html.HiddenFor(model => model.confirmationFormDetail.ConfirmationClarification)
+                                                        @Html.LabelFor(model => model.confirmationFormDetail.ROClarificationRemark, htmlAttributes: new { @class = "" })
+                                                    </div>
+                                                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+
+                                                        @Html.TextAreaFor(model => model.confirmationFormDetail.ROClarificationRemark,
+                                    new { @class = "form-control lg-textarea", Placeholder = "Remark", @maxlength = "2000" })
+
+                                                        @Html.ValidationMessage("ROClarificationRequired", "", new { @class = "text-danger" })
+
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        }
+                                    }
+
+                                </div>
+
+                                <div class="row @reviewingSectionClass">
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2 font-weight-bold">
+                                        <h3>For Reveiwing Authority:</h3>
+                                    </div>
+
+                                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2">
+                                        @Html.LabelFor(model => model.confirmationFormDetail.ConfirmationRecommended, htmlAttributes: new { @class = "" })
+                                    </div>
+
+                                    @if (Model.confirmationFormDetail.FormState >= 6)
+                                    {
+                                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2">
+                                            <div class="row">
+                                                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 mb-2 font-weight-bold">
+                                                    @exmethod.BoolToYesNo(@Model.confirmationFormDetail.ConfirmationRecommended)
+                                                </div>
+                                                @if (Model.ApprovalHierarchy == 1)
+                                                {
+                                                    if (Model.confirmationFormDetail.ConfirmationClarification == true)
+                                                    {
+                                                        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 mb-2">
+                                                            <text><b>Clarification</b>  </text>
+                                                        </div>
+                                                    }
+                                                }
+                                                <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12 mb-2 font-weight-bold">
+                                                    @Model.confirmationFormDetail.ReviewingOfficerComment
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12 mb-2">
+                                            @if (Model.confirmationFormDetail.ConfirmationRecommended == true)
+                                            {
+                                                @Html.RadioButtonFor(model => model.confirmationFormDetail.recommnded_ReviewingOption, "Yes", new { @class = "", id = "radRevConfirmation_Yes", @checked = true }) <b>Yes</b>
+                                            }
+                                            else
+                                            {
+                                                @Html.RadioButtonFor(model => model.confirmationFormDetail.recommnded_ReviewingOption, "Yes", new { @class = "", id = "radRevConfirmation_Yes" }) <b>Yes</b>
+                                            }
+                                        </div>
+
+                                        <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12 mb-2">
+                                            @if (Model.confirmationFormDetail.ConfirmationRecommended == false)
+                                            {
+                                                @Html.RadioButtonFor(model => model.confirmationFormDetail.recommnded_ReviewingOption, "No", new { @class = "", id = "radConfirmation_No", @checked = true }) <b>No</b>
+                                            }
+                                            else
+                                            {
+                                                @Html.RadioButtonFor(model => model.confirmationFormDetail.recommnded_ReviewingOption, "No", new { @class = "", id = "radConfirmation_No" }) <b>No</b>
+                                            }
+                                        </div>
+                                        if (Model.ApprovalHierarchy == 1)
+                                        {
+                                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 mb-2">
+                                                @if (Model.confirmationFormDetail.ConfirmationClarification == true)
+                                                {
+                                                    @Html.RadioButtonFor(model => model.confirmationFormDetail.recommnded_ReviewingOption, "Clarification", new { @class = "", id = "radConfirmation_Clarification", @checked = true }) <b>Clarification</b>
+                                                }
+                                                else
+                                                {
+                                                    @Html.RadioButtonFor(model => model.confirmationFormDetail.recommnded_ReviewingOption, "Clarification", new { @class = "", id = "radConfirmation_Clarification" }) <b>Clarification</b>
+                                                }
+                                            </div>
+                                        }
+
+                                        <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 mb-2">
+                                            @Html.TextAreaFor(model => model.confirmationFormDetail.ReviewingOfficerComment, new { @class = "form-control lg-textarea", Placeholder = "Remark", @maxlength = "2000" })
+                                            @Html.ValidationMessageFor(model => model.confirmationFormDetail.ReviewingOfficerComment, "", new { @class = "text-danger" })
+                                        </div>
+
+                                    }
+                                </div>
+
+
+
+
+                                @if (Model.ApprovalHierarchy == 1 && Model.confirnationClarification != null && Model.confirnationClarification.Count > 0)
+                                {
+                                    <div class="form-group">
+
+                                        <div class="row">
+
+                                            <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 mb-2">
+
+                                                @Html.Partial("_ConfirmationClarification", Model.confirnationClarification)
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+
+                        @if ((reportingSectionClass == null && Model.ApprovalHierarchy == 1) || (Model.ReviewingTo == Model.loggedInEmpID && Model.ApprovalHierarchy == 1))
+                        {
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div class="row">
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
+                                        <p class="">Name of the Reporting Officer</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+
+                                    <div class="col-lg-2 col-md-2 col-sm-6 col-xs-6 mb-2">
+                                        <p>Name in Block Letters :</p>
+                                    </div>
+
+                                    <div class="col-lg-2 col-md-2 col-sm-6 col-xs-6 mb-2 underlineinput">
+                                        @Html.DisplayFor(model => model.ReportingName, new { @class = "form-control " })
+                                    </div>
+
+                                </div>
+                                <div class="row">
+
+
+                                    <div class="col-lg-2 col-md-2 col-sm-6 col-xs-6 mb-2">
+                                        <p class="">Designation :</p>
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-sm-6 col-xs-6 mb-2 underlineinput">
+                                        @Html.DisplayFor(model => model.ReportingDesignation, new { @class = "form-control " })
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        }
+                        @if (reviewingSectionClass == null && Model.ApprovalHierarchy == 1)
+                        {
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div class="row">
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
+                                        <p class="">Name of the Reviewing Officer</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-2 col-md-2 col-sm-6 col-xs-6 mb-2">
+                                        <p>Name in Block Letters :</p>
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-sm-6 col-xs-6 mb-2 underlineinput">
+                                        @Html.DisplayFor(model => model.ReviewingName, new { @class = "form-control " })
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-2 col-md-2 col-sm-6 col-xs-6 mb-2">
+                                        <p class="">Designation :</p>
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-sm-6 col-xs-6 mb-2 underlineinput">
+                                        @Html.DisplayFor(model => model.ReviewingDesignation, new { @class = "form-control " })
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        @if (Model.ApprovalHierarchy == 2)
+                        {
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div class="row">
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
+                                        <p class="">Name of the Reporting/Reviewing Officer</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-2 col-md-2 col-sm-6 col-xs-6 mb-2">
+                                        <p>Name in Block Letters :</p>
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-sm-6 col-xs-6 mb-2 underlineinput">
+                                        @Html.DisplayFor(model => model.ReportingName, new { @class = "form-control " })
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-2 col-md-2 col-sm-6 col-xs-6 mb-2">
+                                        <p class="">Designation :</p>
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-sm-6 col-xs-6 mb-2 underlineinput">
+                                        @Html.DisplayFor(model => model.ReportingDesignation, new { @class = "form-control " })
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+
+                        @if (Model.ReportingTo == Model.loggedInEmpID && Model.ApprovalHierarchy == 1 || Model.confirmationFormRulesAttributes.ReportingButton)
+                        {
+                            if (Model.ApprovalHierarchy == 1)
+                            {
+                                <div class="pull-right div-action pl-1">
+                                    @Html.ActionLink("Back", "Index", "ApprovalRequest", null, new { @class = "btn btn-light btn-md", title = "Click here, to go to back on previous screen.", @data_toggle = "tooltip" })
+                                </div>
+                            }
+                            if (Model.confirmationFormRulesAttributes.FormState == (int)ConfirmationFormState.SavedByReporting || Model.confirmationFormRulesAttributes.ReportingButton)
+                            {
+                                <div class="pull-right div-action">
+                                    <input type="submit" value="Save" id="btnAASave" name="ButtonType" class="btn btn-info  toggle-tooltip " title="Click here, to save the data." />
+                                    <input type="submit" value="Save & Submit" id="btnAASaveSubmit" name="ButtonType" class="btn btn-info  toggle-tooltip " title="Click here, to save & submit the data." />
+                                </div>
+                            }
+                        }
+                        @if (Model.ReviewingTo == Model.loggedInEmpID && (Model.ApprovalHierarchy == 2 || Model.ApprovalHierarchy == 1) && (Model.confirmationFormRulesAttributes.ReportingSection || Model.confirmationFormRulesAttributes.ReviewerButton))
+                        {
+                            <div class="pull-right div-action pl-1">
+                                @Html.ActionLink("Back", "Index", "ApprovalRequest", null, new { @class = "btn btn-light btn-md", title = "Click here, to go to back on previous screen.", @data_toggle = "tooltip" })
+                            </div>
+                            if ((Model.confirmationFormRulesAttributes.FormState == (int)ConfirmationFormState.SavedByReviewer || (Model.confirmationFormRulesAttributes.FormState == (int)ConfirmationFormState.SubmitedByReporting) || (Model.confirmationFormRulesAttributes.FormState == (int)ConfirmationFormState.RejectedByReporting)) && (Model.ApprovalHierarchy == 2 || Model.ApprovalHierarchy == 1) && Model.confirmationFormRulesAttributes.ReviewerButton)
+                            {
+                                <div class="pull-right div-action">
+                                    <input type="submit" value="Save" id="btnAASave" name="ButtonType" class="btn btn-info  toggle-tooltip " title="Click here, to save the data." />
+                                    <input type="submit" value="Save & Submit" id="btnAASaveSubmit" name="ButtonType" class="btn btn-info  toggle-tooltip " title="Click here, to save & submit the data." />
+                                </div>
+                            }
+                        }
+
+                    </div>
+                    @*----End point ========*@
+
+                }
+            </div>
+            <style type="text/css">
+                @@media print {
+
+                    .fix-collapse div {
+                        page-break-inside: avoid;
+                        page-break-after: auto;
+                    }
+
+                    table { /* tables don't split across pages if possible. */
+                        page-break-inside: avoid;
+                        page-break-after: always;
+                    }
+
+                    p {
+                        /* if there aren't at least three lines before the page
+                     break, move the element to the start of a new page. */
+                        orphans: 3;
+                    }
+
+                    .print-helper {
+                        display: block;
+                    }
+
+                    .no-print {
+                        display: none;
+                    }
+
+                    .form-control:not(textarea) {
+                        border: 0;
+                        padding: 0;
+                        overflow: visible;
+                        -webkit-appearance: none;
+                        -moz-appearance: none;
+                        appearance: none;
+                    }
+
+                    .custom-select {
+                        overflow-y: hidden;
+                    }
+
+                    input[type="submit"], a {
+                        visibility: hidden;
+                    }
+
+                    .part5prbk {
+                        page-break-before: always;
+                    }
+                }
+            </style>
+
+        </div>
+    }
+    catch (Exception ex)
+    {
+
+        throw;
+    }
+
+}
+
+
+
+
+<style>
+    .noselect {
+        -webkit-touch-callout: none; /* iOS Safari */
+        -webkit-user-select: none; /* Safari */
+        -khtml-user-select: none; /* Konqueror HTML */
+        -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+        user-select: none; /* Non-prefixed version, currently supported by Chrome, Opera and Firefox */
+    }
+</style>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        if ("@reviewingtextarea" == "True")
+            $("#confirmationFormDetail_ReviewingOfficerComment").removeAttr("readonly");
+    });
+    function OnSuccess(data) {
+        debugger;
+
+        //  alert(data.part); alert(data.msgType);
+
+        if (data.part == undefined) {
+            $("#div-main-form").html(data);
+        }
+        else if (data.part == 0)
+            $("#div-main-form").html(data.htmlData);
+        if (data.msgType == "success") {
+            commonMessage(data.msgType, data.msg);
+            window.location.reload();
+        }
+        //if (data.msgType == "error") {
+        //   // $("#div-main-form").html(data.htmlData);
+        //   commonMessage(data.msgType, data.msg);
+        //}
+        if ((data.formState != undefined && data.formState != 0) && (parseInt(data.formState) % 2) == 0)
+            $(".div-action").addClass('hide');
+        if (data.msgType == "validationFailed") {
+            $("#div-formA").html(data.htmlData);
+        }
+    }
+
+    function radioOnChange(controlID) {
+        var jj = $("#" + controlID).val();
+        $("#PART5_2").val($("#" + controlID).val());
+    }
+
+    function printContent(el) {
+        var printcontent = document.getElementById(el).innerHTML;
+        document.body.innerHTML = printcontent; window.print();
+
+    }
+</script>

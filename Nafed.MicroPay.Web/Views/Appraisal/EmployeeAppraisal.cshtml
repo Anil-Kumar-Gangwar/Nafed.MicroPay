@@ -1,0 +1,23 @@
+﻿@model MicroPay.Web.Models.EmployeeAppraisalViewModel
+@using Nafed.MicroPay.Model;
+@{
+    ViewBag.Title = "Appraisal Form List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var uDetails = (UserDetail)Session["user"];
+}
+
+
+<div class="">
+    <div class="card_new_header text-right"> 
+           @if (Model.empAppraisalFormID.HasValue)
+           {
+             @Html.ActionLink("Appraisal", "Edit", "Appraisal", new { appraisalFormID= Model.empAppraisalFormID.Value,empID= uDetails.EmployeeID}, new { @class = "btn btn-info btn-sm", title = "Click here, to create new record", @data_toggle = "tooltip" })
+           }
+    </div>
+    <div class="card_new_body">
+        <div id="">
+            @Html.Action("MyAppraisalList")
+        </div>
+    </div>
+  
+</div>

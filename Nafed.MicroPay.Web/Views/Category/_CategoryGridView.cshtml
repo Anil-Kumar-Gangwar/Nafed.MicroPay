@@ -1,0 +1,70 @@
+﻿@model MicroPay.Web.Models.CategoryViewModel
+
+
+<table id="tblGrid" class="table table-centered table-striped dt-responsive w-100">
+    <thead>
+        <tr>
+            <th>
+                #
+            </th>
+            <th>
+                Category Code
+            </th>
+            <th>
+                Category Name
+            </th>
+            @if (Model.userRights.Edit)
+            {
+                <th class="text-center" style="width:60px">
+                    Edit
+                </th>
+            }
+            @if (Model.userRights.Delete)
+            {
+                <th class="text-center" style="width:60px">
+                    Delete
+                </th>
+            }
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            if (Model.listCategory != null && Model.listCategory.Count() > 0)
+            {
+                var sno = 1;
+                foreach (var item in Model.listCategory)
+                {
+                    <tr>
+                        <td> @sno</td>
+                        <td> @item.CategoryCode</td>
+                        <td> @item.CategoryName</td>
+                        
+                        @if (Model.userRights.Edit)
+                        {
+                            <td class="text-center">
+                                @*<a href="@Url.Action("Edit", "Category", new { categoryID = item.CategoryID })" title = "Click here, to edit this record" data-toggle="tooltip">
+                                    <i class="far fa-edit text-info" aria-hidden="true"></i>
+                                </a>*@
+                                @Html.EncodedImageActionLink("", "Edit", "Category", new { categoryID = item.CategoryID }, new { @class = "toggle-tooltip", title = "Click here, to edit this record" }, "~/Images/edit.png")
+                            </td>
+                        }
+                        @if (Model.userRights.Delete)
+                        {
+                            <td class="text-center">
+                                @*<a data-toggle="confirm" class="toggle-tooltip" href="@Url.Action("Delete", "Category", new { categoryID = item.CategoryID })" title = "Click here, to delete this record">
+                                    <span class="far fa-trash-alt text-danger" aria-hidden="true"></span>
+                                </a>*@
+                                @Html.EncodedImageActionLink("", "Delete", "Category", new { categoryID = item.CategoryID }, new { @class = "toggle-tooltip", title = "Click here, to delete this record" }, "~/Images/delete.png", true)
+                            </td>
+                        }
+                    </tr>
+
+                    sno++;
+                }
+            }
+
+        }
+
+    </tbody>
+</table>
+

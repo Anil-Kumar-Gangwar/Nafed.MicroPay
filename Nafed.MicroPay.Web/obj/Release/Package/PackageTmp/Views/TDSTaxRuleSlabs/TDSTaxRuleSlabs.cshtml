@@ -1,0 +1,35 @@
+﻿@using Nafed.MicroPay.Model
+@model tblTDSTaxRulesSlab
+
+@{
+    ViewBag.Title = "TDS Tax Rule Slabs";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    short? view = Request.QueryString["view"] != null ? (short?)int.Parse(Request.QueryString["view"].ToString()) : (short?)null;
+}
+
+@using (Ajax.BeginForm("_PostTDSSlabForm", "TDSTaxRulSlabs", new AjaxOptions
+{
+    HttpMethod = "POST",
+    UpdateTargetId = "div-main-form",
+    InsertionMode = InsertionMode.Replace
+
+}, new { id = "frmTDSSlabs" }))
+{
+
+    <div id="div-main-form">
+
+        @Html.Partial("_TDSSlabEntryForm", Model)
+
+    </div>
+
+    if (view.HasValue)
+    {
+        <script type="text/javascript">
+
+            $("input[type=submit]").addClass("hide");
+            //$("#dv-action-btn").addClass("hide");
+        </script>
+    }
+}
+

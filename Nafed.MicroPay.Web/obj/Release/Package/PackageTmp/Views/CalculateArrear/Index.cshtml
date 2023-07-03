@@ -1,0 +1,445 @@
+﻿@using Nafed.MicroPay.Model;
+@model SalaryHead
+@{
+    ViewBag.Title = "Calculate Arrear";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var fText = Model.LookUpHeadName;
+
+}
+
+
+@using (Ajax.BeginForm("PostFilterFieldValues", "CalculateArrear", new AjaxOptions { HttpMethod = "POST", OnSuccess = "onSuccess" }, new { enctype = "multipart/form-data", id = "myForm", defaultbutton = "submitform" }))
+{
+
+    @Html.HiddenFor(model => model.LookUpHeadName)
+            <div class="">
+                <div class="advance-search" style="padding: 10px !important">
+
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 pb-1 pt-2 form-inline align-middle">
+                    <h4 class="desc" style="color:#0bb70b;">
+
+                            @Html.Label("Arrears")
+                        </h4>
+
+                    </div>
+
+                    <hr style="background-color:#fff !important;">
+
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+                        <div class="form-group">
+                            <div class="row mb-2">
+                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 text-secondary">
+
+                                    <i class="fas fa-filter"></i> Filter By :
+
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+
+                                <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12 ">
+                                    @Html.Label("Arrear Type:")
+                                </div>
+
+                                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+
+                                    @Html.RadioButton("arrearType", -1, new
+                               {
+                                   id = "rbtn_0",
+                                   @checked = true
+                               })
+                                    @Html.Label("DA Arrear", new { @for = "rbtn_0", @class = "control-label " })
+
+                                </div>
+
+                                <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+                                    @Html.RadioButton("arrearType", 2, new
+                               {
+                                   id = "rbtn_1",
+                               })
+                                    @Html.Label("Pay Arrear", new { @for = "rbtn_1", @class = "control-label " })
+                                </div>
+                                <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+                                    @Html.Label("From Date", htmlAttributes: new { @class = "Control-label required" })
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                    @Html.Editor("FromDate", new { htmlAttributes = new { required = "required", @class = "form-control", @placeholder = "From Date", @type = "date", @id = "lblfromdate" } })
+                                </div>
+
+                                <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+                                    @Html.Label("To Date", htmlAttributes: new { @class = "Control-label required" })
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                    @Html.Editor("ToDate", new { htmlAttributes = new { required = "required", @class = "form-control ", @placeholder = "To Date", @type = "date", @id = "lbltodate" } })
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div id="DAArrear"  class="col-lg-5 col-md-5 col-sm-12 col-xs-12   p-2 shadow-sm p-3 mb-5 bg-white rounded">
+                                    <div class="row p-2 ">
+                                        <h6>For DA Arrear</h6>
+
+                                    </div>
+
+                                        <div class="row">
+                                            <div class="custom-control custom-radio" style="font-size: 14px;">
+                                                @Html.RadioButton("VPFrate", 0, new
+                                       {
+                                           id = "rbtn_0",
+                                           @checked = true
+                                       })
+                                                @Html.Label("Max- 24 % VPF Rate", new { @for = "rbtn_0", @class = "control-label" })
+
+                                                @Html.RadioButton("VPFrate", 1, new
+                                       {
+                                           id = "rbtn_1"
+                                       })
+                                                @Html.Label("Actual VPF Rate", new { @for = "rbtn_1", @class = "control-label" })
+
+                                            </div>
+                                        </div>
+
+                                        <div class="row mt-2">
+                                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                                @Html.Label("Branch", htmlAttributes: new { @class = "required" })
+                                            </div>
+                                            <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+
+                                                @Html.DropDownList("ddlBranch", (IEnumerable<SelectListItem>)ViewBag.Branch, new { @class = "custom-select", @id = "ddlBranch", onchange = "onFilterField_Change(this.id);" })
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                <div id="PayArrear"  class="col-lg-6 col-md-6 col-sm-12 col-xs-12 form-inline  p-2 offset-1 shadow-sm p-3 mb-5 bg-white rounded">
+                                    <div class="col-md-12 ">
+                                        <h6>For Pay Arrear</h6>
+
+                                    </div>
+
+                                    
+                                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12  text-left">
+
+                                        <button type="submit" id="submitform" name="ButtonType" value="Export Template" class="btn btn-warning pull-center toggle-tooltip" title="Click here, to download the template.">
+                                            <i class="fa fa-file-excel"></i> Export Template
+                                        </button>
+                                      
+                                    </div>
+                                    <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12 mt-3">
+                                        @Html.Label("Import", htmlAttributes: new { @class = "font-weight-bold" })
+                                    </div>
+                                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12" style="margin-top: 5px">
+                                        @*@Html.TextBox("file", "", new { type = "file", @class = "custom-file-input", @id = "inputGroupFile01" })
+                                        <label class="custom-file-label" for="inputGroupFile01">Choose file</label>*@
+                                        @*<input name="file" id="fileToUpload" type="file" aria-label="files" />*@
+
+
+                                        <div class="input-group image-preview">
+                                            <input type="text" class="form-control image-preview-filename" disabled="disabled"> <!-- don't give a name === doesn't send on POST/GET -->
+                                            <span class="input-group-btn">
+                                                <!-- image-preview-clear button -->
+                                                <button type="button" class="btn btn-default image-preview-clear" style="display:none;">
+                                                    <span class="glyphicon glyphicon-remove"></span> Clear
+                                                </button>
+                                                <!-- image-preview-input -->
+                                                <div class="btn btn-default image-preview-input">
+                                                    <span class="glyphicon glyphicon-folder-open"></span>
+                                                    <span class="image-preview-input-title">Browse</span>
+                                                    @Html.TextBox("file", "", new { type = "file", @class = "", @name = "input-file-preview", @id = "fileToUpload" })
+                                                </div>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    
+                              
+                                    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 mt-2">
+                                     
+                                        <button type="button" id="upload" onclick="validateData()" class="btn btn-success pull-center toggle-tooltip" title="Click here, to validate attendance sheet data.">
+                                            <i class="fa fa-check" aria-hidden="true"></i>
+                                            Validate Data
+                                        </button>
+                                    </div>
+                               </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <hr style="background-color:#fff !important;">
+                    <div class="row mt-3">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-right">
+
+                            <button type="button" id="btnReset" onclick="reset_SearchForm();" class="btn btn-secondary btn-md pull-right toggle-tooltip" title="Click here, to clear selected filters.">
+                                <i class="fas fa-undo mr-2"></i>Reset
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+
+               
+
+             
+                <div class="advance-search mt-3" style="padding: 10px !important;min-height:500px;">
+                 
+                        <div class="card_new_header m-0">
+                            <h5> Employees :</h5>
+                        </div>
+
+
+                        @Html.Hidden("SelectedFieldID")
+                        @Html.Hidden("SelectedEmployeeType", "-1")
+
+                        <div class="card_new_body">
+
+                            <div class="form-group">
+
+
+
+                            </div>
+
+                            <hr />
+                            <div class="row">
+                                <div class="clo-lg-6 col-md-6 scrollbar" id="style-3" style="height:257px;">
+
+                                    <div id="div-filter-list" class="force-overflow" style="height:257px;">
+
+                                    </div>
+                                </div>
+
+                                <div class="clo-lg-6 col-md-6 scrollbar" id="style-3" style="height:257px;">
+                                    <div id="div-search-for" class="force-overflow font-weight-normal" style="max-height:257px;">
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="card_new_footer">
+                            <input type="submit"  value="Select" id="btnSelect" name="ButtonType" class="btn btn-primary btn-md pull-left" />
+
+                            @Html.CheckBox("chkAll", false, new { @id = "chkAll", @class = "ml-2 mt-2" })
+                            @Html.Label("All", new { @for = "chkAll", @class = "control-label" })
+
+                            <input type="submit" name="ButtonType"  value="Calculate Arrear" id="btncalculatearrear" class="btn btn-primary btn-md pull-right">
+
+                        </div>
+                        <div class="card_new_footer" style="margin-top:-7px">
+                            <div class="form-group mt-2">
+                                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 pl-0">
+                                        <div class="form-group mb-0">
+                                            <div class="row">
+                                                     <div class="col-xl-1 col-lg-1 col-md-1 col-sm-12 col-xs-12 ">
+                                                         Formula :
+                                                    </div>
+                                                    <div id="dv-formula-Form" class="col-xl-10 col-lg-10 col-md-10 col-sm-12 col-xs-12 ">
+                                                        @Html.EditorFor(model => model.LookUpHead, new { htmlAttributes = new { @class = "form-control  toggle-tooltip", @readOnly = "readOnly", @id = "FormulaText" } })
+                                                    </div>
+                                                    <div class="col-xl-1 col-lg-1 col-md-1 col-sm-4 col-xs-4 " id="style-3">
+                                                        <a data-ajax="true" class="form-control btn-sm pull-center "
+                                                           style="background-color:#F2F2F2;text-decoration:none;text-align:center;"
+                                                           href="@Url.Action("_FormulaEditor", "CalculateArrear",new { fieldName = "E_01" })"
+                                                           method="GET" title="Click here, to create new formula"
+                                                           data-ajax-update="#div-fm" data-ajax-mode="replace"
+                                                           data-backdrop="static" data-keyboard="false"
+                                                           id="a_formulaEditor" data-toggle="modal" data-target="#FormulaModel">
+                                                            ...
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                        </div>
+                                    </div>
+                                <span class="with-border"></span>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+
+
+                </div>
+
+                
+}
+
+   <div class="modal" id="FormulaModel">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Formula Editor</h4>
+                <button type="button" class="close toggle-tooltip" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body" id="div-fm">
+            </div>
+            <!-- Modal footer -->
+            <div class="modal-footer">
+            </div>
+      
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $("#DAArrear").removeClass("bg-light");
+        $("#DAArrear").addClass("bg-white");
+        $("#PayArrear").removeClass("bg-white");
+        $("#PayArrear").addClass("bg-light");
+    });
+
+    $('#inputGroupFile01').on('change', function () {
+        //get the file name
+        var fileName = $(this).val();
+        alert(fileName);
+        //replace the "Choose a file" label
+        fileName = fileName.replace("C:\\fakepath\\", "");
+        $(this).next('.custom-file-label').html(fileName);
+    })
+
+
+
+    $('input[type=radio][name=arrearType]').change(function () {
+        var checkedRadio = this.value;
+        if(checkedRadio==-1)
+        {
+            $("#DAArrear").removeClass("bg-light");
+            $("#DAArrear").addClass("bg-white");
+            $("#PayArrear").removeClass("bg-white");
+            $("#PayArrear").addClass("bg-light");
+
+        }
+        else if (checkedRadio == 2) {
+            $("#PayArrear").removeClass("bg-light");
+            $("#PayArrear").addClass("bg-white");
+            $("#DAArrear").removeClass("bg-white");
+            $("#DAArrear").addClass("bg-light");
+        }
+    })
+
+
+
+    $('#chkAll').change(function () {
+        if ($(this).is(':checked')) {
+            $('#div-chk-list-container').find(':checkbox').each(function () {
+                $(this).prop('checked', true);
+            });
+            return;
+        } else
+            $('#div-chk-list-container').find(':checkbox').each(function () {
+                $(this).prop('checked', false);
+            });
+    })
+
+
+
+    function onFilterField_Change(controlID) {
+
+        $("#div-filter-list,#div-search-for").html(''); $("#chkAll").prop("checked", false);
+        var branchID = $("#ddlBranch").val();
+        var fromdate = $("#lblfromdate").val();
+        var todate = $("#lbltodate").val();
+        if (branchID > -1)
+            jQuery.post('@Url.Action("_FillFilterEmployeeList", "CalculateArrear") ',
+               {
+                   BranchID: branchID,
+                   fromDate: fromdate,
+                   toDate: todate
+               }).done(function (data) {
+                   $("#div-filter-list").html(data);
+               });
+        else
+            $("#div-filter-list,#div-search-for").html('');
+    }
+
+
+
+    function onSuccess(data) {
+        var selectedID = data.selectedFields; var searchForTextExpression = "";
+        searchForTextExpression = "<b>" + $("#ddlFields option:selected").text() + "</b>";
+       
+
+        if (data.fileName != "" && data.message == "success") {
+            window.location.href = "@Url.RouteUrl(new { Controller = "Base", Action = "DownloadAndDelete" })/?sFileName=" + data.fileName + "&sFileFullPath=" + data.fullPath;
+        }
+        if (data.fileName == "" && data.message == "error") {
+            commonMessage("error", "No records found for this filter selection.");
+        }
+        if (data.formAction == "Calculate Arrear") {
+            $.bootstrapGrowl("<i class='mdi-checkbox-marked-circle-outline' aria-hidden='true'></i> " + 'Arrear calculated successfully', {
+                type: 'success',
+                align: 'center',
+                width: 'auto',
+                allow_dismiss: true,
+                delay: 20000
+            });
+        }
+        if (selectedID != undefined && selectedID.length > 0) {
+            if (data.formAction == "Select") {
+
+                //searchForTextExpression += "<b>=</b>";
+                for (var i = 0 ; i < selectedID.length; i++) {
+                    if (i < selectedID.length - 1)
+                        searchForTextExpression += $("#div-chk-list-container :checkbox[value='" + selectedID[i] + "']").next('label').text() + "</BR> ";
+                    else
+
+                        searchForTextExpression += $("#div-chk-list-container :checkbox[value='" + selectedID[i] + "']").next('label').text() + "</BR> ";
+
+                }
+                $("#div-search-for").html(searchForTextExpression);
+            }
+            else {
+                $("#div-result-body").html(data.htmlData);
+                $("#SearchResultModal").modal("show");
+            }
+        }
+
+        else {
+            $("#div-filter-list,#div-search-for").html('');
+        }
+    }
+
+
+
+    function reset_SearchForm() {
+        $("#div-filter-list,#div-search-for").html(''); $("#ddlFields").val(0);
+        $("#rbtn_1,#rbtn_2").prop("checked", false); $("#chkAll").prop("checked", false);
+    }
+
+    function validateData() {
+        debugger;
+        if (window.FormData == undefined)
+            alert("Error: File is undefined");
+
+        else {
+            var fileUpload = $("#fileToUpload").get(0);
+            var files = fileUpload.files;
+
+            var fileData = new FormData();
+
+            fileData.append(files[0].name, files[0]);
+
+            $.ajax({
+                url: "@Url.Action("uploadFile", "CalculateArrear")",
+                type: "POST",
+            contentType: false, // Not to set any content header
+            processData: false, // Not to process data
+            data: fileData,
+            success: function (result) {
+                alert(result);
+            }
+        }); 
+        }
+    }
+</script>
+
+

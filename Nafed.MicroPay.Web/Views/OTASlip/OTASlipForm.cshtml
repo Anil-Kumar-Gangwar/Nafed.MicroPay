@@ -1,0 +1,264 @@
+﻿@using Nafed.MicroPay.Model;
+@using Nafed.MicroPay.Common;
+@model Nafed.MicroPay.Model.OTASlip
+@{
+    ViewBag.Title = "OTA Slip";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var empSectionClass = (Model.EmployeeID == Model.loggedInEmpID) ? null : "noselect";
+    var reportingSectionClass = ((Model.ReportingTo == Model.ReviewingTo) && (Model.ReportingTo == Model.loggedInEmpID)) ? null :
+        (Model.ReviewingTo == Model.loggedInEmpID) ? "noselect" : null;
+
+}
+<link href="~/Content/mdtimepicker.min.css" rel="stylesheet" />
+<script src="~/Scripts/mdtimepicker.min.js"></script>
+<div id="div-main-form" style="padding-left:60px;padding-right:60px;padding-top:20px;padding-bottom:20px">
+    @using (Html.BeginForm("Create", "OTASlip", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+
+        @Html.HiddenFor(model => model.ApplicationID)
+        @Html.HiddenFor(model => model.EmployeeID)
+        @Html.HiddenFor(model => model.EmployeeName)
+        @Html.HiddenFor(model => model.loggedInEmpID)
+        @Html.HiddenFor(model => model.CreatedBy)
+        @Html.HiddenFor(model => model.CreatedOn)
+        @Html.HiddenFor(model => model.StatusID)
+        @Html.HiddenFor(model => model.ReportingTo)
+        @Html.HiddenFor(model => model.ReviewingTo)
+        @Html.HiddenFor(model => model.ReportingName)
+        @Html.HiddenFor(model => model.ReviewingName)
+        <div class="form-group advance-search">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
+                <div class="row mb-5">
+                    <h4 class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
+                        SLIPS  TO  BE  FILLED  BY  THE  EMPLOYEES  FOR<br />
+                        WORKING BEYOND OFFICE HOURS/ON HOLIDAYS DUE<br />
+                        AUTHORISED  BY  THE  DIVISIONAL /SECTIONAL HEAD
+
+                    </h4>
+                </div>
+
+                <div class="@empSectionClass">
+                    <div class="row">
+                        <p class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            I @Html.EditorFor(model => model.EmployeeName, new { htmlAttributes = new { @class = " form-textbox col-lg-5 col-md-5 col-sm-5 col-xs-5", @readonly = "readonly" } }) have been
+                        </p>
+                        <p class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            instructed by @Html.EditorFor(model => model.InstructedBy, new { htmlAttributes = new { @class = " form-textbox col-lg-3 col-md-3 col-sm-3 col-xs-3", @maxlength = "150" } }) to work before/after office hours/
+                            @Html.ValidationMessageFor(model => model.InstructedBy, "", new { @class = "text-danger" })
+                        </p>
+                        <p class="row col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                on Holidays  dated
+                            </div>
+                            @*@Html.EditorFor(model => model.HolidayDate, new { htmlAttributes = new { @class = "form-control col-lg-2 col-md-2 col-sm-2 col-xs-2", @type = "date", min = DateTime.Now.AddDays(-30).ToString("yyyy-MM-dd"), max = DateTime.Now.ToString("yyyy-MM-dd") } })*@
+                            @Html.TextBoxFor(model => model.HolidayDate, String.Format("{0:dd/MM/yyyy}", Model.HolidayDate), new { @type = "text", @class = "form-control form-textbox col-lg-2 col-md-2 col-sm-2 col-xs-2 datepicker", id = "HolidayDate", @placeholder = "dd/mm/yyyy" })
+                            @Html.ValidationMessageFor(model => model.HolidayDate, "", new { @class = "text-danger" })
+                            <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+                                from
+                            </div>
+                            @Html.EditorFor(model => model.HolidayFromTime, new { htmlAttributes = new { @class = "form-control pl-0 form-textbox col-lg-1 col-md-1 col-sm-1 col-xs-1", @type = "time" } })
+                            @Html.ValidationMessageFor(model => model.HolidayFromTime, "", new { @class = "text-danger" })
+                            @Html.ValidationMessage("HolidayValidation", "", new { @class = "text-danger" })
+
+                            <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+                                to
+                            </div>
+                            @Html.EditorFor(model => model.HolidayToTime, new { htmlAttributes = new { @class = "form-control pl-0 form-textbox col-lg-1 col-md-1 col-sm-1 col-xs-1", @type = "time" } })
+                            @Html.ValidationMessageFor(model => model.HolidayToTime, "", new { @class = "text-danger" })
+                        </p>
+                        <p class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            for office work to attend to/dispose of following work.
+                        </p>
+                    </div>
+
+                    <div class="row mt-5">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2 text-right form-inline">
+                            <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10 mb-2 text-right">
+                                Name of Employee :
+                            </div>
+
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-6 mb-2 underlineinput text-left">
+                                @Model.EmployeeName
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="@reportingSectionClass">
+                    @if (Model.ReportingTo == Model.loggedInEmpID || (Model.ReviewingTo == Model.loggedInEmpID))
+                {
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
+
+                                <div class="row">
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        <div class="row">
+                                            <p class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                Shri @Html.EditorFor(model => model.EmployeeName, new { htmlAttributes = new { @class = "form-textbox col-lg-4 col-md-4 col-sm-4 col-xs-4 underlineinput", @maxlength = "100", @readonly = "readonly" } })  is  allowed  to  attend  the
+                                            </p>
+                                            <p class="row col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 pr-0">
+                                                    urgent office work as indicated above  on
+                                                </div>
+                                                @*@Html.EditorFor(model => model.IndicatedDate, new { htmlAttributes = new { @class = "form-control pl-0 col-lg-2 col-md-2 col-sm-2 col-xs-2", @type = "date", min = DateTime.Now.AddDays(-30).ToString("yyyy-MM-dd"), max = DateTime.Now.ToString("yyyy-MM-dd") } })*@
+                                                @Html.TextBoxFor(model => model.IndicatedDate, String.Format("{0:dd/MM/yyyy}", Model.IndicatedDate), new { @type = "text", @class = "form-control form-textbox pl-0 col-lg-2 col-md-2 col-sm-2 col-xs-2 datepicker", id = "IndicatedDate", @placeholder = "dd/mm/yyyy" })
+                                                @Html.ValidationMessageFor(model => model.IndicatedDate, "", new { @class = "text-danger" })
+
+                                            </p>
+                                            <p class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                Certified that Shri/Smt @Html.EditorFor(model => model.EmployeeName, new { htmlAttributes = new { @class = "form-textbox col-lg-4 col-md-4 col-sm-4 col-xs-4 underlineinput", @maxlength = "100", @readonly = "readonly" } }) has
+                                            </p>
+                                            <p class="row col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+                                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                                    actually attended office on
+                                                </div>
+                                               @* @Html.EditorFor(model => model.AttendedDate, new { htmlAttributes = new { @class = "form-control form-textbox col-lg-2 col-md-2 col-sm-2 col-xs-2", @type = "date", min = DateTime.Now.AddDays(-30).ToString("yyyy-MM-dd"), max = DateTime.Now.ToString("yyyy-MM-dd") } })*@
+                                                @Html.TextBoxFor(model => model.AttendedDate, String.Format("{0:dd/MM/yyyy}", Model.AttendedDate), new { @type = "text", @class = "form-control form-textbox col-lg-2 col-md-2 col-sm-2 col-xs-2 datepicker", id = "AttendedDate", @placeholder = "dd/mm/yyyy" })
+                                                @Html.ValidationMessageFor(model => model.AttendedDate, "", new { @class = "text-danger" })
+                                                <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+                                                    from
+                                                </div>
+                                                @Html.EditorFor(model => model.AttendedFromTime, new { htmlAttributes = new { @class = "form-control form-textbox pl-0 col-lg-1 col-md-1 col-sm-1 col-xs-1", @type = "time" } })
+                                                @Html.ValidationMessageFor(model => model.AttendedFromTime, "", new { @class = "text-danger" })
+                                                @Html.ValidationMessage("AttendedValidation", "", new { @class = "text-danger" })
+                                                <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+                                                    to
+                                                </div>
+                                                @Html.EditorFor(model => model.AttendedToTime, new { htmlAttributes = new { @class = "form-control form-textbox pl-0 col-lg-1 col-md-1 col-sm-1 col-xs-1", @type = "time" } })
+                                                @Html.ValidationMessageFor(model => model.AttendedToTime, "", new { @class = "text-danger" })
+
+                                            </p>
+
+                                            <p class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                complete/attend to the about said work.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-12 col-md-12 col-xl-12 col-sm-12 col-xs-12">
+                                <div class="row">
+                                    <div class="col-lg-2 col-md-2 col-xl-2 col-sm-2 col-xs-12">
+                                        Remark
+                                    </div>
+                                    <div class="col-lg-8 col-md-8 col-xl-8 col-sm-8 col-xs-12">
+                                        @Html.TextAreaFor(model => model.ReportingRemark, new { @class = "form-control lg-textarea" })
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2 text-right">
+
+                                <p>(Sign of Sectional Head)</p>
+
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2 text-right form-inline">
+                                <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10 mb-2 text-right">
+                                    <p>Name :</p>
+                                </div>
+
+                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-6 mb-2 underlineinput text-left">
+                                    @Model.ReportingName
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+
+                <div id="div-Reviewing">
+                    @if ((Model.ReviewingTo == Model.loggedInEmpID))
+                {
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-xl-12 col-sm-12 col-xs-12">
+                                <div class="row">
+                                    <div class="col-lg-2 col-md-2 col-xl-2 col-sm-2 col-xs-12">
+                                        Remark
+                                    </div>
+                                    <div class="col-lg-8 col-md-8 col-xl-8 col-sm-8 col-xs-12">
+                                        @Html.TextAreaFor(model => model.ReviewingRemark, new { @class = "form-control lg-textarea" })
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2 text-right">
+
+                                <p>(Sign of Divisional Head)</p>
+
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2 text-right form-inline">
+                                <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10 mb-2 text-right">
+                                    <p>Name :</p>
+                                </div>
+
+                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-6 mb-2 underlineinput text-left">
+                                    @Model.ReviewingName
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2 text-right">
+
+                    @Html.ActionLink("Back", "Index", null, new { @class = "btn btn-light btn-md toggle-tooltip", @title = "Click here, to redirect on list page", @data_toggle = "tooltip" })
+                    @if (Model.loggedInEmpID != Model.EmployeeID)
+                    {
+                        <input type="submit" value="Accept" id="btnAccept" name="ButtonType" class="btn btn-info btn-md pull-center toggle-tooltip" title="Click here, to submit the data." />
+                        <input type="submit" value="Reject" id="btnReject" name="ButtonType" class="btn btn-danger btn-md pull-center toggle-tooltip" title="Click here, to submit the data." />
+                    }
+                    else
+                    {
+                        <input type="submit" value="Submit" id="btnSubmit" name="ButtonType" class="btn btn-info btn-md pull-center toggle-tooltip" title="Click here, to submit the data." />
+                    }
+                </div>
+            </div>
+        </div>
+    }
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#HolidayFromTime,#HolidayToTime,#AttendedFromTime,#AttendedToTime').mdtimepicker();
+        $('.noselect').find('input, textarea, button, select').attr('readonly', 'readonly').removeAttr('href');
+
+    });
+    $('#HolidayFromTime,#HolidayToTime,#AttendedFromTime,#AttendedToTime').mdtimepicker({
+        // format of the time value (data-time attribute)
+        timeFormat: 'hh:mm:ss.000',
+        // format of the input value
+        format: 'hh:mm tt',
+        // theme of the timepicker
+        // 'red', 'purple', 'indigo', 'teal', 'green'
+        theme: 'blue',
+
+        // determines if display value has zero padding for hour value less than 10 (i.e. 05:30 PM); 24-hour format has padding by default
+        hourPadding: false
+
+    });
+    debugger;
+    let date = new Date();
+    var mindate= date.setDate(date.getDate() + -30);
+  
+    $("#HolidayDate").datepicker({ dateFormat: 'dd/mm/yy', changeYear: false, maxDate: new Date(), minDate: date });
+    $("#IndicatedDate").datepicker({ dateFormat: 'dd/mm/yy', changeYear: false, maxDate: new Date(), minDate: date });
+    $("#AttendedDate").datepicker({ dateFormat: 'dd/mm/yy', changeYear: false, maxDate: new Date(), minDate: date });
+</script>

@@ -1,0 +1,90 @@
+﻿@model MicroPay.Web.Models.EmployeeViewModel
+
+
+<table id="tblGrid" class="table table-centered table-striped dt-responsive w-100">
+    <thead>
+        <tr>
+            <th>
+                #
+            </th>
+           
+            <th>
+                Employee Code
+            </th>
+            <th>
+                Name
+            </th>
+            <th>
+                Branch
+            </th>
+            <th>
+                Department
+            </th>
+            <th>
+                Designation
+            </th>
+            <th>
+                Employee Type
+            </th>
+
+            
+            @if (Model.userRights.Edit)
+            {
+                <th class="text-center" style="width:60px">
+                    Leave Adjustment
+                </th>
+            }
+
+           
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            if (Model != null && Model.Employee.Count > 0)
+            {
+                var sno = 1;
+                foreach (var item in Model.Employee)
+                {
+                    <tr>
+                        <td> @sno</td>
+                       
+
+                        <td> @item.EmployeeCode</td>
+                        <td> @item.Name</td>
+                        <td> @item.BranchName</td>
+                        <td> @item.DepartmentName</td>
+                        <td> @item.DesignationName</td>
+                        <td> @item.EmployeeTypeName</td>
+                       
+                        @if (Model.userRights.Edit)
+                        {
+                            <td class="text-center">
+                                @*<a class="toggle-tooltip" href="@Url.Action("Create", "EmployeeLeave", new { EmployeeId = item.EmployeeID,RequestType=0 })" title="Click here, to adjust Leave">
+                                    <span class="far fa-edit text-info" aria-hidden="true"></span>
+                                </a>*@
+                                @Html.EncodedImageActionLink("", "Create", "EmployeeLeave", new { EmployeeId = item.EmployeeID, RequestType = 0 }, new { @class = "toggle-tooltip", title = "Click here, to edit this record" }, "~/Images/edit.png")
+                            </td>
+                        }
+                        
+                    </tr>
+
+                    sno++;
+                }
+            }
+
+        }
+
+    </tbody>
+</table>
+
+
+
+<script>
+        $('.toggle-tooltip').tooltip();
+        ///==== Adding jquery datatable reference to all master grid ==== (Sujeet G)
+        var table = $('#tblGrid').DataTable({
+        });
+        $('#tblGrid_length').find('select').addClass('custom-select');
+        //========= End==================================================
+</script>
+

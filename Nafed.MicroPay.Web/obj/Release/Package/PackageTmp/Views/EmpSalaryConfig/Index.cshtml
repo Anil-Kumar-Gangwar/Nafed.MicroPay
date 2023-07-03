@@ -1,0 +1,146 @@
+﻿@using MicroPay.Web.Models
+@model SalaryConfigurationViewModel
+
+@{
+    ViewBag.Title = "Employee Salary Configuration";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Ajax.BeginForm("_GetSalaryConfigGridView", "EmpSalaryConfig", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "divSalaryHead", OnSuccess = "onSuccess" }, new { defaultbutton = "submitform" }))
+{
+    <div class="advance-search" style="">
+
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 pb-1 pt-2 form-inline align-middle">
+
+            <i class="fa fa-search fa-2x" style="color:#d4d4d4;" aria-hidden="true"></i><h4 class="desc" style="color:#0bb70b;">
+
+                @Html.Label("Search")
+
+            </h4>
+
+        </div>
+        <hr style="background-color:#fff !important;">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12 text-secondary">
+                        <i class="fas fa-filter"></i> Filter By :
+                    </div>
+
+                    <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+                        @Html.Label("Branch", htmlAttributes: new { @class = "" })
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+
+                        @Html.DropDownListFor(model => model.BranchID, new SelectList(Model.branchList, "id", "value"), "All Branch", new { @class = "custom-select" })
+                        @Html.ValidationMessage("BranchIDRequired", "", new { @class = "text-danger" })
+
+                    </div>
+
+                    <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12 pr-0">
+                        <input type="submit" id="submitform" name="ButtonType" value="Search" title="Click here, to search records" class="btn btn-warning toggle-tooltip">
+
+                    </div>
+
+                    <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12 pl-0">
+                        <button type="submit" id="submitform" name="ButtonType" class="btn btn-warning pull-center toggle-tooltip" title="Click here, to download the template.">
+                            <i class="fa fa-file-excel"></i> Export
+                        </button>
+
+                        @*<a href="@Url.Action("ExportPDf")" >Export In PDF</a>*@
+
+                    </div>
+
+                    <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+
+                    
+
+                     
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <hr />
+
+    <div class="card_new_body">
+        <div id="divSalaryHead">
+        </div>
+    </div>
+
+}
+<div class="modal" id="myModal">
+    <div class="modal-dialog modal-big">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Employee Salary Setting</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body" id="div-salHead">
+
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="suspensionHistory">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Suspension History</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body" id="div-Suspension">
+
+                Suspension History table...
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<script type="text/javascript">
+
+    function onSuccess(data) {
+
+        if (data.fileName == "" || data.fileName == undefined) {
+            $("#branchRequired").text('Please select branch.');
+        }
+        if (data.fileName != "" && data.message == "success") {
+            // $("#div-report-filters").load("@Url.Action("_ReportFilter", "ExportSalaryReport")");
+            window.location.href = "@Url.RouteUrl(new { Controller = "Base", Action = "DownloadAndDelete" })/?sFileName=" + data.fileName + "&sFileFullPath=" + data.fullPath;
+
+        }
+
+        if (data.message == "error" && data.part == 1) {
+            $("#div-report-filters").html(data.htmlData);
+        }
+    }
+</script>

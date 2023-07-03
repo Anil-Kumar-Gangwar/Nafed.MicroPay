@@ -1,0 +1,78 @@
+﻿@model MicroPay.Web.Models.FileTrackingViewModel
+<table id="tblGrid" class="table table-centered table-striped dt-responsive w-100">
+    <thead>
+        <tr>
+            <th>
+                #
+            </th>
+            <th>
+                Department
+            </th>
+            <th>
+               Initiator
+            </th>
+            @*<th>
+                Park By
+            </th>*@
+            <th>
+                From Date
+            </th>
+           
+            <th class="text-center" style="width:40px">
+                Edit
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+    @{
+        if (Model.fileWorkFlowList != null && Model.fileWorkFlowList.Count > 0)
+        {
+            var sno = 1;
+            for (int i = 0; i < Model.fileWorkFlowList.Count; i++)
+            {
+                <tr>
+                    <td> @sno</td>
+                    <td>
+                        @Model.fileWorkFlowList[i].InitiatedDepartment
+                    </td>
+                    <td> @Model.fileWorkFlowList[i].InitiateEmployee</td>
+                    @*<td>                                         
+                        @Model.fileWorkFlowList[i].ParkedEmployee
+                    </td>*@
+                    <td>
+                        @Model.fileWorkFlowList[i].fromdate.Value.ToString("dd-MM-yyyy")
+
+                    </td>              
+                                        
+                    <td class="text-center">
+                        @*<a class="toggle-tooltip"  href="@Url.Action("Edit", "FileTrackingSystem", new { fileWorkFlowID = Model.fileWorkFlowList[i].WorkFlowID})" title="Click here, to edit this record">
+                            <span class="far fa-edit" aria-hidden="true"></span>
+                        </a>*@
+                        @Html.EncodedImageActionLink("", "Edit", "FileTrackingSystem", new { fileWorkFlowID = Model.fileWorkFlowList[i].WorkFlowID }, new { @class = "toggle-tooltip", title = "Click here, to edit this record" }, "~/Images/edit.png")
+                    </td> 
+                </tr>
+                sno++;
+            }
+        }
+        else
+        {
+         <tr><td colspan="5" class="text-center"> No Record Found.</td>
+        </tr>  
+        }
+    }
+    </tbody>
+</table>
+
+
+<script type="text/javascript">
+    $('.toggle-tooltip').tooltip();
+</script>
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,61 @@
+﻿@model MicroPay.Web.Models.UpdateBasicViewModel
+
+
+<table id="tblGrid" class="table table-centered table-striped dt-responsive w-100">
+    <thead>
+        <tr>
+            <th>
+                #
+            </th>
+            <th>
+                Employee Code
+            </th>
+            <th>
+                Employee Name
+            </th>
+            <th>
+                Current Basic
+            </th>
+            @if (Model.userRights.Edit)
+            {
+                <th class="text-center" style="width:60px">
+                    Edit
+                </th>
+            }
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            if (Model.listUpdateBasic != null && Model.listUpdateBasic.Count() > 0)
+            {
+                var sno = 1;
+
+                foreach (var item in Model.listUpdateBasic)
+                {
+                    <tr>
+                        <td> @sno</td>
+                        <td> @item.EmployeeCode</td>
+                        <td> @item.EmployeeName</td>
+                        <td class="text-right"> @item.ExistingBasic</td>
+                        
+                        @if (Model.userRights.Edit)
+                        {
+                            <td class="text-center">
+                                @*<a href="@Url.Action("Edit", "Updatebasic", new { EmployeeSalaryID = item.EmployeeSalaryID })" title="Click here, to edit this record" data-toggle="tooltip">
+                                    <i class="far fa-edit text-info" aria-hidden="true"></i>
+                                </a>*@
+                                @Html.EncodedImageActionLink("", "Edit", "Updatebasic", new { EmployeeSalaryID = item.EmployeeSalaryID }, new { @class = "toggle-tooltip", title = "Click here, to edit this record" }, "~/Images/edit.png")
+                            </td>
+                        }
+                      
+                    </tr>
+                    sno++;
+                }
+            }
+
+        }
+
+    </tbody>
+</table>
+
+

@@ -1,0 +1,11 @@
+﻿@model MicroPay.Web.Models.ApprovalRequestVM
+
+@Html.Partial("_ConveyanceFilters", Model.conveyanceBillFilters)
+
+@Html.Partial("_ConveyanceStatusBar")
+<div id="div-Conveyance-forms">
+
+    @Html.Partial("_ConveyanceFormGridView", Model.conveyanceBillFormsHdr)
+
+</div>
+

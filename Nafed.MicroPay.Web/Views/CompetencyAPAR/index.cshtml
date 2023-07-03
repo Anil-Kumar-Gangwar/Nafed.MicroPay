@@ -1,0 +1,112 @@
+﻿@model MicroPay.Web.Models.APARSkillsViewModel
+@{
+    ViewBag.Title = "Start Annual Appraisal Assessment";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="bclass">
+
+    <div class="container">
+        <h3>Start Annual Appraisal Assessment</h3>
+        <div class="row">
+            <article class="card fl-left col-md-9">
+                <section class="date">
+                    <time datetime="23th feb">
+                        <span>1</span><span>Step</span>
+                    </time>
+                </section>
+                <section class="card-cont">
+
+                    <h3>Competency Assessment</h3>
+
+                    <span>Self Competency Assessment form to be filled by all BMs/RMs and officers of the level of Managers and above in Head Office (including Officers in F&A & ex-Technical cadres) is given in Annexure-1. The senior most officer in F&A side in the Branches and Regional office may also fill up the Competency Assessment form</span>
+
+                    <div class="even-date mt-3">
+                        <time class="form-inline">
+                            <i class="fa fa-calendar"></i>
+                            @*<span class="mt-2"><strong> Last date of Submit </strong>- wednesday, 31 May 2020 </span>*@
+                            <span class="mt-2"><strong> Last date of Submit </strong>- @Model.frmAttributes.EmployeeSubmissionDate.ToString("dddd, dd MMMM yyyy") </span>
+
+                        </time>
+                    </div>
+                    <div class="even-info">
+                        <p>
+                            @if (Model.APARSkillStatus == 0 || Model.APARSkillStatus == 1)
+                            {
+                                <span class="badge badge-danger">Pending</span>
+                            }
+                            else if (Model.APARSkillStatus >1)
+                            {
+                                <span class="badge badge-success">Submitted</span>
+                            }
+                        </p>
+                    </div>
+                    @if (Model.APARSkillStatus == 0 || Model.APARSkillStatus == 1)
+                    {
+                        @Html.ActionLink("Start", "Index", "APARSkills", null, new { @class = "btn btn-info", title = "Click here, to submit Competency Assessment Report.", @data_toggle = "tooltip" })
+                    }
+                    else if (Model.APARSkillStatus >1)
+                    {
+                        @Html.ActionLink("View", "Index", "APARSkills", null, new { @class = "btn btn-secondary", title = "Click here, to view Competency Assessment Report.", @data_toggle = "tooltip" })
+                    }
+
+                    @*<a href="#">Start</a>*@
+                </section>
+            </article>
+
+        </div>
+        <div class="row">
+            <article class="card fl-left col-md-9">
+                <section class="date">
+                    <time datetime="23th feb">
+                        <span>2</span><span>Step</span>
+                    </time>
+                </section>
+                <section class="card-cont">
+
+                    <h3>Appraisal Assessment</h3>
+                    <span>Self Appraisal Assessment form to be filled by all BMs/RMs and officers of the level of Managers and above in Head Office (including Officers in F&A & ex-Technical cadres) is given in Annexure-1. The senior most officer in F&A side in the Branches and Regional office may also fill up the appraisal form</span>
+                    <div class="even-date mt-3">
+
+                        <time class="form-inline">
+                            <i class="fa fa-calendar"></i>
+                            <span class="mt-2"><strong> Last date of Submit </strong>- @Model.frmAttributes.EmployeeSubmissionDate.ToString("dddd, dd MMMM yyyy") </span>
+                            @*<span class="mt-2"><strong> Last date of Submit </strong>- wednesday, 31 May 2020 </span>*@
+
+                        </time>
+
+                    </div>
+                    <div class="even-info">
+                        <p>
+                            @if (Model.APARStatus == null || Model.APARStatus == 0 || Model.APARStatus == 1)
+                            {
+                                <span class="badge badge-danger">Pending</span>
+                            }
+                            else if (Model.APARStatus >1)
+                            {
+                                <span class="badge badge-success">Submitted</span>
+                            }
+                        </p>
+                    </div>
+                    @if (Model.APARSkillStatus >1)
+                    {
+                        if (Model.APARStatus >1)
+                        {@Html.ActionLink("View", "Index", "Appraisal", null, new { @class = "btn btn-secondary", title = "Click here, to view Appraisal Assessment Report", @data_toggle = "tooltip" })
+                            
+                        }
+                        else
+                        {
+
+                            @Html.ActionLink("Start", "Index", "Appraisal", null, new { @class = "btn btn-info", title = "Click here, to create new record", @data_toggle = "tooltip" })
+                        }
+                    }
+                    else if (Model.APARStatus == null || Model.APARStatus == 0 || Model.APARStatus == 1)
+                    {
+                        <a class="btn btn-info" href="#">To start, first submit your competency assessment. </a>
+                    }
+                </section>
+            </article>
+
+        </div>
+    </div>
+</div>

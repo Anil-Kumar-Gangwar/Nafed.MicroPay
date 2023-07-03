@@ -1,0 +1,459 @@
+﻿@using Nafed.MicroPay.Common;
+@using Nafed.MicroPay.Model;
+
+@model List<ConfirmationFormHdr>
+@{
+    var uDetails = (UserDetail)Session["user"];
+}
+<table id="tblGrid-confirmation" class="table_card table table-centered table-striped text-left dt-responsive w-100 mt-2">
+    <thead>
+        <tr>
+            <th scope="col" class="text-center">
+                #
+            </th>
+            <th scope="col" class="text-left">
+                Form Name
+            </th>
+            <th scope="col" class="text-left">
+                Name
+            </th>
+            <th scope="col" class="text-left">
+                Process
+            </th>
+
+            <th scope="col" class="text-center">
+                Initiated On
+            </th>
+
+            <th scope="col"  class="text-center">
+                Status
+            </th>
+            <th  scope="col" class="text-center" style="width:60px">
+                Action
+            </th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @{
+            if (Model != null && Model.Count() > 0)
+            {
+                var sno = 1;
+                var totalpending = 0;
+                foreach (var item in Model)
+                {
+                    if (item.ToShow)
+                    {
+                        if (item.EmpProceeApproval.ReviewingTo.HasValue && item.EmpProceeApproval.ReviewingTo == item.EmpProceeApproval.ReportingTo)
+                        {
+                            if (uDetails.EmployeeID == item.EmpProceeApproval.ReviewingTo)
+                            {
+                                if (item.StatusID == (int)ConfirmationFormState.Pending || item.StatusID == (int)ConfirmationFormState.SavedByReviewer || item.StatusID == (int)ConfirmationFormState.SubmitedByReviewer || item.StatusID == (int)ConfirmationFormState.RejectedByReviewer || item.StatusID == (int)ConfirmationFormState.RejectedByReporting)
+                                {
+                                    <tr>
+                                        <td data-label="S. No." class="text-center">@sno</td>
+                                        <td data-label="Form Name" class="text-left"> @item.FormTypeName</td>
+                                        <td data-label="Name" class="text-left">@item.EmployeeCode - @item.EmpName</td>
+                                        <td data-label="Process" class="text-left"> @item.FormConfirmationType</td>
+
+                                        <td data-label="Initiated On" class="text-center">
+
+                                            @if (item.UpdatedOn.HasValue)
+                                            {
+                                                @item.UpdatedOn.Value.ToString("dd/MM/yyyy")
+                                            }
+                                            else
+                                            {
+                                                <text>-</text>
+                                            }
+                                        </td>
+
+                                        <td  data-label="Status"  class="text-center">
+                                            @if (item.StatusID == (int)ConfirmationFormState.Pending)
+                                            {
+                                                <h5>
+                                                    <span class="badge badge-pill badge-warning col-md-12">
+                                                        Pending
+                                                    </span>
+                                                </h5>
+                                            }
+                                            else if (item.StatusID == (int)ConfirmationFormState.SavedByReporting)
+                                            {
+                                                <h5>
+                                                    <span class="badge badge-pill badge-dark col-md-12">
+                                                        Under Process Reporting Officer
+                                                    </span>
+                                                </h5>
+                                            }
+                                            else if (item.StatusID == (int)ConfirmationFormState.RejectedByReporting)
+                                            {
+                                                <h5>
+                                                    <span class="badge badge-pill badge-danger col-md-12">
+                                                        Rejected by Reporting Officer
+                                                    </span>
+                                                </h5>
+                                            }
+                                            else if (item.StatusID == (int)ConfirmationFormState.SubmitedByReporting)
+                                            {
+                                                <h5>
+                                                    <span class="badge badge-pill bg-success col-md-12">
+                                                        Accepted by Reporting Officer
+                                                    </span>
+                                                </h5>
+                                            }
+                                            else if (item.StatusID == (int)ConfirmationFormState.SavedByReviewer)
+                                            {
+                                                <h5>
+                                                    <span class="badge badge-pill badge-dark col-md-12">
+                                                        Under Process Reviewing Officer
+                                                    </span>
+                                                </h5>
+                                            }
+                                            else if (item.StatusID == (int)ConfirmationFormState.RejectedByReviewer)
+                                            {
+                                                <h5>
+                                                    <span class="badge badge-pill badge-danger col-md-12">
+                                                        Rejected by Reviewing Officer
+                                                    </span>
+                                                </h5>
+                                            }
+                                            else if (item.StatusID == (int)ConfirmationFormState.SubmitedByReviewer)
+                                            {
+                                                <h5>
+                                                    <span class="badge badge-pill bg-success col-md-12">
+                                                        Accepted by Reviewer Officer
+                                                    </span>
+                                                </h5>
+                                            }
+                                        </td>
+
+                                        <td data-label="Action" class="text-center">
+                                            @if (item.ToShow)
+                                    {
+                                                <a href="@Url.Action("Edit", "ConfirmationForm", new { formTypeID = item.FormTypeID, reportingTo = item.EmpProceeApproval.ReportingTo, reviewingTo = item.EmpProceeApproval.ReviewingTo, processTypeID = item.ProcessID, empID = item.EmployeeID, formHdrID = item.FormHdrID,apid=item.EmpProceeApproval.EmpProcessAppID,chdrid=item.FormABHeaderID })" title="Click here, to view this record" data-toggle="tooltip">
+                                                    <i class="far fa-eye text-info" aria-hidden="true"></i>
+                                                </a>
+                                            }
+                                        </td>
+
+                                        @if (item.StatusID == (int)ConfirmationFormState.SubmitedByReporting || item.StatusID == (int)ConfirmationFormState.RejectedByReporting || item.StatusID == (int)ConfirmationFormState.Pending)
+                                        {
+                                            totalpending = Model.Where(x => x.StatusID == (int)ConfirmationFormState.Pending && x.ToShow).Count();
+                                        }
+                                    </tr>
+                                }
+                            }
+                        }
+                        else if (item.EmpProceeApproval.ReviewingTo.HasValue && item.EmpProceeApproval.ReviewingTo != item.EmpProceeApproval.ReportingTo)
+                        {
+                            if (uDetails.EmployeeID == item.EmpProceeApproval.ReviewingTo)
+                            {
+                                if (item.StatusID == (int)ConfirmationFormState.SubmitedByReporting || item.StatusID == (int)ConfirmationFormState.SavedByReviewer || item.StatusID == (int)ConfirmationFormState.SubmitedByReviewer || item.StatusID == (int)ConfirmationFormState.RejectedByReviewer || item.StatusID == (int)ConfirmationFormState.RejectedByReporting)
+                                {
+                                    <tr>
+                                        <td data-label="S. No.">@sno</td>
+                                        <td data-label="Form Name">@item.FormTypeName</td>
+                                        <td data-label="Name">@item.EmployeeCode - @item.EmpName</td>
+                                        <td data-label="Process"> @item.FormConfirmationType</td>
+                                        <td data-label="Initiated On">
+
+                                            @if (item.UpdatedOn.HasValue)
+                                            {
+                                                @item.UpdatedOn.Value.ToString("dd/MM/yyyy")
+                                            }
+                                            else
+                                            {
+                                                <text>-</text>
+                                            }
+                                        </td>
+
+                                        <td data-label="Status" class="text-center">
+                                            @if (item.StatusID == (int)ConfirmationFormState.Pending)
+                                            {
+                                                <h5>
+                                                    <span class="badge badge-pill badge-warning col-md-12">
+                                                        Pending
+                                                    </span>
+                                                </h5>
+                                            }
+                                            else if (item.StatusID == (int)ConfirmationFormState.SavedByReporting)
+                                            {
+                                                <h5>
+                                                    <span class="badge badge-pill badge-dark col-md-12">
+                                                        Under Process Reporting Officer
+                                                    </span>
+                                                </h5>
+                                            }
+                                            else if (item.StatusID == (int)ConfirmationFormState.RejectedByReporting)
+                                            {
+                                                <h5>
+                                                    <span class="badge badge-pill badge-danger col-md-12">
+                                                        Rejected by Reporting Officer
+                                                    </span>
+                                                </h5>
+                                            }
+                                            else if (item.StatusID == (int)ConfirmationFormState.SubmitedByReporting)
+                                            {
+                                                <h5>
+                                                    <span class="badge badge-pill bg-success col-md-12">
+                                                        Accepted by Reporting Officer
+                                                    </span>
+                                                </h5>
+                                            }
+                                            else if (item.StatusID == (int)ConfirmationFormState.SavedByReviewer)
+                                            {
+                                                <h5>
+                                                    <span class="badge badge-pill badge-dark col-md-12">
+                                                        Under Process Reviewing Officer
+                                                    </span>
+                                                </h5>
+                                            }
+                                            else if (item.StatusID == (int)ConfirmationFormState.RejectedByReviewer)
+                                            {
+                                                <h5>
+                                                    <span class="badge badge-pill badge-danger col-md-12">
+                                                        Rejected by Reviewing Officer
+                                                    </span>
+                                                </h5>
+                                            }
+                                            else if (item.StatusID == (int)ConfirmationFormState.SubmitedByReviewer)
+                                            {
+                                                <h5>
+                                                    <span class="badge badge-pill bg-success col-md-12">
+                                                        Accepted by Reviewer Officer
+                                                    </span>
+                                                </h5>
+                                            }
+                                        </td>
+
+                                        <td data-label="Action" class="text-center">
+                                            @if (item.ToShow)
+                                            {
+                                                <a href="@Url.Action("Edit", "ConfirmationForm", new { formTypeID = item.FormTypeID, reportingTo = item.EmpProceeApproval.ReportingTo, reviewingTo = item.EmpProceeApproval.ReviewingTo, processTypeID = item.ProcessID, empID = item.EmployeeID, formHdrID = item.FormHdrID ,apid=item.EmpProceeApproval.EmpProcessAppID,chdrid=item.FormABHeaderID})" title="Click here, to view this record" data-toggle="tooltip">
+                                                    <i class="far fa-eye text-info" aria-hidden="true"></i>
+                                                </a>
+                                            }
+                                        </td>
+                                        @if (item.StatusID == (int)ConfirmationFormState.SubmitedByReporting || item.StatusID == (int)ConfirmationFormState.SavedByReviewer || item.StatusID == (int)ConfirmationFormState.SubmitedByReviewer || item.StatusID == (int)ConfirmationFormState.RejectedByReporting || item.StatusID == (int)ConfirmationFormState.RejectedByReviewer)
+                                        {
+                                            totalpending = Model.Where(x => (x.StatusID == (int)ConfirmationFormState.SubmitedByReporting || x.StatusID == (int)ConfirmationFormState.RejectedByReporting) && x.ToShow).Count();
+                                        }
+
+                                    </tr>
+                                }
+                            }
+                            else if (uDetails.EmployeeID == item.EmpProceeApproval.ReportingTo)
+                            {
+                                if (item.StatusID == (int)ConfirmationFormState.Pending || item.StatusID == (int)ConfirmationFormState.SavedByReporting || item.StatusID == (int)ConfirmationFormState.SubmitedByReporting || item.StatusID == (int)ConfirmationFormState.RejectedByReporting)
+                                {
+                                    <tr>
+                                        <td data-label="S. No.">@sno</td>
+                                        <td data-label="Form Name">@item.FormTypeName</td>
+                                        <td data-label="Name">@item.EmployeeCode - @item.EmpName</td>
+                                        <td data-label="Process"> @item.FormConfirmationType</td>
+                                        <td data-label="Initiated On">
+
+                                            @if (item.UpdatedOn.HasValue)
+                                            {
+                                                @item.UpdatedOn.Value.ToString("dd/MM/yyyy")
+                                            }
+                                            else
+                                            {
+                                                <text>-</text>
+                                            }
+                                        </td>
+
+                                        <td data-label="Status" class="text-center">
+                                            @if (item.StatusID == (int)ConfirmationFormState.Pending)
+                                            {
+                                                <h5>
+                                                    <span class="badge badge-pill badge-warning col-md-12">
+                                                        Pending
+                                                    </span>
+                                                </h5>
+                                            }
+                                            else if (item.StatusID == (int)ConfirmationFormState.SavedByReporting)
+                                            {
+                                                <h5>
+                                                    <span class="badge badge-pill badge-dark col-md-12">
+                                                        Under Process Reporting Officer
+                                                    </span>
+                                                </h5>
+                                            }
+                                            else if (item.StatusID == (int)ConfirmationFormState.RejectedByReporting)
+                                            {
+                                                <h5>
+                                                    <span class="badge badge-pill badge-danger col-md-12">
+                                                        Rejected by Reporting Officer
+                                                    </span>
+                                                </h5>
+                                            }
+                                            else if (item.StatusID == (int)ConfirmationFormState.SubmitedByReporting)
+                                            {
+                                                <h5>
+                                                    <span class="badge badge-pill bg-success col-md-12">
+                                                        Accepted by Reporting Officer
+                                                    </span>
+                                                </h5>
+                                            }
+                                            else if (item.StatusID == (int)ConfirmationFormState.SavedByReviewer)
+                                            {
+                                                <h5>
+                                                    <span class="badge badge-pill badge-dark col-md-12">
+                                                        Under Process Reviewing Officer
+                                                    </span>
+                                                </h5>
+                                            }
+                                            else if (item.StatusID == (int)ConfirmationFormState.RejectedByReviewer)
+                                            {
+                                                <h5>
+                                                    <span class="badge badge-pill badge-danger col-md-12">
+                                                        Rejected by Reviewing Officer
+                                                    </span>
+                                                </h5>
+                                            }
+                                            else if (item.StatusID == (int)ConfirmationFormState.SubmitedByReviewer)
+                                            {
+                                                <h5>
+                                                    <span class="badge badge-pill bg-success col-md-12">
+                                                        Accepted by Reviewer Officer
+                                                    </span>
+                                                </h5>
+                                            }
+                                        </td>
+
+                                        <td data-label="Action" class="text-center">
+                                            @if (item.ToShow)
+                                            {
+                                                <a href="@Url.Action("Edit", "ConfirmationForm", new { formTypeID = item.FormTypeID, reportingTo = item.EmpProceeApproval.ReportingTo, reviewingTo = item.EmpProceeApproval.ReviewingTo, processTypeID = item.ProcessID, empID = item.EmployeeID, formHdrID = item.FormHdrID ,apid=item.EmpProceeApproval.EmpProcessAppID,chdrid=item.FormABHeaderID})" title="Click here, to view this record" data-toggle="tooltip">
+                                                    <i class="far fa-eye text-info" aria-hidden="true"></i>
+                                                </a>
+                                            }
+                                        </td>
+                                        @if (item.StatusID == (int)ConfirmationFormState.Pending)
+                                        {
+                                            totalpending = Model.Where(x => x.StatusID == (int)ConfirmationFormState.Pending && x.ToShow).Count();
+                                        }
+
+                                    </tr>
+                                }
+                            }
+                        }
+                        else if (!item.EmpProceeApproval.ReviewingTo.HasValue)
+                        {
+                            if (uDetails.EmployeeID == item.EmpProceeApproval.ReportingTo)
+                            {
+                                if (item.StatusID == (int)ConfirmationFormState.Pending || item.StatusID == (int)ConfirmationFormState.SavedByReporting || item.StatusID == (int)ConfirmationFormState.SubmitedByReporting || item.StatusID == (int)ConfirmationFormState.RejectedByReporting)
+                                {
+                                    <tr>
+                                        <td data-label="S. No.">@sno</td>
+                                        <td data-label="Form Name">@item.FormTypeName</td>
+                                        <td data-label="Name">@item.EmployeeCode - @item.EmpName</td>
+                                        <td data-label="Process"> @item.FormConfirmationType</td>
+
+                                        <td data-label="Initiated On">
+
+                                            @if (item.UpdatedOn.HasValue)
+                                            {
+                                                @item.UpdatedOn.Value.ToString("dd/MM/yyyy")
+                                            }
+                                            else
+                                            {
+                                                <text>-</text>
+                                            }
+                                        </td>
+
+                                        <td  data-label="Status" class="text-center">
+                                            @if (item.StatusID == (int)ConfirmationFormState.Pending)
+                                            {
+                                                <h5>
+                                                    <span class="badge badge-pill badge-warning col-md-12">
+                                                        Pending
+                                                    </span>
+                                                </h5>
+                                            }
+                                            else if (item.StatusID == (int)ConfirmationFormState.SavedByReporting)
+                                            {
+                                                <h5>
+                                                    <span class="badge badge-pill badge-dark col-md-12">
+                                                        Under Process Reporting Officer
+                                                    </span>
+                                                </h5>
+                                            }
+                                            else if (item.StatusID == (int)ConfirmationFormState.RejectedByReporting)
+                                            {
+                                                <h5>
+                                                    <span class="badge badge-pill badge-danger col-md-12">
+                                                        Rejected by Reporting Officer
+                                                    </span>
+                                                </h5>
+                                            }
+                                            else if (item.StatusID == (int)ConfirmationFormState.SubmitedByReporting)
+                                            {
+                                                <h5>
+                                                    <span class="badge badge-pill bg-success col-md-12">
+                                                        Accepted by Reporting Officer
+                                                    </span>
+                                                </h5>
+                                            }
+                                            else if (item.StatusID == (int)ConfirmationFormState.SavedByReviewer)
+                                            {
+                                                <h5>
+                                                    <span class="badge badge-pill badge-dark col-md-12">
+                                                        Under Process Reviewing Officer
+                                                    </span>
+                                                </h5>
+                                            }
+                                            else if (item.StatusID == (int)ConfirmationFormState.RejectedByReviewer)
+                                            {
+                                                <h5>
+                                                    <span class="badge badge-pill badge-danger col-md-12">
+                                                        Rejected by Reviewing Officer
+                                                    </span>
+                                                </h5>
+                                            }
+                                            else if (item.StatusID == (int)ConfirmationFormState.SubmitedByReviewer)
+                                            {
+                                                <h5>
+                                                    <span class="badge badge-pill bg-success col-md-12">
+                                                        Accepted by Reviewer Officer
+                                                    </span>
+                                                </h5>
+                                            }
+                                        </td>
+
+
+                                        <td data-label="Action" class="text-center">
+                                            @if (item.ToShow)
+                                            {
+                                                @*<a href="@Url.Action("Edit", "ConfirmationForm", new { formTypeID = item.FormTypeID, reportingTo = item.EmpProceeApproval.ReportingTo, reviewingTo = item.EmpProceeApproval.ReviewingTo, processTypeID = item.ProcessID, empID = item.EmployeeID, formHdrID = item.FormHdrID,apid=item.EmpProceeApproval.EmpProcessAppID,chdrid=item.FormABHeaderID })" title="Click here, to view this record" data-toggle="tooltip">
+                                                    <i class="far fa-eye text-info" aria-hidden="true"></i>
+                                                </a>*@
+                                                @Html.EncodedImageActionLink("", "Edit", "ConfirmationForm", new { formTypeID = item.FormTypeID, reportingTo = item.EmpProceeApproval.ReportingTo, reviewingTo = item.EmpProceeApproval.ReviewingTo, processTypeID = item.ProcessID, empID = item.EmployeeID, formHdrID = item.FormHdrID, apid = item.EmpProceeApproval.EmpProcessAppID, chdrid = item.FormABHeaderID }, new { @class = "toggle-tooltip", title = "Click here, to view this record" }, "~/Images/view.png")
+                                            }
+                                        </td>
+
+                                        @if (item.StatusID == (int)ConfirmationFormState.Pending)
+                                        {
+                                            totalpending = Model.Where(x => x.StatusID == (int)ConfirmationFormState.Pending && x.ToShow).Count();
+                                        }
+                                    </tr>
+                                }
+                            }
+                        }
+                        sno++;
+                    }
+                }
+                <script type="text/javascript">
+                    $("#confirmationApprovalReqCount").text(@totalpending);
+                    var table = $('#tblGrid-confirmation').DataTable({
+                    });
+                    $('#tblGrid-confirmation').find('select').addClass('custom-select');
+                </script>
+            }
+
+        }
+
+    </tbody>
+
+</table>

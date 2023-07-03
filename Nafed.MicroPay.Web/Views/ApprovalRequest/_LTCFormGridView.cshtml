@@ -1,0 +1,1051 @@
+﻿@using Nafed.MicroPay.Common;
+@using Nafed.MicroPay.Model;
+
+@model List<LTC>
+@{
+    var uDetails = (UserDetail)Session["user"];
+}
+
+
+<table id="tblGrid-LTC" class="table_card table table-centered table-striped text-left w-100 mt-2">
+    <thead>
+        <tr>
+            <th scope="col">
+                #
+            </th>
+            <th scope="col">
+                Name
+            </th>
+            <th scope="col">
+                Department
+            </th>
+            <th scope="col">
+                Designation
+            </th>
+            <th scope="col">
+                Status
+            </th>
+            <th scope="col">
+                Action
+            </th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @{
+
+            if (Model != null && Model.Count() > 0)
+            {
+                var totalLTCpending = 0;
+                var sno = 1;
+
+                foreach (var item in Model)
+                {
+                    if (item.approvalSetting.AcceptanceAuthority.HasValue && item.approvalSetting.AcceptanceAuthority == item.approvalSetting.ReviewingTo && item.approvalSetting.ReviewingTo == item.approvalSetting.ReportingTo)
+                    {
+                        if (uDetails.EmployeeID == item.approvalSetting.ReportingTo)
+                        {
+
+                            if (item.FormStatus == (int)AppraisalFormState.SubmitedByEmployee)
+                            {
+                                totalLTCpending = Model.Where(x => x.FormStatus == (int)AppraisalFormState.SubmitedByReporting).Count();
+                                <tr>
+                                    <td data-label="S. No.">@sno</td>
+
+                                    <td data-label="Name">@item.Employeecode - @item.Employeename</td>
+                                    <td data-label="Department"> @item.DepartmentName</td>
+                                    <td data-label="Designation"> @item.DesignationName</td>
+                                    <td data-label="Status" class="text-center">
+                                        @if (item.FormStatus == (int)AppraisalFormState.SavedByEmployee)
+                                        {
+                                            <h5 class="mb-0">
+                                                <span class="badge badge-pill badge-light col-md-12">
+                                                    Save
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.FormStatus == (int)AppraisalFormState.SubmitedByEmployee)
+                                        {
+                                            <h5 class="mb-0">
+                                                <span class="badge badge-pill badge-dark col-md-12">
+                                                    Submitted
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.FormStatus == (int)AppraisalFormState.SavedByReporting)
+                                        {
+                                            <h5 class="mb-0">
+                                                <span class="badge badge-pill badge-dark col-md-12">
+                                                    Saved by Reporting Officer
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.FormStatus == (int)AppraisalFormState.SubmitedByReporting)
+                                        {
+                                            <h5 class="mb-0">
+                                                <span class="badge badge-pill bg-teal col-md-12">
+                                                    Reviewed by Reporting Officer
+                                                </span>
+                                                @*<span class="badge badge-pill badge-success col-md-12 toggle-tooltip" title="Employee Remark: @item.Reason <br/> Reporting Remark: @item.ReporotingToRemark <br/> Reviwer Remark: @item.ReviewerToRemark">Approved</span>*@
+                                            </h5>
+                                        }
+                                        else if (item.FormStatus == (int)AppraisalFormState.SavedByReviewer)
+                                        {
+                                            <h5 class="mb-0">
+                                                <span class="badge badge-pill badge-dark col-md-12">
+                                                    Saved by Reviewer Officer
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.FormStatus == (int)AppraisalFormState.SubmitedByReviewer)
+                                        {
+                                            <h5 class="mb-0">
+                                                <span class="badge badge-pill badge-info col-md-12">
+                                                    Reviewed by Reviewer Officer
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.FormStatus == (int)AppraisalFormState.SavedByAcceptanceAuth)
+                                        {
+                                            <h5 class="mb-0">
+                                                <span class="badge badge-pill badge-danger col-md-12">
+                                                    Saved by Acceptance Authority
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.FormStatus == (int)AppraisalFormState.SubmitedByAcceptanceAuth)
+                                        {
+                                            <h5 class="mb-0">
+                                                <span class="badge badge-pill badge-success col-md-12">
+                                                    Approved
+                                                </span>
+                                            </h5>
+                                        }
+                                    </td>
+
+                                    @*@if (Model.userRights.Edit)
+                                        {*@
+
+                                    <td data-label="Action" class="text-center">
+                                        @*<a href="@Url.Action("Edit", "LTC", new {LTCID=item.LTCID,  reportingTo = item.approvalSetting.ReportingTo, reviewingTo = item.approvalSetting.ReviewingTo, acceptanceAuthority =item.approvalSetting.AcceptanceAuthority, empID = item.EmployeeId})" title="Click here, to view this record" data-toggle="tooltip">
+                                            <i class="far fa-eye text-info" aria-hidden="true"></i>
+                                        </a>*@
+                                        @Html.EncodedImageActionLink("", "Edit", "LTC", new { LTCID = item.LTCID, reportingTo = item.approvalSetting.ReportingTo, reviewingTo = item.approvalSetting.ReviewingTo, acceptanceAuthority = item.approvalSetting.AcceptanceAuthority, empID = item.EmployeeId }, new { @class = "toggle-tooltip", title = "Click here, to view this record" }, "~/Images/view.png")
+                                    </td>
+                                    @*}*@
+                                </tr>
+                            }
+                        }
+                    }
+                    else if (item.approvalSetting.AcceptanceAuthority.HasValue && item.approvalSetting.AcceptanceAuthority == item.approvalSetting.ReviewingTo)
+                    {
+                        if (uDetails.EmployeeID == item.approvalSetting.ReportingTo)
+                        {
+                            if (item.FormStatus == (int)AppraisalFormState.SubmitedByEmployee || item.FormStatus == (int)AppraisalFormState.SavedByReporting || item.FormStatus == (int)AppraisalFormState.SubmitedByReporting)
+                            {
+                                totalLTCpending = Model.Where(x => x.FormStatus == (int)AppraisalFormState.SubmitedByEmployee).Count();
+                                <tr>
+                                    <td data-label="S. No.">@sno</td>
+
+
+                                    @*<td> @item.Employeecode</td>*@
+                                    <td data-label="Name">@item.Employeecode - @item.Employeename</td>
+                                    <td data-label="Department"> @item.DepartmentName</td>
+                                    <td data-label="Designation"> @item.DesignationName</td>
+                                    <td data-label="Status" class="text-center">
+                                        @if (item.FormStatus == (int)AppraisalFormState.SavedByEmployee)
+                                        {
+                                            <h5 class="mb-0">
+                                                <span class="badge badge-pill badge-light col-md-12">
+                                                    Save
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.FormStatus == (int)AppraisalFormState.SubmitedByEmployee)
+                                        {
+                                            <h5 class="mb-0">
+                                                <span class="badge badge-pill badge-dark col-md-12">
+                                                    Submitted
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.FormStatus == (int)AppraisalFormState.SavedByReporting)
+                                        {
+                                            <h5 class="mb-0">
+                                                <span class="badge badge-pill badge-dark col-md-12">
+                                                    Saved by Reporting Officer
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.FormStatus == (int)AppraisalFormState.SubmitedByReporting)
+                                        {
+                                            <h5 class="mb-0">
+                                                <span class="badge badge-pill bg-teal col-md-12">
+                                                    Reviewed by Reporting Officer
+                                                </span>
+                                                @*<span class="badge badge-pill badge-success col-md-12 toggle-tooltip" title="Employee Remark: @item.Reason <br/> Reporting Remark: @item.ReporotingToRemark <br/> Reviwer Remark: @item.ReviewerToRemark">Approved</span>*@
+                                            </h5>
+                                        }
+                                        else if (item.FormStatus == (int)AppraisalFormState.SavedByReviewer)
+                                        {
+                                            <h5 class="mb-0">
+                                                <span class="badge badge-pill badge-dark col-md-12">
+                                                    Saved by Reviewer Officer
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.FormStatus == (int)AppraisalFormState.SubmitedByReviewer)
+                                        {
+                                            <h5 class="mb-0">
+                                                <span class="badge badge-pill badge-info col-md-12">
+                                                    Reviewed by Reviewer Officer
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.FormStatus == (int)AppraisalFormState.SavedByAcceptanceAuth)
+                                        {
+                                            <h5 class="mb-0">
+                                                <span class="badge badge-pill badge-danger col-md-12">
+                                                    Saved by Acceptance Authority
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.FormStatus == (int)AppraisalFormState.SubmitedByAcceptanceAuth)
+                                        {
+                                            <h5 class="mb-0">
+                                                <span class="badge badge-pill badge-success col-md-12">
+                                                    Approved
+                                                </span>
+                                            </h5>
+                                        }
+                                    </td>
+
+                                    @*@if (Model.userRights.Edit)
+                                        {*@
+
+
+                                    <td data-label="Action" class="text-center">
+                                        @*<a href="@Url.Action("Edit", "LTC", new {  LTCID=item.LTCID, reportingTo = item.approvalSetting.ReportingTo, reviewingTo = item.approvalSetting.ReviewingTo, acceptanceAuthority =item.approvalSetting.AcceptanceAuthority, empID = item.EmployeeId })" title="Click here, to view this record" data-toggle="tooltip">
+                                            <i class="far fa-eye text-info" aria-hidden="true"></i>
+                                        </a>*@
+                                        @Html.EncodedImageActionLink("", "Edit", "LTC", new { LTCID = item.LTCID, reportingTo = item.approvalSetting.ReportingTo, reviewingTo = item.approvalSetting.ReviewingTo, acceptanceAuthority = item.approvalSetting.AcceptanceAuthority, empID = item.EmployeeId }, new { @class = "toggle-tooltip", title = "Click here, to view this record" }, "~/Images/view.png")
+                                    </td>
+                                    @*}*@
+                                </tr>
+                            }
+                        }
+                        else if (uDetails.EmployeeID == item.approvalSetting.ReviewingTo)
+                        {
+
+                            if (item.FormStatus == (int)AppraisalFormState.SubmitedByReporting || item.FormStatus == (int)AppraisalFormState.SavedByAcceptanceAuth || item.FormStatus == (int)AppraisalFormState.SubmitedByAcceptanceAuth)
+                            {
+                                totalLTCpending = Model.Where(x => x.FormStatus == (int)AppraisalFormState.SubmitedByReporting).Count();
+
+                                <tr>
+                                    <td data-label="S. No.">@sno</td>
+
+
+                                    @*<td> @item.Employeecode</td>*@
+                                    <td data-label="Name">@item.Employeecode - @item.Employeename</td>
+                                    <td data-label="Department"> @item.DepartmentName</td>
+                                    <td data-label="Designation"> @item.DesignationName</td>
+                                    <td data-label="Status" class="text-center">
+                                        @if (item.FormStatus == (int)AppraisalFormState.SavedByEmployee)
+                                        {
+                                            <h5 class="mb-0">
+                                                <span class="badge badge-pill badge-light col-md-12">
+                                                    Save
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.FormStatus == (int)AppraisalFormState.SubmitedByEmployee)
+                                        {
+                                            <h5 class="mb-0">
+                                                <span class="badge badge-pill badge-dark col-md-12">
+                                                    Submitted
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.FormStatus == (int)AppraisalFormState.SavedByReporting)
+                                        {
+                                            <h5 class="mb-0">
+                                                <span class="badge badge-pill badge-dark col-md-12">
+                                                    Saved by Reporting Officer
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.FormStatus == (int)AppraisalFormState.SubmitedByReporting)
+                                        {
+                                            <h5 class="mb-0">
+                                                <span class="badge badge-pill bg-teal col-md-12">
+                                                    Reviewed by Reporting Officer
+                                                </span>
+                                                @*<span class="badge badge-pill badge-success col-md-12 toggle-tooltip" title="Employee Remark: @item.Reason <br/> Reporting Remark: @item.ReporotingToRemark <br/> Reviwer Remark: @item.ReviewerToRemark">Approved</span>*@
+                                            </h5>
+                                        }
+                                        else if (item.FormStatus == (int)AppraisalFormState.SavedByReviewer)
+                                        {
+                                            <h5 class="mb-0">
+                                                <span class="badge badge-pill badge-dark col-md-12">
+                                                    Saved by Reviewer Officer
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.FormStatus == (int)AppraisalFormState.SubmitedByReviewer)
+                                        {
+                                            <h5 class="mb-0">
+                                                <span class="badge badge-pill badge-info col-md-12">
+                                                    Reviewed by Reviewer Officer
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.FormStatus == (int)AppraisalFormState.SavedByAcceptanceAuth)
+                                        {
+                                            <h5 class="mb-0">
+                                                <span class="badge badge-pill badge-danger col-md-12">
+                                                    Saved by Acceptance Authority
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.FormStatus == (int)AppraisalFormState.SubmitedByAcceptanceAuth)
+                                        {
+                                            <h5 class="mb-0">
+                                                <span class="badge badge-pill badge-success col-md-12">
+                                                    Approved
+                                                </span>
+                                            </h5>
+                                        }
+                                    </td>
+
+                                    @*@if (Model.userRights.Edit)
+                                        {*@
+
+
+                                    <td data-label="Action" class="text-center">
+                                        @*<a href="@Url.Action("Edit", "LTC", new {  LTCID=item.LTCID, reportingTo = item.approvalSetting.ReportingTo, reviewingTo = item.approvalSetting.ReviewingTo, acceptanceAuthority =item.approvalSetting.AcceptanceAuthority, empID = item.EmployeeId})" title="Click here, to view this record" data-toggle="tooltip">
+                                            <i class="far fa-eye text-info" aria-hidden="true"></i>
+                                        </a>*@
+                                        @Html.EncodedImageActionLink("", "Edit", "LTC", new { LTCID = item.LTCID, reportingTo = item.approvalSetting.ReportingTo, reviewingTo = item.approvalSetting.ReviewingTo, acceptanceAuthority = item.approvalSetting.AcceptanceAuthority, empID = item.EmployeeId }, new { @class = "toggle-tooltip", title = "Click here, to view this record" }, "~/Images/view.png")
+                                    </td>
+                                    @*}*@
+                                </tr>
+                            }
+                        }
+                    }
+                    else if (item.approvalSetting.ReviewingTo.HasValue && item.approvalSetting.ReviewingTo == item.approvalSetting.ReportingTo)
+                    {
+                        if (uDetails.EmployeeID == item.approvalSetting.ReviewingTo)
+                        {
+                            if (item.FormStatus == (int)AppraisalFormState.SubmitedByEmployee || item.FormStatus == (int)AppraisalFormState.SavedByReviewer || item.FormStatus == (int)AppraisalFormState.SubmitedByReviewer)
+                            {
+                                totalLTCpending = Model.Where(x => x.FormStatus == (int)AppraisalFormState.SubmitedByEmployee).Count();
+                                <tr>
+                                    <td data-label="S. No.">@sno</td>
+
+                                    @*<td> @item.Employeecode</td>*@
+                                    <td data-label="Name">@item.Employeecode - @item.Employeename</td>
+                                    <td data-label="Department"> @item.DepartmentName</td>
+                                    <td data-label="Designation"> @item.DesignationName</td>
+                                    <td data-label="Status" class="text-center">
+                                        @if (item.FormStatus == (int)AppraisalFormState.SavedByEmployee)
+                                        {
+                                            <h5 class="mb-0">
+                                                <span class="badge badge-pill badge-light col-md-12">
+                                                    Save
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.FormStatus == (int)AppraisalFormState.SubmitedByEmployee)
+                                        {
+                                            <h5 class="mb-0">
+                                                <span class="badge badge-pill badge-dark col-md-12">
+                                                    Submitted
+                                                </span>
+                                            </h5>
+                                        }
+                                        @*else if (item.FormStatus == (int)AppraisalFormState.SavedByReporting)
+                                            {
+                                                <h5 class="mb-0">
+                                                    <span class="badge badge-pill badge-dark col-md-12">
+                                                    Saved by Reporting Officer
+                                                    </span>
+                                                </h5>
+                                            }*@
+                                        else if (item.FormStatus == (int)AppraisalFormState.SubmitedByReporting)
+                                        {
+                                            <h5 class="mb-0">
+                                                <span class="badge badge-pill bg-teal col-md-12">
+                                                    Reviewed by Reporting Officer
+                                                </span>
+                                                @*<span class="badge badge-pill badge-success col-md-12 toggle-tooltip" title="Employee Remark: @item.Reason <br/> Reporting Remark: @item.ReporotingToRemark <br/> Reviwer Remark: @item.ReviewerToRemark">Approved</span>*@
+                                            </h5>
+                                        }
+                                        @*else if (item.FormStatus == (int)AppraisalFormState.SavedByReviewer)
+                                            {
+                                                <h5 class="mb-0">
+                                                    <span class="badge badge-pill badge-dark col-md-12">
+                                                    Saved by Reviewer Officer
+                                                    </span>
+                                                </h5>
+                                            }*@
+                                        else if (item.FormStatus == (int)AppraisalFormState.SubmitedByReviewer)
+                                        {
+                                            <h5 class="mb-0">
+                                                <span class="badge badge-pill badge-info col-md-12">
+                                                    Reviewed by Reviewer Officer
+                                                </span>
+                                            </h5>
+                                        }
+                                        @*else if (item.FormStatus == (int)AppraisalFormState.SavedByAcceptanceAuth)
+                                            {
+                                                <h5 class="mb-0">
+                                                    <span class="badge badge-pill badge-danger col-md-12">
+                                                    Saved by Acceptance Authority
+                                                    </span>
+                                                </h5>
+                                            }*@
+                                        else if (item.FormStatus == (int)AppraisalFormState.SubmitedByAcceptanceAuth)
+                                        {
+                                            <h5 class="mb-0">
+                                                <span class="badge badge-pill badge-success col-md-12">
+                                                    Approved
+                                                </span>
+                                            </h5>
+                                        }
+                                    </td>
+
+                                    @*@if (Model.userRights.Edit)
+                                        {*@
+
+
+                                    <td data-label="Action" class="text-center">
+                                        @*<a href="@Url.Action("Edit", "LTC", new { LTCID=item.LTCID,  reportingTo = item.approvalSetting.ReportingTo, reviewingTo = item.approvalSetting.ReviewingTo, acceptanceAuthority = item.approvalSetting.AcceptanceAuthority, empID = item.EmployeeId})" title="Click here, to view this record" data-toggle="tooltip">
+                                            <i class="far fa-eye text-info" aria-hidden="true"></i>
+                                        </a>*@
+                                        @Html.EncodedImageActionLink("", "Edit", "LTC", new { LTCID = item.LTCID, reportingTo = item.approvalSetting.ReportingTo, reviewingTo = item.approvalSetting.ReviewingTo, acceptanceAuthority = item.approvalSetting.AcceptanceAuthority, empID = item.EmployeeId }, new { @class = "toggle-tooltip", title = "Click here, to view this record" }, "~/Images/view.png")
+                                    </td>
+                                    @*}*@
+                                </tr>
+
+                            }
+                        }
+                        else if (item.approvalSetting.AcceptanceAuthority == uDetails.EmployeeID)
+                        {
+                            if (item.FormStatus == (int)AppraisalFormState.SubmitedByReviewer || item.FormStatus == (int)AppraisalFormState.SavedByAcceptanceAuth || item.FormStatus == (int)AppraisalFormState.SubmitedByAcceptanceAuth)
+                            {
+                                totalLTCpending = Model.Where(x => x.FormStatus == (int)AppraisalFormState.SubmitedByReviewer).Count();
+                                <tr>
+                                    <td data-label="S. No.">@sno</td>
+
+
+                                    @*<td> @item.Employeecode</td>*@
+                                    <td data-label="Name">@item.Employeecode - @item.Employeename</td>
+                                    <td data-label="Department"> @item.DepartmentName</td>
+                                    <td data-label="Designation"> @item.DesignationName</td>
+                                    <td data-label="Status" class="text-center">
+                                        @if (item.FormStatus == (int)AppraisalFormState.SavedByEmployee)
+                                        {
+                                            <h5 class="mb-0">
+                                                <span class="badge badge-pill badge-light col-md-12">
+                                                    Save
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.FormStatus == (int)AppraisalFormState.SubmitedByEmployee)
+                                        {
+                                            <h5 class="mb-0">
+                                                <span class="badge badge-pill badge-dark col-md-12">
+                                                    Submitted
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.FormStatus == (int)AppraisalFormState.SavedByReporting)
+                                        {
+                                            <h5 class="mb-0">
+                                                <span class="badge badge-pill badge-dark col-md-12">
+                                                    Saved by Reporting Officer
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.FormStatus == (int)AppraisalFormState.SubmitedByReporting)
+                                        {
+                                            <h5 class="mb-0">
+                                                <span class="badge badge-pill bg-teal col-md-12">
+                                                    Reviewed by Reporting Officer
+                                                </span>
+                                                @*<span class="badge badge-pill badge-success col-md-12 toggle-tooltip" title="Employee Remark: @item.Reason <br/> Reporting Remark: @item.ReporotingToRemark <br/> Reviwer Remark: @item.ReviewerToRemark">Approved</span>*@
+                                            </h5>
+                                        }
+                                        else if (item.FormStatus == (int)AppraisalFormState.SavedByReviewer)
+                                        {
+                                            <h5 class="mb-0">
+                                                <span class="badge badge-pill badge-dark col-md-12">
+                                                    Saved by Reviewer Officer
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.FormStatus == (int)AppraisalFormState.SubmitedByReviewer)
+                                        {
+                                            <h5 class="mb-0">
+                                                <span class="badge badge-pill badge-info col-md-12">
+                                                    Reviewed by Reviewer Officer
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.FormStatus == (int)AppraisalFormState.SavedByAcceptanceAuth)
+                                        {
+                                            <h5 class="mb-0">
+                                                <span class="badge badge-pill badge-danger col-md-12">
+                                                    Saved by Acceptance Authority
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.FormStatus == (int)AppraisalFormState.SubmitedByAcceptanceAuth)
+                                        {
+                                            <h5 class="mb-0">
+                                                <span class="badge badge-pill badge-success col-md-12">
+                                                    Approved
+                                                </span>
+                                            </h5>
+                                        }
+                                    </td>
+
+                                    @*@if (Model.userRights.Edit)
+                                        {*@
+
+
+                                    <td data-label="Action" class="text-center">
+                                        @*<a href="@Url.Action("Edit", "LTC", new { LTCID=item.LTCID,  reportingTo = item.approvalSetting.ReportingTo, reviewingTo = item.approvalSetting.ReviewingTo, acceptanceAuthority = item.approvalSetting.AcceptanceAuthority, empID = item.EmployeeId})" title="Click here, to view this record" data-toggle="tooltip">
+                                            <i class="far fa-eye text-info" aria-hidden="true"></i>
+                                        </a>*@
+                                        @Html.EncodedImageActionLink("", "Edit", "LTC", new { LTCID = item.LTCID, reportingTo = item.approvalSetting.ReportingTo, reviewingTo = item.approvalSetting.ReviewingTo, acceptanceAuthority = item.approvalSetting.AcceptanceAuthority, empID = item.EmployeeId }, new { @class = "toggle-tooltip", title = "Click here, to view this record" }, "~/Images/view.png")
+                                    </td>
+                                    @*}*@
+                                </tr>
+                            }
+                        }
+                    }
+                    else if (item.approvalSetting.ReviewingTo.HasValue && item.approvalSetting.ReviewingTo != item.approvalSetting.ReportingTo)
+                    {
+                        if (uDetails.EmployeeID == item.approvalSetting.ReviewingTo)
+                        {
+                            if (item.FormStatus == (int)AppraisalFormState.SubmitedByReporting || item.FormStatus == (int)AppraisalFormState.SavedByReviewer || item.FormStatus == (int)AppraisalFormState.SubmitedByReviewer)
+                            {
+                                <tr>
+                                    <td data-label="S. No.">@sno</td>
+
+
+                                    @*<td> @item.Employeecode</td>*@
+                                    <td data-label="Name">@item.Employeecode - @item.Employeename</td>
+                                    <td data-label="Department"> @item.DepartmentName</td>
+                                    <td data-label="Designation"> @item.DesignationName</td>
+                                    <td data-label="Status" class="text-center">
+                                        @if (item.FormStatus == (int)AppraisalFormState.SavedByEmployee)
+                                        {
+                                            <h5 class="mb-0">
+                                                <span class="badge badge-pill badge-light col-md-12">
+                                                    Save
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.FormStatus == (int)AppraisalFormState.SubmitedByEmployee)
+                                        {
+                                            <h5 class="mb-0">
+                                                <span class="badge badge-pill badge-dark col-md-12">
+                                                    Submitted
+                                                </span>
+                                            </h5>
+                                        }
+                                        @*else if (item.FormStatus == (int)AppraisalFormState.SavedByReporting)
+                                            {
+                                                <h5 class="mb-0">
+                                                    <span class="badge badge-pill badge-dark col-md-12">
+                                                    Saved by Reporting Officer
+                                                    </span>
+                                                </h5>
+                                            }*@
+                                        else if (item.FormStatus == (int)AppraisalFormState.SubmitedByReporting)
+                                        {
+                                            <h5 class="mb-0">
+                                                <span class="badge badge-pill bg-teal col-md-12">
+                                                    Reviewed by Reporting Officer
+                                                </span>
+                                                @*<span class="badge badge-pill badge-success col-md-12 toggle-tooltip" title="Employee Remark: @item.Reason <br/> Reporting Remark: @item.ReporotingToRemark <br/> Reviwer Remark: @item.ReviewerToRemark">Approved</span>*@
+                                            </h5>
+                                        }
+                                        @*else if (item.FormStatus == (int)AppraisalFormState.SavedByReviewer)
+                                            {
+                                                <h5 class="mb-0">
+                                                    <span class="badge badge-pill badge-dark col-md-12">
+                                                    Saved by Reviewer Officer
+                                                    </span>
+                                                </h5>
+                                            }*@
+                                        else if (item.FormStatus == (int)AppraisalFormState.SubmitedByReviewer)
+                                        {
+                                            <h5 class="mb-0">
+                                                <span class="badge badge-pill badge-info col-md-12">
+                                                    Reviewed by Reviewer Officer
+                                                </span>
+                                            </h5>
+                                        }
+                                        @*else if (item.FormStatus == (int)AppraisalFormState.SavedByAcceptanceAuth)
+                                            {
+                                                <h5 class="mb-0">
+                                                    <span class="badge badge-pill badge-danger col-md-12">
+                                                    Saved by Acceptance Authority
+                                                    </span>
+                                                </h5>
+                                            }*@
+                                        else if (item.FormStatus == (int)AppraisalFormState.SubmitedByAcceptanceAuth)
+                                        {
+                                            <h5 class="mb-0">
+                                                <span class="badge badge-pill badge-success col-md-12">
+                                                    Approved
+                                                </span>
+                                            </h5>
+                                        }
+                                    </td>
+
+                                    @*@if (Model.userRights.Edit)
+                                        {*@
+
+
+                                    <td data-label="Action" class="text-center">
+                                        @*<a href="@Url.Action("Edit", "LTC", new { LTCID=item.LTCID,  reportingTo = item.approvalSetting.ReportingTo, reviewingTo = item.approvalSetting.ReviewingTo, acceptanceAuthority =item.approvalSetting.AcceptanceAuthority, empID = item.EmployeeId})" title="Click here, to view this record" data-toggle="tooltip">
+                                            <i class="far fa-eye text-info" aria-hidden="true"></i>
+                                        </a>*@
+                                        @Html.EncodedImageActionLink("", "Edit", "LTC", new { LTCID = item.LTCID, reportingTo = item.approvalSetting.ReportingTo, reviewingTo = item.approvalSetting.ReviewingTo, acceptanceAuthority = item.approvalSetting.AcceptanceAuthority, empID = item.EmployeeId }, new { @class = "toggle-tooltip", title = "Click here, to view this record" }, "~/Images/view.png")
+                                    </td>
+                                    @*}*@
+                                </tr>
+                                if (item.FormStatus == (int)AppraisalFormState.SubmitedByReporting || item.FormStatus == (int)AppraisalFormState.SavedByReviewer || item.FormStatus == (int)AppraisalFormState.SubmitedByReviewer)
+                                {
+                                    totalLTCpending = Model.Where(x => x.FormStatus == (int)AppraisalFormState.SubmitedByReporting).Count();
+                                }
+                            }
+                        }
+                        else if (item.approvalSetting.ReportingTo == uDetails.EmployeeID)
+                        {
+
+                            if (item.FormStatus == (int)AppraisalFormState.SubmitedByEmployee || item.FormStatus == (int)AppraisalFormState.SavedByReporting || item.FormStatus == (int)AppraisalFormState.SubmitedByReporting)
+                            {
+                                <tr>
+                                    <td data-label="S. No.">@sno</td>
+
+
+                                    @*<td> @item.Employeecode</td>*@
+                                    <td data-label="Name">@item.Employeecode - @item.Employeename</td>
+                                    <td data-label="Department"> @item.DepartmentName</td>
+                                    <td data-label="Designation"> @item.DesignationName</td>
+                                    <td data-label="Status" class="text-center">
+                                        @if (item.FormStatus == (int)AppraisalFormState.SavedByEmployee)
+                                        {
+                                            <h5 class="mb-0">
+                                                <span class="badge badge-pill badge-light col-md-12">
+                                                    Save
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.FormStatus == (int)AppraisalFormState.SubmitedByEmployee)
+                                        {
+                                            <h5 class="mb-0">
+                                                <span class="badge badge-pill badge-dark col-md-12">
+                                                    Submitted
+                                                </span>
+                                            </h5>
+                                        }
+                                        @*else if (item.FormStatus == (int)AppraisalFormState.SavedByReporting)
+                                            {
+                                                <h5 class="mb-0">
+                                                    <span class="badge badge-pill badge-dark col-md-12">
+                                                    Saved by Reporting Officer
+                                                    </span>
+                                                </h5>
+                                            }*@
+                                        else if (item.FormStatus == (int)AppraisalFormState.SubmitedByReporting)
+                                        {
+                                            <h5 class="mb-0">
+                                                <span class="badge badge-pill bg-teal col-md-12">
+                                                    Reviewed by Reporting Officer
+                                                </span>
+                                                @*<span class="badge badge-pill badge-success col-md-12 toggle-tooltip" title="Employee Remark: @item.Reason <br/> Reporting Remark: @item.ReporotingToRemark <br/> Reviwer Remark: @item.ReviewerToRemark">Approved</span>*@
+                                            </h5>
+                                        }
+                                        @*else if (item.FormStatus == (int)AppraisalFormState.SavedByReviewer)
+                                            {
+                                                <h5 class="mb-0">
+                                                    <span class="badge badge-pill badge-dark col-md-12">
+                                                    Saved by Reviewer Officer
+                                                    </span>
+                                                </h5>
+                                            }*@
+                                        else if (item.FormStatus == (int)AppraisalFormState.SubmitedByReviewer)
+                                        {
+                                            <h5 class="mb-0">
+                                                <span class="badge badge-pill badge-info col-md-12">
+                                                    Reviewed by Reviewer Officer
+                                                </span>
+                                            </h5>
+                                        }
+                                        @*else if (item.FormStatus == (int)AppraisalFormState.SavedByAcceptanceAuth)
+                                            {
+                                                <h5 class="mb-0">
+                                                    <span class="badge badge-pill badge-danger col-md-12">
+                                                    Saved by Acceptance Authority
+                                                    </span>
+                                                </h5>
+                                            }*@
+                                        else if (item.FormStatus == (int)AppraisalFormState.SubmitedByAcceptanceAuth)
+                                        {
+                                            <h5 class="mb-0">
+                                                <span class="badge badge-pill badge-success col-md-12">
+                                                    Approved
+                                                </span>
+                                            </h5>
+                                        }
+                                    </td>
+
+                                    @*@if (Model.userRights.Edit)
+                                        {*@
+
+
+                                    <td data-label="Action" class="text-center">
+                                        @*<a href="@Url.Action("Edit", "LTC", new { LTCID=item.LTCID,  reportingTo = item.approvalSetting.ReportingTo, reviewingTo = item.approvalSetting.ReviewingTo, acceptanceAuthority =item.approvalSetting.AcceptanceAuthority, empID = item.EmployeeId})" title="Click here, to view this record" data-toggle="tooltip">
+                                            <i class="far fa-eye text-info" aria-hidden="true"></i>
+                                        </a>*@
+                                        @Html.EncodedImageActionLink("", "Edit", "LTC", new { LTCID = item.LTCID, reportingTo = item.approvalSetting.ReportingTo, reviewingTo = item.approvalSetting.ReviewingTo, acceptanceAuthority = item.approvalSetting.AcceptanceAuthority, empID = item.EmployeeId }, new { @class = "toggle-tooltip", title = "Click here, to view this record" }, "~/Images/view.png")
+                                    </td>
+                                    @*}*@
+                                </tr>
+                                if (item.FormStatus == (int)AppraisalFormState.SubmitedByEmployee)
+                                {
+                                    totalLTCpending = Model.Where(x => x.FormStatus == (int)AppraisalFormState.SubmitedByEmployee).Count();
+                                }
+
+                            }
+                        }
+                        else if (item.approvalSetting.AcceptanceAuthority == uDetails.EmployeeID)
+                        {
+
+                            if (item.FormStatus == (int)AppraisalFormState.SubmitedByReviewer || item.FormStatus == (int)AppraisalFormState.SavedByAcceptanceAuth || item.FormStatus == (int)AppraisalFormState.SubmitedByAcceptanceAuth)
+                            {
+                                <tr>
+                                    <td data-label="S. No.">@sno</td>
+
+
+                                    @*<td> @item.Employeecode</td>*@
+                                    <td data-label="Name">@item.Employeecode - @item.Employeename</td>
+                                    <td data-label="Department"> @item.DepartmentName</td>
+                                    <td data-label="Designation"> @item.DesignationName</td>
+                                    <td data-label="Status" class="text-center">
+                                        @if (item.FormStatus == (int)AppraisalFormState.SavedByEmployee)
+                                        {
+                                            <h5 class="mb-0">
+                                                <span class="badge badge-pill badge-light col-md-12">
+                                                    Save
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.FormStatus == (int)AppraisalFormState.SubmitedByEmployee)
+                                        {
+                                            <h5 class="mb-0">
+                                                <span class="badge badge-pill badge-dark col-md-12">
+                                                    Submitted
+                                                </span>
+                                            </h5>
+                                        }
+                                        @*else if (item.FormStatus == (int)AppraisalFormState.SavedByReporting)
+                                            {
+                                                <h5 class="mb-0">
+                                                    <span class="badge badge-pill badge-dark col-md-12">
+                                                    Saved by Reporting Officer
+                                                    </span>
+                                                </h5>
+                                            }*@
+                                        else if (item.FormStatus == (int)AppraisalFormState.SubmitedByReporting)
+                                        {
+                                            <h5 class="mb-0">
+                                                <span class="badge badge-pill bg-teal col-md-12">
+                                                    Reviewed by Reporting Officer
+                                                </span>
+                                                @*<span class="badge badge-pill badge-success col-md-12 toggle-tooltip" title="Employee Remark: @item.Reason <br/> Reporting Remark: @item.ReporotingToRemark <br/> Reviwer Remark: @item.ReviewerToRemark">Approved</span>*@
+                                            </h5>
+                                        }
+                                        @*else if (item.FormStatus == (int)AppraisalFormState.SavedByReviewer)
+                                            {
+                                                <h5 class="mb-0">
+                                                    <span class="badge badge-pill badge-dark col-md-12">
+                                                    Saved by Reviewer Officer
+                                                    </span>
+                                                </h5>
+                                            }*@
+                                        else if (item.FormStatus == (int)AppraisalFormState.SubmitedByReviewer)
+                                        {
+                                            <h5 class="mb-0">
+                                                <span class="badge badge-pill badge-info col-md-12">
+                                                    Reviewed by Reviewer Officer
+                                                </span>
+                                            </h5>
+                                        }
+                                        @*else if (item.FormStatus == (int)AppraisalFormState.SavedByAcceptanceAuth)
+                                            {
+                                                <h5 class="mb-0">
+                                                    <span class="badge badge-pill badge-danger col-md-12">
+                                                    Saved by Acceptance Authority
+                                                    </span>
+                                                </h5>
+                                            }*@
+                                        else if (item.FormStatus == (int)AppraisalFormState.SubmitedByAcceptanceAuth)
+                                        {
+                                            <h5 class="mb-0">
+                                                <span class="badge badge-pill badge-success col-md-12">
+                                                    Approved
+                                                </span>
+                                            </h5>
+                                        }
+                                    </td>
+
+                                    @*@if (Model.userRights.Edit)
+                                        {*@
+
+
+                                    <td data-label="Action" class="text-center">
+                                        @*<a href="@Url.Action("Edit", "LTC", new { LTCID=item.LTCID,  reportingTo = item.approvalSetting.ReportingTo, reviewingTo = item.approvalSetting.ReviewingTo, acceptanceAuthority =item.approvalSetting.AcceptanceAuthority, empID = item.EmployeeId})" title="Click here, to view this record" data-toggle="tooltip">
+                                            <i class="far fa-eye text-info" aria-hidden="true"></i>
+                                        </a>*@
+                                        @Html.EncodedImageActionLink("", "Edit", "LTC", new { LTCID = item.LTCID, reportingTo = item.approvalSetting.ReportingTo, reviewingTo = item.approvalSetting.ReviewingTo, acceptanceAuthority = item.approvalSetting.AcceptanceAuthority, empID = item.EmployeeId }, new { @class = "toggle-tooltip", title = "Click here, to view this record" }, "~/Images/view.png")
+                                    </td>
+                                    @*}*@
+                                </tr>
+                                if (item.FormStatus == (int)AppraisalFormState.SubmitedByReviewer)
+                                {
+                                    totalLTCpending = Model.Where(x => x.FormStatus == (int)AppraisalFormState.SubmitedByReviewer).Count();
+                                }
+
+                            }
+                        }
+                    }
+                    else if (!item.approvalSetting.ReviewingTo.HasValue)
+                    {
+                        if (uDetails.EmployeeID == item.approvalSetting.ReportingTo)
+                        {
+                            if (item.FormStatus == (int)AppraisalFormState.SubmitedByEmployee || item.FormStatus == (int)AppraisalFormState.SavedByReporting || item.FormStatus == (int)AppraisalFormState.SubmitedByReporting)
+                            {
+                                <tr>
+                                    <td data-label="S. No.">@sno</td>
+
+
+                                    @*<td> @item.Employeecode</td>*@
+                                    <td data-label="Name">@item.Employeecode - @item.Employeename</td>
+                                    <td data-label="Department"> @item.DepartmentName</td>
+                                    <td data-label="Designation"> @item.DesignationName</td>
+                                    <td data-label="Status" class="text-center">
+                                        @if (item.FormStatus == (int)AppraisalFormState.SavedByEmployee)
+                                        {
+                                            <h5 class="mb-0">
+                                                <span class="badge badge-pill badge-light col-md-12">
+                                                    Save
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.FormStatus == (int)AppraisalFormState.SubmitedByEmployee)
+                                        {
+                                            <h5 class="mb-0">
+                                                <span class="badge badge-pill badge-dark col-md-12">
+                                                    Submitted
+                                                </span>
+                                            </h5>
+                                        }
+                                        @*else if (item.FormStatus == (int)AppraisalFormState.SavedByReporting)
+                                            {
+                                                <h5 class="mb-0">
+                                                    <span class="badge badge-pill badge-dark col-md-12">
+                                                    Saved by Reporting Officer
+                                                    </span>
+                                                </h5>
+                                            }*@
+                                        else if (item.FormStatus == (int)AppraisalFormState.SubmitedByReporting)
+                                        {
+                                            <h5 class="mb-0">
+                                                <span class="badge badge-pill bg-teal col-md-12">
+                                                    Reviewed by Reporting Officer
+                                                </span>
+                                                @*<span class="badge badge-pill badge-success col-md-12 toggle-tooltip" title="Employee Remark: @item.Reason <br/> Reporting Remark: @item.ReporotingToRemark <br/> Reviwer Remark: @item.ReviewerToRemark">Approved</span>*@
+                                            </h5>
+                                        }
+                                        @*else if (item.FormStatus == (int)AppraisalFormState.SavedByReviewer)
+                                            {
+                                                <h5 class="mb-0">
+                                                    <span class="badge badge-pill badge-dark col-md-12">
+                                                    Saved by Reviewer Officer
+                                                    </span>
+                                                </h5>
+                                            }*@
+                                        else if (item.FormStatus == (int)AppraisalFormState.SubmitedByReviewer)
+                                        {
+                                            <h5 class="mb-0">
+                                                <span class="badge badge-pill badge-info col-md-12">
+                                                    Reviewed by Reviewer Officer
+                                                </span>
+                                            </h5>
+                                        }
+                                        @*else if (item.FormStatus == (int)AppraisalFormState.SavedByAcceptanceAuth)
+                                            {
+                                                <h5 class="mb-0">
+                                                    <span class="badge badge-pill badge-danger col-md-12">
+                                                    Saved by Acceptance Authority
+                                                    </span>
+                                                </h5>
+                                            }*@
+                                        else if (item.FormStatus == (int)AppraisalFormState.SubmitedByAcceptanceAuth)
+                                        {
+                                            <h5 class="mb-0">
+                                                <span class="badge badge-pill badge-success col-md-12">
+                                                    Approved
+                                                </span>
+                                            </h5>
+                                        }
+                                    </td>
+
+                                    @*@if (Model.userRights.Edit)
+                                        {*@
+
+
+                                    <td data-label="Action" class="text-center">
+                                        @*<a href="@Url.Action("Edit", "LTC", new { LTCID=item.LTCID,  reportingTo = item.approvalSetting.ReportingTo, reviewingTo = item.approvalSetting.ReviewingTo, acceptanceAuthority =item.approvalSetting.AcceptanceAuthority, empID = item.EmployeeId})" title="Click here, to view this record" data-toggle="tooltip">
+                                            <i class="far fa-eye text-info" aria-hidden="true"></i>
+                                        </a>*@
+                                        @Html.EncodedImageActionLink("", "Edit", "LTC", new { LTCID = item.LTCID, reportingTo = item.approvalSetting.ReportingTo, reviewingTo = item.approvalSetting.ReviewingTo, acceptanceAuthority = item.approvalSetting.AcceptanceAuthority, empID = item.EmployeeId }, new { @class = "toggle-tooltip", title = "Click here, to view this record" }, "~/Images/view.png")
+                                    </td>
+                                    @*}*@
+                                </tr>
+                                if (item.FormStatus == (int)AppraisalFormState.SubmitedByEmployee)
+                                {
+                                    totalLTCpending = Model.Where(x => x.FormStatus == (int)AppraisalFormState.SubmitedByEmployee).Count();
+                                }
+                            }
+                        }
+                    }
+                    else if (!item.approvalSetting.AcceptanceAuthority.HasValue)
+                    {
+                        if (uDetails.EmployeeID == item.approvalSetting.ReviewingTo)
+                        {
+                            if (item.FormStatus == (int)AppraisalFormState.SubmitedByReporting || item.FormStatus == (int)AppraisalFormState.SavedByReviewer || item.FormStatus == (int)AppraisalFormState.SubmitedByReviewer)
+                            {
+                                <tr>
+                                    <td data-label="S. No.">@sno</td>
+
+
+                                    @*<td> @item.Employeecode</td>*@
+                                    <td data-label="Name">@item.Employeecode - @item.Employeename</td>
+                                    <td data-label="Department"> @item.DepartmentName</td>
+                                    <td data-label="Designation"> @item.DesignationName</td>
+                                    <td data-label="Status" class="text-center">
+                                        @if (item.FormStatus == (int)AppraisalFormState.SavedByEmployee)
+                                        {
+                                            <h5 class="mb-0">
+                                                <span class="badge badge-pill badge-light col-md-12">
+                                                    Save
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.FormStatus == (int)AppraisalFormState.SubmitedByEmployee)
+                                        {
+                                            <h5 class="mb-0">
+                                                <span class="badge badge-pill badge-dark col-md-12">
+                                                    Submitted
+                                                </span>
+                                            </h5>
+                                        }
+                                        @*else if (item.FormStatus == (int)AppraisalFormState.SavedByReporting)
+                                            {
+                                                <h5 class="mb-0">
+                                                    <span class="badge badge-pill badge-dark col-md-12">
+                                                    Saved by Reporting Officer
+                                                    </span>
+                                                </h5>
+                                            }*@
+                                        else if (item.FormStatus == (int)AppraisalFormState.SubmitedByReporting)
+                                        {
+                                            <h5 class="mb-0">
+                                                <span class="badge badge-pill bg-teal col-md-12">
+                                                    Reviewed by Reporting Officer
+                                                </span>
+                                                @*<span class="badge badge-pill badge-success col-md-12 toggle-tooltip" title="Employee Remark: @item.Reason <br/> Reporting Remark: @item.ReporotingToRemark <br/> Reviwer Remark: @item.ReviewerToRemark">Approved</span>*@
+                                            </h5>
+                                        }
+                                        @*else if (item.FormStatus == (int)AppraisalFormState.SavedByReviewer)
+                                            {
+                                                <h5 class="mb-0">
+                                                    <span class="badge badge-pill badge-dark col-md-12">
+                                                    Saved by Reviewer Officer
+                                                    </span>
+                                                </h5>
+                                            }*@
+                                        else if (item.FormStatus == (int)AppraisalFormState.SubmitedByReviewer)
+                                        {
+                                            <h5 class="mb-0">
+                                                <span class="badge badge-pill badge-info col-md-12">
+                                                    Reviewed by Reviewer Officer
+                                                </span>
+                                            </h5>
+                                        }
+                                        @*else if (item.FormStatus == (int)AppraisalFormState.SavedByAcceptanceAuth)
+                                            {
+                                                <h5 class="mb-0">
+                                                    <span class="badge badge-pill badge-danger col-md-12">
+                                                    Saved by Acceptance Authority
+                                                    </span>
+                                                </h5>
+                                            }*@
+                                        else if (item.FormStatus == (int)AppraisalFormState.SubmitedByAcceptanceAuth)
+                                        {
+                                            <h5 class="mb-0">
+                                                <span class="badge badge-pill badge-success col-md-12">
+                                                    Approved
+                                                </span>
+                                            </h5>
+                                        }
+                                    </td>
+
+                                    @*@if (Model.userRights.Edit)
+                                        {*@
+
+
+                                    <td data-label="Action" class="text-center">
+                                        @*<a href="@Url.Action("Edit", "LTC", new { LTCID=item.LTCID,  reportingTo = item.approvalSetting.ReportingTo, reviewingTo = item.approvalSetting.ReviewingTo, acceptanceAuthority =item.approvalSetting.AcceptanceAuthority, empID = item.EmployeeId})" title="Click here, to view this record" data-toggle="tooltip">
+                                            <i class="far fa-eye text-info" aria-hidden="true"></i>
+                                        </a>*@
+                                        @Html.EncodedImageActionLink("", "Edit", "LTC", new { LTCID = item.LTCID, reportingTo = item.approvalSetting.ReportingTo, reviewingTo = item.approvalSetting.ReviewingTo, acceptanceAuthority = item.approvalSetting.AcceptanceAuthority, empID = item.EmployeeId }, new { @class = "toggle-tooltip", title = "Click here, to view this record" }, "~/Images/view.png")
+                                    </td>
+                                    @*}*@
+                                </tr>
+                                if (item.FormStatus == (int)AppraisalFormState.SubmitedByReporting)
+                                {
+                                    totalLTCpending = Model.Where(x => x.FormStatus == (int)AppraisalFormState.SubmitedByReporting).Count();
+                                }
+                            }
+                        }
+                    }
+
+                    sno++;
+                }
+
+
+                <script type="text/javascript">
+                    $("#ltcApprovalReqCount").text(@totalLTCpending);
+                </script>
+
+            }
+            <script type="text/javascript">
+
+                var table = $('#tblGrid-LTC').DataTable({
+                });
+                $('#tblGrid-LTC').find('select').addClass('custom-select');
+            </script>
+        }
+
+    </tbody>
+
+</table>

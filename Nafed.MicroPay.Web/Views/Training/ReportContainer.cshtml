@@ -1,0 +1,64 @@
+﻿@using Nafed.MicroPay.Model
+@model CommonFilter
+@{
+    if(Model.ReportType=="D")
+    {
+        ViewBag.Title = "Training Report Designation Wise";
+    }
+    else if (Model.ReportType == "I")
+    {
+        ViewBag.Title = "Training Report (Internal/External)";
+    }
+    else if (Model.ReportType == "T")
+    {
+        ViewBag.Title = "Training Type Report";
+    }
+    else if (Model.ReportType == "P")
+    {
+        ViewBag.Title = "Training Provider Report";
+    }
+
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="">
+    <div class="card_new_body">
+        @using (Ajax.BeginForm("TrainingReport", "Training", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "div-Report", OnSuccess = "OnReportSuccess" }, new {id="reportform"}))
+        {
+            <div id="div-filters">
+                @if (Model.ReportType == "D")
+                {
+                @Html.Action("DesignationFilter")
+                }
+                else if (Model.ReportType == "I")
+                {
+                    @Html.Action("InternalExternalFilter")
+                }
+                else if (Model.ReportType == "T")
+                {
+                    @Html.Action("TrainingTypeFilter")
+                }
+                else if (Model.ReportType == "P")
+                {
+                    @Html.Action("TrainingProviderFilter")
+                }
+            </div>
+        }
+    </div>
+    <div class="card_new_body">
+        <div id="div-Report">
+
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+

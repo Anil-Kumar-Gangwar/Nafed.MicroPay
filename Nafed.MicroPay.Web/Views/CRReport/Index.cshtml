@@ -1,0 +1,171 @@
+﻿@{
+    ViewBag.Title = "CR Report";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="">
+    <div class="card_new_body">
+        @using (Ajax.BeginForm("CRReportDetails", "CRReport", new AjaxOptions { HttpMethod = "POST", OnSuccess = "OnReportSuccess" }))
+        {
+            <div id="div-report-filters">
+                @Html.Action("_ReportFilter")
+            </div>
+        }
+    </div>
+</div>
+
+<script type="text/javascript">
+    function radioChangeEvents(events) {
+        if (events.id == "FormA") {
+            $.ajax({
+                url: "@Url.Action("GetEmployeeDetails", "CRReport")",
+                type: "GET",
+                dataType: "JSON",
+                data: { formId: "FormA" },
+                success: function (data) {
+                    $("#employeeID").html("");
+                    if (data.employees != "") {
+                        $("#employeeID").append($("<option selected></option>").val(0).html('Select'));
+                        $.each(data.employees, function (key, value) {
+                            $("#employeeID").append($("<option></option>").val(value.id).html(value.value));
+                        });
+                    }
+                    else {
+                        $("#employeeID").append($("<option></option>").val(0).html('Select'));
+                    }
+                }
+            });
+        }
+        else if (events.id == "FormB") {
+            $.ajax({
+                url: "@Url.Action("GetEmployeeDetails", "CRReport")",
+                type: "GET",
+                dataType: "JSON",
+                data: { formId: "FormB" },
+                success: function (data) {
+                    $("#employeeID").html("");
+                    if (data.employees != "") {
+                        $("#employeeID").append($("<option selected></option>").val(0).html('Select'));
+                        $.each(data.employees, function (key, value) {
+                            $("#employeeID").append($("<option></option>").val(value.id).html(value.value));
+                        });
+                    }
+                    else {
+                        $("#employeeID").append($("<option></option>").val(0).html('Select'));
+                    }
+                }
+            });
+        }
+        else if (events.id == "FormC") {
+            $.ajax({
+                url: "@Url.Action("GetEmployeeDetails", "CRReport")",
+                type: "GET",
+                dataType: "JSON",
+                data: { formId: "FormC" },
+                success: function (data) {
+                    $("#employeeID").html("");
+                    if (data.employees != "") {
+                        $("#employeeID").append($("<option selected></option>").val(0).html('Select'));
+                        $.each(data.employees, function (key, value) {
+                            $("#employeeID").append($("<option></option>").val(value.id).html(value.value));
+                        });
+                    }
+                    else {
+                        $("#employeeID").append($("<option></option>").val(0).html('Select'));
+                    }
+                }
+            });
+        }
+        else if (events.id == "FormD") {
+            $.ajax({
+                url: "@Url.Action("GetEmployeeDetails", "CRReport")",
+                type: "GET",
+                dataType: "JSON",
+                data: { formId: "FormD" },
+                success: function (data) {
+                    $("#employeeID").html("");
+                    if (data.employees != "") {
+                        $("#employeeID").append($("<option selected></option>").val(0).html('Select'));
+                        $.each(data.employees, function (key, value) {
+                            $("#employeeID").append($("<option></option>").val(value.id).html(value.value));
+                        });
+                    }
+                    else {
+                        $("#employeeID").append($("<option></option>").val(0).html('Select'));
+                    }
+                }
+            });
+        }
+        else if (events.id == "FormBOrder") {
+            $.ajax({
+                url: "@Url.Action("GetEmployeeDetails", "CRReport")",
+                type: "GET",
+                dataType: "JSON",
+                data: { formId: "FormBOrder" },
+                success: function (data) {
+                    $("#employeeID").html("");
+                    if (data.employees != "") {
+                        $("#employeeID").append($("<option selected></option>").val(0).html('Select'));
+                        $.each(data.employees, function (key, value) {
+                            $("#employeeID").append($("<option></option>").val(value.id).html(value.value));
+                        });
+                    }
+                    else {
+                        $("#employeeID").append($("<option></option>").val(0).html('Select'));
+                    }
+                }
+            });
+        }
+        else if (events.id == "CoveringLetterHO") {
+            $.ajax({
+                url: "@Url.Action("GetEmployeeDetails", "CRReport")",
+                type: "GET",
+                dataType: "JSON",
+                data: { formId: "CoveringLetterHO" },
+                success: function (data) {
+                    $("#employeeID1").html("");
+                    if (data.employees != "") {
+                        $("#employeeID1").append($("<option selected></option>").val(0).html('Select'));
+                        $.each(data.employees, function (key, value) {
+                            $("#employeeID1").append($("<option></option>").val(value.id).html(value.value));
+                        });
+                    }
+                    else {
+                        $("#employeeID1").append($("<option></option>").val(0).html('Select'));
+                    }
+                }
+            });
+        }
+        else if (events.id == "CoveringLetterBranch") {
+            $.ajax({
+                url: "@Url.Action("GetEmployeeDetails", "CRReport")",
+                type: "GET",
+                dataType: "JSON",
+                data: { formId: "CoveringLetterBranch" },
+                success: function (data) {
+                    $("#employeeID1").html("");
+                    if (data.employees != "") {
+                        $("#employeeID1").append($("<option selected></option>").val(0).html('Select'));
+                        $.each(data.employees, function (key, value) {
+                            $("#employeeID1").append($("<option></option>").val(value.id).html(value.value));
+                        });
+                    }
+                    else {
+                        $("#employeeID1").append($("<option></option>").val(0).html('Select'));
+                    }
+                }
+            });
+        }
+    }
+
+    function checkboxChange(events) {
+        if (events.checked == true && events.id == "AllEmployee") {
+            $("#employeeID").attr("disabled", "disabled");
+            $("#employeeID").val(0);
+        }
+        else if (events.checked == false && events.id == "AllEmployee") {
+            $("#employeeID").removeAttr("disabled");
+        }
+    }
+</script>

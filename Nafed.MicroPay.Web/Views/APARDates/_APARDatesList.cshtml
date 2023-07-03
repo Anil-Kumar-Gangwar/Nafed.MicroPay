@@ -1,0 +1,91 @@
+﻿@using Nafed.MicroPay.Model
+@model List<AppraisalFormDueDate>
+@using Nafed.MicroPay.Common
+<table id="tblGrid" class="table table-centered table-striped dt-responsive w-100">
+    <thead>
+        <tr>
+            <th>
+                #
+            </th>
+            <th>
+                Reporting Year
+            </th>
+            <th>
+                Employee Submission
+            </th>
+            <th>
+                Reporting Submission
+
+            </th>
+            <th>
+                Reviewer Submission
+            </th>
+            <th>
+                AcceptanceAuth Submission
+            </th>
+
+            <th class="text-center" style="width:40px">
+                Edit
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            if (Model != null && Model.Count > 0)
+            {
+                var sno = 1;
+                for (int i = 0; i < Model.Count; i++)
+                {
+                    <tr>
+                        <td> @sno</td>
+                        <td class="text-center">
+
+                            @Model[i].ReportingYear
+
+                            @*@Model[i].EmployeeSubmissionDueDate.GetFinancialYr()*@
+                        </td>
+                        <td class="text-center">
+                            @Model[i].EmployeeSubmissionDueDate.ToString("dd-MM-yyyy")
+                        </td>
+                        <td class="text-center">
+                            @Model[i].ReportingSubmissionDueDate.ToString("dd-MM-yyyy")
+                        </td>
+                        <td class="text-center">
+                            @Model[i].ReviewerSubmissionDueDate.ToString("dd-MM-yyyy")
+                        </td>
+                        <td class="text-center">
+                            @Model[i].AcceptanceAuthSubmissionDueDate.ToString("dd-MM-yyyy")
+                        </td>
+                        <td class="text-center">
+                            @*<a class="toggle-tooltip" href="@Url.Action("Edit", "APARDates", new { reportingYr= Model[i].ReportingYear })" title="Click here, to edit this record">
+                                <span class="far fa-edit" aria-hidden="true"></span>
+                            </a>*@
+                            @Html.EncodedImageActionLink("", "Edit", "APARDates", new { reportingYr = Model[i].ReportingYear }, new { @class = "toggle-tooltip", title = "Click here, to edit this record" }, "~/Images/edit.png")
+                        </td>
+                    </tr>
+                    sno++;
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="5" class="text-center"> No Record Found.</td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
+
+<script type="text/javascript">
+    $('.toggle-tooltip').tooltip();
+</script>
+
+
+
+
+
+
+
+
+

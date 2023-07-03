@@ -1,0 +1,26 @@
+﻿
+@{
+    //Layout = null;
+    Layout = "~/Views/Shared/_OuterPageLayout.cshtml";
+    ViewBag.Title = "Job Description";
+}
+@*<head>
+    <meta name="viewport" content="width=device-width" />
+    <META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+    <META HTTP-EQUIV="Expires" CONTENT="-1">
+    <title>Index</title>
+    @Styles.Render("~/Content/style")
+
+</head>*@
+
+@*<div class="container-fluid">
+    <div class="login_bg div_pos">
+        <div class="col-sm-12" style="margin-top: calc(50% - 45%);">*@
+            <div class="card_new_body">
+                <div id="JobGridDiv">
+                    @Html.Action("_GetJobListGridView")
+                </div>
+            </div>
+        @*</div>
+    </div>
+</div>*@

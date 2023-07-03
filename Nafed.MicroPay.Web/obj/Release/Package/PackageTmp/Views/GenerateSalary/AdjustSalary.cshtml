@@ -1,0 +1,25 @@
+﻿
+@{
+    ViewBag.Title = "Adjust Salary";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="row">
+
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        @using (Ajax.BeginForm("_GetEmployeeSalary", "GenerateSalary", new AjaxOptions
+        {
+            HttpMethod = "GET",
+            UpdateTargetId = "div-salary-fields"
+        }))
+        {
+            { Html.RenderPartial("_Filter"); }
+
+        }
+        <hr />
+    </div>
+   
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="div-salary-fields">
+     
+    </div>
+</div>
+

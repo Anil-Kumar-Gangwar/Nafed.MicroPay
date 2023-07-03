@@ -1,0 +1,40 @@
+﻿
+@{
+    ViewBag.Title = "Confirmation Approval";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var empID = Request["employeeID"];
+    var uTypeID = Request["userTypeID"];
+}
+
+<div class="mt-2">
+    <div class="tab" role="tabpanel">
+        <nav class="navbar navbar-expand-md  navbar-dark px-0">
+
+            <button class="navbar-toggler bg-info" type="button" data-toggle="collapse" data-target="#collapsible_tab">
+                <span class="fa fa-bars"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="collapsible_tab" style="position: relative;z-index: 999;">
+                <ul class="nav nav-tabs" role="tablist" id="tabs">
+                    <li class="nav-item">
+                        <a class="nav-link active toggle-tooltip" data-toggle="tab" title="Appointment Confirmation Approval Process"
+                           href="#AppointmentConfApprovalProc">Appointment Confirmation</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link toggle-tooltip" data-toggle="tab" title="Promotion Confirmation Approval Process"
+                           href="#PromotionConfApprovalProc">Promotion Confirmation</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <!-- Tab panes -->
+        <div class="tab-content">
+            <div id="AppointmentConfApprovalProc" class="container tab-pane active fullwidth-container">
+                @Html.Action("_GetAppointmentProcessApproval", "EmpApprovalProcess", new { employeeID = empID, userTypeID = uTypeID })
+            </div>
+            <div id="PromotionConfApprovalProc" class="container tab-pane fullwidth-container">
+                @Html.Action("_GetPromotionProcessApproval", "EmpApprovalProcess", new { employeeID = empID, userTypeID = uTypeID })
+            </div>
+        </div>
+    </div>
+</div>

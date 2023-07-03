@@ -1,0 +1,171 @@
+﻿@model MicroPay.Web.Models.SalaryReportFilterViewModel
+@using Nafed.MicroPay.Model
+
+@{
+    var yearDDl = Enumerable.Range(2005, (DateTime.Now.Year - 2005) + 1).
+                                  Select(i => new SelectListModel { id = i, value = i.ToString() }).OrderByDescending(x => x.value).ToList();
+
+    //yearDDl.Insert(0, new SelectListModel { value = "Select", id = 0 });
+
+
+
+    var monthDDL = Enumerable.Range(1, 12).
+                            Select(i => new SelectListModel
+                            {
+                                id = i,
+                                value = System.Globalization.CultureInfo.InvariantCulture.DateTimeFormat.GetMonthName(i)
+                            }).ToList();
+
+    //monthDDL.Insert(0, new SelectListModel { value = "Select", id = 0 });
+
+    Model.employeeList.Insert(0, new SelectListModel { value = "Select", id = 0 });
+    Model.branchList.Insert(0, new SelectListModel { value = "Select", id = 0 });
+    //Model.employeeTypeList.Insert(0, new SelectListModel { value = "Select", id = 0 });
+}
+
+<div class="row">
+    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+        <fieldset class="border p-2 col-md-12 col-xs-12 col-lg-12 col-xl-12">
+            <legend style="font-size:1.3rem !important;" class="w-auto"></legend>
+            <div class="form-group">
+                <div class="row">
+                    @Html.LabelFor(model => model.branchID, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2" })
+                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
+                        @Html.DropDownListFor(model => model.branchID, new SelectList(Model.branchList, "id", "value"), new { @class = "custom-select", @onChange = "GetEmployeeDetails()", @disabled = "disabled" })
+                        <span id="loantypeRequired"></span>
+                    </div>
+                </div>
+
+                <div class="row">
+                    @Html.LabelFor(model => model.yearID, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2" })
+
+                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
+                        @Html.DropDownListFor(model => model.yearID, new SelectList(yearDDl, "id", "value"), new { @class = "custom-select" })
+                    </div>
+                </div>
+
+                <div class="row">
+                    @Html.LabelFor(model => model.monthID, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2" })
+
+                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
+                        @Html.DropDownListFor(model => model.monthID, new SelectList(monthDDL, "id", "value"), new { @class = "custom-select" })
+                    </div>
+                </div>
+
+                <div class="row">
+                    @Html.LabelFor(model => model.employeeTypeID, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2" })
+
+                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
+                        @Html.DropDownListFor(model => model.employeeTypeID, new SelectList(Model.employeeTypeList, "id", "value"), new { @class = "custom-select", @onChange = "GetEmployeeDetails()" })
+                    </div>
+                </div>
+
+                <div class="row">
+                    @Html.LabelFor(model => model.employeeID, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2" })
+
+                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
+                        @Html.DropDownListFor(model => model.employeeID, new SelectList(Model.employeeList, "id", "value"), new { @class = "custom-select", @disabled = "disabled" })
+                    </div>
+                </div>
+
+            </div>
+        </fieldset>
+        <br />
+        <fieldset class="border p-2 col-md-12 col-xs-12 col-lg-12 col-xl-12">
+            <legend style="font-size:1.3rem !important;" class="w-auto"></legend>
+            <div class="row">
+                @Html.LabelFor(model => model.AllBranch, new { @class = "control-label col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-2" })
+                @if (Model.AllEmployee == false)
+                {
+                    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-4">
+                        <label class="switch">
+                            @Html.CheckBoxFor(model => model.AllBranch, new { @class = "form-control", @onChange = "checkboxChange(this)" })
+                            <div class="slider round">
+                            </div>
+                        </label>
+                    </div>
+                }
+                else
+                {
+                    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-4">
+                        <label class="switch">
+                            @Html.CheckBoxFor(model => model.AllBranch, new { @class = "form-control", @checked = "checked", @onChange = "checkboxChange(this)" })
+                            <div class="slider round">
+                            </div>
+                        </label>
+                    </div>
+                }
+
+                @Html.LabelFor(model => model.AllEmployee, new { @class = "control-label col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-2" })
+
+                @if (Model.AllEmployee == false)
+                {
+
+                    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-4">
+                        <label class="switch">
+                            @Html.CheckBoxFor(model => model.AllEmployee, new { @class = "form-control", @onChange = "checkboxChange(this)" })
+                            <div class="slider round">
+                            </div>
+                        </label>
+                    </div>
+                }
+                else
+                {
+                    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-4">
+                        <label class="switch">
+                            @Html.CheckBoxFor(model => model.AllEmployee, new { @class = "form-control", @checked = "checked", @onChange = "checkboxChange(this)" })
+                            <div class="slider round">
+                            </div>
+                        </label>
+                    </div>
+                }
+            </div>
+        </fieldset>
+
+
+    </div>
+    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+        <fieldset class="border p-2 col-md-12 col-xs-12 col-lg-12 col-xl-12">
+            <legend style="font-size:1.3rem !important;" class="w-auto"></legend>
+            <div class="form-group" style="margin-top:50px;">
+                <div>
+                    <div class="row">
+                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+                            @Html.RadioButtonFor(model => model.salaryReportRadio, "PaySlip", new { id = "PaySlip", @onChange = "radioChangeEvents(this)", @checked = "checked" })
+                        </div>
+                        @Html.Label("Pay Slip", htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2" })
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+                            @Html.RadioButtonFor(model => model.salaryReportRadio, "PaySummary", new { id = "PaySummary", @onChange = "radioChangeEvents(this)" })
+                        </div>
+                        @Html.Label("Pay Summary (Individual Branch)", htmlAttributes: new { @class = "control-label col-lg-5 col-md-5 col-sm-12 col-xs-12 mb-2" })
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+                            @Html.RadioButtonFor(model => model.salaryReportRadio, "Coveringletter", new { id = "Coveringletter", @disabled = "disabled" })
+                        </div>
+                        @Html.Label("Covering letter (Individual)", htmlAttributes: new { @class = "control-label col-lg-5 col-md-5 col-sm-12 col-xs-12 mb-2" })
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+                            @Html.RadioButtonFor(model => model.salaryReportRadio, "PaySummaryAllBranch", new { id = "PaySummaryAllBranch", @disabled = "disabled" })
+                        </div>
+                        @Html.Label("Pay Summary (All Branch)", htmlAttributes: new { @class = "control-label col-lg-5 col-md-5 col-sm-12 col-xs-12 mb-2" })
+                    </div>
+                </div>
+                <br />
+                @*<div class="row">
+                *@
+                <span class="pull-left">
+                    <input type="submit" id="linePrinter" value="Line Printer" class="btn btn-info btn-md pull-center toggle-tooltip hide" title="" name="ButtonType"  />
+                    <input type="submit" value="Print" class="btn btn-info btn-md pull-center toggle-tooltip" title="Click here, to save current record" name="ButtonType" />
+                </span>
+                @*
+                    </div>*@
+
+            </div>
+
+        </fieldset>
+    </div>
+</div>

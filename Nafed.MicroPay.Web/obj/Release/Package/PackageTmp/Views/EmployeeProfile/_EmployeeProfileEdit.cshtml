@@ -1,0 +1,1222 @@
+﻿@using Nafed.MicroPay.Model
+@model Nafed.MicroPay.Model.EmployeeProfile
+
+@{
+    ViewBag.Title = "Employee Profile - Edit Mode";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var messageError = TempData["Error"] == null ? "" : TempData["Error"].ToString();
+    var ddd = Model.PanCardFilePath;
+}
+
+<script type="text/javascript">
+
+    $("#btnChangeMobNo").click(function () {
+        var EmployeeID = $("#EmployeeID").val();
+        alert(EmployeeID);
+    });
+
+    function OnSuccess(data) {
+        if (data.type == "success") {
+            commonMessage(data.type, data.msg);
+            $("#div-ProfileEdit").load("@Url.Action("Index", "EmployeeProfile")?employeeID=" + data.employeeID);
+        }
+    }
+
+
+    $(document).ready(function () {
+
+        $('#inputGroupFile01').on('change', function () {
+            //  alert('A');
+            //get the file name
+            var fileName = $(this).val();
+            //replace the "Choose a file" label
+            fileName = fileName.replace("C:\\fakepath\\", "");
+            $(this).next('.custom-file-label').html(fileName);
+        })
+
+    });
+
+
+    $(document).on("click", "#imgProfilePhoto", function () {
+
+        $("#fileProfilePic").trigger('click');
+    });
+
+    $(document).on("click", "#imgAadhaar", function () {
+
+        $("#fileAadhaarCard").trigger('click');
+    });
+
+    $(":file").change(function () {
+        var fileControlID = $(this).attr('id');
+
+        if (this.files && this.files[0]) {
+            var reader = new FileReader();
+            if (fileControlID == "filePanCard")
+                reader.onload = panIsLoaded;
+            else
+                reader.onload = aadhaarIsLoaded;
+            reader.readAsDataURL(this.files[0]);
+        }
+    });
+
+    function panIsLoaded(e) {
+        $('#imgPanCard').attr('src', e.target.result);
+    };
+
+    function aadhaarIsLoaded(e) {
+        $('#imgAadhaar').attr('src', e.target.result);
+    };
+
+    window.addEventListener("submit", function (e) {
+        alert(form.getAttribute("enctype"));
+        var form = e.target;
+        if (form.getAttribute("enctype") === "multipart/form-data") {
+            if (form.dataset.ajax) {
+                e.preventDefault();
+                e.stopImmediatePropagation();
+                var xhr = new XMLHttpRequest();
+                xhr.open(form.method, form.action);
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState == 4 && xhr.status == 200) {
+
+                        if (form.dataset.ajaxUpdate) {
+
+                            var updateTarget = document.querySelector(form.dataset.ajaxUpdate);
+                            if (updateTarget) {
+                                var inValid = '@messageError';
+
+
+                                if (inValid != "InValidDOB") {
+                                    var i = 2;
+                                    $('.nav-tabs li:eq(' + i + ') a').tab('show');
+                                }
+                                updateTarget.innerHTML = xhr.responseText;
+                            }
+                        }
+                    }
+                };
+                xhr.send(new FormData(form));
+            }
+        }
+    }, true);
+</script>
+<div id="div-ProfileEdit">
+    @using (Html.BeginForm("_EditPersonalDetails", "EmployeeProfile", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+
+        @Html.HiddenFor(model => model.EmployeeID)
+        @Html.HiddenFor(model => model.PanCardUNCFilePath)
+        @Html.HiddenFor(model => model.AadhaarCardUNCFilePath)
+        @Html.HiddenFor(model => model.PanCardFilePath)
+        @Html.HiddenFor(model => model.AadhaarCardFilePath)
+        @Html.HiddenFor(model => model.EmpProfilePhotoUNCPath)
+
+        <div class="row mb-4" style="background-color: #fbfbfb;">
+            <div class="col-sm-12" style="background-color: #17a2b8;">
+                <h4 class="text-white m-0 pt-2 pb-2">Personal Information</h4>
+            </div>
+            <div class="col-xl-2 col-lg-2 col-md-3 col-sm-12 pt-2" style="background-color: #eee;">
+
+                @*<img class="img-responsive rounded-circle img-thumbnail  pb-2 text-center toggle-tooltip" title="Click here to change your profile picture"
+                     data-target="#exampleModal_1" data-toggle="modal"
+                     alt="Employee Photo" style="height:150px;width:150px;"
+                     src='@Url.Action("GetImage","Base", new { imgPath = Model.EmpProfilePhotoUNCPath })' />*@
+
+                <img class="img-responsive rounded-circle img-thumbnail  pb-2 text-center toggle-tooltip" title="Click here to change your profile picture"
+                     data-target="#exampleModal_1" data-toggle="modal"
+                     alt="Employee Photo" style="height:150px;width:150px;"
+                     src='/@Model.EmpProfilePhotoUNCPath' />
+
+
+                @Html.ValidationMessage("InValidPAN", "", new { @class = "text-danger" })
+                <h5 class="text-left"></h5>
+                <p class="text-left">
+                    <i class="fa fa-envelope"></i>
+                    @*@(Model.EmailID ?? "Not Available")*@
+                    @Html.EditorFor(model => model.EmailID, new { htmlAttributes = new { @type = "email", @class = "form-control", @placeholder = "Offical Email" } })
+
+                </p>
+                <p class="text-left">
+
+                    <i class="fas fa-mobile-alt"></i>
+                    @Html.EditorFor(model => model.MobileNo, new { htmlAttributes = new { @type = "tel", @pattern = "[0-9]{10}", @class = "form-control", @placeholder = "Mobile No", @maxlength = "10", @minlength = "10" } })
+                    @*@(Model.MobileNo ?? "Not Available")*@
+                    @*<i class="fas fa-pencil"></i>*@
+                </p>
+
+            </div>
+            <div class="col-xl-10 col-lg-10 col-md-9 col-sm-12">
+                <div class="row mt-4">
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                        <div class="form-group">
+                            <div class="row">
+                                <label class="col-sm-5">Name : </label>
+                                <label class="col-sm-7 labelvalue">@Model.EmpCode - @Model.Title   @Model.EmpName</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                    </div>
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                        <div class="form-group">
+                            <div class="row">
+                                <label class="col-sm-5">Mother Name  : </label>
+                                <label class="col-sm-7 labelvalue">
+                                    @(Model.MotherName ?? "Not Available")
+                                    @*@Html.EditorFor(model => model.MotherName, new { htmlAttributes = new { @class = "form-control", @placeholder = "Mother Name", @maxlength = "50" } })*@
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                        <div class="form-group">
+                            <div class="row">
+                                <label class="col-sm-5">Husband/Father Name  : </label>
+                                <label class="col-sm-7 labelvalue">
+                                    @(Model.HBName ?? "Not Available")
+                                    @*@Html.EditorFor(model => model.HBName, new { htmlAttributes = new { @class = "form-control", @placeholder = "Husband/Father Name" } })*@
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                        <div class="form-group">
+                            <div class="row">
+                                <label class="col-sm-5">Gender  : </label>
+                                <label class="col-sm-7 labelvalue">@Model.Gender</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                        <div class="form-group">
+                            <div class="row">
+                                <label class="col-sm-5">Date of Birth  : </label>
+                                <label class="col-sm-7 labelvalue">
+
+                                    @if (Model.DOB.HasValue)
+                                    {
+                                        @Model.DOB.Value.ToString("dd/MM/yyyy")
+                                    }
+                                    else
+                                    {
+                                        <text>Not Available </text>
+                                    }
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                        <div class="form-group">
+                            <div class="row">
+                                <label class="col-sm-5">Category  : </label>
+                                <label class="col-sm-7 labelvalue">
+                                    @(Model.Category ?? "Not Available")
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                        <div class="form-group">
+                            <div class="row">
+                                <label class="col-sm-5">Blood Group  : </label>
+                                <label class="col-sm-7 labelvalue">
+                                    @(Model.BloodGroupName ?? "Not Available")
+                                    @*@Html.DropDownListFor(model => model.BloodGroupID, new SelectList(Model.ddlBloodGroup, "id", "value"), "Select", new { @class = "custom-select" })*@
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                        <div class="form-group">
+                            <div class="row">
+                                <label class="col-sm-5">Aadhaar No  : </label>
+                                <label class="col-sm-7 labelvalue">
+                                    @(Model.AadhaarNo ?? "Not Available")
+                                    @*@Html.EditorFor(model => model.AadhaarNo, new { htmlAttributes = new { @class = "form-control", @placeholder = "Aadhaar Number", @minlength = "12", @maxlength = "12" } })*@
+                                </label>
+                                @*@Html.ValidationMessage("InValidAadhar", "", new { @class = "text-danger" })*@
+
+                                @*<label class="col-sm-7 labelvalue">
+                                        @(Model.AadhaarNo ?? "Not Available")
+                                    </label>*@
+
+                                @*<div class="input-group-append">
+                                        <input id="fileAadhaarCard" title="Upload Aadhaar Card" data-toggle="tooltip" type="file" name="files"
+                                               accept=".png,.jpg,.jpeg,.gif,.tif" style="display: none" />
+                                        <span id="imgAadhaar" class="input-group-text">Upload Aadhaar</span>
+                                    </div>*@
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                        <div class="form-group">
+                            <div class="row">
+                                <label class="col-sm-5">Pan No  : </label>
+                                <label class="col-sm-7 labelvalue">
+                                    @(Model.PANNo ?? "Not Available")
+                                    @*@Html.EditorFor(model => model.PANNo, new { htmlAttributes = new { @class = "form-control", @placeholder = "PAN Number", @minlength = "10", @maxlength = "10" } })*@
+                                </label>
+
+                                @*<label class="col-sm-7 labelvalue">
+                                        @(Model.PANNo ?? "Not Available")
+                                    </label>*@
+
+                                @*<div class="input-group-append">
+                                        <input id="filePanCard" title="Upload PAN Card" data-toggle="tooltip" type="file" name="files"
+                                               accept=".png,.jpg,.jpeg,.gif,.tif" style="display: none" />
+                                        <span id="imgPanCard" class="input-group-text">Upload PAN </span>
+                                    </div>*@
+
+                            </div>
+                        </div>
+                    </div>
+                    @*<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                            <div class="form-group">
+                                <div class="row">
+                                    <label class="col-sm-5">Professional Qualification  : </label>
+                                    <label class="col-sm-7 labelvalue">
+
+                                        @Html.DropDownListFor(model => Model.QProfessionalID, new SelectList(Model.ddlQProfessional, "id", "value"), "Select", new { @class = "custom-select", @disabled = "disabled" })
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                            <div class="form-group">
+                                <div class="row">
+                                    <label class="col-sm-5">Academic Qualification  : </label>
+                                    <label class="col-sm-7 labelvalue">
+
+                                        @Html.DropDownListFor(model => Model.QAcademicID, new SelectList(Model.ddlQAcademic, "id", "value"), "Select", new { @class = "custom-select", @disabled = "disabled" })
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                            <div class="form-group">
+                                <div class="row">
+                                    <label class="col-sm-5">Other Skills  : </label>
+                                    <label class="col-sm-7 labelvalue">
+
+                                        @Html.EditorFor(model => Model.SpecialSkills, new { htmlAttributes = new { @class = "form-control", @placeholder = "Other Skills", @maxlength = "100", @disabled = "disabled" } })
+                                    </label>
+                                </div>
+                            </div>
+                        </div>*@
+
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                        <div class="form-group">
+                            <div class="row">
+                                <label class="col-sm-5">Professional Qualification  : </label>
+                                <label class="col-sm-7 labelvalue">
+                                    @if (@Model.QualificationList != null && Model.QualificationList.Count > 0)
+                                    {
+                                        var professionalQualification = Model.QualificationList.Where(x => x.TypeID == 2).ToList();
+                                        if (professionalQualification.Count > 0)
+                                        {
+                                            var qualificationName = "";
+                                            for (int i = 0; i < professionalQualification.Count; i++)
+                                            {
+                                                qualificationName += professionalQualification[i].Value + ", ";
+                                            }
+                                            @qualificationName.Substring(0, qualificationName.Length - 2);
+                                        }
+                                        else
+                                        {
+                                            <text>Not Available</text>
+                                        }
+                                    }
+                                    else
+                                    {
+
+                                        <text>Not Available</text>
+                                    }
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                        <div class="form-group">
+                            <div class="row">
+                                <label class="col-sm-5">Academic Qualification  : </label>
+                                <label class="col-sm-7 labelvalue">
+                                    @if (@Model.QualificationList != null && Model.QualificationList.Count > 0)
+                                    {
+                                        var academicQualification = Model.QualificationList.Where(x => x.TypeID == 1).ToList();
+                                        if (academicQualification.Count > 0)
+                                        {
+                                            var qualificationName = "";
+                                            for (int i = 0; i < academicQualification.Count; i++)
+                                            {
+                                                qualificationName += academicQualification[i].Value + ", ";
+                                            }
+                                            @qualificationName.Substring(0, qualificationName.Length - 2);
+                                        }
+                                        else
+                                        {
+                                            <text>Not Available</text>
+                                        }
+                                    }
+                                    else
+                                    {
+
+                                        <text>Not Available</text>
+                                    }
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                        <div class="form-group">
+                            <div class="row">
+                                <label class="col-sm-5">Supervisor  : </label>
+                                <label class="col-sm-7 labelvalue">
+                                    @if (!string.IsNullOrEmpty(Model.SupervisorName))
+                                    {
+                                        @Model.SupervisorName
+                                    }
+                                    else
+                                    {
+                                        <text> Not Available</text>
+                                    }
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                        <div class="form-group">
+                            <div class="row">
+                                <label class="col-sm-5">Reviewer To  : </label>
+                                <label class="col-sm-7 labelvalue">
+                                    @if (!string.IsNullOrEmpty(Model.ReviewerName))
+                                    {
+                                        @Model.ReviewerName
+                                    }
+                                    else
+                                    {
+                                        <text> Not Available</text>
+                                    }
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                        <div class="form-group">
+                            <div class="row">
+                                <label class="col-sm-5">Acceptance Authority : </label>
+                                <label class="col-sm-7 labelvalue">
+                                    @if (!string.IsNullOrEmpty(Model.AcceptanceAuthorityName))
+                                    {
+                                        @Model.AcceptanceAuthorityName
+                                    }
+                                    else
+                                    {
+                                        <text> Not Available</text>
+                                    }
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="row mb-4" style="background-color: #fbfbfb;">
+
+            <div class="col-sm-12" style="background-color: #17a2b8;">
+                <h4 class="text-white m-0 pt-2 pb-2">Communication Address  : </h4>
+            </div>
+
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="row">
+                    <div class="col-xl-6 col-lg-6 col-md-5 col-sm-12" style="background-color: #fbfbfb;">
+                        <h5 class="m-0 pt-2 pb-2">Present Mailing Address</h5>
+                        <hr />
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <div class="row">
+                                        <label class="col-sm-2">Address  : </label>
+                                        <label class="col-sm-10 labelvalue">
+                                            @Html.EditorFor(model => model.PresentAddress, new { htmlAttributes = new { @class = "form-control", @placeholder = "Present Address", @maxlength = "100", @disabled = "disabled" } })
+                                            @*@(Model.PresentAddress ?? "Not Available")*@
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-6 col-lg-6 col-md-5 col-sm-12">
+                                <div class="form-group">
+                                    <div class="row">
+                                        <label class="col-sm-4">State  : </label>
+                                        <label class="col-sm-8 labelvalue">
+
+                                            @Html.DropDownListFor(model => Model.PresentStateID,
+                                           new SelectList(Model.ddlPresentState, "id", "value"),
+                                           "Select", new { @class = "custom-select", @disabled = "disabled" })
+
+                                            @*@(Model.PresentState ?? "Not Available")*@
+
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-6 col-lg-6 col-md-5 col-sm-12">
+                                <div class="form-group">
+                                    <div class="row">
+                                        <label class="col-sm-4">City  : </label>
+                                        <label class="col-sm-8 labelvalue">
+
+
+                                            @*@(Model.PresentState ?? "Not Available")*@
+                                            @Html.EditorFor(model => model.PresentCity,
+                                           new
+                                           {
+                                               htmlAttributes = new
+                                               {
+                                                   @class = "form-control",
+                                                   @placeholder = "Present City",
+                                                   @maxlength = "12",
+                                                   @disabled = "disabled"
+                                               }
+                                           })
+
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-6 col-lg-6 col-md-5 col-sm-12">
+                                <div class="form-group">
+                                    <div class="row">
+                                        <label class="col-sm-4">Pin  : </label>
+                                        <label class="col-sm-8 labelvalue">
+
+
+                                            @*@(Model.PresentPin ?? "Not Available")*@
+
+                                            @Html.EditorFor(model => model.PresentPin, new { htmlAttributes = new { @class = "form-control integerOnly", @placeholder = "Present Pin", @minlength = "6", @maxlength = "6", @disabled = "disabled" } })
+                                            @*@Html.ValidationMessageFor(model => model.PresentPin, "", new { @class = "text-danger" })*@
+
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-6 col-lg-6 col-md-5 col-sm-12">
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-6 col-lg-6 col-md-5 col-sm-12" style="background-color: #fbfbfb;">
+                        <h5 class="m-0 pt-2 pb-2">Permanent Mailing Address</h5>
+                        <hr />
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <div class="row">
+                                        <label class="col-sm-2">Address  : </label>
+                                        <label class="col-sm-10 labelvalue">
+
+                                            @*@(Model.PermanentAddress ?? "Not Available")*@
+
+                                            @Html.EditorFor(model => model.PermanentAddress, new { htmlAttributes = new { @class = "form-control", @placeholder = "Permanent Address", @maxlength = "100", @disabled = "disabled" } })
+
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-6 col-lg-6 col-md-5 col-sm-12">
+                                <div class="form-group">
+                                    <div class="row">
+                                        <label class="col-sm-4">State  : </label>
+                                        <label class="col-sm-8 labelvalue">
+
+
+                                            @Html.DropDownListFor(model => Model.PmtStateID, new SelectList(Model.ddlPermanentState, "id", "value"), "Select", new { @class = "custom-select", @disabled = "disabled" })
+                                            @*@(Model.PermanentState ?? "Not Available")*@
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-6 col-lg-6 col-md-5 col-sm-12">
+                                <div class="form-group">
+                                    <div class="row">
+                                        <label class="col-sm-4">City  : </label>
+                                        <label class="col-sm-8 labelvalue">
+
+                                            @*@(Model.PermanentState ?? "Not Available")*@
+
+                                            @Html.EditorFor(model => model.PermanentCity, new { htmlAttributes = new { @class = "form-control", @placeholder = "Permanent City", @maxlength = "12", @disabled = "disabled" } })
+
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-6 col-lg-6 col-md-5 col-sm-12">
+                                <div class="form-group">
+                                    <div class="row">
+                                        <label class="col-sm-4">Pin  : </label>
+                                        <label class="col-sm-8 labelvalue">
+
+
+                                            @*@(Model.PermanentPin ?? "Not Available")*@
+
+                                            @Html.EditorFor(model => model.PermanentPin, new { htmlAttributes = new { @class = "form-control integerOnly", @placeholder = "Permanent Pin", @maxlength = "6", @disabled = "disabled" } })
+                                            @Html.ValidationMessageFor(model => model.PermanentPin, "", new { @class = "text-danger" })
+
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-6 col-lg-6 col-md-5 col-sm-12">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row mb-4" style="background-color: #fbfbfb;">
+
+            <div class="col-sm-12" style="background-color: #17a2b8;">
+                <h4 class="text-white m-0 pt-2 pb-2">General Information</h4>
+            </div>
+
+
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+                <div class="form-group">
+                    <div class="row mt-4">
+
+                        <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-xs-12">
+
+                            <label class="col-sm-12">Branch  : </label>
+
+                        </div>
+                        <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-xs-12 labelvalue">
+
+                            @(Model.Branch ?? "Not Available")
+                        </div>
+                        <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                            <label class="col-sm-12">Department  : </label>
+
+                        </div>
+                        <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-xs-12 labelvalue">
+                            @(Model.Department ?? "Not Available")
+
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row mt-4">
+
+                        <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-xs-12">
+
+                            <label class="col-sm-12">Designation  : </label>
+
+                        </div>
+                        <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-xs-12 labelvalue">
+
+                            @(Model.Designation ?? "Not Available")
+
+                        </div>
+                        <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                            <label class="col-sm-12">Section  : </label>
+
+                        </div>
+                        <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-xs-12 labelvalue">
+                            @(Model.Section ?? "Not Available")
+
+                        </div>
+
+                    </div>
+                </div>
+
+
+
+                <div class="form-group">
+                    <div class="row mt-4">
+
+                        <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-xs-12">
+
+                            <label class="col-sm-12">File No.  : </label>
+
+                        </div>
+                        <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-xs-12 labelvalue">
+
+                            @(Model.FileNo ?? "Not Available")
+
+                        </div>
+                        <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                            <label class="col-sm-12">ID Mark  : </label>
+
+                        </div>
+                        <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-xs-12 labelvalue">
+                            @(Model.IDMark ?? "Not Available")
+                            @*@Html.EditorFor(model => model.IDMark, new { htmlAttributes = new { @class = "form-control", @placeholder = "ID Mark", @maxlength = "50" } })*@
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row mt-4">
+
+                        <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-xs-12">
+
+                            <label class="col-sm-12">Nominee  : </label>
+
+                        </div>
+                        <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-xs-12 labelvalue">
+
+                            @(Model.Nominee ?? "Not Available")
+
+                        </div>
+                        <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                            <label class="col-sm-12">Relation  : </label>
+
+                        </div>
+                        <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-xs-12 labelvalue">
+                            @(Model.Relation ?? "Not Available")
+
+                        </div>
+
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    <div class="row mt-4">
+
+                        <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-xs-12">
+
+                            <label class="col-sm-12">Pay Scale  : </label>
+
+                        </div>                       
+                        @*<div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-xs-12 font-weight-bold">
+                            <p style="word-break: break-all">@(Model.PayScale ?? "Not Available")</p>
+                        </div>*@
+                        <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-xs-12 labelvalue label-ellipsis" data-toggle="tooltip" title="@Model.PayScale">
+
+                            @(Model.PayScale ?? "Not Available")
+
+                        </div>
+                        <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                            <label class="col-sm-12">Increment Month  : </label>
+                        </div>
+                        <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-xs-12 labelvalue">
+                            @if (Model.IncrementMonth.HasValue)
+                            {
+                                if (Model.IncrementMonth.Value == 1)
+                                {
+                                    <text>  January </text>
+                                }
+                                if (Model.IncrementMonth.Value == 7)
+                                {
+                                    <text>  July </text>
+                                }
+                            }
+                            else
+                            {
+                                <text>  Not Available </text>
+                            }
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row mt-4">
+
+                        <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-xs-12">
+
+                            <label class="col-sm-12">Seniority Code  : </label>
+
+                        </div>
+                        <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-xs-12 labelvalue">
+
+                            @if (Model.Sen_Code.HasValue)
+                            {
+                                @Model.Sen_Code.Value
+                            }
+                            else
+                            {
+                                <text>  Not Available </text>
+                            }
+                        </div>
+                        <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                            <label class="col-sm-12">Passport No. : </label>
+
+                        </div>
+                        <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-xs-12 labelvalue">
+                            @(Model.PassportNo ?? "Not Available")
+                            @*@Html.EditorFor(model => Model.PassportNo, new { htmlAttributes = new { @class = "form-control", @placeholder = "Passport Number", @maxlength = "12" } })*@
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="row mb-4" style="background-color: #fbfbfb;">
+
+            <div class="col-sm-12" style="background-color: #17a2b8;">
+                <h4 class="text-white m-0 pt-2 pb-2">Other Information</h4>
+            </div>
+
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+                <div class="form-group">
+                    <div class="row mt-4">
+
+                        <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-xs-12">
+
+                            <label class="col-sm-12">PF No  : </label>
+
+                        </div>
+                        <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-xs-12 labelvalue">
+
+                            @*@Html.EditorFor(model => model.PFNo, new { htmlAttributes = new { @class = "form-control", @type = "number", @placeholder = "PF Number", onKeyPress = "if(this.value.length==6) return false;" } })*@
+                            @if (Model.PFNo != null)
+                            {
+                                @Model.PFNo
+                            }
+                            else
+                            {
+                                <text> Not Available</text>
+                            }
+                        </div>
+                        <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                            <label class="col-sm-12">ACR No  : </label>
+
+                        </div>
+                        <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-xs-12 labelvalue">
+                            @(Model.ACRNo ?? "Not Available")
+
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row mt-4">
+
+                        <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-xs-12">
+
+                            <label class="col-sm-12">UAN No  : </label>
+
+                        </div>
+                        <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-xs-12 labelvalue">
+
+                            @if (!string.IsNullOrEmpty(Model.UANNo))
+                            {
+                                @Model.UANNo
+                            }
+                            else
+                            {
+                                <text>Not Available</text>
+                            }
+
+                            @*@Html.EditorFor(model => model.UANNo, new { htmlAttributes = new { @class = "form-control integerOnly", @placeholder = "UAN No", @minlength = "12", @maxlength = "12" } })*@
+
+
+                        </div>
+                        <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                            <label class="col-sm-12">First Date of Joining : </label>
+
+                        </div>
+                        <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-xs-12 labelvalue">
+                            @Model.DOJ.ToString("dd/MM/yyyy")
+
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row mt-4">
+
+                        <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-xs-12">
+
+                            <label class="col-sm-12">Bank  : </label>
+
+                        </div>
+                        <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-xs-12 labelvalue">
+
+                            @(Model.Bank ?? "Not Available")
+
+                        </div>
+                        <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                            <label class="col-sm-12">Bank Account No  : </label>
+
+                        </div>
+                        <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-xs-12 labelvalue">
+                            @(Model.BankAccountNo ?? "Not Available")
+
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row mt-4">
+
+                        <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                            IFSC Code  :
+                        </div>
+                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12 labelvalue">
+                            @(Model.IFSCCode ?? "Not Available")
+                        </div>
+                        <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                            Pension No.  :
+                        </div>
+                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12 labelvalue">
+                            @(Model.PensionNumber ?? "Not Available")
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row mt-4">
+
+                        <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                            EPFO Member ID  :
+                        </div>
+                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12 labelvalue">
+                            @(Model.EPFOMemberID ?? "Not Available")
+                        </div>
+                        <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12 col-xs-12">
+
+                        </div>
+                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12 labelvalue">
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        if (Model.certifications != null && Model.certifications.Count > 0)
+        {
+            <div class="row mb-4" style="background-color: #fbfbfb;">
+
+                <div class="col-sm-12" style="background-color: #17a2b8;">
+                    <h4 class="text-white m-0 pt-2 pb-2">Certification</h4>
+                </div>
+
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+                    <div class="row">
+
+
+
+                        @foreach (var item in Model.certifications)
+                    {
+                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+
+                                <div class="card mt-2 mb-0">
+
+                                    <div class="card-header">
+
+                                        <h5>
+                                            @(Model.certifications.IndexOf(item) + 1). @*<i class="fas fa-certificate"></i>*@ @item.CertificationName
+                                        </h5>
+                                    </div>
+
+                                    <div class="card-body pb-0" style="max-height:300px;min-height:300px; overflow-y:auto;">
+
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 p-0">
+
+                                            <div class="form-group">
+
+                                                <div class="row">
+
+                                                    <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12 col-xs-12">
+
+                                                        Date of Achievement :
+
+                                                    </div>
+
+                                                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12">
+
+                                                        <b>
+                                                            @item.DateOfIssue.Value.ToString("dd/MM/yyyy")
+                                                        </b>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+
+                                            @if (!string.IsNullOrEmpty(item.CertificationRemark))
+                                            {
+                                                <div class="form-group">
+
+                                                    <b>
+                                                        @Html.Raw(item.CertificationRemark)
+                                                    </b>
+                                                </div>
+                                            }
+
+                                            @if (item.documents.Count > 0)
+                                            {
+
+                                                <div class="form-group">
+
+                                                    <div class="form-group">
+
+                                                        Documents :
+
+                                                        <ul style="list-style-type:disc;">
+
+                                                            @foreach (var doc in item.documents)
+                                                            {
+                                                                <li>
+                                                                    <a href=@Url.Action("DownloadFile", "Base", new { sFileName = doc.DocumentFilePath, sFileFullPath = doc.DocumentUNCPath })>
+
+
+                                                                        <span class="fm_file" aria-hidden="true" f_name="@doc.DocumentFilePath"></span>
+
+                                                                        @doc.DocumentTitle
+                                                                    </a>
+                                                                </li>
+                                                            }
+
+                                                        </ul>
+
+                                                    </div>
+
+
+                                                </div>
+                                            }
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        }
+                    </div>
+
+                </div>
+
+
+            </div>
+        }
+
+        if (Model.achievements != null && Model.achievements.Count > 0)
+        {
+            <div class="row mb-4" style="background-color: #fbfbfb;">
+
+                <div class="col-sm-12" style="background-color: #17a2b8;">
+                    <h4 class="text-white m-0 pt-2 pb-2">Achievement</h4>
+                </div>
+
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+                    <div class="row">
+
+                        @foreach (var item in Model.achievements)
+                        {
+                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+
+                                <div class="card mt-2 mb-0">
+
+                                    <div class="card-header">
+
+                                        <h5>
+                                            @(Model.achievements.IndexOf(item) + 1). @*<i class="fas fa-certificate"></i>*@ @item.AchievementName
+                                        </h5>
+                                    </div>
+
+                                    <div class="card-body pb-0" style="max-height:300px;min-height:300px; overflow-y:auto;">
+
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 p-0">
+
+                                            <div class="form-group">
+
+                                                <div class="row">
+
+                                                    <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12 col-xs-12">
+
+                                                        Date of Achievement :
+
+                                                    </div>
+
+                                                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12">
+
+                                                        <b>
+                                                            @item.DateOfAchievement.Value.ToString("dd/MM/yyyy")
+                                                        </b>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+
+                                            @if (!string.IsNullOrEmpty(item.AchievementRemark))
+                                            {
+                                                <div class="form-group">
+
+                                                    <b>
+                                                        @Html.Raw(item.AchievementRemark)
+                                                    </b>
+                                                </div>
+                                            }
+
+                                            @if (item.documents.Count > 0)
+                                            {
+
+                                                <div class="form-group">
+
+                                                    <div class="form-group">
+
+                                                        Documents :
+
+                                                        <ul style="list-style-type:disc;">
+
+                                                            @foreach (var doc in item.documents)
+                                                            {
+                                                                <li>
+                                                                    <a href=@Url.Action("DownloadFile", "Base", new { sFileName = doc.DocumentFilePath, sFileFullPath = doc.DocumentUNCPath })>
+
+
+                                                                        <span class="fm_file" aria-hidden="true" f_name="@doc.DocumentFilePath"></span>
+
+                                                                        @doc.DocumentTitle
+                                                                    </a>
+                                                                </li>
+                                                            }
+
+                                                        </ul>
+
+                                                    </div>
+
+
+                                                </div>
+                                            }
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        }
+                    </div>
+
+                </div>
+
+
+            </div>
+        }
+        <div class="form-group">
+            <span class="pull-right">
+                @*@Html.ActionLink("Back to Profile View", "Index", new { employeeID = Model.EmployeeID }, new { @class = "btn btn-dark btn-md pull-center toggle-tooltip", @title = "Click here, to redirect on profile page" })*@
+                @Html.EncodedActionLink("Back to Profile View", "Index", "EmployeeProfile", new { employeeID = Model.EmployeeID }, new { @class = "btn btn-dark btn-md pull-center toggle-tooltip", @title = "Click here, to redirect on profile page" })
+
+                
+                <input type="submit" value="Update" class="btn btn-info btn-md pull-center toggle-tooltip" title="Click here, to update profile" />
+            </span>
+        </div>
+
+       
+
+
+
+
+
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Pan No - </h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body text-center">
+                        <img id="idproof" height="200" width="400" src="~/Images/PANNO/SamplePAN_Card.jpg" />
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="modal fade" id="exampleModal_1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel_1" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Profile Image - </h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body text-center">
+                        @*<img id="idproof" height="200" width="400" src="~/Images/Profile/DefaultUser.png" />*@
+
+
+                        <div class="input-group-append">
+
+                            @Html.TextBox("files", "", new { type = "file", @class = "custom-file-input", @id = "inputGroupFile01", @accept = ".pdf,.jpeg,.jpg" })
+                            <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+
+                            @*<input id="fileProfilePic" title="Upload Profile Photo" data-toggle="tooltip" type="file" name="files"
+                                  accept=".png,.jpg,.jpeg,.gif,.tif" style="display: none" />
+
+                                <span id="imgProfilePhoto" class="input-group-text">Change Profile Photo </span>*@
+
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+
+                        <input type="submit" value="Submit" class="btn btn-primary" />
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    }
+</div>
+<script type="text/javascript">
+
+        $('.fm_file').each(function (idx) {
+            var ext = $(this).attr('f_name').split('.').pop().toLowerCase();
+            if(ext=="pdf")
+                $(this).addClass('text-danger fas fa-file-pdf');
+            else if(ext=="doc" || ext=="docx")
+                $(this).addClass('text-info fas fa-file-word');
+            else if(ext=="xls" || ext=="xlsx")
+                $(this).addClass('text-info fas fa-file-excel');
+            else if(ext=="jpg" || ext=="jpeg" || ext=="png")
+                $(this).addClass('text-info fas fa-file-image');
+        });
+
+</script>

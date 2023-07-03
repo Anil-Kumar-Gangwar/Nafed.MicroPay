@@ -1,0 +1,41 @@
+﻿@using Nafed.MicroPay.Model
+@model CommonFilter
+
+<div class="row">
+    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+        <fieldset class="border p-2 col-md-12 col-xs-12 col-lg-12 col-xl-12">
+            <legend style="font-size:1.3rem !important;" class="w-auto">Select Report</legend>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                        @Html.RadioButtonFor(model => model.ReportType,"1", new { id = "rpt1",@checked=true })
+
+                        @Html.Label("Salary Report", htmlAttributes: new { @class = "control-label", @for = "rpt1" })
+                    </div>
+
+                    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                        @Html.RadioButtonFor(model => model.ReportType, "2", new { id = "rpt2" })
+
+                        @Html.Label("DA Report", htmlAttributes: new { @class = "control-label", @for = "rpt2" })
+                    </div>
+
+                    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                        @Html.RadioButtonFor(model => model.ReportType, "3", new { id = "rpt3" })
+
+                        @Html.Label("Pay Arrear Report", htmlAttributes: new { @class = "control-label", @for = "rpt3" })
+                    </div>
+
+                    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                        @Html.RadioButtonFor(model => model.ReportType, "4", new { id = "rpt4" })
+
+                        @Html.Label("PF Report", htmlAttributes: new { @class = "control-label", @for = "rpt4" })
+                    </div>
+                </div>
+
+                <span class="pull-right">
+                    <input type="submit" value="Go" class="btn btn-info btn-md pull-center toggle-tooltip" title="Click here, to rediect selected report" name="ButtonType" />
+                </span>
+            </div>
+        </fieldset>
+    </div>
+</div>

@@ -1,0 +1,58 @@
+﻿@model MicroPay.Web.Models.APARSkillSetViewModel
+@using MvcCheckBoxList.Model
+@{
+    ViewBag.Title = "Update Skill Remark";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-12">
+        <div class="form-group">
+            <div class="row">
+                <div class="col-lg-2 col-md-2 col-sm-12">
+                    @Html.LabelFor(model => model.APARSkillSet.DepartmentID, htmlAttributes: new { @class = "control-label required" })
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-12 h5 pl-lg-0">
+                    @Html.DropDownListFor(model => model.APARSkillSet.DepartmentID, new SelectList(Model.DepartmentList, "id", "value"), new { @class = "custom-select", onChange = "GetSkillRemark();" })
+                    @Html.ValidationMessageFor(model => model.APARSkillSet.DepartmentID, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@using (Ajax.BeginForm("UpdateSkillRemarks", "APARSkillsSet",new AjaxOptions { HttpMethod="POST", OnSuccess= "OnSuccessSkill" } ))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    <div id="div-Remark-Grid">
+
+
+    </div>
+
+    <div class="row pull-right">
+        @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-light btn-md toggle-tooltip mr-1", @title = "Click here, to redirect on list page" })
+        <input type="submit" value="Update" class="btn btn-info btn-md  toggle-tooltip" title="Click here, to update Remarks" />
+
+    </div>
+                }
+
+<script type="text/javascript">
+    function OnSuccessSkill(data) {
+        if (data.msgType == "success") {
+            commonMessage(data.msgType, data.msg);         
+        }
+    }
+    function GetSkillRemark() {
+        debugger;     
+        var departID = $("#APARSkillSet_DepartmentID").val() == "0" ? null : $("#APARSkillSet_DepartmentID").val();                  
+        jQuery.get("@Url.Action("GetSkillRemark", "APARSkillsSet")", {
+            departmentID: departID
+        }).done(function (data) {
+           
+                $("#div-Remark-Grid").html(data.htmlData);
+            
+        });
+    }
+
+</script>

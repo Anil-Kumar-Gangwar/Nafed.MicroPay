@@ -1,0 +1,612 @@
+﻿@model MicroPay.Web.Models.TrainingViewModel
+@using MvcCheckBoxList.Model
+@using Nafed.MicroPay.Model
+
+@{
+    var visibilityClass = Model._Training.TrainingType == 2 ? "hide" : null;
+    var visibilityFunctionalClass = Model._Training.TrainingType == 3 ? "hide" : null;
+    var Status = Model._Training.TrainingStatus;
+
+    var distributedTimeSlotVisibilityClass = Model._Training.enumTimeSlotType == EnumTimeSlotType.Distributed ? null : "hide";
+    var standardTimeSlotVisibilityClass = Model._Training.enumTimeSlotType == EnumTimeSlotType.Standard ? null : "hide";
+
+}
+
+<div class="row" style="margin-top:10px;">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-12">
+        @using (Ajax.BeginForm("GenerateGeneralTab", "Training", new AjaxOptions
+        {
+            HttpMethod = "POST",
+            UpdateTargetId = "general",
+            OnSuccess = "GeneralSuccess"
+        }, new { defaultbutton = "submitform" }))
+        {
+            @Html.AntiForgeryToken()
+
+            @Html.HiddenFor(model => Model._Training.TrainingID)
+            <div class="panel panel-default">
+                <div class="panel-heading">Training Calendar</div>
+                <div class="panel-body">
+
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                @Html.LabelFor(model => model._Training.TrainingTitle, new { @class = "label-control required" })
+                            </div>
+
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+
+                                @Html.EditorFor(model => model._Training.TrainingTitle, new { htmlAttributes = new { @class = "form-control required", @maxLength = "200" } })
+                                @Html.ValidationMessage("TrainingTitleValidator", "", new { @class = "text-danger" })
+                            </div>
+                            </div>
+                        </div>
+                    <div class="form-group">
+                        <div class="row">
+
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                @Html.LabelFor(model => model._Training.enumResidentialNonResidential, htmlAttributes: new { @class = "control-label required" })
+                            </div>
+
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                @Html.EnumDropDownListFor(model => model._Training.enumResidentialNonResidential, "Select", new { @class = "custom-select" })
+                                @Html.ValidationMessageFor(m => Model._Training.enumResidentialNonResidential, "", new { @class = "text-danger" })
+                                @*<div class="container-fluid">
+
+                        <div class="custom-control custom-radio">
+
+                            @Html.RadioButtonFor(model => model._Training.enumOrientationOrOnBoardTaining, "Orientation", new { id = "Orientation" })
+                            @Html.LabelFor(model => model._Training.OrientationTraining, new { @for = "Orientation" })
+
+                            <br />
+                            @Html.RadioButtonFor(model => model._Training.enumOrientationOrOnBoardTaining, "OnBoard", new { id = "OnBoard" })
+                            @Html.LabelFor(model => model._Training.OnBoardTraining, new { @for = "OnBoard" })
+
+                            <br />
+                            @Html.ValidationMessageFor(m => Model._Training.enumOrientationOrOnBoardTaining, "", new { @class = "text-danger" })
+
+                        </div>
+                    </div>*@
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                @Html.LabelFor(model => model._Training.enumTrainingList, htmlAttributes: new { @class = "control-label required" })
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                @Html.EnumDropDownListFor(model => model._Training.enumTrainingList, "Select", new { @class = "custom-select" })
+                                @Html.ValidationMessageFor(m => Model._Training.enumTrainingList, "", new { @class = "text-danger" })
+
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                @Html.LabelFor(model => model._Training.ModeofTraining, new { @class = "label-control" })
+                            </div>
+
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+
+                                @Html.TextBoxFor(model => model._Training.ModeofTraining, new { @class = "form-control", @maxlength = "100" })
+                                @Html.ValidationMessageFor(model => model._Training.ModeofTraining, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                   
+
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                @Html.LabelFor(model => model._Training.StartDate, new { @class = "label-control required" })
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                @Html.TextBoxFor(model => model._Training.StartDate, String.Format("{0:dd/MM/yyyy}", Model._Training.StartDate), new { @type = "text", @class = "form-control datepicker", @id = "fromdate", @placeholder = "dd/mm/yyyy",@autocomplete="off" })
+                                @Html.ValidationMessageFor(model => model._Training.StartDate, "", new { @class = "text-danger" })
+                                @Html.ValidationMessage("StartDateValidator", "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                @Html.LabelFor(model => model._Training.EndDate, new { @class = "label-control required" })
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                @Html.TextBoxFor(model => model._Training.EndDate, String.Format("{0:dd/MM/yyyy}", Model._Training.EndDate), new { @type = "text", @class = "form-control datepicker", @id = "todate", @placeholder = "dd/mm/yyyy", @autocomplete = "off" })
+                                @Html.ValidationMessageFor(model => model._Training.EndDate, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                @Html.LabelFor(model => model._Training.NominationDate, new { @class = "label-control" })
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                @Html.TextBoxFor(model => model._Training.NominationDate, String.Format("{0:dd/MM/yyyy}", Model._Training.NominationDate), new { @type = "text", @class = "form-control datepicker", @id = "NominationDate", @placeholder = "dd/mm/yyyy", @autocomplete = "off" })
+                                @Html.ValidationMessage("NominationDateValidator", "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                @Html.Label("Time Slot Type", new { @class = "label-control required" })
+                            </div>
+
+                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                <div class="row">
+
+                                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                        @if (Model._Training.enumTimeSlotType == EnumTimeSlotType.Distributed)
+                                        {
+                                            <script type="text/javascript">
+                                                $("#dv-standard-timeSlot").addClass("hide");
+                                                $("#div-distributed-timeSlot").removeClass("hide");
+                                                
+                                            </script>
+                                        }
+                                        else
+                                        {
+                                            <script type="text/javascript">
+                                                $("#dv-standard-timeSlot").removeClass("hide");
+                                                $("#div-distributed-timeSlot").addClass("hide");
+                                            </script>
+                                        }
+
+                                        @Html.RadioButtonFor(model => model._Training.enumTimeSlotType, "Standard", new { id = "Standard", @trainingID = Model._Training.TrainingID })
+                                        @Html.LabelFor(model => model._Training.StandardTimeSlot, new { @for = "Standard" })
+
+                                    </div>
+                                    <div class="col-sm-4">
+
+                                        @Html.RadioButtonFor(model => model._Training.enumTimeSlotType, "Distributed", new { id = "Distributed", @trainingID = Model._Training.TrainingID })
+                                        @Html.LabelFor(model => model._Training.DistributedTimeSlot, new { @for = "Distributed" })
+
+                                    </div>
+                                </div>
+                                <div class="row font-italic pl-2 font-weight-bold">
+                                    (Note: Before selecting distribute time slot choose start date and end date.)
+                                </div>
+                                </div>
+
+                            <div id="dv-standard-timeSlot" class="col-lg-6 col-md-6 col-sm-12 col-xs-12 @standardTimeSlotVisibilityClass">
+
+                                <div class="row">
+
+                                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+
+                                        @Html.Label("Time", new { @class = "label-control required" })
+                                    </div>
+                                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+
+                                        @Html.EditorFor(model => model._Training.StartDateFromTime, new { htmlAttributes = new { @class = "form-control", @type = "time" } })
+                                        @Html.ValidationMessageFor(model => model._Training.StartDateFromTime, "", new { @class = "text-danger" })
+
+
+                                    </div>
+                                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+
+                                        @Html.EditorFor(model => model._Training.StartDateToTime, new { htmlAttributes = new { @class = "form-control", @type = "time" } })
+                                        @Html.ValidationMessageFor(model => model._Training.StartDateToTime, "", new { @class = "text-danger" })
+                                    </div>
+
+                                </div>
+                            </div>
+
+
+                            @*<div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+
+                                    @Html.Label("Time", new { @class = "label-control required" })
+
+                                </div>*@
+
+                            @*<div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+
+                                   @Html.EditorFor(model => model._Training.StartDateFromTime, new { htmlAttributes = new { @class = "form-control", @type = "time" } })
+                                   @Html.ValidationMessageFor(model => model._Training.StartDateFromTime, "", new { @class = "text-danger" })
+
+                                </div>*@
+
+                            @*<div class="col-lg-1 col-md-2 col-sm-12 col-xs-12">
+                                    @Html.LabelFor(model => model._Training.StartDateToTime, new { @class = "label-control" })
+                                </div>*@
+
+                            @*<div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                    @Html.EditorFor(model => model._Training.StartDateToTime, new { htmlAttributes = new { @class = "form-control", @type = "time" } })
+                                    @Html.ValidationMessageFor(model => model._Training.StartDateToTime, "", new { @class = "text-danger" })
+                                </div>*@
+
+                            @*<div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+                                    @Html.LabelFor(model => model._Training.EndDateFromTime, new { @class = "label-control" })
+                                </div>*@
+
+                            @*<div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                    @Html.EditorFor(model => model._Training.EndDateFromTime, new { htmlAttributes = new { @class = "form-control", @type = "time" } })
+                                    @Html.ValidationMessageFor(model => model._Training.EndDateFromTime, "", new { @class = "text-danger" })
+                                </div>*@
+
+                            @*<div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                    @Html.LabelFor(model => model._Training.EndDateToTime, new { @class = "label-control" })
+                                </div>*@
+
+                            @*<div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                    @Html.EditorFor(model => model._Training.EndDateToTime, new { htmlAttributes = new { @class = "form-control", @type = "time" } })
+                                    @Html.ValidationMessageFor(model => model._Training.EndDateToTime, "", new { @class = "text-danger" })
+                                </div>*@
+                        </div>
+                    </div>
+
+                    <div class="form-group @distributedTimeSlotVisibilityClass" id="div-distributed-timeSlot">
+
+                        <div class="panel panel-default">
+                            <div class="panel-heading">Date Wise Time Slot</div>
+                            <div class="panel-body">
+
+                                <div class="row">
+
+                                    <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12" id="dv-time-lst">
+
+                                        @Html.Partial("_DistributedTimeSlot", Model)
+
+                                    </div>
+
+                                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+
+                                        <div class="panel panel-default">
+                                            <div class="panel panel-heading">
+
+                                                Add More Time Slot
+                                            </div>
+
+                                            <div class="panel-body pt-0" id="dv-AddMore-TimeSlot">
+
+                                                @if (Model._Training.TrainingDates != null && Model._Training.TrainingDates.Count > 0)
+                                                {
+                                                    @Html.Partial("_AddMoreTimeSlot", Model)
+                                                }
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                @Html.LabelFor(model => model._Training.TrainingType, new { @class = "label-control required" })
+                            </div>
+
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                @Html.DropDownListFor(model => model._Training.TrainingType, new SelectList(Model.ddlTrainningType, "id", "value"), "Select", new { @id = "ddlTrainingType", @class = "custom-select" })
+                                @Html.ValidationMessageFor(model => model._Training.TrainingType, "", new { @class = "text-danger" })
+                            </div>
+                            
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 mb-2">
+                                @Html.Label("Training Topic", htmlAttributes: new { @class = "control-label required" })
+                                @Html.ValidationMessage("SkillValidator", "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 m-3 p-2" style="max-height:200px;overflow-y:scroll; border: 1px solid #ced4da; border-radius:3px;">
+                                <div class="pull-left col-lg-6 col-md-6 col-sm-6 col-xs-12 mb-2 showhideBehavioral @visibilityFunctionalClass">
+                                    @Html.CheckBoxListFor(model => model.CheckBoxListBehavioral.PostedFields.fieldIds,
+                                     model => model.CheckBoxListBehavioral.AvailableFields,
+                                     model => model.Id,
+                                     model => model.Name,
+                                     model => model.CheckBoxListBehavioral.SelectedFields,
+                                     position: Position.Vertical)
+
+                                </div>
+                                <div class="pull-left col-lg-6 col-md-6 col-sm-6 col-xs-12 mb-2 showhideFunctional @visibilityClass">
+
+                                    @Html.CheckBoxListFor(model => model.CheckBoxListFunctional.PostedFields.fieldIds,
+                                model => model.CheckBoxListFunctional.AvailableFields,
+                                model => model.Id,
+                                model => model.Name,
+                                model => model.CheckBoxListFunctional.SelectedFields,
+                                position: Position.Vertical)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                @Html.LabelFor(model => model._Training.OtherTopic, new { @class = "label-control" })
+                            </div>
+
+                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                @Html.EditorFor(model => model._Training.OtherTopic, new { htmlAttributes = new { @class = "form-control", @maxLength = "100" } })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 required">
+                                @Html.LabelFor(model => model._Training.TrainingObjective, new { @class = "label-control" })
+                            </div>
+
+                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+
+                                @Html.TextAreaFor(model => model._Training.TrainingObjective, new { @class = "form-control", @style = "min-height:50px;max-height:100px;", @maxlength = "1000", @cols = "50", @rows = "10" })
+                                @Html.ValidationMessageFor(model => model._Training.TrainingObjective, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                @Html.LabelFor(model => model._Training.TrainingContent, new { @class = "label-control" })
+                            </div>
+
+                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+
+                                @Html.TextAreaFor(model => model._Training.TrainingContent, new { @class = "form-control", @style = "min-height:50px;max-height:100px;", @maxlength = "1000", @cols = "50", @rows = "10" })
+                                @Html.ValidationMessageFor(model => model._Training.TrainingContent, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-12-col-xs-12 pull-left">
+                            <div class="deceased">
+                                <div class="row ml-0"> <h5>Venue</h5></div>
+                                <div class="row border-top m-1">
+                                    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12  mb-2 mt-4 required">
+                                        @Html.LabelFor(model => model._Training.Address, htmlAttributes: new { @class = "control-label " })
+                                    </div>
+
+                                    <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12 mb-2 mt-4">
+                                        @Html.TextAreaFor(model => model._Training.Address, new { @class = "form-control", @style = "height:60px;max-height:100px;", @maxlength = "1000", @cols = "50", @rows = "5" })
+                                        @Html.ValidationMessage("AddressValidator", "", new { @class = "text-danger" })
+
+                                    </div>
+                                    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 required mtb-2">
+                                        @Html.LabelFor(model => model._Training.StateID, htmlAttributes: new { @class = "control-label " })
+                                    </div>
+                                    <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12 mb-2">
+                                        @Html.DropDownListFor(model => model._Training.StateID, (IEnumerable<SelectListItem>)ViewBag.ddlState, new { @class = "custom-select" })
+                                        @Html.ValidationMessageFor(model => model._Training.StateID, "", new { @class = "text-danger" })
+
+                                    </div>
+                                    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 required mb-2">
+                                        @Html.LabelFor(model => model._Training.City, htmlAttributes: new { @class = "control-label" })
+                                    </div>
+                                    <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12 mb-2">
+                                        @Html.EditorFor(model => model._Training.City, new { htmlAttributes = new { @class = "form-control", @maxlength = "100" } })
+                                        @Html.ValidationMessage("CityValidator", "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-2">
+                                        @Html.LabelFor(model => model._Training.PinCode, htmlAttributes: new { @class = "control-label" })
+
+                                    </div>
+                                    <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+                                        @Html.EditorFor(model => model._Training.PinCode, new { htmlAttributes = new { @class = "form-control integerOnly", @maxlength = "6" } })
+                                        @Html.ValidationMessage("PinCodeValidator", "", new { @class = "text-danger" })
+                                        @Html.ValidationMessageFor(model => model._Training.PinCode, "", new { @class = "text-danger" })
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="col-lg-6 col-md-6 col-sm-12-col-xs-12 pull-right ">
+                            
+                            <div class="deceased">
+                                <div class= "row ml-0"> <h5>Training Cost</h5></div>
+                                <div class="row border-top m-1">
+                                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2 mt-4">
+                                        @Html.LabelFor(model => model._Training.TrainingCost, htmlAttributes: new { @class = "control-label" })
+                                    </div>
+                                    <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 mb-2 mt-4">
+                                        @Html.EditorFor(model => model._Training.TrainingCost, new { htmlAttributes = new { @class = "form-control integerOnly text-right", @maxlength = "10" } })
+
+                                    </div>
+
+                                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2">
+                                        @Html.LabelFor(model => model._Training.PostTrainingInvesment, htmlAttributes: new { @class = "control-label" })
+
+                                    </div>
+                                    <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 mb-2">
+                                        @Html.EditorFor(model => model._Training.PostTrainingInvesment, new { htmlAttributes = new { @class = "form-control integerOnly text-right", @maxlength = "6" } })
+
+                                    </div>
+                                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2">
+                                        @Html.LabelFor(model => model._Training.Remark, htmlAttributes: new { @class = "control-label" })
+                                    </div>
+                                    <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                                        @Html.TextAreaFor(model => model._Training.Remark, new { @class = "form-control", @style = "height:60px;max-height:100px;", @maxlength = "1000", @cols = "50", @rows = "5" })
+
+
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+
+                    </div>
+                </div>
+                <div class="panel-footer p-2 border-lightTraining Topic">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-right">
+                        @if (Model._Training.TrainingStatus == null)
+                        {
+                            @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-light btn-md toggle-tooltip", @title = "Click here, to redirect on list page" })
+                        }
+                        @if (Model.TrainingStatus != 3 && Model.TrainingStatus != 4 && Model.TrainingStatus != 2)
+                        {
+                            <input type="submit" value="Save" class="btn btn-info btn-md pull-center toggle-tooltip" title="" />
+                        }
+                    </div>
+                </div>
+
+            </div>
+        }
+    </div>
+</div>
+
+@if (Status != null)
+{
+    <div class="panel panel-default" style="margin-top:10px;">
+        <div class="panel-heading">Trainer Detail</div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-12" id="Tab3">
+                    @Html.Action("_EditTrainerDetails", "Training", new { trainingID = Model._Training.TrainingID })
+                </div>
+            </div>
+        </div>
+    </div>
+}
+@if (Status != null)
+{
+    <div class="panel panel-default" style="margin-top:10px;">
+        <div class="panel-heading">Status</div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-2 mb-12">
+                    @if (Model._Training.TrainingStatus == (int)EnumTrainingStatus.Planned)
+                    {
+                        <span class="badge badge-pill badge-info col-md-2 p-2">Planned </span>
+                    }
+                    @if (Model._Training.TrainingStatus == (int)EnumTrainingStatus.Schedule)
+                {
+                        <span class="badge badge-pill badge-info col-md-2 p-2">Scheduled </span>
+                    }
+                    else if (Model._Training.TrainingStatus == (int)EnumTrainingStatus.Completed)
+                    {
+                        <span class="badge badge-pill badge-success col-md-2 p-2">Completed</span>
+                    }
+                    else if (Model._Training.TrainingStatus == (int)EnumTrainingStatus.Cancel)
+                    {
+                        <span class="badge badge-pill badge-danger col-md-2 p-2">Cancel</span>
+                    }
+                    else if (Model._Training.TrainingStatus == (int)EnumTrainingStatus.Reschedule)
+                    {
+                        <span class="badge badge-pill badge-warning col-md-2 p-2">Reschedule</span>
+                    }
+                </div>
+                @*<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-12" id="Tab6" >
+                        @Html.Action("_EditTrainingStatus", "Training", new { trainingID = Model._Training.TrainingID })
+                    </div>*@
+            </div>
+        </div>
+    </div>
+}
+@if (Model._Training.TrainingStatus != null)
+{
+    <div class="form-group">
+        <span class="pull-right">
+            @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-light btn-md toggle-tooltip", @title = "Click here, to redirect on list page" })
+        </span>
+    </div>
+}
+<style>
+    .deceased {
+    background-color: #F5F5F5;
+    padding: 10px;
+    min-height:255px;
+}
+
+</style>
+
+<script type="text/javascript">
+    $(document).on("click", "#btnAddMoreSlot", function () {
+
+        jQuery.post('@Url.Action("AddMoreTimeSlot", "Training")',
+                {
+                    date: $("#ddl_dates option:selected").text(), frmTime: $("#FromTime").val(), toTime: $("#ToTime").val()
+                }).done(function (data) {
+                    if (data.msgType == "error") {
+                        $("#dv-AddMore-TimeSlot").empty().html(data.htmlData);
+                    }
+                    else {
+                        var newtRow = $(data).find('table tbody tr:last');
+                        var i = $($(data).find('table')).attr('addedRowIndex');
+                        $('#tblTimeSlots tbody tr:nth-child(' + (i) + ')').after(newtRow);
+
+                        $('#tblTimeSlots tbody tr').each(function (index) {
+                            var _idx = index;
+                            $(this).find('td:first-child').html(_idx + 1);
+                        });
+
+                        //   $(newtRow).appendTo("#tblTimeSlots tbody");
+                        //  $("#dv-time-lst").empty().html(data);
+                        $("#ddl_dates").val('0');
+                        $("#FromTime,#ToTime").val('');
+                    }
+
+                });
+
+    });
+
+    $("input[type=radio][name='_Training.enumTimeSlotType']").change(function () {
+        var checkedRadio = this.value; //alert($("#selectedEmployeeID").val());
+
+        if (checkedRadio == 'Standard') {
+            $("#dv-standard-timeSlot").removeClass("hide");
+            $("#div-distributed-timeSlot").addClass("hide");
+        }
+        else {
+            $("#dv-standard-timeSlot").addClass("hide");
+            $("#div-distributed-timeSlot").removeClass("hide");
+
+            var fromDate = $("#fromdate").val();
+            var toDate = $("#todate").val();
+            var trainingID = $(this).attr('trainingID');
+
+
+
+            if (fromDate != undefined && toDate != undefined) {
+                jQuery.post('@Url.Action("_GetDistributedTimeSlots","Training")',
+                 {
+                     trainingID: trainingID, fromDate: fromDate, toDate: toDate
+                 }).done(function (data) {
+
+                     $("#dv-time-lst").empty().html(data);
+                 });
+
+                jQuery.post('@Url.Action("_GetAddMoreTimeSlot", "Training")',
+                {
+                    trainingID: trainingID, fromDate: fromDate, toDate: toDate
+                }).done(function (data) {
+
+                    $("#dv-AddMore-TimeSlot").empty().html(data);
+                });
+            }
+        }
+    });
+    $(function () {
+        $("#ddlTrainingType").change(function () {
+            debugger;
+            var ddlvalue = $('option:selected', this).text();
+            if (ddlvalue == "Behavioral") {
+                $(".showhideFunctional").addClass("hide");
+                $(".showhideBehavioral").removeClass("hide");
+            }
+            else if (ddlvalue == "Functional/Technical") {
+                $(".showhideBehavioral").addClass("hide");
+                $(".showhideFunctional").removeClass("hide");
+            }
+        });
+    });
+
+    function GeneralSuccess(data) {
+        debugger;
+        if (data.status == "1") {
+            var trainingID = data.trainingID;
+            window.location.href = '@Url.Action("Edit", "Training")?trainingID=' + trainingID + '';
+            $('.nav-tabs li:eq(0) a').attr('data-toggle', 'tab').tab('show');
+            commonMessage("success", data.msg);
+        }
+        else if (data.status == "2") {
+            $("#general").html(data.htmlData);
+            $('.nav-tabs li:eq(0) a').attr('data-toggle', 'tab').tab('show');
+            commonMessage(data.msgType, data.msg);
+        }
+    }
+
+
+    let date = new Date();
+    var mindate = date.setDate(date.getDate() + -30);
+    $("#fromdate").datepicker({ dateFormat: 'dd/mm/yy', changeYear: true, minDate: date });
+    $("#todate").datepicker({ dateFormat: 'dd/mm/yy', changeYear: true, minDate: date });
+    $("#NominationDate").datepicker({ dateFormat: 'dd/mm/yy', changeYear: true});
+
+
+
+</script>

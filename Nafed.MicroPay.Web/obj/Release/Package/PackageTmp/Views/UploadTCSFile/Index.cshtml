@@ -1,0 +1,25 @@
+﻿@using Nafed.MicroPay.Model
+@model MonthlyTCSFile
+@{
+    ViewBag.Title = "TCS File List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+   
+}
+
+
+<div class="row">
+    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6">
+        <div id="div-tcs-files">
+           
+            @Html.Action("GetTCSFileList")
+
+
+        </div>
+    </div>
+
+    <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6" id="dv-upload-section">
+      
+          @Html.Partial("_UploadTCSFile",Model)
+
+    </div>
+</div>

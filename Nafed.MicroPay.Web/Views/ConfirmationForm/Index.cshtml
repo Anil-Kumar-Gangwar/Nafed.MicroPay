@@ -1,0 +1,19 @@
+﻿@model MicroPay.Web.Models.ConfirmationFormViewModel
+@using Nafed.MicroPay.Model;
+@{
+    ViewBag.Title = "Confirmation Form";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var uDetails = (UserDetail)Session["user"];
+}
+
+<div class="">
+    <div class="card_new_header text-right">
+        @*@Html.ActionLink("Confirmation Form", "_GetConfirmationForm", "ConfirmationForm", new { formHeaderId = 3, employeeId = 977, designationId = 34 }, new { @class = "btn btn-info btn-md", title = "Click here, to create new record", @data_toggle = "tooltip" })*@
+    </div>
+    <div class="card_new_body">
+        <div id="">
+            @Html.Action("MyConfirmationForms")
+        </div>
+    </div>
+
+</div>

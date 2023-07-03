@@ -1,0 +1,393 @@
+﻿@model Nafed.MicroPay.Model.Ticket
+@{
+    ViewBag.Title = "Create Ticket";
+    ViewBag.NavigationTitle = "Ticket";
+    Layout = "~/Views/Shared/_OuterPageLayout.cshtml";
+}
+
+@using (Html.BeginForm("Add", "HelpDesk", FormMethod.Post, new { enctype = "multipart/form-data", id = "formsubmit" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    @Html.HiddenFor(model => model.name)
+    <div class="card_new_body">
+        <div class="row mb-2 text-center">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                @if (ViewBag.Error != null)
+                {
+                    <span class="text-danger font-weight-bold">@ViewBag.Error</span>
+                }
+                @if (ViewBag.Message != null)
+                {
+                    <span class="text-success font-weight-bold">@ViewBag.Message</span>
+                }
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12 mb-2">
+               
+                    <div class="row">
+                        @Html.LabelFor(model => model.EmployeeCode, htmlAttributes: new { @class = "control-label col-lg-2 col-md-2 col-sm-12 col-xs-12 mb-2 required" })
+                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2">
+                            @Html.EditorFor(model => model.EmployeeCode, new { htmlAttributes = new { @class = "form-control", @placeholder = "Employee Code", @maxlength = "6", @autocomplete = "off" } })
+                            @Html.ValidationMessageFor(model => model.EmployeeCode, "", new { @class = "text-danger" })
+                            <span id="EmployeeCodeError"></span>
+                        </div>
+
+                        @Html.LabelFor(model => model.EmployeeName, htmlAttributes: new { @class = "control-label col-lg-2 col-md-2 col-sm-6 col-xs-12 mb-2 required" })
+                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2">
+                            @Html.EditorFor(model => model.EmployeeName, new { htmlAttributes = new { @class = "form-control", @placeholder = "Name", @maxlength = "100", @autocomplete = "off" } })
+                            @Html.ValidationMessageFor(model => model.EmployeeName, "", new { @class = "text-danger" })
+                            <span id="NameError"></span>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        @Html.LabelFor(model => model.DOJ, htmlAttributes: new { @class = "control-label col-lg-2 col-md-2 col-sm-6 col-xs-12 mb-2 required" })
+                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2">
+                            @Html.TextBoxFor(model => model.DOJ, new { @type = "date", @class = "form-control", @autocomplete = "off" })
+                            @Html.ValidationMessageFor(model => model.DOJ, "", new { @class = "text-danger" })
+                            <span id="DOJError"></span>
+                        </div>
+
+                        @Html.LabelFor(model => model.LastWorking, htmlAttributes: new { @class = "control-label col-lg-2 col-md-2 col-sm-6 col-xs-12 mb-2 required" })
+                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2">
+
+                            @Html.TextBoxFor(model => model.LastWorking, new { @type = "date", @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.LastWorking, "", new { @class = "text-danger" })
+                            <span id="LastWorkingError"></span>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 mb-2">
+                            @Html.LabelFor(model => model.LastDepartment, htmlAttributes: new { @class = "control-label required" })
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2">
+                            @Html.DropDownListFor(model => model.LastDepartment, new SelectList(ViewBag.LastDepartment, "id", "value"), "Select", new { @class = "custom-select" })
+                            @Html.ValidationMessageFor(model => model.LastDepartment, "", new { @class = "text-danger" })
+                            <span id="LastDepartmentError"></span>
+                        </div>
+
+                        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 mb-2">
+                            @Html.LabelFor(model => model.BranchId, htmlAttributes: new { @class = "control-label required" })
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2">
+                            @Html.DropDownListFor(model => model.BranchId, new SelectList(ViewBag.Branch, "id", "value"), "Select", new { @class = "custom-select" })
+                            @Html.ValidationMessageFor(model => model.BranchId, "", new { @class = "text-danger" })
+                            <span id="BranchError"></span>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-lg-2 col-md-2 col-sm-12 col-xs-12 mb-2 required" })
+                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2">
+                            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", @placeholder = "Email", @maxlength = "100", @autocomplete = "off" } })
+                            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                            <span id="EmailError"></span>
+                        </div>
+                        @Html.LabelFor(model => model.ContactNo, htmlAttributes: new { @class = "control-label col-lg-2 col-md-2 col-sm-12 col-xs-12 mb-2 required" })
+                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2">
+                            @Html.EditorFor(model => model.ContactNo, new { htmlAttributes = new { @class = "form-control", @placeholder = "Contact No.", @maxlength = "10" } })
+                            @Html.ValidationMessageFor(model => model.ContactNo, "", new { @class = "text-danger" })
+                            <span id="ContactNoError"></span>
+                        </div>
+                    </div>
+                <hr />
+                    <div class="row">
+                        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 mb-2">
+                            @Html.Label("Concerned Department", htmlAttributes: new { @class = "control-label required" })
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2">
+                            @Html.DropDownListFor(model => model.DepartmentID, new SelectList(ViewBag.Department, "id", "value"), "Select", new { @class = "custom-select" })
+                            @Html.ValidationMessageFor(model => model.DepartmentID, "", new { @class = "text-danger" })
+                            <span id="DepartmentError"></span>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        @Html.LabelFor(model => model.type_id, htmlAttributes: new { @class = "control-label col-lg-2 col-md-2 col-sm-12 col-xs-12 mb-2 required" })
+                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2">
+                            @Html.DropDownListFor(model => model.type_id, (IEnumerable<SelectListItem>)ViewBag.TypeList, new { @class = "custom-select" })
+                            @Html.ValidationMessageFor(model => model.type_id, "", new { @class = "text-danger" })
+                            <span id="TypeError"></span>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        @Html.LabelFor(model => model.subject, htmlAttributes: new { @class = "control-labelcol-lg-2 col-md-2 col-sm-12 col-xs-12 mb-2 required" })
+                        <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 mb-2">
+                            @Html.EditorFor(model => model.subject, new { htmlAttributes = new { @class = "form-control", @placeholder = "Subject", @maxlength = "200", @autocomplete = "off" } })
+                            @Html.ValidationMessageFor(model => model.subject, "", new { @class = "text-danger" })
+                            <span id="SubjectError"></span>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        @Html.LabelFor(model => model.Message, htmlAttributes: new { @class = "control-label col-lg-2 col-md-2  col-sm-12 col-xs-12 mb-4 required" })
+                        <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 mb-4">
+                            @Html.TextAreaFor(model => model.Message, new { @class = "form-control textarea-lg", @row = "20", @col = "40", @style = "max-height:200px;height:150px;min-height:150px;", @placeholder = "Message", @maxlength = "1000" })
+                            @Html.ValidationMessageFor(model => model.Message, "", new { @class = "text-danger" })
+                            <span id="MessageError"></span>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        @Html.LabelFor(model => model.PreviousTicket, htmlAttributes: new { @class = "control-label col-lg-2 col-md-2 col-sm-12 col-xs-12 mb-4" })
+                        <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 mb-2">
+                            @Html.EditorFor(model => model.PreviousTicket, new { htmlAttributes = new { @class = "form-control", @placeholder = "Previous Ticket No.", @maxlength = "10", @autocomplete = "off" } })
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12 mb-2">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">Upload New Document (single document can be uploaded.)</div>
+                                <div class="panel-body pb-0">
+                                    <div class="form-group">
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
+                                            <div class="row">
+                                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 text-left pb-0">
+                                                    <span id="documentnameError"></span>
+                                                    <span id="documentFileError"></span>
+                                                    <span id="documentSizeError"></span>
+                                                </div>
+                                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 text-right pb-2">
+                                                    <input type="button" value="Add" id="btnAddRowExper" class="btn btn-info btn-md pull-center toggle-tooltip btn-sectionAddRow"
+                                                           title="Click here, to add new row." />
+                                                    <input type="button" value="Remove" class="delete-row btn btn-danger btn-xs toggle-tooltip"
+                                                           title="Click here, to delete seleted row." />
+                                                </div>
+
+                                                <div id="div-form-documents-grid" class="col-lg-12 col-md-11 col-sm-11 col-xs-12 mb-2">
+
+                                                    <table id="tblDocument" class="table table-bordered table-centered dt-responsive w-100">
+                                                        <thead>
+                                                            <tr>
+                                                                <th class="text-center" style="width:35%">Document Name</th>
+                                                                <th class="text-center" style="width:50%">Document</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody></tbody>
+                                                    </table>
+
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12 col-md-11 col-sm-11 col-xs-12">
+                                                <label class="font-weight-bold text-danger">[FileType=.jpg, .jpeg, .png,.pdf, .xlsx, .xls, .doc, .docx, Size <= 5MB, single document] <br /></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 mb-2">
+                        </div>
+                    </div>
+                    <span class="pull-right">
+                        <input type="button" id="btnsubmit" value="Post Ticket" class="btn btn-info btn-md pull-center toggle-tooltip" title="Click here, to Create current record" />
+                    </span>
+
+                </div>
+        </div>
+    </div>
+}
+
+<script type="text/javascript">
+  
+    $("#btnAddRowExper").click(function () {
+        debugger;
+        var tblLength = $('#tblDocument >tbody >tr').length;
+        if (tblLength < 1) {
+            debugger;
+            $.ajax({
+                url: "@Url.Action("_AddDocumentRow", "HelpDesk")",
+                type: "POST",
+                contentType: false, // Not to set any content header
+                processData: false, // Not to process data
+
+                success: function (result) {
+
+                    tableBody = $("#tblDocument tbody");
+                    tableBody.append(result.htmlData);
+                },
+                error: function (err) {
+                    alert(err.statusText);
+                }
+            });
+        }
+    });
+
+    $(".delete-row").click(function () {
+        $("#tblDocument tbody").find('input[name="docname"]').each(function () {
+            $(this).parents("tr").remove();
+
+        });
+    });
+
+
+    $(document).ready(function () {
+        $('#btnsubmit').click(function () {
+            debugger;
+            var docerror = 0;
+            var fileerror = 0;
+            var typeeerror = 0;
+            var sizeerror = 0;
+            var error = 0;
+
+            if ($("#DepartmentID").val() == "") {
+                error++;
+                $("#DepartmentError").html("Please select Department.").css("color", "red");
+            }
+            else {
+                $("#DepartmentError").html("");
+            }
+            if ($("#EmployeeCode").val() == "") {
+                error++;
+                $("#EmployeeCodeError").html("Please enter Employee Code.").css("color", "red");
+            }
+            else {
+                $("#EmployeeCodeError").html("");
+            }
+            if ($("#EmployeeName").val() == "") {
+                error++;
+                $("#NameError").html("Please enter Employee Name.").css("color", "red");
+            }
+            else {
+                $("#NameError").html("");
+            }
+
+            if ($("#DOJ").val() == "") {
+                error++;
+                $("#DOJError").html("Please enter First Date of Joining .").css("color", "red");
+            }
+            else {
+                $("#DOJError").html("");
+            }
+            if ($("#ContactNo").val() == "") {
+                error++;
+                $("#ContactNoError").html("Please enter Contact No.").css("color", "red");
+            }
+            else {
+                $("#ContactNoError").html("");
+            }
+
+            if ($("#DOJ").val() == "") {
+                error++;
+                $("#DOJError").html("Please enter First Date of Joining .").css("color", "red");
+            }
+            else {
+                $("#DOJError").html("");
+            }
+            if ($("#Email").val() == "") {
+                error++;
+                $("#EmailError").html("Please enter Email.").css("color", "red");
+            }
+            else {
+                $("#EmailError").html("");
+            }
+            if ($("#BranchId").val() == "") {
+                error++;
+                $("#BranchError").html("Please enter Last Branch.").css("color", "red");
+            }
+            else {
+                $("#BranchError").html("");
+            }
+            if ($("#LastDepartment").val() == "") {
+                error++;
+                $("#LastDepartmentError").html("Please select Last Department.").css("color", "red");
+            }
+            else {
+                $("#LastDepartmentError").html("");
+            }
+            if ($("#LastWorking").val() == "") {
+                error++;
+                $("#LastWorkingError").html("Please enter Last Date of Working.").css("color", "red");
+            }
+            else {
+                $("#LastWorkingError").html("");
+            } 
+            if ($("#type_id").val() == "") {
+                error++;
+                $("#TypeError").html("Please select Type.").css("color", "red");
+            } else {
+                $("#TypeError").html("");
+            }
+            if ($("#subject").val() == "") {
+                error++;
+                $("#SubjectError").html("Please enter Subject.").css("color", "red");
+            } else {
+                $("#SubjectError").html("");
+            }
+            if ($("#Message").val() == "") {
+                error++;
+                $("#MessageError").html("Please enter Message.").css("color", "red");
+            } else {
+                $("#MessageError").html("");
+            }
+
+            $("#tblDocument tr.filesvalidate").each(function () {
+
+                var filename = $(this).find(".name").val();
+                if (filename == "") {
+                    docerror++;
+                    //$("#documentnameError").html("Please Enter Document Name").css("color", "red");
+                    //return false;
+                }
+                else {
+                    $("#documentnameError").html("")
+                }
+
+                if ($(this).find(".file").get(0).files.length > 0) {
+                    $("#documentFileError").html("");
+                    // Looping over all files and add it to FormData object
+                    var fileUpload = $("#Files");
+                    var lg = fileUpload[0].files.length; // get length
+                    var items = fileUpload[0].files;
+                    for (var k = 0; k < lg; k++) {
+
+                        var filesze = items[k].size;
+                        var fileName = items[k].name;
+                        var ext = fileName.substr(fileName.lastIndexOf('.') + 1).toLowerCase();
+                        if (!(ext == "xlsx" || ext == "xls" || ext == "jpg" || ext == "jpeg" || ext == "png" || ext == "pdf" || ext == "doc" || ext == "docx")) {
+                            typeeerror++;
+                            //$("#documentFileError").html("Invalid file type, please select a (word,excel,jpeg,png,pdf) file").css("color", "red");
+                            // return false;
+                        }
+                        if (filesze > 5000000) {  // 5MB
+                            sizeerror++;
+                            //$("#documentFileError").html("Please select image size less than 5MB.").css("color", "red");
+                            // return false;
+                        }
+                    }
+                }
+                else {
+                    fileerror++;
+                    //$("#documentFileError").html("Please Upload Document").css("color", "red");
+                }
+            });
+            if (docerror > 0) {
+                $("#documentnameError").html("Enter Document Name.").css("color", "red");
+                return false;
+            }
+            if (fileerror > 0) {
+                $("#documentFileError").html("Please Upload Document").css("color", "red");
+                return false;
+            }
+            if (sizeerror > 0) {
+                $("#documentSizeError").html("Please select document size less than 5MB.").css("color", "red");
+                return false;
+            }
+
+            if (error > 0)
+                return false;
+
+            if (docerror == 0 || fileerror == 0 || sizeerror == 0) {
+                $("#formsubmit").submit();
+            }
+        });
+    });
+
+</script>

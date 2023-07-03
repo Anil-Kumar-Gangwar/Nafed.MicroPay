@@ -1,0 +1,80 @@
+﻿@model MicroPay.Web.Models.APARSkillSetViewModel
+
+<table id="tblGrid" class="table table-centered table-striped dt-responsive w-100">
+    <thead>
+        <tr>
+            <th>
+                #
+            </th>
+
+            <th>
+                Department
+            </th>
+            <th>
+                Designation
+            </th>
+           
+            <th>
+                Skills
+            </th>
+            <th class="text-center" style="width:60px">
+                Action
+            </th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            if (Model.APARSkillSetList.Count() > 0)
+            {
+                var sno = 1;
+                foreach (var item in Model.APARSkillSetList)
+                {
+                    <tr>
+                        <td> @sno</td>
+
+                        <td> @item.Department</td>
+                        <td> @item.Designation</td>
+                     
+                        <td>
+                            <a data-ajax="true"
+                               method="POST" class="toggle-tooltip" title="Click here, to view skill list."
+                               data-ajax-update="#div-APARList" data-ajax-mode="replace"
+                               data-backdrop="static" data-keyboard="false"
+                               href="@Url.Action("GetSkillsList", "APARSkillsSet", new
+                                {
+                                    SkillSetID = item.SkillSetID,
+                                    departnemt = item.Department,
+                                    designation = item.Designation
+                                })"
+                               id="a_aprList" data-toggle="modal" data-target="#div-APAR">
+                                <i class="fas fa-eye" aria-hidden="true"></i>
+                            </a>
+                        </td>
+                        <td class="text-center">
+                            
+                            @*<a href="@Url.Action("Edit", "APARSkillsSet", new {departmentID = item.DepartmentID,designationID = item.DesignationID,skillSetID = item.SkillSetID})" title="Click here, to edit this record" data-toggle="tooltip">
+                                <i class="far fa-edit text-info" aria-hidden="true"></i>
+                            </a>*@
+
+                            @Html.EncodedImageActionLink("", "Edit", "APARSkillsSet", new { departmentID = item.DepartmentID, designationID = item.DesignationID, skillSetID = item.SkillSetID }, new { @class = "toggle-tooltip", title = "Click here, to edit this record" }, "~/Images/edit.png")
+                            <text>|</text>
+                          
+                           
+                            @*<a data-toggle="confirm" class="toggle-tooltip" href="@Url.Action("Delete", "APARSkillsSet", new {skillSetID = item.SkillSetID })" title="Click here, to delete this record">
+                                <span class="far fa-trash-alt text-danger" aria-hidden="true"></span>
+                            </a>*@
+
+                            @Html.EncodedImageActionLink("", "Delete", "APARSkillsSet", new { skillSetID = item.SkillSetID }, new { @class = "toggle-tooltip", title = "Click here, to delete this record" }, "~/Images/delete.png", true)
+                        </td>
+                    </tr>
+
+                    sno++;
+                }
+            }
+        }
+
+    </tbody>
+</table>
+
+

@@ -1,0 +1,100 @@
+﻿@model MicroPay.Web.Models.LeaveAccruedViewModel
+<style>
+    .require {
+        color: red;
+        margin-left: 134px;
+    }
+</style>
+
+
+<div class="row patty_panel" style="background-color: #0c858e; box-shadow: 0px 1px 2px;padding-top: 12px;">
+
+    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+        <div class="form-group">
+            <div class="row">
+                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                    @Html.Label("Year", htmlAttributes: new { @class = "h5" })
+                </div>
+                <div class="col-lg-7 col-md-7 col-sm-12 col-xs-12">
+                    @Html.Label(DateTime.Now.Year.ToString(), new { @class = "h5" })
+                </div>
+            </div>
+        </div>
+    </div>
+
+  
+    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+        <div class="form-group">
+            <div class="row">
+                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                    @Html.Label("Leave Type", htmlAttributes: new { @class = "h5" })
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    @Html.DropDownList("ddlleavetype", (IEnumerable<SelectListItem>)ViewBag.leaveType, new { @class = "custom-select popup", onchange = "Bindmonthonleavetype(this)" })
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+        <div class="form-group">
+            <div class="row">
+                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                    @Html.Label("Month", htmlAttributes: new { @class = "h5" })
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    @Html.DropDownList("ddlMonth", (IEnumerable<SelectListItem>)ViewBag.Month, new { @class = "custom-select" })
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+        
+        <input type="submit" value="Credit" id="btnCreditleaves" class="btn btn-warning" onclick="CreditELMLLeaves();">
+</div>
+
+   
+</div>
+<br />
+
+
+<script type="text/javascript">
+
+    function Bindmonthonleavetype(e) {
+
+        var LeavetypeId = 0;
+        var filldropdown = 0;
+        //filldropdown = (e.id == "ddlleavetype" ? 1 : 2);
+        LeavetypeId = $("#ddlleavetype").val();
+
+        if (LeavetypeId > 0) {
+            jQuery.post("@Url.Action("GetleavetypeMonth", "LeaveAccrued")", {
+                leavecategoryId: LeavetypeId,
+            }).done(function (data) {
+                debugger;
+                if (data.employees != "") {
+
+                    $("#ddlMonth").html("");
+                        $.each(data.employees, function (key, value) {
+                            $("#ddlMonth").append($("<option></option>").val(value.Value).html(value.Text));
+                        });
+
+                }
+            });
+        }
+    }
+
+    $(document).ready(function () {
+       // CreditELMLLeaves();
+    });
+
+
+
+</script>
+
+
+

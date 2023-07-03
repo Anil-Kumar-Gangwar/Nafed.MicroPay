@@ -1,0 +1,984 @@
+﻿@using Nafed.MicroPay.Common;
+@using Nafed.MicroPay.Model;
+
+@model List<EmployeePFORG>
+@{
+    var uDetails = (UserDetail)Session["user"];
+}
+
+<table id="tblGrid-Form11" class="table table-centered table-striped dt-responsive w-100 mt-2">
+    <thead>
+        <tr>
+            <th>
+                #
+            </th>
+            <th>
+                Name
+            </th>
+            <th>
+                Department
+            </th>
+            <th>
+                Designation
+            </th>
+            <th>
+                Status
+            </th>
+            <th class="text-center" style="width:60px">
+                Action
+            </th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @{
+
+            if (Model != null && Model.Count() > 0)
+            {
+                var totalForm11pending = 0;
+                var sno = 1;
+
+                foreach (var item in Model)
+                {
+                    if (item.EmpProceeApproval.AcceptanceAuthority.HasValue && item.EmpProceeApproval.AcceptanceAuthority == item.EmpProceeApproval.ReviewingTo && item.EmpProceeApproval.ReviewingTo == item.EmpProceeApproval.ReportingTo)
+                    {
+                        if (uDetails.EmployeeID == item.EmpProceeApproval.ReportingTo)
+                        {
+
+                            if (item.FormStatus == (int)form11FormState.SubmitedByEmployee)
+                            {
+                                totalForm11pending = Model.Where(x => x.FormStatus == (int)form11FormState.SubmitedByEmployee).Count();
+                                <tr>
+                                    <td>@sno</td>
+
+                                    <td>@item.Employeecode - @item.Employeename</td>
+                                    <td> @item.DepartmentName</td>
+                                    <td> @item.DesignationName</td>
+                                    <td class="text-center">
+                                        @if (item.FormStatus == (int)form11FormState.ReviewedByPersonal)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill bg-teal col-md-12">
+                                                    Reviewed by Personal
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.FormStatus == (int)form11FormState.SubmitedByEmployee)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill bg-teal col-md-12">
+                                                    Submited By Employee
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.FormStatus == (int)form11FormState.AcceptedByReporting)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill bg-teal col-md-12">
+                                                    Approved by Personal Divison
+                                                </span>
+                                               
+                                            </h5>
+                                        }
+                                        else if (item.FormStatus == (int)form11FormState.AcceptedByReviewer)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-dark col-md-12">
+                                                    PF Number Generated
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.FormStatus == (int)form11FormState.SubmitedByAcceptanceAuth)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-success col-md-12">
+                                                    Approved
+                                                </span>
+                                            </h5>
+                                        }
+                                    </td>
+
+                                    @*@if (Model.userRights.Edit)
+                                        {*@
+
+                                    <td class="text-center">
+                                        @*<a href="@Url.Action("Create", "EmployeePFOrganisationHeader", new {EmpPFID =item.EmpPFID,StatusID=item.StatusID, reportingTo = item.EmpProceeApproval.ReportingTo, reviewingTo = item.EmpProceeApproval.ReviewingTo, acceptanceAuthority =item.EmpProceeApproval.AcceptanceAuthority, empID = item.EmployeeId})" title="Click here, to view this record" data-toggle="tooltip">
+                                            <i class="far fa-eye text-info" aria-hidden="true"></i>
+                                        </a>*@
+                                       @Html.EncodedImageActionLink("", "Create", "EmployeePFOrganisationHeader", new { EmpPFID = item.EmpPFID, StatusID = item.StatusID, reportingTo = item.EmpProceeApproval.ReportingTo, reviewingTo = item.EmpProceeApproval.ReviewingTo, acceptanceAuthority = item.EmpProceeApproval.AcceptanceAuthority, empID = item.EmployeeId }, new { @class = "toggle-tooltip", title = "Click here, to view this record" }, "~/Images/view.png")
+                                    </td>
+                                    @*}*@
+                                </tr>
+                            }
+                        }
+                    }
+                    else if (item.EmpProceeApproval.AcceptanceAuthority.HasValue && item.EmpProceeApproval.AcceptanceAuthority == item.EmpProceeApproval.ReviewingTo)
+                    {
+                        if (uDetails.EmployeeID == item.EmpProceeApproval.ReportingTo)
+                        {
+                            if (item.FormStatus == (int)form11FormState.SubmitedByEmployee ||item.FormStatus == (int)form11FormState.ReviewedByPersonal || item.FormStatus == (int)form11FormState.AcceptedByReporting || item.FormStatus == (int)form11FormState.RejectedByReporting)
+                            {
+                                totalForm11pending = Model.Where(x => x.FormStatus == (int)form11FormState.SubmitedByEmployee).Count();
+                                <tr>
+                                    <td>@sno</td>
+
+
+                                    <td>@item.Employeecode - @item.Employeename</td>
+                                    <td> @item.DepartmentName</td>
+                                    <td> @item.DesignationName</td>
+                                    <td class="text-center">
+                                        @if (item.FormStatus == (int)form11FormState.ReviewedByPersonal)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill bg-teal col-md-12">
+                                                    Reviewed by Personal
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.FormStatus == (int)form11FormState.AcceptedByReporting)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill bg-teal col-md-12">
+                                                    Approved by Personal Divison
+                                                </span>
+
+                                            </h5>
+                                        }
+                                        else if (item.FormStatus == (int)form11FormState.AcceptedByReviewer)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-dark col-md-12">
+                                                    PF Number Generated
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.FormStatus == (int)form11FormState.SubmitedByAcceptanceAuth)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-success col-md-12">
+                                                    Approved
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.FormStatus == (int)form11FormState.RejectedByReporting)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-danger col-md-12">
+                                                    Rejected by Personal Divison
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.FormStatus == (int)form11FormState.RejectedByReviewer)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-danger col-md-12">
+                                                    Rejected by Reviewing Officer
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.FormStatus == (int)form11FormState.RejectedByAcceptanceAuthority)
+                                        {
+
+                                            <h5>
+                                                <span class="badge badge-pill badge-danger col-md-12">
+                                                    Rejected by acceptance authority
+                                                </span>
+                                            </h5>
+                                        }
+
+                                    </td>
+
+                                    @*@if (Model.userRights.Edit)
+                                        {*@
+
+
+                                    <td class="text-center">
+                                       
+                                        @*<a href="@Url.Action("Create", "EmployeePFOrganisationHeader", new {EmpPFID =item.EmpPFID,StatusID=item.StatusID, reportingTo = item.EmpProceeApproval.ReportingTo, reviewingTo = item.EmpProceeApproval.ReviewingTo, acceptanceAuthority =item.EmpProceeApproval.AcceptanceAuthority, empID = item.EmployeeId})" title="Click here, to view this record" data-toggle="tooltip">
+                                            <i class="far fa-eye text-info" aria-hidden="true"></i>
+                                        </a>*@
+                                        @Html.EncodedImageActionLink("", "Create", "EmployeePFOrganisationHeader", new { EmpPFID = item.EmpPFID, StatusID = item.StatusID, reportingTo = item.EmpProceeApproval.ReportingTo, reviewingTo = item.EmpProceeApproval.ReviewingTo, acceptanceAuthority = item.EmpProceeApproval.AcceptanceAuthority, empID = item.EmployeeId }, new { @class = "toggle-tooltip", title = "Click here, to view this record" }, "~/Images/view.png")
+                                    </td>
+                                    @*}*@
+                                </tr>
+                            }
+                        }
+                        else if (uDetails.EmployeeID == item.EmpProceeApproval.ReviewingTo)
+                        {
+
+                            if (item.FormStatus == (int)form11FormState.AcceptedByReporting || item.FormStatus == (int)form11FormState.SubmitedByAcceptanceAuth || item.FormStatus == (int)form11FormState.RejectedByReporting || item.FormStatus == (int)form11FormState.RejectedByReviewer || item.FormStatus == (int)form11FormState.RejectedByAcceptanceAuthority)
+                            {
+                                totalForm11pending = Model.Where(x => x.FormStatus == (int)form11FormState.AcceptedByReporting).Count();
+
+                                <tr>
+                                    <td>@sno</td>
+
+
+                                    @*<td> @item.Employeecode</td>*@
+                                    <td>@item.Employeecode - @item.Employeename</td>
+                                    <td> @item.DepartmentName</td>
+                                    <td> @item.DesignationName</td>
+                                    <td class="text-center">
+                                       @if (item.FormStatus == (int)form11FormState.ReviewedByPersonal)
+                                       {
+                                        <h5>
+                                            <span class="badge badge-pill bg-teal col-md-12">
+                                                Reviewed by Personal
+                                            </span>
+                                        </h5>
+                                       }
+                                       else if (item.FormStatus == (int)form11FormState.AcceptedByReporting)
+                                       {
+                                        <h5>
+                                            <span class="badge badge-pill bg-teal col-md-12">
+                                                Approved by Personal Divison
+                                            </span>
+
+                                        </h5>
+                                       }
+                                       else if (item.FormStatus == (int)form11FormState.AcceptedByReviewer)
+                                       {
+                                        <h5>
+                                            <span class="badge badge-pill badge-dark col-md-12">
+                                                PF Number Generated
+                                            </span>
+                                        </h5>
+                                       }
+                                       else if (item.FormStatus == (int)form11FormState.SubmitedByAcceptanceAuth)
+                                       {
+                                        <h5>
+                                            <span class="badge badge-pill badge-success col-md-12">
+                                                Approved
+                                            </span>
+                                        </h5>
+                                       }
+                                       else if (item.FormStatus == (int)form11FormState.RejectedByReporting)
+                                       {
+                                            <h5>
+                                                <span class="badge badge-pill badge-danger col-md-12">
+                                                    Rejected by Personal Divison
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.FormStatus == (int)form11FormState.RejectedByReviewer)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-danger col-md-12">
+                                                    Rejected by Reviewing Officer
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.FormStatus == (int)form11FormState.RejectedByAcceptanceAuthority)
+                                        {
+
+                                            <h5>
+                                                <span class="badge badge-pill badge-danger col-md-12">
+                                                    Rejected by Acceptance Authority
+                                                </span>
+                                            </h5>
+                                        }
+
+                                    </td>
+
+                                    @*@if (Model.userRights.Edit)
+                                        {*@
+
+
+                                    <td class="text-center">
+                                        @*<a href="@Url.Action("Create", "EmployeePFOrganisationHeader", new {EmpPFID =item.EmpPFID,StatusID=item.StatusID, reportingTo = item.EmpProceeApproval.ReportingTo, reviewingTo = item.EmpProceeApproval.ReviewingTo, acceptanceAuthority =item.EmpProceeApproval.AcceptanceAuthority, empID = item.EmployeeId})" title="Click here, to view this record" data-toggle="tooltip">
+                                            <i class="far fa-eye text-info" aria-hidden="true"></i>
+                                        </a>*@
+                                        @Html.EncodedImageActionLink("", "Create", "EmployeePFOrganisationHeader", new { EmpPFID = item.EmpPFID, StatusID = item.StatusID, reportingTo = item.EmpProceeApproval.ReportingTo, reviewingTo = item.EmpProceeApproval.ReviewingTo, acceptanceAuthority = item.EmpProceeApproval.AcceptanceAuthority, empID = item.EmployeeId }, new { @class = "toggle-tooltip", title = "Click here, to view this record" }, "~/Images/view.png")
+                                    </td>
+                                    @*}*@
+                                </tr>
+                            }
+                        }
+                    }
+                    else if (item.EmpProceeApproval.ReviewingTo.HasValue && item.EmpProceeApproval.ReviewingTo == item.EmpProceeApproval.ReportingTo)
+                    {
+                        if (uDetails.EmployeeID == item.EmpProceeApproval.ReviewingTo)
+                        {
+                            if (item.FormStatus == (int)form11FormState.SubmitedByEmployee || item.FormStatus == (int)form11FormState.ReviewedByPersonal || item.FormStatus == (int)form11FormState.AcceptedByReviewer || item.FormStatus == (int)form11FormState.RejectedByReporting ||  item.FormStatus == (int)form11FormState.RejectedByReviewer)
+                            {
+
+                                totalForm11pending = Model.Where(x => x.FormStatus == (int)form11FormState.SubmitedByEmployee).Count();
+                                <tr>
+                                    <td>@sno</td>
+
+
+                                    @*<td> @item.Employeecode</td>*@
+                                    <td>@item.Employeecode - @item.Employeename</td>
+                                    <td> @item.DepartmentName</td>
+                                    <td> @item.DesignationName</td>
+                                    <td class="text-center">
+                                        @if (item.FormStatus == (int)form11FormState.ReviewedByPersonal)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill bg-teal col-md-12">
+                                                    Reviewed by Personal
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.FormStatus == (int)form11FormState.AcceptedByReporting)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill bg-teal col-md-12">
+                                                    Approved by Personal Divison
+                                                </span>
+
+                                            </h5>
+                                        }
+                                        else if (item.FormStatus == (int)form11FormState.AcceptedByReviewer)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-dark col-md-12">
+                                                    PF Number Generated
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.FormStatus == (int)form11FormState.SubmitedByAcceptanceAuth)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-success col-md-12">
+                                                    Approved
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.FormStatus == (int)form11FormState.RejectedByReporting)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-danger col-md-12">
+                                                    Rejected by Personal Divison
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.FormStatus == (int)form11FormState.RejectedByReviewer)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-danger col-md-12">
+                                                    Rejected by Reviewing Officer
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.FormStatus == (int)form11FormState.RejectedByAcceptanceAuthority)
+                                        {
+
+                                            <h5>
+                                                <span class="badge badge-pill badge-danger col-md-12">
+                                                    Rejected by Acceptance Authority
+                                                </span>
+                                            </h5>
+                                        }
+
+                                    </td>
+
+                                    @*@if (Model.userRights.Edit)
+                                        {*@
+
+
+                                    <td class="text-center">
+                                        @*<a href="@Url.Action("Create", "EmployeePFOrganisationHeader", new {EmpPFID =item.EmpPFID,StatusID=item.StatusID, reportingTo = item.EmpProceeApproval.ReportingTo, reviewingTo = item.EmpProceeApproval.ReviewingTo, acceptanceAuthority =item.EmpProceeApproval.AcceptanceAuthority, empID = item.EmployeeId})" title="Click here, to view this record" data-toggle="tooltip">
+                                            <i class="far fa-eye text-info" aria-hidden="true"></i>
+                                        </a>*@
+                                        @Html.EncodedImageActionLink("", "Create", "EmployeePFOrganisationHeader", new { EmpPFID = item.EmpPFID, StatusID = item.StatusID, reportingTo = item.EmpProceeApproval.ReportingTo, reviewingTo = item.EmpProceeApproval.ReviewingTo, acceptanceAuthority = item.EmpProceeApproval.AcceptanceAuthority, empID = item.EmployeeId }, new { @class = "toggle-tooltip", title = "Click here, to view this record" }, "~/Images/view.png")
+                                    </td>
+                                    @*}*@
+                                </tr>
+
+                            }
+                        }
+                        else if (item.EmpProceeApproval.AcceptanceAuthority == uDetails.EmployeeID)
+                        {
+                            if (item.FormStatus == (int)form11FormState.AcceptedByReviewer || item.FormStatus == (int)form11FormState.SubmitedByAcceptanceAuth || item.FormStatus == (int)form11FormState.RejectedByReporting || item.FormStatus == (int)form11FormState.RejectedByReviewer || item.FormStatus == (int)form11FormState.RejectedByAcceptanceAuthority)
+                            {
+                                totalForm11pending = Model.Where(x => x.FormStatus == (int)form11FormState.AcceptedByReviewer).Count();
+                                <tr>
+                                    <td>@sno</td>
+
+
+                                    @*<td> @item.Employeecode</td>*@
+                                    <td>@item.Employeecode - @item.Employeename</td>
+                                    <td> @item.DepartmentName</td>
+                                    <td> @item.DesignationName</td>
+                                    <td class="text-center">
+                                        @if (item.FormStatus == (int)form11FormState.ReviewedByPersonal)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill bg-teal col-md-12">
+                                                    Reviewed by Personal
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.FormStatus == (int)form11FormState.AcceptedByReporting)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill bg-teal col-md-12">
+                                                    Approved by Personal Divison
+                                                </span>
+
+                                            </h5>
+                                        }
+                                        else if (item.FormStatus == (int)form11FormState.AcceptedByReviewer)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-dark col-md-12">
+                                                    PF Number Generated
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.FormStatus == (int)form11FormState.SubmitedByAcceptanceAuth)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-success col-md-12">
+                                                    Approved
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.FormStatus == (int)form11FormState.RejectedByReporting)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-danger col-md-12">
+                                                    Rejected by Personal Divison
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.FormStatus == (int)form11FormState.RejectedByReviewer)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-danger col-md-12">
+                                                    Rejected by Reviewing Officer
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.FormStatus == (int)form11FormState.RejectedByAcceptanceAuthority)
+                                        {
+
+                                            <h5>
+                                                <span class="badge badge-pill badge-danger col-md-12">
+                                                    Rejected by Acceptance Authority
+                                                </span>
+                                            </h5>
+                                        }
+
+                                    </td>
+
+                                    @*@if (Model.userRights.Edit)
+                                        {*@
+
+
+                                    <td class="text-center">
+                                        @*<a href="@Url.Action("Create", "EmployeePFOrganisationHeader", new {EmpPFID =item.EmpPFID,StatusID=item.StatusID, reportingTo = item.EmpProceeApproval.ReportingTo, reviewingTo = item.EmpProceeApproval.ReviewingTo, acceptanceAuthority =item.EmpProceeApproval.AcceptanceAuthority, empID = item.EmployeeId})" title="Click here, to view this record" data-toggle="tooltip">
+                                            <i class="far fa-eye text-info" aria-hidden="true"></i>
+                                        </a>*@
+                                        @Html.EncodedImageActionLink("", "Create", "EmployeePFOrganisationHeader", new { EmpPFID = item.EmpPFID, StatusID = item.StatusID, reportingTo = item.EmpProceeApproval.ReportingTo, reviewingTo = item.EmpProceeApproval.ReviewingTo, acceptanceAuthority = item.EmpProceeApproval.AcceptanceAuthority, empID = item.EmployeeId }, new { @class = "toggle-tooltip", title = "Click here, to view this record" }, "~/Images/view.png")
+                                    </td>
+                                    @*}*@
+                                </tr>
+                            }
+                        }
+                    }
+                    else if (item.EmpProceeApproval.ReviewingTo.HasValue && item.EmpProceeApproval.ReviewingTo != item.EmpProceeApproval.ReportingTo)
+                    {
+                        if (uDetails.EmployeeID == item.EmpProceeApproval.ReviewingTo)
+                        {
+                            if (item.FormStatus == (int)form11FormState.AcceptedByReporting || item.FormStatus == (int)form11FormState.AcceptedByReviewer || item.FormStatus == (int)form11FormState.RejectedByReviewer)
+                            {
+                                <tr>
+                                    <td>@sno</td>
+
+
+                                    @*<td> @item.Employeecode</td>*@
+                                    <td>@item.Employeecode - @item.Employeename</td>
+                                    <td> @item.DepartmentName</td>
+                                    <td> @item.DesignationName</td>
+                                    <td class="text-center">
+                                        @if (item.FormStatus == (int)form11FormState.ReviewedByPersonal)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill bg-teal col-md-12">
+                                                    Reviewed by Personal
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.FormStatus == (int)form11FormState.AcceptedByReporting)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill bg-teal col-md-12">
+                                                    Approved by Personal Divison
+                                                </span>
+
+                                            </h5>
+                                        }
+                                        else if (item.FormStatus == (int)form11FormState.AcceptedByReviewer)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-dark col-md-12">
+                                                    PF Number Generated
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.FormStatus == (int)form11FormState.SubmitedByAcceptanceAuth)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-success col-md-12">
+                                                    Approved
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.FormStatus == (int)form11FormState.RejectedByReporting)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-danger col-md-12">
+                                                    Rejected by Personal Divison
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.FormStatus == (int)form11FormState.RejectedByReviewer)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-danger col-md-12">
+                                                    Rejected by Reviewing Officer
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.FormStatus == (int)form11FormState.RejectedByAcceptanceAuthority)
+                                        {
+
+                                            <h5>
+                                                <span class="badge badge-pill badge-danger col-md-12">
+                                                    Rejected by Acceptance Authority
+                                                </span>
+                                            </h5>
+                                        }
+
+                                    </td>
+
+                                    @*@if (Model.userRights.Edit)
+                                        {*@
+
+
+                                    <td class="text-center">
+                                        @*<a href="@Url.Action("Create", "EmployeePFOrganisationHeader", new {EmpPFID =item.EmpPFID,StatusID=item.StatusID, reportingTo = item.EmpProceeApproval.ReportingTo, reviewingTo = item.EmpProceeApproval.ReviewingTo, acceptanceAuthority =item.EmpProceeApproval.AcceptanceAuthority, empID = item.EmployeeId})" title="Click here, to view this record" data-toggle="tooltip">
+                                            <i class="far fa-eye text-info" aria-hidden="true"></i>
+                                        </a>*@
+                                        @Html.EncodedImageActionLink("", "Create", "EmployeePFOrganisationHeader", new { EmpPFID = item.EmpPFID, StatusID = item.StatusID, reportingTo = item.EmpProceeApproval.ReportingTo, reviewingTo = item.EmpProceeApproval.ReviewingTo, acceptanceAuthority = item.EmpProceeApproval.AcceptanceAuthority, empID = item.EmployeeId }, new { @class = "toggle-tooltip", title = "Click here, to view this record" }, "~/Images/view.png")
+                                    </td>
+                                    @*}*@
+                                </tr>
+                                if (item.FormStatus == (int)form11FormState.AcceptedByReporting)
+                                {
+                                    totalForm11pending = Model.Where(x => x.FormStatus == (int)form11FormState.AcceptedByReporting).Count();
+                                }
+                            }
+                        }
+                        else if (item.EmpProceeApproval.ReportingTo == uDetails.EmployeeID)
+                        {
+
+                            if (item.FormStatus== (int)form11FormState.SubmitedByEmployee || item.FormStatus == (int)form11FormState.ReviewedByPersonal || item.FormStatus == (int)form11FormState.AcceptedByReporting || item.FormStatus == (int)form11FormState.RejectedByReporting)
+                            {
+                                <tr>
+                                    <td>@sno</td>
+
+
+                                    @*<td> @item.Employeecode</td>*@
+                                    <td>@item.Employeecode - @item.Employeename</td>
+                                    <td> @item.DepartmentName</td>
+                                    <td> @item.DesignationName</td>
+                                    <td class="text-center">
+                                        @if (item.FormStatus == (int)form11FormState.ReviewedByPersonal)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill bg-teal col-md-12">
+                                                    Reviewed by Personal
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.FormStatus == (int)form11FormState.SubmitedByEmployee)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill bg-teal col-md-12">
+                                                    Submited By Employee
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.FormStatus == (int)form11FormState.AcceptedByReporting)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill bg-teal col-md-12">
+                                                    Approved by Personal Divison
+                                                </span>
+
+                                            </h5>
+                                        }
+                                        else if (item.FormStatus == (int)form11FormState.AcceptedByReviewer)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-dark col-md-12">
+                                                    PF Number Generated
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.FormStatus == (int)form11FormState.SubmitedByAcceptanceAuth)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-success col-md-12">
+                                                    Approved
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.FormStatus == (int)form11FormState.RejectedByReporting)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-danger col-md-12">
+                                                    Rejected by Personal Divison
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.FormStatus == (int)form11FormState.RejectedByReviewer)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-danger col-md-12">
+                                                    Rejected by Reviewing Officer
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.FormStatus == (int)form11FormState.RejectedByAcceptanceAuthority)
+                                        {
+
+                                            <h5>
+                                                <span class="badge badge-pill badge-danger col-md-12">
+                                                    Rejected by Acceptance Authority
+                                                </span>
+                                            </h5>
+                                        }
+
+                                    </td>
+
+                                    @*@if (Model.userRights.Edit)
+                                        {*@
+
+
+                                    <td class="text-center">
+                                        @*<a href="@Url.Action("Create", "EmployeePFOrganisationHeader", new {EmpPFID =item.EmpPFID,StatusID=item.StatusID, reportingTo = item.EmpProceeApproval.ReportingTo, reviewingTo = item.EmpProceeApproval.ReviewingTo, acceptanceAuthority =item.EmpProceeApproval.AcceptanceAuthority, empID = item.EmployeeId})" title="Click here, to view this record" data-toggle="tooltip">
+                                            <i class="far fa-eye text-info" aria-hidden="true"></i>
+                                        </a>*@
+                                        @Html.EncodedImageActionLink("", "Create", "EmployeePFOrganisationHeader", new { EmpPFID = item.EmpPFID, StatusID = item.StatusID, reportingTo = item.EmpProceeApproval.ReportingTo, reviewingTo = item.EmpProceeApproval.ReviewingTo, acceptanceAuthority = item.EmpProceeApproval.AcceptanceAuthority, empID = item.EmployeeId }, new { @class = "toggle-tooltip", title = "Click here, to view this record" }, "~/Images/view.png")
+                                    </td>
+                                    @*}*@
+                                </tr>
+                                if (item.FormStatus == (int)form11FormState.SubmitedByEmployee)
+                                {
+                                    totalForm11pending = Model.Where(x => x.FormStatus == (int)form11FormState.SubmitedByEmployee).Count();
+                                }
+
+                            }
+                        }
+                        else if (item.EmpProceeApproval.AcceptanceAuthority == uDetails.EmployeeID)
+                        {
+
+                            if (item.FormStatus == (int)form11FormState.AcceptedByReviewer || item.FormStatus == (int)form11FormState.SubmitedByAcceptanceAuth || item.FormStatus == (int)form11FormState.RejectedByReporting || item.FormStatus == (int)form11FormState.RejectedByReviewer || item.FormStatus == (int)form11FormState.RejectedByAcceptanceAuthority)
+                            {
+                                <tr>
+                                    <td>@sno</td>
+
+
+                                    @*<td> @item.Employeecode</td>*@
+                                    <td>@item.Employeecode - @item.Employeename</td>
+                                    <td> @item.DepartmentName</td>
+                                    <td> @item.DesignationName</td>
+                                    <td class="text-center">
+                                        @if (item.FormStatus == (int)form11FormState.ReviewedByPersonal)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill bg-teal col-md-12">
+                                                    Reviewed by Personal
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.FormStatus == (int)form11FormState.AcceptedByReporting)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill bg-teal col-md-12">
+                                                    Approved by Personal Divison
+                                                </span>
+
+                                            </h5>
+                                        }
+                                        else if (item.FormStatus == (int)form11FormState.AcceptedByReviewer)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-dark col-md-12">
+                                                    PF Number Generated
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.FormStatus == (int)form11FormState.SubmitedByAcceptanceAuth)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-success col-md-12">
+                                                    Approved
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.FormStatus == (int)form11FormState.RejectedByReporting)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-danger col-md-12">
+                                                    Rejected by Personal Divison
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.FormStatus == (int)form11FormState.RejectedByReviewer)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-danger col-md-12">
+                                                    Rejected by Reviewing Officer
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.FormStatus == (int)form11FormState.RejectedByAcceptanceAuthority)
+                                        {
+
+                                            <h5>
+                                                <span class="badge badge-pill badge-danger col-md-12">
+                                                    Rejected by Acceptance Authority
+                                                </span>
+                                            </h5>
+                                        }
+
+                                    </td>
+
+                                    @*@if (Model.userRights.Edit)
+                                        {*@
+
+
+                                    <td class="text-center">
+                                        @*<a href="@Url.Action("Create", "EmployeePFOrganisationHeader", new {EmpPFID =item.EmpPFID,StatusID=item.StatusID, reportingTo = item.EmpProceeApproval.ReportingTo, reviewingTo = item.EmpProceeApproval.ReviewingTo, acceptanceAuthority =item.EmpProceeApproval.AcceptanceAuthority, empID = item.EmployeeId})" title="Click here, to view this record" data-toggle="tooltip">
+                                            <i class="far fa-eye text-info" aria-hidden="true"></i>
+                                        </a>*@
+                                        @Html.EncodedImageActionLink("", "Create", "EmployeePFOrganisationHeader", new { EmpPFID = item.EmpPFID, StatusID = item.StatusID, reportingTo = item.EmpProceeApproval.ReportingTo, reviewingTo = item.EmpProceeApproval.ReviewingTo, acceptanceAuthority = item.EmpProceeApproval.AcceptanceAuthority, empID = item.EmployeeId }, new { @class = "toggle-tooltip", title = "Click here, to view this record" }, "~/Images/view.png")
+                                    </td>
+                                    @*}*@
+                                </tr>
+                                if (item.FormStatus == (int)form11FormState.AcceptedByReviewer)
+                                {
+                                    totalForm11pending = Model.Where(x => x.FormStatus == (int)form11FormState.AcceptedByReviewer).Count();
+                                }
+
+                            }
+                        }
+                    }
+                    else if (!item.EmpProceeApproval.ReviewingTo.HasValue)
+                    {
+                        if (uDetails.EmployeeID == item.EmpProceeApproval.ReportingTo)
+                        {
+                            if (item.FormStatus == (int)form11FormState.SubmitedByEmployee || item.FormStatus == (int)form11FormState.ReviewedByPersonal || item.FormStatus == (int)form11FormState.AcceptedByReporting || item.FormStatus == (int)form11FormState.RejectedByReporting)
+                            {
+                                <tr>
+                                    <td>@sno</td>
+
+
+                                    @*<td> @item.Employeecode</td>*@
+                                    <td>@item.Employeecode - @item.Employeename</td>
+                                    <td> @item.DepartmentName</td>
+                                    <td> @item.DesignationName</td>
+                                    <td class="text-center">
+                                        @if (item.FormStatus == (int)form11FormState.ReviewedByPersonal)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill bg-teal col-md-12">
+                                                    Reviewed by Personal
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.FormStatus == (int)form11FormState.AcceptedByReporting)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill bg-teal col-md-12">
+                                                    Approved by Personal Divison
+                                                </span>
+
+                                            </h5>
+                                        }
+                                        else if (item.FormStatus == (int)form11FormState.AcceptedByReviewer)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-dark col-md-12">
+                                                    PF Number Generated
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.FormStatus == (int)form11FormState.SubmitedByAcceptanceAuth)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-success col-md-12">
+                                                    Approved
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.FormStatus == (int)form11FormState.RejectedByReporting)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-danger col-md-12">
+                                                    Rejected by Personal Divison
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.FormStatus == (int)form11FormState.RejectedByReviewer)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-danger col-md-12">
+                                                    Rejected by Reviewing Officer
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.FormStatus == (int)form11FormState.RejectedByAcceptanceAuthority)
+                                        {
+
+                                            <h5>
+                                                <span class="badge badge-pill badge-danger col-md-12">
+                                                    Rejected by Acceptance Authority
+                                                </span>
+                                            </h5>
+                                        }
+
+                                    </td>
+
+                                    @*@if (Model.userRights.Edit)
+                                        {*@
+
+
+                                    <td class="text-center">
+                                        @*<a href="@Url.Action("Create", "EmployeePFOrganisationHeader", new {EmpPFID =item.EmpPFID,StatusID=item.StatusID, reportingTo = item.EmpProceeApproval.ReportingTo, reviewingTo = item.EmpProceeApproval.ReviewingTo, acceptanceAuthority =item.EmpProceeApproval.AcceptanceAuthority, empID = item.EmployeeId})" title="Click here, to view this record" data-toggle="tooltip">
+                                            <i class="far fa-eye text-info" aria-hidden="true"></i>
+                                        </a>*@
+                                        @Html.EncodedImageActionLink("", "Create", "EmployeePFOrganisationHeader", new { EmpPFID = item.EmpPFID, StatusID = item.StatusID, reportingTo = item.EmpProceeApproval.ReportingTo, reviewingTo = item.EmpProceeApproval.ReviewingTo, acceptanceAuthority = item.EmpProceeApproval.AcceptanceAuthority, empID = item.EmployeeId }, new { @class = "toggle-tooltip", title = "Click here, to view this record" }, "~/Images/view.png")
+                                    </td>
+                                    @*}*@
+                                </tr>
+                                if (item.FormStatus == (int)form11FormState.SubmitedByEmployee)
+                                {
+                                    totalForm11pending = Model.Where(x => x.FormStatus == (int)form11FormState.SubmitedByEmployee).Count();
+                                }
+                            }
+                        }
+                    }
+                    else if (!item.EmpProceeApproval.AcceptanceAuthority.HasValue)
+                    {
+                        if (uDetails.EmployeeID == item.EmpProceeApproval.ReviewingTo)
+                        {
+                            if (item.FormStatus == (int)form11FormState.AcceptedByReporting || item.FormStatus == (int)form11FormState.AcceptedByReviewer || item.FormStatus == (int)form11FormState.RejectedByReporting || item.FormStatus == (int)form11FormState.RejectedByReviewer)
+                            {
+                                <tr>
+                                    <td>@sno</td>
+
+
+                                    @*<td> @item.Employeecode</td>*@
+                                    <td>@item.Employeecode - @item.Employeename</td>
+                                    <td> @item.DepartmentName</td>
+                                    <td> @item.DesignationName</td>
+                                    <td class="text-center">
+                                        @if (item.FormStatus == (int)form11FormState.ReviewedByPersonal)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill bg-teal col-md-12">
+                                                    Reviewed by Personal
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.FormStatus == (int)form11FormState.AcceptedByReporting)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill bg-teal col-md-12">
+                                                    Approved by Personal Divison
+                                                </span>
+
+                                            </h5>
+                                        }
+                                        else if (item.FormStatus == (int)form11FormState.AcceptedByReviewer)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-dark col-md-12">
+                                                    PF Number Generated
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.FormStatus == (int)form11FormState.SubmitedByAcceptanceAuth)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-success col-md-12">
+                                                    Approved
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.FormStatus == (int)form11FormState.RejectedByReporting)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-danger col-md-12">
+                                                    Rejected by Personal Divison
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.FormStatus == (int)form11FormState.RejectedByReviewer)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-danger col-md-12">
+                                                    Rejected by Reviewing Officer
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.FormStatus == (int)form11FormState.RejectedByAcceptanceAuthority)
+                                        {
+
+                                            <h5>
+                                                <span class="badge badge-pill badge-danger col-md-12">
+                                                    Rejected by Acceptance Authority
+                                                </span>
+                                            </h5>
+                                        }
+
+                                    </td>
+
+                                    @*@if (Model.userRights.Edit)
+                                        {*@
+
+
+                                    <td class="text-center">
+                                        @*<a href="@Url.Action("Create", "EmployeePFOrganisationHeader", new {EmpPFID =item.EmpPFID,StatusID=item.StatusID, reportingTo = item.EmpProceeApproval.ReportingTo, reviewingTo = item.EmpProceeApproval.ReviewingTo, acceptanceAuthority =item.EmpProceeApproval.AcceptanceAuthority, empID = item.EmployeeId})" title="Click here, to view this record" data-toggle="tooltip">
+                                            <i class="far fa-eye text-info" aria-hidden="true"></i>
+                                        </a>*@
+                                        @Html.EncodedImageActionLink("", "Create", "EmployeePFOrganisationHeader", new { EmpPFID = item.EmpPFID, StatusID = item.StatusID, reportingTo = item.EmpProceeApproval.ReportingTo, reviewingTo = item.EmpProceeApproval.ReviewingTo, acceptanceAuthority = item.EmpProceeApproval.AcceptanceAuthority, empID = item.EmployeeId }, new { @class = "toggle-tooltip", title = "Click here, to view this record" }, "~/Images/view.png")
+                                    </td>
+                                    @*}*@
+                                </tr>
+                                if (item.FormStatus == (int)form11FormState.AcceptedByReporting)
+                                {
+                                    totalForm11pending = Model.Where(x => x.FormStatus == (int)form11FormState.AcceptedByReporting).Count();
+                                }
+                            }
+                        }
+                    }
+
+                    sno++;
+                }
+
+
+                <script type="text/javascript">
+                    $("#form11ApprovalReqCount").text(@totalForm11pending);
+                </script>
+
+            }
+            <script type="text/javascript">
+
+                var table = $('#tblGrid-Form11').DataTable({
+                });
+                $('#tblGrid-Form11').find('select').addClass('custom-select');
+            </script>
+        }
+
+    </tbody>
+
+
+
+</table>

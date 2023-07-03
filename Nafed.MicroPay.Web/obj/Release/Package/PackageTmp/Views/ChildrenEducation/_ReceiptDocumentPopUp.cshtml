@@ -1,0 +1,98 @@
+﻿@using MicroPay.Web.Models
+@using Nafed.MicroPay.Model;
+@model ChildrenEducationViewModel
+@{
+    var uDetails = (UserDetail)Session["user"];
+}
+
+<div class="row">
+    <table id="tblGrid" class="table table-centered table-striped dt-responsive w-100">
+        <thead>
+            <tr>
+                <th>
+                    #
+                </th>
+                <th>
+                    Receipts/Bills
+                </th>
+                @if (uDetails.UserTypeID != 1)
+                {
+                    <th class="text-center">
+                        Action
+                    </th>
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                if (Model.childrenEducationDocuments != null && Model.childrenEducationDocuments.Count > 0)
+                {
+                    var sno = 1;
+                    for (int i = 0; i < Model.childrenEducationDocuments.Count; i++)
+                    {
+                        <tr>
+                            <td> @sno</td>
+
+                            <td>
+                                @Html.HiddenFor(model => model.childrenEducationDocuments[i].ChildrenEduHdrID)
+                                <p class="media-body pb-3 mb-0 lh-125">
+                                    @if (Convert.ToString(Model.childrenEducationDocuments[i].FilePath).IndexOf(".", 0) > 0)
+                                    {
+                                        var ext = Convert.ToString(Model.childrenEducationDocuments[i].FilePath).Substring(Convert.ToString(Model.childrenEducationDocuments[i].FilePath).IndexOf(".", 1) + 1, Convert.ToString(Model.childrenEducationDocuments[i].FilePath).Length - (Convert.ToString(Model.childrenEducationDocuments[i].FilePath).IndexOf(".", 1) + 1)).Trim().ToLower();
+                                        if (ext == "xls" || ext == "xlsx")
+                                        {
+                                            <i class="fas fa-file-excel text-success fa-1x mr-2"></i>
+                                        }
+                                        else if (ext == "doc" || ext == "docx")
+                                        {
+                                            <i class="fas fa-file-word text-primary fa-1x mr-2"></i>
+                                        }
+                                        else if (ext == "pdf")
+                                        {
+                                            <i class="fas fa-file-pdf text-danger fa-1x mr-2"></i>
+                                        }
+                                        else if (ext == "png" || ext == "jpg" || ext == "gif" || ext == "bmp")
+                                        {
+                                            <i class="fa fa-download text-info fa-1x mr-2" aria-hidden="true"></i>
+                                        }
+                                        else
+                                        {
+                                            <i class="fas fa-file text-light fa-1x mr-2"></i>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <i class="fas fa-file text-light fa-1x mr-2"></i>
+                                    }
+                                    <a aria-current="page" href="~/Document/ChildrenEducationReceipts/@Model.childrenEducationDocuments[i].FilePath" data-toggle="tooltip" title="Click here, to download file." download="@Model.childrenEducationDocuments[i].FilePath">
+                                        @Model.childrenEducationDocuments[i].FilePath
+                                    </a>
+                                </p>
+
+                            </td>
+                            @if (uDetails.UserTypeID != 1)
+                            {
+                                <td class="text-center">
+                                    <a data-ajax="true"
+                                       method="GET" class="toggle-tooltip" title="Click here, to delete this file."
+                                       data-ajax-update="#div-Receipt-container" data-ajax-mode="replace"
+                                       data-backdrop="static" data-target="#div-FileUpload" data-keyboard="false" data-ajax-confirm="Are you sure you want to delete this file?" href="@Url.Action("DeleteDocument", "ChildrenEducation", new { receiptId = Model.childrenEducationDocuments[i].ReceiptID, fileName = Model.childrenEducationDocuments[i].FilePath, employeeId = Model.childrenEducationDocuments[i].EmployeeID, childrenEduHdrID = Model.childrenEducationDocuments[i].ChildrenEduHdrID })">
+                                        <span class="far fa-trash-alt text-danger" aria-hidden="true"></span>
+                                    </a>
+                                </td>
+                            }
+                        </tr>
+                        sno++;
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="3" class="text-center"> No Record Found.</td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+
+</div>

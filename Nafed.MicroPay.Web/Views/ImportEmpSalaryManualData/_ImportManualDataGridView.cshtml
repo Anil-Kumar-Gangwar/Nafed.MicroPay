@@ -1,0 +1,36 @@
+﻿@using Nafed.MicroPay.Model
+@model MicroPay.Web.Models.AttendanceImportViewModel
+
+@{
+    // var messageHeaderClass = Model.NoOfErrors == 0 ? "hide" : null;
+    var validationResultMsg = Model.NoOfErrors > 0 ? string.Format("{0} error(s) found ,Please check the sheet and reupload.", Model.NoOfErrors.ToString())
+        : "Sheet validated successfully, Press save button to submit the data."
+        ;
+    var msgClass = Model.NoOfErrors > 0 ? "alert alert-danger" : "alert alert-success";
+
+    validationResultMsg = Model.NoOfErrors == -1 ? "Please select file." :
+        Model.NoOfErrors == -2 ? "Please select valid file." : validationResultMsg;
+
+    msgClass = Model.NoOfErrors == -1 ? "alert alert-danger" :
+Model.NoOfErrors == -2 ? "alert alert-danger" : msgClass;
+
+}
+<script src="~/Scripts/popper.min.js"></script>
+
+<script>
+    $('.toggle-tooltip').tooltip();
+
+    if(@Model.NoOfErrors==0){
+
+        $('#btnSave').removeClass('hide');
+    }
+
+
+
+</script>
+
+
+<div id="validation-hdr" class="pull-right @msgClass" role="alert">
+
+    @validationResultMsg
+</div>

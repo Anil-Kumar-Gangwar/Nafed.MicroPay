@@ -1,0 +1,78 @@
+﻿@using Nafed.MicroPay.Model;
+@using MicroPay.Web.Models;
+@model SalaryHeadViewModel
+
+
+@{
+    ViewBag.Title = "Salary Head Rules";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row container">
+
+    <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+
+        @Html.LabelFor(model => model.selectedEmployeeTypeID, new { @class = "control-label required" })
+    </div>
+
+    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+
+        @Html.DropDownListFor(model => model.selectedEmployeeTypeID, new SelectList(Model.employeeType, "id", "value"), "Select", new { @class = "custom-select" })
+
+    </div>
+
+    <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+
+        <input type="button" value="Save" id="btnPostForm" class="btn btn-info  toggle-tooltip hide"  title="Click here, to save salary head rules." />
+    </div>
+</div>
+
+<div class="container mt-3 col-lg-12 col-sm-12 col-md-12 col-xs-12 hide" id="div-main-frm">
+
+    <div class="row">
+
+        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12" style="max-height:360px; overflow-y:scroll;">
+
+            @Html.Partial("_SalaryHeadFields", Model.fieldList)
+        </div>
+
+        <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12" id="dv-formula-Form">
+          
+            @Html.Action("_SalaryHeadFormulaForm", "SalaryHeadRules")
+
+
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        var defaultForm = $("#div-main-frm").html();
+
+        $("#btnPostForm").click(function () {
+            $("#formulaForm").submit();
+        });
+       
+        $(document).on('change', '#selectedEmployeeTypeID', function () {
+
+            var selectedValue = $(this).val();
+
+            if (selectedValue > 0) {
+                $("#div-main-frm").removeClass("hide");
+                $("#tblHeadField").attr("employeeTypeID", selectedValue);
+                
+                $("#tblHeadField tbody tr").each(function () {
+                    var parameters =  ($(this).find('a').attr('href')).split("&"); 
+                    var newHREF = parameters[0]+"&employeeTypeID=" + selectedValue;
+                   // var newHREF = $(this).find('a').attr('href') + "&employeeTypeID=" + selectedValue;
+                    $(this).find('a').attr('href', "").attr("href", newHREF);
+                });
+            }
+            else
+                $("#div-main-frm").addClass("hide").html(defaultForm);
+        });
+    });
+
+</script>

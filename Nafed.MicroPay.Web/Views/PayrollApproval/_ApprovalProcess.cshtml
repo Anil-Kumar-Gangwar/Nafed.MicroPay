@@ -1,0 +1,127 @@
+﻿@using MicroPay.Web.Models
+@model PayrollApprovalSettingVM
+
+
+<div id="div-main-form">
+
+    @using (Ajax.BeginForm("_PostApprovalSetting", "PayrollApproval", new AjaxOptions { HttpMethod = "POST", OnSuccess = "OnSuccess" }))
+    {
+
+        <div class="" style="margin-top:10px;">
+
+            <table id="tblTargetGoal" class="table table-bordered table-centered dt-responsive w-100">
+                <thead>
+                    <tr>
+                        <th class="text-right" style="width:5%">#</th>
+                        <th class="text-center" style="width:20%">Process</th>
+                        <th class="text-center" style="width:20%">Reporting 1 @Html.CheckBox("isRep1Same", false, new { @style = "margin-left:20px" }) @Html.Label("Apply to All", new { @for = "isRep1Same" }) </th>
+                        <th class="text-center" style="width:20%">Reporting 2 @Html.CheckBox("isRep2Same", false, new { @style = "margin-left:20px" }) @Html.Label("Apply to All", new { @for = "isRep2Same" })</th>
+                        <th class="text-center" style="width:20%">Reporting 3 @Html.CheckBox("isRep3Same", false, new { @style = "margin-left:20px" }) @Html.Label("Apply to All", new { @for = "isRep3Same" })</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @if (Model != null && Model.approvalSetting.Count > 0)
+                    {
+                        var Sno = 1;
+                        for (int i = 0; i < Model.approvalSetting.Count; i++)
+                        {
+                            <tr>
+                                <td class="text-right">@Sno</td>
+                                <td>
+                                    <div class="row">
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+
+                                            @Html.HiddenFor(model => model.approvalSetting[i].ProcessID)
+                                            @Html.HiddenFor(model => model.approvalSetting[i].ProcessAppID)
+                                                                                      
+                                            @Html.HiddenFor(model => model.approvalSetting[i].ProcessName)
+                                            @Html.HiddenFor(model => model.approvalSetting[i].OldReporting1)
+                                            @Html.HiddenFor(model => model.approvalSetting[i].OldReporting2)
+                                            @Html.HiddenFor(model => model.approvalSetting[i].OldReporting3)
+
+                                            @Html.DisplayFor(model => model.approvalSetting[i].ProcessName, new { @class = "form-control" })
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="row">
+                                        <div class="col-lg-12 col-md-8 col-sm-6 col-xs-12">
+                                            @Html.DropDownListFor(model => Model.approvalSetting[i].Reporting1, new SelectList(Model.employees, "id", "value", Model.approvalSetting[i].Reporting1),"Select", new { @class = "custom-select rep1" })
+                                            @Html.ValidationMessageFor(model => model.approvalSetting[i].Reporting1, "", new { @class = "text-danger" })
+
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="row">
+                                        <div class="col-lg-12 col-md-8 col-sm-6 col-xs-12">
+                                            @Html.DropDownListFor(model => Model.approvalSetting[i].Reporting2, new SelectList(Model.employees, "id", "value", Model.approvalSetting[i].Reporting2), "Select", new { @class = "custom-select rep2" })
+                                            @Html.ValidationMessageFor(model => model.approvalSetting[i].Reporting2, "", new { @class = "text-danger" })
+
+
+                                          </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="row">
+                                        <div class="col-lg-12 col-md-8 col-sm-6 col-xs-12">
+                                            @Html.DropDownListFor(model => Model.approvalSetting[i].Reporting3, new SelectList(Model.employees, "id", "value", Model.approvalSetting[i].Reporting3), "Select", new { @class = "custom-select rep3" })
+                                            @Html.ValidationMessageFor(model => model.approvalSetting[i].Reporting3, "", new { @class = "text-danger" })
+
+
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            Sno++;
+                        }
+                    }
+
+                </tbody>
+            </table>
+        </div>
+
+        if (Model != null && Model.approvalSetting.Count > 0)
+        {
+            <div class="form-group">
+
+                <span class="pull-right">
+                    @*@Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-light btn-md toggle-tooltip", @title = "Click here, to redirect on list page" })*@
+                    <input type="submit" value="Update" class="btn btn-info btn-md pull-center toggle-tooltip" title="Click here, to update this record" />
+                </span>
+            </div>
+        }
+
+    }
+</div>
+<script type="text/javascript">
+
+    $('.toggle-tooltip').tooltip();
+
+    function OnSuccess(data) {
+        if (data.msgType == "success") {
+            commonMessage(data.msgType, data.msg);
+            $("#div-main-form").load("/PayrollApproval/_GetApprovalSetting");
+        }
+        else
+            $("#div-main-form").html(data);
+    }
+
+    $('#isRep1Same').change(function () {
+        if ($(this).is(":checked")) {
+            $(".rep1").val($("#approvalSetting_0__Reporting1").val());
+        }
+    });
+    $('#isRep2Same').change(function () {
+        if ($(this).is(":checked")) {
+            $(".rep2").val($("#approvalSetting_0__Reporting2").val());
+        }
+    });
+    $('#isRep3Same').change(function () {
+        if ($(this).is(":checked")) {
+            $(".rep3").val($("#approvalSetting_0__Reporting3").val());
+        }
+    });
+
+</script>

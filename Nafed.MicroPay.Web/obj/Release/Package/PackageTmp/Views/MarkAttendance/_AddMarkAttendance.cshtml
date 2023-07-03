@@ -1,0 +1,393 @@
+﻿@model MicroPay.Web.Models.EmployeeViewModel
+<style>
+    .require {
+        color: red;
+        margin-left: 134px;
+    }
+</style>
+<link href="~/Content/mdtimepicker.min.css" rel="stylesheet" />
+<script src="~/Scripts/mdtimepicker.min.js"></script>
+
+<div class="advance-search" style="">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 pb-1 pt-2 form-inline align-middle">
+        <i class="fa fa-search fa-2x" style="color:#d4d4d4;" aria-hidden="true"></i><h4 class="desc" style="color:#0bb70b;">
+            @Html.Label("Search")
+        </h4>
+    </div>
+    <hr style="background-color:#fff !important;">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+        <div class="form-group">
+
+            <div class="row">
+                <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12 text-secondary mb-3">
+                    <i class="fas fa-filter"></i> Filter By :
+                </div>
+            </div>
+                <div class="row">
+                    <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+                        @Html.Label("Branch", htmlAttributes: new { @class = "" })
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                        @Html.DropDownList("ddlBranchList1", (IEnumerable<SelectListItem>)ViewBag.Branch, new { @class = "custom-select nonpopup", onchange = "BindEmployeeOnBranch(this)" })
+                    </div>
+
+                    <div class="col-lg-1 col-md- col-sm-12 col-xs-12">
+                        @Html.Label("Employee", htmlAttributes: new { @class = "" })
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                        @Html.DropDownList("ddlEmployee", (IEnumerable<SelectListItem>)ViewBag.EmployeeDetails, new { @class = "custom-select" })
+                    </div>
+                    <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+                        @Html.Label("From Date", htmlAttributes: new { @class = "" })
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                        @Html.Editor("FromDate", new { htmlAttributes = new { @class = "form-control", @type = "date" } })
+                    </div>
+                    <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+                        @Html.Label("To", htmlAttributes: new { @class = "" })
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                        @Html.Editor("ToDate", new { htmlAttributes = new { @class = "form-control", @type = "date" } })
+                    </div>
+                </div>
+        </div>
+        </div>
+    <hr style="background-color:#fff !important;">
+    <div class="row mt-3">
+
+        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 text-left mt-2 bg-light">
+            @Html.Partial("_Statusbar")
+        </div>
+
+        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 text-right">
+
+
+            <button type="submit" id="btnAdd" class="btn btn-info pull-center toggle-tooltip mt-2" data-toggle="modal" data-target="#myModal" title="Click here, to add on duty record.">
+                <i class="fa fa-plus" aria-hidden="true"></i>
+ Add On Duty Record
+            </button>
+            <button type="submit" id="btnSearch"  class="btn btn-warning toggle-tooltip mt-2" title="Click here, to search records." onclick="GetAttendanceGridData();">
+                        <i class="fa fa-search"></i> Search
+                    </button>
+        </div>
+
+    </div>
+
+ </div>
+
+
+        <!-- The Modal -->
+        <div class="modal" id="myModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                        <h4 class="modal-title">Add On Duty Record</h4>
+                        <button type="button" class="close" data-dismiss="modal" onclick="Clear()">&times;</button>
+                    </div>
+
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                        @Html.Label("Branch", htmlAttributes: new { @class = "required" })
+                                    </div>
+                                    <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12" id="ddlbranch">
+                                        @Html.DropDownList("ddlBranchList", (IEnumerable<SelectListItem>)ViewBag.Branch, new { @class = "custom-select popup", onchange = "BindEmployeeOnBranch(this)" })
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                        @Html.Label("Employee", htmlAttributes: new { @class = "required" })
+                                    </div>
+                                    <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12" id="ddlemp">
+                                        @Html.DropDownList("ddlEmployeeList", (IEnumerable<SelectListItem>)ViewBag.EmployeeDetails, new { @class = "custom-select" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                        @Html.Label("Place", htmlAttributes: new { @class = "required" })
+                                    </div>
+                                    <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12" id="Placediv">
+                                        @Html.DropDownList("ddlPlace", (IEnumerable<SelectListItem>)ViewBag.AttendanceType, new { @class = "custom-select" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                        @Html.Label("Date In", htmlAttributes: new { @class = "required" })
+                                    </div>
+                                    <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12" id="DateIndiv">
+                                        @Html.Editor("DateIn", "{0:dd-MM-yyyy}", new { htmlAttributes = new { @class = "form-control", @placeholder = "Date In", @type = "date" } })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                        @Html.Label("Time In", htmlAttributes: new { @class = "required" })
+                                    </div>
+                                    <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 date" id="TimeIndiv">
+                                        @Html.Editor("TimeIn", new { htmlAttributes = new { @class = "form-control", @placeholder = "Time In" } })
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                        @Html.Label("Date Out", htmlAttributes: new { @class = "required" })
+                                    </div>
+                                    <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12" id="DateOutdiv">
+                                        @Html.Editor("DateOut", "{0:dd-MM-yyyy}", new { htmlAttributes = new { @class = "form-control", @placeholder = "Date Out", @type = "date" } })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                        @Html.Label("Time Out", htmlAttributes: new { @class = "required" })
+                                    </div>
+                                    <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 date" id="TimeOutdiv">
+                                        @Html.Editor("TimeOut", new { htmlAttributes = new { @class = "form-control", @placeholder = "Time Out" } })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                        @Html.Label("Remark", htmlAttributes: new { @class = "required" })
+                                    </div>
+                                    <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12" id="Remarkdiv">
+                                        @Html.TextArea("Remark", null, new { @class = "form-control", @placeholder = "Remark", @maxlength = "200" })
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                        <input type="submit" value="Submit" id="btnSubmit" class="btn btn-info">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="Clear()">Close</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $('#TimeIn,#TimeOut').mdtimepicker();
+
+
+            });
+            $('#TimeIn,#TimeOut').mdtimepicker({
+                // format of the time value (data-time attribute)
+                timeFormat: 'hh:mm:ss.000',
+                // format of the input value
+                format: 'hh:mm tt',
+                // theme of the timepicker
+                // 'red', 'purple', 'indigo', 'teal', 'green'
+                theme: 'blue',
+
+                // determines if display value has zero padding for hour value less than 10 (i.e. 05:30 PM); 24-hour format has padding by default
+                hourPadding: false
+
+            });
+
+            function BindEmployeeOnBranch(e) {
+                var branchId = 0;
+                var filldropdown = 0;
+                filldropdown = (e.id == "ddlBranchList1" ? 1 : 2);
+                if ($("#ddlBranchList").val() != 0)
+                    branchId = $("#ddlBranchList").val();
+                else
+                    branchId = $("#ddlBranchList1").val();
+                if (branchId > 0) {
+                    jQuery.post("@Url.Action("GetBranchEmployee", "MarkAttendance")", {
+                        branchID: branchId,
+                    }).done(function (data) {
+                        debugger;
+                        if (data.employees != "") {
+                            if (filldropdown == 2) {
+                                $("#ddlEmployeeList").html("");
+                                $.each(data.employees, function (key, value) {
+                                    $("#ddlEmployeeList").append($("<option></option>").val(value.Value).html(value.Text));
+                                });
+                            }
+                            else {
+                                $("#ddlEmployee").html("");
+                                $.each(data.employees, function (key, value) {
+                                    $("#ddlEmployee").append($("<option></option>").val(value.Value).html(value.Text));
+                                });
+                            }
+                        }
+                    });
+                }
+            }
+            $('#btnSubmit').click(function () {
+                 debugger;
+                var employeeID = $("#ddlEmployeeList").val();
+                var typeID = $("#ddlPlace").val();
+                var proxydateIn = $("#DateIn").val();
+                var proxyOutDate = $("#DateOut").val();
+                var inTime = $("#TimeIn").val();
+                var outTime = $("#TimeOut").val();
+                var remark = $("#Remark").val();
+                var branchId = $("#ddlBranchList").val();
+
+                validation(employeeID, typeID, proxydateIn, proxyOutDate, inTime, outTime, remark, branchId);
+
+                if (employeeID != 0 && typeID != 0 && proxydateIn != "" && proxyOutDate != "" && inTime != "" && outTime != "" && remark != "") {
+                    jQuery.post("@Url.Action("InsertAttendance", "MarkAttendance")", {
+                        EmployeeId: employeeID,
+                        ProxydateIn: proxydateIn,
+                        InTime: inTime,
+                        OutTime: outTime,
+                        Remarks: remark,
+                        TypeID: typeID,
+                        Mode: "O",
+                        ProxyOutDate: proxyOutDate,
+                        BranchID: branchId,
+                    }).done(function (data) {
+                        debugger;
+                        if (data.insertEmployees.trim() != "") {
+                            if (data.insertEmployees.trim() == -1) {
+                                $.bootstrapGrowl("<i class='mdi-checkbox-marked-circle-outline' aria-hidden='true'></i>" + 'Please check date, cannot apply attendance for Sunday' + " ", {
+                                    type: 'danger',
+                                    align: 'center',
+                                    width: 'auto',
+                                    allow_dismiss: true,
+                                    delay: 20000
+                                });
+                            } else if (data.insertEmployees.trim() == -2) {
+                                $.bootstrapGrowl("<i class='mdi-checkbox-marked-circle-outline' aria-hidden='true'></i>" + 'Attendance Date Already Exist' + " ", {
+                                    type: 'danger',
+                                    align: 'center',
+                                    width: 'auto',
+                                    allow_dismiss: true,
+                                    delay: 20000
+                                });
+                            }
+                            else if (data.insertEmployees.trim() == -3) {
+                                $.bootstrapGrowl("<i class='mdi-checkbox-marked-circle-outline' aria-hidden='true'></i>" + data.msg.trim() + " ", {
+                                    type: 'danger',
+                                    align: 'center',
+                                    width: 'auto',
+                                    allow_dismiss: true,
+                                    delay: 20000
+                                });
+                            }
+                            else {
+                                $.bootstrapGrowl("<i class='mdi-checkbox-marked-circle-outline' aria-hidden='true'></i>" + data.insertEmployees.trim() + " ", {
+                                    type: 'success',
+                                    align: 'center',
+                                    width: 'auto',
+                                    allow_dismiss: true,
+                                    delay: 20000
+                                });
+                                Clear();
+
+                                return false;
+                            }
+                        }
+                        else {
+
+                        }
+                    });
+                }
+            });
+            function Clear() {
+                $("#ddlBranchList").val("0");
+                $("#ddlEmployeeList").val("0");
+                $("#ddlPlace").val("0");
+                $("#DateIn").val("");
+                $("#DateOut").val("");
+                $("#TimeIn").val("");
+                $("#TimeOut").val("");
+                $("#Remark").val("");
+                $("div.ddlrequire").remove();
+            }
+            function validation(employeeID, typeID, proxydateIn, proxyOutDate, inTime, outTime, remark, branchId) {
+                if (employeeID == 0) {
+                    if ($("#ddlemp").find(".ddlrequire").length == 0)
+                        $("#ddlemp").append('<div for="ddlemployee" class="help-block animation-slideDown ddlrequire" style="color:red;">Please Select Employee.</div>');
+                }
+                if (typeID == 0) {
+                    if ($("#Placediv").find(".ddlrequire").length == 0)
+                        $("#Placediv").append('<div for="ddltype" class="help-block animation-slideDown ddlrequire" style="color:red">Please Select Type.</div>');
+                }
+                if (branchId == 0) {
+                    if ($("#ddlbranch").find(".ddlrequire").length == 0)
+                        $("#ddlbranch").append('<div for="ddltype" class="help-block animation-slideDown ddlrequire" style="color:red">Please Select Branch.</div>');
+                }
+                if (proxydateIn == "") {
+                    if ($("#DateIndiv").find(".ddlrequire").length == 0)
+                        $("#DateIndiv").append('<div for="dateIn" class="help-block animation-slideDown ddlrequire" style="color:red">Please Enter Date In.</div>');
+                }
+                if (proxyOutDate == "") {
+                    if ($("#DateOutdiv").find(".ddlrequire").length == 0)
+                        $("#DateOutdiv").append('<div for="dateOut" class="help-block animation-slideDown ddlrequire" style="color:red">Please Enter Date Out.</div>');
+                }
+                if (inTime == "") {
+                    if ($("#TimeIndiv").find(".ddlrequire").length == 0)
+                        $("#TimeIndiv").append('<div for="dateOut" class="help-block animation-slideDown ddlrequire" style="color:red">Please Enter Time In.</div>');
+                }
+                if (outTime == "") {
+                    if ($("#TimeOutdiv").find(".ddlrequire").length == 0)
+                        $("#TimeOutdiv").append('<div for="dateOut" class="help-block animation-slideDown ddlrequire" style="color:red">Please Enter Time Out.</div>');
+                }
+                if (remark == "") {
+                    if ($("#Remarkdiv").find(".ddlrequire").length == 0)
+                        $("#Remarkdiv").append('<div for="dateOut" class="help-block animation-slideDown ddlrequire" style="color:red">Please Enter Remark.</div>');
+                }
+            }
+
+            $(document).ready(function () {
+               // GetAttendanceGridData();
+            });
+
+            function GetAttendanceGridData() {
+                var employeeID = $("#ddlEmployee").val();
+                var proxydateIn = $("#FromDate").val();
+                var proxyOutDate = $("#ToDate").val();
+                debugger;
+                if (proxydateIn > proxyOutDate) {
+                    alert('From date cannot be greater then To date.');
+                    return;
+                }
+                jQuery.post("@Url.Action("MarkAttendanceGridView", "MarkAttendance")", {
+                    EmployeeId: employeeID,
+                    ProxydateIn: proxydateIn,
+                    ProxyOutDate: proxyOutDate,
+                }).done(function (data) {
+                    //  debugger;
+                    if (data != "") {
+                        $("#MarkDiv").html(data);
+                    }
+                    else {
+                    }
+                });
+            }
+        </script>

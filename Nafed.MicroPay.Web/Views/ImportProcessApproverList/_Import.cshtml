@@ -1,0 +1,97 @@
+﻿
+@using (Ajax.BeginForm("_Import", "ImportProcessApproverList", new AjaxOptions
+{
+    HttpMethod = "POST"@*, UpdateTargetId = "dv-import"*@ }, new { enctype = "multipart/form-data", defaultbutton = "submitform" }))
+{
+    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+        <div class="row">
+            <div class="col-xl-1 col-lg-1 col-md-1 col-sm-12 col-xs-12 required">
+
+                Select File
+
+            </div>
+            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12">
+
+                <div class="input-group image-preview">
+
+
+                    <input type="text" class="form-control image-preview-filename" disabled="disabled"> <!-- don't give a name === doesn't send on POST/GET -->
+                    <span class="input-group-btn">
+                        <!-- image-preview-clear button -->
+                        <button type="button" class="btn btn-default image-preview-clear" style="display:none;">
+                            <span class="glyphicon glyphicon-remove"></span> Clear
+                        </button>
+                        <!-- image-preview-input -->
+                        <div class="btn btn-default image-preview-input">
+                            <span class="glyphicon glyphicon-folder-open"></span>
+                            <span class="image-preview-input-title">Browse</span>
+                            @Html.TextBox("file", "", new { type = "file", @class = "", @name = "input-file-preview" })
+
+
+                        </div>
+                    </span>
+
+
+                </div>
+
+                <div>
+                    @Html.ValidationMessage("FileRequired", "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12 col-xs-12">
+
+                <button type="submit" id="submitform" class="btn btn-success pull-center"
+                        data-toggle="tooltip"
+                        title="Click here, to validate your input file.">
+                    <i class="fa fa-check" aria-hidden="true"></i>
+                    Validate Data
+                </button>
+
+            </div>
+
+            <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12 col-xs-12">
+
+                <button type="button" id="btnSave" class="btn btn-info pull-center hide"
+                        data-toggle="tooltip" title="Click here, to update manual sheet data.">
+
+                    <i class="fa fa-check" aria-hidden="true"></i>
+                    Update
+                </button>
+
+            </div>
+        </div>
+
+    </div>
+
+}
+
+<script>
+    $(document).ready(function () {
+        $('#btnSave').click(function () {
+
+            var selectedProcessID = $("#ddlProcess option:selected").val();
+
+            var saveURL = "@Url.Action("SubmitFileData", "ImportProcessApproverList")";
+            $.post(saveURL, { 'processID': selectedProcessID }).done(function (data) {
+                if (data.errorCode == -1)
+                    $("#validation-hdr").html(data.error).addClass('alert alert-danger');
+                if (data.errorCode == 0) {
+                    $("#validation-hdr").html(data.msg).addClass('alert alert-success');
+                    $("#btnSave").addClass('hide');
+                }
+                $('#waitLoading').css('display', 'none');
+                $('.modal-backdrop').hide();
+            });
+        });
+    });
+
+</script>
+
+
+
+
+
+
+

@@ -1,0 +1,133 @@
+﻿@model List<Nafed.MicroPay.Model.MyAttendanceDetails>
+@using Nafed.MicroPay.Model;
+@{
+    var selectedEmpID = Model.Count > 0 ? Model.First().EmployeeId : 0;
+    var hasSourceController = string.IsNullOrEmpty(ViewBag.sourceController) ? false : true;
+    var isEditableRecordExists = Model.Any(x => x.Editable > 0);
+    UserDetail user = (UserDetail)HttpContext.Current.Session["User"];
+}
+
+@if (user != null)
+            {
+                if (user.DeviceTypeIsMobile)
+                {
+        <script type="text/javascript">
+            $("#tblGrid").addClass("table_card")
+            $('div.preview *').removeAttr('style');
+          
+        </script>
+    }
+
+}
+<div class="preview">
+    <table id="tblGrid" class="table table-centered table-striped dt-responsive w-100">
+
+        <thead class="bg-info text-white">
+            <tr>
+                <th scope="col" style="width:5px;">
+                    #
+                </th>
+                <th scope="col" style="width:100px;" class="text-center">
+                    Date
+                </th>
+                <th scope="col" style="width:100px;" class="text-center">
+                    In Time
+                </th>
+                <th scope="col" style="width:100px;" class="text-center">
+                    Out Time
+                </th>
+                <th scope="col" style="width:100px;" class="text-center">
+                    Hours
+                </th>
+                @if (hasSourceController && isEditableRecordExists)
+            {
+                    <th scope="col" class="text-center" style="width:20px;">
+                        Action
+                    </th>
+            }
+            </tr>
+        </thead>
+        <tbody>
+
+            @{
+            if (selectedEmpID > 0)
+            {
+                    <script type="text/javascript">
+
+                    var EmployeeCode = $("#tblAttendanceList tbody tr[rowID='" +@selectedEmpID +"']").find('td:eq(1)').html();
+                    var EmployeeName = $("#tblAttendanceList tbody tr[rowID='" +@selectedEmpID +"']").find('td:eq(2)').html();
+                    $("#lbl-Employee").text(EmployeeCode + '-' + EmployeeName);
+                    </script>
+
+            }
+            int index = 1;
+            if (Model != null)
+            {
+                foreach (var item in Model)
+                {
+                        <tr>
+                            <td data-label="S.No." style="width:5px;">@index</td>
+                            <td data-label="Date" style="width:100px;" class="text-center"> @item.Date</td>
+                            <td data-label="In Time" style="width:100px;" class="text-center"> @item.InTime</td>
+                            <td data-label="Out Time" style="width:100px;" class="text-center"> @item.OutTime</td>
+                            <td data-label="Hours" style="width:100px;" class="text-center"> @item.Hours</td>
+
+                            @if (hasSourceController && isEditableRecordExists)
+                        {
+                                <td data-label="Action" style="width:20px;" class="text-center">
+
+                                    @if (item.Editable > 0)
+                                {
+                                        <a data-ajax="true"
+                                           method="POST" class="toggle-tooltip" title="Click here, to approve request."
+                                           data-ajax-update="#div-approvalPopup" data-ajax-mode="replace"
+                                           data-backdrop="static" data-keyboard="false"
+                                           href="@Url.Action("_GetApprovalPopup", "MyAttendanceDetail", new
+                                        {
+                                            empID = item.EmployeeId,
+                                           empAttendanceID = item.EmpAttendanceID
+
+                                        })"
+                                           id="a_attendancepopup" data-toggle="modal" data-target="#div-attendance-model">
+                                            <i class="fa fa-edit" aria-hidden="true"></i>
+                                        </a>
+                                }
+                                </td>
+                        }
+                        </tr>
+                    index++;
+                }
+            }
+            }
+        </tbody>
+    </table>
+</div>
+<div class="modal" id="div-attendance-model" data-backdrop="static" data-keyboard="false" role="dialog" style="overflow:auto;">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Attendance Approve</h4>
+                <button type="button" class="close toggle-tooltip" onclick="HideModel()">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body" id="div-approvalPopup">
+
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function HideModel() {
+        $("#div-attendance-model").modal("hide");
+    }
+</script>

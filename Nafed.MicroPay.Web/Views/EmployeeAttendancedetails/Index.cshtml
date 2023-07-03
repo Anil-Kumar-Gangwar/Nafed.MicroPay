@@ -1,0 +1,82 @@
+﻿
+
+@model Nafed.MicroPay.Model.UserAccessRight
+@{
+    ViewBag.Title = "Employee Attendance Details";
+    ViewBag.NavigationTitle = "Employee Attendance Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    System.Globalization.CultureInfo Indian = new System.Globalization.CultureInfo("hi-IN");
+}
+
+@*<style>
+    .patty_panel {
+        background-color: #0c858e;
+        color: #ffffff;
+        font-size: 14px;
+    }
+</style>*@
+
+<div class="">
+    <div id="UserGridDiv">
+        @{Html.RenderAction("SearchEmployeeAttendancedetails");}
+    </div>
+</div>
+<br />
+
+<div class="card_new_body">
+    <div id="MarkDiv"  style="overflow-x:scroll;max-height:500px;">
+        @*@Html.Action("EmployeeAttendancedetailsGridView")*@
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+
+        var year = (new Date()).getFullYear();
+        var currentMonth = new Date().getMonth()+1;
+        $('#ddlYear').val(year);
+        $('#ddlmonth').val(currentMonth);
+        $('#ddlBranchList1').val(@ViewBag.BranchID);
+        BindEmployeeOnBranchLoad(@ViewBag.BranchID);
+        if(@ViewBag.ReportingTo==1)
+        {
+            $('#ddldisplayType').prop("disabled", false);
+        }
+        else
+        {
+            $('#ddldisplayType').prop("disabled", true);
+        }
+
+    });
+
+    function BindEmployeeOnBranchLoad(branchId) {
+        if (branchId > 0) {
+            jQuery.post("@Url.Action("GetBranchEmployee", "EmployeeAttendancedetails")", {
+                branchID: branchId,
+            }).done(function (data) {
+
+                if (data.employees != "") {
+                    $("#ddlEmployee").html("");
+                    $.each(data.employees, function (key, value) {
+                        $("#ddlEmployee").append($("<option></option>").val(value.Value).html(value.Text));
+                    });
+                }
+
+                if(@ViewBag.UserID==1)
+                {
+                    $('#ddlBranchList1').prop("disabled", false);
+                    $('#ddlEmployee').prop("disabled", false);
+                }
+                else
+                {
+                    $('#ddlEmployee').val(@ViewBag.EmployeeID);
+                    $('#ddlBranchList1').prop("disabled", true);
+                    $('#ddlEmployee').prop("disabled", true);
+                }
+
+            });
+        }
+    }
+</script>
+
+
+

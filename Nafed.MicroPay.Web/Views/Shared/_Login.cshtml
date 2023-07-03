@@ -1,0 +1,24 @@
+﻿@using System.Web.Optimization
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - NAFED- MicroPay</title>
+
+
+    @Styles.Render("~/Content/style")
+
+    <script src="~/Scripts/CryptoJS/aes.js"></script> 
+  
+</head>
+<body>
+    <header></header>
+    <div id="body">
+        @RenderBody()
+    </div>
+
+</body>
+</html>
+

@@ -1,0 +1,75 @@
+﻿@using fileHelper = Nafed.MicroPay.Common.ExtensionMethods;
+@using Nafed.MicroPay.Model;
+@model MicroPay.Web.Models.SubordinateTrainingVM
+@{
+    TempData["frmGroupTrainingData"] = Model;
+}
+<script type="text/javascript">
+
+    $('.toggle-tooltip').tooltip();
+
+</script>
+<table id="tblTraining" class="table table-bordered table-centered dt-responsive w-100">
+    <thead>
+        <tr>
+            <th class="text-right" style="width:5%">#</th>
+            <th class="text-center" style="width:30%">Employee</th>
+            <th class="text-center" style="width:30%">Training</th>
+            <th class="text-center" style="width:55%">Remarks</th>
+            <th class="text-center" style="width:10% ;vertical-align: middle;">Remove </th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @if (Model.TrainingDtls != null && Model.TrainingDtls.Count() > 0)
+        {
+            for (int i = 0; i < Model.TrainingDtls.Count(); i++)
+            {
+                <tr>
+                    <td class="text-right">@fileHelper.GetRomanValueByNumber(i + 1) <text>.</text> </td>
+                    <td>
+                        @Html.DropDownListFor(model => model.TrainingDtls[i].EmployeeID, new SelectList(ViewBag.Employee, "id", "value"), "Select", new { @class = "custom-select" })
+                        @Html.ValidationMessageFor(model => model.TrainingDtls[i].EmployeeID, "", new { @class = "text-danger" })
+                        <span id="employeeError" class="text-danger"></span>
+                    </td>
+                    <td>
+
+                        @Html.HiddenFor(model => model.TrainingDtls[i].TrainingID)
+
+                        @Html.EnumDropDownListFor(model => Model.TrainingDtls[i].FormTraining,"--Please select Training Type--", new { @class = "custom-select drpdown-section"})
+                    </td>
+                    <td>
+                        @Html.TextAreaFor(model => model.TrainingDtls[i].Remark, new { @class = "form-control lg-textarea", @maxlength = "200" })
+                        @Html.ValidationMessageFor(model => model.TrainingDtls[i].Remark,"", new { @class = "text-danger" })
+                    </td>
+                    <td class="text-center align-middle">
+
+                        @Ajax.ActionLink("Remove",
+                             "_RemoveTrainingRow", new
+                             {
+                                 sNo = Model.TrainingDtls[i].sno
+                             },
+                             new AjaxOptions
+                             {
+                                 UpdateTargetId = "div-training-grid",
+                                 InsertionMode = InsertionMode.Replace,
+                                 Confirm = "Are you sure you want to remove this record?",
+                                 HttpMethod = "GET"
+                             }, new { @class = "btn btn-danger btn-xs toggle-tooltip btn-sectionAddRow", @title = "Click here, to remove this row." })
+                    </td>
+                </tr>
+
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="4" class="text-center">No Record Found. </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+
+

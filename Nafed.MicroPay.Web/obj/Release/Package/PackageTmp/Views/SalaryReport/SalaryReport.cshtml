@@ -1,0 +1,32 @@
+﻿@{
+    ViewBag.Title = "Download Salary Slip";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div>
+    <div>
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                @using (Ajax.BeginForm("SalarySlip", "SalaryReport", new AjaxOptions { HttpMethod = "GET",UpdateTargetId= "dv-salaryslip"}))
+                {
+                    @Html.Action("GetFilter")
+                    <hr />
+                    <div id="dv-salaryslip">
+
+                    </div>
+                }
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+

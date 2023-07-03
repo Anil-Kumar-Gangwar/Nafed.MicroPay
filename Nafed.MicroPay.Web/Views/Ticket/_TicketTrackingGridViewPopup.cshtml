@@ -1,0 +1,127 @@
+﻿@using Nafed.MicroPay.Model
+@model Ticket
+
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+        <h4>Forward Ticket (<b>Ticket No. </b>- @Model.ID,<b> Subject </b>- @Model.subject)</h4>
+
+    </div>
+</div>
+<hr />
+
+<table id="tblTrackingGrid" class="table table-centered table-striped dt-responsive w-100">
+    <thead>
+        <tr>
+            <th>
+                #
+            </th>
+            <th>
+                Forwarded Department
+            </th>
+            <th>
+                Forwarded By
+            </th>
+            <th>
+                Reciever Department
+            </th>
+            <th>
+                Reciever
+            </th>
+            <th>
+                Forwarded On
+            </th>
+            <th>
+                Turn Around Time
+            </th>
+            <th>
+                Remarks
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            if (Model.TForwardList != null && Model.TForwardList.Count > 0)
+            {
+                var sno = 1;
+                for (int i = 0; i < Model.TForwardList.Count; i++)
+                {
+                    <tr>
+                        <td> @sno</td>
+                        <td>
+                            @Model.TForwardList[i].SenderDepartment
+                        </td>
+                        <td>
+
+                            @Model.TForwardList[i].Sender
+                        </td>
+                        <td>
+                            @Model.TForwardList[i].RevDepartment
+                        </td>
+                        <td>
+
+                            @Model.TForwardList[i].RevName
+                        </td>
+                        <td>
+                            @if (Model.TForwardList[i].Senddate.HasValue)
+                            {
+                                @Model.TForwardList[i].Senddate.Value.ToString("dd-MM-yyyy hh:mm tt")
+                            }
+                        </td>
+                        <td>
+                            @Model.TForwardList[i].TAT
+                        </td>
+
+                        <td id="@("remark_"+i)">
+                            @if (!string.IsNullOrEmpty(Model.TForwardList[i].Remarks))
+                            {
+                                if (@Model.TForwardList[i].Remarks.Length > 50)
+                                {
+                                    @Html.HiddenFor(model => @Model.TForwardList[i].Remarks)
+                                    <a href="#" class="toggle-tooltip" title="Click here to see Remark">@Model.TForwardList[i].Remarks.Substring(0, 50)...</a>
+                                }
+                                else
+                                {
+                                    @Model.TForwardList[i].Remarks
+                                }
+                            }
+
+                        </td>
+
+                    </tr>
+                    sno++;
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="8" class="text-center"> No Record Found.</td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
+
+<script type="text/javascript">
+    $('#tblTrackingGrid tr td').click(function () {
+        var cid = $(this).attr('id');
+        var res = cid.substring(0, 6);
+        var id_indx = cid.substring(7);
+        var filemanagmtid = "TForwardList_0__Remarks";
+        var filemgn = filemanagmtid.substring(0, 13);
+        var hdnremark = filemgn + id_indx + "__Remarks";
+        if (res == "remark") {
+            var rmk = $("#" + hdnremark).val();
+            if (rmk.length > 50) {
+                $("#div-remarks").text(rmk)
+                $('#div-remarks-popup').modal('show');
+            }
+        }
+    });
+    $(document).ready(function () {
+        var table = $('#tblTrackingGrid').DataTable({ searching: false, paging: false, sorting: false });
+    });
+</script>
+
+

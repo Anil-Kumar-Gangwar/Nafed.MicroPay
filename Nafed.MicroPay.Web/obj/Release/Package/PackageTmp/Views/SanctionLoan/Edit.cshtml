@@ -1,0 +1,556 @@
+﻿@model Nafed.MicroPay.Model.SanctionLoan
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@{
+    var checkedSan = @Model.LoanSanction;
+    var d = Model.DateAvailLoan.Value.ToString("yyyy-MM-dd");
+
+}
+
+
+@using (Html.BeginForm("Edit", "SanctionLoan", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+
+    <div class="row">
+
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+            <fieldset class="border p-2 col-md-12 col-xs-12 col-lg-12 col-xl-12">
+
+                <legend style="font-size:1.3rem !important;" class="w-auto">GENERAL</legend>
+
+                <div class="form-group">
+
+                    <div class="row">
+
+                        @Html.LabelFor(model => model.SerialNo, htmlAttributes: new { @class = "control-label col-lg-2 col-md-2 col-sm-12 col-xs-12 mb-2" })
+
+                        <div class="col-lg-2 col-md-4 col-sm-12 col-xs-12 mb-2">
+                            @Html.HiddenFor(model => model.SerialNo)
+                            @Html.EditorFor(model => model.SerialNo, new { htmlAttributes = new { @class = "form-control", @placeholder = "To be generated", @maxlength = "20", @readonly = "readonly" } })
+                        </div>
+
+                        @Html.LabelFor(model => model.PFNumber, htmlAttributes: new { @class = "control-label col-lg-2 col-md-2 col-sm-12 col-xs-12 mb-2" })
+
+                        <div class="col-lg-2 col-md-4 col-sm-12 col-xs-12 mb-2">
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
+                                    <div class="input-group">
+                                        @Html.EditorFor(model => model.PFNumber, new { htmlAttributes = new { @class = "form-control", @placeholder = "Enter PF Number", @maxlength = "6" } })
+                                        <span class="input-group-addon primary">
+                                            <a href="javascript:void(0)" onclick="SearchByPF();" title="Click here, to find by PF number" class="toggle-tooltip">
+                                                <span class="fa fa-search text-white"></span>
+                                            </a>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        @Html.LabelFor(model => model.EmployeeId, htmlAttributes: new { @class = "control-label col-lg-2 col-md-2 col-sm-12 col-xs-12 mb-2" })
+
+                        <div class="col-lg-2 col-md-4 col-sm-12 col-xs-12 mb-2">
+                            @Html.HiddenFor(model => model.EmployeeId)
+                            @Html.DropDownListFor(model => model.EmployeeId, new SelectList(Model.EmployeeList.OrderByDescending(x => x.value), "id", "value"), new { @class = "custom-select", @disabled = "disabled" })
+                        </div>
+                    </div>
+
+                    <div class="row">
+
+                        @Html.LabelFor(model => model.DateofApp, htmlAttributes: new { @class = "control-label col-lg-2 col-md-2 col-sm-12 col-xs-12 mb-2" })
+
+                        <div class="col-lg-2 col-md-4 col-sm-12 col-xs-12 mb-2">
+                            @Html.HiddenFor(model => model.DateofApp)
+                            @Html.EditorFor(model => model.DateofApp, new { htmlAttributes = new { @class = "form-control", @placeholder = "Date of Application", type = "date", @onfocusout = "ApplicationDate()", @readonly = "readonly" } })
+                        </div>
+
+                        @Html.LabelFor(model => model.DateRcptApp, htmlAttributes: new { @class = "control-label col-lg-2 col-md-3 col-sm-12 col-xs-12 mb-2" })
+
+                        <div class="col-lg-2 col-md-3 col-sm-12 col-xs-12 mb-2">
+                            @Html.HiddenFor(model => model.DateRcptApp)
+                            @Html.EditorFor(model => model.DateRcptApp, new { htmlAttributes = new { @class = "form-control", @placeholder = "Date of Application Receipt", type = "date", @readonly = "readonly" } })
+                        </div>
+
+                        @Html.LabelFor(model => model.LoanTypeId, htmlAttributes: new { @class = "control-label col-lg-2 col-md-2 col-sm-12 col-xs-12 mb-2" })
+
+                        <div class="col-lg-2 col-md-4 col-sm-12 col-xs-12 mb-2">
+                            @Html.HiddenFor(model => model.AssignLoanTypeId)
+                            @Html.DropDownListFor(model => model.LoanTypeId, new SelectList(Model.LoanTypeList, "id", "value"), "Select", new { @class = "custom-select", @onChange = "ChangeLoanType()", @disabled = "disabled" })
+                        </div>
+
+                    </div>
+
+
+                    <div class="row">
+                        @Html.LabelFor(model => model.ReqAmt, htmlAttributes: new { @class = "control-label col-lg-2 col-md-2 col-sm-12 col-xs-12 mb-2" })
+
+                        <div class="col-lg-2 col-md-4 col-sm-12 col-xs-12 mb-2">
+                            @Html.HiddenFor(model => model.ReqAmt)
+                            @Html.EditorFor(model => model.ReqAmt, new { htmlAttributes = new { @class = "form-control", @placeholder = "Requested Amount", type = "number", @onfocusout = "RequestedAmount()", @readonly = "readonly" } })
+                        </div>
+
+                        @Html.LabelFor(model => model.PriorityNo, htmlAttributes: new { @class = "control-label col-lg-2 col-md-2 col-sm-12 col-xs-12 mb-2" })
+
+                        <div class="col-lg-2 col-md-4 col-sm-12 col-xs-12 mb-2">
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
+                                    <div class="input-group">
+                                        @Html.EditorFor(model => model.PriorityNo, new { htmlAttributes = new { @class = "form-control", @placeholder = "Loan Number", @readonly = "readonly" } })
+                                        <span class="input-group-addon primary">
+                                            <a href="javascript:void(0)" onclick="AssignLoanNo();" title="Click here, to find by Assign Loan number" class="toggle-tooltip">
+                                                <span class="fa fa-tasks text-white"></span>
+                                            </a>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        @Html.LabelFor(model => model.ChkRound, new { @class = "control-label col-lg-2 col-md-2 col-sm-12 col-xs-12 mb-2" })
+
+                        <div class="col-lg-2 col-md-4 col-sm-12 col-xs-12 mb-4">
+                            @Html.HiddenFor(model => model.ChkRound)
+                            <label class="switch">
+                                @Html.CheckBoxFor(model => model.ChkRound, new { @class = "form-control", @disabled = "disabled" })
+                                <div class="slider round">
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        @Html.LabelFor(model => model.AppStatus, htmlAttributes: new { @class = "control-label col-lg-2 col-md-2 col-sm-12 col-xs-12 mb-2" })
+
+                        <div class="col-lg-2 col-md-4 col-sm-12 col-xs-12 mb-2">
+                            @*@Html.HiddenFor(model => model.AppStatus)*@
+                            @Html.EditorFor(model => model.AppStatus, new { htmlAttributes = new { @class = "form-control", @placeholder = "Application Status", @readonly = "readonly" } })
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        @Html.LabelFor(model => model.Surety, htmlAttributes: new { @class = "control-label col-lg-2 col-md-2 col-sm-12 col-xs-12 mb-2" })
+
+                        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 mb-2">
+                            @*@Html.HiddenFor(model => model.Surety)*@
+                            @Html.TextAreaFor(model => model.Surety, new { @class = "form-control", @style = "min-height:80px;max-height:80px;min-width:605px;max-width:605px;", @maxlength = "500" })
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+
+            <div class="row">
+                <fieldset class="border p-2 col-md-12 col-lg-7 col-xs-12 col-xl-7">
+                    <legend style="font-size:1.3rem !important;" class="w-auto">
+
+                        <label class="switch mb-3">
+                            @*@Html.HiddenFor(model => model.LoanSanction)*@
+                            @Html.CheckBoxFor(model => model.LoanSanction, new { @class = "form-control", @disabled = "disabled", @onChange = "CheckedLoanSanction()" })
+                            <div class="slider round">
+                            </div>
+                        </label>
+                        Loan Sanctioned
+                    </legend>
+
+                    <div class="form-group">
+
+                        <div class="row">
+
+                            @Html.LabelFor(model => model.DateofSanc, htmlAttributes: new { @class = "control-label col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-2" })
+
+                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-2">
+                                @Html.HiddenFor(model => model.DateofSanc)
+                                @Html.EditorFor(model => model.DateofSanc, new { htmlAttributes = new { @class = "form-control", @placeholder = "Date of Sancation", type = "date", @readonly = "readonly" } })
+                            </div>
+
+                            @Html.LabelFor(model => model.SancAmt, htmlAttributes: new { @class = "control-label col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-2" })
+
+                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-2">
+                                @Html.HiddenFor(model => model.SancAmt)
+                                @Html.EditorFor(model => model.SancAmt, new { htmlAttributes = new { @class = "form-control", @placeholder = "Sancation Amount", @readonly = "readonly" } })
+                            </div>
+                        </div>
+
+                        <div class="row">
+
+                            @Html.LabelFor(model => model.OriginalPInstNo, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2" })
+
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 mb-2">
+                                @Html.HiddenFor(model => model.OriginalPInstNo)
+                                @Html.EditorFor(model => model.OriginalPInstNo, new { htmlAttributes = new { @class = "form-control", @placeholder = "", @value = "0", @readonly = "readonly" } })
+                            </div>
+
+                            @Html.LabelFor(model => model.DateAvailLoan, htmlAttributes: new { @class = "control-label col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-2" })
+
+                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-2">
+                                @Html.HiddenFor(model => model.DateAvailLoan.Value)
+                                @*@Html.EditorFor(model => model.DateAvailLoan.Value, new { htmlAttributes = new { @class = "form-control", @placeholder = "Date of Availing Loan", @type = "date", @readonly = "readonly" } })*@
+                                @Html.EditorFor(model => model.DateAvailLoan1, new { htmlAttributes = new { @class = "form-control", @placeholder = "Date of Availing Loan", @type = "date", @readonly = "readonly" } })
+
+                            </div>
+                        </div>
+
+                        <div class="row">
+
+                            @Html.LabelFor(model => model.OriginalIInstNo, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2" })
+
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 mb-2">
+                                @Html.HiddenFor(model => model.OriginalIInstNo)
+                                @Html.EditorFor(model => model.OriginalIInstNo, new { htmlAttributes = new { @class = "form-control", @placeholder = "", @value = "0", @readonly = "readonly" } })
+                            </div>
+
+                            @Html.LabelFor(model => model.EffDate, htmlAttributes: new { @class = "control-label col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-2" })
+
+                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-2">
+                                @Html.HiddenFor(model => model.EffDate)
+                                @Html.EditorFor(model => model.EffDate, new { htmlAttributes = new { @class = "form-control", @placeholder = "Effective Date", @type = "date", @readonly = "readonly" } })
+                            </div>
+                        </div>
+
+                    </div>
+                </fieldset>
+
+                <fieldset class="border p-2 col-md-12 col-xs-12 col-lg-5 col-xl-5">
+                    <legend style="font-size:1.3rem !important;" class="w-auto">Loan Refusal</legend>
+                    <div class="form-group">
+                        <div class="row">
+
+                            @Html.LabelFor(model => model.Reasonref, htmlAttributes: new { @class = "control-label col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-2" })
+
+                            <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12 mb-2">
+                                @Html.HiddenFor(model => model.Reasonref)
+                                @Html.TextAreaFor(model => model.Reasonref, new { @class = "form-control", @style = "min-height:80px;max-height:80px;min-width:300px;max-width:400px;", @readonly = "readonly" })
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            @Html.LabelFor(model => model.Dateofref, htmlAttributes: new { @class = "control-label col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-2" })
+
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
+                                @Html.HiddenFor(model => model.Dateofref)
+                                @Html.EditorFor(model => model.Dateofref, new { htmlAttributes = new { @class = "form-control", @placeholder = "Date of Refusal", type = "date", @readonly = "readonly" } })
+                            </div>
+                        </div>
+
+                    </div>
+                </fieldset>
+            </div>
+
+            <div class="row">
+                <fieldset class="border p-2 col-md-12 col-xs-12 col-lg-6 col-xl-6">
+                    <legend style="font-size:1.3rem !important;" class="w-auto">Document Submitted</legend>
+
+                    <div class="form-group">
+
+                        <div class="row">
+                            @Html.LabelFor(model => model.Asubmitted, new { @class = "control-label col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-2" })
+
+                            <div class="form-group">
+
+                                <label class="switch">
+                                    @Html.CheckBoxFor(model => model.Asubmitted, new { @class = "form-control" })
+                                    <div class="slider round">
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            @Html.LabelFor(model => model.Bsubmitted, new { @class = "control-label col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-2" })
+
+                            <div class="form-group">
+
+                                <label class="switch">
+                                    @Html.CheckBoxFor(model => model.Bsubmitted, new { @class = "form-control" })
+                                    <div class="slider round">
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            @Html.LabelFor(model => model.Csubmitted, new { @class = "control-label col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-2" })
+
+                            <div class="form-group">
+
+                                <label class="switch">
+                                    @Html.CheckBoxFor(model => model.Csubmitted, new { @class = "form-control" })
+                                    <div class="slider round">
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            @Html.LabelFor(model => model.Dsubmitted, new { @class = "control-label col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-2" })
+
+                            <div class="form-group">
+
+                                <label class="switch">
+                                    @Html.CheckBoxFor(model => model.Dsubmitted, new { @class = "form-control" })
+                                    <div class="slider round">
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            @Html.LabelFor(model => model.Esubmitted, new { @class = "control-label col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-2" })
+
+                            <div class="form-group">
+
+                                <label class="switch">
+                                    @Html.CheckBoxFor(model => model.Esubmitted, new { @class = "form-control" })
+                                    <div class="slider round">
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            @Html.LabelFor(model => model.Fsubmitted, new { @class = "control-label col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-2" })
+
+                            <div class="form-group">
+
+                                <label class="switch">
+                                    @Html.CheckBoxFor(model => model.Fsubmitted, new { @class = "form-control" })
+                                    <div class="slider round">
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            @Html.LabelFor(model => model.Gsubmitted, new { @class = "control-label col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-2" })
+
+                            <div class="form-group">
+
+                                <label class="switch">
+                                    @Html.CheckBoxFor(model => model.Gsubmitted, new { @class = "form-control" })
+                                    <div class="slider round">
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            @Html.LabelFor(model => model.Hsubmitted, new { @class = "control-label col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-2" })
+
+                            <div class="form-group">
+
+                                <label class="switch">
+                                    @Html.CheckBoxFor(model => model.Hsubmitted, new { @class = "form-control" })
+                                    <div class="slider round">
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                </fieldset>
+                <fieldset class="border p-2 col-md-12 col-xs-12 col-lg-6 col-xl-6">
+                    <legend style="font-size:1.3rem !important;" class="w-auto">Other Details</legend>
+                    <div class="form-group">
+                        <div class="row">
+
+                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 mt-2">
+                                @Html.LabelFor(model => model.MaxLoanAmt, new { @class = "control-label" })
+                            </div>
+
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
+                                @Html.EditorFor(model => model.MaxLoanAmt, new { htmlAttributes = new { @class = "form-control", @placeholder = "Max Loan Amount", @readonly = "readonly" } })
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 mt-2">
+                                @Html.LabelFor(model => model.RateOfIntrest, new { @class = "control-label" })
+                            </div>
+
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
+                                @Html.EditorFor(model => model.RateOfIntrest, new { htmlAttributes = new { @class = "form-control", @placeholder = "Rate Of Intrest", @readonly = "readonly" } })
+                            </div>
+
+                        </div>
+                        <br />
+                        <div class="row">
+                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 mt-2">
+                                @Html.LabelFor(model => model.Detail, new { @class = "control-label" })
+                            </div>
+
+                            <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12 mb-2">
+                                @Html.TextAreaFor(model => model.Detail, new { @class = "form-control", @style = "min-height:170px;max-height:170px;min-width:450px;max-width:450px;", @maxlength = "500" })
+                            </div>
+                        </div>
+
+                    </div>
+                </fieldset>
+            </div>
+
+            <fieldset class="border p-2 col-md-12 col-xs-12 col-lg-12 col-xl-12">
+                <legend style="font-size:1.3rem !important;" class="w-auto">Current Information</legend>
+                <div class="form-group">
+                    <div class="row">
+
+                        @Html.Label("Original Principle Installments", htmlAttributes: new { @class = "control-label col-lg-2 col-md-2 col-sm-12 col-xs-12 mb-2" })
+
+                        <div class="col-lg-2 col-md-4 col-sm-12 col-xs-12 mb-2">
+                            @Html.HiddenFor(model => model.OriginalPrincipleInstallments)
+                            @Html.EditorFor(model => model.OriginalPrincipleInstallments, new { htmlAttributes = new { @class = "form-control", @placeholder = "", @readonly = "readonly" } })
+                        </div>
+
+                        @Html.LabelFor(model => model.BalancePAmt, htmlAttributes: new { @class = "control-label col-lg-2 col-md-2 col-sm-12 col-xs-12 mb-2" })
+
+                        <div class="col-lg-2 col-md-4 col-sm-12 col-xs-12 mb-2">
+                            @Html.HiddenFor(model => model.BalancePAmt)
+                            @Html.EditorFor(model => model.BalancePAmt, new { htmlAttributes = new { @class = "form-control", @placeholder = "", @readonly = "readonly" } })
+                        </div>
+
+                        @Html.LabelFor(model => model.LastPaidInstDeduDt, htmlAttributes: new { @class = "control-label col-lg-2 col-md-2 col-sm-12 col-xs-12 mb-2" })
+
+                        <div class="col-lg-2 col-md-4 col-sm-12 col-xs-12 mb-2">
+                            @Html.HiddenFor(model => model.LastPaidInstDeduDt)
+                            @Html.EditorFor(model => model.LastPaidInstDeduDt, new { htmlAttributes = new { @class = "form-control", @placeholder = "", @readonly = "readonly" } })
+                        </div>
+
+
+                        @Html.Label("Original Interest Installments", htmlAttributes: new { @class = "control-label col-lg-2 col-md-2 col-sm-12 col-xs-12 mb-2" })
+
+                        <div class="col-lg-2 col-md-4 col-sm-12 col-xs-12 mb-2">
+                            @Html.HiddenFor(model => model.OriginalInterestInstallments)
+                            @Html.EditorFor(model => model.OriginalInterestInstallments, new { htmlAttributes = new { @class = "form-control", @placeholder = "", @readonly = "readonly" } })
+                        </div>
+
+                        @Html.LabelFor(model => model.BalanceIAmt, htmlAttributes: new { @class = "control-label col-lg-2 col-md-2 col-sm-12 col-xs-12 mb-2" })
+
+                        <div class="col-lg-2 col-md-4 col-sm-12 col-xs-12 mb-2">
+                            @Html.HiddenFor(model => model.BalanceIAmt)
+                            @Html.EditorFor(model => model.BalanceIAmt, new { htmlAttributes = new { @class = "form-control", @placeholder = "", @readonly = "readonly" } })
+                        </div>
+
+                        @Html.LabelFor(model => model.LastPaidPInstAmt, htmlAttributes: new { @class = "control-label col-lg-2 col-md-2 col-sm-12 col-xs-12 mb-2" })
+
+                        <div class="col-lg-2 col-md-4 col-sm-12 col-xs-12 mb-2">
+                            @Html.HiddenFor(model => model.LastPaidPInstAmt)
+                            @Html.EditorFor(model => model.LastPaidPInstAmt, new { htmlAttributes = new { @class = "form-control", @placeholder = "", @readonly = "readonly" } })
+                        </div>
+
+                        @Html.LabelFor(model => model.OriginalPinstAmt, htmlAttributes: new { @class = "control-label col-lg-2 col-md-2 col-sm-12 col-xs-12 mb-2" })
+
+                        <div class="col-lg-2 col-md-4 col-sm-12 col-xs-12 mb-2">
+                            @Html.HiddenFor(model => model.OriginalPinstAmt)
+                            @Html.EditorFor(model => model.OriginalPinstAmt, new { htmlAttributes = new { @class = "form-control", @placeholder = "", @readonly = "readonly" } })
+                       
+                            @Html.ValidationMessage("OriginalPInstAmtValidation", "", new { @class = "text-danger" })
+
+                         </div>
+
+                        @Html.LabelFor(model => model.TotalBalanceAmt, htmlAttributes: new { @class = "control-label col-lg-2 col-md-2 col-sm-12 col-xs-12 mb-2" })
+
+                        <div class="col-lg-2 col-md-4 col-sm-12 col-xs-12 mb-2">
+                            @Html.HiddenFor(model => model.TotalBalanceAmt)
+                            @Html.EditorFor(model => model.TotalBalanceAmt, new { htmlAttributes = new { @class = "form-control", @placeholder = "", @readonly = "readonly" } })
+                        </div>
+
+                        @Html.LabelFor(model => model.LastPaidPInstNo, htmlAttributes: new { @class = "control-label col-lg-2 col-md-2 col-sm-12 col-xs-12 mb-2" })
+
+                        <div class="col-lg-2 col-md-4 col-sm-12 col-xs-12 mb-2">
+                            @Html.HiddenFor(model => model.LastPaidPInstNo)
+                            @Html.EditorFor(model => model.LastPaidPInstNo, new { htmlAttributes = new { @class = "form-control", @placeholder = "", @readonly = "readonly" } })
+                        </div>
+
+                        @Html.LabelFor(model => model.InterestInstAmt, htmlAttributes: new { @class = "control-label col-lg-2 col-md-2 col-sm-12 col-xs-12 mb-2" })
+
+                        <div class="col-lg-2 col-md-4 col-sm-12 col-xs-12 mb-2">
+                            @Html.HiddenFor(model => model.InterestInstAmt)
+                            @Html.EditorFor(model => model.InterestInstAmt, new { htmlAttributes = new { @class = "form-control", @placeholder = "", @readonly = "readonly" } })
+                        </div>
+
+                        @Html.LabelFor(model => model.LastMonthInterest, htmlAttributes: new { @class = "control-label col-lg-2 col-md-2 col-sm-12 col-xs-12 mb-2" })
+
+                        <div class="col-lg-2 col-md-4 col-sm-12 col-xs-12 mb-2">
+                            @Html.HiddenFor(model => model.LastMonthInterest)
+                            @Html.EditorFor(model => model.LastMonthInterest, new { htmlAttributes = new { @class = "form-control", @placeholder = "", @readonly = "readonly" } })
+                        </div>
+
+                        @Html.LabelFor(model => model.LastPaidIInstAmt, htmlAttributes: new { @class = "control-label col-lg-2 col-md-2 col-sm-12 col-xs-12 mb-2" })
+
+                        <div class="col-lg-2 col-md-4 col-sm-12 col-xs-12 mb-2">
+                            @Html.HiddenFor(model => model.LastPaidIInstAmt)
+                            @Html.EditorFor(model => model.LastPaidIInstAmt, new { htmlAttributes = new { @class = "form-control", @placeholder = "", @readonly = "readonly" } })
+                        </div>
+
+                        @Html.LabelFor(model => model.CurrentROI, htmlAttributes: new { @class = "control-label col-lg-2 col-md-2 col-sm-12 col-xs-12 mb-2" })
+
+                        <div class="col-lg-2 col-md-4 col-sm-12 col-xs-12 mb-2">
+                            @Html.HiddenFor(model => model.CurrentROI)
+                            @Html.EditorFor(model => model.CurrentROI, new { htmlAttributes = new { @class = "form-control", @placeholder = "", @readonly = "readonly" } })
+                        </div>
+
+                        @Html.LabelFor(model => model.RemainingPInstNo, htmlAttributes: new { @class = "control-label col-lg-2 col-md-2 col-sm-12 col-xs-12 mb-2" })
+
+                        <div class="col-lg-2 col-md-4 col-sm-12 col-xs-12 mb-2">
+                            @Html.HiddenFor(model => model.RemainingPInstNo)
+                            @Html.EditorFor(model => model.RemainingPInstNo, new { htmlAttributes = new { @class = "form-control", @placeholder = "", @readonly = "readonly" } })
+                        </div>
+
+                        @Html.LabelFor(model => model.LastPaidIInstNo, htmlAttributes: new { @class = "control-label col-lg-2 col-md-2 col-sm-12 col-xs-12 mb-2" })
+
+                        <div class="col-lg-2 col-md-4 col-sm-12 col-xs-12 mb-2">
+                            @Html.HiddenFor(model => model.LastPaidIInstNo)
+                            @Html.EditorFor(model => model.LastPaidIInstNo, new { htmlAttributes = new { @class = "form-control", @placeholder = "", @readonly = "readonly" } })
+                        </div>
+
+                        @Html.LabelFor(model => model.LastInstAmt, htmlAttributes: new { @class = "control-label col-lg-2 col-md-2 col-sm-12 col-xs-12 mb-2" })
+
+                        <div class="col-lg-2 col-md-4 col-sm-12 col-xs-12 mb-2">
+                            @Html.HiddenFor(model => model.LastInstAmt)
+                            @Html.EditorFor(model => model.LastInstAmt, new { htmlAttributes = new { @class = "form-control", @placeholder = "", @readonly = "readonly" } })
+                        </div>
+
+                        @Html.LabelFor(model => model.RemainingIInstNo, htmlAttributes: new { @class = "control-label col-lg-2 col-md-2 col-sm-12 col-xs-12 mb-2" })
+
+                        <div class="col-lg-2 col-md-4 col-sm-12 col-xs-12 mb-2">
+                            @Html.HiddenFor(model => model.RemainingIInstNo)
+                            @Html.EditorFor(model => model.RemainingIInstNo, new { htmlAttributes = new { @class = "form-control", @placeholder = "", @readonly = "readonly" } })
+                        </div>
+
+                        @Html.LabelFor(model => model.TotalSkippedInst, htmlAttributes: new { @class = "control-label col-lg-2 col-md-2 col-sm-12 col-xs-12 mb-2" })
+
+                        <div class="col-lg-2 col-md-4 col-sm-12 col-xs-12 mb-2">
+                            @Html.HiddenFor(model => model.TotalSkippedInst)
+                            @Html.EditorFor(model => model.TotalSkippedInst, new { htmlAttributes = new { @class = "form-control", @placeholder = "", @readonly = "readonly" } })
+                        </div>
+                    </div>
+
+                </div>
+            </fieldset>
+
+            <br />
+            <div class="divider-chevron"></div>
+            <span class="pull-right">
+                @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-light btn-md toggle-tooltip", @title = "Click here, to redirect on list page" })
+                <input type="submit" value="Update" class="btn btn-info btn-md pull-center toggle-tooltip" title="Click here, to save current record" />
+            </span>
+
+        </div>
+
+    </div>
+}
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        if ("@checkedSan" == "True" && $("#SancAmt").val() != "")
+            $("#AppStatus").val("Loan Sanctioned");
+        if ("@checkedSan" == "True" && $("#SancAmt").val() == "")
+            $("#AppStatus").val("Is in Sanctioning Process");
+        if ("@checkedSan" == "False" && $("#SancAmt").val() != "")
+            $("#AppStatus").val("Loan Refused");
+        if ("@checkedSan" == "False" && $("#SancAmt").val() == "")
+            $("#AppStatus").val("Is in Sanctioning Process");
+    });
+</script>

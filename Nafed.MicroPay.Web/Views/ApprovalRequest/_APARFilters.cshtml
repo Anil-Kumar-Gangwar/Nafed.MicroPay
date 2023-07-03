@@ -1,0 +1,90 @@
+﻿@using Nafed.MicroPay.Model;
+@model AppraisalFormApprovalFilter
+
+@using (Ajax.BeginForm("_PostAppraisalFormFilters", "ApprovalRequest", new AjaxOptions
+{
+    HttpMethod = "POST",
+    UpdateTargetId = "div-appraisal-forms",
+}, new { defaultbutton = "aprsubmitform",id="aprform" }))
+{
+    <div class="advance-search" style="">
+
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 pb-1 pt-2 form-inline align-middle">
+            <i class="fa fa-search fa-2x" style="color:#d4d4d4;" aria-hidden="true"></i><h4 class="desc" style="color:#0bb70b;">
+                @Html.Label("Search")
+            </h4>
+        </div>
+        @Html.HiddenFor(model => model.loggedInEmployeeID)
+        <hr style="background-color:#fff !important;">
+
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+            <div class="row">
+                <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12 text-secondary pr-0">
+                    <i class="fas fa-filter"></i> Filter By :
+                </div>
+                <div class="col-md-2">
+
+                    <div class="form-group">
+                        @Html.Label("Reporting Yr", htmlAttributes: new { @class = "required" })
+
+                        @Html.DropDownListFor(model => model.selectedReportingYear, new SelectList(Model.reportingYrs, "value", "value"),"select", new { @class = "custom-select ddlselect" })
+     <span id="errorReporting" class="text-danger"></span>
+
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        @Html.Label("Status", htmlAttributes: new { @class = "" })
+
+                        @Html.EnumDropDownListFor(model => model.appraisalFormStatus,"select", new { @class = "custom-select" })
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        @Html.Label("Form", htmlAttributes: new { @class = "" })
+
+                        @Html.DropDownListFor(model => model.selectedFormID, new SelectList(Model.appraisalForms, "id", "value"), "Select", new { @class = "custom-select" })
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        @Html.Label("Employee", htmlAttributes: new { @class = "" })
+
+                        @Html.DropDownListFor(model => model.selectedEmployeeID, new SelectList(Model.employees, "id", "value"), "Select", new { @class = "custom-select" })
+                    </div>
+                </div>
+
+                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 pt-lg-4">
+                    <button type="button" id="aprsubmitform" value="Search" title="Click here, to search records" class="btn btn-warning toggle-tooltip">
+                        <i class="fa fa-search"></i> Search
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+
+<script>
+
+    $(document).on('click', '#aprsubmitform', function () {
+        debugger;
+        rYear = $("#selectedReportingYear").val();
+        $("#errorReporting").html('');
+        if (rYear !='')
+        {
+            $("#aprform").submit();
+        }
+        else
+        {
+            $("#errorReporting").html("Please select Reporting Year");
+        }
+    })
+    
+    $(document).ready(function () {
+        $("#selectedReportingYear").prop('selectedIndex', 1);
+        $("#aprsubmitform").trigger("click");
+    });
+
+</script>

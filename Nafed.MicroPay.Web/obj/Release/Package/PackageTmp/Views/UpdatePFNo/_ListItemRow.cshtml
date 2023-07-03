@@ -1,0 +1,214 @@
+﻿@using Nafed.MicroPay.Model
+@model UnAssignedPFRecord
+
+
+
+@{
+
+    Layout = null;
+}
+
+@using (Ajax.BeginForm("_PostListItemRow", "UpdatePFNo", new AjaxOptions { HttpMethod = "POST" }, new { id = Model.SNo + "Form" }))
+{
+
+    @Html.HiddenFor(model => model.EmployeeId, new { @name = "eID" })
+    @Html.HiddenFor(model => model.Employeecode, new { @name = "ec" })
+    @Html.HiddenFor(model => model.Branchname, new { @name = "b" })
+    @Html.HiddenFor(model => model.DepartmentName, new { @name = "dp" })
+    @Html.HiddenFor(model => model.DesignationName, new { @name = "ds" })
+    @Html.HiddenFor(model => model.SNo, new { @name = "esno" })
+    @Html.HiddenFor(model => model.AadhaarNo, new { @id = "aadhar-hdn" + Model.SNo })
+    @Html.HiddenFor(model => model.PANNo, new { @id = "pan-hdn" + Model.SNo })
+    @Html.HiddenFor(model => model.IFSCCode, new { @id = "ifscCode-hdn" + Model.SNo })
+    @Html.HiddenFor(model => model.EPFOMemberID, new { @id = "epfo-hdn" + Model.SNo })
+    @Html.HiddenFor(model => model.PensionUAN, new { @id = "uan-hdn" + Model.SNo })
+    @Html.HiddenFor(model => model.PFNO, new { @id = "pf-hdn" + Model.SNo })
+    @Html.HiddenFor(model => model.BankAcNo, new { @id = "ac-hdn" + Model.SNo })
+    @Html.HiddenFor(model => model.BankCode, new { @id = "bankCode-hdn" + Model.SNo })
+
+    <td>
+        @Model.SNo
+    </td>
+
+    <td>
+        @Model.Employeecode
+
+    </td>
+    <td>
+
+        @Model.Employeename
+
+    </td>
+
+    <td>
+        @Model.Branchname
+    </td>
+
+    <td>
+
+        @Model.DepartmentName
+    </td>
+
+    <td>
+
+        @Model.DesignationName
+
+    </td>
+
+    @*<td>
+
+            @Html.EditorFor(model => model.PFNo,
+           new { htmlAttributes = new { @class = "form-control text-right", @id = "epFNo" + Model.SNo } })
+
+        </td>*@
+
+    <td>
+        <input type="button" value="UPDATE" name="ButtonTypeX" onclick="openModal('@Model.EmployeeId','@Model.SNo');" class="btn btn-success btn-md pull-center toggle-tooltip" title="Click here, to update details" />
+        @*<input type="submit" value="UPDATE" id=btnUpdate_@Model.SNo name="ButtonTypeX" onclick="btnClick('@Model.EmployeeId','@Model.SNo');" class="btn btn-success btn-md pull-center toggle-tooltip" title="Click here, to update PF No." />*@
+
+    </td>
+
+}
+
+
+<div class="modal" id="updateAccountModal" data-backdrop="static" data-keyboard="false" role="dialog" style="overflow:auto;">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Update Personally Identifiable Information</h4>
+                <button type="button" class="close toggle-tooltip" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div class="row">
+                    <input type="hidden" id="hdnEmpId" value="" />
+                    <input type="hidden" id="hdnSq" value="" />
+                    <div class="col-6 mb-3">
+                        <label for="pf-field" class="form-label">Provident Fund No</label>
+                        <input type="text" id="pf-field" class="form-control" maxlength="20" autocomplete="off" placeholder="Enter Provident Fund No" />
+                    </div>
+                    <div class="col-6 mb-3">
+                        <label for="uan-field" class="form-label">UAN No</label>
+                        <input type="text" id="uan-field" class="form-control integerOnly" maxlength="12" autocomplete="off" placeholder="Enter UAN No" />
+                    </div>
+                    <div class="col-6 mb-3">
+                        <label for="epfo-field" class="form-label">EPFO Membership No</label>
+                        <input type="text" id="epfo-field" class="form-control integerOnly" maxlength="20" autocomplete="off" placeholder="Enter EPFO Membership No" />
+                    </div>
+                    <div class="col-6 mb-3">
+                        <label for="pan-field" class="form-label">PAN No</label>
+                        <input type="text" id="pan-field" class="form-control" maxlength="10" autocomplete="off" placeholder="Enter PAN No" />
+                    </div>
+                    <div class="col-6 mb-3">
+                        <label for="aadhar-field" class="form-label">Aadhar No</label>
+                        <input type="text" id="aadhar-field" class="form-control integerOnly" maxlength="12" autocomplete="off" placeholder="Aadhar No" />
+                    </div>
+                    <div class="col-6 mb-3">
+                        <label for="aadhar-field" class="form-label">Bank</label>
+                        <select class="custom-select" id="BankCode" name="BankCode">
+                            <option selected="selected" value="">Select</option>
+                            <option value="DSCB">Delhi State Cooperative Bank</option>
+                            <option value="HDFC">HDFC</option>
+                            <option value="IC">ICICI</option>
+                            <option value="IO">INDIAN OVERSEAS BANK</option>
+                            <option value="KT">Kotak Bank</option>
+                            <option value="NBK">HDFC BANK</option>
+                            <option value="O">OTHERS</option>
+                            <option value="PS">Punjab &amp; Sind Bank</option>
+                            <option value="SB">State Bank</option>
+                            <option value="UBI">UNION BANK OF INDIA</option>
+                            <option value="UTI">UNION TRUST OF INDIA</option>
+                            <option value="YS">YES Bank</option>
+                        </select>
+                    </div>
+
+                    <div class="col-6 mb-3">
+                        <label for="ac-field" class="form-label">Bank Account No</label>
+                        <input type="text" id="ac-field" class="form-control integerOnly" maxlength="16" autocomplete="off" placeholder="Enter Bank Account No" />
+                    </div>
+                    <div class="col-6 mb-3">
+                        <label for="ifscCode-field" class="form-label">IFSC Code</label>
+                        <input type="text" id="ifscCode-field" class="form-control" maxlength="12" autocomplete="off" placeholder="Enter IFSC Code" />
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <input type="button" value="Save" id="btnSave" onclick="updateAccountDetails();" class="btn btn-primary btn-md" />
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    function openModal(eID, sno) {
+        $("#hdnEmpId").val(eID);       
+        resetUpdateForm(sno);
+        $("#updateAccountModal").modal("show");
+    }
+
+    function updateAccountDetails() {
+
+        var url = "@Url.Action("_updateAccountDetails", "UpdatePFNo")";
+        let eID = $("#hdnEmpId").val();
+        if (eID != '') {
+            $.post(url, {
+                'eID': eID,
+                'pfNo': $('#pf-field').val(),
+                'uan': $('#uan-field').val(),
+                'epfo': $('#epfo-field').val(),
+                'pan': $('#pan-field').val(),
+                'aadhar': $('#aadhar-field').val(),
+                'ac': $('#ac-field').val(),
+                'bankCode': $('#BankCode').val(),
+                'ifscCode': $('#ifscCode-field').val()
+            }).done(function (data) {
+
+                if (data.msgType == "success") {
+                    commonMessage(data.msgType, data.msg);
+                    $("#f_0").trigger('submit');
+                }
+                else if (data.msgType == "error")
+                    commonMessage(data.msgType, data.msg);
+            });
+        }
+        $("#updateAccountModal").modal("hide");
+    }
+    function resetUpdateForm(sno) {
+        $('#pf-field').val($("#pf-hdn" + sno).val()); $('#uan-field').val($("#uan-hdn" + sno).val());
+        $('#epfo-field').val($("#epfo-hdn" + sno).val()); $('#pan-field').val($("#pan-hdn" + sno).val());
+        $('#aadhar-field').val($("#aadhar-hdn" + sno).val()); $('#ac-field').val($("#ac-hdn" + sno).val());
+        $('#BankCode').val($("#bankCode-hdn" + sno).val()); $('#ifscCode-field').val($("#ifscCode-hdn" + sno).val());
+    }
+
+    function btnClick(eID, sno) {
+        var cntrlID = "#epFNo" + sno;
+
+        var url = "@Url.Action("_PostListItemRow", "UpdatePFNo")";
+
+        $.post(url, { 'employeeID': eID, 'pfNo': $(cntrlID).val() }).done(function (data) {
+
+            if (data.msgType == "success") {
+                commonMessage(data.msgType, data.msg);
+                $("#f_0").trigger('submit');
+            }
+            else if (data.msgType == "error")
+                commonMessage(data.msgType, data.msg);
+        });
+    }
+
+
+    $(document).ready(function () {
+        $('.integerOnly').keypress(function (e) {
+            var charCode = (e.which) ? e.which : event.keyCode
+            if (String.fromCharCode(charCode).match(/[^0-9]/g))
+                return false;
+        });
+    });
+
+</script>

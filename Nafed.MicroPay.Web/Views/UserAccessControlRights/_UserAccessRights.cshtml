@@ -1,0 +1,50 @@
+﻿@model Nafed.MicroPay.Model.UserRights
+<div class="row">
+    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+        <div class="card">
+            <div class="card-header">
+                <b>Users</b>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-lg-12">
+                        @if (Enumerable.Count(ViewBag.UserList) > 0)
+                        {
+                            <input type="checkbox" id="chkAll" /><text> All </text>
+                            @Html.ListBox("UserID", new SelectList(ViewBag.UserList, "id", "value"), new { @onclick = "return list_OnSelectedIndexChanged()", @class = "custom-select", @style = "height: 280px; overflow: auto;" })
+                        }
+                        else
+                        {
+                            <label style="height: 280px; overflow: auto">No Users available for this Department</label>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+        <div class="card">
+            <div class="card-header">
+                <b>User Access Rights</b>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div id="divUserAccessControl" class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="height: 280px; overflow: auto">
+                        @Html.Action("AccessControl")
+                        @Html.HiddenFor(m => m.isAll)
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<span class="pull-right">
+    @if (Enumerable.Count(ViewBag.UserList) > 0)
+    {
+        <input type="button" value="Save" class="btn btn-primary btn-md" onclick="Javascript:getCheckValues(event);" />
+    }
+</span>
+
+
+

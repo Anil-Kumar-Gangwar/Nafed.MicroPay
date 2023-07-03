@@ -1,0 +1,47 @@
+﻿@model Nafed.MicroPay.Model.UserAccessRight
+@{
+    ViewBag.Title = "Manage Leave Category";
+    ViewBag.NavigationTitle = "Manage Leave Category";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    System.Globalization.CultureInfo Indian = new System.Globalization.CultureInfo("hi-IN");
+}
+
+
+<div>
+    <div class="card_new_header text-right">
+        @if (Model.Create)
+        {
+            @Html.ActionLink("Create New", "Create", "LeaveCategory", null, new { @class = "btn btn-info btn-md", title = "Click here, to create new record", @data_toggle = "tooltip" })
+        }
+    </div>
+    <div>
+        <div class="card_new_body">
+            <div id="UserGridDiv">
+                @Html.Action("LeaveCategoryGridView")
+            </div>
+        </div>
+    </div>
+
+</div>
+@section scripts{
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            var table = $('#tblUser').DataTable();
+            $('#tblUser_length').find('select').addClass('custom-select');
+            //$('[data-toggle="tooltip"]').tooltip();
+        });
+
+    </script>
+}
+
+
+
+
+
+
+
+
+
+
+

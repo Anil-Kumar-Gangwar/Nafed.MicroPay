@@ -1,0 +1,114 @@
+﻿
+@model Nafed.MicroPay.Model.UpdateBasic
+@{
+    ViewBag.Title = "Edit  Branch/Designation";
+    ViewBag.NavigationTitle = "UpdateBranchDesignation";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card_new_header alert alert-danger">
+    <div class="col-sm-6">
+        NOTE : Fields marked with (*) are compulsory fields
+    </div>
+    <div class="col-sm-6 text-right">
+        <b>@*[ Characters < > # ^ ; | $ are not allowed ]*@</b>
+    </div>
+</div>
+@using (Html.BeginForm("Edit", "UpdateBranchDesignation", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    <div class="card_new_body">
+        <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 mb-2">
+                @Html.HiddenFor(model => model.EmployeeId)
+                @Html.HiddenFor(model => model.EmployeeCode)
+                @Html.HiddenFor(model => model.EmployeeName)
+                @Html.HiddenFor(model => model.CreatedBy)
+                @Html.HiddenFor(model => model.CreatedOn)
+                <div class="row">
+                    @Html.LabelFor(model => model.EmployeeCode, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-6 col-xs-12 mb-2" })
+
+                    <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 mb-2">
+                        @Html.EditorFor(model => model.EmployeeCode, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled", @placeholder = "Employee Name", @maxlength = "100" } })
+
+                    </div>
+                </div>
+                <div class="row">
+                    @Html.LabelFor(model => model.EmployeeName, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-6 col-xs-12 mb-2" })
+
+                    <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 mb-2">
+                        @Html.EditorFor(model => model.EmployeeName, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled", @placeholder = "Employee Name", @maxlength = "100" } })
+
+                    </div>
+                </div>
+                <div class="row">
+                    @Html.LabelFor(model => model.ExistingDesg, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2" })
+                    <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 mb-2">
+                        @Html.EditorFor(model => model.ExistingDesg, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled", @placeholder = "Current Designation" } })
+
+                    </div>
+                </div>
+                <div class="row">
+                    @Html.LabelFor(model => model.NewDesg, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2" })
+                    <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 mb-2">
+                        @Html.DropDownListFor(model => model.NewDesg, (IEnumerable<SelectListItem>
+                    )ViewBag.Designation, new { @class = "custom-select", @placeholder = "New Designation" })
+                        
+                        @Html.ValidationMessage("NewDesgRequired", "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="row">
+                    @Html.LabelFor(model => model.ExistingBranch, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2" })
+                    <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 mb-2">
+                        @Html.EditorFor(model => model.ExistingBranch, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled", @placeholder = "Current Branch" } })
+
+                    </div>
+                </div>
+                <div class="row">
+                    @Html.LabelFor(model => model.NewBranch, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2" })
+                    <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 mb-2">
+                        @Html.DropDownListFor(model => model.NewBranch, (IEnumerable<SelectListItem>
+                    )ViewBag.Branch, new { @class = "custom-select", @placeholder = "New Branch" })
+                        @Html.ValidationMessage("NewBranchRequired", "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <span class="pull-right">
+                    @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-light btn-sm toggle-tooltip", @title = "Click here, to redirect on list page" })
+                    <input type="submit" value="Update" class="btn btn-info btn-sm pull-center toggle-tooltip" title="Click here, to update current record" />
+                </span>
+            </div>
+
+
+        </div>
+    </div>
+
+}
+
+
+    <script type="text/javascript">
+                $(document).ready(function () {
+                    
+                    GetCurrentBranchDesignation();
+                });
+        </script>
+
+
+<script type="text/javascript">
+    function GetCurrentBranchDesignation() {
+        var EmployeeCode = 0;
+        EmployeeCode = $("#EmployeeCode").val();
+            if (EmployeeCode > 0) {
+                jQuery.post("@Url.Action("GetCurrentBranchDesignation", "UpdateBranchDesignation")" , {
+                    EmployeeCode: EmployeeCode,
+                }).done(function (data) {
+                    debugger;
+                    if (data.EmployeeDesignationBranch != "") {
+                        $("#ExistingDesg").val(data.EmployeeDesignationBranch[0]["ExistingDesg"]);
+                        $("#ExistingBranch").val(data.EmployeeDesignationBranch[0]["ExistingBranch"]);
+                    }
+                });
+            }
+        }
+    </script>
+

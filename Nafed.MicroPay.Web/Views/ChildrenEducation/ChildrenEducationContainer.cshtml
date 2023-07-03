@@ -1,0 +1,70 @@
+﻿@using Nafed.MicroPay.Model
+@using Common = Nafed.MicroPay.Common;
+@model Nafed.MicroPay.Model.ChildrenEducationHdr
+
+@{
+    ViewBag.Title = "Children Education";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style type="text/css">
+    .bottamboarder {
+        border: 0;
+        outline: 0;
+        background: transparent;
+        border-bottom: 1px solid black;
+    }
+</style>
+
+<input id="printdiv" type="submit" value="Print" onclick="printContent('div-ChildrenEducation-form-container')" />
+
+<div id="div-ChildrenEducation-form-container" class="container-fluid">
+    <div id="div-ChildrenEducation">
+        @if (Model.IsDependentMatch)
+        {
+            @Html.Action("_GetChildrenEducationForm", Model)
+        }
+        else
+        {
+            <script type="text/javascript">
+                var employeeId=@Model.EmployeeId;
+                var childrenEduHdrID=@Model.ChildrenEduHdrID;
+                if (confirm("You updated your dependent details. Do you also want to update children education allowances.?")) {
+                    jQuery.post("@Url.Action("UpdateEmployeeDependent", "ChildrenEducation")", {
+                        EmployeeId: employeeId,
+                        ChildrenEduHdrID: childrenEduHdrID,
+                    }).done(function (data) {
+                        if (data.msgType == "Updated") {
+                            window.location.href = "@Url.Action("Edit", "ChildrenEducation")?empID=" + employeeId + "&childrenEduHdrId=" + childrenEduHdrID+"&updateOrNot="+true
+                        }
+                    });
+                }
+                else{
+                    window.location.href = "@Url.Action("Edit", "ChildrenEducation")?empID=" + employeeId + "&childrenEduHdrId=" + childrenEduHdrID+"&updateOrNot="+false;
+                }
+            </script>
+        }
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    function printContent(el) { var restorepage = document.body.innerHTML; var printcontent = document.getElementById(el).innerHTML; document.body.innerHTML = printcontent; window.print(); document.body.innerHTML = restorepage; }
+
+    function UpdateEmployeeDependent(employeeId,childrenEduHdrID) {
+        alert("ff");
+        if (confirm("Children Information Updated.Do you want to update for allowance?")) {
+            jQuery.post("@Url.Action("UpdateEmployeeDependent", "ChildrenEducation")", {
+                EmployeeId: employeeId,
+                ChildrenEduHdrID: childrenEduHdrID,
+            }).done(function (data) {
+                if (data.msgType != "Updated") {
+                    window.location.href = "@Url.Action("Edit", "ChildrenEducation")?empID=" + empID + "&acceptanceAuthority=" + childrenEduHdrID;
+                }
+            });
+            return true;
+        }
+        else{
+            window.location.href = "@Url.Action("Edit", "ChildrenEducation")?empID=" + empID + "&acceptanceAuthority=" + childrenEduHdrID;
+        }
+    }
+</script>

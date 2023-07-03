@@ -1,0 +1,287 @@
+﻿@using Nafed.MicroPay.Model
+@model CRReportFilters
+@{
+    var yearDDl = Enumerable.Range(2000, (DateTime.Now.Year - 2000) + 1).
+                                  Select(i => new SelectListModel { id = i, value = i.ToString() }).OrderBy(x => x.value).ToList();
+
+    var yearDDl1 = Enumerable.Range(2000, (DateTime.Now.Year - 2000) + 1).
+                                  Select(i => new SelectListModel { id = i, value = i.ToString() }).OrderBy(x => x.value).ToList();
+
+}
+
+<div class="row">
+    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+        <fieldset class="border p-2 col-md-12 col-xs-12 col-lg-12 col-xl-12">
+            <legend style="font-size:1.3rem !important;" class="w-auto"></legend>
+            <div class="form-group">
+                <div>
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                            @Html.RadioButtonFor(model => model.crFormRadio, CRFormRadios.FormA.ToString(), new { id = "FormA", @onChange = "radioChangeEvents(this)" })
+                            @Html.Label(CRFormRadios.FormA.GetDisplayName().ToString(), htmlAttributes: new { @class = "control-label", @for = "Form A" })
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                            @Html.RadioButtonFor(model => model.crFormRadio, CRFormRadios.FormBOrder.ToString(), new { id = "FormBOrder", @onChange = "radioChangeEvents(this)" })
+                            @Html.Label(CRFormRadios.FormBOrder.GetDisplayName().ToString(), htmlAttributes: new { @class = "control-label", @for = "Form B(Order)" })
+                        </div>
+                    </div>
+                    @Html.ValidationMessage("OrderRequired", "", new { @class = "text-danger" })
+                </div>
+                <div>
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                            @Html.RadioButtonFor(model => model.crFormRadio, CRFormRadios.FormB.ToString(), new { id = "FormB", @onChange = "radioChangeEvents(this)" })
+                            @Html.Label(CRFormRadios.FormB.GetDisplayName().ToString(), htmlAttributes: new { @class = "control-label", @for = "Form B" })
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                            @Html.RadioButtonFor(model => model.crFormRadio, CRFormRadios.FormC.ToString(), new { id = "FormC", @onChange = "radioChangeEvents(this)" })
+                            @Html.Label(CRFormRadios.FormC.GetDisplayName().ToString(), htmlAttributes: new { @class = "control-label", @for = "Form C" })
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                            @Html.RadioButtonFor(model => model.crFormRadio, CRFormRadios.FormD.ToString(), new { id = "FormD", @onChange = "radioChangeEvents(this)" })
+                            @Html.Label(CRFormRadios.FormD.GetDisplayName().ToString(), htmlAttributes: new { @class = "control-label", @for = "Form D" })
+                        </div>
+                    </div>
+                    @Html.ValidationMessage("PrintRequired", "", new { @class = "text-danger" })
+                </div>
+
+                <div class="row">
+                    @Html.LabelFor(model => model.yearID, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2" })
+
+                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
+                        @Html.DropDownListFor(model => model.yearID, new SelectList(yearDDl, "id", "value"), "Select", new { @class = "custom-select" })
+                        @Html.ValidationMessage("yearRequired", "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="row">
+                    @Html.LabelFor(model => model.employeeID, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2" })
+
+                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
+                        @Html.DropDownListFor(model => model.employeeID, new SelectList(Model.employeeList, "id", "value"), new { @class = "custom-select" })
+                        @Html.ValidationMessage("employeeRequired", "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="row">
+                    @Html.LabelFor(model => model.AllEmployee, new { @class = "control-label col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2" })
+
+                    @if (Model.AllEmployee == false)
+                    {
+
+                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-4">
+                            <label class="switch">
+                                @Html.CheckBoxFor(model => model.AllEmployee, new { @class = "form-control", @onChange = "checkboxChange(this)" })
+                                <div class="slider round">
+                                </div>
+                            </label>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-4">
+                            <label class="switch">
+                                @Html.CheckBoxFor(model => model.AllEmployee, new { @class = "form-control", @checked = "checked", @onChange = "checkboxChange(this)" })
+                                <div class="slider round">
+                                </div>
+                            </label>
+                        </div>
+                    }
+                </div>
+                <span class="pull-left">
+                    <input type="submit" id="linePrinter" value="Print" class="btn btn-info btn-md pull-center toggle-tooltip" title="" name="ButtonType" />
+                    <input type="submit" value="Order Print" class="btn btn-info btn-md pull-center toggle-tooltip" title="Click here, to save current record" name="ButtonType" />
+                </span>
+            </div>
+        </fieldset>
+
+    </div>
+    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+        <fieldset class="border p-2 col-md-12 col-xs-12 col-lg-12 col-xl-12">
+            <legend style="font-size:1.3rem !important;" class="w-auto"></legend>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                        @Html.RadioButtonFor(model => model.crFormRadio, CRFormRadios.CoveringLetterHO.ToString(), new { id = "CoveringLetterHO", @onChange = "radioChangeEvents(this)" })
+                        @Html.Label(CRFormRadios.CoveringLetterHO.GetDisplayName().ToString(), htmlAttributes: new { @class = "control-label", @for = "Covering Letter (Head Office)" })
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                        @Html.RadioButtonFor(model => model.crFormRadio, CRFormRadios.CoveringLetterBranch.ToString(), new { id = "CoveringLetterBranch", @onChange = "radioChangeEvents(this)" })
+                        @Html.Label(CRFormRadios.CoveringLetterBranch.GetDisplayName().ToString(), htmlAttributes: new { @class = "control-label", @for = "Covering Letter (Branch)" })
+                    </div>
+                </div>
+                @Html.ValidationMessage("CoveringRequired", "", new { @class = "text-danger" })
+
+                <div class="row">
+                    @Html.LabelFor(model => model.yearID1, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2" })
+                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
+                        @Html.DropDownListFor(model => model.yearID1, new SelectList(yearDDl1, "id", "value"), "Select", new { @class = "custom-select" })
+                        @Html.ValidationMessage("year1Required", "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="row">
+                    @Html.LabelFor(model => model.employeeID1, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2" })
+
+                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
+                        @Html.DropDownListFor(model => model.employeeID1, new SelectList(Model.employeeList1, "id", "value"), new { @class = "custom-select" })
+                        @Html.ValidationMessage("employee1Required", "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <span class="pull-left">
+                    <input type="submit" id="linePrinter" value="Print Covering Letter" class="btn btn-info btn-md pull-center toggle-tooltip" title="" name="ButtonType" />
+                </span>
+            </div>
+        </fieldset>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        debugger;
+        if ($("#FormA").is(":checked")) {
+            $.ajax({
+                url: "@Url.Action("GetEmployeeDetails", "CRReport")",
+                type: "GET",
+                dataType: "JSON",
+                data: { formId: "FormA" },
+                success: function (data) {
+                    $("#employeeID").html("");
+                    if (data.employees != "") {
+                        $("#employeeID").append($("<option selected></option>").val(0).html('Select'));
+                        $.each(data.employees, function (key, value) {
+                            $("#employeeID").append($("<option></option>").val(value.id).html(value.value));
+                        });
+                    }
+                    else {
+                        $("#employeeID").append($("<option></option>").val(0).html('Select'));
+                    }
+                }
+            });
+        }
+        else if ($("#FormB").is(":checked")) {
+            $.ajax({
+                url: "@Url.Action("GetEmployeeDetails", "CRReport")",
+                type: "GET",
+                dataType: "JSON",
+                data: { formId: "FormB" },
+                success: function (data) {
+                    $("#employeeID").html("");
+                    if (data.employees != "") {
+                        $("#employeeID").append($("<option selected></option>").val(0).html('Select'));
+                        $.each(data.employees, function (key, value) {
+                            $("#employeeID").append($("<option></option>").val(value.id).html(value.value));
+                        });
+                    }
+                    else {
+                        $("#employeeID").append($("<option></option>").val(0).html('Select'));
+                    }
+                }
+            });
+        }
+        else if ($("#FormC").is(":checked")) {
+            $.ajax({
+                url: "@Url.Action("GetEmployeeDetails", "CRReport")",
+                type: "GET",
+                dataType: "JSON",
+                data: { formId: "FormC" },
+                success: function (data) {
+                    $("#employeeID").html("");
+                    if (data.employees != "") {
+                        $("#employeeID").append($("<option selected></option>").val(0).html('Select'));
+                        $.each(data.employees, function (key, value) {
+                            $("#employeeID").append($("<option></option>").val(value.id).html(value.value));
+                        });
+                    }
+                    else {
+                        $("#employeeID").append($("<option></option>").val(0).html('Select'));
+                    }
+                }
+            });
+        }
+        else if ($("#FormD").is(":checked")) {
+            $.ajax({
+                url: "@Url.Action("GetEmployeeDetails", "CRReport")",
+                type: "GET",
+                dataType: "JSON",
+                data: { formId: "FormD" },
+                success: function (data) {
+                    $("#employeeID").html("");
+                    if (data.employees != "") {
+                        $("#employeeID").append($("<option selected></option>").val(0).html('Select'));
+                        $.each(data.employees, function (key, value) {
+                            $("#employeeID").append($("<option></option>").val(value.id).html(value.value));
+                        });
+                    }
+                    else {
+                        $("#employeeID").append($("<option></option>").val(0).html('Select'));
+                    }
+                }
+            });
+        }
+        else if ($("#FormBOrder").is(":checked")) {
+            $.ajax({
+                url: "@Url.Action("GetEmployeeDetails", "CRReport")",
+                type: "GET",
+                dataType: "JSON",
+                data: { formId: "FormBOrder" },
+                success: function (data) {
+                    $("#employeeID").html("");
+                    if (data.employees != "") {
+                        $("#employeeID").append($("<option selected></option>").val(0).html('Select'));
+                        $.each(data.employees, function (key, value) {
+                            $("#employeeID").append($("<option></option>").val(value.id).html(value.value));
+                        });
+                    }
+                    else {
+                        $("#employeeID").append($("<option></option>").val(0).html('Select'));
+                    }
+                }
+            });
+        }
+        if ($("#CoveringLetterHO").is(":checked")) {
+            $.ajax({
+                url: "@Url.Action("GetEmployeeDetails", "CRReport")",
+                type: "GET",
+                dataType: "JSON",
+                data: { formId: "CoveringLetterHO" },
+                success: function (data) {
+                    $("#employeeID1").html("");
+                    if (data.employees != "") {
+                        $("#employeeID1").append($("<option selected></option>").val(0).html('Select'));
+                        $.each(data.employees, function (key, value) {
+                            $("#employeeID1").append($("<option></option>").val(value.id).html(value.value));
+                        });
+                    }
+                    else {
+                        $("#employeeID1").append($("<option></option>").val(0).html('Select'));
+                    }
+                }
+            });
+        }
+        else if ($("#CoveringLetterBranch").is(":checked")) {
+            $.ajax({
+                url: "@Url.Action("GetEmployeeDetails", "CRReport")",
+                type: "GET",
+                dataType: "JSON",
+                data: { formId: "CoveringLetterBranch" },
+                success: function (data) {
+                    $("#employeeID1").html("");
+                    if (data.employees != "") {
+                        $("#employeeID1").append($("<option selected></option>").val(0).html('Select'));
+                        $.each(data.employees, function (key, value) {
+                            $("#employeeID1").append($("<option></option>").val(value.id).html(value.value));
+                        });
+                    }
+                    else {
+                        $("#employeeID1").append($("<option></option>").val(0).html('Select'));
+                    }
+                }
+            });
+        }
+    });
+</script>

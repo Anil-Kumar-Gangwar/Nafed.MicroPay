@@ -1,0 +1,241 @@
+﻿@using Nafed.MicroPay.Model
+@model Promotion
+
+@Html.HiddenFor(model => model.CreatedBy)
+@Html.HiddenFor(model => model.CreatedOn)
+@Html.HiddenFor(model => model.EmployeeID)
+@Html.HiddenFor(model => model.EmployeeCode)
+@Html.HiddenFor(model => model.TransID)
+
+<div class="form-group">
+    <div class="row">
+
+        <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12">
+            @Html.LabelFor(m => m.CadreID, new { @class = "label required" })
+        </div>
+
+        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+            @if (Model.TransID > 0)
+            {
+                @Html.DropDownListFor(model => model.CadreID, new SelectList(Model.cadreList, "id", "value"), "Select", new { @class = "custom-select" })
+            }
+            else
+            {
+                @Html.DropDownListFor(model => model.CadreID, new SelectList(Model.cadreList, "id", "value"), "Select", new { @class = "custom-select", @disabled = "disabled" })
+            }
+
+            @Html.HiddenFor(model => model.CadreID)
+            @Html.ValidationMessageFor(model => model.CadreID, "", new { @class = "text-danger" })
+
+        </div>
+
+        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-12">
+
+            @if (Model.TransID == 0)
+            {
+                <a class="form-control btn-sm pull-center toggle-tooltip"
+                   style="background-color:#F2F2F2;text-decoration:none;text-align:center;"
+                   href="#" title="Click here, to change cadre." id="a_ChangeCadre">
+                    ...
+                </a>
+            }
+        </div>
+
+        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+
+            @Html.LabelFor(m => m.DesignationID, new { @class = "label required" })
+
+        </div>
+
+        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+
+            @Html.DropDownListFor(model => model.DesignationID, new SelectList(Model.designationList, "id", "value"), "Select", new { @class = "custom-select", @onChange = "designation_OnChange(this);" })
+            @Html.ValidationMessageFor(model => model.DesignationID, "", new { @class = "text-danger" })
+
+        </div>
+
+        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-12">
+
+            @Html.LabelFor(m => m.NewTS, new { @class = "label" })
+
+        </div>
+
+        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-12">
+            <div>
+                <div class="form-group">
+                    <label class="switch">
+
+                        @Html.CheckBoxFor(model => model.NewTS, new { @class = "form-control" })
+                        <div class="slider round">
+
+                        </div>
+                    </label>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="form-group">
+    <div class="row">
+        <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12">
+            @Html.LabelFor(m => m.wayOfPostingEnum, new { @class = "label required" })
+        </div>
+
+        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+            @Html.EnumDropDownListFor(model => model.wayOfPostingEnum, "Select ", new { @class = "custom-select" })
+            @Html.ValidationMessageFor(model => model.wayOfPostingEnum, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-12">
+
+        </div>
+
+        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-12">
+            @Html.LabelFor(m => m.SeniorityCode, new { @class = "label" })
+        </div>
+
+        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+            @Html.EditorFor(model => model.SeniorityCode, new { htmlAttributes = new { @class = "form-control", @type = "text", @readOnly = "readOnly" } })
+        </div>
+
+        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-12">
+            @Html.LabelFor(m => m.cota, new { @class = "label" })
+        </div>
+
+        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+            @Html.EnumDropDownListFor(model => model.cota, "Select ", new { @class = "custom-select" })
+        </div>
+
+    </div>
+</div>
+
+<div class="form-group">
+    <div class="row">
+        <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12">
+            @Html.LabelFor(m => m.FromDate, new { @class = "label required" })
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+
+            @Html.EditorFor(model => model.FromDate, new { htmlAttributes = new { @class = "form-control", @placeholder = "Date of Joining", type = "date" } })
+            @Html.ValidationMessageFor(model => model.FromDate, "", new { @class = "text-danger" })
+
+        </div>
+        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-12">
+
+            @Html.LabelFor(m => m.ToDate, new { @class = "label" })
+
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+
+            @Html.EditorFor(model => model.ToDate, new { htmlAttributes = new { @class = "form-control", @placeholder = "Date of Joining", type = "date" } })
+            @Html.ValidationMessage("ToDateRangeValidation", "", new { @class = "text-danger" })
+
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12">
+            @Html.LabelFor(m => m.ConfirmationDate, new { @class = "label" })
+        </div>
+
+        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+            @Html.EditorFor(model => model.ConfirmationDate, new { htmlAttributes = new { @class = "form-control", @placeholder = "Date of Joining", type = "date" } })
+            @Html.ValidationMessage("ConfirmationDateRangeValidation", "", new { @class = "text-danger" })
+        </div>
+    </div>
+</div>
+
+
+<div class="form-group">
+    <div class="row">
+        <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12">
+            @Html.LabelFor(m => m.OrderOfPromotion, new { @class = "label required" })
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+            @Html.EditorFor(model => model.OrderOfPromotion, new { htmlAttributes = new { @class = "form-control", @placeholder = "Order Date Of Promotion", type = "date" } })
+            @Html.ValidationMessageFor(model => model.OrderOfPromotion, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-12">
+            @Html.LabelFor(model => model.E_Basic, new { @class = "label" })
+        </div>
+
+        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+            @Html.EditorFor(model => model.E_Basic, new { htmlAttributes = new { @class = "form-control text-right", @readOnly = "readOnly" } })
+        </div>
+
+    </div>
+</div>
+
+
+<div class="form-group">
+    <div class="row">
+        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-12">
+            @Html.LabelFor(model => model.Confirmed, new { @class = "label" })
+        </div>
+
+        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-12">
+            <div class="form-group">
+                <label class="switch">
+                    @Html.CheckBoxFor(model => model.Confirmed, new { @class = "form-control" })
+                    <div class="slider round">
+
+                    </div>
+                </label>
+            </div>
+        </div>
+
+        @if (Model.FormActionType == "Update")
+        {
+            <div class="col-lg-5 col-md-5 col-sm-4 col-xs-12 text-left text-warning mt-2">
+                Record is in Edit Mode.It will not update Employee's Basic Salary
+            </div>
+        }
+
+        @if (!Model.IsValidInputs)
+        {
+            <div class="col-lg-5 col-md-5 col-sm-4 col-xs-12 text-left text-danger mt-2">
+                @Model.ValidationMessage
+            </div>
+        }
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-left text-danger mt-2">
+            @Html.ValidationMessage("NoRecordInConfChild", "", new { @class = "text-danger" })
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        $("#a_ChangeCadre").click(function () {
+            $("#CadreID").removeAttr("disabled").trigger('change');
+        });
+
+        $("#CadreID").change(function () {
+            var selectedCadreID = this.value;
+            $("#SeniorityCode").val('');
+            if (selectedCadreID > 0) {
+                jQuery.post("@Url.Action("GetDesignationByCadre", "DesignationAssignment")", {
+                    cadreID: selectedCadreID,
+                }).done(function (data) {
+                    if (data.designationList != "") {
+                        $("#DesignationID").html("");
+                        $.each(data.designationList, function (key, value) {
+                            $("#DesignationID").append($("<option></option>").val(value.Value).html(value.Text));
+                        });
+                    }
+                });
+            } else {
+                $("#DesignationID").append($("<option></option>").val(0).html('Select'));
+            }
+        });
+    });
+
+    function designation_OnChange(ctrl) {
+        var selectedDesignationID = $(ctrl).val();
+        jQuery.get("@Url.Action("GetSeniorityCode", "DesignationAssignment")", {
+            designationID: selectedDesignationID,
+        }).done(function (data){
+            $("#SeniorityCode").val(data.sen_code);
+        });
+    }
+</script>

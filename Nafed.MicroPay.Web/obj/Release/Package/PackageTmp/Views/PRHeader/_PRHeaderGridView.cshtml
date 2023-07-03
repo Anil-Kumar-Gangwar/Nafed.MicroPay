@@ -1,0 +1,108 @@
+﻿@model MicroPay.Web.Models.PropertyReturnViewModel
+@using Nafed.MicroPay.Common
+
+<table id="tblGrid" class="table table-centered table-striped dt-responsive w-100">
+    <thead>
+        <tr>
+            <th>
+                #
+            </th>           
+            <th>
+                Name
+            </th>
+            <th>
+                Year
+            </th>
+            <th>
+                Branch
+            </th>
+            <th>
+                Department
+            </th>
+            <th>
+                Designation
+            </th>
+            <th>
+                Due date
+            </th>
+            <th>
+                Not Appilcable
+            </th>
+            <th>
+                Status
+            </th>
+            @*@if (Model.userRights.Edit)
+                {*@
+            <th class="text-center" style="width:60px">
+                Property Return
+            </th>
+            @*}*@
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            if (Model != null && Model.PRList.Count > 0)
+            {
+                var sno = 1;
+                foreach (var item in Model.PRList)
+                {
+                    <tr>
+                        <td> @sno</td>
+                        <td>@item.Employeecode <text>-</text> @item.Employeename</td>
+                        <td> @item.Year</td>
+                        <td> @item.BranchName</td>
+                        <td> @item.DepartmentName</td>
+                        <td> @item.DesignationName</td>
+                        <td>@item.Duedate.Value.ToString("dd/MM/yyyy")</td>
+                        <td class="text-center">@ExtensionMethods.BoolToYesNo(@item.NotApplicable)</td>
+                        <td>
+
+
+                            @if (@item.StatusID == 0)
+                            {
+                                <span class="badge badge-danger badge-pill col-md-12">Pending</span>
+                            }
+                            else if (@item.StatusID == 1)
+                            {
+                                <span class="badge badge-success badge-pill col-md-12">Submitted</span>
+                            }
+                        </td>
+
+                        <td class="text-center">
+                            @if (@item.StatusID == 0)
+                            {
+                                @*<a class="toggle-tooltip" href="@Url.Action("Index", "Propertyreturn", new { EmployeeId = item.EmployeeId , PRID =item.PRID,Year=item.Year,RequestType=0,StatusID= item.StatusID })" title="Click here, to add Property Return">
+                                    <span class="far fa-edit text-info" aria-hidden="true"></span>
+                                </a>*@
+                                @Html.EncodedImageActionLink("", "Index", "Propertyreturn", new { EmployeeId = item.EmployeeId, PRID = item.PRID, Year = item.Year, RequestType = 0, StatusID = item.StatusID }, new { @class = "toggle-tooltip", title = "Click here, to add Property Return" }, "~/Images/edit.png")
+                            }
+                            else if (@item.StatusID > 0)
+                            {
+                                @*<a class="toggle-tooltip" href="@Url.Action("Index", "Propertyreturn", new { EmployeeId = item.EmployeeId , PRID =item.PRID,Year=item.Year,RequestType=0,StatusID= item.StatusID })" title="Click here, to view Property Return">
+                                    <span class="far fa-eye text-info" aria-hidden="true"></span>
+                                </a>*@
+                                @Html.EncodedImageActionLink("", "Index", "Propertyreturn", new { EmployeeId = item.EmployeeId, PRID = item.PRID, Year = item.Year, RequestType = 0, StatusID = item.StatusID }, new { @class = "toggle-tooltip", title = "Click here, to view Property Return" }, "~/Images/view.png")
+                            }
+                        </td>
+                    </tr>
+                    sno++;
+                }
+            }
+
+        }
+
+    </tbody>
+</table>
+
+
+
+<script>
+    $('.toggle-tooltip').tooltip();
+    ///==== Adding jquery datatable reference to all master grid ==== (Sujeet G)
+    var table = $('#tblGrid').DataTable({
+    });
+    $('#tblGrid_length').find('select').addClass('custom-select');
+    //========= End==================================================
+</script>
+
+

@@ -1,0 +1,17 @@
+﻿@model MicroPay.Web.Models.EmployeeViewModel
+@{
+    ViewBag.Title = "Confirmation Due";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="">
+    <div class="card_new_body">
+        @using (Ajax.BeginForm("ShowReport", "ConfirmationDueUpTo", new AjaxOptions { HttpMethod = "POST", OnSuccess = "OnReportSuccess" }))
+        {
+            <div id="div-report-filters">
+                @Html.Action("_ReportFilter")
+            </div>
+        }
+    </div>
+</div>
+ 

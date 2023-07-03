@@ -1,0 +1,77 @@
+﻿@model MicroPay.Web.Models.TrainingViewModel
+<table id="tblGrid" class="table table-centered table-striped dt-responsive w-100">
+    <thead>
+        <tr>
+            <th>
+                #
+            </th>
+            <th>
+                Document Name
+            </th>
+            <th>
+                Document Detail
+            </th>
+            <th>
+                File
+            </th>
+            <th class="text-center" style="width:40px">
+                Delete
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+    @{
+        if (Model != null && Model.trainingDocument.Count > 0)
+        {
+            var sno = 1;
+            for (int i = 0; i < Model.trainingDocument.Count; i++)
+            {
+                <tr>
+                    <td> @sno</td>
+                    <td>
+                        @Html.HiddenFor(model => Model.trainingDocument[i].TrainingID)
+                        @Html.HiddenFor(model => Model.trainingDocument[i].TrainingDocumentID)
+                        @Model.trainingDocument[i].DocumentName
+                    </td>
+                    <td>
+                        @Model.trainingDocument[i].DocumentDetail
+                    </td>
+                    <td>
+                        <a href="~/Document/TrainingDocument/@Model.trainingDocument[i].DocumentPathName" download="Training Document"><i class="fa fa-download" aria-hidden="true"></i></a>
+                    </td>
+
+                    <td class="text-center">
+
+                        <a data-ajax="true" data-ajax-confirm="Are you sure you want to remove this record?" method="GET" data-ajax-success="OnSucess" data-ajax-update="#div-form-DocumentList-grid" data-ajax-mode="replace" class="toggle-tooltip" href="@Url.Action("DeleteTrainingDocument", "Training", new { trainingDocumentID = Model.trainingDocument[i].TrainingDocumentID, fileName = Model.trainingDocument[i].DocumentPathName,trainingID=Model.trainingDocument[i].TrainingID })" title="Click here, to delete this record">
+                            <span class="far fa-trash-alt text-danger" aria-hidden="true"></span>
+                        </a>
+                    </td>
+                </tr>
+                sno++;
+            }
+        }
+        else
+        {
+         <tr><td colspan="5" class="text-center"> No Record Found.</td>
+        </tr>  
+        }
+    }
+    </tbody>
+</table>
+
+
+<script type="text/javascript">
+    $('.toggle-tooltip').tooltip();
+    function OnSucess(data) {
+        commonMessage("success", "Deleted Sucessfully.");
+    }
+</script>
+
+
+
+
+
+
+
+
+

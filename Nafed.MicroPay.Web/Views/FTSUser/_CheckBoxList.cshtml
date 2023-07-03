@@ -1,0 +1,18 @@
+﻿@model Nafed.MicroPay.Model.FTSUserDepartment
+
+<script src="~/Scripts/bootstrap-multiselect.js"></script>
+<link href="~/Content/bootstrap-multiselect.css" rel="stylesheet" />
+@Html.ListBoxFor(model => model.intDepartmentId, new SelectList(Model.lstDepartmentList, "id", "value"), new {@class = "form-control text-wrap", id="lstListBox", @Multiple = "multiple",size=10 })
+
+<script>
+    $("#lstListBox").multiselect({ includeSelectAllOption: true })
+
+    $(".multiselect").addClass('col-sm-12');
+
+    $(".multiselect-selected-text").addClass("text-wrap");
+</script>
+<style>
+    .multiselect-container {
+        position: absolute; bottom: 0px !important; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 31px, 0px);
+         }
+</style>

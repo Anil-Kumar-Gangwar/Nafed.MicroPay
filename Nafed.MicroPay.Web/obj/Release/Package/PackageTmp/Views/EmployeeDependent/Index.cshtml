@@ -1,0 +1,57 @@
+﻿@model MicroPay.Web.Models.DependentViewModel
+@{
+    ViewBag.Title = "Employee Dependent";
+
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    System.Globalization.CultureInfo Indian = new System.Globalization.CultureInfo("hi-IN");
+}
+<div class="">
+    <div>
+
+        @*@if (Model.userTypeID == 1)
+        {*@
+        @Html.Partial("_SearchDependent", Model)
+        <div class="card_new_header text-right">
+            @*@if (Model.userRights.Create)
+            {*@
+                @Html.ActionLink("Create New", "Create", "EmployeeDependent", null, new { @class = "btn btn-info btn-md", title = "Click here, to create new record", @data_toggle = "tooltip" })
+            @Html.ActionLink("Insurance", "Index", "Insurance", null, new { @class = "btn btn-secondary btn-md", title = "Click here, to go to insurance page.", @data_toggle = "tooltip" })
+            @*}*@
+        </div>
+        <div id="div-Dependent" class="mt-2">
+
+            <div class="card_new_body">
+                <div id="div-Dependent-List">
+                </div>
+            </div>
+        </div>
+        @*}*@
+
+        @*@if (Model.userTypeID != 1)
+            {
+                <div>
+                    @Html.Partial("_SearchDependent", Model)
+
+                    <div class="card_new_header text-right">
+                       @if (Model.userRights.Create)
+                    @
+                    @Html.ActionLink("Create New", "Create", "EmployeeDependent", null, new { @class = "btn btn-info btn-md", title = "Click here, to create new record", @data_toggle = "tooltip" })
+                    @*}
+                </div>
+
+                <div id="div-Dependent" class="mt-2">
+
+                    <div class="card_new_body">
+                        <div id="div-Dependent-List">
+                            @Html.Action("_PostEmployeeDependentFilters", Model)
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        }*@
+    </div>
+
+        @*<div class="card_new_footer"></div>*@
+    </div>
+ 

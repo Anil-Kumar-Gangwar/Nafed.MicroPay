@@ -1,0 +1,86 @@
+﻿@using Nafed.MicroPay.Model
+@model ProcessWorkFlow
+
+@using (Ajax.BeginForm("_FileReceive", "GenerateFileNo", new AjaxOptions
+{
+    HttpMethod = "POST",
+    OnSuccess = "onSuccessRead",
+}, new { defaultbutton = "btnSubmit" }))
+{
+
+
+    @Html.HiddenFor(model => Model.WorkflowID)
+    @Html.HiddenFor(model => Model.ReferenceID)
+    @Html.HiddenFor(model => Model.Senddate)
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-xl-12 col-sm-12 col-xs-12">
+            <div class="row mb-2">
+                <div class="col-lg-4 col-md-4 col-xl-4 col-sm-12 col-xs-12">
+                    @Html.Label("Received DateTime", htmlAttributes: new { @class = "control-label required" })
+                </div>
+                <div class="col-lg-8 col-md-8 col-xl-8 col-sm-12 col-xs-12">
+                    @Html.EditorFor(model => model.Readdate, new { htmlAttributes = new { @class = "form-control required recievedate", @type = "dateTimePicker", @placeholder = "dd-mm-yyyy hh:mm AM/PM", @autocomplete = "off" } })
+                    <span id="readModlError"></span>
+                </div>
+            </div>
+            @*<div class="row">
+                    <div class="col-lg-4 col-md-4 col-xl-4 col-sm-12 col-xs-12">
+                        @Html.Label("Received Through", htmlAttributes: new { @class = "control-label" })
+                    </div>
+                    <div class="col-lg-8 col-md-8 col-xl-8 col-sm-12 col-xs-12">
+                        @Html.TextBoxFor(model => model.Purpose, new { @class = "form-control", @maxlength = "200" })
+                    </div>
+                </div>*@
+
+        </div>
+    </div>
+
+    <div class="row pull-right pr-3 mt-2">
+
+        <input type="button" id="btnSubmit" onclick="onBeginPopup()" value="Receive" class="btn btn-info btn-sm toggle-tooltip" />
+
+    </div>
+}
+
+
+<script type="text/javascript">
+
+    var mintime = new Date($.now())
+    mintime.setHours(mintime.getHours()+0);
+    var maxtime = new Date($.now())
+    maxtime.setHours(maxtime.getHours() + 2);
+    $('#Readdate').datetimepicker({
+        format: 'd-m-Y H:i',
+        minDate: new Date(),
+        maxDate: new Date(),
+        minTime: mintime,
+        maxTime: maxtime,
+    });
+
+    function onSuccessRead(data) {
+        debugger;
+        if (data.status == true) {
+            $("#div-read").modal("hide");
+            commonMessage(data.type, data.msg);
+            $("#TabInbox").load("@Url.Action("GetInboxFiles", "GenerateFileNo")");
+        }
+    }
+
+    function onBeginPopup() {
+        debugger;
+        $("#readModlError").html('');
+        if ($('.recievedate').val().trim().length == 0) {
+            $("#readModlError").html("Please enter received date").css("color", "red");
+            return false;
+        } else {
+            var putupdate = new Date($('#Senddate').val().trim());
+            var recvdate = new Date($('.recievedate').val().trim());
+            if (recvdate < putupdate) {
+                $("#readModlError").html("Recieved date can't be less then File Putup date.").css("color", "red");
+                return false;
+            }
+            else
+                $("#btnSubmit").submit();
+        }
+    }
+</script>

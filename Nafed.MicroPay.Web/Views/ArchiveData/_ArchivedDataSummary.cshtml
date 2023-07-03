@@ -1,0 +1,51 @@
+﻿@using Nafed.MicroPay.Model
+
+@model List<ArchivedDataTransaction>
+
+@{
+    Layout = null;
+}
+
+
+<table id="tblGrid" class="table table-centered table-striped dt-responsive w-100 mt-2">
+
+    <thead>
+
+        <tr>
+            <th>#</th>
+            <th>Archived upto Year</th>
+            <th>Archived By </th>
+            <th>Archived On </th>
+            <th>Status</th>
+            <th>Transaction remark</th>
+            
+        </tr>
+
+    </thead>
+
+    <tbody>
+
+        @if (Model != null && Model.Count > 0)
+        {
+            var sno = 1;
+            foreach (var item in Model)
+            {
+
+
+                var transactionStatus = ((ArchiveStatus)(item.TransactionStatus)).GetDisplayName();
+
+                <tr>
+                    <td>@sno</td>
+                    <td class="text-center">@item.AchivedTillDate.Year</td>
+                    <td>@item.ArchivedBy</td>
+                    <td class="text-center">@item.TransactionDate.ToString("dd-MM-yyyy")</td>
+                    <td>@transactionStatus</td>
+                    <td>@item.TransactionRemarks</td>
+                </tr>
+
+                sno++;
+            }
+        }
+    </tbody>
+
+</table>

@@ -1,0 +1,132 @@
+﻿@model Nafed.MicroPay.Model.FTSUser
+@using CaptchaMvc.HtmlHelpers
+@{
+    ViewBag.Title = "Create User for FTS";
+    ViewBag.NavigationTitle = "FTS User";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card_new_header alert alert-danger">
+    <div class="row m-1">
+        <div class="col-lg-6 col-md-6 col-sm-12">
+            NOTE : Fields marked with (*) are compulsory fields
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-12 text-right">
+            <b>[ Characters < >  ^ ; |  are not allowed ]</b>
+        </div>
+    </div>
+</div>
+
+
+@using (Html.BeginForm(Html.BeginForm("Create", "FTSUser", FormMethod.Post, new { @autocomplete = "off" })))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <div class="card_new_body">
+        <div class="row">
+
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 mb-2">
+
+                <div class="row">
+                    @Html.LabelFor(model => model.UserName, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-6 col-xs-12 mb-2 required" })
+                    <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 mb-2">
+                        @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control", @placeholder = "User Name", @maxlength = "50", autocomplete = "off", oncopy = "return false", oncut = "return false", onpaste = "return false" } })
+                        @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
+                        @Html.ValidationMessage("UserNameAlreadyExist", "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="row">
+                    @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-6 col-xs-12 mb-2 required" })
+                    <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 mb-2">
+
+                        <div class="input-group">
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <i class="fa fa-key"></i>
+                                </div>
+                            </div>
+                            @Html.PasswordFor(model => model.Password, new { placeholder = "Password", @class = "form-control", @maxlength = "50", autocomplete = "off", oncopy = "return false", oncut = "return false", onpaste = "return false" })
+                            @Html.HiddenFor(Model => Model.hdPassword)
+                        </div>
+
+
+                        @*@Html.PasswordFor(model => model.Password, new { @class = "form-control", @placeholder = "Password", @maxlength = "25" })*@
+                        @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="row">
+                    @Html.LabelFor(model => model.ConfirmPassword, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-6 col-xs-12 mb-2 required" })
+                    <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 mb-2">
+                        @*@Html.PasswordFor(model => model.ConfirmPassword, new { @class = "form-control", @placeholder = "Confirm Password", @maxlength = "25" })*@
+
+                        <div class="input-group">
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <i class="fa fa-key"></i>
+                                </div>
+                            </div>
+                            @Html.PasswordFor(model => model.ConfirmPassword, new { placeholder = "Confirm Password", @class = "form-control", @maxlength = "50", autocomplete = "off", oncopy = "return false", oncut = "return false", onpaste = "return false" })
+                            @Html.HiddenFor(Model => Model.hdCPassword)
+                            @Html.HiddenFor(Model => Model.hdCp)
+                        </div>
+
+                        @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger" })
+                    </div>                    
+                </div>
+                <div class="row">
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12"></div>
+                    <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 mb-2 pull-right">
+                        @Html.Captcha("Try Another", "Enter the text you see above", 5, requiredMessageText: "Enter the captcha")
+                    </div>
+                    <p class="text-danger">@MvcHtmlString.Create(@ViewBag.LoginMessage)</p>
+                </div>
+                <span class="pull-right">
+                    @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-light btn-md toggle-tooltip", @title = "Click here, to redirect on list page" })
+                    <input type="submit" onclick="SubmitEncry();" value="Create" class="btn btn-info btn-md pull-center toggle-tooltip" title="Click here, to create new user" />
+                </span>
+            </div>
+        </div>
+    </div>
+}
+@section scripts{
+    <script src="~/Scripts/CryptoJS/aes.js"></script>
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#CaptchaInputText").addClass("form-control");
+    });
+    function SubmitEncry() {
+        var txtPassword = $('#Password').val();
+        var txtCPassword = $('#ConfirmPassword').val();
+        var salt = Date.now().toString(36) + Math.random().toString(36).substr(2);
+        $('#hdCp').val(salt);
+        if (txtPassword == '' || txtCPassword == '') {
+            return;
+        }
+        var key = CryptoJS.enc.Utf8.parse('8080808080808080');
+        var iv = CryptoJS.enc.Utf8.parse('8080808080808080');
+
+        var encryptedpassword = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(txtPassword + salt), key,
+            {
+                keySize: 128 / 8,
+                iv: iv,
+                mode: CryptoJS.mode.CBC,
+                padding: CryptoJS.pad.Pkcs7
+            });
+        $('#hdPassword').val(encryptedpassword);
+        $('#Password').val(encryptedpassword);
+
+        var encryptedCpassword = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(txtCPassword + salt), key,
+            {
+                keySize: 128 / 8,
+                iv: iv,
+                mode: CryptoJS.mode.CBC,
+                padding: CryptoJS.pad.Pkcs7
+            });
+        $('#hdCPassword').val(encryptedCpassword);
+        $('#ConfirmPassword').val(encryptedCpassword);
+
+    }
+</script>
+

@@ -1,0 +1,146 @@
+﻿@model Nafed.MicroPay.Model.EmployeeDependent
+@{
+    ViewBag.Title = "Edit Employee Dependent";
+   
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card_new_header alert alert-danger">
+    <div class="col-sm-6">
+        NOTE : Fields marked with (*) are compulsory fields
+    </div>
+    <div class="col-sm-6 text-right">
+        <b>@*[ Characters < > # ^ ; | $ are not allowed ]*@</b>
+    </div>
+</div>
+
+@using (Html.BeginForm("Edit", "EmployeeDependent", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    @Html.HiddenFor(model => model.EmpCode);
+    @Html.HiddenFor(model => model.EmpDependentID);
+
+    <div class="card_new_body">
+        <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 mb-2">
+
+                <div class="row">
+                    @Html.LabelFor(model => model.DependentCode, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-6 col-xs-12 mb-2 required" })
+
+                    <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 mb-2">
+
+                        @Html.EditorFor(model => model.DependentCode, new { htmlAttributes = new { @class = "form-control", @placeholder = "Dependent Code", @readonly = "readonly" } })
+                        @Html.ValidationMessageFor(model => model.DependentCode, "", new { @class = "text-danger" })
+                        @Html.ValidationMessage("DependentCodeAlreadyExist", "", new { @class = "text-danger" })
+
+                    </div>
+                </div>
+                <div class="row">
+
+                    @Html.LabelFor(model => model.EmployeeId, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-6 col-xs-12 mb-2 required" })
+                    <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 mb-2">
+
+                        @Html.DropDownListFor(model => model.EmployeeId, (IEnumerable<SelectListItem>)ViewBag.Employee, new { @class = "custom-select" })
+                        @Html.ValidationMessageFor(model => model.EmployeeId, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="row">
+                    @Html.LabelFor(model => model.DependentName, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-6 col-xs-12 mb-2 required" })
+
+                    <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 mb-2">
+
+                        @Html.EditorFor(model => model.DependentName, new { htmlAttributes = new { @class = "form-control", @placeholder = "Dependent Name" } })
+                        @Html.ValidationMessageFor(model => model.DependentName, "", new { @class = "text-danger" })
+
+                    </div>
+                </div>
+
+                <div class="row">
+                    @Html.LabelFor(model => model.GenderID, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-6 col-xs-12 mb-2" })
+
+                    <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 mb-2">
+                        @Html.DropDownListFor(model => model.GenderID, (IEnumerable<SelectListItem>)ViewBag.Gender, new { @class = "custom-select" })
+                        @Html.ValidationMessageFor(model => model.GenderID, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="row">
+                    @Html.LabelFor(model => model.DOB, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-6 col-xs-12 mb-2" })
+
+                    <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 mb-2">
+                        @Html.TextBoxFor(model => model.DOB, String.Format("{0:dd/MM/yyyy}", Model.DOB), new { @type = "text", @class = "form-control datepicker", @id = "dob", @placeholder = "dd/mm/yyyy" })
+                        @*@Html.EditorFor(model => model.DOB, new { htmlAttributes = new { @class = "form-control", @placeholder = "Date Of Birth", @type = "date", max = DateTime.Now.ToString("yyyy-MM-dd") } })*@
+                    </div>
+                </div>
+
+                <div class="row">
+                    @Html.LabelFor(model => model.RelationID, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-6 col-xs-12 mb-2" })
+
+                    <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 mb-2">
+                        @Html.DropDownListFor(model => model.RelationID, (IEnumerable<SelectListItem>)ViewBag.Relation, new { @class = "custom-select" })
+                        @Html.ValidationMessageFor(model => model.RelationID, "", new { @class = "text-danger" })
+                    
+                      </div>
+                </div>
+
+                <div class="row">
+                    @Html.LabelFor(model => model.Handicapped, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-6 col-xs-12 mb-2" })
+                    <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 mb-2">
+                        @Html.CheckBoxFor(model => model.Handicapped, new { @class = "" })
+                    </div>
+
+                </div>
+              
+                  <div class="row">
+                    @Html.LabelFor(model => model.PFNominee, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-6 col-xs-12 mb-2" })
+                    <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 mb-2">
+                        @Html.CheckBoxFor(model => model.PFNominee, new { @class = "" })
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    @Html.LabelFor(model => model.PFDistribution, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-6 col-xs-12 mb-2" })
+                    <div class="col-lg-6 col-md-6 col-sm-4 col-xs-10 mb-2">
+                        @Html.EditorFor(model => model.PFDistribution, new { htmlAttributes = new { @class = "form-control", @placeholder = "PF Distribution in %", @type = "number", @min = "0", @max = "100", @step = "0.01" } })
+                        @Html.ValidationMessage("pfDistributionRequired", "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 mt-2">
+                        <b>(In %)</b>
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    @Html.LabelFor(model => model.EPSNominee, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-6 col-xs-12 mb-2" })
+                    <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 mb-2">
+                        @Html.CheckBoxFor(model => model.EPSNominee, new { @class = "" })
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    @Html.LabelFor(model => model.Address, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-6 col-xs-12 mb-2" })
+                    <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 mb-2">
+                      @Html.TextAreaFor(model => model.Address, new { @class = "form-control", @style = "height: 119px;max-height: 119px;min-height: 119px;" })
+                    </div>
+
+                </div>
+
+                <div class="divider-chevron"></div>
+                <span class="pull-right">
+                    @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-light btn-md toggle-tooltip", @title = "Click here, to redirect on list page" })
+                    <input type="submit" value="Update" class="btn btn-info btn-md pull-center toggle-tooltip" title="Click here, to update current record" />
+                </span>
+            </div>
+        </div>
+
+    </div>
+}
+
+<script type="text/javascript">
+
+    $("#dob").datepicker({ dateFormat: 'dd/mm/yy', changeYear: false, maxDate: new Date() });
+</script>

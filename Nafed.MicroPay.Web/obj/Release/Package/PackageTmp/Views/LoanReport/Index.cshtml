@@ -1,0 +1,56 @@
+﻿
+@{
+    ViewBag.Title = "Loan Report";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="">
+    <div class="card_new_body">
+        @using (Ajax.BeginForm("_LoanReportFilters", "LoanReport", new AjaxOptions { HttpMethod = "POST", OnSuccess = "OnReportSuccess" }))
+        {
+            <div id="div-report-filters">
+                @Html.Action("_LoanReportFilters")
+            </div>
+        }
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    
+    function checkboxChange(events) {
+        if (events.checked == true && events.id == "AllBranch") {
+            $("#branchID").attr("disabled", "disabled");
+            $("#branchID").val('');
+           
+        }
+        else if (events.checked == false && events.id == "AllBranch") {
+            $("#branchID").removeAttr("disabled");
+           
+        }
+
+      
+    }
+    function radioChangeEvents(events) {
+        if ($("#" + events).is(":checked") && events.id == "PaySlip") {
+            if ($("#AllEmployee").is(":checked") && $("#employeeTypeID").val() == "5") {
+                $("#linePrinter").removeAttr("disabled");
+            }
+            else {
+                $("#linePrinter").attr("disabled", "disabled");
+            }
+        }
+
+        if ($("#" + events).is(":checked") && events.id == "PaySummary") {
+            if ($("#AllEmployee").is(":checked") && $("#employeeTypeID").val() == "5") {
+                $("#linePrinter").removeAttr("disabled");
+            }
+            else {
+                $("#linePrinter").attr("disabled", "disabled");
+            }
+        }
+
+    }
+
+</script>
+

@@ -1,0 +1,110 @@
+﻿
+@{
+    ViewBag.Title = "Salary Report";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="">
+    <div class="card_new_body">
+        @using (Ajax.BeginForm("SalaryReportDetails", "SalaryReport", new AjaxOptions { HttpMethod = "POST", OnSuccess = "OnReportSuccess" }))
+        {
+            <div id="div-report-filters">
+                @Html.Action("_ReportFilter")
+            </div>
+        }
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        if ($("#AllBranch").is(":checked")) {
+            $("#Coveringletter").removeAttr("disabled");
+            $("#PaySummaryAllBranch").removeAttr("disabled");
+            $("#PaySummary").attr("disabled", "disabled");
+        }
+        else {
+            $("#Coveringletter").attr("disabled", "disabled");
+            $("#PaySummaryAllBranch").attr("disabled", "disabled");
+            $("#PaySummary").removeAttr("disabled");
+        }
+    });
+
+    function GetEmployeeDetails() {
+        var branchId = $("#branchID").val() == "" ? null : $("#branchID").val();
+        var employeeType = $("#employeeTypeID").val() == "" ? null : $("#employeeTypeID").val();
+        if (employeeType == 5)
+            $("#linePrinter").removeAttr("disabled");
+        else
+            $("#linePrinter").attr("disabled", "disabled");
+
+        $.ajax({
+            url: "@Url.Action("GetEmployeeDetails", "SalaryReport")",
+            type: "GET",
+            dataType: "JSON",
+            data: { branchId: parseInt(branchId), employeeTypeId: parseInt(employeeType) },
+            success: function (data) {
+                $("#employeeID").html("");
+                if (data.employees != "") {
+                    $("#employeeID").append($("<option selected></option>").val(0).html('Select'));
+                    $.each(data.employees, function (key, value) {
+                        $("#employeeID").append($("<option></option>").val(value.id).html(value.value));
+                    });
+                }
+                else {
+                    $("#employeeID").append($("<option></option>").val(0).html('Select'));
+                }
+            }
+        });
+    }
+
+    function checkboxChange(events) {
+        if (events.checked == true && events.id == "AllBranch") {
+            $("#branchID").attr("disabled", "disabled");
+            $("#branchID").val(0);
+            $("#Coveringletter").removeAttr("disabled");
+            $("#PaySummaryAllBranch").removeAttr("disabled");
+            $("#PaySummary").attr("disabled", "disabled");
+        }
+        else if (events.checked == false && events.id == "AllBranch") {
+            $("#branchID").removeAttr("disabled");
+            $("#Coveringletter").attr("disabled", "disabled");
+            $("#PaySummaryAllBranch").attr("disabled", "disabled");
+            $("#PaySummaryAllBranch").prop("checked", false);
+            $("#Coveringletter").prop("checked", false);
+            $("#PaySummary").removeAttr("disabled");
+        }
+
+        if (events.checked == true && events.id == "AllEmployee") {
+            $("#employeeID").attr("disabled", "disabled");
+            $("#employeeID").val(0);
+            if ($("#employeeTypeID").val() == "5" || $("#employeeTypeID").val() == "0")
+                $("#linePrinter").removeAttr("disabled");
+        }
+        else if (events.checked == false && events.id == "AllEmployee") {
+            $("#employeeID").removeAttr("disabled");
+            $("#linePrinter").attr("disabled", "disabled");
+        }
+    }
+    function radioChangeEvents(events) {
+        if ($("#" + events).is(":checked") && events.id == "PaySlip") {
+            if ($("#AllEmployee").is(":checked") && $("#employeeTypeID").val() == "5") {
+                $("#linePrinter").removeAttr("disabled");
+            }
+            else {
+                $("#linePrinter").attr("disabled", "disabled");
+            }
+        }
+
+        if ($("#" + events).is(":checked") && events.id == "PaySummary") {
+            if ($("#AllEmployee").is(":checked") && $("#employeeTypeID").val() == "5") {
+                $("#linePrinter").removeAttr("disabled");
+            }
+            else {
+                $("#linePrinter").attr("disabled", "disabled");
+            }
+        }
+
+    }
+
+</script>

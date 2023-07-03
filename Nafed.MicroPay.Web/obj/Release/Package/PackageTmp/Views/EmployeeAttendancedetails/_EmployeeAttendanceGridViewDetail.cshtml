@@ -1,0 +1,47 @@
+﻿@model List<Nafed.MicroPay.Model.EmployeeAttendanceDetails>
+
+
+<table id="tblGrid" class="table table-bordered table-centered dt-responsive w-100" >
+    <thead class="bg-info text-white">
+        <tr>
+            <th style="width:5px">
+                #
+            </th>
+            <th style="width:100px;" class="text-center">
+                Date
+            </th>
+            <th style="width:100px;" class="text-center">
+                In Time
+            </th>
+            <th style="width:100px;" class="text-center">
+                Out Time
+            </th>
+            <th style="width:100px;" class="text-center">
+                Hours
+            </th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @{
+            int index = 1;
+            if (Model != null)
+            {
+                foreach (var item in Model)
+                {
+                    <tr>
+                        <td style="width:5px">@index</td>
+                        <td style="width:100px;" class="text-center"> @item.Date</td>
+                        <td style="width:100px;" class="text-center"> @item.InTime</td>
+                        <td style="width:100px;" class="text-center"> @item.OutTime</td>
+                        <td style="width:100px;" class="text-center"> @item.Hours</td>
+                    </tr>
+                        index++;
+                    }
+                }
+            }
+
+    </tbody>
+</table>
+
+

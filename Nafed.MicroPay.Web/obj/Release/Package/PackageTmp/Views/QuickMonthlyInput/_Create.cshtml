@@ -1,0 +1,182 @@
+﻿@model Nafed.MicroPay.Model.SalaryMonthlyInput
+@using Nafed.MicroPay.Model
+@{
+    var yearDDl = Enumerable.Range(2005, (DateTime.Now.Year - 2005) + 1).
+                                  Select(i => new SelectListModel { id = i, value = i.ToString() }).OrderByDescending(x => x.value).ToList();
+
+    yearDDl.Insert(0, new SelectListModel { value = "Select", id = 0 });
+
+
+
+    var monthDDL = Enumerable.Range(1, 12).
+                            Select(i => new SelectListModel
+                            {
+                                id = i,
+                                value = System.Globalization.CultureInfo.InvariantCulture.DateTimeFormat.GetMonthName(i)
+                            }).ToList();
+    monthDDL.Insert(0, new SelectListModel { value = "Select", id = 0 });
+}
+
+<div class="card_new_header alert alert-danger">
+    <div class="col-sm-6">
+        NOTE : Fields marked with (*) are compulsory fields
+    </div>
+    <br />
+    <div class="col-sm-6">
+        <b>@*[ Characters < > # ^ ; | $ are not allowed ]*@</b>
+        <b>Current Month:-</b>@System.Globalization.CultureInfo.InvariantCulture.DateTimeFormat.GetMonthName(DateTime.Now.Month)  @*<b>AND Current Year:- </b> @DateTime.Now.Year*@
+    </div>
+</div>
+<div class="card_new_body">
+    <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 mb-2">
+            <div class="row">
+                @Html.LabelFor(model => model.yearId, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-6 col-xs-12 mb-2 required" })
+
+                <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 mb-2">
+                    @Html.DropDownListFor(model => model.yearId, new SelectList(yearDDl, "id", "value"), new { @class = "custom-select" })
+                    @Html.ValidationMessageFor(model => model.yearId, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="row">
+                @Html.LabelFor(model => model.monthId, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-6 col-xs-12 mb-2 required" })
+
+                <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 mb-2">
+                    @Html.DropDownListFor(model => model.monthId, new SelectList(monthDDL, "id", "value"), new { @class = "custom-select" })
+                    @Html.ValidationMessageFor(model => model.monthId, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="row">
+                @Html.LabelFor(model => model.EmployeeTypeId, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-6 col-xs-12 mb-2 required" })
+
+                <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 mb-2">
+                    @Html.DropDownListFor(model => model.EmployeeTypeId, new SelectList(Model.EmployeeTypeList, "id", "value"), "Select", new { @class = "custom-select", @onChange = "GetSalaryHead()" })
+                    @Html.ValidationMessageFor(model => model.EmployeeTypeId, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="row">
+                @Html.LabelFor(model => model.MonthlyInputHeadId, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-6 col-xs-12 mb-2 required" })
+
+                <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 mb-2">
+                    @Html.DropDownListFor(model => model.MonthlyInputHeadId, new SelectList(Model.MonthlyInputHead, "FieldName", "FieldDesc", Model.MonthlyInputHeadId), new { @class = "custom-select", @onChange = "GetDetails()" })
+                    <span id="hdnheadrequired"></span>
+                    @Html.ValidationMessageFor(model => model.MonthlyInputHeadId, "", new { @class = "text-danger" })
+                    @Html.ValidationMessage("monthlyInputRequired", "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="row">
+                @Html.LabelFor(model => model.EmployeeId, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-6 col-xs-12 mb-2 required" })
+                <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 mb-2">
+                    @Html.DropDownListFor(model => model.EmployeeId, new SelectList(Model.RegularEmployeeList, "id", "value"), "Select", new { @class = "custom-select", @onChange = "GetDetails()" })
+                    @Html.ValidationMessageFor(model => model.EmployeeId, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 mb-2">
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 mb-2">
+                    @Html.Editor("EmployeeName", new { htmlAttributes = new { @class = "form-control", @placeholder = "Employee" } })
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 mb-2">
+                    @Html.Editor("BranchName", new { htmlAttributes = new { @class = "form-control", @placeholder = "Branch" } })
+                </div>
+            </div>
+
+            <div class="row">
+                @Html.LabelFor(model => model.Amount, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-6 col-xs-12 mb-2" })
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 mb-2">
+                    @Html.EditorFor(model => model.Amount, new { htmlAttributes = new { @class = "form-control text-right", @placeholder = "Amount", @type = "number", @min = "0", @max = "999999", @step = "0.01" } })
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 mb-2">
+                    @Html.EditorFor(model => model.OldAmount, new { htmlAttributes = new { @class = "form-control text-right", @type = "number", @readonly = "readonly", @value = "0" } })
+                </div>
+            </div>
+            <div class="divider-chevron"></div>
+            <span class="pull-right">
+                @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-light btn-md toggle-tooltip", @title = "Click here, to redirect on list page" })
+                <input type="submit" value="Save" class="btn btn-info btn-md pull-center toggle-tooltip" title="Click here, to save current record" />
+            </span>
+        </div>
+    </div>
+
+</div>
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $("#EmployeeTypeId").change(function () {
+
+            var selectedMonth = $("#monthId option:selected").val();
+            var selectedYear = $("#yearId option:selected").val();
+            var selectedEmployeeTypeID = $("#EmployeeTypeId option:selected").val();
+
+
+            if (selectedEmployeeTypeID > 0 && selectedMonth > 0 && selectedYear > 0) {
+
+                jQuery.post("@Url.Action("GetEmployeeList", "QuickMonthlyInput")", {
+                    employeeTypeID: selectedEmployeeTypeID,
+                    salMonth: selectedMonth,
+                    salYear: selectedYear
+                }).done(function (data) {
+
+                    if (data.empList != "") {
+                        $("#EmployeeId").html("");
+                        $.each(data.empList, function (key, value) {
+                            $("#EmployeeId").append($("<option></option>").val(value.id).html(value.value));
+                        });
+                    }
+                });
+            }
+        });
+
+
+        function BindEmployeeOnBranch(e) {
+            debugger;
+            var branchId = 0;
+            branchId = $("#ddlBranchList").val();
+            $("#ddlEmployee").html("");
+            if (branchId > 0) {
+                jQuery.post("@Url.Action("GetBranchEmployee", "DAArrearReports")", {
+                    branchID: branchId,
+                }).done(function (data) {
+
+                    if (data.employees != "") {
+                        $("#ddlEmployee").html("");
+                        $.each(data.employees, function (key, value) {
+                            $("#ddlEmployee").append($("<option></option>").val(value.Value).html(value.Text));
+                        });
+                    }
+                });
+            } else {
+                $("#ddlEmployee").append($("<option></option>").val(0).html('Select'));
+            }
+        }
+
+
+        var employeeTypeId = $("#EmployeeTypeId").val();
+        if (employeeTypeId != "") {
+            $.ajax({
+                url: "@Url.Action("GetSalaryHeadFields", "QuickMonthlyInput")",
+                type: "GET",
+                dataType: "JSON",
+                data: { employeeTypeId: employeeTypeId },
+                success: function (data) {
+                    if (data.htmlData != "") {
+                        $("#MonthlyInputHeadId").html("");
+                        $.each(data.htmlData, function (data, value) {
+                            $("#MonthlyInputHeadId").append($("<option></option>").val(value.FieldName).html(value.FieldDesc));
+                        })
+                    }
+
+                }
+            });
+        }
+
+        var emp = $("#EmployeeId :selected").text().split('-')[1];
+        $("#EmployeeName").val(emp);
+    });
+</script>

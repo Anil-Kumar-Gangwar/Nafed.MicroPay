@@ -1,0 +1,141 @@
+﻿@using MicroPay.Web.Models
+@model TrainingViewModel
+
+<script type="text/javascript">
+    $('.toggle-tooltip').tooltip();
+</script>
+
+
+<div class="row">
+    @Html.LabelFor(model => model.documentRepository.DocumentName, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-6 col-xs-12 mb-2 required" })
+
+    <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 mb-2">
+        @Html.EditorFor(model => model.documentRepository.DocumentName, new { htmlAttributes = new { @class = "form-control", @placeholder = "Document Name", @maxlength = "150" } })
+        <span id="documentNameRequired"></span>
+    </div>
+</div>
+<div class="row">
+    @Html.LabelFor(model => model.documentRepository.DocumentDetail, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-6 col-xs-12 mb-2 " })
+    <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 mb-2">
+        @Html.TextAreaFor(model => model.documentRepository.DocumentDetail, htmlAttributes: new { @class = "form-control", @placeholder = "Document Detail", @style = "min-height:60px;max-height:60px;", @maxlength = "500", @cols = "60", @rows = "3" })
+        @*<span id="documentDetailRequired"></span>*@
+    </div>
+</div>
+
+<input type="hidden" id="hdnTrainingID" value="@Model.trainingID" />
+
+<div class="row">
+    @Html.Label("File Upload", htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-6 col-xs-12 mb-2 required" })
+    <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 mb-2">
+        <input name="TrainingDocument" type="file" id="TrainingDocumentFile" style="" />
+        <span id="documentFileRequired"></span>
+    </div>
+
+</div>
+
+<div>
+    <label class="font-weight-bold">([FileType=.jpg,.jpeg,.png,.pdf,.ppt,.pptx,.xlsx,.xls,.doc,.docx, Size <= 5MB, single document] <br /></label>
+
+</div>
+<div class="form-group">
+    @if (Model.TrainingStatus != 3 && Model.TrainingStatus != 4)
+    {
+        <span class="pull-right">
+
+            <input type="submit" name="ButtonType" value="Upload" class="btn btn-info btn-md pull-center toggle-tooltip" id="btnUpload"
+                   title="Click here, to add training document ." />
+        </span>
+    }
+</div>
+
+
+<script type="text/javascript">
+    $('.toggle-tooltip').tooltip();
+
+    $(document).ready(function () {
+        $('#btnUpload').click(function () {
+            debugger;
+            if ($("#documentRepository_DocumentName").val() != ""
+               && $("#TrainingDocumentFile").get(0).files.length > 0) {
+                if (window.FormData !== undefined) {
+                    var fileUpload = $("#TrainingDocumentFile").get(0);
+                    var files = fileUpload.files[0];
+                    var filesze = files.size;
+                    var fileName = fileUpload.value;
+
+                    //alert(filesze);
+
+                    var ext = fileName.substr(fileName.lastIndexOf('.') + 1).toLowerCase();
+                    if (!(ext == "jpg" || ext == "jpeg" || ext == "png" || ext == "pdf" || ext == "ppt" || ext == "pptx" || ext == "xlsx" || ext == "xls" || ext == "doc" || ext == "docx")) {
+                        alert("Invalid file type, please select a (word,excel,ppt,pptx,pdf,jpeg,png) file");
+                        return false;
+                    }
+                    if (filesze > 5000000) {  // 50KB
+                        //alert("Maximum file size is " + maxsize / (1024) + "KB");
+                        alert("Please select file less than 5MB.");
+                        return false;
+                    }
+                    // Create FormData object
+                    var fileData = new FormData();
+
+                    // Looping over all files and add it to FormData object
+                    fileData.append(files.name, files);
+                    //for (var i = 0; i < files.length; i++) {
+                    //    fileData.append(files[i].name, files[i]);
+                    //}
+
+                    // Adding one more key to FormData object
+                    fileData.append('DocumentName', $("#documentRepository_DocumentName").val());
+                    fileData.append('DocumentDetails', $("#documentRepository_DocumentDetail").val());
+                    fileData.append('TrainingID', $("#hdnTrainingID").val());
+
+                    $.ajax({
+                        url: "@Url.Action("UploadFiles", "Training")",
+                        type: "POST",
+                        contentType: false, // Not to set any content header
+                        processData: false, // Not to process data
+                        data: fileData,
+                        success: function (result) {
+                            debugger;
+                            if (result.part == 0) {
+                                commonMessage("error", result.htmlData);
+                            }
+                            else if (result.htmlData != "") {
+                                $("#div-form-DocumentList-grid").html(result.htmlData);
+                                $("#documentRepository_DocumentName").val("");
+                                $("#documentRepository_DocumentDetail").val("");
+                                $("#TrainingDocumentFile").val("");
+                                commonMessage("success", "File uploaded successfully.");
+                            }
+                        },
+                        error: function (err) {
+                            alert(err.statusText);
+                        }
+                    });
+                }
+            }
+            else {
+                if ($("#documentRepository_DocumentName").val() == "") {
+                    $("#documentNameRequired").html("Please Enter Document Name.").css("color", "red");
+                }
+                else {
+                    $("#documentNameRequired").html("").css("color", "");
+                }
+                //if ($("#documentRepository_DocumentDetail").val() == "") {
+                //    $("#documentDetailRequired").html("Please Enter Document Detail.").css("color", "red");
+                //}
+                //else {
+                //    $("#documentDetailRequired").html("").css("color", "red");
+                //}
+                if ($("#TrainingDocumentFile").get(0).files.length == 0) {
+                    $("#documentFileRequired").html("Please Select File.").css("color", "red");
+                }
+                else {
+                    $("#documentFileRequired").html("").css("color", "");
+                }
+
+            }
+        });
+    });
+
+</script>

@@ -1,0 +1,207 @@
+﻿@using Nafed.MicroPay.Model
+@model MonthlyTCSFile
+
+@{
+    var yearDDl = Enumerable.Range(2006, DateTime.Now.Year - 2006 + 1).
+         Select(i => new SelectListModel { id = i, value = i.ToString() }).OrderByDescending(x => x.value).ToList();
+
+    var monthDDL = Enumerable.Range(1, 12).
+        Select(i => new SelectListModel
+        {
+            id = i,
+            value = System.Globalization.CultureInfo.InvariantCulture.DateTimeFormat.GetMonthName(i)
+        }).ToList();
+
+    monthDDL.Insert(0, new SelectListModel { id = 0, value = "Select" });
+    yearDDl.Insert(0, new SelectListModel { id = 0, value = "Select" });
+}
+
+@*<h4 class="row" style="margin:10px; padding:5px;">Upload Monthly TCS File</h4>*@
+
+<fieldset class="border p-2 col-md-12 col-xs-12 col-lg-12 col-xl-12">
+    <legend class="w-auto">Upload Monthly TCS File</legend>
+
+    <div class="form-group row">
+
+        @Html.LabelFor(model => model.year, htmlAttributes: new { @class = "col-sm-4 required" })
+
+        <div class="col-sm-8">
+
+            @Html.DropDownListFor(model => model.year, new SelectList(yearDDl, "id", "value"), new { @class = "custom-select" })
+            @Html.ValidationMessageFor(model => model.year, "", new { @class = "text-danger", @id = "yearRequired" })
+
+        </div>
+
+    </div>
+
+    <div class="form-group row">
+
+        @Html.LabelFor(model => model.month, htmlAttributes: new { @class = "col-sm-4 required" })
+
+        <div class="col-sm-8">
+
+            @Html.DropDownListFor(model => model.month, new SelectList(monthDDL, "id", "value"), new { @class = "custom-select" })
+            @Html.ValidationMessageFor(model => model.month, "", new { @class = "text-danger", @id = "monthRequired" })
+
+        </div>
+
+    </div>
+
+    <div class="form-group">
+
+        <div class="row">
+
+            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+
+                @Html.Label("Upload File", htmlAttributes: new { @class = "control-label required" })
+
+            </div>
+
+            <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+
+                <input name="TCSDocument" type="file" id="TCSDocumentFile" style="" />
+
+                <br />
+
+                <span class="text-right" id="documentFileRequired"></span>
+
+            </div>
+
+        </div>
+    </div>
+
+
+    <div class="form-group hide" id="sheetHdrValidation">
+
+        <div class="row ml-2" id="divValidationSection">
+
+        </div>
+
+    </div>
+
+    <div class="form-group">
+        <span class="pull-right">
+            <input type="submit" name="ButtonType" value="Upload" class="btn btn-info btn-md pull-center toggle-tooltip" id="btnUpload"
+                   title="Click here, to upload monthly tcs file ." />
+        </span>
+    </div>
+
+
+    <input type="hidden" id="hdnTCSFileID" value="@Model.TCSFileID" />
+    <input type="hidden" id="hdnYearID" />
+    <input type="hidden" id="hdnMonthID" />
+
+
+</fieldset>
+
+<script type="text/javascript">
+    $('.toggle-tooltip').tooltip();
+
+    $(document).ready(function () {
+
+        $("#year").change(function () {
+            var selectedValue = $("#year option:selected").val();
+            $("#hdnYearID").val(selectedValue);
+        });
+
+        $("#month").change(function () {
+            var selectedValue = $("#month option:selected").val();
+            $("#hdnMonthID").val(selectedValue);
+        });
+
+        $('#btnUpload').click(function () {
+
+            var selectedMonth = $("#month option:selected").val();
+            var selectedYear = $("#year option:selected").val();
+
+            if (selectedYear == 0)
+                $("#yearRequired").text("Please select year.");
+
+            if (selectedMonth == 0)
+                $("#monthRequired").text("Please select month.");
+
+            if (selectedMonth == 0 || selectedYear == 0)
+                return false;
+
+            if ($("#TCSDocumentFile").get(0).files.length > 0) {
+                if (window.FormData !== undefined) {
+                    var fileUpload = $("#TCSDocumentFile").get(0);
+                    var files = fileUpload.files[0];
+                    var filesze = files.size;
+                    var fileName = fileUpload.value;
+
+                    var ext = fileName.substr(fileName.lastIndexOf('.') + 1).toLowerCase();
+                    if (!(ext == "xlsx" || ext == "xls")) {
+                        alert("Invalid file type, please select a (word,excel,ppt,pdf,jpeg,png) file");
+                        return false;
+                    }
+                    if (filesze > 153600) {  // 150KB
+                        //alert("Maximum file size is " + maxsize / (1024) + "KB");
+                        alert("Please select image size less than 35KB.");
+                        return false;
+                    }
+                    // Create FormData object
+                    var fileData = new FormData();
+
+                    // Looping over all files and add it to FormData object
+                    fileData.append(files.name, files);
+                    //for (var i = 0; i < files.length; i++) {
+                    //    fileData.append(files[i].name, files[i]);
+                    //}
+
+                    // Adding one more key to FormData object
+
+                    fileData.append('TCSFileID', $("#hdnTCSFileID").val());
+                    fileData.append('MonthID', $("#hdnMonthID").val());
+                    fileData.append('YearID', $("#hdnYearID").val());
+
+
+                    $.ajax({
+                        url: "@Url.Action("UploadFile", "UploadTCSFile")",
+                        type: "POST",
+                        contentType: false, // Not to set any content header
+                        processData: false, // Not to process data
+                        data: fileData,
+                        success: function (result) {
+                            if (result == "inValidFileFormat")
+                                alert('In valid file format, Please check ');
+                            else if (result.status == "inValidColumns") {
+                                //   $("#documentFileRequired").html("InValid Column list.").css("color", "red");
+                                $("#sheetHdrValidation").removeClass("hide");
+                                $("#divValidationSection").css("color", "red").html("Following fields are invalid :-<br> " + result.inValidColumns + "");
+                            }
+                            else if (result.status == "columnMissing") {
+                                //   $("#documentFileRequired").html("InValid Column list.").css("color", "red");
+                                $("#sheetHdrValidation").removeClass("hide");
+                                $("#divValidationSection").css("color", "red").html("Following fields are missing :-<br> " + result.missingHeaders + "");
+                            }
+                            else if (result.htmlData != "") {
+                                $("#div-tcs-files").html(result.htmlData);
+                                //$("#documentRepository_DocumentName").val("");
+                                //$("#documentRepository_DocumentDetail").val("");
+                                //$("#TrainingDocumentFile").val("");
+                                $("#sheetHdrValidation").addClass("hide");
+                                commonMessage("success", "File uploaded successfully.");
+                                $("#yearRequired,#monthRequired").text('');
+                                $("#year,#month").val(0);
+                                $("#TCSDocumentFile").val("");
+                            }
+                        },
+                        error: function (err) {
+                            alert(err.statusText);
+                        }
+                    });
+                }
+            }
+            else {
+                if ($("#TCSDocumentFile").get(0).files.length == 0) {
+                    $("#documentFileRequired").html("Please Select File.").css("color", "red");
+                }
+                else
+                    $("#documentFileRequired").html("").css("color", "");
+
+            }
+        });
+    });
+
+</script>

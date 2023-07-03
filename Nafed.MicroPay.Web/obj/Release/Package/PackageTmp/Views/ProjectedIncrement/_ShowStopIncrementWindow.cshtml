@@ -1,0 +1,13 @@
+﻿@model MicroPay.Web.Models.ProjectedIncrementViewModel
+@using Nafed.MicroPay.Model;
+<div class="card_new_body">
+    <div class="row">
+        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8" id="StopIncrementProjected">
+            @Html.Partial("_StopIncrementDetails", Model)
+        </div>
+
+        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+            @Html.Partial("_StopIncrementSearchFilter", Model)
+        </div>
+    </div>
+</div>

@@ -1,0 +1,94 @@
+﻿@model Nafed.MicroPay.Model.UserDetail
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Login.cshtml";
+}
+<title>Micro Pay</title>
+
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/bootstrap")
+<script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+
+<script src="~/Scripts/popper.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('[data-toggle="tooltip"]').tooltip();
+        $('.toggle-tooltip').tooltip();
+    });
+
+</script>
+
+<script type="text/javascript">
+    var isOTPExpired=0;
+    $('#btnSubmit').attr("title", "Click here to verify your OTP.");
+    // var timeLeft = 30;
+    var elem = document.getElementById('sp-timer');
+    function otpCountDown() {
+        var timeleft = 300;
+        var downloadTimer = setInterval(function () {
+            document.getElementById("sp-timer").innerHTML = 'OTP expire in ' + timeleft + ' seconds.';
+            timeleft -= 1;
+            if (timeleft <= 0) {
+                clearInterval(downloadTimer);
+                document.getElementById("sp-timer").innerHTML = ""
+                $("#div-OTP-input,#btnSubmit").hide();
+            }
+        }, 1000);
+    }
+
+</script>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="login_bg div_pos">
+
+            <div class="col-sm-12" style="margin-top: calc(50% - 45%);">
+                <div class="col-xl-9 col-lg-9 col-md-10 col-sm-12 m-auto" style="background-color: #f7f7f7;box-shadow: 0px 0px 15px 0px #0860aa;">
+                    <div class="row">
+                        <div class="col-xl-5 col-lg-5 col-md-6 col-sm-12 p-0 d-none d-sm-block">
+                            <img src="~/Images/login_img.png" style="width: 100%;" />
+                        </div>
+                        <div class="col-xl-7 col-lg-7 col-md-6 col-sm-10 m-auto p-0">
+                            <div class="row">
+                                <div class="col-xl-7 col-lg-7 col-md-9 col-sm-12 m-auto" style="margin-top: calc(50% - 40%) !important;">
+                                    <div class="pull-left col-md-12 text-center mb-2">
+                                        <img src="~/Images/logo.png" style="height: 75px;" />
+                                    </div>
+
+                                    <div class="pull-left col-md-12 text-center mb-2">
+
+                                    </div>
+
+
+                                    <div class="pull-left col-md-12 text-center m-4">
+                                        <div class="pull-left col-md-2 text-right"><img src="~/Images/Fingerprint.png" style="height: 25px;" /> </div>
+                                        <div class="pull-right col-md-10 text-left">
+                                            <h4> Forgot Your Password ?</h4>
+
+                                        </div>
+                                        <div class="pull-left col-md-12 text-center p-4">
+                                            <h6 class="text-muted"> To recover your password, you need to enter your registered email address in NAFED HRMS. We will sent you a One Time Password to your email. After OTP verification a new password will be sent to your regsistered email. </h6>
+                                        </div>
+                                        <div class="p-4">
+                                            <div id="OTPSection" class="login-help login-help-desktop">
+                                                @Html.Partial("_OTP", Model)
+                                            </div>
+                                        </div>
+                                        <div style="float:left; width:100%; text-align:center;margin-top: 50px; padding-bottom:15px;">
+                                            <span style="color: #007bff;font-size: 12px;"> Copyright © 2019 Nafed-india.com, All rights Reserved </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

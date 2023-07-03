@@ -1,0 +1,15 @@
+﻿@{
+    ViewBag.Title = "APAR Due Dates";
+    ViewBag.NavigationTitle = "APAR Due Dates";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+   
+}
+
+<div>
+    <div class="card_new_body">
+        <div id="div-duedate-grid">
+            @Html.Action("_GetAPARDatesGridView")
+        </div>
+    </div>
+
+</div>

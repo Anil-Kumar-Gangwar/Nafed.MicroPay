@@ -1,0 +1,98 @@
+﻿@using Nafed.MicroPay.Model
+@model List<Ticket>
+<table id="tblGrid" class="table table-centered table-striped dt-responsive w-100">
+    <thead>
+        <tr>
+            <th style="width:20px">
+                #
+            </th>
+            <th>
+                Previous Ticket No.
+            </th>
+            <th style="width:20%">
+                Name
+            </th>
+            <th>
+                Department
+            </th>
+            <th>
+                Type
+            </th>
+            <th>
+                Subject
+            </th>
+            <th>
+                Message
+            </th>
+            <th>
+                Reply
+            </th>
+            <th>
+                Status
+            </th>
+            <th class="text-center" style="width:60px">
+                Action
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            if (Model != null && Model.Count > 0)
+            {
+                var sno = 1;
+                foreach (var item in Model)
+                {
+                    <tr>
+                        <td> @sno</td>
+                        <td> @item.PreviousTicket</td>  
+                        <td> @item.name</td>
+                        <td> @item.Department</td>
+                        <td> @item.TicketType</td>
+                        <td> @item.subject</td>
+                        <td> @item.Message</td>
+                        <td> @item.TicketSolverRmk</td>
+                        <td style="width:5%">
+                            @if (item.status_id == (int)TicketTypeStatus.Open)
+                            {
+                                <span class="badge badge-pill badge-warning col-md-12">Open </span>
+                            }
+                            @if (item.status_id == (int)TicketTypeStatus.Pending)
+                            {
+                                <span class="badge badge-pill badge-info col-md-12">Pending </span>
+                            }
+                            else if (item.status_id == (int)TicketTypeStatus.Answered)
+                            {
+                                <span class="badge badge-pill badge-primary col-md-12">Answered</span>
+                            }
+                            else if (item.status_id == (int)TicketTypeStatus.Resolved)
+                            {
+                                <span class="badge badge-pill badge-success col-md-12">Resolved</span>
+                            }
+
+                        </td>
+                        <td class="text-center">
+                            @if (item.status_id == (int)TicketTypeStatus.Open)
+                            {
+                                @*<a href="@Url.Action("Edit", "Ticket", new { TicketID = @item.ID })" title="Click here, to edit this record">
+                                        <span class="far fa-edit text-info" aria-hidden="true"></span>
+                                    </a>*@
+                                    @Html.EncodedImageActionLink("", "Edit", "Ticket", new { TicketID = @item.ID }, new { @class = "toggle-tooltip", title = "Click here, to edit this record" }, "~/Images/edit.png")
+                                    <text>|</text>
+                                    @*<a data-toggle="confirm" class="toggle-tooltip" href="@Url.Action("Delete", "Ticket", new { TicketID = @item.ID })" title="Click here, to delete this record">
+                                        <span class="far fa-trash-alt text-danger" aria-hidden="true"></span>
+                                    </a>*@
+                                    @Html.EncodedImageActionLink("", "Delete", "Ticket", new { TicketID = @item.ID }, new { @class = "toggle-tooltip", title = "Click here, to delete this record" }, "~/Images/delete.png", true)
+
+
+                            }
+                        </td>
+
+                    </tr>
+                    sno++;
+                }
+            }
+
+        }
+
+    </tbody>
+</table>

@@ -1,0 +1,18 @@
+﻿@model Nafed.MicroPay.Model.UserAccessRight
+@{
+    ViewBag.Title = Model.PageTitle;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="">
+    <div class="card_new_body">
+        @using (Ajax.BeginForm("SubmitForm", Model.ControllerName, new AjaxOptions { HttpMethod = "POST", OnSuccess = "OnReportSuccess" }, new { @id = "frmReport" }))
+        {
+            <script type="text/javascript">
+                $(document).ready(function () {
+                    $("#frmReport").submit();
+                });
+            </script>
+        }
+    </div>
+</div>

@@ -1,0 +1,38 @@
+﻿
+@{
+    ViewBag.Title = "User List";
+    ViewBag.NavigationTitle = "User";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    System.Globalization.CultureInfo Indian = new System.Globalization.CultureInfo("hi-IN");
+}
+
+
+<div class="">
+    <div class="card_new_header text-right">
+        @Html.ActionLink("Create New", "Create", "User", null, new { @class = "btn btn-info btn-md", title = "Click here, to create new record", @data_toggle = "tooltip" })
+
+        @*Do not remove below code, as it is used to generate system generated password for all employees .. (Sg)*@
+
+        @*@Html.ActionLink("Generate Password", "GeneratePassword", "User", null, new { @class = "btn btn-warning btn-md", title = "Click here, to create new record", @data_toggle = "tooltip" })*@
+    </div>
+    <div class="card_new_body">
+        <div id="UserGridDiv">
+            @Html.Action("UserGridView")  
+        </div>
+    </div>
+    @*<div class="card_new_footer"></div>*@
+</div>
+@section scripts{
+   
+}
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,1084 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{C1AE6E84-6DB2-4875-9F83-694D3C313F8F}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Nafed.MicroPay.Data</RootNamespace>
+    <AssemblyName>Nafed.MicroPay.Data</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Models\AcadmicProfessionalDetail.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\APARReviewedSignedCopy.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\APARSkillSet.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\APARSkillSetDetail.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\APARSkillSetFormDetail.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\APARSkillSetFormHdr.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\APARSkillSetList_Result.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AppraisalForm.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AppraisalFormHdr.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AppraisalFormHistory.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ArrearDetail.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AssetmanagementDetail.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AssetType.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AttendanceType.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BloodGroup.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BonusMinimumMonthlyWage.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BonusWage.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Branch.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BranchSalaryHeadRule.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Cadre.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CalendarYear.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CandidateEducationSummary.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CandidateGovtWorkExperience.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CandidateRegistration.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CandidateWorkExperience.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Category.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ChildrenEducationDetail.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ChildrenEducationDocument.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ChildrenEducationHdr.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\City.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ConfirmationClarification.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ConfirmationForm.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ConfirmationFormAHeader.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ConfirmationFormBHeader.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ConfirmationFormHdr.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ConfirmationStatu.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ConveyanceBillDescription.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ConveyanceBillHdr.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ConveyanceBillHdrDetail.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DashboardDocument.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DashboardDocumentHdr.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DeductionSection.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DeductionSubSection.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DeductionSubSectionDescription.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Department.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DepartmentRight.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Designation.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DesignationAppraisalForm.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Division.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Docment.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DocumentExtension.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\EmailConfiguration.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\EmpAchievementAndCertificationDocument.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\EmpAttendanceDetail.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\EmpAttendanceHdr.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\EmpDeductionUnderChapterVI_A.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\EmployeeAchievement.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\EmployeeCategory.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\EmployeeCertification.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\EmployeeDependent.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\EmployeeDeputation.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\EmployeeForm12BB.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\EmployeeForm12BBDocument.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\EmployeeLeave.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\EmployeeProcessApproval.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\EmployeeProvidentFundOrganisation.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\EmployeeSuspensionPeriod.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\EmployeeType.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\EmpPFOrgHDR.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\EPFDetail.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\EPFNomination.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ExamCenterDetail.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\FileManagement.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\FileTrackingDocument.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\FileTrackingType.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\FileWorkflow.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\FormGroupActivity.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\FormGroupADetail1.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\FormGroupADetail2.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\FormGroupAHdr.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\FormGroupBDetail1.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\FormGroupBDetail2.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\FormGroupBHdr.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\FormGroupCDetail1.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\FormGroupCDetail2.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\FormGroupCHdr.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\FormGroupDHdr.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\FormGroupEDetail1.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\FormGroupEDetail2.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\FormGroupEHdr.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\FormGroupFDetail1.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\FormGroupFDetail2.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\FormGroupFHdr.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\FormGroupGHdr.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\FormGroupHHdr.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\FormGroupTrainingDtl.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\FTSUser.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\FTSUserDepartment.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Gender.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GetAnsweredTickets_Result.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GetAPARFormDetail_Result.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GetAPARHdrDetail_Result.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GetAPARSkillDetail_Result.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GetAPARTrainingbySubordinate_Result.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GetAppliedCandidateDetail_Result.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GetAppraisalHistory_Result.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\getArrearperiodsdetailsforPay_Result.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GetAssetHistory_Result.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GetCandidateAppliedCount_Result.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GetChildrenEducationDetails_Result.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GetConfirmationDtlForOrdrRpt_Result.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GetConveyanceBillDescription_Result.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GetConveyanceFormDetails_Result.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GetDesignationPayScale_Result.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GetEmpCountBasedOnDepartment_Result.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\getemployeeByBranchID_Result.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GetEmployeeDetailDashBoard_Result.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GetEmployeeDetailForLoan_Result.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GetEmployeeDetails_Result.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GetEmployeeDOBDOJ_Result.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GetEmployeeLeaveBal_Result.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GetEmployeeLeaveForPDF_Result.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GetEmployeePromotions_Result.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GetEPFEPSNominee_Result.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GetEPFNominationDetail_Result.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GetFileForwardDetails_Result.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GetFileTrackingListForSearch_Result.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GetForm12BBDocumentList_Result.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GetForm12BBList_Result.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GetFormGroupDetail1_Result.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GetFormGroupDetail2_Result.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GetFormGroupDHdrDetail_Result.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GetFormGroupFHdrDetail_Result.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GetFormGroupGHdrDetail_Result.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GetFormGroupHdrDetail_Result.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GetFormGroupHHdrDetail_Result.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GetFormTrainingDtls_Result.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GetGreetingNotification_Result.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GetInboxFiles_Result.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GetLastEmployeeCode_Result.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GetLoanApplicationDetails_Result.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GetLoanApplicationList_Result.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GetLTCDetail_Result.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GetMaleEmployeeNominee_Result.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GetMultipleTableDataResult_Result.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GetOTAslipDetail_Result.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GetOutboxFiles_Result.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GetPendingTickets_Result.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GetProjectedIncrementDetails_Result.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GetSanctionLoanList_Result.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GetSeniorityList_Result.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GetSkillSetDetails_Result.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GetStaffBudgetDetailsList_Result.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GetSubOrdinatesDetails_Result.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GetSubordinateTraining_Result.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GetSuperAnnuating_Result.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GetTicketAttachment_Result.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GetTicketForSectionHead_Result.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GetTicketForwardDetails_Result.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GetTicketList_Result.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GetTrainingFromDetail_Result.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GetTrainingReportEmpWise_Result.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GetTrainingReport_Result.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GetTrainingRptInternalExternal_Result.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GetTrainingRptTypeWise_Result.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GetTrainingRrtDesignationWise_Result.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GetUnMappedEmployeeList_Result.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GetUpdateIncrementDetails_Result.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GetUpdateValidateNewBasicAmountDetails_Result.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GetValidateNewBasicAmountDetails_Result.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Grade.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Holiday.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\InsufficientLoggingMonitoring.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Insurance.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\InsuranceDependent.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\InventoryManagement.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\JobRequirementLocation.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\JobRequirementQualification.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\LeaveCategory.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\LeaveCreditRule.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\LeavePurpose.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\LeaveRule.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\LeaveStatu.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\LeaveType.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\LoanApplication.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\LoanApplicationHistory.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Mail_Process.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Mail_Process_Content.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Manufacturer.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\MaritalStatu.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\MaxEmpCodeTypeWise.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Menu.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\MicroPay.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MicroPay.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\MicroPay.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\MicroPay.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MicroPay.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\MonthlyTCSFile.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\MotherTongue.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\NonRefundablePFLoan.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\NRPFLoanHDR.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\OTASlip.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\PayrollApprovalRequest.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\PayrollApprovalSetting.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Process.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ProcessStage.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ProcessWorkFlow.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\promotioncota1.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Relation.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Religion.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Requirement.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Resignation.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SalaryHead.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\salaryheadshistory.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Section.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SeparationClearance.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Sepration.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Skill.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SkillType.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SlabWiseHeadBreakup.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SMSConfiguration.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_EmpWiseSalaryReport_Result.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_GetEncashmentForF_A_Result.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_GetProcessApprovalDetail_Result.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SP_GetTicketAnswerDetail_Result.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\StaffGrievance.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\State.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SubordinatesTraining.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Support_group.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Support_team.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TblActualArrear.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TblArrearDetail.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tblarrearmanualdata.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TblArrearMonthlyInput.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TblBonusAmt.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tblBranchManagerDetail.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tblCCAMaster.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tblCEARate.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tblEmployeeQualificationdetail.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TblExGratia_Cal.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tblFinalMonthlySalary.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tblGisDeduction.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TBLGRATIADUMMY.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TblHeadLookup.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tblLastIncrementMonth.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tblLeaveBal.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tblLeaveTran.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tblLeaveUpdate.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tblLoanAdjustOld.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tblLoanTran.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tblMedicalLeaveUpdate.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TBLMONTHLYINPUT.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tblMstBank.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tblmstbankrate.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tblMstCity.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tblMstDailyWageRate.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tblMstEmployee.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TblMstEmployeeSalary.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tblmstFDA.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tblMstHillComp.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tblMstLoanPriority.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tblMstLoanPriorityHistory.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tblMstLoanType.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tblMstLTC.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tblmstprojectedemployee.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tblmstProjectedEmployeeSalary.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tblmstslab.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tblmsttransfer.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tblOTARate.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tblPFFlagStatu.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tblPFOpBalance.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TblPFOPBalanceManual.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tblpromotion.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tblPropertyReturn.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tblPropertyReturnHDR.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tblStaffBudget.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tblTDSTaxRulesSlab.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tblWashingAllowance.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ticket.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TicketWorkFlow.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ticket_attachments.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ticket_priority.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ticket_status.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ticket_type.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Title.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Trainer.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Training.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TrainingDateWiseTimeSlot.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TrainingDocumentRepository.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TrainingFeedbackDetail.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TrainingFeedbackFormat.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TrainingFeedBackFormDtl.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TrainingFeedBackFormHdr.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TrainingParticipant.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TrainingPrerequisite.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TrainingTopic.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\User.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\UserLoginDetails.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\UserRight.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\UserType.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\ActivityLogRepository.cs" />
+    <Compile Include="Repositories\AdvanceSearchRepository.cs" />
+    <Compile Include="Repositories\AppraisalRepository.cs" />
+    <Compile Include="Repositories\ArchiveDataRepository.cs" />
+    <Compile Include="Repositories\ArrearRepository.cs" />
+    <Compile Include="Repositories\AttendanceImportRepository.cs" />
+    <Compile Include="Repositories\BaseRepository.cs" />
+    <Compile Include="Repositories\BonusRepositry.cs" />
+    <Compile Include="Repositories\BudgetRepository.cs" />
+    <Compile Include="Repositories\ChildrenEducationRepository.cs" />
+    <Compile Include="Repositories\ConfirmationFormRepository.cs" />
+    <Compile Include="Repositories\ConveyanceRepository.cs" />
+    <Compile Include="Repositories\CRRepository.cs" />
+    <Compile Include="Repositories\DashBoardRepository.cs" />
+    <Compile Include="Repositories\DataImportRepository.cs" />
+    <Compile Include="Repositories\DATdsRepository.cs" />
+    <Compile Include="Repositories\DepartmentRightRepository.cs" />
+    <Compile Include="Repositories\EmployeeAttendanceRepository.cs" />
+    <Compile Include="Repositories\EmployeeRepository.cs" />
+    <Compile Include="Repositories\EPFNominationRepository.cs" />
+    <Compile Include="Repositories\ExgratiaRepository.cs" />
+    <Compile Include="Repositories\FileManagementSystemRepository.cs" />
+    <Compile Include="Repositories\Form12BBDocumentRepository.cs" />
+    <Compile Include="Repositories\Form12BBRepository.cs" />
+    <Compile Include="Repositories\GenerateSalaryRepository.cs" />
+    <Compile Include="Repositories\GenericRepository.cs" />
+    <Compile Include="Repositories\IncrementRepository.cs" />
+    <Compile Include="Repositories\IRepositories\IActivityLogRepository.cs" />
+    <Compile Include="Repositories\IRepositories\IAdvanceSearchRepository.cs" />
+    <Compile Include="Repositories\IRepositories\IAppraisalRepository.cs" />
+    <Compile Include="Repositories\IRepositories\IArchiveDataRepository.cs" />
+    <Compile Include="Repositories\IRepositories\IArrearRepository.cs" />
+    <Compile Include="Repositories\IRepositories\IAttendanceImportRepository.cs" />
+    <Compile Include="Repositories\IRepositories\IBaseRepository.cs" />
+    <Compile Include="Repositories\IRepositories\IBonusRepository.cs" />
+    <Compile Include="Repositories\IRepositories\IBudgetRepository.cs" />
+    <Compile Include="Repositories\IRepositories\IChildrenEducationRepository.cs" />
+    <Compile Include="Repositories\IRepositories\IConfirmationFormRepository.cs" />
+    <Compile Include="Repositories\IRepositories\IConveyanceRepository.cs" />
+    <Compile Include="Repositories\IRepositories\ICRReportRepository.cs" />
+    <Compile Include="Repositories\IRepositories\IDashBoardRepository.cs" />
+    <Compile Include="Repositories\IRepositories\IDataImportRepository.cs" />
+    <Compile Include="Repositories\IRepositories\IDATdsRepository.cs" />
+    <Compile Include="Repositories\IRepositories\IDepartmentRightRepository.cs" />
+    <Compile Include="Repositories\IRepositories\IEmployeeAttendanceRepository.cs" />
+    <Compile Include="Repositories\IRepositories\IEmployeeRepository.cs" />
+    <Compile Include="Repositories\IRepositories\IEPFNominationRepository.cs" />
+    <Compile Include="Repositories\IRepositories\IExgratiaRepository.cs" />
+    <Compile Include="Repositories\IRepositories\IFileManagementSystemRepository.cs" />
+    <Compile Include="Repositories\IRepositories\IForm12BBDocumentRepository.cs" />
+    <Compile Include="Repositories\IRepositories\IForm12BBRepository.cs" />
+    <Compile Include="Repositories\IRepositories\IGenerateSalaryRepository.cs" />
+    <Compile Include="Repositories\IRepositories\IGenericRepository.cs" />
+    <Compile Include="Repositories\IRepositories\IIncrementRepository.cs" />
+    <Compile Include="Repositories\IRepositories\ILeaveRepository.cs" />
+    <Compile Include="Repositories\IRepositories\ILoanApplicationRepository.cs" />
+    <Compile Include="Repositories\IRepositories\ILoginRepository.cs" />
+    <Compile Include="Repositories\IRepositories\IMenuRepository.cs" />
+    <Compile Include="Repositories\IRepositories\IPFAccountBalanceRepository.cs" />
+    <Compile Include="Repositories\IRepositories\IProcessApproverRepository.cs" />
+    <Compile Include="Repositories\IRepositories\IRecruitmentRepository.cs" />
+    <Compile Include="Repositories\IRepositories\ISalaryReportRepository.cs" />
+    <Compile Include="Repositories\IRepositories\ISalaryRepository.cs" />
+    <Compile Include="Repositories\IRepositories\ISeparationRepository.cs" />
+    <Compile Include="Repositories\IRepositories\ITicketRepository.cs" />
+    <Compile Include="Repositories\IRepositories\ITrainingRepository.cs" />
+    <Compile Include="Repositories\IRepositories\ITransferApprovalRepository.cs" />
+    <Compile Include="Repositories\IRepositories\IUpdateBasicRepository.cs" />
+    <Compile Include="Repositories\IRepositories\IUserRightsRepository.cs" />
+    <Compile Include="Repositories\LeaveRepository.cs" />
+    <Compile Include="Repositories\LoanApplicationRepository.cs" />
+    <Compile Include="Repositories\LoginRepository.cs" />
+    <Compile Include="Repositories\MenuRepository.cs" />
+    <Compile Include="Repositories\PFAccountBalanceRepository.cs" />
+    <Compile Include="Repositories\ProcessApproverRepository.cs" />
+    <Compile Include="Repositories\RecruitmentRepository.cs" />
+    <Compile Include="Repositories\SalaryReportRepository.cs" />
+    <Compile Include="Repositories\SalaryRepository.cs" />
+    <Compile Include="Repositories\SeparationRepository.cs" />
+    <Compile Include="Repositories\TicketRepository.cs" />
+    <Compile Include="Repositories\TrainingRepository.cs" />
+    <Compile Include="Repositories\TransferApprovalRepository.cs" />
+    <Compile Include="Repositories\UpdateBasicRepository.cs" />
+    <Compile Include="Repositories\UserRightsRepository.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EntityDeploy Include="Models\MicroPay.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>MicroPay.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.Config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="ClassDiagram1.cd" />
+    <None Include="Models\MicroPay.edmx.diagram">
+      <DependentUpon>MicroPay.edmx</DependentUpon>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Models\MicroPay.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>MicroPay.edmx</DependentUpon>
+      <LastGenOutput>MicroPay.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\MicroPay.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>MicroPay.edmx</DependentUpon>
+      <LastGenOutput>MicroPay.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

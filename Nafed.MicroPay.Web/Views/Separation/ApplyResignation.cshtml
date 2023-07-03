@@ -1,0 +1,177 @@
+﻿@model Nafed.MicroPay.Model.Resignation
+@{
+    ViewBag.Title = "Apply Resignation";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@if (Model.StatusId != null)
+{
+    <div class="card_new_body">
+        <div class="form-group">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
+                @if (Model.StatusId == 1)
+                {
+                    <span class="font-weight-bold">
+                        Your Resignation Submitted.
+                    </span>
+                }
+                else if (Model.StatusId == 8)
+                {
+                    <span class="font-weight-bold">
+                        Your Resignation Approved.
+                    </span>
+                }
+            </div>
+        </div>
+    </div>
+}
+else
+{
+using (Html.BeginForm("ResignationApply", "Separation", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    @Html.HiddenFor(model => model._ProcessWorkFlow.ReceiverID)
+    <div class="card_new_body">
+        <div class="form-group">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
+                <div class="row">
+                    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                        @Html.LabelFor(model => model.EmployeeName, htmlAttributes: new { @class = "control-label" })
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 font-weight-bold">
+                        @Model.EmployeeName
+                        @Html.HiddenFor(model => model.EmployeeName)
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                        @Html.LabelFor(model => model.Designation, htmlAttributes: new { @class = "control-label" })
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 font-weight-bold">
+                        @Model.Designation
+                        @Html.HiddenFor(model => model.Designation)
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                        @Html.LabelFor(model => model.Branch, htmlAttributes: new { @class = "control-label" })
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 font-weight-bold">
+                        @Model.Branch
+                        @Html.HiddenFor(model => model.Branch)
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                        @Html.LabelFor(model => model.DOJ, htmlAttributes: new { @class = "control-label" })
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 font-weight-bold">
+                        @Html.HiddenFor(model => model.DOJ)
+                        @Convert.ToDateTime(Model.DOJ).ToString("dd-MM-yyyy")
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                        @Html.LabelFor(model => model.ResignationDate, htmlAttributes: new { @class = "control-label required" })
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                        @Html.TextBoxFor(model => model.ResignationDate, new { @type = "text", @class = "form-control datepicker", @placeholder = "dd/mm/yyyy", @autocomplete = "off" })
+                        @Html.ValidationMessageFor(model => model.ResignationDate, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                        @Html.LabelFor(model => model.NoticePeriod, htmlAttributes: new { @class = "control-label required" })
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 font-weight-bold">
+                        @Html.HiddenFor(model => model.NoticePeriod)
+                        @Model.NoticePeriod <text>day(s)</text>                   
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                        @Html.LabelFor(model => model.Reason, htmlAttributes: new { @class = "control-label required" })
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                        @Html.DropDownListFor(model => model.Reason, new SelectList(ViewBag.ddlReason, "id", "value"), "Select", new { @class = "custom-select" })
+                        @Html.ValidationMessageFor(model => model.Reason, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="row mt-2 hide" id="div-other-reason">
+                    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                        @Html.LabelFor(model => model.OtherReason, htmlAttributes: new { @class = "control-label" })
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                        @Html.TextBoxFor(model => model.OtherReason, new { @type = "text", @class = "form-control", @autocomplete = "off" })
+                        @Html.ValidationMessageFor(model => model.OtherReason, "", new { @class = "text-danger" })
+                    </div>
+
+                </div>
+
+                <div class="row mt-4">
+                    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 mt-2">
+                        @Html.Label("Upload Document :-", htmlAttributes: new { @class = "font-weight-bold required" })
+                    </div>
+                    <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 mt-2">
+                        <div class="input-group image-preview">
+                            <input type="text" class="form-control image-preview-filename" disabled="disabled" id="filesinfo"> <!-- don't give a name === doesn't send on POST/GET -->
+                            <span class="input-group-btn">
+                                <!-- image-preview-clear button -->
+                                <button type="button" class="btn btn-default image-preview-clear" style="display:none;">
+                                    <span class="glyphicon glyphicon-remove"></span> Clear
+                                </button>
+                                <!-- image-preview-input -->
+                                <div class="btn btn-default image-preview-input">
+                                    <span class="glyphicon glyphicon-folder-open"></span>
+                                    <span class="image-preview-input-title">Browse</span>
+                                    @Html.TextBox("cirfile", "", new { type = "file", @class = "", @name = "Files", accept = "application/pdf" })
+                                </div>
+                            </span>
+
+                        </div>
+                        <span id="cirfileUploadError"></span>
+                        <label class="font-weight-bold text-danger">[Support only file type= pdf and single file size should be <= 3MB] <br /></label>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <span>Note : </span><span class="text-danger">Applicant is resquested to kindly check the above data before proceeding. Once submitted the resignation application cannot be reverted.</span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-right">
+                <input type="submit" value="Submit" name="ButtonType" class="btn btn-info  toggle-tooltip " title="Click here, to submit the resignation." />
+            </div>
+        </div>
+    </div>
+}
+}
+<script type="text/javascript">
+    $("#ResignationDate").datepicker({ dateFormat: 'dd/mm/yy', changeYear: true });
+    $("#Reason").change(function () {
+        if ($("#Reason").val() == 4) {
+            $("#div-other-reason").removeClass("hide");
+        }
+        else {
+            $("#div-other-reason").addClass("hide");
+        }
+    })
+
+
+    $(".image-preview-input input:file").change(function () {
+        var files = $("#cirfile").get(0).files;
+        var totalFiles = files.length;
+        var fileName = "";
+        for (var i = 0; i < files.length; i++) {
+            fileName += files[i].name + ",";
+        }
+        $(".image-preview-filename").val(fileName.replace(/,\s*$/, ""));
+        $(".image-preview-input-title").text("Change");
+        $(".image-preview-clear").show();
+
+    });
+</script>

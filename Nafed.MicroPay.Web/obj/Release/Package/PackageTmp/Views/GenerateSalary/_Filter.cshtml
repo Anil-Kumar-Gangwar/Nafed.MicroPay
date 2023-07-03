@@ -1,0 +1,18 @@
+﻿@using Nafed.MicroPay.Model
+@model RegularEmployeeSalary
+<div class="row mb-2">
+
+    @Html.HiddenFor(i => i.salYear, htmlAttributes: new { @Value = ViewBag.salYear })
+    @Html.HiddenFor(i => i.salMonth, htmlAttributes: new { @Value = ViewBag.salMonth })
+    <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+        @Html.Label("Select Employee", new { @class = "control-label required" })
+    </div>
+    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+        @Html.DropDownListFor(model => model.selectedEmployeeID, new SelectList(ViewBag.ddlEmployee, "id", "value"), "Select", new { @class = "custom-select" })
+        @Html.ValidationMessage("EmployeeError", "", new { @class = "text-danger" })
+    </div>
+    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 pull-right mt-xs-2">
+        <input type="submit" value="Search" name="ButtonType" class="btn btn-info btn-md pull-center toggle-tooltip" title="Click here, to get salary data." />
+        @Html.ActionLink("Back", "Index",null, new { @class = "btn btn-md btn-secondary" })
+    </div>
+</div>

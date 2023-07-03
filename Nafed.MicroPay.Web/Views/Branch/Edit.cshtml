@@ -1,0 +1,169 @@
+﻿@model Nafed.MicroPay.Model.Branch
+@{
+    ViewBag.Title = "Edit Branch";
+    ViewBag.NavigationTitle = "Branch";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card_new_header alert alert-danger">
+
+    <div class="col-sm-6">
+        NOTE : Fields marked with (*) are compulsory fields
+    </div>
+    <div class="col-sm-6 text-right">
+        <b>@*[ Characters < > # ^ ; | $ are not allowed ]*@</b>
+    </div>
+
+</div>
+
+
+@using (Html.BeginForm("Edit", "Branch"))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    
+            <div class="card_new_body">
+                <div class="row">
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 mb-2">
+
+                        @Html.HiddenFor(model => model.BranchID)
+                        @Html.HiddenFor(model => model.CreatedBy)
+                        @Html.HiddenFor(model => model.CreatedOn)
+
+                        <div class="row">
+                            @Html.LabelFor(model => model.BranchCode, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-6 col-xs-12 mb-2 required" })
+                            <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 mb-2">
+                                @Html.EditorFor(model => model.BranchCode, new { htmlAttributes = new { @class = "form-control", @placeholder = "To be generated", @maxlength = "10", @readonly = "readonly" } })
+                                @*@Html.EditorFor(model => model.BranchCode, new { htmlAttributes = new { @class = "form-control", @placeholder = "Branch Code", @maxlength = "10", } })
+                            @Html.ValidationMessageFor(model => model.BranchCode, "", new { @class = "text-danger" })
+                            @Html.ValidationMessage("BranchCodeAlreadyExist", "", new { @class = "text-danger" })*@
+                            </div>
+                        </div>
+                        <div class="row">
+                            @Html.LabelFor(model => model.BranchName, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-6 col-xs-12 mb-2 required" })
+                            <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 mb-2">
+                                @Html.EditorFor(model => model.BranchName, new { htmlAttributes = new { @class = "form-control", @placeholder = "Branch Name", @maxlength = "100" } })
+                                @Html.ValidationMessageFor(model => model.BranchName, "", new { @class = "text-danger" })
+
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            @Html.LabelFor(model => model.IsHillComp, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-6 col-xs-12 mb-2" })
+                            <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 mb-2">
+                                <div class="form-group">
+                                    <label class="switch">
+                                        @Html.CheckBoxFor(model => model.IsHillComp, new { @class = "form-control" })
+                                        <div class="slider round">
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            @Html.LabelFor(model => model.Address1, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-6 col-xs-12 mb-2 required" })
+                            <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 mb-2">
+                                @Html.EditorFor(model => model.Address1, new { htmlAttributes = new { @class = "form-control", @placeholder = "Address1", @maxlength = "50" } })
+                                @Html.ValidationMessageFor(model => model.Address1, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            @Html.LabelFor(model => model.Address2, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-6 col-xs-12 mb-2 " })
+                            <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 mb-2">
+                                @Html.EditorFor(model => model.Address2, new { htmlAttributes = new { @class = "form-control", @placeholder = "Address2", @maxlength = "50" } })
+
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            @Html.LabelFor(model => model.Address3, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-6 col-xs-12 mb-2 " })
+                            <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 mb-2">
+                                @Html.EditorFor(model => model.Address3, new { htmlAttributes = new { @class = "form-control", @placeholder = "Address3", @maxlength = "50" } })
+
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            @Html.LabelFor(model => model.Pin, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-6 col-xs-12 mb-2 " })
+                            <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 mb-2">
+
+                                @Html.EditorFor(model => model.Pin, new { htmlAttributes = new { @class = "form-control", @placeholder = "Pin Code", @maxlength = "6" } })
+
+                            </div>
+                        </div>
+                        <div class="row">
+                            @Html.LabelFor(model => model.CityID, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-6 col-xs-12 mb-2" })
+
+                            <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 mb-2">
+                                @Html.DropDownListFor(model => model.CityID, (IEnumerable<SelectListItem>)ViewBag.CityList, new { @class = "form-control" })
+
+                            </div>
+                        </div>
+                        <div class="row">
+                            @Html.LabelFor(model => model.GradeID, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-6 col-xs-12 mb-2" })
+
+                            <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 mb-2">
+                                @Html.DropDownListFor(model => model.GradeID, (IEnumerable<SelectListItem>)ViewBag.GradeList, new { @class = "form-control" })
+
+                            </div>
+                        </div>
+                        <div class="row">
+                            @Html.LabelFor(model => model.Region, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-6 col-xs-12 mb-2 " })
+                            <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 mb-2">
+                                @Html.EditorFor(model => model.Region, new { htmlAttributes = new { @class = "form-control", @placeholder = "Region", @maxlength = "20", } })
+
+                            </div>
+                        </div>
+                        <div class="row">
+                            @Html.LabelFor(model => model.PhoneSTD, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-6 col-xs-12 mb-2 " })
+                            <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 mb-2">
+                                @Html.EditorFor(model => model.PhoneSTD, new { htmlAttributes = new { @class = "form-control", @placeholder = "Phone STD", @maxlength = "15", } })
+
+                            </div>
+                        </div>
+                        <div class="row">
+                            @Html.LabelFor(model => model.PhoneNo, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-6 col-xs-12 mb-2 " })
+                            <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 mb-2">
+                                @Html.EditorFor(model => model.PhoneNo, new { htmlAttributes = new { @class = "form-control", @placeholder = "Phone No", @maxlength = "15", } })
+
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            @Html.LabelFor(model => model.FaxSTD, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-6 col-xs-12 mb-2 " })
+                            <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 mb-2">
+                                @Html.EditorFor(model => model.PhoneNo, new { htmlAttributes = new { @class = "form-control", @placeholder = "Phone No", @maxlength = "15", } })
+
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            @Html.LabelFor(model => model.FaxNo, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-6 col-xs-12 mb-2 " })
+                            <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 mb-2">
+                                @Html.EditorFor(model => model.FaxNo, new { htmlAttributes = new { @class = "form-control", @placeholder = "Fax No", @maxlength = "15", } })
+
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            @Html.LabelFor(model => model.Remarks, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-6 col-xs-12 mb-2 " })
+                            <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 mb-2">
+                                @Html.EditorFor(model => model.Remarks, new { htmlAttributes = new { @class = "form-control", @placeholder = "Remarks", @maxlength = "50", } })
+
+                            </div>
+                        </div>
+
+
+                        <span class="pull-right">
+                            @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-light btn-md toggle-tooltip", @title = "Click here, to redirect on list page" })
+                            <input type="submit" value="Update" class="btn btn-info btn-md pull-center toggle-tooltip" title="Click here, to update current record" />
+                        </span>
+
+                    </div>
+                </div>
+            </div>
+}
+
+ 

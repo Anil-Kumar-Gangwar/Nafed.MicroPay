@@ -1,0 +1,32 @@
+﻿@*@model Nafed.MicroPay.Model.TicketType*@
+@{
+    ViewBag.Title = "Ticket Priority";
+    ViewBag.NavigationTitle = "Ticket Priority";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    System.Globalization.CultureInfo Indian = new System.Globalization.CultureInfo("hi-IN");
+}
+
+<div>
+
+
+    <div class="card_new_header text-right">
+        @Html.ActionLink("NEW PRIORITY", "Create", "TicketPriority", null, new { @class = "btn btn-info", title = "Click here, to create New Priority", @data_toggle = "tooltip" })
+
+    </div>
+    <div class="card_new_body">
+        <div id="div-TicketType">
+            @Html.Action("_GetTicketPriorityGridView")
+        </div>
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+

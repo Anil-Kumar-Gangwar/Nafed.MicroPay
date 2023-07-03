@@ -1,0 +1,429 @@
+﻿@model MicroPay.Web.Models.TrainingViewModel
+@using MvcCheckBoxList.Model
+@using Nafed.MicroPay.Model
+@{
+    var Status = Model._Training.TrainingStatus;
+}
+
+<div class="row" style="margin-top:10px; color:black">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-12">
+        @Html.HiddenFor(model => Model._Training.TrainingID)
+        <div id="accordion" class="accordion">
+            <div class="card mb-0">
+                <div class="card-header collapsed" data-toggle="collapse" href="#collapseOne">
+                   
+
+                        <a class="card-title " title="Click here, to expand training details." style="font-weight:600">
+                            @Model._Training.TrainingTitle 
+                            @Model._Training.TrainingTitle (
+
+                            @if (Model._Training.StartDate.HasValue)
+                            {
+                                <i class="fa fa-calendar" aria-hidden="true"></i>
+
+                                @Model._Training.StartDate.Value.ToString("dd-MM-yyyy");
+                            }
+                            @if (Model._Training.EndDate.HasValue)
+                            {
+                                <span>To</span>
+                            }
+                            @if (Model._Training.EndDate.HasValue)
+                            {
+
+                                <i class="fa fa-calendar" aria-hidden="true"></i>
+
+                                @Model._Training.EndDate.Value.ToString("dd-MM-yyyy");
+                            }
+
+                            )
+                        </a>
+
+
+
+                 
+                </div>
+                <div id="collapseOne" class="card-body collapse" data-parent="#accordion" >
+                    <div class="card-body">
+
+                        <div class="form-group">
+                            <div class="row">
+                                @if (Status != null)
+            {
+                                    <span class="col-lg-2 col-md-2 col-sm-6 col-xs-12 mb-6 text-right order-last mb-2" >
+                                        @*@Model._Training.enumTrainingStatus*@
+
+                                        @if (Model._Training.TrainingStatus == (int)EnumTrainingStatus.Planned)
+                                        {
+                                            <span class="badge badge-pill badge-info col-md-6 p-2">Planned </span>
+                                        }
+                                        @if (Model._Training.TrainingStatus == (int)EnumTrainingStatus.Schedule)
+                                        {
+                                            <span class="badge badge-pill badge-info col-md-6 p-2">Scheduled </span>
+                                        }
+                                        else if (Model._Training.TrainingStatus == (int)EnumTrainingStatus.Completed)
+                                        {
+                                            <span class="badge badge-pill badge-success col-md-6 p-2">Completed</span>
+                                        }
+                                        else if (Model._Training.TrainingStatus == (int)EnumTrainingStatus.Cancel)
+                                        {
+                                            <span class="badge badge-pill badge-danger col-md-6 p-2">Cancel</span>
+                                        }
+                                        else if (Model._Training.TrainingStatus == (int)EnumTrainingStatus.Reschedule)
+                                        {
+                                            <span class="badge badge-pill badge-warning col-md-6 p-2">Reschedule</span>
+                                        }
+                                    </span>
+                                }
+                                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 font-weight-bold">
+                                    @Html.LabelFor(model => model._Training.TrainingTitle, new { @class = "label-control" })
+                                </div>
+
+                                <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                                    @Model._Training.TrainingTitle
+                                </div>
+                               
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="row">
+
+                                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 font-weight-bold">
+                                    @Html.LabelFor(model => model._Training.enumResidentialNonResidential, htmlAttributes: new { @class = "control-label " })
+                                </div>
+
+                                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 mb-2">
+                                    @Model._Training.enumResidentialNonResidential.GetDisplayName()
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 font-weight-bold">
+                                    @Html.LabelFor(model => model._Training.enumTrainingList, htmlAttributes: new { @class = "control-label " })
+                                </div>
+
+                                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12  mb-2">
+                                    @Model._Training.enumTrainingList
+                                </div>
+
+                                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 font-weight-bold">
+                                    @Html.LabelFor(model => model._Training.ModeofTraining, new { @class = "label-control" })
+                                </div>
+
+                                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12  mb-2" style="overflow-wrap: break-word;">
+
+                                    @Model._Training.ModeofTraining
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 font-weight-bold">
+                                    @Html.LabelFor(model => model._Training.StartDate, new { @class = "label-control " })
+                                </div>
+
+                                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12  mb-2">
+                                    @if (Model._Training.StartDate.HasValue)
+                                    {
+                                        @Model._Training.StartDate.Value.ToString("dd-MM-yyyy");
+                                    }
+
+                                </div>
+
+                                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 font-weight-bold">
+                                    @Html.LabelFor(model => model._Training.EndDate, new { @class = "label-control " })
+                                </div>
+
+                                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12  mb-2">
+                                    @if (Model._Training.EndDate.HasValue)
+                                    {
+                                        @Model._Training.EndDate.Value.ToString("dd-MM-yyyy");
+                                    }
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 font-weight-bold">
+                                    @Html.LabelFor(model => model._Training.NominationDate, new { @class = "label-control" })
+                                </div>
+
+                                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12  mb-2">
+                                    @if (Model._Training.NominationDate.HasValue)
+                                    {
+                                        @Model._Training.NominationDate.Value.ToString("dd-MM-yyyy");
+                                    }
+                                    else
+                                    {
+                                        <text>Not Available</text>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="row">
+
+                                @if (Model._Training.distributedTimeSlots.Count > 0)
+            {
+                                    <div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
+                                        @Html.Partial("_DistributedTimeSlot", Model)
+                                    </div>
+                                }
+                                else
+                                {
+
+                                    <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 font-weight-bold">
+                                        @Html.Label("Time", new { @class = "label-control " })
+                                    </div>
+
+                                    <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                        @Model._Training.StartDateFromTime To
+                                        @Model._Training.StartDateToTime
+                                    </div>
+
+                                    <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+
+                                    </div>
+
+                                    <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+                                    </div>
+                                }
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 font-weight-bold">
+                                    @Html.LabelFor(model => model._Training.TrainingType, new { @class = "label-control " })
+                                </div>
+
+                                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                    @Model._Training.TrainingTypeName
+                                </div>
+
+
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 mb-2 font-weight-bold">
+                                    @Html.Label("Training Topic", htmlAttributes: new { @class = "control-label " })
+                                </div>
+                                <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+                                    @if (Model.TTopicList != null && Model.TTopicList.Count > 0)
+                                    {
+                                        <ul>
+                                            @for (int i = 0; i < Model.TTopicList.Count; i++)
+                                            {
+                                                <li>@Model.TTopicList[i].ToString()</li>
+                                            }
+                                        </ul>
+                                    }
+                                    @if (!string.IsNullOrEmpty(Model._Training.OtherTopic))
+                                    {
+                                        <ul>
+                                            <li>
+                                                @Model._Training.OtherTopic
+                                            </li>
+                                        </ul>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 font-weight-bold">
+                                    @Html.LabelFor(model => model._Training.TrainingObjective, new { @class = "label-control" })
+                                </div>
+
+                                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12  mb-2" style="overflow-wrap: break-word;">
+                                    @Model._Training.TrainingObjective
+                                </div>
+
+                                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 font-weight-bold">
+                                    @Html.LabelFor(model => model._Training.TrainingContent, new { @class = "label-control" })
+                                </div>
+
+                                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12" style="overflow-wrap: break-word;">
+
+                                    @Model._Training.TrainingContent
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-lg-6 col-md-6 col-sm-12-col-xs-12 pull-left">
+                                    <div class="deceased">
+                                        <div class="row ml-0"> <h5>Venue</h5> </div>
+                                        <div class="row border-top m-1 pt-2">
+
+
+                                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 font-weight-bold mb-2">
+                                                @Html.LabelFor(model => model._Training.Address, htmlAttributes: new { @class = "control-label " })
+                                            </div>
+
+                                            <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12 mb-2" style="overflow-wrap: break-word;">
+                                                @Model._Training.Address
+                                            </div>
+
+
+                                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-2 font-weight-bold ">
+                                                @Html.LabelFor(model => model._Training.StateID, htmlAttributes: new { @class = "control-label " })
+                                            </div>
+                                            <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12 mb-2">
+                                                @Model._Training.StateName
+                                            </div>
+                                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 font-weight-bold mb-2">
+                                                @Html.LabelFor(model => model._Training.City, htmlAttributes: new { @class = "control-label" })
+                                            </div>
+                                            <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12 mb-2">
+                                                @Model._Training.City
+                                            </div>
+                                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 font-weight-bold mb-2">
+                                                @Html.LabelFor(model => model._Training.PinCode, htmlAttributes: new { @class = "control-label" })
+
+                                            </div>
+                                            <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12 mb-2">
+                                                @Model._Training.PinCode
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-lg-6 col-md-6 col-sm-12-col-xs-12 pull-right ">
+                                    <div class="deceased">
+                                        <div class="row ml-0"> <h5>Training Cost</h5></div>
+                                        <div class="row border-top m-1 pt-2">
+                                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 font-weight-bold mb-2">
+                                                @Html.LabelFor(model => model._Training.TrainingCost, htmlAttributes: new { @class = "control-label" })
+                                            </div>
+                                            <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 mb-2">
+                                                @Convert.ToDecimal(Model._Training.TrainingCost)
+                                            </div>
+
+
+                                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 font-weight-bold mb-2">
+                                                @Html.LabelFor(model => model._Training.PostTrainingInvesment, htmlAttributes: new { @class = "control-label" })
+
+                                            </div>
+                                            <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 mb-2">
+                                                @Convert.ToDecimal(Model._Training.PostTrainingInvesment)
+                                            </div>
+                                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 font-weight-bold mb-2">
+                                                @Html.LabelFor(model => model._Training.Remark, htmlAttributes: new { @class = "control-label" })
+                                            </div>
+                                            <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 text-break mb-2">
+                                                @Model._Training.Remark
+                                            </div>
+
+                                        </div>
+
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        @if (Status != null)
+                        {
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-lg-12 col-md-12 col-sm-12-col-xs-12 pull-right ">
+                                        <div class="deceased1">
+                                            <div class="row ml-0"> <h5>Trainer Detail</h5></div>
+                                            <div class="row border-top m-1">
+                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-12" id="Tab3">
+                                                    @Html.Action("_ViewTrainerDetails", "Training", new { trainingID = Model._Training.TrainingID })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+</div>
+
+
+
+
+<style>
+    .accordion .card-header:after {
+    font-family: 'FontAwesome';  
+    content: "\f068";
+    float: right; 
+}
+.accordion .card-header.collapsed:after {
+    /* symbol for "collapsed" panels */
+    content: "\f067"; 
+}
+    /*.card-group .panel {
+		border-radius: 0;
+		box-shadow: none;
+		border-color: #EEEEEE;
+	}
+
+	.card-default > .panel-heading {
+		padding: 5PX;
+		border-radius: 0;
+		color: #212121;
+		background-color: #FAFAFA;
+		border-color: #EEEEEE;
+	}
+
+	.card-title {
+		font-size: 14px;
+	}
+
+	.card-title > a {
+		display: block;
+		padding: 15px;
+		text-decoration: none;
+	}
+
+	.more-less {
+		float: right;
+		color: #212121;
+	}
+
+	.card-default > .card-heading + .card-collapse > .card-body {
+		border-top-color: #EEEEEE;
+	}*/
+
+    .deceased {
+        background-color: #F5F5F5;
+        padding: 10px;
+        min-height:255px;
+    }
+       .deceased1 {
+        background-color: #F5F5F5;
+        padding: 10px;
+        min-height:55px;
+        max-height:300px;
+    }
+
+</style>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $('[data-toggle="tooltip"]').tooltip();
+        // Add minus icon for collapse element which is open by default
+        $(".collapse.show").each(function () {
+            $(this).prev(".card-header").find(".fa").addClass("fa-minus").removeClass("fa-plus");
+        });
+
+        // Toggle plus minus icon on show hide of collapse element
+        $(".collapse").on('show.bs.collapse', function () {
+            $(this).prev(".card-header").find(".fa").removeClass("fa-plus").addClass("fa-minus");
+        }).on('hide.bs.collapse', function () {
+            $(this).prev(".card-header").find(".fa").removeClass("fa-minus").addClass("fa-plus");
+        });
+    });
+
+    $('#div-trainergrid').DataTable(
+    { searching: false, paging: false, sorting: false }
+    );
+
+</script>

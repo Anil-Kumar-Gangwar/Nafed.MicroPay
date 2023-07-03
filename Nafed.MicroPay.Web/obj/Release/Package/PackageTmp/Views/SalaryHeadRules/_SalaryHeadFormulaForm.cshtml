@@ -1,0 +1,534 @@
+﻿@using Nafed.MicroPay.Model;
+@model SalaryHead
+
+@{
+    //var formulaEditorButtonVisibilityClass = !(Model?.FormulaColumn ?? false) ? "hide" : null;
+    //var fixedValueTxtBoxReadOnlyValue = !(Model?.FixedValueFormula ?? false) ? "readOnly" : null;
+    //var formulaCreateButtonVisibilityClass = !(Model?.FormulaColumn ?? false) ? "hide" : null;
+    //var locationBasedChkRowVisibiity = string.IsNullOrEmpty(Model.FieldName) ? "hide" : null;
+    //var locBasedformulaEditorButtonVisibilityClass = (Model?.LocationDependent ?? false) == true && (Model.formulaType == FormulaType.FixedValueFormula || Model.formulaType == FormulaType.FormulaColumn) ? null : "hide";
+
+    var formulaEditorButtonVisibilityClass = (Model == null || Model.FormulaColumn == false) ? "hide" : null;
+    var fixedValueTxtBoxReadOnlyValue = (Model == null || Model.FixedValueFormula == false) ? "readOnly" : null;
+    var formulaCreateButtonVisibilityClass = (Model == null || Model.FormulaColumn == false) ? "hide" : null;
+    var locBasedformulaEditorButtonVisibilityClass = (Model != null && Model.LocationDependent == true)
+        && (Model.formulaType == FormulaType.FixedValueFormula || Model.formulaType == FormulaType.FormulaColumn) ? null : "hide";
+
+    var locationBasedChkRowVisibiity = string.IsNullOrEmpty(Model.FieldName) ? "hide" : null;
+}
+
+@using (Ajax.BeginForm("_SalaryHeadFormulaForm", "SalaryHeadRules", new AjaxOptions
+{
+    HttpMethod = "POST",
+    OnSuccess = "formulaFormSuccess"
+    //,UpdateTargetId = "dv-formula-Form",
+
+}, new { id = "formulaForm" }))
+{
+    @Html.HiddenFor(model => model.FieldName)
+    @Html.HiddenFor(model => model.LookUpHead)
+    @Html.HiddenFor(model => model.LookUpHeadName)
+    @Html.HiddenFor(model => model.CreatedBy)
+    @Html.HiddenFor(model => model.CreatedOn)
+    @Html.HiddenFor(model => model.ActionType)
+    @Html.HiddenFor(model => model.EmployeeTypeID)
+
+
+    <div class="row">
+        <div class="col-xl-8 col-lg-8 col-md-8 col-sm-12 col-xs-12 pt-2" style="border:1px solid #ddd;min-height:360px; overflow-y:scroll;">
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+                    <div class="form-group">
+                        <div class="row">
+
+                            <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12 col-xs-12">
+
+                                @Html.LabelFor(model => model.SeqNo, htmlAttributes: new { @class = "control-label" })
+
+
+                            </div>
+
+                            <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                @if (Model.SeqNo < 1)
+                                {
+                                    @Html.EditorFor(model => model.SeqNo, new { htmlAttributes = new { @class = "form-control", @type = "number", @step = "1" } })
+
+                                }
+                                else
+                                {
+                                    @Html.EditorFor(model => model.SeqNo, new { htmlAttributes = new { @class = "form-control", @type = "number", @step = "1", @readOnly = "readOnly" } })
+                                }
+                            </div>
+
+
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+
+                        <div class="row">
+
+                            <div class="col-lg-2 col-xl-2 col-md-2 col-sm-12 col-xs-12">
+                                @Html.LabelFor(model => model.Abbreviation, htmlAttributes: new { @class = "control-label" })
+
+                            </div>
+                            <div class="col-lg-4 col-xl-4 col-md-4 col-sm-12 col-xs-12">
+                                @Html.EditorFor(model => model.Abbreviation, new { htmlAttributes = new { @class = "form-control", @placeholder = "Abbreviation", @maxlength = "6" } })
+
+                            </div>
+                            <div class="col-lg-2 col-xl-2 col-md-2 col-sm-12 col-xs-12">
+                                @Html.LabelFor(model => model.FieldDesc, htmlAttributes: new { @class = "control-label" })
+
+                            </div>
+                            <div class="col-lg-4 col-xl-4 col-md-4 col-sm-12 col-xs-12">
+
+                                @Html.EditorFor(model => model.FieldDesc, new { htmlAttributes = new { @class = "form-control", @placeholder = "Description", @maxlength = "50" } })
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <div class="row">
+
+                            <div class="col-lg-2 col-xl-2 col-md-2 col-sm-12 col-xs-12">
+
+                                @Html.LabelFor(model => model.LowerRange, htmlAttributes: new { @class = "control-label " })
+                            </div>
+
+                            <div class="col-lg-4 col-xl-4 col-md-4 col-sm-12 col-xs-12">
+
+                                @Html.EditorFor(model => model.LowerRange, new { htmlAttributes = new { @class = "form-control", @placeholder = "Lower Range", @type = "number", @step = "0.01" } })
+
+
+                            </div>
+
+                            <div class="col-lg-2 col-xl-2 col-md-2 col-sm-12 col-xs-12">
+
+                                @Html.LabelFor(model => model.UpperRange, htmlAttributes: new { @class = "control-label" })
+                            </div>
+
+                            <div class="col-lg-4 col-xl-4 col-md-4 col-sm-12 col-xs-12">
+
+                                @Html.EditorFor(model => model.UpperRange, new { htmlAttributes = new { @class = "form-control", @placeholder = "Upper Range", @maxlength = "6", @type = "number", @step = "0.01" } })
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+
+
+                    <div class="form-group mb-2">
+                        <div class="row">
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                <div class="form-group mb-0">
+                                    <div class="row">
+                                        @Html.RadioButtonFor(model => model.formulaType, "FixedValueFormula", new
+                                   {
+                                       id = "FixedValueFormula",
+                                       @class = "mr-0 mt-2 ml-3"
+                                   })
+                                        @Html.LabelFor(model => model.FixedValueFormula, new { @for = "FixedValueFormula", @class = "control-label col-sm-2 mt-2" })
+
+                                        <div class="col-sm-7">
+
+                                            @if (Model != null && Model.formulaType != FormulaType.FixedValueFormula)
+                                            {
+                                                @Html.EditorFor(model => model.FixedValue, new { htmlAttributes = new { @class = "form-control", @readOnly = "readOnly", @type = "number", @step = "0.01" } })
+                                            }
+                                            else
+                                            {
+                                                @Html.EditorFor(model => model.FixedValue, new { htmlAttributes = new { @class = "form-control", @type = "number", @step = "0.01" } })
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            @*<div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                                    <div class="form-group mb-0">
+                                        <div class="row">
+                                        </div>
+                                    </div>
+                                </div>*@
+                        </div>
+                    </div>
+                    <div class="form-group mb-2">
+                        <div class="row">
+                            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 pr-9">
+                                <div class="form-group mb-0">
+                                    <div class="row">
+                                        @Html.RadioButtonFor(model => model.formulaType, "FormulaColumn", new
+                                   {
+                                       id = "FormulaColumn",
+                                       @class = "mr-0 mt-2 ml-3"
+                                   })
+                                        @Html.LabelFor(model => model.FormulaColumn, new { @for = "FormulaColumn", @class = "control-label col-sm-4 mt-2" })
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-9 col-lg-9 col-md-9 col-sm-12 col-xs-12 pl-0">
+                                <div class="form-group mb-0">
+                                    <div class="row">
+
+                                        @Html.EditorFor(model => model.FormulaText, new
+                                   {
+                                       htmlAttributes = new
+                                       {
+                                           @class = "form-control col-sm-10 toggle-tooltip",
+                                           @title = Model.FormulaText,
+                                           @readOnly = "readOnly"
+
+                                        @*@disabled = "disabled"*@ }
+                                   })
+
+                                        <div class="col-sm-2 mb-0">
+
+                                            @*<input type="button" value="..." class="form-control" style="background-color:#F2F2F2;" />*@
+
+                                            <a data-ajax="true" class="form-control btn-sm pull-center toggle-tooltip @formulaCreateButtonVisibilityClass"
+                                               style="background-color:#F2F2F2;text-decoration:none;text-align:center;"
+                                               href="@Url.Action("_FormulaEditor", "SalaryHeadRules",new { fieldName = Model.FieldName , employeeTypeID= Model.EmployeeTypeID})"
+                                               method="GET" title="Click here, to create new formula"
+                                               data-ajax-update="#div-fm" data-ajax-mode="replace"
+                                               data-backdrop="static" data-keyboard="false"
+                                               id="a_formulaEditor" data-toggle="modal" data-target="#FormulaModel">
+                                                ...
+                                            </a>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group mb-2">
+                        <div class="row">
+                            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 pr-9">
+
+                                <div class="form-group mb-0">
+                                    <div class="row">
+
+                                        @Html.RadioButtonFor(model => model.formulaType, "MonthlyInput", new
+                                   {
+                                       id = "MonthlyInput",
+                                       @class = "mr-0 mt-2 ml-3"
+                                   })
+                                        @Html.LabelFor(model => model.MonthlyInput, new { @for = "MonthlyInput", @class = "control-label col-sm-10 mt-2" })
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-8 col-lg-8 col-md-8 col-sm-12 col-xs-12 pl-0">
+                                <div class="form-group mb-0">
+                                    <div class="row">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    @*<div class="form-group mb-2">
+                        <div class="row">
+                            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 pr-9">
+
+                                <div class="form-group mb-0">
+                                    <div class="row">
+
+                                        @Html.RadioButtonFor(model => model.formulaType, "Slab", new { id = "Slab", @class = "mr-0 mt-2 ml-3" })
+                                        @Html.LabelFor(model => model.Slab, new { @for = "Slab", @class = "control-label col-sm-4 mt-2" })
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-8 col-lg-8 col-md-8 col-sm-12 col-xs-12 pl-0">
+                                <div class="form-group mb-0">
+                                    <div class="row">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>*@
+
+                    <div class="form-group mb-2">
+                        <div class="row">
+
+                            @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+                            @*@Html.ValidationSummary( "", new { @class = "text-danger" })*@
+                            @*@Html.ValidationMessageFor(model => model.SeqNo, "", new { @class = "text-danger" })
+                                @Html.ValidationMessageFor(model => model.LowerRange, "", new { @class = "text-danger" })
+                                @Html.ValidationMessageFor(model => model.UpperRange, "", new { @class = "text-danger" })
+                                @Html.ValidationMessageFor(model => model.FixedValue, "", new { @class = "text-danger" })
+                                @Html.ValidationMessageFor(model => model.RoundingUpto, "", new { @class = "text-danger" })*@
+                            @Html.ValidationMessage("formulaTypeRequired", "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12 pt-2" style="border:1px solid #ddd;min-height:360px; overflow-y:scroll;">
+
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="form-group mb-1">
+                        <div class="row">
+                            @Html.LabelFor(model => model.RoundingUpto, htmlAttributes: new { @class = "control-label col-sm-8 mt-2 pr-0" })
+                            @Html.EditorFor(model => model.RoundingUpto, new { htmlAttributes = new { @class = "form-control col-sm-3", @type = "number", @step = "1", @max = "3" } })
+                        </div>
+                    </div>
+
+                    <div class="form-group mb-1">
+
+                        @Html.CheckBoxFor(model => model.ActiveField)
+                        @Html.LabelFor(c => c.ActiveField, new { @class = "col-sm-11 control-label" })
+
+                    </div>
+                    <div class="form-group mb-1">
+                        @Html.CheckBoxFor(model => model.AttendanceDep)
+                        @Html.LabelFor(c => c.AttendanceDep, new { @class = "col-sm-11 control-label" })
+                    </div>
+                    <div class="form-group mb-1">
+                        @Html.CheckBoxFor(model => model.FromMaster)
+                        @Html.LabelFor(c => c.FromMaster, new { @class = "col-sm-11 control-label" })
+                    </div>
+
+                    @if (Model.SeqNo > 0)
+                    {
+                        <div class="form-group mb-1 @locationBasedChkRowVisibiity">
+                            <div class="col-sm-12">
+                                <div class="row">
+                                    <div class="col-sm-1 pl-0">
+                                        @Html.CheckBoxFor(model => model.LocationDependent)
+                                    </div>
+                                    <div class="col-sm-11 pl-0 pr-0">
+                                        @Html.LabelFor(c => c.LocationDependent, new { @class = "control-label col-sm-9 pl-3 pr-0" })
+
+                                        <div class="col-sm-3 pl-0 pr-0 pull-right">
+
+                                            @*<input id="btnLocFormulaEditor" type="button" value="..."
+                                                class="form-control @locBasedformulaEditorButtonVisibilityClass" style="background-color:#F2F2F2;" />*@
+
+                                            <a data-ajax="true" class="form-control btn-sm pull-center toggle-tooltip @locBasedformulaEditorButtonVisibilityClass"
+                                               style="background-color:#F2F2F2;text-decoration:none;text-align:center;"
+                                               id="lnkLocFormulaEditor"
+                                               method="GET" title="Click here, to create new formula"
+                                               data-ajax-update="#div-bd" data-ajax-mode="replace"
+                                               data-backdrop="static" data-keyboard="false"
+                                               data-toggle="modal" data-target="#LocationModel"
+                                               href="@Url.Action("_LocationDependentFormula", "SalaryHeadRules",
+                            new { employeeTypeID = Model.EmployeeTypeID, fieldName = Model.FieldName, formulaType = Model.formulaType, lookUpHead = Model.LookUpHead, lookUpHeadName = Model.LookUpHeadName, fixedValue = Model.FixedValue })">
+                                                ...
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    <div class="form-group mb-1">
+                        @Html.CheckBoxFor(model => model.SpecialField)
+                        @Html.LabelFor(c => c.SpecialField, new { @class = "col-sm-11 control-label" })
+
+                    </div>
+                    <div class="form-group mb-1">
+
+                        @Html.CheckBoxFor(model => model.Conditional)
+                        @Html.LabelFor(c => c.Conditional, new { @class = "col-sm-11 control-label" })
+
+                    </div>
+                    <div class="form-group mb-1">
+
+                        @Html.CheckBoxFor(model => model.LoanHead)
+                        @Html.LabelFor(c => c.LoanHead, new { @class = "col-sm-11 control-label" })
+
+                    </div>
+                    <div class="form-group mb-1">
+
+                        @Html.CheckBoxFor(model => model.SpecialFieldMaster)
+                        @Html.LabelFor(c => c.SpecialFieldMaster, new { @class = "col-sm-11 control-label" })
+                    </div>
+
+                    <div class="form-group mb-1">
+
+                        @Html.CheckBoxFor(model => model.RoundToHigher)
+                        @Html.LabelFor(c => c.RoundToHigher, new { @class = "col-sm-11 control-label" })
+
+                    </div>
+                    <hr />
+
+                    <div class="form-group mb-1">
+
+                        @Html.CheckBoxFor(model => model.CheckHeadInEmpSalTable)
+                        @Html.LabelFor(c => c.CheckHeadInEmpSalTable, new { @class = "col-sm-11 control-label" })
+
+                    </div>
+
+                    @*<div class="form-group mb-1">
+
+                            @Html.CheckBoxFor(model => model.DC)
+                            @Html.LabelFor(c => c.DC, new { @class = "col-sm-11 control-label" })
+
+                        </div>*@
+
+                    @*<div class="form-group mb-1">
+
+                            @Html.CheckBoxFor(model => model.A)
+                            @Html.LabelFor(c => c.A, new { @class = "col-sm-11 control-label" })
+
+                        </div>
+
+                        <div class="form-group mb-1">
+
+                            @Html.CheckBoxFor(model => model.MT)
+                            @Html.LabelFor(c => c.MT, new { @class = "col-sm-11 control-label" })
+
+                        </div>
+
+                        <div class="form-group mb-1">
+
+                            @Html.CheckBoxFor(model => model.C)
+                            @Html.LabelFor(c => c.C, new { @class = "col-sm-11 control-label" })
+
+                        </div>
+
+                        <div class="form-group mb-1">
+
+                            @Html.CheckBoxFor(model => model.CW)
+                            @Html.LabelFor(c => c.CW, new { @class = "col-sm-11 control-label" })
+
+                        </div>
+
+                        <div class="form-group mb-1">
+
+                            @Html.CheckBoxFor(model => model.CT)
+                            @Html.LabelFor(c => c.CT, new { @class = "col-sm-11 control-label" })
+
+                        </div>
+
+                        <div class="form-group mb-1">
+
+                            @Html.CheckBoxFor(model => model.DW)
+                            @Html.LabelFor(c => c.DW, new { @class = "col-sm-11 control-label" })
+
+                        </div>*@
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+}
+<div class="modal" id="LocationModel">
+    <div class="modal-dialog modal-big">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Location Dependent Formula Editor</h4>
+                <button type="button" class="close toggle-tooltip" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body" id="div-bd">
+
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<div class="modal" id="FormulaModel">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Formula Editor</h4>
+                <button type="button" class="close toggle-tooltip" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body" id="div-fm">
+            </div>
+            <!-- Modal footer -->
+            <div class="modal-footer">
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<script src="~/Scripts/popper.min.js"></script>
+
+<script type="text/javascript">
+
+    $('.toggle-tooltip').tooltip();
+
+    $(document).ready(function () {
+        $("input[name='formulaType']").change(function () {
+            // Do something interesting here
+            var checkedValue = $(this).is(':checked');
+            var radioButtonID = $(this).attr('id');
+
+            if (checkedValue && (radioButtonID == "Slab" || radioButtonID == "MonthlyInput")) {
+                $("#lnkLocFormulaEditor").addClass('hide');
+                $("#LocationDependent").prop("checked", false);
+            }
+            if (checkedValue && radioButtonID == "FormulaColumn") {
+                $("#a_formulaEditor").removeClass('hide');
+                //  $("#lnkLocFormulaEditor").addClass("hide");
+            }
+            else
+                $("#a_formulaEditor").addClass('hide');
+
+            if (checkedValue && radioButtonID == "FixedValueFormula") {
+                $('#FixedValue').prop("readOnly", false);
+                $("#lnkLocFormulaEditor").addClass("hide");
+            }
+            else
+                $('#FixedValue').prop("readOnly", true);
+        });
+
+        $("input[name='LocationDependent']").change(function () {   //LocationDependent
+
+            var checkedRadioBtnID = $("input[name='formulaType']:checked").attr('id');
+            if ($(this).is(':checked') && (checkedRadioBtnID == "FixedValueFormula" || checkedRadioBtnID == "FormulaColumn")) {
+                $("#lnkLocFormulaEditor").removeClass("hide");
+            } else
+                $("#lnkLocFormulaEditor").addClass("hide");
+        });
+    });
+
+    function formulaFormSuccess(data) {
+
+        if (data.type != undefined) {
+            $("#ActionType").val("Update");
+            //  $("#dv-formula-Form").load("/SalaryHeadRules/_SalaryHeadFormulaForm?fieldName=" + data.fieldName);
+
+            $("#dv-formula-Form").load("@Url.Action("_SalaryHeadFormulaForm", "SalaryHeadRules")?fieldName=" + data.fieldName + "&employeeTypeID=" + data.EmployeeTypeID);
+            @*$("#dv-formula-Form").load('@Url.Action("_SalaryHeadFormulaForm", "SalaryHeadRules",new { @fieldName = ff })');*@
+
+
+            commonMessage(data.type, data.msg);
+        } else {
+            $("#dv-formula-Form").html(data);
+        }
+    }
+</script>

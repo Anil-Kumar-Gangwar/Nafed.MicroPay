@@ -1,0 +1,76 @@
+﻿@model MicroPay.Web.Models.TransferApprovalViewModel
+
+@Html.HiddenFor(model => model.type)
+<table id="tblGrid2" class="table table-centered table-striped dt-responsive w-100">
+    <thead>
+        <tr>
+            <th>
+                #
+            </th>
+            <th>
+                Select
+            </th>
+            <th>
+                Code
+            </th>
+            <th>
+                Name
+            </th>
+            <th>
+                Designation
+            </th>
+            <th>
+                Department
+            </th>
+            <th>
+                Branch
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            if (Model != null && Model.employeeDetail.Count > 0)
+            {
+                var sno = 1;
+
+                for (int i = 0; i < Model.employeeDetail.Count; i++)
+                {
+                    <tr class="filesvalidate">
+                        <td> @sno</td>
+                        <td>
+                            @Html.HiddenFor(model => model.employeeDetail[i].EmployeeID, new { Name = "empid" })
+                            @Html.RadioButtonFor(model => model.employeeDetail[i].IsChecked, Model.employeeDetail[i].EmployeeCode, new { Name = "grp", onchange = "getValue(this)" })
+                        </td>
+                        <td>
+                            @Html.HiddenFor(model => model.employeeDetail[i].EmployeeCode)
+                            @Model.employeeDetail[i].EmployeeCode
+                        </td>
+                        <td>
+                            @Html.HiddenFor(model => model.employeeDetail[i].EmployeeName)
+                            @Model.employeeDetail[i].EmployeeName
+                        </td>
+                        <td>
+                            @Html.HiddenFor(model => model.employeeDetail[i].DesignationName)
+                            @Model.employeeDetail[i].DesignationName
+                        </td>
+                        <td>
+                            @Html.HiddenFor(model => model.employeeDetail[i].DepartmentName)
+                            @Model.employeeDetail[i].DepartmentName
+                        </td>
+                        <td>
+                            @Html.HiddenFor(model => model.employeeDetail[i].EmployeeBranch)
+                            @Model.employeeDetail[i].EmployeeBranch
+                        </td>
+                    </tr>
+                    sno++;
+                }
+            }
+        }
+    </tbody>
+</table>
+<script>
+    $('.toggle-tooltip').tooltip();
+    $('#tblGrid2').dataTable();
+    $('#tblGrid2_length').find('select').addClass('custom-select');
+
+</script>

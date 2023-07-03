@@ -1,0 +1,482 @@
+﻿@model Nafed.MicroPay.Model.EmpAttendance
+<style>
+    .require {
+        color: red;
+        margin-left: 134px;
+    }
+</style>
+<link href="~/Content/mdtimepicker.min.css" rel="stylesheet" />
+<script src="~/Scripts/mdtimepicker.min.js"></script>
+
+<div class="advance-search" style="">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 pb-1 pt-2 form-inline align-middle">
+        <i class="fa fa-search fa-2x" style="color:#d4d4d4;" aria-hidden="true"></i><h4 class="desc" style="color:#0bb70b;">
+            @Html.Label("Search")
+        </h4>
+    </div>
+    <hr style="background-color:#fff !important;">
+    @using (Ajax.BeginForm("GetTourDetail", "MarkAttendance", new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "tour-div" }))
+    {
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+            <div class="form-group">
+
+                <div class="row">
+                    <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12 text-secondary mb-3">
+                        <i class="fas fa-filter"></i> Filter By :
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+                        @Html.Label("Branch", htmlAttributes: new { @class = "" })
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                        @Html.DropDownListFor(model => model.BranchID, (IEnumerable<SelectListItem>)ViewBag.TourBranch, new { @class = "custom-select nonpopup", @id = "ddlBranchList1", onchange = "BindEmployeeOnBranch(this)" })
+                    </div>
+
+                    <div class="col-lg-1 col-md- col-sm-12 col-xs-12">
+                        @Html.Label("Employee", htmlAttributes: new { @class = "" })
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                        @Html.DropDownListFor(model => model.EmployeeId, (IEnumerable<SelectListItem>)ViewBag.EmployeeDetails, new { @class = "custom-select", @id = "ddlEmployeeFilter" })
+                    </div>
+                    <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+                        @Html.Label("From Date", htmlAttributes: new { @class = "" })
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                        @Html.TextBoxFor(model => model.ProxydateIn, new { @type = "text", @class = "form-control datepicker", @id = "FromDate", @Value = "", @placeholder = "From Date" })
+                        @Html.ValidationMessageFor(model => model.ProxydateIn, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+                        @Html.Label("To", htmlAttributes: new { @class = "" })
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                        @Html.TextBoxFor(model => model.ProxyOutDate, new { @type = "text", @class = "form-control datepicker", @id = "ToDate", @Value = "", @placeholder = "To Date" })
+                        @Html.ValidationMessageFor(model => model.ProxyOutDate, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <hr style="background-color:#fff !important;">
+        <div class="row mt-3">
+
+            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">
+            </div>
+
+            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 text-right">
+
+
+                <button type="button" id="btnAdd" class="btn btn-info pull-center toggle-tooltip mt-2" data-toggle="modal" data-target="#myModal" title="Click here, to add tour detail.">
+                    <i class="fa fa-plus" aria-hidden="true"></i>
+                    Add Tour
+                </button>
+                <button type="submit" id="btnSearch" name="ButtonType" value="Search" class="btn btn-warning toggle-tooltip mt-2" title="Click here, to search records.">
+                    <i class="fa fa-search"></i> Search
+                </button>
+
+                <button type="submit" name="ButtonType" value="Export" class="btn btn-success toggle-tooltip mt-2" title="Click here, to export records.">
+                    <i class="fa fa-file-excel"></i> Export
+                </button>
+            </div>
+
+        </div>
+    }
+</div>
+
+
+<!-- The Modal -->
+<div class="modal" id="myModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Add Tour Detail</h4>
+                <button type="button" class="close" data-dismiss="modal" onclick="Clear()">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            @using (Ajax.BeginForm("AddTour", "MarkAttendance", new AjaxOptions { HttpMethod = "POST", OnSuccess = "onTourSuccess" }, new { id = "frmTour" }))
+            {
+                <div class="modal-body">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                    @Html.Label("Branch", htmlAttributes: new { @class = "required" })
+                                </div>
+                                <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                                    @Html.DropDownListFor(model => model.BranchID, (IEnumerable<SelectListItem>)ViewBag.TourBranch, new { @class = "custom-select popup", @id = "ddlBranchList", onchange = "BindEmployeeOnBranch(this)" })
+                                    <span id="ddlbranch" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                    @Html.Label("Employee", htmlAttributes: new { @class = "required" })
+                                </div>
+                                <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                                    @Html.DropDownListFor(model => model.EmployeeId, (IEnumerable<SelectListItem>)ViewBag.EmployeeDetails, new { @class = "custom-select" })
+                                    <span id="ddlemp" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                    @Html.Label("Type", htmlAttributes: new { @class = "required" })
+                                </div>
+                                <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                                    @Html.DropDownListFor(model => model.TypeID, (IEnumerable<SelectListItem>)ViewBag.AttendanceType, new { @class = "custom-select" })
+                                    <span id="errortypeID" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                    @Html.Label("Location", htmlAttributes: new { @class = "required" })
+                                </div>
+                                <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                                    @Html.DropDownListFor(model => model.LocationID, (IEnumerable<SelectListItem>)ViewBag.Location, "Select", new { @class = "custom-select", onchange = "LocationOnChange(this)" })
+                                    <span id="errorLocation" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group divhide">
+                            <div class="row">
+                                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                    @Html.Label("Other Location", htmlAttributes: new { @class = "required" })
+                                </div>
+                                <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                                    @Html.TextBoxFor(model => model.LocationName, new { @class = "form-control", @type = "text", @placeholder = "Other Location" })
+                                    <span id="errorotherLocation" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                    @Html.Label("From Date", htmlAttributes: new { @class = "required" })
+                                </div>
+                                <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                                    @Html.TextBoxFor(model => model.ProxydateIn, new { @type = "text", @class = "form-control datepicker", @Value = "", @placeholder = "From Date" })
+                                    <span id="DateIndiv" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        @*<div class="form-group">
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                        @Html.Label("Time In", htmlAttributes: new { @class = "required" })
+                                    </div>
+                                    <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 date" id="TimeIndiv">
+                                        @Html.EditorFor(model=> model.InTime, new { htmlAttributes = new { @class = "form-control", @placeholder = "Time In" } })
+
+                                    </div>
+                                </div>
+                            </div>*@
+
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                    @Html.Label("To Date", htmlAttributes: new { @class = "required" })
+                                </div>
+                                <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                                    @Html.TextBoxFor(model => model.ProxyOutDate, new { @type = "text", @class = "form-control datepicker", @Value = "", @placeholder = "To Date" })
+                                    <span id="DateOutdiv" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                    @Html.Label("Order Date", htmlAttributes: new { @class = "required" })
+                                </div>
+                                <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                                    @Html.TextBoxFor(model => model.OrderDate, new { @type = "text", @class = "form-control datepicker", @Value = "", @placeholder = "Order Date" })
+                                    <span id="OrderDatediv" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                    @Html.Label("Releaving Date", htmlAttributes: new { @class = "required" })
+                                </div>
+                                <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                                    @Html.TextBoxFor(model => model.ReleavingDate, new { @type = "text", @class = "form-control datepicker", @Value = "", @placeholder = "Releaving Date" })
+                                    <span id="ReleavingDatediv" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                    @Html.Label("Joining Date", htmlAttributes: new { @class = "required" })
+                                </div>
+                                <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                                    @Html.TextBoxFor(model => model.JoiningDate, new { @type = "text", @class = "form-control datepicker", @Value = "", @placeholder = "Joining Date" })
+                                    <span id="JoiningDatediv" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                    @Html.Label("Joining Back Date", htmlAttributes: new { @class = "" })
+                                </div>
+                                <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                                    @Html.TextBoxFor(model => model.JoinBackDate, new { @type = "text", @class = "form-control datepicker", @Value = "", @placeholder = "Joining Back Date" })
+                                    <span id="JoinBackDatediv" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                    @Html.Label("Releaving Date From Tour Location", htmlAttributes: new { @class = "" })
+                                </div>
+                                <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                                    @Html.TextBoxFor(model => model.ReleavDateFromLoc, new { @type = "text", @class = "form-control datepicker", @Value = "", @placeholder = "Releaving Date From Tour Location" })
+                                    <span id="ReleavDateFromLocdiv" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                        @*<div class="form-group">
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                        @Html.Label("Time Out", htmlAttributes: new { @class = "required" })
+                                    </div>
+                                    <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 date" id="TimeOutdiv">
+                                        @Html.EditorFor(model=> model.OutTime, new { htmlAttributes = new { @class = "form-control", @placeholder = "Time Out" } })
+                                    </div>
+                                </div>
+                            </div>*@
+
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                    @Html.Label("Remark", htmlAttributes: new { @class = "required" })
+                                </div>
+                                <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                                    @Html.TextAreaFor(model => model.Remarks, new { @class = "form-control", @placeholder = "Remark", @maxlength = "200" })
+                                    <span id="Remarkdiv" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            }
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <input type="button" value="Submit" id="btnSubmit" class="btn btn-info">
+                <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="Clear()">Close</button>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+
+    function onTourSuccess(data) {
+        if (data.success = true) {
+            window.location.reload();
+            commonMessage("success", data.msg);
+        }
+    }
+    $(document).ready(function () {
+        $(".divhide").addClass('hide');
+        $('#InTime,#OutTime').mdtimepicker();
+
+        $('#ProxydateIn').datepicker();
+
+
+    });
+    $('#InTime,#OutTime').mdtimepicker({
+        // format of the time value (data-time attribute)
+        timeFormat: 'hh:mm:ss.000',
+        // format of the input value
+        format: 'hh:mm tt',
+        // theme of the timepicker
+        // 'red', 'purple', 'indigo', 'teal', 'green'
+        theme: 'blue',
+
+        // determines if display value has zero padding for hour value less than 10 (i.e. 05:30 PM); 24-hour format has padding by default
+        hourPadding: false
+
+    });
+
+    function LocationOnChange(id) {
+        var otherLocID = $("#LocationID").val();
+        if (otherLocID == 9999) {
+            $(".divhide").removeClass('hide');
+        }
+        else
+            $(".divhide").addClass('hide');
+    }
+
+    function BindEmployeeOnBranch(e) {
+        var branchId = 0;
+        var filldropdown = 0;
+        filldropdown = (e.id == "ddlBranchList1" ? 1 : 2);
+        if (filldropdown == 2)
+            branchId = $("#ddlBranchList").val();
+        else
+            branchId = $("#ddlBranchList1").val();
+        if (branchId > 0) {
+            jQuery.post("@Url.Action("GetTourBranchEmployee", "MarkAttendance")", {
+                branchID: branchId,
+            }).done(function (data) {
+                debugger;
+                if (data.employees != "") {
+                    if (filldropdown == 2) {
+                        $("#EmployeeId").html("");
+                        $.each(data.employees, function (key, value) {
+                            $("#EmployeeId").append($("<option></option>").val(value.Value).html(value.Text));
+                        });
+                    }
+                    else {
+                        $("#ddlEmployeeFilter").html("");
+                        $.each(data.employees, function (key, value) {
+                            $("#ddlEmployeeFilter").append($("<option></option>").val(value.Value).html(value.Text));
+                        });
+                    }
+                }
+            });
+        }
+    }
+
+
+    function Clear() {
+        $("#LocationID").val("0");
+        $("#EmployeeId").val("0");
+        $("#BranchID").val("0");
+        $("#ProxydateIn").val("");
+        $("#ProxyOutDate").val("");
+        $("#Remark").val("");
+        $("div.ddlrequire").remove();
+    }
+
+    $('#btnSubmit').click(function () {
+
+        $("#ddlbranch").html('');
+        $("#ddlemp").html('');
+        $("#errortypeID").html('');
+        $("#errorLocation").html('');
+        $("#DateIndiv").html('');
+        $("#DateOutdiv").html('');
+        $("#Remarkdiv").html('');
+        $("#OrderDatediv").html('');
+        $("#ReleavingDatediv").html('');
+        $("#JoiningDatediv").html('');
+
+        debugger;
+        var branchId = $('#ddlBranchList').val();
+        var employeeID = $("#EmployeeId").val();
+        var typeID = $("#TypeID").val();
+        var proxydateIn = $("#ProxydateIn").val();
+        var parts = proxydateIn.split("/")
+        proxydateIn = new Date(parts[2], parts[1] - 1, parts[0])
+        var proxyOutDate = $("#ProxyOutDate").val();
+        var parts = proxyOutDate.split("/")
+        proxyOutDate = new Date(parts[2], parts[1] - 1, parts[0])
+        var remark = $("#Remarks").val();
+        var locationId = $("#LocationID").val();
+        var OrderDate = $("#OrderDate").val();
+        var parts = OrderDate.split("/")
+        OrderDate = new Date(parts[2], parts[1] - 1, parts[0])
+        var ReleavingDate = $("#ReleavingDate").val();
+        var parts = ReleavingDate.split("/")
+        ReleavingDate = new Date(parts[2], parts[1] - 1, parts[0])
+        var JoiningDate = $("#JoiningDate").val();
+        var parts = JoiningDate.split("/")
+        JoiningDate = new Date(parts[2], parts[1] - 1, parts[0])
+        var error = 0;
+
+
+        if (branchId == 0) {
+            $("#ddlbranch").html('Please Select Branch.');
+            error++;
+        }
+        if (employeeID == 0) {
+            $("#ddlemp").html('Please Select Employee.');
+            error++;
+        }
+        if (typeID == 0) {
+            $("#errortypeID").html('Please Select Type.');
+            error++;
+        }
+        if (locationId == 0) {
+            $("#errorLocation").html('Please Select Location.');
+            error++;
+        }
+        if (proxydateIn.getDate() == "NaN") {
+            $("#DateIndiv").html('Please Enter From Date.');
+            error++;
+        }
+        if (proxyOutDate.getDate() == "NaN") {
+            $("#DateOutdiv").html('Please Enter To Date.');
+            error++;
+        }
+        if (remark == "") {
+            $("#Remarkdiv").html('Please Enter Remark.');
+            error++;
+        }
+
+        if (OrderDate.getDate() == "NaN") {
+            $("#OrderDatediv").html('Please Enter Order Date.');
+            error++;
+        }
+        else {
+            if (OrderDate > proxydateIn) {
+                $("#OrderDatediv").html('Order Date can not be greater then From Date');
+                error++;
+            }
+        }
+
+        if (ReleavingDate.getDate() == "NaN") {
+            $("#ReleavingDatediv").html('Please Enter Releaving Date.');
+            error++;
+        }
+        else {
+            if (ReleavingDate > proxydateIn) {
+                $("#ReleavingDatediv").html('Releaving Date can not be greater then From Date');
+                error++;
+            }
+        }
+        if (JoiningDate.getDate() == "NaN") {
+            $("#JoiningDatediv").html('Please Enter Joining Date.');
+            error++;
+        }
+        else {
+            if (JoiningDate < proxydateIn) {
+                $("#JoiningDatediv").html('Joining Date can not be less then From Date');
+                error++;
+            }
+        }
+
+        if (error > 0) {
+            return;
+        }
+        else {
+            $("#frmTour").submit();
+        }
+    });
+</script>

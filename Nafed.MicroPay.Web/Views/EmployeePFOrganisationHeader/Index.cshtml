@@ -1,0 +1,22 @@
+﻿@using MicroPay.Web.Models
+@model EmpPFOrgViewModel
+@{
+    ViewBag.Title = "Form No. 11";
+    ViewBag.NavigationTitle = "Form No. 11";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    System.Globalization.CultureInfo Indian = new System.Globalization.CultureInfo("hi-IN");
+}
+
+
+<div>
+
+    @*@using (Ajax.BeginForm("_GetPRGridView", "PropertyReturn", new AjaxOptions { HttpMethod = "Get", UpdateTargetId = "PRGridDiv" }, new { defaultbutton = "submitform" }))
+        {*@
+
+    <div class="card_new_body">
+        <div id="PRGridDiv">
+            @Html.Action("_GetEmpPFOrganisationGridView")
+        </div>
+    </div>
+    @*}*@
+</div>

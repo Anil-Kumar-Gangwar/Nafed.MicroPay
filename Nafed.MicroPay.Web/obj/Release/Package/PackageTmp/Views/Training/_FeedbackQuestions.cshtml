@@ -1,0 +1,45 @@
+﻿@using Nafed.MicroPay.Common
+@using Nafed.MicroPay.Model
+@using MicroPay.Web.Models
+@model TrainingFeedBackFormViewModel
+
+<table class="table table-bordered table-centered dt-responsive w-100">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th style="width:10%">Section Prefix</th>
+            <th class="text-center">Section</th>
+            <th class="text-center" style="width:10%">DisplayOrder</th>
+            <th class="text-center" style="width:10%">Display In Bold</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.TrainingFeedBackFormList != null && Model.TrainingFeedBackFormList.Count() > 0)
+        {
+            for (int i = 0; i < Model.TrainingFeedBackFormList.Count(); i++)
+            {
+                <tr>
+                    <td class="text-right" style="width:5%">@(i + 1)<text>.</text> </td>
+                    <td style="width:10%">
+                        @Model.TrainingFeedBackFormList[i].SectionPrefix
+                    </td>
+                    <td>
+                        @Model.TrainingFeedBackFormList[i].Section
+                    </td>
+                    <td>
+                        @Model.TrainingFeedBackFormList[i].DisplayOrder
+                    </td>                   
+                    <td class="text-center"> 
+                    @ExtensionMethods.BoolToYesNo(@Model.TrainingFeedBackFormList[i].DisplayInBold)
+                    </td>                   
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="5" class="text-center">No Record Found. </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,23 @@
+﻿@model Nafed.MicroPay.Model.UserAccessRight
+@{
+    ViewBag.Title = "DA Arrear Reports";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<div class="">
+    <div class="card_new_body">
+        @using (Ajax.BeginForm("DAArrearReportDetails", "DAArrearReports", new AjaxOptions { HttpMethod = "POST", OnSuccess = "OnReportSuccess" }))
+        {
+            <div id="div-report-filters">
+                @Html.Action("GetDAArrearReportFilters")
+            </div>
+        }
+    </div>
+</div>
+
+<script type="text/javascript">
+
+</script>
+

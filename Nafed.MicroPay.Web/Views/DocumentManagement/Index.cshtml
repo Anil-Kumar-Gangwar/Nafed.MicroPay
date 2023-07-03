@@ -1,0 +1,24 @@
+﻿@using MicroPay.Web.Models
+@model DashboardDocumentsVM
+@{
+    ViewBag.Title = "Document Management System List";
+    ViewBag.NavigationTitle = "Document Management System";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    System.Globalization.CultureInfo Indian = new System.Globalization.CultureInfo("hi-IN");
+}
+
+
+<div>
+
+
+    <div class="card_new_header text-right">
+        @Html.ActionLink("Upload Document", "UploadDocument", "DocumentManagement", null, new { @class = "btn btn-info", title = "Click here, to upload document", @data_toggle = "tooltip" })
+
+    </div>
+    <div class="card_new_body">
+        <div id="div-documentList-grid">
+            @Html.Action("GetDocumentList")
+        </div>
+    </div>
+
+</div>

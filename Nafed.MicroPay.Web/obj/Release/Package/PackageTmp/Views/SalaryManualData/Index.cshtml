@@ -1,0 +1,34 @@
+﻿
+
+
+@using Nafed.MicroPay.Model
+@using MicroPay.Web.Models
+@model SalaryManualDataViewModel
+@{
+    ViewBag.Title = "Manual Data For Salary";
+    ViewBag.NavigationTitle = "Manual Data For Salary";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    System.Globalization.CultureInfo Indian = new System.Globalization.CultureInfo("hi-IN");
+}
+
+
+<div>
+   
+    <div class="card_new_body">
+        <div id="UserGridDiv">
+            @{Html.RenderAction("SalaryManualDataGridView");}
+        </div>
+    </div>
+    <br />
+
+    <div class="card_new_body">
+        <div id="MarkDiv">
+
+        </div>
+    </div>
+
+
+</div>
+
+
+

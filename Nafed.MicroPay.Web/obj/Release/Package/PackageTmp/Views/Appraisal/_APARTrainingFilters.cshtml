@@ -1,0 +1,54 @@
+﻿@using Nafed.MicroPay.Model;
+@model CommonFilter
+
+@using (Ajax.BeginForm("_GetAPAREmpTraining", "Appraisal", new AjaxOptions
+{
+    HttpMethod = "GET",
+    OnSuccess = "onSuccessTraining"
+}))
+{
+    <div class="advance-search" style="">
+
+        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 pb-1 pt-2 form-inline align-middle">
+            <i class="fa fa-search fa-2x" style="color:#d4d4d4;" aria-hidden="true"></i><h4 class="desc" style="color:#0bb70b;">
+                @Html.Label("Search")
+            </h4>
+        </div>
+
+        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+
+            <div class="row">
+                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 text-secondary pr-0">
+                    <i class="fas fa-filter"></i> Filter By :
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                    @Html.Label("Reporting Year", htmlAttributes: new { @class = "required" })
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                    @Html.DropDownListFor(model => model.ReportingYear, new SelectList(ViewBag.reportingYrs, "value", "value"), "Select", new { @class = "custom-select" })
+                    @Html.ValidationMessageFor(model => model.ReportingYear, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                    <button type="submit" value="Search" name="ButtonType" title="Click here, to search records" class="btn btn-warning toggle-tooltip">
+                        <i class="fa fa-search"></i> Search
+                    </button>
+                    <button type="submit" value="Export" name="ButtonType" title="Click here, to export records" class="btn btn-success toggle-tooltip">
+                        <i class="fa fa-file-excel"></i> Export
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+<script type="text/javascript">
+    function onSuccessTraining(data) {
+        if (data.success == true) {
+            $("#div-APARTraining-List").html(data.htmlData);
+        }
+        else {
+            $("#div-filter").html(data.htmlData);
+        }
+    }
+</script>

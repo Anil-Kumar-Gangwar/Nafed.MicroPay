@@ -1,0 +1,387 @@
+﻿@using Nafed.MicroPay.Model
+@model IndividualHeadReportFilters
+
+@{
+    var yearDDl = Enumerable.Range(2005, (DateTime.Now.Year - 2005) + 1).
+                                  Select(i => new SelectListModel { id = i, value = i.ToString() }).OrderByDescending(x => x.value).ToList();
+
+    yearDDl.Insert(0, new SelectListModel { value = "Select", id = 0 });
+
+
+
+    var monthDDL = Enumerable.Range(1, 12).
+                    Select(i => new SelectListModel
+                    {
+                        id = i,
+                        value = System.Globalization.CultureInfo.InvariantCulture.DateTimeFormat.GetMonthName(i)
+                    }).ToList();
+
+    monthDDL.Insert(0, new SelectListModel { value = "Select", id = 0 });
+
+
+    Model.branchList.Insert(0, new SelectListModel { value = "Select", id = 0 });
+    Model.employeeTypesList.Insert(0, new SelectListModel { value = "Select", id = 0 });
+
+    var valid = Model.isValid;
+}
+@Html.HiddenFor(model => model.HeadDescription)
+<div class="row">
+    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 pt-3">
+        <fieldset class="border p-2 col-md-12 col-xs-12 col-lg-12 col-xl-12">
+            <legend style="font-size:1.3rem !important;" class="w-auto"></legend>
+            <div class="form-group">
+                <div class="row">
+                    @Html.LabelFor(model => model.branchId, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2" })
+                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
+                        @Html.DropDownListFor(model => model.branchId, new SelectList(Model.branchList, "id", "value"), new { @class = "custom-select" })
+
+                    </div>
+                </div>
+
+                <div class="row">
+                    @Html.LabelFor(model => model.salYear, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2" })
+
+                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
+                        @Html.DropDownListFor(model => model.salYear, new SelectList(yearDDl, "id", "value"), new { @class = "custom-select" })
+                        @Html.ValidationMessageFor(model => model.salYear, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="row">
+                    @Html.LabelFor(model => model.salMonth, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2" })
+
+                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
+                        @Html.DropDownListFor(model => model.salMonth, new SelectList(monthDDL, "id", "value"), new { @class = "custom-select" })
+                        @Html.ValidationMessageFor(model => model.salMonth, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="row">
+                    @Html.LabelFor(model => model.selectedEmployeeTypeID, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2" })
+
+                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
+                        @Html.DropDownListFor(model => model.selectedEmployeeTypeID, new SelectList(Model.employeeTypesList, "id", "value"), new { @class = "custom-select" })
+                        @Html.ValidationMessage("EmployeeType", "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="row">
+                    @Html.LabelFor(model => model.monthlyInputHead, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2" })
+
+                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
+                        @Html.DropDownListFor(model => model.monthlyInputHead, new SelectList(Model.monthlyInputHeadList, "FieldName", "FieldDesc", Model.monthlyInputHead), "Select", new { @class = "custom-select", onChange = "HeadDesc()" })
+                        @Html.ValidationMessageFor(model => model.monthlyInputHead, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+            </div>
+        </fieldset>
+        <br />
+        <fieldset class="border p-2 col-md-12 col-xs-12 col-lg-12 col-xl-12">
+            <legend style="font-size:1.3rem !important;" class="w-auto"></legend>
+            <div class="row">
+                @Html.LabelFor(model => model.AllBranch, new { @class = "control-label col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-2" })
+                @if (Model.AllBranch == false)
+                {
+                    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-4">
+                        <label class="switch">
+                            @Html.CheckBoxFor(model => model.AllBranch, new { @class = "form-control", onChange = "AllBranchResult(this)" })
+                            <div class="slider round">
+                            </div>
+                        </label>
+                    </div>
+                }
+                else
+                {
+                    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-4">
+                        <label class="switch">
+                            @Html.CheckBoxFor(model => model.AllBranch, new { @class = "form-control", @checked = "checked", onChange = "AllBranchResult(this)" })
+                            <div class="slider round">
+                            </div>
+                        </label>
+                    </div>
+                }
+
+                @Html.LabelFor(model => model.ViewPFNo, new { @class = "control-label col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-2" })
+
+                @if (Model.ViewPFNo == false)
+                {
+
+                    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-4">
+                        <label class="switch">
+                            @Html.CheckBoxFor(model => model.ViewPFNo, new { @class = "form-control" })
+                            <div class="slider round">
+                            </div>
+                        </label>
+                    </div>
+                }
+                else
+                {
+                    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-4">
+                        <label class="switch">
+                            @Html.CheckBoxFor(model => model.ViewPFNo, new { @class = "form-control", @checked = "checked" })
+                            <div class="slider round">
+                            </div>
+                        </label>
+                    </div>
+                }
+            </div>
+            <div class="row">
+                @Html.LabelFor(model => model.AllBranchWithHo, new { @class = "control-label col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-2" })
+                @if (Model.AllBranchWithHo == false)
+                {
+                    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-4">
+                        <label class="switch">
+                            @Html.CheckBoxFor(model => model.AllBranchWithHo, new { @class = "form-control", onChange = "AllBranchHOResult(this)" })
+                            <div class="slider round">
+                            </div>
+                        </label>
+                    </div>
+                }
+                else
+                {
+                    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-4">
+                        <label class="switch">
+                            @Html.CheckBoxFor(model => model.AllBranchWithHo, new { @class = "form-control", @checked = "checked", onChange = "AllBranchHOResult(this)" })
+                            <div class="slider round">
+                            </div>
+                        </label>
+                    </div>
+                }
+
+                @Html.LabelFor(model => model.ViewPaySlipNo, new { @class = "control-label col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-2" })
+
+                @if (Model.ViewPaySlipNo == false)
+                {
+
+                    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-4">
+                        <label class="switch">
+                            @Html.CheckBoxFor(model => model.ViewPaySlipNo, new { @class = "form-control" })
+                            <div class="slider round">
+                            </div>
+                        </label>
+                    </div>
+                }
+                else
+                {
+                    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-4">
+                        <label class="switch">
+                            @Html.CheckBoxFor(model => model.ViewPaySlipNo, new { @class = "form-control", @checked = "checked" })
+                            <div class="slider round">
+                            </div>
+                        </label>
+                    </div>
+                }
+            </div>
+        </fieldset>
+    </div>
+    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+        <fieldset class="border p-2 col-md-12 col-xs-12 col-lg-12 col-xl-12">
+            <legend style="font-size:1.3rem !important;" class="w-auto">@Html.CheckBoxFor(model => model.chkgrp, htmlAttributes: new {onChange = "onChangechkgrp(this)" })</legend>
+            <div class="form-group">
+                <div class="row">
+                    @Html.LabelFor(model => model.fMonth, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2" })
+
+                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
+                        @Html.DropDownListFor(model => model.fMonth, new SelectList(monthDDL, "id", "value"), new { @class = "custom-select", disabled = "disabled" })
+                        @Html.ValidationMessageFor(model => model.fMonth, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="row">
+                    @Html.LabelFor(model => model.fYear, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2" })
+
+                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
+                        @Html.DropDownListFor(model => model.fYear, new SelectList(yearDDl, "id", "value"), new { @class = "custom-select", disabled = "disabled" })
+                        @Html.ValidationMessageFor(model => model.fYear, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="row">
+                    @Html.LabelFor(model => model.tMonth, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2" })
+
+                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
+                        @Html.DropDownListFor(model => model.tMonth, new SelectList(monthDDL, "id", "value"), new { @class = "custom-select", disabled = "disabled" })
+                        @Html.ValidationMessageFor(model => model.tMonth, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="row">
+                    @Html.LabelFor(model => model.tYear, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2" })
+
+                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
+                        @Html.DropDownListFor(model => model.tYear, new SelectList(yearDDl, "id", "value"), new { @class = "custom-select", disabled = "disabled" })
+                        @Html.ValidationMessageFor(model => model.tYear, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="row">
+                    @Html.LabelFor(model => model.selectedInputHeads, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2" })
+                    <div class="col-lg-6 col-md-6 ml-4 border" style="min-height:100px; max-height:150px; overflow:auto">
+                        @using (Html.BeginForm("Index", "Home"))
+                        {
+                            foreach (var item in Model.monthlyInputHeadList)
+                            {
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox"
+                                               name="selectedInputHeads"
+                                               class="chkHeads"
+                                               value="@item.FieldName"
+                                               @*disabled = "disabled"*@ /> @item.FieldDesc
+                                        </label>
+                                    </div>
+                            }
+                        }
+
+                    </div>
+                    <div class="col-12">
+                        @Html.ValidationMessageFor(model => model.selectedInputHeads, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+        <br />
+        <fieldset class="border p-2 col-md-12 col-xs-12 col-lg-12 col-xl-12">
+            <legend style="font-size:1.3rem !important;" class="w-auto"></legend>
+            <div class="row">
+                @Html.LabelFor(model => model.licTcsGis, new { @class = "control-label col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-2" })
+                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-4">
+                    <label class="switch">
+                        @Html.CheckBoxFor(model => model.licTcsGis, new { @class = "form-control", disabled = "disabled", onChange = "OnChangelicTcsGis(this)" })
+                        <div class="slider round">
+                        </div>
+                    </label>
+                </div>
+                @Html.LabelFor(model => model.hblLoan, new { @class = "control-label col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-2" })
+                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-4">
+                    <label class="switch">
+                        @Html.CheckBoxFor(model => model.hblLoan, new { @class = "form-control", disabled = "disabled", onChange = "OnChangehblLoan(this)" })
+                        <div class="slider round">
+                        </div>
+                    </label>
+                </div>
+                @Html.LabelFor(model => model.pfMonthly, new { @class = "control-label col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-2" })
+                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-4">
+                    <label class="switch">
+                        @Html.CheckBoxFor(model => model.pfMonthly, new { @class = "form-control", disabled = "disabled", onChange = "OnChangepfMonthly(this)" })
+                        <div class="slider round">
+                        </div>
+                    </label>
+                </div>
+            </div>
+        </fieldset>
+    </div>
+
+    <div class="col-lg-12 mt-3">
+        <span class="pull-right">
+            <input type="submit" id="PrintRpt" value="Print" class="btn btn-info btn-md pull-center toggle-tooltip" title="" name="ButtonType" />
+        </span>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        if ("@valid" == "False") {
+            if ($("#AllBranch").is(":checked")) {
+                $("#branchId").attr("disabled", "disabled");
+                $("#selectedEmployeeTypeID").val("5");
+                $("#selectedEmployeeTypeID").attr("disabled", "disabled");
+            }
+
+            if ($("#AllBranchWithHo").is(":checked")) {
+                $("#branchId").attr("disabled", "disabled");
+                $("#selectedEmployeeTypeID").val("5");
+                $("#selectedEmployeeTypeID").attr("disabled", "disabled");
+                $("#AllBranch").prop("checked", false);
+                $("#AllBranch").attr("disabled", "disabled");
+            }
+        }
+        if ($("#chkgrp").prop('checked')) {
+            $("#fMonth").removeAttr("disabled");
+            $("#fYear").removeAttr("disabled");
+            $("#tMonth").removeAttr("disabled");
+            $("#tYear").removeAttr("disabled");
+            $("#licTcsGis").removeAttr("disabled");
+            $("#hblLoan").removeAttr("disabled");
+            $("#pfMonthly").removeAttr("disabled");
+            $(".chkHeads").removeAttr("disabled");
+        }
+    });
+
+    function HeadDesc() {
+        var headDesc = $("#monthlyInputHead option:selected").text();
+        $("#HeadDescription").val(headDesc);
+    }
+
+    function AllBranchResult(check) {
+        if (check.checked) {
+            $("#branchId").attr("disabled", "disabled");
+            $("#selectedEmployeeTypeID").val("5");
+            $("#selectedEmployeeTypeID").attr("disabled", "disabled");
+        }
+        else {
+            $("#branchId").removeAttr("disabled");
+            $("#selectedEmployeeTypeID").val("0");
+            $("#selectedEmployeeTypeID").removeAttr("disabled");
+        }
+    }
+
+    function AllBranchHOResult(check) {
+        if (check.checked) {
+            $("#branchId").attr("disabled", "disabled");
+            $("#selectedEmployeeTypeID").val("5");
+            $("#selectedEmployeeTypeID").attr("disabled", "disabled");
+            $("#AllBranch").prop("checked", false);
+            $("#AllBranch").attr("disabled", "disabled");
+        }
+        else {
+            $("#branchId").removeAttr("disabled");
+            $("#selectedEmployeeTypeID").val("0");
+            $("#selectedEmployeeTypeID").removeAttr("disabled");
+            $("#AllBranch").removeAttr("disabled");
+        }
+    }
+
+    function onChangechkgrp(check) {
+        if (check.checked) {
+            $("#fMonth").removeAttr("disabled");
+            $("#fYear").removeAttr("disabled");
+            $("#tMonth").removeAttr("disabled");
+            $("#tYear").removeAttr("disabled");
+            $("#licTcsGis").removeAttr("disabled");
+            $("#hblLoan").removeAttr("disabled");
+            $("#pfMonthly").removeAttr("disabled");
+            $(".chkHeads").removeAttr("disabled");
+        }
+        else {
+            $("#fMonth").attr("disabled", "disabled");
+            $("#fYear").attr("disabled", "disabled");
+            $("#tMonth").attr("disabled", "disabled");
+            $("#tYear").attr("disabled", "disabled");
+            $("#licTcsGis").attr("disabled", "disabled");
+            $("#hblLoan").attr("disabled", "disabled");
+            $("#pfMonthly").attr("disabled", "disabled");
+            $(".chkHeads").attr("disabled", "disabled");
+
+        }
+    }
+
+    function OnChangelicTcsGis(check) {
+        if (check.checked) {
+            $("#hblLoan").prop("checked", false);
+            $("#pfMonthly").prop("checked", false);
+        }
+    }
+    function OnChangehblLoan(check) {
+        if (check.checked) {
+            $("#licTcsGis").prop("checked", false);
+            $("#pfMonthly").prop("checked", false);
+        }
+    }
+    function OnChangepfMonthly(check) {
+        if (check.checked) {
+            $("#hblLoan").prop("checked", false);
+            $("#licTcsGis").prop("checked", false);
+        }
+    }
+
+
+</script>

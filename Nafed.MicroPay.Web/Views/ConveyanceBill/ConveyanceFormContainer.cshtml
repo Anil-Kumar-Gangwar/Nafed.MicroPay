@@ -1,0 +1,35 @@
+﻿@using Nafed.MicroPay.Model
+@using Common = Nafed.MicroPay.Common;
+@model Nafed.MicroPay.Model.ConveyanceBillForm
+@{
+    ViewBag.Title = "Conveyance Bill";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style type="text/css">
+    .bottamboarder {
+        border: 0;
+        outline: 0;
+        background: transparent;
+        border-bottom: 1px solid black;
+    }
+</style>
+
+<input id="printdiv" type="submit" value="Print" onclick="printContent('div-Conveyance-form-container')" />
+
+<div id="div-Conveyance-form-container" class="container-fluid">
+    <div id="div-Conveyanceform">
+        @Html.Action("_GetConveyanceBillForm", Model)
+    </div>
+</div>
+
+<script>
+    $('.noselect').find('input, textarea, button, select').attr('readonly', 'readonly').removeAttr('href');
+    $('.enableTDCells').removeAttr('readonly').addClass('form-control text-right');
+    $('.noselect .btn-sectionAddRow').addClass('hide');
+    $('.noselect .drpdown-section').attr("style", "pointer-events: none;");
+    $('.noselect .custom-select').attr("style", "pointer-events: none;");
+    $('.noselect .radio-section').attr("style", "pointer-events: none;");
+    $('.noselect .radio-section').attr("disabled", "disabled");
+
+    function printContent(el) { var restorepage = document.body.innerHTML; var printcontent = document.getElementById(el).innerHTML; document.body.innerHTML = printcontent; window.print(); document.body.innerHTML = restorepage; }
+</script>

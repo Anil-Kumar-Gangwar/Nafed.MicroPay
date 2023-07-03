@@ -1,0 +1,52 @@
+﻿@using Nafed.MicroPay.Model
+@model List<TicketType>
+<table id="tblGrid" class="table table-centered table-striped dt-responsive w-100">
+    <thead>
+        <tr>
+            <th style="width:20px">
+                #
+            </th>
+            <th style="width:20%">
+                Type
+            </th>
+            <th>
+                Description
+            </th>           
+            <th class="text-center" style="width:60px">
+                Action
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            if (Model != null && Model.Count > 0)
+            {
+                var sno = 1;
+                foreach (var item in Model)
+                {
+                    <tr>
+                        <td> @sno</td>
+                        <td> @item.code</td>
+                        <td> @item.description</td>                       
+
+                        <td class="text-center">
+                            @*<a href="@Url.Action("Edit", "TicketType", new { ticketTypeID = @item.ID })" title="Click here, to edit this record">
+                                <span class="far fa-edit text-info" aria-hidden="true"></span>
+                            </a>*@
+                            @Html.EncodedImageActionLink("", "Edit", "TicketType", new { ticketTypeID = @item.ID }, new { @class = "toggle-tooltip", title = "Click here, to edit this record" }, "~/Images/edit.png")
+                             |
+                            @*<a data-toggle="confirm" class="toggle-tooltip" href="@Url.Action("Delete", "TicketType", new { ticketTypeID = @item.ID })" title="Click here, to delete this record">
+                                <span class="far fa-trash-alt text-danger" aria-hidden="true"></span>
+                            </a>*@
+                            @Html.EncodedImageActionLink("", "Delete", "TicketType", new { ticketTypeID = @item.ID }, new { @class = "toggle-tooltip", title = "Click here, to delete this record" }, "~/Images/delete.png", true)
+                        </td>
+
+                    </tr>
+                    sno++;
+                }
+            }
+
+        }
+
+    </tbody>
+</table>

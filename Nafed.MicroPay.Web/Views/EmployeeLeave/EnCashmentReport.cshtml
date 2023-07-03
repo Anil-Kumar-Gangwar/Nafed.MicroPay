@@ -1,0 +1,24 @@
+﻿@{
+    ViewBag.Title = "Leave Encashment Report";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div>
+
+    @using (Ajax.BeginForm("_ExportEncashmentReport", "EmployeeLeave", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "dv-filter-Section", OnSuccess = "OnSuccess" }, new { defaultbutton = "submitform" }))
+    {
+        <div id="dv-filter-Section">
+            @{
+                Html.RenderAction("_GetEncashmentFilters", "EmployeeLeave");
+            }
+
+        </div>
+ }
+</div>
+<script type="text/javascript">
+
+    function OnSuccess(data) {
+        if (data.message == "error")
+            $("#dv-filter-Section").html(data.htmlData);
+    }
+</script>

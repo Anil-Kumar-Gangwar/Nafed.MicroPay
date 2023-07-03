@@ -1,0 +1,223 @@
+﻿@using Nafed.MicroPay.Model;
+@model MicroPay.Web.Models.EmployeeAttendancedetailsViewModel
+
+@{
+    UserDetail user = (UserDetail)HttpContext.Current.Session["User"];
+}
+
+<style>
+    .require {
+        color: red;
+        margin-left: 134px;
+    }
+</style>
+
+<div>
+    @using (Ajax.BeginForm("EmployeeAttendancedetailsGridView", "MyAttendanceDetail", new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "div-attendance-grid" }, new { defaultbutton = "btnSearch" }))
+    {
+        @Html.HiddenFor(model => Model.BranchID)
+        @Html.HiddenFor(model => Model.EmployeeID)
+        <div class="advance-search" style="">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 pb-1 pt-2 form-inline align-middle">
+                <i class="fa fa-search fa-2x" style="color:#d4d4d4;" aria-hidden="true"></i><h4 class="desc" style="color:#0bb70b;">
+                    @Html.Label("Search")
+                </h4>
+            </div>
+            <hr style="background-color:#fff !important;">
+
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12 text-secondary">
+                            <i class="fas fa-filter"></i> Filter By :
+                        </div>
+                        <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+                            @Html.Label("Year", htmlAttributes: new { @class = "" })
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                            @Html.DropDownListFor(model => model.SelectYear, new SelectList(Model.ddlYear, "id", "value"), new { @class = "custom-select" })
+                        </div>
+                        <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+                            @Html.Label("Month", htmlAttributes: new { @class = "" })
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                            @Html.DropDownListFor(model => model.SelectedMonth, new SelectList(Model.ddlMonth, "id", "value"), new { @class = "custom-select" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <hr style="background-color:#fff !important;">
+            <div class="row mt-3">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-right">  
+                    
+                    @if (!user.DeviceTypeIsMobile)
+                    {
+                    <button type="button" class="btn btn-warning toggle-tooltip" id="btnExport" name="ButtonType" onclick="ExportData()" title="Click here, to export records.">
+                        <i class="fas fa-file-excel"></i> Export
+                    </button>
+                    }
+                    <button type="submit" class="btn btn-warning toggle-tooltip" name="ButtonType" title="Click here, to search records.">
+                        <i class="fa fa-search"></i> Search
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    }
+    @*@using (Ajax.BeginForm("ExportExcel", "MyAttendanceDetail", null,
+                              new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "" }))
+    {
+        @Html.HiddenFor(model => Model.BranchID)
+        @Html.HiddenFor(model => Model.EmployeeID)
+        <input type="submit" value="Export PDF" id="btnexportpdf" class="btn btn-primary btn-md pull-left" />
+    }*@
+</div>
+<br />
+<div class="row patty_panel" style="background-color: #0c858e;font-size:medium; box-shadow: 0px 1px 2px;padding-top: 12px;">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="form-group">
+            <div class="row">
+                <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+                    <div class="row">
+                        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                            @Html.Label("Branch :", htmlAttributes: new { @class = "" })
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 pl-lg-1" style="font-weight:bold">
+
+                            @Html.DisplayFor(model => model.BranchName, new { @class = "label-control" })
+                        </div>
+
+                        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                            @Html.Label("Name :", htmlAttributes: new { @class = "" })
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 pl-lg-1" style="font-weight:bold">
+                            @Html.DisplayFor(model => model.EmployeeName, new { @class = "label-control" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-4 col-sm-12 col-xs-12 text-right">
+                    <input type="submit" value="Click here to view legend" title="Click here, to view legend" data-toggle="modal" class="btn btn-info btn-sm pull-center toggle-tooltip" style="background-color: #0c858e;font-size:14px; box-shadow: 0px 0px 0px;padding-top: 5px;color: white;border:0px" id="btnAdd" data-target="#myModal">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- The Modal -->
+<div class="modal" id="myModal">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Mark Attendance</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body ">
+                <div class="row">
+
+
+
+                    <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
+                        <div class="color-box">
+                            <div class="shadow">
+                                <div class="info-tab note-icon" title="Important Notes"><i></i></div>
+                                <div class="note-box text-uppercase">
+                                    <p class="">
+                                        <strong>Leave Details </strong>
+                                        <ol>
+                                            <li>
+                                                CL - Casual/Sick Leave
+                                            </li>
+                                            <li>
+                                                EL - Earn Leave
+                                            </li>
+                                            <li>
+                                                ML - Medical Leave
+                                            </li>
+                                            <li>
+                                                LWP - Leave Without Pay
+                                            </li>
+                                            <li>
+                                                CLA - Casual Leave Adjustment
+                                            </li>
+                                        </ol>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
+                        <div class="color-box">
+                            <div class="shadow">
+                                <div class="info-tab note-icon" title="Important Notes"><i></i></div>
+                                <div class="note-box text-uppercase">
+                                    <p>
+                                        <strong>Attendance Details</strong>
+                                        <ol>
+                                            <li>
+                                                p - Present
+                                            </li>
+                                            <li>
+                                                SP - Single Punch
+                                            </li>
+                                            <li>
+                                                T - Tour
+                                            </li>
+                                            <li>
+                                                TS -Time Short
+                                            </li>
+                                        </ol>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
+                        <div class="color-box">
+                            <div class="shadow">
+                                <div class="info-tab note-icon" title="Important Notes"><i></i></div>
+                                <div class="note-box text-uppercase">
+                                    <p>
+                                        <strong>Other Details</strong>
+                                        <ol>
+                                            <li style="background-color:gray">
+                                                W - Weekly Off
+                                            </li>
+                                            <li>
+                                                H - Holiday
+                                            </li>
+                                            <li style="background-color:Yellow">
+                                                N/A - Not Available
+                                            </li>
+                                        </ol>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function ExportData() {
+        debugger;
+        jQuery.post("@Url.Action("ExportSheet", "MyAttendanceDetail")", {
+        }).done(function (data) {
+            if (data.fileName != "" && data.message == "success") {
+                window.location.href = "@Url.RouteUrl(new { Controller = "Base", Action = "DownloadAndDelete" })/?sFileName=" + data.fileName + "&sFileFullPath=" + data.fullPath;
+            }
+            else if (data.msgType == "error") {
+                commonMessage(data.msgType, data.message);
+            }
+        });
+    }
+</script>

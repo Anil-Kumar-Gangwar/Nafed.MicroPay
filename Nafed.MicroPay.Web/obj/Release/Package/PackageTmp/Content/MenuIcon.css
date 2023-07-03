@@ -1,0 +1,214 @@
+﻿.access_rights {
+    display: block;
+    background: url(../Images/MenuIcon/access_rights.png);
+    background-size: cover;
+    width: 70px;
+    height: 70px;
+    resize: both;
+}
+
+.category {
+    display: block;
+    background: url(../Images/MenuIcon/category.png);
+    background-size: cover;
+    width: 70px;
+    height: 70px;
+    resize: both;
+}
+
+.dashboard {
+    display: block;
+    background: url(../Images/MenuIcon/dashboard.png);
+    background-size: cover;
+    width: 70px;
+    height: 70px;
+    resize: both;
+}
+
+.department {
+    display: block;
+    background: url(../Images/MenuIcon/department.png);
+    background-size: cover;
+    width: 70px;
+    height: 70px;
+    resize: both;
+}
+
+.department_rights {
+    display: block;
+    background: url(../Images/MenuIcon/department_rights.png);
+    background-size: cover;
+    width: 70px;
+    height: 70px;
+    resize: both;
+}
+
+.designation {
+    display: block;
+    background: url(../Images/MenuIcon/designation.png);
+    background-size: cover;
+    width: 70px;
+    height: 70px;
+    resize: both;
+}
+
+.email_configration {
+    display: block;
+    background: url(../Images/MenuIcon/email_configration.png);
+    background-size: cover;
+    width: 70px;
+    height: 70px;
+    resize: both;
+}
+
+.employee {
+    display: block;
+    background: url(../Images/MenuIcon/employee.png);
+    background-size: cover;
+    width: 70px;
+    height: 70px;
+    resize: both;
+}
+
+.employee_attendance {
+    display: block;
+    background: url(../Images/MenuIcon/employee_attendance.png);
+    background-size: cover;
+    width: 70px;
+    height: 70px;
+    resize: both;
+}
+
+.employee_leave {
+    display: block;
+    background: url(../Images/MenuIcon/employee_leave.png);
+    background-size: cover;
+    width: 70px;
+    height: 70px;
+    resize: both;
+}
+
+.f_a {
+    display: block;
+    background: url(../Images/MenuIcon/f&a.png);
+    background-size: cover;
+    width: 70px;
+    height: 70px;
+    resize: both;
+}
+
+.grade {
+    display: block;
+    background: url(../Images/MenuIcon/grade.png);
+    background-size: cover;
+    width: 70px;
+    height: 70px;
+    resize: both;
+}
+
+.holiday {
+    display: block;
+    background: url(../Images/MenuIcon/holiday.png);
+    background-size: cover;
+    width: 70px;
+    height: 70px;
+    resize: both;
+}
+
+.leave_master {
+    display: block;
+    background: url(../Images/MenuIcon/leave_master.png);
+    background-size: cover;
+    width: 70px;
+    height: 70px;
+    resize: both;
+}
+
+.mark_duty {
+    display: block;
+    background: url(../Images/MenuIcon/mark_duty.png);
+    background-size: cover;
+    width: 70px;
+    height: 70px;
+    resize: both;
+}
+
+.menu {
+    display: block;
+    background: url(../Images/MenuIcon/menu.png);
+    background-size: cover;
+    width: 70px;
+    height: 70px;
+    resize: both;
+}
+
+.religion {
+    display: block;
+    background: url(../Images/MenuIcon/religion.png);
+    background-size: cover;
+    width: 70px;
+    height: 70px;
+    resize: both;
+}
+
+.sms_configuration {
+    display: block;
+    background: url(../Images/MenuIcon/sms_configuration.png);
+    background-size: cover;
+    width: 70px;
+    height: 70px;
+    resize: both;
+}
+
+.title {
+    display: block;
+    background: url(../Images/MenuIcon/title.png);
+    background-size: cover;
+    width: 70px;
+    height: 70px;
+    resize: both;
+}
+
+.tools {
+    display: block;
+    background: url(../Images/MenuIcon/tools.png);
+    background-size: cover;
+    width: 70px;
+    height: 70px;
+    resize: both;
+}
+
+.user_access_right {
+    display: block;
+    background: url(../Images/MenuIcon/user_access_right.png);
+    background-size: cover;
+    width: 70px;
+    height: 70px;
+    resize: both;
+}
+
+.user_list {
+    display: block;
+    background: url(../Images/MenuIcon/user_list.png);
+    background-size: cover;
+    width: 70px;
+    height: 70px;
+    resize: both;
+}
+
+.user_right {
+    display: block;
+    background: url(../Images/MenuIcon/user_right.png);
+    background-size: cover;
+    width: 70px;
+    height: 70px;
+    resize: both;
+}
+.no_icon {
+    display: block;
+    background: url(../Images/MenuIcon/no-image.jpg);
+    background-size: cover;
+    width: 70px;
+    height: 70px;
+    resize: both;
+}

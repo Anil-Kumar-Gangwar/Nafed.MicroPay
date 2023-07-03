@@ -1,0 +1,575 @@
+﻿@using Nafed.MicroPay.Model;
+@model MicroPay.Web.Models.ApprovalRequestVM
+@using Nafed.MicroPay.Common;
+
+@{
+    var uDetails = (UserDetail)Session["user"];
+}
+<table id="tblGrid-Training" class="table table-centered table-striped dt-responsive w-100 mt-2">
+    <thead>
+        <tr>
+            <th>
+                #
+            </th>
+            <th>
+                Employee
+            </th>
+            <th>
+                Training Title
+            </th>
+
+            <th class="text-center">
+               Period
+            </th>                            
+          
+            <th class="text-center">
+                Venue
+            </th>
+            <th class="text-center">
+                Status
+            </th>
+
+            <th class="text-center" style="width:60px">
+                Action
+            </th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @{    var totalparticipantpending = 0;
+            if (Model != null && (Model.participantsData != null && Model.participantsData.Count > 0))
+            {
+                var sno = 1;            
+                foreach (var item in Model.participantsData)
+                {
+                    if (item.EmpProceeApproval.ReviewingTo.HasValue && item.EmpProceeApproval.ReportingTo > 0)
+                    {
+                        if (item.EmpProceeApproval.ReviewingTo == item.EmpProceeApproval.ReportingTo && item.EmpProceeApproval.ReviewingTo == uDetails.EmployeeID)
+                        {
+                            if (item.NominationAccepted == (int)EmpLeaveStatus.Pending || item.NominationAccepted == (int)EmpLeaveStatus.RejectedByAcceptanceAuthority || item.NominationAccepted == (int)EmpLeaveStatus.RejectedByAcceptanceAuthority)
+                            {
+                                <tr>
+                                    <td style="width:10px;"> @sno</td>
+                                    <td> @item.EmployeeCode <text> - </text>  @item.EmployeeName </td>
+                                    <td> @item.TrainingName</td>
+                                    <td>
+                                        @item.StartDate.Value.ToString("dd-MM-yyyy") <text> To</text>
+                                        @item.EndDate.Value.ToString("dd-MM-yyyy")
+                                    </td>
+                                    <td>
+                                        @if (!string.IsNullOrEmpty(item.Address))
+                                        {
+                                            if (!string.IsNullOrEmpty(item.StateName))
+                                            {
+                                        <text>@item.Address, </text>
+                                            }
+                                            else
+                                            {
+                                        <text>@item.Address </text>
+                                            }
+                                        }
+                                        @if (!string.IsNullOrEmpty(item.StateName))
+                                        {
+                                            if (!string.IsNullOrEmpty(item.City))
+                                            {
+                                        <text>@item.StateName, </text>
+                                            }
+                                            else
+                                            {
+                                        <text>@item.StateName </text>
+                                            }
+                                        }
+
+                                        @if (!string.IsNullOrEmpty(item.City))
+                                        {
+
+                                            if (!string.IsNullOrEmpty(item.PinCode))
+                                            {
+                                        <text>@item.City, </text>
+                                            }
+                                            else
+                                            {
+                                        <text>@item.City </text>
+                                            }
+
+                                        }
+                                        @if (!string.IsNullOrEmpty(item.PinCode))
+                                        {
+                                        <text> @item.PinCode </text>
+                                        }
+                                    </td>
+
+                                    <td class="text-center">
+                                        @if (item.NominationAccepted == (int)EmpLeaveStatus.Pending)
+                                        {
+                                        <h5>
+                                            <span class="badge badge-pill badge-warning col-md-12 toggle-tooltip">Pending</span>
+                                        </h5>
+                                        }
+                                        else if (item.NominationAccepted == (int)EmpLeaveStatus.RejectedByAcceptanceAuthority)
+                                        {
+                                        <h5>
+                                            <span class="badge badge-pill badge-danger col-md-12 toggle-tooltip">Rejected</span>
+                                        </h5>
+                                        }
+                                        else if (item.NominationAccepted == (int)EmpLeaveStatus.Approved)
+                                        {
+                                        <h5>
+                                            <span class="badge badge-pill badge-success col-md-12 toggle-tooltip">
+                                                Approved
+                                            </span>
+                                        </h5>
+                                        }
+                                    </td>
+
+                                    <td class="text-center">
+                                        @if (item.NominationAccepted == (int)EmpLeaveStatus.Pending)
+                                        {
+                                            totalparticipantpending = Model.participantsData.Where(x => x.NominationAccepted == (int)EmpLeaveStatus.Pending).Count();
+
+                                        <a data-ajax="true"
+                                           method="POST" class="toggle-tooltip" title="Click here, to approve request."
+                                           data-ajax-update="#div-appTrainingPopup" data-ajax-mode="replace"
+                                           data-backdrop="static" data-keyboard="false"
+                                           href="@Url.Action("_GetTrainingApprovalPopup", "ApprovalRequest", new
+                                            {
+                                                employeeid=item.EmployeeID,
+                                                participantID = item.TrainingParticipantID,
+                                                actionType = "accept",
+                                                ApproverType = 2,
+                                                reportingTo = item.EmpProceeApproval.ReportingTo,
+                                                reviewerTo = item.EmpProceeApproval.ReviewingTo
+
+                                            })"
+                                           id="a_trainingpopup" data-toggle="modal" data-target="#div-training-approval-popup">
+                                            <i class="fa fa-check-square text-success fa-2x" aria-hidden="true"></i>
+                                        </a>
+
+                                        <text> | </text>
+                                        <a data-ajax="true"
+                                           method="POST" class="toggle-tooltip" title="Click here, to reject request."
+                                           data-ajax-update="#div-appTrainingPopup" data-ajax-mode="replace"
+                                           data-backdrop="static" data-keyboard="false"
+                                           href="@Url.Action("_GetTrainingApprovalPopup", "ApprovalRequest", new
+                                            {
+                                                employeeid=item.EmployeeID,
+                                                participantID = item.TrainingParticipantID,
+                                                actionType = "reject",
+                                                ApproverType = 2,
+                                                reportingTo = item.EmpProceeApproval.ReportingTo,
+                                                reviewerTo = item.EmpProceeApproval.ReviewingTo
+
+                                            })"
+                                           id="a_trainingpopupr" data-toggle="modal" data-target="#div-training-approval-popup">
+                                            <i class="fa fa-window-close text-danger fa-2x" aria-hidden="true"></i>
+                                        </a>
+                                        }
+                                    </td>
+
+                                </tr>
+                            }
+                        }
+                        else if (item.EmpProceeApproval.ReviewingTo != item.EmpProceeApproval.ReportingTo && item.EmpProceeApproval.ReportingTo == uDetails.EmployeeID)
+                        {
+                            if (item.NominationAccepted == (int)EmpLeaveStatus.Pending || item.NominationAccepted == (int)EmpLeaveStatus.RejectedByReportingOfficer || item.NominationAccepted == (int)EmpLeaveStatus.InProcess)
+                            {
+                                <tr>
+                                    <td style="width:10px;"> @sno</td>
+                                    <td> @item.EmployeeCode <text> - </text>  @item.EmployeeName </td>
+                                    <td> @item.TrainingName</td>
+                                    <td>
+                                        @item.StartDate.Value.ToString("dd-MM-yyyy") <text> To</text>
+                                        @item.EndDate.Value.ToString("dd-MM-yyyy")
+                                    </td>
+                                    <td>
+                                        @if (!string.IsNullOrEmpty(item.Address))
+                                        {
+                                            if (!string.IsNullOrEmpty(item.StateName))
+                                            {
+                                                <text>@item.Address, </text>
+                                            }
+                                            else
+                                            {
+                                                <text>@item.Address </text>
+                                            }
+                                        }
+                                        @if (!string.IsNullOrEmpty(item.StateName))
+                                        {
+                                            if (!string.IsNullOrEmpty(item.City))
+                                            {
+                                                <text>@item.StateName, </text>
+                                            }
+                                            else
+                                            {
+                                                <text>@item.StateName </text>
+                                            }
+                                        }
+
+                                        @if (!string.IsNullOrEmpty(item.City))
+                                        {
+
+                                            if (!string.IsNullOrEmpty(item.PinCode))
+                                            {
+                                                <text>@item.City, </text>
+                                            }
+                                            else
+                                            {
+                                                <text>@item.City </text>
+                                            }
+
+                                        }
+                                        @if (!string.IsNullOrEmpty(item.PinCode))
+                                        {
+                                            <text> @item.PinCode </text>
+                                        }
+                                    </td>
+
+                                    <td class="text-center">
+                                        @if (item.NominationAccepted == (int)EmpLeaveStatus.Pending)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-warning col-md-12 toggle-tooltip">Pending</span>
+                                            </h5>
+                                        }
+                                        else if (item.NominationAccepted == (int)EmpLeaveStatus.RejectedByReportingOfficer)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-danger col-md-12 toggle-tooltip">Rejected By Reporting Officer</span>
+                                            </h5>
+                                        }
+                                        else if (item.NominationAccepted == (int)EmpLeaveStatus.InProcess)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-info col-md-12 toggle-tooltip">
+                                                    Inprocess
+                                                </span>
+                                            </h5>
+                                        }
+                                    </td>
+
+                                    <td class="text-center">
+                                        @if (item.NominationAccepted == (int)EmpLeaveStatus.Pending)
+                                        {
+                                            totalparticipantpending = Model.participantsData.Where(x => x.NominationAccepted == (int)EmpLeaveStatus.Pending).Count();
+
+                                            <a data-ajax="true"
+                                               method="POST" class="toggle-tooltip" title="Click here, to approve request."
+                                               data-ajax-update="#div-appTrainingPopup" data-ajax-mode="replace"
+                                               data-backdrop="static" data-keyboard="false"
+                                               href="@Url.Action("_GetTrainingApprovalPopup", "ApprovalRequest", new
+                                            {
+                                                employeeid=item.EmployeeID,
+                                                participantID = item.TrainingParticipantID,
+                                                actionType = "accept",
+                                                ApproverType = 1,
+                                                reportingTo = item.EmpProceeApproval.ReportingTo,
+                                                reviewerTo = item.EmpProceeApproval.ReviewingTo
+
+                                            })"
+                                               id="a_trainingpopup" data-toggle="modal" data-target="#div-training-approval-popup">
+                                                <i class="fa fa-check-square text-success fa-2x" aria-hidden="true"></i>
+                                            </a>
+
+                                            <text> | </text>
+                                            <a data-ajax="true"
+                                               method="POST" class="toggle-tooltip" title="Click here, to reject request."
+                                               data-ajax-update="#div-appTrainingPopup" data-ajax-mode="replace"
+                                               data-backdrop="static" data-keyboard="false"
+                                               href="@Url.Action("_GetTrainingApprovalPopup", "ApprovalRequest", new
+                                            {
+                                                employeeid=item.EmployeeID,
+                                                participantID = item.TrainingParticipantID,
+                                                actionType = "reject",
+                                                ApproverType = 1,
+                                                reportingTo = item.EmpProceeApproval.ReportingTo,
+                                                reviewerTo = item.EmpProceeApproval.ReviewingTo
+
+                                            })"
+                                               id="a_trainingpopupr" data-toggle="modal" data-target="#div-training-approval-popup">
+                                                <i class="fa fa-window-close text-danger fa-2x" aria-hidden="true"></i>
+                                            </a>
+                                        }
+                                    </td>
+
+                                </tr>
+                            }
+                        }
+                        else if (item.EmpProceeApproval.ReviewingTo != item.EmpProceeApproval.ReportingTo && item.EmpProceeApproval.ReviewingTo == uDetails.EmployeeID)
+                        {
+                            if (item.NominationAccepted == (int)EmpLeaveStatus.InProcess || item.NominationAccepted == (int)EmpLeaveStatus.RejectedByAcceptanceAuthority || item.NominationAccepted == (int)EmpLeaveStatus.Approved)
+                            {
+                                <tr>
+                                    <td style="width:10px;"> @sno</td>
+                                    <td> @item.EmployeeCode <text> - </text>  @item.EmployeeName </td>
+                                    <td> @item.TrainingName</td>
+                                    <td>
+                                        @item.StartDate.Value.ToString("dd-MM-yyyy") <text> To</text>
+                                        @item.EndDate.Value.ToString("dd-MM-yyyy")
+                                    </td>
+                                    <td>
+                                        @if (!string.IsNullOrEmpty(item.Address))
+                                        {
+                                            if (!string.IsNullOrEmpty(item.StateName))
+                                            {
+                                                <text>@item.Address, </text>
+                                            }
+                                            else
+                                            {
+                                                <text>@item.Address </text>
+                                            }
+                                        }
+                                        @if (!string.IsNullOrEmpty(item.StateName))
+                                        {
+                                            if (!string.IsNullOrEmpty(item.City))
+                                            {
+                                                <text>@item.StateName, </text>
+                                            }
+                                            else
+                                            {
+                                                <text>@item.StateName </text>
+                                            }
+                                        }
+
+                                        @if (!string.IsNullOrEmpty(item.City))
+                                        {
+
+                                            if (!string.IsNullOrEmpty(item.PinCode))
+                                            {
+                                                <text>@item.City, </text>
+                                            }
+                                            else
+                                            {
+                                                <text>@item.City </text>
+                                            }
+
+                                        }
+                                        @if (!string.IsNullOrEmpty(item.PinCode))
+                                        {
+                                            <text> @item.PinCode </text>
+                                        }
+                                    </td>
+
+                                    <td class="text-center">
+                                        @if (item.NominationAccepted == (int)EmpLeaveStatus.Pending)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-warning col-md-12 toggle-tooltip">Pending</span>
+                                            </h5>
+                                        }
+                                        else if (item.NominationAccepted == (int)EmpLeaveStatus.RejectedByAcceptanceAuthority)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-danger col-md-12 toggle-tooltip">Rejected</span>
+                                            </h5>
+                                        }
+                                        else if (item.NominationAccepted == (int)EmpLeaveStatus.InProcess)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-info col-md-12 toggle-tooltip">InProcess</span>
+                                            </h5>
+                                        }
+                                        else if (item.NominationAccepted == (int)EmpLeaveStatus.Approved)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-success col-md-12 toggle-tooltip">
+                                                    Approved
+                                                </span>
+                                            </h5>
+                                        }
+                                    </td>
+
+                                    <td class="text-center">
+                                        @if (item.NominationAccepted == (int)EmpLeaveStatus.InProcess)
+                                        {
+                                            totalparticipantpending = Model.participantsData.Where(x => x.NominationAccepted == (int)EmpLeaveStatus.InProcess).Count();
+
+                                            <a data-ajax="true"
+                                               method="POST" class="toggle-tooltip" title="Click here, to approve request."
+                                               data-ajax-update="#div-appTrainingPopup" data-ajax-mode="replace"
+                                               data-backdrop="static" data-keyboard="false"
+                                               href="@Url.Action("_GetTrainingApprovalPopup", "ApprovalRequest", new
+                                            {
+                                                employeeid=item.EmployeeID,
+                                                participantID = item.TrainingParticipantID,
+                                                actionType = "accept",
+                                                ApproverType = 2,
+                                                reportingTo = item.EmpProceeApproval.ReportingTo,
+                                                reviewerTo = item.EmpProceeApproval.ReviewingTo
+
+                                            })"
+                                               id="a_trainingpopup" data-toggle="modal" data-target="#div-training-approval-popup">
+                                                <i class="fa fa-check-square text-success fa-2x" aria-hidden="true"></i>
+                                            </a>
+
+                                            <text> | </text>
+                                            <a data-ajax="true"
+                                               method="POST" class="toggle-tooltip" title="Click here, to reject request."
+                                               data-ajax-update="#div-appTrainingPopup" data-ajax-mode="replace"
+                                               data-backdrop="static" data-keyboard="false"
+                                               href="@Url.Action("_GetTrainingApprovalPopup", "ApprovalRequest", new
+                                            {
+                                               employeeid=item.EmployeeID,
+                                                participantID = item.TrainingParticipantID,
+                                                actionType = "reject",
+                                                ApproverType = 2,
+                                                reportingTo = item.EmpProceeApproval.ReportingTo,
+                                                reviewerTo = item.EmpProceeApproval.ReviewingTo
+
+                                            })"
+                                               id="a_trainingpopupr" data-toggle="modal" data-target="#div-training-approval-popup">
+                                                <i class="fa fa-window-close text-danger fa-2x" aria-hidden="true"></i>
+                                            </a>
+                                        }
+                                    </td>
+
+                                </tr>
+                    }
+                }
+            }
+            else if (!item.EmpProceeApproval.ReviewingTo.HasValue && item.EmpProceeApproval.ReportingTo > 0)
+            {
+                if (item.EmpProceeApproval.ReportingTo > 0)
+                {
+                    if (item.NominationAccepted == (int)EmpLeaveStatus.Pending || item.NominationAccepted == (int)EmpLeaveStatus.RejectedByAcceptanceAuthority || item.NominationAccepted == (int)EmpLeaveStatus.Approved)
+                    {
+                                <tr>
+                                    <td style="width:10px;"> @sno</td>
+                                    <td> @item.EmployeeCode <text> - </text>  @item.EmployeeName </td>
+                                    <td> @item.TrainingName</td>
+                                    <td>
+                                        @item.StartDate.Value.ToString("dd-MM-yyyy") <text> To</text>
+                                        @item.EndDate.Value.ToString("dd-MM-yyyy")
+                                    </td>
+                                    <td>
+                                        @if (!string.IsNullOrEmpty(item.Address))
+                                        {
+                                            if (!string.IsNullOrEmpty(item.StateName))
+                                            {
+                                                <text>@item.Address, </text>
+                                            }
+                                            else
+                                            {
+                                                <text>@item.Address </text>
+                                            }
+                                        }
+                                        @if (!string.IsNullOrEmpty(item.StateName))
+                                        {
+                                            if (!string.IsNullOrEmpty(item.City))
+                                            {
+                                                <text>@item.StateName, </text>
+                                            }
+                                            else
+                                            {
+                                                <text>@item.StateName </text>
+                                            }
+                                        }
+
+                                        @if (!string.IsNullOrEmpty(item.City))
+                                        {
+
+                                            if (!string.IsNullOrEmpty(item.PinCode))
+                                            {
+                                                <text>@item.City, </text>
+                                            }
+                                            else
+                                            {
+                                                <text>@item.City </text>
+                                            }
+
+                                        }
+                                        @if (!string.IsNullOrEmpty(item.PinCode))
+                                        {
+                                            <text> @item.PinCode </text>
+                                        }
+                                    </td>
+
+                                    <td class="text-center">
+                                        @if (item.NominationAccepted == (int)EmpLeaveStatus.Pending)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-warning col-md-12 toggle-tooltip">Pending</span>
+                                            </h5>
+                                        }
+                                        else if (item.NominationAccepted == (int)EmpLeaveStatus.RejectedByAcceptanceAuthority)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-danger col-md-12 toggle-tooltip">Rejected</span>
+                                            </h5>
+                                        }
+                                        else if (item.NominationAccepted == (int)EmpLeaveStatus.Approved)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-success col-md-12 toggle-tooltip">
+                                                    Approved
+                                                </span>
+                                            </h5>
+                                        }
+                                    </td>
+
+                                    <td class="text-center">
+                                        @if (item.NominationAccepted == (int)EmpLeaveStatus.Pending)
+                                        {
+                                            totalparticipantpending = Model.participantsData.Where(x => x.NominationAccepted == (int)EmpLeaveStatus.Pending).Count();
+
+                                            <a data-ajax="true"
+                                               method="POST" class="toggle-tooltip" title="Click here, to approve request."
+                                               data-ajax-update="#div-appTrainingPopup" data-ajax-mode="replace"
+                                               data-backdrop="static" data-keyboard="false"
+                                               href="@Url.Action("_GetTrainingApprovalPopup", "ApprovalRequest", new
+                                            {
+                                                employeeid=item.EmployeeID,
+                                                participantID = item.TrainingParticipantID,
+                                                actionType = "accept",
+                                                ApproverType = 2,
+                                                reportingTo = item.EmpProceeApproval.ReportingTo,
+                                                reviewerTo = item.EmpProceeApproval.ReviewingTo
+
+                                            })"
+                                               id="a_trainingpopup" data-toggle="modal" data-target="#div-training-approval-popup">
+                                                <i class="fa fa-check-square text-success fa-2x" aria-hidden="true"></i>
+                                            </a>
+
+                                            <text> | </text>
+                                            <a data-ajax="true"
+                                               method="POST" class="toggle-tooltip" title="Click here, to reject request."
+                                               data-ajax-update="#div-appTrainingPopup" data-ajax-mode="replace"
+                                               data-backdrop="static" data-keyboard="false"
+                                               href="@Url.Action("_GetTrainingApprovalPopup", "ApprovalRequest", new
+                                            {
+                                                employeeid=item.EmployeeID,
+                                                participantID = item.TrainingParticipantID,
+                                                actionType = "reject",
+                                                ApproverType = 2,
+                                                reportingTo = item.EmpProceeApproval.ReportingTo,
+                                                reviewerTo = item.EmpProceeApproval.ReviewingTo
+
+                                            })"
+                                               id="a_trainingpopupr" data-toggle="modal" data-target="#div-training-approval-popup">
+                                                <i class="fa fa-window-close text-danger fa-2x" aria-hidden="true"></i>
+                                            </a>
+                                        }
+                                    </td>
+
+                                </tr>
+                    }
+                }
+            }
+
+            sno++;
+        }
+    }
+}
+
+    </tbody>
+</table>
+
+<style>
+    .tooltip-inner {
+        text-align: left;
+    }
+</style>
+
+<script type="text/javascript">
+    $("#trainingReqCount").text(@totalparticipantpending);
+    $('#tblGrid-Training').dataTable();
+</script>

@@ -1,0 +1,190 @@
+﻿@using Nafed.MicroPay.Model;
+@using MicroPay.Web.Models;
+@model TrainingFeedBackFormViewModel
+
+@{
+
+    Layout = null;
+    var message = TempData["Message"] == null ? "" : TempData["Message"].ToString();
+    var messageError = TempData["Error"] == null ? "" : TempData["Error"].ToString();
+    var visibilityClass = Model.RatingType == "N" ? null : "hide";
+}
+
+<script type="text/javascript">
+
+    $(function () {
+
+        $('input[type=radio][name=enumRatingType]').change(function () {
+            var checkedRadio = this.value;
+            if (checkedRadio == "Number")
+                $(".showhide").removeClass("hide");
+            else
+                $(".showhide").addClass("hide");
+        });
+    });
+
+    $(document).ready(function () {
+        $("#btnpopclose").click(function () {
+            $("#div-copy-feedback").attr("style", "display: none;");
+        });
+    });
+
+    function EditFeedbackSuccess(data) {
+        if (data.part == 1)
+            $("#div-Feedbackpart1-grid").html(data.htmlData);
+        else if (data.part == 2)
+            $("#div-Feedbackpart2-grid").html(data.htmlData);
+        else if (data.part == 3)
+            $("#div-Feedbackpart3-grid").html(data.htmlData);
+
+       else if (data.fff == 2) {
+            debugger;
+            $("#Tab8").html(data.htmlData);
+
+        }
+        else if (data.status == undefined) {
+            $('.nav-tabs li:eq(0) a').tab('show');
+            commonMessage(data.msgType, data.msg);
+        }
+    }
+
+    function TrainingFeedbackOnSuccess(data) {
+        debugger;
+        if (data.status = 1) {
+            $(".modal-backdrop").addClass('hide');
+            commonMessage(data.msgType, data.msg);
+            $("#Tab8").html(data.htmlData);
+        }
+    }
+
+</script>
+
+@using (Ajax.BeginForm("_EditEmployeeFeedbackForm", "Training", new AjaxOptions { HttpMethod = "POST", OnSuccess = "EditFeedbackSuccess" }, new { defaultbutton = "submitform" }))
+{
+    @Html.HiddenFor(model => Model.TrainingID)
+    @Html.HiddenFor(model => Model.FeedBackFormHdrID)
+
+    <div class="" style="margin-top:10px;">
+        <div class="">
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-12">
+
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                @*@Html.LabelFor(model => model.enumRatingType, htmlAttributes: new { @class = "control-label required" })*@
+                            </div>
+
+                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                @*<div class="container-fluid">
+                                    <div class="custom-control custom-radio">
+
+                                        @Html.RadioButtonFor(model => model.enumRatingType, "Number", new { id = "Number" })
+                                        @Html.LabelFor(model => model.RatingNumber, new { @for = "Number" })
+
+                                        @Html.RadioButtonFor(model => model.enumRatingType, "Grade", new { id = "Grade" })
+                                        @Html.LabelFor(model => model.RatingGrade, new { @for = "Grade" })
+
+                                        <br />
+                                        @Html.ValidationMessageFor(m => Model.enumRatingType, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>*@
+                            </div>
+
+                            @*<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 text-right">                                 
+                                <a data-ajax="true"
+                                   method="GET" class="toggle-tooltip" title="Click here to see Training List"
+                                   data-ajax-update="#div-copyfeedback-body" data-ajax-mode="replace"
+                                   data-backdrop="static" data-keyboard="false"
+                                   href="@Url.Action("_GetTrainingListPopup", "Training",new { trainingID=Model.TrainingID})"
+                                   id="a_trainfeedback" data-toggle="modal" data-target="#div-copy-feedback">
+                                    Copy Feedback Form from previous Training
+                                </a>                             
+                            </div>*@
+                        </div>
+
+                        @*<div class="row @visibilityClass showhide">
+                               <div class="col-lg-2 col-md-2 col-sm-6 col-xs-6">
+                                @Html.LabelFor(model => model.UpperRatingValue, htmlAttributes: new { @class = "control-label required" })
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-6 col-xs-6">
+                                @Html.EditorFor(model => Model.UpperRatingValue, new { htmlAttributes = new { @class = "form-control text-right required", @type = "number", @min = "1", @max = "10" } })
+                                @Html.ValidationMessageFor(model => Model.UpperRatingValue, "", new { @class = "text-danger" })
+
+                            </div>
+                        </div>*@
+                    </div>
+
+                    <div class="panel panel-default">
+
+                        <div class="panel-heading">Questions  @Html.ValidationMessage("QuestionValidator", "", new { @class = "text-danger" })</div>
+
+                        <div class="panel-body">
+
+                            @*<div class="row mb-3 text-right">
+
+                                <div class="col-md-12 pull-right">
+                                    
+                                </div>
+                            </div>*@
+                            <div id="div-Feedbackpart1-grid">
+                                @Html.Partial("_FeedbackFormPart1List", Model)
+                            </div>
+                            <div id="div-Feedbackpart2-grid">
+                                @Html.Partial("_FeedbackFormPart2List", Model)
+                            </div>
+                            <div id="div-Feedbackpart3-grid">
+                                @Html.Partial("_FeedbackFormPart3List", Model)
+                            </div>
+                        </div>
+                    </div>                                  
+
+
+                    <div class="form-group">
+
+                        <span class="pull-right">
+
+                            @*@Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-light btn-md toggle-tooltip", @title = "Click here, to redirect on list page" })*@
+                            @if (Model.FeedBackFormHdrID == 0)
+                            {
+                            <input type="submit" name="ButtonType" value="Generate Feedback Form" class="btn btn-info btn-md pull-center toggle-tooltip" title="Click here, to generate feedback form." />
+                            }
+                            else if (Model.FeedBackFormHdrID>0)
+                            {
+                                <input type="submit" name="ButtonType" value="Update" class="btn btn-info btn-md pull-center toggle-tooltip" title="Click here, to update feedback form." />
+                            }
+                        </span>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+}
+
+
+<div class="modal" id="div-copy-feedback">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4>Select Training to copy Feedback Questions</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body" id="div-copyfeedback-body">
+
+
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+
+            </div>
+
+        </div>
+    </div>
+</div>

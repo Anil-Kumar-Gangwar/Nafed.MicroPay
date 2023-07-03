@@ -1,0 +1,31 @@
+﻿
+@{
+    ViewBag.Title = "Form 12BB List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="">
+
+    <div class="card_new_body">
+
+        @using (Ajax.BeginForm("__Form12BBFilters", "ViewForm12BBList", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "div-form12BB-list" }))
+        {
+            <div id="div-from12BB-filters">
+
+                  @Html.Action("__Form12BBFilters")
+
+            </div>
+        }
+    </div>
+</div>
+
+
+<div class="card_new_body">
+
+    <div id="div-form12BB-list">
+
+
+    </div>
+
+</div>
+

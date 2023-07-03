@@ -1,0 +1,922 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="66fca1dc1254460e8c3ff13e526dab8b" Name="Diagram1" ZoomLevel="14">
+        <EntityTypeShape EntityType="MicroPayModel.AcadmicProfessionalDetail" Width="1.5" PointX="5.25" PointY="76.375" />
+        <EntityTypeShape EntityType="MicroPayModel.BloodGroup" Width="1.5" PointX="5.25" PointY="147.875" />
+        <EntityTypeShape EntityType="MicroPayModel.Branch" Width="1.5" PointX="7.5" PointY="133.75" />
+        <EntityTypeShape EntityType="MicroPayModel.Cadre" Width="1.5" PointX="5.25" PointY="121.5" />
+        <EntityTypeShape EntityType="MicroPayModel.CalendarYear" Width="1.5" PointX="5.25" PointY="129.5" />
+        <EntityTypeShape EntityType="MicroPayModel.Category" Width="1.5" PointX="5.25" PointY="44.75" />
+        <EntityTypeShape EntityType="MicroPayModel.City" Width="1.5" PointX="5.25" PointY="172.375" />
+        <EntityTypeShape EntityType="MicroPayModel.Department" Width="1.5" PointX="5.25" PointY="117" />
+        <EntityTypeShape EntityType="MicroPayModel.DepartmentRight" Width="1.5" PointX="10.5" PointY="111" />
+        <EntityTypeShape EntityType="MicroPayModel.Division" Width="1.5" PointX="5.25" PointY="56.75" />
+        <EntityTypeShape EntityType="MicroPayModel.Docment" Width="1.5" PointX="5.25" PointY="48.875" />
+        <EntityTypeShape EntityType="MicroPayModel.DocumentExtension" Width="1.5" PointX="5.25" PointY="64.625" />
+        <EntityTypeShape EntityType="MicroPayModel.EmailConfiguration" Width="1.5" PointX="5.25" PointY="107" />
+        <EntityTypeShape EntityType="MicroPayModel.EmployeeCategory" Width="1.5" PointX="5.25" PointY="140.125" />
+        <EntityTypeShape EntityType="MicroPayModel.EmployeeType" Width="1.5" PointX="5.25" PointY="144" />
+        <EntityTypeShape EntityType="MicroPayModel.Gender" Width="1.5" PointX="5.25" PointY="180.625" />
+        <EntityTypeShape EntityType="MicroPayModel.Grade" Width="1.5" PointX="5.25" PointY="168.625" />
+        <EntityTypeShape EntityType="MicroPayModel.LeavePurpose" Width="1.75" PointX="13.5" PointY="128.875" />
+        <EntityTypeShape EntityType="MicroPayModel.LeaveRule" Width="1.5" PointX="10.5" PointY="128.625" />
+        <EntityTypeShape EntityType="MicroPayModel.MaritalStatu" Width="1.5" PointX="5.25" PointY="60.625" />
+        <EntityTypeShape EntityType="MicroPayModel.Menu" Width="1.5" PointX="5.25" PointY="112.125" />
+        <EntityTypeShape EntityType="MicroPayModel.MotherTongue" Width="1.5" PointX="5.25" PointY="157.125" />
+        <EntityTypeShape EntityType="MicroPayModel.ProcessStage" Width="1.5" PointX="10.5" PointY="120.375" />
+        <EntityTypeShape EntityType="MicroPayModel.Relation" Width="1.5" PointX="5.25" PointY="164.75" />
+        <EntityTypeShape EntityType="MicroPayModel.Religion" Width="1.5" PointX="5.25" PointY="80.5" />
+        <EntityTypeShape EntityType="MicroPayModel.Section" Width="1.5" PointX="5.25" PointY="52.875" />
+        <EntityTypeShape EntityType="MicroPayModel.SMSConfiguration" Width="1.5" PointX="5.25" PointY="68.125" />
+        <EntityTypeShape EntityType="MicroPayModel.StaffGrievance" Width="1.5" PointX="9.75" PointY="115.125" />
+        <EntityTypeShape EntityType="MicroPayModel.State" Width="1.5" PointX="5.25" PointY="103.5" />
+        <EntityTypeShape EntityType="MicroPayModel.Title" Width="1.5" PointX="5.25" PointY="72.75" />
+        <EntityTypeShape EntityType="MicroPayModel.User" Width="1.5" PointX="3" PointY="98.5" />
+        <EntityTypeShape EntityType="MicroPayModel.UserRight" Width="1.5" PointX="10.5" PointY="107.125" />
+        <EntityTypeShape EntityType="MicroPayModel.UserType" Width="1.5" PointX="0.75" PointY="107.625" />
+        <EntityTypeShape EntityType="MicroPayModel.ArrearDetail" Width="1.5" PointX="5.25" PointY="84.125" />
+        <AssociationConnector Association="MicroPayModel.FK_AcadmicProfessionalDetails_CreatedBy" />
+        <AssociationConnector Association="MicroPayModel.FK_AcadmicProfessionalDetails_UpdatedBy" />
+        <AssociationConnector Association="MicroPayModel.FK_BloodGroup_CreatedBy" />
+        <AssociationConnector Association="MicroPayModel.FK_BloodGroup_UpdatedBy" />
+        <AssociationConnector Association="MicroPayModel.FK_Branch_CityID" />
+        <AssociationConnector Association="MicroPayModel.FK_Branch_CreatedBy" />
+        <AssociationConnector Association="MicroPayModel.FK_Branch_GradeID" />
+        <AssociationConnector Association="MicroPayModel.FK_Branch_UpdatedBy" />
+        <AssociationConnector Association="MicroPayModel.FK_StaffGrievances_BranchID" />
+        <AssociationConnector Association="MicroPayModel.FK_Cadre_CreatedBy" />
+        <AssociationConnector Association="MicroPayModel.FK_Cadre_UpdatedBy" />
+        <AssociationConnector Association="MicroPayModel.FK_LeaveRule_C_YearID" />
+        <AssociationConnector Association="MicroPayModel.FK_Category_CreatedBy" />
+        <AssociationConnector Association="MicroPayModel.FK_Category_UpdatedBy" />
+        <AssociationConnector Association="MicroPayModel.FK_City_CreatedBy" />
+        <AssociationConnector Association="MicroPayModel.FK_City_UpdatedBy" />
+        <AssociationConnector Association="MicroPayModel.FK_Department_CreatedBy" />
+        <AssociationConnector Association="MicroPayModel.FK_Department_UpdatedBy" />
+        <AssociationConnector Association="MicroPayModel.FK_DepartmentRights_Department" />
+        <AssociationConnector Association="MicroPayModel.FK_User_Department" />
+        <AssociationConnector Association="MicroPayModel.FK_UserRights_Department" />
+        <AssociationConnector Association="MicroPayModel.FK_DepartmentRights_CreatedBy" />
+        <AssociationConnector Association="MicroPayModel.FK_DepartmentRights_Menu" />
+        <AssociationConnector Association="MicroPayModel.FK_DepartmentRights_UpdatedBy" />
+        <AssociationConnector Association="MicroPayModel.FK_Division_CreatedBy" />
+        <AssociationConnector Association="MicroPayModel.FK_Division_UpdatedBy" />
+        <AssociationConnector Association="MicroPayModel.FK_Docment_User" />
+        <AssociationConnector Association="MicroPayModel.FK_Docment_User1" />
+        <AssociationConnector Association="MicroPayModel.FK_DocumentExtension_User" />
+        <AssociationConnector Association="MicroPayModel.FK_DocumentExtension_User1" />
+        <AssociationConnector Association="MicroPayModel.FK_EmailConfiguration_CreatedBy" />
+        <AssociationConnector Association="MicroPayModel.FK_EmailConfiguration_UpdatedBy" />
+        <AssociationConnector Association="MicroPayModel.FK_EmployeeCategory_CreatedBy" />
+        <AssociationConnector Association="MicroPayModel.FK_EmployeeCategory_UpdatedBy" />
+        <AssociationConnector Association="MicroPayModel.FK_EmployeeType_CreatedBy" />
+        <AssociationConnector Association="MicroPayModel.FK_EmployeeType_UpdatedBy" />
+        <AssociationConnector Association="MicroPayModel.FK_Gender_CreatedBy" />
+        <AssociationConnector Association="MicroPayModel.FK_Gender_UpdatedBy" />
+        <AssociationConnector Association="MicroPayModel.FK_Grade_CreatedBy" />
+        <AssociationConnector Association="MicroPayModel.FK_Grade_UpdatedBy" />
+        <AssociationConnector Association="MicroPayModel.FK_LeavePurpose_User" />
+        <AssociationConnector Association="MicroPayModel.FK_LeavePurpose_User1" />
+        <AssociationConnector Association="MicroPayModel.FK_LeaveRule_User" />
+        <AssociationConnector Association="MicroPayModel.FK_LeaveRule_User1" />
+        <AssociationConnector Association="MicroPayModel.FK_MaritalStatus_CreatedBy" />
+        <AssociationConnector Association="MicroPayModel.FK_MaritalStatus_UpdatedBy" />
+        <AssociationConnector Association="MicroPayModel.FK_Menu_CreatedBy" />
+        <AssociationConnector Association="MicroPayModel.FK_Menu_UpdatedBy" />
+        <AssociationConnector Association="MicroPayModel.FK_UserRights_Menu" />
+        <AssociationConnector Association="MicroPayModel.FK_MotherTongue_CreatedBy" />
+        <AssociationConnector Association="MicroPayModel.FK_MotherTongue_UpdatedBy" />
+        <AssociationConnector Association="MicroPayModel.FK_ProcessStage_User" />
+        <AssociationConnector Association="MicroPayModel.FK_ProcessStage_User1" />
+        <AssociationConnector Association="MicroPayModel.FK_Relation_CreatedBy" />
+        <AssociationConnector Association="MicroPayModel.FK_Relation_UpdatedBy" />
+        <AssociationConnector Association="MicroPayModel.FK_Religion_CreatedBy" />
+        <AssociationConnector Association="MicroPayModel.FK_Religion_UpdatedBy" />
+        <AssociationConnector Association="MicroPayModel.FK_Section_CreatedBy" />
+        <AssociationConnector Association="MicroPayModel.FK_Section_UpdatedBy" />
+        <AssociationConnector Association="MicroPayModel.FK_SMSConfiguration_CreatedBy" />
+        <AssociationConnector Association="MicroPayModel.FK_SMSConfiguration_UpdatedBy" />
+        <AssociationConnector Association="MicroPayModel.FK_StaffGrievances_CreatedBy" />
+        <AssociationConnector Association="MicroPayModel.FK_StaffGrievances_UpdatedBy" />
+        <AssociationConnector Association="MicroPayModel.FK_State_CreatedBy" />
+        <AssociationConnector Association="MicroPayModel.FK_State_UpdatedBy" />
+        <AssociationConnector Association="MicroPayModel.FK_Title_CreatedBy" />
+        <AssociationConnector Association="MicroPayModel.FK_Title_UpdatedBy" />
+        <AssociationConnector Association="MicroPayModel.FK_ArrearDetail_CreatedBy" />
+        <AssociationConnector Association="MicroPayModel.FK_ArrearDetail_UpdatedBy" />
+        <AssociationConnector Association="MicroPayModel.FK_User_User" />
+        <AssociationConnector Association="MicroPayModel.FK_User_UserType" />
+        <AssociationConnector Association="MicroPayModel.FK_UserRights_User" />
+        <EntityTypeShape EntityType="MicroPayModel.AttendanceType" Width="1.5" PointX="5.25" PointY="35.5" />
+        <AssociationConnector Association="MicroPayModel.FK_AttendanceType_User" />
+        <AssociationConnector Association="MicroPayModel.FK_AttendanceType_User1" />
+        <EntityTypeShape EntityType="MicroPayModel.Holiday" Width="1.5" PointX="12.75" PointY="120.75" />
+        <AssociationConnector Association="MicroPayModel.FK_Holiday_BranchID" />
+        <AssociationConnector Association="MicroPayModel.FK_Holiday_CreatedBy" />
+        <AssociationConnector Association="MicroPayModel.FK_Holiday_UpdatedBy" />
+        <EntityTypeShape EntityType="MicroPayModel.LeaveStatu" Width="1.5" PointX="5.25" PointY="185.125" />
+        <AssociationConnector Association="MicroPayModel.FK_LeaveStatus_CreatedBy" />
+        <AssociationConnector Association="MicroPayModel.FK_LeaveStatus_UpdatedBy" />
+        <EntityTypeShape EntityType="MicroPayModel.EmployeeDeputation" Width="1.5" PointX="18" PointY="112.875" />
+        <EntityTypeShape EntityType="MicroPayModel.tblMstBank" Width="1.5" PointX="5.625" PointY="7.375" />
+        <EntityTypeShape EntityType="MicroPayModel.tblMstDailyWageRate" Width="1.5" PointX="8.75" PointY="4.75" />
+        <EntityTypeShape EntityType="MicroPayModel.tblmstFDA" Width="1.5" PointX="7.625" PointY="8.125" />
+        <EntityTypeShape EntityType="MicroPayModel.tblMstHillComp" Width="1.5" PointX="10.125" PointY="135.875" />
+        <EntityTypeShape EntityType="MicroPayModel.tblOTARate" Width="1.5" PointX="0.75" PointY="9.75" />
+        <EntityTypeShape EntityType="MicroPayModel.tblWashingAllowance" Width="1.5" PointX="5.25" PointY="126" IsExpanded="false" />
+        <AssociationConnector Association="MicroPayModel.FK_tblMstHillComp_Branch" />
+        <EntityTypeShape EntityType="MicroPayModel.tblCCAMaster" Width="1.5" PointX="11.375" PointY="0.75" />
+        <EntityTypeShape EntityType="MicroPayModel.tblCEARate" Width="1.5" PointX="11.375" PointY="4.75" />
+        <EntityTypeShape EntityType="MicroPayModel.TblHeadLookup" Width="1.5" PointX="5.375" PointY="12.75" />
+        <EntityTypeShape EntityType="MicroPayModel.tblLeaveUpdate" Width="1.5" PointX="7.5" PointY="153.25" />
+        <EntityTypeShape EntityType="MicroPayModel.tblMedicalLeaveUpdate" Width="1.5" PointX="7.5" PointY="156.25" />
+        <EntityTypeShape EntityType="MicroPayModel.tblLeaveBal" Width="1.5" PointX="5.25" PointY="27.625" />
+        <AssociationConnector Association="MicroPayModel.FK_tblLeaveBal_User" />
+        <AssociationConnector Association="MicroPayModel.FK_tblLeaveBal_User1" />
+        <AssociationConnector Association="MicroPayModel.FK_CCAMaster_CreatedBy" />
+        <AssociationConnector Association="MicroPayModel.FK_CCAMaster_UpdatedBy" />
+        <AssociationConnector Association="MicroPayModel.FK_HeadLookup_CreatedBy" />
+        <AssociationConnector Association="MicroPayModel.FK_HeadLookup_UpdatedBy" />
+        <AssociationConnector Association="MicroPayModel.FK_Bank_CreatedBy" />
+        <AssociationConnector Association="MicroPayModel.FK_Bank_UpdatedBy" />
+        <AssociationConnector Association="MicroPayModel.FK_DailyWageRate_CreatedBy" />
+        <AssociationConnector Association="MicroPayModel.FK_DailyWageRate_UpdatedBy" />
+        <AssociationConnector Association="MicroPayModel.FK_FDA_CreatedBy" />
+        <AssociationConnector Association="MicroPayModel.FK_FDA_UpdatedBy" />
+        <AssociationConnector Association="MicroPayModel.FK_OTARate_CreatedBy1" />
+        <AssociationConnector Association="MicroPayModel.FK_OTARate_UpdatedBy1" />
+        <AssociationConnector Association="MicroPayModel.FK_WashingAllowance_CreatedBy" />
+        <AssociationConnector Association="MicroPayModel.FK_WashingAllowance_UpdatedBy" />
+        <EntityTypeShape EntityType="MicroPayModel.SlabWiseHeadBreakup" Width="1.5" PointX="12.75" PointY="116" />
+        <AssociationConnector Association="MicroPayModel.FK_SlabWiseHeadBreakup_Branch" />
+        <AssociationConnector Association="MicroPayModel.FK_SlabWiseHeadBreakup_User" />
+        <AssociationConnector Association="MicroPayModel.FK_SlabWiseHeadBreakup_User1" />
+        <AssociationConnector Association="MicroPayModel.FK_SlabWiseHeadBreakup_User2" />
+        <EntityTypeShape EntityType="MicroPayModel.EmpAttendanceDetail" Width="1.5" PointX="23.25" PointY="85.75" />
+        <AssociationConnector Association="MicroPayModel.FK_Tbl_Proxy_Attendance_AttendanceType1" />
+        <AssociationConnector Association="MicroPayModel.FK_Tbl_Proxy_Attendance_Branch1" />
+        <AssociationConnector Association="MicroPayModel.FK_Tbl_Proxy_Attendance_User2" />
+        <AssociationConnector Association="MicroPayModel.FK_Tbl_Proxy_Attendance_User11" />
+        <EntityTypeShape EntityType="MicroPayModel.FormGroupActivity" Width="1.5" PointX="5.25" PointY="152.25" />
+        <AssociationConnector Association="MicroPayModel.FK_FormGroupActivity_FormGroupActivity" />
+        <AssociationConnector Association="MicroPayModel.FK_FormGroupActivity_User" />
+        <EntityTypeShape EntityType="MicroPayModel.FormGroupADetail1" PointX="28.25" PointY="111" Width="3.25" />
+        <AssociationConnector Association="MicroPayModel.FK_FormGroupADetail1_User" />
+        <AssociationConnector Association="MicroPayModel.FK_FormGroupADetail1_User1" />
+        <EntityTypeShape EntityType="MicroPayModel.Mail_Process" Width="1.5" PointX="5.375" PointY="1.125" />
+        <EntityTypeShape EntityType="MicroPayModel.Mail_Process_Content" Width="1.5" PointX="7.625" PointY="0.875" />
+        <AssociationConnector Association="MicroPayModel.FK__Mail_Proc__IsDel__2BB53C3A" />
+        <EntityTypeShape EntityType="MicroPayModel.FormGroupADetail2" Width="1.5" PointX="26.25" PointY="116" />
+        <AssociationConnector Association="MicroPayModel.FK_FormGroupADetail_User" />
+        <AssociationConnector Association="MicroPayModel.FK_FormGroupADetail_User1" />
+        <EntityTypeShape EntityType="MicroPayModel.FormGroupCDetail1" Width="1.5" PointX="25.25" PointY="106.25" />
+        <EntityTypeShape EntityType="MicroPayModel.FormGroupCDetail2" Width="1.5" PointX="20.25" PointY="106" />
+        <AssociationConnector Association="MicroPayModel.FK_FormGroupCDetail1_User" />
+        <AssociationConnector Association="MicroPayModel.FK_FormGroupCDetail1_User1" />
+        <AssociationConnector Association="MicroPayModel.FK_FormGroupCDetail_User" />
+        <AssociationConnector Association="MicroPayModel.FK_FormGroupCDetail_User1" />
+        <EntityTypeShape EntityType="MicroPayModel.LeaveType" Width="1.5" PointX="3.375" PointY="3.75" />
+        <EntityTypeShape EntityType="MicroPayModel.Process" Width="1.5" PointX="8.25" PointY="109.875" />
+        <AssociationConnector Association="MicroPayModel.FK_ProcessStage_Process" />
+        <EntityTypeShape EntityType="MicroPayModel.LeaveCreditRule" Width="1.5" PointX="15.75" PointY="128.75" />
+        <AssociationConnector Association="MicroPayModel.FK_LeaveCreditRule_C_YearID" />
+        <AssociationConnector Association="MicroPayModel.FK_LeaveCreditRule_EmployeeTypeID" />
+        <AssociationConnector Association="MicroPayModel.FK_LeaveCreditRule_User" />
+        <AssociationConnector Association="MicroPayModel.FK_LeaveCreditRule_User1" />
+        <EntityTypeShape EntityType="MicroPayModel.EmployeeLeave" Width="1.5" PointX="18" PointY="138.25" />
+        <AssociationConnector Association="MicroPayModel.FK_EmployeeLeave_CreatedBy" />
+        <AssociationConnector Association="MicroPayModel.FK_EmployeeLeave_LeavePurposeID" />
+        <AssociationConnector Association="MicroPayModel.FK_EmployeeLeave_StatusID" />
+        <AssociationConnector Association="MicroPayModel.FK_EmployeeLeave_UpdatedBy" />
+        <EntityTypeShape EntityType="MicroPayModel.FormGroupTrainingDtl" Width="1.5" PointX="12.75" PointY="105.5" />
+        <AssociationConnector Association="MicroPayModel.FK_FormGroupTrainingDtls_User" />
+        <AssociationConnector Association="MicroPayModel.FK_FormGroupTrainingDtls_User1" />
+        <EntityTypeShape EntityType="MicroPayModel.FormGroupEDetail1" Width="1.5" PointX="35.25" PointY="115.375" />
+        <EntityTypeShape EntityType="MicroPayModel.FormGroupEDetail2" Width="1.5" PointX="38.25" PointY="112.125" />
+        <AssociationConnector Association="MicroPayModel.FK_FormGroupEDetail1_User" />
+        <AssociationConnector Association="MicroPayModel.FK_FormGroupEDetail1_User1" />
+        <AssociationConnector Association="MicroPayModel.FK_FormGroupEDetail_User" />
+        <AssociationConnector Association="MicroPayModel.FK_FormGroupEDetail_User1" />
+        <EntityTypeShape EntityType="MicroPayModel.FormGroupFDetail1" Width="1.5" PointX="38.25" PointY="107.625" />
+        <EntityTypeShape EntityType="MicroPayModel.FormGroupFDetail2" Width="1.5" PointX="35.25" PointY="110.375" />
+        <AssociationConnector Association="MicroPayModel.FK_FormGroupFDetail1_User" />
+        <AssociationConnector Association="MicroPayModel.FK_FormGroupFDetail1_User1" />
+        <AssociationConnector Association="MicroPayModel.FK_FormGroupFDetail_User" />
+        <AssociationConnector Association="MicroPayModel.FK_FormGroupFDetail_User1" />
+        <EntityTypeShape EntityType="MicroPayModel.FormGroupBDetail1" Width="1.5" PointX="25.25" PointY="111.375" />
+        <EntityTypeShape EntityType="MicroPayModel.FormGroupBDetail2" Width="1.5" PointX="26.25" PointY="121.125" />
+        <AssociationConnector Association="MicroPayModel.FK_FormGroupBDetail1_User" />
+        <AssociationConnector Association="MicroPayModel.FK_FormGroupBDetail1_User1" />
+        <AssociationConnector Association="MicroPayModel.FK_FormGroupBDetail_User" />
+        <AssociationConnector Association="MicroPayModel.FK_FormGroupBDetail_User1" />
+        <EntityTypeShape EntityType="MicroPayModel.LeaveCategory" Width="1.5" PointX="7.5" PointY="119.375" />
+        <AssociationConnector Association="MicroPayModel.FK_EmployeeLeave_LeaveCategoryID" />
+        <AssociationConnector Association="MicroPayModel.FK_LeaveCategory_EmployeeTypeID" />
+        <AssociationConnector Association="MicroPayModel.FK_LeaveCategoryID" />
+        <AssociationConnector Association="MicroPayModel.FK_LeaveCategoryID3" />
+        <AssociationConnector Association="MicroPayModel.FK_LeaveCreditRule_LeaveCategoryID" />
+        <AssociationConnector Association="MicroPayModel.FK_LeavePurpose_LeaveCategory" />
+        <AssociationConnector Association="MicroPayModel.FK_LeaveRule_LeaveCategoryID" />
+        <AssociationConnector Association="MicroPayModel.FK_ManageLeaveCategory_User" />
+        <AssociationConnector Association="MicroPayModel.FK_ManageLeaveCategory_User1" />
+        <EntityTypeShape EntityType="MicroPayModel.EmployeeDependent" Width="1.5" PointX="21" PointY="140.625" />
+        <AssociationConnector Association="MicroPayModel.FK_EmployeeDependant_CreatedBy" />
+        <AssociationConnector Association="MicroPayModel.FK_EmployeeDependant_UpdatedBy" />
+        <AssociationConnector Association="MicroPayModel.FK_EmployeeDependent_Gender" />
+        <AssociationConnector Association="MicroPayModel.FK_EmployeeDependent_Relation" />
+        <EntityTypeShape EntityType="MicroPayModel.EmployeeProcessApproval" Width="1.5" PointX="18" PointY="117.375" />
+        <AssociationConnector Association="MicroPayModel.FK_EmployeeProcessApproval_CreatedBy" />
+        <AssociationConnector Association="MicroPayModel.FK_EmployeeProcessApproval_ProcessID" />
+        <AssociationConnector Association="MicroPayModel.FK_EmployeeProcessApproval_UpdatedBy" />
+        <AssociationConnector Association="MicroPayModel.FK_EmployeeProcessApproval_UserType" />
+        <EntityTypeShape EntityType="MicroPayModel.tblLastIncrementMonth" Width="1.5" PointX="5.375" PointY="3.75" />
+        <EntityTypeShape EntityType="MicroPayModel.Skill" Width="1.5" PointX="14.625" PointY="9" />
+        <EntityTypeShape EntityType="MicroPayModel.SkillType" Width="1.5" PointX="12.375" PointY="9" />
+        <AssociationConnector Association="MicroPayModel.FK_Skill_SkillType" />
+        <EntityTypeShape EntityType="MicroPayModel.tblpromotion" Width="1.5" PointX="24" PointY="97" />
+        <AssociationConnector Association="MicroPayModel.FK_tblpromotion_Cadre" />
+        <EntityTypeShape EntityType="MicroPayModel.tblmsttransfer" Width="1.5" PointX="18" PointY="123.375" />
+        <AssociationConnector Association="MicroPayModel.FK__tblmsttra__Branc__7D1A48E2" />
+        <AssociationConnector Association="MicroPayModel.FK__tblmsttra__Creat__7E0E6D1B" />
+        <AssociationConnector Association="MicroPayModel.FK__tblmsttra__Updat__7F029154" />
+        <EntityTypeShape EntityType="MicroPayModel.APARSkillSetDetail" Width="1.5" PointX="5.25" PointY="134" />
+        <AssociationConnector Association="MicroPayModel.FK_APARSkillSetDetails_User" />
+        <AssociationConnector Association="MicroPayModel.FK_APARSkillSetDetails_User1" />
+        <EntityTypeShape EntityType="MicroPayModel.APARSkillSetFormHdr" Width="1.5" PointX="28" PointY="106.625" />
+        <AssociationConnector Association="MicroPayModel.FK_APARSkillSetFormHdr_User" />
+        <AssociationConnector Association="MicroPayModel.FK_APARSkillSetFormHdr_User1" />
+        <EntityTypeShape EntityType="MicroPayModel.tblBranchManagerDetail" Width="1.5" PointX="26" PointY="126.25" />
+        <AssociationConnector Association="MicroPayModel.FK_tblBranchManagerDetail_Branch" />
+        <AssociationConnector Association="MicroPayModel.FK_tblBranchManagerDetail_User" />
+        <AssociationConnector Association="MicroPayModel.FK_tblBranchManagerDetail_User1" />
+        <EntityTypeShape EntityType="MicroPayModel.ConfirmationForm" Width="1.5" PointX="12.375" PointY="12.75" />
+        <EntityTypeShape EntityType="MicroPayModel.tblPropertyReturn" Width="1.5" PointX="20.25" PointY="111.25" />
+        <AssociationConnector Association="MicroPayModel.FK_tblPropertyReturn_CreatedBy" />
+        <AssociationConnector Association="MicroPayModel.FK_tblPropertyReturn_UpdatedBy" />
+        <EntityTypeShape EntityType="MicroPayModel.CandidateGovtWorkExperience" Width="1.5" PointX="31.25" PointY="126" />
+        <EntityTypeShape EntityType="MicroPayModel.CandidateWorkExperience" Width="1.5" PointX="23.25" PointY="129.25" />
+        <AssociationConnector Association="MicroPayModel.FK_CandidateGovtWorkExperience_User" />
+        <AssociationConnector Association="MicroPayModel.FK_CandidateGovtWorkExperience_User1" />
+        <AssociationConnector Association="MicroPayModel.FK_CandidateWorkExperince_User" />
+        <AssociationConnector Association="MicroPayModel.FK_CandidateWorkExperince_User1" />
+        <EntityTypeShape EntityType="MicroPayModel.JobRequirementLocation" Width="1.5" PointX="12.5" PointY="125.375" />
+        <AssociationConnector Association="MicroPayModel.FK_JobRequirementLocation_Branch" />
+        <EntityTypeShape EntityType="MicroPayModel.Requirement" Width="1.5" PointX="9.75" PointY="89.875" />
+        <AssociationConnector Association="MicroPayModel.FK_Requirement_Branch" />
+        <AssociationConnector Association="MicroPayModel.FK_JobRequirementLocation_Requirement" />
+        <AssociationConnector Association="MicroPayModel.FK_Requirement_User" />
+        <AssociationConnector Association="MicroPayModel.FK_Requirement_User1" />
+        <EntityTypeShape EntityType="MicroPayModel.JobRequirementQualification" Width="1.5" PointX="12" PointY="90" />
+        <AssociationConnector Association="MicroPayModel.FK_JobRequirementQualification_Requirement" />
+        <EntityTypeShape EntityType="MicroPayModel.ExamCenterDetail" Width="1.5" PointX="21" PointY="126.125" />
+        <AssociationConnector Association="MicroPayModel.FK_ExamCenterDetails_Branch" />
+        <AssociationConnector Association="MicroPayModel.FK_ExamCenterDetails_Requirement" />
+        <EntityTypeShape EntityType="MicroPayModel.CandidateRegistration" Width="1.5" PointX="26.625" PointY="132.375" />
+        <AssociationConnector Association="MicroPayModel.FK_CandidateRegistration_BloodGroup" />
+        <AssociationConnector Association="MicroPayModel.FK_CandidateRegistration_Branch" />
+        <AssociationConnector Association="MicroPayModel.FK_CandidateGovtWorkExperience_CandidateRegistration" />
+        <AssociationConnector Association="MicroPayModel.FK_CandidateRegistration_Gender" />
+        <AssociationConnector Association="MicroPayModel.FK_CandidateRegistration_MaritalStatus" />
+        <AssociationConnector Association="MicroPayModel.FK_CandidateRegistration_Religion" />
+        <AssociationConnector Association="MicroPayModel.FK_CandidateRegistration_Requirement" />
+        <AssociationConnector Association="MicroPayModel.FK_CandidateRegistration_State" />
+        <AssociationConnector Association="MicroPayModel.FK_CandidateRegistration_User" />
+        <AssociationConnector Association="MicroPayModel.FK_CandidateRegistration_User1" />
+        <AssociationConnector Association="MicroPayModel.FK_CandidateWorkExperience_CandidateRegistration" />
+        <EntityTypeShape EntityType="MicroPayModel.CandidateEducationSummary" Width="1.5" PointX="38.875" PointY="124.875" />
+        <AssociationConnector Association="MicroPayModel.FK_CandidateEducationSummary_CandidateRegistration" />
+        <AssociationConnector Association="MicroPayModel.FK_CandidateEducationSummary_User" />
+        <AssociationConnector Association="MicroPayModel.FK_CandidateEducationSummary_User1" />
+        <EntityTypeShape EntityType="MicroPayModel.TrainingDocumentRepository" Width="1.5" PointX="35.875" PointY="95.375" />
+        <AssociationConnector Association="MicroPayModel.FK_TrainingDocumentRepository_User" />
+        <AssociationConnector Association="MicroPayModel.FK_TrainingDocumentRepository_User1" />
+        <EntityTypeShape EntityType="MicroPayModel.TrainingParticipant" Width="1.5" PointX="24" PointY="92.375" />
+        <AssociationConnector Association="MicroPayModel.FK_TrainingParticipants_User" />
+        <AssociationConnector Association="MicroPayModel.FK_TrainingParticipants_User1" />
+        <EntityTypeShape EntityType="MicroPayModel.TrainingPrerequisite" Width="1.5" PointX="25.875" PointY="86.25" />
+        <AssociationConnector Association="MicroPayModel.FK_TrainingPrerequisite_User" />
+        <AssociationConnector Association="MicroPayModel.FK_TrainingPrerequisite_User1" />
+        <EntityTypeShape EntityType="MicroPayModel.TrainingFeedBackFormDtl" Width="1.5" PointX="41.125" PointY="124.75" />
+        <AssociationConnector Association="MicroPayModel.FK_TrainingFeedBackFormDtl_User" />
+        <AssociationConnector Association="MicroPayModel.FK_TrainingFeedBackFormDtl_User1" />
+        <EntityTypeShape EntityType="MicroPayModel.TrainingFeedBackFormHdr" Width="1.5" PointX="28.875" PointY="85.75" />
+        <AssociationConnector Association="MicroPayModel.FK_TrainingFeedBackFormDtl_TrainingFeedBackFormHdr" />
+        <AssociationConnector Association="MicroPayModel.FK_TrainingFeedBackForm_User" />
+        <AssociationConnector Association="MicroPayModel.FK_TrainingFeedBackForm_User1" />
+        <EntityTypeShape EntityType="MicroPayModel.Training" Width="1.5" PointX="14.625" PointY="73.5" />
+        <AssociationConnector Association="MicroPayModel.FK_Training_SkillType" />
+        <AssociationConnector Association="MicroPayModel.FK_Training_State" />
+        <AssociationConnector Association="MicroPayModel.FK_Training_CreatedBy" />
+        <AssociationConnector Association="MicroPayModel.FK_Training_UpdatedBy" />
+        <AssociationConnector Association="MicroPayModel.FK_TrainingDocumentRepository_Training" />
+        <AssociationConnector Association="MicroPayModel.FK_TrainingFeedBackForm_Training" />
+        <AssociationConnector Association="MicroPayModel.FK_TrainingParticipants_Training" />
+        <AssociationConnector Association="MicroPayModel.FK_TrainingPrerequisite_Training" />
+        <EntityTypeShape EntityType="MicroPayModel.TrainingFeedbackDetail" Width="1.5" PointX="43.375" PointY="107.75" />
+        <AssociationConnector Association="MicroPayModel.FK_TrainingFeedbackDetails_Training" />
+        <AssociationConnector Association="MicroPayModel.FK_TrainingFeedbackDetails_TrainingFeedBackFormDtl" />
+        <AssociationConnector Association="MicroPayModel.FK_TrainingFeedbackDetails_TrainingFeedBackFormHdr" />
+        <AssociationConnector Association="MicroPayModel.FK_TrainingFeedbackDetails_User" />
+        <AssociationConnector Association="MicroPayModel.FK_TrainingFeedbackDetails_User1" />
+        <EntityTypeShape EntityType="MicroPayModel.tblMstLoanType" Width="1.5" PointX="7.5" PointY="18.125" />
+        <EntityTypeShape EntityType="MicroPayModel.tblmstbankrate" Width="1.5" PointX="5.25" PointY="189.5" />
+        <AssociationConnector Association="MicroPayModel.FK_bankRate_CreatedBy2" />
+        <AssociationConnector Association="MicroPayModel.FK_bankRate_UpdatedBy1" />
+        <EntityTypeShape EntityType="MicroPayModel.tblLoanAdjustOld" Width="1.5" PointX="7.375" PointY="11.75" />
+        <EntityTypeShape EntityType="MicroPayModel.APARSkillSet" Width="1.5" PointX="28.75" PointY="115.875" />
+        <AssociationConnector Association="MicroPayModel.FK_APARSkillSet_Department" />
+        <AssociationConnector Association="MicroPayModel.FK_APARSkillSet_User" />
+        <AssociationConnector Association="MicroPayModel.FK_APARSkillSet_User1" />
+        <EntityTypeShape EntityType="MicroPayModel.tblFinalMonthlySalary" Width="1.5" PointX="41" PointY="86" />
+        <AssociationConnector Association="MicroPayModel.FK__tblFinalM__Branc__04FB61CC" />
+        <AssociationConnector Association="MicroPayModel.FK__tblFinalM__Creat__05EF8605" />
+        <AssociationConnector Association="MicroPayModel.FK__tblFinalM__Updat__0313195A" />
+        <EntityTypeShape EntityType="MicroPayModel.TBLMONTHLYINPUT" Width="1.5" PointX="42" PointY="130" />
+        <AssociationConnector Association="MicroPayModel.FK__TBLMONTHL__Branc__6148113B" />
+        <AssociationConnector Association="MicroPayModel.FK_TBLMONTHLYINPUT_User" />
+        <AssociationConnector Association="MicroPayModel.FK_TBLMONTHLYINPUT_User1" />
+        <AssociationConnector Association="MicroPayModel.FK__tblMstLoa__Creat__0861DE5C" />
+        <AssociationConnector Association="MicroPayModel.FK__tblMstLoa__Updat__09560295" />
+        <EntityTypeShape EntityType="MicroPayModel.tblLoanTran" Width="1.5" PointX="18" PointY="73.125" />
+        <AssociationConnector Association="MicroPayModel.FK__tblLoanTr__Branc__7ED87422" />
+        <AssociationConnector Association="MicroPayModel.FK__tblLoanTr__LoanT__7FCC985B" />
+        <EntityTypeShape EntityType="MicroPayModel.tblLeaveTran" Width="1.5" PointX="20.25" PointY="134.625" />
+        <AssociationConnector Association="MicroPayModel.FK_tblLeaveTransOLD_EmployeeLeave" />
+        <EntityTypeShape EntityType="MicroPayModel.tblEmployeeQualificationdetail" Width="1.5" PointX="21" PointY="130.25" />
+        <AssociationConnector Association="MicroPayModel.FK_tblEmployeeQualificationdetail_QID" />
+        <AssociationConnector Association="MicroPayModel.FK_tblEmployeeQualificationdetail_CreatedBy" />
+        <AssociationConnector Association="MicroPayModel.FK_tblEmployeeQualificationdetail_UpdatedBy" />
+        <EntityTypeShape EntityType="MicroPayModel.DashboardDocumentHdr" Width="1.5" PointX="8" PointY="127.5" />
+        <EntityTypeShape EntityType="MicroPayModel.DashboardDocument" Width="1.5" PointX="10.25" PointY="124.625" />
+        <AssociationConnector Association="MicroPayModel.FK_DashboardDocuments_DashboardDocumentHdr" />
+        <AssociationConnector Association="MicroPayModel.FK_DashboardDocuments_User" />
+        <AssociationConnector Association="MicroPayModel.FK_DashboardDocuments_User1" />
+        <EntityTypeShape EntityType="MicroPayModel.TblArrearMonthlyInput" Width="1.5" PointX="32" PointY="131.875" />
+        <AssociationConnector Association="MicroPayModel.FK_TblArrearMonthlyInput_CreatedBy" />
+        <AssociationConnector Association="MicroPayModel.FK_TblArrearMonthlyInput_UpdatedBy" />
+        <EntityTypeShape EntityType="MicroPayModel.TblActualArrear" Width="1.5" PointX="5.25" PointY="194" />
+        <AssociationConnector Association="MicroPayModel.FK_TblActualArrear_CreatedBy" />
+        <AssociationConnector Association="MicroPayModel.FK_TblActualArrear_UpdatedBy" />
+        <EntityTypeShape EntityType="MicroPayModel.tblarrearmanualdata" Width="1.5" PointX="44" PointY="74.875" />
+        <AssociationConnector Association="MicroPayModel.FK_tblarrearmanualdata_Branch" />
+        <AssociationConnector Association="MicroPayModel.FK_tblarrearmanualdata_CreatedBy" />
+        <AssociationConnector Association="MicroPayModel.FK_tblarrearmanualdata_UpdatedBy" />
+        <EntityTypeShape EntityType="MicroPayModel.FileTrackingType" Width="1.5" PointX="5.25" PointY="176.875" />
+        <AssociationConnector Association="MicroPayModel.FK_FileTrackingType_CreatedBy" />
+        <AssociationConnector Association="MicroPayModel.FK_FileTrackingType_UpdatedBy" />
+        <EntityTypeShape EntityType="MicroPayModel.FileTrackingDocument" Width="1.5" PointX="43.5" PointY="122.875" />
+        <AssociationConnector Association="MicroPayModel.FK_FileTrackingDocuments_CreatedBy" />
+        <AssociationConnector Association="MicroPayModel.FK_FileTrackingDocuments_UpdatedBy" />
+        <EntityTypeShape EntityType="MicroPayModel.ProcessWorkFlow" Width="1.5" PointX="9.375" PointY="11.75" />
+        <EntityTypeShape EntityType="MicroPayModel.FileManagement" Width="1.5" PointX="31.25" PointY="136.625" />
+        <AssociationConnector Association="MicroPayModel.FK_FileManagement_Department" />
+        <AssociationConnector Association="MicroPayModel.FK_FileManagement_FileTrackingType" />
+        <AssociationConnector Association="MicroPayModel.FK_FileManagement_User" />
+        <AssociationConnector Association="MicroPayModel.FK_FileManagement_User1" />
+        <AssociationConnector Association="MicroPayModel.FK_FileTrackingDocuments_FileManagement" />
+        <EntityTypeShape EntityType="MicroPayModel.tblMstCity" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="MicroPayModel.salaryheadshistory" Width="1.5" PointX="7.5" PointY="160.5" />
+        <AssociationConnector Association="MicroPayModel.FK_salaryheadshistory_EmployeeType" />
+        <EntityTypeShape EntityType="MicroPayModel.MonthlyTCSFile" Width="1.5" PointX="5.25" PointY="198.25" />
+        <AssociationConnector Association="MicroPayModel.FK_MonthlyTCSFile_User" />
+        <AssociationConnector Association="MicroPayModel.FK_MonthlyTCSFile_User1" />
+        <EntityTypeShape EntityType="MicroPayModel.SalaryHead" Width="1.5" PointX="15.5" PointY="134.375" />
+        <AssociationConnector Association="MicroPayModel.FK_SalaryHeads_EmployeeType" />
+        <AssociationConnector Association="MicroPayModel.FK_SalaryHeads_User" />
+        <AssociationConnector Association="MicroPayModel.FK_SalaryHeads_User1" />
+        <EntityTypeShape EntityType="MicroPayModel.tblGisDeduction" Width="1.5" PointX="5.25" PointY="202.25" />
+        <AssociationConnector Association="MicroPayModel.FK_GISDeduction_CreatedBy" />
+        <AssociationConnector Association="MicroPayModel.FK_GISDeduction_UpdatedBy" />
+        <AssociationConnector Association="MicroPayModel.FK__tblLoanTr__Creat__11813442" />
+        <AssociationConnector Association="MicroPayModel.FK__tblLoanTr__Updat__1551C526" />
+        <EntityTypeShape EntityType="MicroPayModel.TblArrearDetail" Width="1.5" PointX="39" PointY="135.75" />
+        <AssociationConnector Association="MicroPayModel.FK__TblArrear__Branc__1D27F118" />
+        <AssociationConnector Association="MicroPayModel.FK_TBLARREARDETAIL_User2" />
+        <AssociationConnector Association="MicroPayModel.FK_TBLARREARDETAIL_User3" />
+        <EntityTypeShape EntityType="MicroPayModel.tblmstProjectedEmployeeSalary" Width="1.5" PointX="36" PointY="120.375" />
+        <AssociationConnector Association="MicroPayModel.FK_tblmstProjectedEmployeeSalary_Branch" />
+        <EntityTypeShape EntityType="MicroPayModel.TblMstEmployeeSalary" Width="1.5" PointX="29" PointY="120.5" />
+        <AssociationConnector Association="MicroPayModel.FK_TblMstEmployeeSalary_Branch" />
+        <AssociationConnector Association="MicroPayModel.FK_TblMstEmployeeSalary_User" />
+        <AssociationConnector Association="MicroPayModel.FK_TblMstEmployeeSalary_User1" />
+        <EntityTypeShape EntityType="MicroPayModel.TBLGRATIADUMMY" Width="1.5" PointX="24.25" PointY="141" />
+        <AssociationConnector Association="MicroPayModel.FK__TBLGRATIA__Creat__35BE94B8" />
+        <AssociationConnector Association="MicroPayModel.FK__TBLGRATIA__Updat__36B2B8F1" />
+        <EntityTypeShape EntityType="MicroPayModel.tblMstEmployee" Width="1.5" PointX="15.75" PointY="85.125" />
+        <EntityTypeShape EntityType="MicroPayModel.tblmstprojectedemployee" Width="1.5" PointX="7.5" PointY="47.875" />
+        <AssociationConnector Association="MicroPayModel.FK_tblMstEmployee_QAcademicID" />
+        <AssociationConnector Association="MicroPayModel.FK_tblMstEmployee_QProfessionalID" />
+        <AssociationConnector Association="MicroPayModel.FK_tblMstEmployeeNewNew_QAcademicID" />
+        <AssociationConnector Association="MicroPayModel.FK_tblMstEmployeeNewNew_QProfessionalID" />
+        <AssociationConnector Association="MicroPayModel.FK_APARSkillSetFormHdr_tblMstEmployee" />
+        <AssociationConnector Association="MicroPayModel.FK_tblMstEmployee_BGroupID" />
+        <AssociationConnector Association="MicroPayModel.FK_tblMstEmployeeNewNew_BGroupID" />
+        <AssociationConnector Association="MicroPayModel.FK_tblMstEmployee_Branch" />
+        <AssociationConnector Association="MicroPayModel.FK_tblMstEmployee_FirstBranchID" />
+        <AssociationConnector Association="MicroPayModel.FK_tblMstEmployeeNewNew_Branch" />
+        <AssociationConnector Association="MicroPayModel.FK_tblMstEmployeeNewNew_FirstBranchID1" />
+        <AssociationConnector Association="MicroPayModel.FK_tblMstEmployee_Cadre" />
+        <AssociationConnector Association="MicroPayModel.FK_tblMstEmployeeNewNew_Cadre" />
+        <AssociationConnector Association="MicroPayModel.FK_tblMstEmployee_Category" />
+        <AssociationConnector Association="MicroPayModel.FK_tblMstEmployeeNewNew_Category" />
+        <AssociationConnector Association="MicroPayModel.FK_tblMstEmployee_Department" />
+        <AssociationConnector Association="MicroPayModel.FK_tblMstEmployeeNewNew_Department1" />
+        <AssociationConnector Association="MicroPayModel.FK_tblMstEmployee_DivisionID" />
+        <AssociationConnector Association="MicroPayModel.FK_tblMstEmployeeNewNew_DivisionID1" />
+        <AssociationConnector Association="MicroPayModel.FK_Tbl_Proxy_Attendance_tblMstEmployee7" />
+        <AssociationConnector Association="MicroPayModel.FK_tblMstEmployee_EmpCatID" />
+        <AssociationConnector Association="MicroPayModel.FK_tblMstEmployeeNewNew_EmpCatID1" />
+        <AssociationConnector Association="MicroPayModel.FK_EmployeeDependent_tblMstEmployee" />
+        <AssociationConnector Association="MicroPayModel.FK_EmployeeLeave_EmployeeId" />
+        <AssociationConnector Association="MicroPayModel.FK_EmployeeProcessApproval_EmployeeId" />
+        <AssociationConnector Association="MicroPayModel.FK_EmpProcessApprovalAccptAuth_EmployeeProcessApproval" />
+        <AssociationConnector Association="MicroPayModel.FK_EmpProcessApprovalReportingTo_tblMstEmployee" />
+        <AssociationConnector Association="MicroPayModel.FK_EmpProcessApprovalReviewingTo_tblMstEmployee" />
+        <AssociationConnector Association="MicroPayModel.FK_tblMstEmployee_EmployeeTypeID" />
+        <AssociationConnector Association="MicroPayModel.FK_tblMstEmployeeNewNew_EmployeeTypeID1" />
+        <AssociationConnector Association="MicroPayModel.FK_tblMstEmployee_Gender" />
+        <AssociationConnector Association="MicroPayModel.FK_tblMstEmployeeNewNew_Gender1" />
+        <AssociationConnector Association="MicroPayModel.FK_tblMstEmployee_MaritalStsID" />
+        <AssociationConnector Association="MicroPayModel.FK_tblMstEmployeeNewNew_MaritalStsID" />
+        <AssociationConnector Association="MicroPayModel.FK_tblMstEmployee_MTongueID" />
+        <AssociationConnector Association="MicroPayModel.FK_tblMstEmployeeNewNew_MTongueID" />
+        <AssociationConnector Association="MicroPayModel.FK_tblMstEmployee_NomineeRelationID" />
+        <AssociationConnector Association="MicroPayModel.FK_tblMstEmployeeNewNew_NomineeRelationID" />
+        <AssociationConnector Association="MicroPayModel.FK_tblMstEmployee_ReligionID" />
+        <AssociationConnector Association="MicroPayModel.FK_tblMstEmployeeNewNew_ReligionID" />
+        <AssociationConnector Association="MicroPayModel.FK_tblMstEmployee_SectionID" />
+        <AssociationConnector Association="MicroPayModel.FK_tblMstEmployeeNewNew_SectionID" />
+        <AssociationConnector Association="MicroPayModel.FK__tblmstpro__PmtSt__27CF9CBD" />
+        <AssociationConnector Association="MicroPayModel.FK__tblmstpro__PStat__28C3C0F6" />
+        <AssociationConnector Association="MicroPayModel.FK_tblMstEmployee_PmtStateID" />
+        <AssociationConnector Association="MicroPayModel.FK_tblMstEmployee_StateID" />
+        <AssociationConnector Association="MicroPayModel.FK__TblArrear__Emplo__1A4B846D" />
+        <AssociationConnector Association="MicroPayModel.FK_tblarrearmanualdata_EmployeeId" />
+        <AssociationConnector Association="MicroPayModel.FK_TblArrearMonthlyInput_tblMstEmployee" />
+        <AssociationConnector Association="MicroPayModel.FK_tblBranchManagerDetail_tblMstEmployee" />
+        <AssociationConnector Association="MicroPayModel.FK_tblEmployeeQualificationdetail_tblMstEmployee" />
+        <AssociationConnector Association="MicroPayModel.FK__tblFinalM__Emplo__04073D93" />
+        <AssociationConnector Association="MicroPayModel.FK__TBLGRATIA__Emplo__34CA707F" />
+        <AssociationConnector Association="MicroPayModel.FK_tblLeaveBal_tblMstEmployee" />
+        <AssociationConnector Association="MicroPayModel.FK__tblLoanTr__Emplo__1275587B" />
+        <AssociationConnector Association="MicroPayModel.FK__tblLoanTr__Emplo__13697CB4" />
+        <AssociationConnector Association="MicroPayModel.FK__TBLMONTHL__Emplo__623C3574" />
+        <AssociationConnector Association="MicroPayModel.FK__TBLMONTHL__Emplo__633059AD" />
+        <AssociationConnector Association="MicroPayModel.FK__TBLMONTHL__Emplo__64247DE6" />
+        <AssociationConnector Association="MicroPayModel.FK__tblmsttra__Emplo__7C2624A9" />
+        <AssociationConnector Association="MicroPayModel.FK_tblMstEmployee_CreatedBy" />
+        <AssociationConnector Association="MicroPayModel.FK_tblMstEmployee_Title" />
+        <AssociationConnector Association="MicroPayModel.FK_tblMstEmployee_UpdatedBy" />
+        <AssociationConnector Association="MicroPayModel.FK_tblMstEmployeeNewNew_CreatedBy" />
+        <AssociationConnector Association="MicroPayModel.FK_tblMstEmployeeNewNew_Title" />
+        <AssociationConnector Association="MicroPayModel.FK_tblMstEmployeeNewNew_UpdatedBy" />
+        <AssociationConnector Association="MicroPayModel.FK_TblMstEmployeeSalary_tblMstEmployee" />
+        <AssociationConnector Association="MicroPayModel.FK_tblmstProjectedEmployeeSalary_tblMstEmployee" />
+        <AssociationConnector Association="MicroPayModel.FK_tblpromotion_tblMstEmployee" />
+        <AssociationConnector Association="MicroPayModel.FK_tblPropertyReturn_EmployeeId" />
+        <AssociationConnector Association="MicroPayModel.FK_TrainingFeedbackDetails_tblMstEmployee" />
+        <AssociationConnector Association="MicroPayModel.FK_TrainingParticipants_tblMstEmployee" />
+        <AssociationConnector Association="MicroPayModel.FK_User_tblMstEmployee" />
+        <EntityTypeShape EntityType="MicroPayModel.APARSkillSetFormDetail" Width="1.5" PointX="44" PointY="116.75" />
+        <AssociationConnector Association="MicroPayModel.FK_APARSkillSetFormDetail_APARSkillSet" />
+        <AssociationConnector Association="MicroPayModel.FK_APARSkillSetFormDetail_User" />
+        <AssociationConnector Association="MicroPayModel.FK_APARSkillSetFormDetail_User1" />
+        <EntityTypeShape EntityType="MicroPayModel.tblPFFlagStatu" Width="1.5" PointX="0.75" PointY="3.75" />
+        <EntityTypeShape EntityType="MicroPayModel.LoanApplication" Width="1.5" PointX="39" PointY="130.5" />
+        <AssociationConnector Association="MicroPayModel.FK_LoanApplication_tblMstEmployee" />
+        <AssociationConnector Association="MicroPayModel.FK_LoanApplication_User" />
+        <AssociationConnector Association="MicroPayModel.FK_LoanApplication_User1" />
+        <EntityTypeShape EntityType="MicroPayModel.LoanApplicationHistory" Width="1.5" PointX="44.25" PointY="127.875" />
+        <AssociationConnector Association="MicroPayModel.FK_LoanApplicationHistory_LoanApplication" />
+        <AssociationConnector Association="MicroPayModel.FK_LoanApplicationHistory_User" />
+        <AssociationConnector Association="MicroPayModel.FK_LoanApplicationHistory_User1" />
+        <AssociationConnector Association="MicroPayModel.FK_tblFinalMonthlySalary_EmployeeType" />
+        <EntityTypeShape EntityType="MicroPayModel.BonusMinimumMonthlyWage" Width="1.5" PointX="15.75" PointY="144.125" />
+        <AssociationConnector Association="MicroPayModel.FK_BBonusMinimumMonthlyWages_CreatedBy" />
+        <AssociationConnector Association="MicroPayModel.FK_BonusMinimumMonthlyWages_CreatedBy" />
+        <AssociationConnector Association="MicroPayModel.FK_BonusMinimumMonthlyWages_UpdatedBy" />
+        <EntityTypeShape EntityType="MicroPayModel.BonusWage" Width="1.5" PointX="5.25" PointY="206.25" />
+        <AssociationConnector Association="MicroPayModel.FK_BonusWages_CreatedBy" />
+        <AssociationConnector Association="MicroPayModel.FK_BonusWages_UpdatedBy" />
+        <EntityTypeShape EntityType="MicroPayModel.TblBonusAmt" Width="1.5" PointX="35" PointY="144.25" />
+        <EntityTypeShape EntityType="MicroPayModel.TblExGratia_Cal" Width="1.5" PointX="32" PointY="143.25" />
+        <AssociationConnector Association="MicroPayModel.FK__TblBonusAmt__BranchID" />
+        <AssociationConnector Association="MicroPayModel.FK__TblExGrat__BranchID" />
+        <AssociationConnector Association="MicroPayModel.FK__TblBonusA__Creat__42E385AC" />
+        <AssociationConnector Association="MicroPayModel.FK__TblBonusA__Emplo__43D7A9E5" />
+        <AssociationConnector Association="MicroPayModel.FK__TblBonusA__Updat__44CBCE1E" />
+        <AssociationConnector Association="MicroPayModel.FK__TblExGrat__Creat__48D1692C" />
+        <AssociationConnector Association="MicroPayModel.FK__TblExGrat__Emplo__47DD44F3" />
+        <AssociationConnector Association="MicroPayModel.FK__TblExGrat__Updat__49C58D65" />
+        <EntityTypeShape EntityType="MicroPayModel.tblmstslab" Width="1.5" PointX="9.75" PointY="84.75" />
+        <AssociationConnector Association="MicroPayModel.FK__tblmstsla__LoanT__49DA9BFE" />
+        <AssociationConnector Association="MicroPayModel.FK_slab_CreatedBy" />
+        <AssociationConnector Association="MicroPayModel.FK_slab_UpdatedBy" />
+        <EntityTypeShape EntityType="MicroPayModel.OTASlip" Width="1.5" PointX="29" PointY="145" />
+        <AssociationConnector Association="MicroPayModel.FK_OTASlip_tblMstEmployee" />
+        <AssociationConnector Association="MicroPayModel.FK_OTASlip_User" />
+        <AssociationConnector Association="MicroPayModel.FK_OTASlip_User1" />
+        <EntityTypeShape EntityType="MicroPayModel.EmployeeProvidentFundOrganisation" Width="1.5" PointX="45" PointY="132.625" />
+        <AssociationConnector Association="MicroPayModel.FK_EmployeeProvidentFundOrganisation_EmployeeId" />
+        <AssociationConnector Association="MicroPayModel.FK_EmployeeProvidentFundOrganisation_UpdatedBy" />
+        <AssociationConnector Association="MicroPayModel.FK_v_CreatedBy" />
+        <EntityTypeShape EntityType="MicroPayModel.tblMstLoanPriorityHistory" Width="1.5" PointX="0.75" PointY="14.75" />
+        <EntityTypeShape EntityType="MicroPayModel.BranchSalaryHeadRule" Width="1.5" PointX="12.75" PointY="110.25" />
+        <AssociationConnector Association="MicroPayModel.FK_BranchSalaryHeadRules_Branch" />
+        <AssociationConnector Association="MicroPayModel.FK_BranchSalaryHeadRules_User" />
+        <AssociationConnector Association="MicroPayModel.FK_BranchSalaryHeadRules_User1" />
+        <EntityTypeShape EntityType="MicroPayModel.promotioncota1" Width="1.5" PointX="12.75" PointY="144.75" />
+        <AssociationConnector Association="MicroPayModel.FK__promotion__Creat__25924E90" />
+        <AssociationConnector Association="MicroPayModel.FK__promotion__Updat__268672C9" />
+        <EntityTypeShape EntityType="MicroPayModel.tblMstLoanPriority" Width="1.5" PointX="21" PointY="79" />
+        <AssociationConnector Association="MicroPayModel.FK__tblMstLoa__Branc__4891720A" />
+        <AssociationConnector Association="MicroPayModel.FK__tblMstLoa__Emplo__4A79BA7C" />
+        <AssociationConnector Association="MicroPayModel.FK__tblMstLoa__Creat__49859643" />
+        <AssociationConnector Association="MicroPayModel.FK__tblMstLoa__LoanT__4B6DDEB5" />
+        <AssociationConnector Association="MicroPayModel.FK__tblMstLoa__Updat__4C6202EE" />
+        <EntityTypeShape EntityType="MicroPayModel.PayrollApprovalRequest" Width="1.5" PointX="23.5" PointY="123.375" />
+        <AssociationConnector Association="MicroPayModel.FK_PayrollApprovalRequest_Branch" />
+        <AssociationConnector Association="MicroPayModel.FK_BranchSalaryHeadRules_EmployeeType" />
+        <AssociationConnector Association="MicroPayModel.FK_PayrollApprovalRequest_EmployeeType" />
+        <AssociationConnector Association="MicroPayModel.FK_PayrollApprovalRequest_Process" />
+        <AssociationConnector Association="MicroPayModel.FK_PayrollApprovalRequest_User" />
+        <AssociationConnector Association="MicroPayModel.FK_PayrollApprovalRequest_User1" />
+        <EntityTypeShape EntityType="MicroPayModel.tblPropertyReturnHDR" Width="1.5" PointX="45" PointY="144.5" />
+        <AssociationConnector Association="MicroPayModel.FK_tblPropertyReturnHDR_Branch" />
+        <AssociationConnector Association="MicroPayModel.FK_tblPropertyReturnHDR_Department" />
+        <AssociationConnector Association="MicroPayModel.FK_tblPropertyReturnHDR_EmployeeId" />
+        <AssociationConnector Association="MicroPayModel.FK_tblPropertyReturn_PRID" />
+        <AssociationConnector Association="MicroPayModel.FK_tblPropertyReturnHDR_CreatedBy" />
+        <AssociationConnector Association="MicroPayModel.FK_tblPropertyReturnHDR_tblPropertyReturnHDR" />
+        <AssociationConnector Association="MicroPayModel.FK_tblPropertyReturnHDR_UpdatedBy" />
+        <EntityTypeShape EntityType="MicroPayModel.EPFNomination" Width="1.5" PointX="18" PointY="128.625" />
+        <AssociationConnector Association="MicroPayModel.FK_EPFNomination_tblMstEmployee" />
+        <AssociationConnector Association="MicroPayModel.FK_EPFNomination_User" />
+        <AssociationConnector Association="MicroPayModel.FK_EPFNomination_User1" />
+        <EntityTypeShape EntityType="MicroPayModel.EPFDetail" Width="1.5" PointX="20.25" PointY="147.5" />
+        <AssociationConnector Association="MicroPayModel.FK_EPFDetail_EPFNomination" />
+        <AssociationConnector Association="MicroPayModel.FK_EPFDetail_Relation" />
+        <AssociationConnector Association="MicroPayModel.FK_EPFDetail_User" />
+        <AssociationConnector Association="MicroPayModel.FK_EPFDetail_User1" />
+        <EntityTypeShape EntityType="MicroPayModel.ChildrenEducationDetail" Width="1.5" PointX="38.25" PointY="119.625" />
+        <EntityTypeShape EntityType="MicroPayModel.ChildrenEducationDocument" Width="1.5" PointX="18" PointY="147.125" />
+        <AssociationConnector Association="MicroPayModel.FK_ChildrenEducationDetails_EmployeeDependent" />
+        <AssociationConnector Association="MicroPayModel.FK_ChildrenEducationDetails_User" />
+        <AssociationConnector Association="MicroPayModel.FK_ChildrenEducationDetails_User1" />
+        <AssociationConnector Association="MicroPayModel.FK_ChildrenEducationDocuments_tblMstEmployee" />
+        <AssociationConnector Association="MicroPayModel.FK_ChildrenEducationDocuments_User" />
+        <AssociationConnector Association="MicroPayModel.FK_ChildrenEducationDocuments_User1" />
+        <EntityTypeShape EntityType="MicroPayModel.ConveyanceBillDescription" Width="1.5" PointX="46.25" PointY="117" />
+        <EntityTypeShape EntityType="MicroPayModel.ConveyanceBillHdr" Width="1.5" PointX="46" PointY="122.5" />
+        <AssociationConnector Association="MicroPayModel.FK_ConveyanceBillDescription_User" />
+        <AssociationConnector Association="MicroPayModel.FK_ConveyanceBillDescription_User1" />
+        <AssociationConnector Association="MicroPayModel.FK_ConveyanceBillHdr_tblMstEmployee" />
+        <AssociationConnector Association="MicroPayModel.FK_ConveyanceBillHdr_User" />
+        <AssociationConnector Association="MicroPayModel.FK_ConveyanceBillHdr_User1" />
+        <EntityTypeShape EntityType="MicroPayModel.TrainingTopic" Width="1.5" PointX="16.875" PointY="44" />
+        <AssociationConnector Association="MicroPayModel.FK_TrainingTopic_Skill" />
+        <AssociationConnector Association="MicroPayModel.FK_TrainingTopic_SkillType" />
+        <AssociationConnector Association="MicroPayModel.FK_TrainingTopic_Training" />
+        <EntityTypeShape EntityType="MicroPayModel.Designation" Width="1.5" PointX="10.5" PointY="139.75" />
+        <AssociationConnector Association="MicroPayModel.FK_APARSkillSet_Designation" />
+        <AssociationConnector Association="MicroPayModel.FK_BonusMinimumMonthlyWages_DesignationID" />
+        <AssociationConnector Association="MicroPayModel.FK_Designation_CadreID" />
+        <AssociationConnector Association="MicroPayModel.FK__promotion__Desig__249E2A57" />
+        <AssociationConnector Association="MicroPayModel.FK__tblFinalM__Desig__454AF10B" />
+        <AssociationConnector Association="MicroPayModel.FK_Designation_CreatedBy" />
+        <AssociationConnector Association="MicroPayModel.FK_Designation_EmplCatID" />
+        <AssociationConnector Association="MicroPayModel.FK_Designation_UpdatedBy" />
+        <AssociationConnector Association="MicroPayModel.FK_Requirement_Designation" />
+        <AssociationConnector Association="MicroPayModel.FK_tblarrearmanualdata_Designation" />
+        <AssociationConnector Association="MicroPayModel.FK_tblMstEmployee_Designation" />
+        <AssociationConnector Association="MicroPayModel.FK_tblMstEmployee_FirstDesgID" />
+        <AssociationConnector Association="MicroPayModel.FK_tblMstEmployeeNewNew_Designation1" />
+        <AssociationConnector Association="MicroPayModel.FK_tblMstEmployeeNewNew_FirstDesgID" />
+        <AssociationConnector Association="MicroPayModel.FK_tblpromotion_Designation" />
+        <AssociationConnector Association="MicroPayModel.FK_tblPropertyReturnHDR_Designation" />
+        <EntityTypeShape EntityType="MicroPayModel.tblStaffBudget" Width="1.5" PointX="15.75" PointY="148.625" />
+        <AssociationConnector Association="MicroPayModel.FK__tblStaffB__Desig__1FD9753A" />
+        <AssociationConnector Association="MicroPayModel.FK__tblStaffB__Desig__2962DF74" />
+        <AssociationConnector Association="MicroPayModel.FK__tblStaffB__Creat__20CD9973" />
+        <AssociationConnector Association="MicroPayModel.FK__tblStaffB__Updat__21C1BDAC" />
+        <EntityTypeShape EntityType="MicroPayModel.NonRefundablePFLoan" Width="1.5" PointX="47" PointY="104.125" />
+        <AssociationConnector Association="MicroPayModel.FK_NonRefundablePFLoan_CreatedBy" />
+        <AssociationConnector Association="MicroPayModel.FK_NonRefundablePFLoan_EmployeeId" />
+        <AssociationConnector Association="MicroPayModel.FK_NonRefundablePFLoan_UpdatedBy" />
+        <EntityTypeShape EntityType="MicroPayModel.EmpPFOrgHDR" Width="1.5" PointX="18" PointY="151.625" />
+        <AssociationConnector Association="MicroPayModel.FK_EmpPFOrgHDR_Branch" />
+        <AssociationConnector Association="MicroPayModel.FK_EmpPFOrgHDR_Department" />
+        <AssociationConnector Association="MicroPayModel.FK_EmpPFOrgHDR_Designation" />
+        <AssociationConnector Association="MicroPayModel.FK_EmployeeProvidentFundOrganisation_EmpPFID" />
+        <AssociationConnector Association="MicroPayModel.FK_EmpPFOrgHDR_CreatedBy" />
+        <AssociationConnector Association="MicroPayModel.FK_EmpPFOrgHDR_EmployeeId" />
+        <AssociationConnector Association="MicroPayModel.FK_EmpPFOrgHDR_UpdatedBy" />
+        <EntityTypeShape EntityType="MicroPayModel.EmpDeductionUnderChapterVI_A" Width="1.5" PointX="49.25" PointY="121" />
+        <EntityTypeShape EntityType="MicroPayModel.EmployeeForm12BB" Width="1.5" PointX="47" PointY="97.25" />
+        <EntityTypeShape EntityType="MicroPayModel.EmployeeForm12BBDocument" Width="1.5" PointX="49.25" PointY="127.25" />
+        <AssociationConnector Association="MicroPayModel.FK_EmpDeductionUnderChapterVI_A_EmployeeForm12BB" />
+        <AssociationConnector Association="MicroPayModel.FK_EmpDeductionUnderChapterVI_A_tblMstEmployee" />
+        <AssociationConnector Association="MicroPayModel.FK_EmpDeductionUnderChapterVI_A_User" />
+        <AssociationConnector Association="MicroPayModel.FK_EmpDeductionUnderChapterVI_A_User1" />
+        <AssociationConnector Association="MicroPayModel.FK_EmployeeForm12BB_tblMstEmployee" />
+        <AssociationConnector Association="MicroPayModel.FK_EmployeeForm12BB_User" />
+        <AssociationConnector Association="MicroPayModel.FK_EmployeeForm12BB_User1" />
+        <AssociationConnector Association="MicroPayModel.FK_Form12BBDocument_EmployeeForm12BB" />
+        <AssociationConnector Association="MicroPayModel.FK_EmployeeForm12BBDocument_User" />
+        <EntityTypeShape EntityType="MicroPayModel.DeductionSection" Width="1.5" PointX="5.25" PointY="210.75" />
+        <EntityTypeShape EntityType="MicroPayModel.DeductionSubSection" Width="1.5" PointX="13.5" PointY="155.75" />
+        <EntityTypeShape EntityType="MicroPayModel.DeductionSubSectionDescription" Width="1.5" PointX="13.5" PointY="160.625" />
+        <AssociationConnector Association="MicroPayModel.FK_DeductionSection_User" />
+        <AssociationConnector Association="MicroPayModel.FK_DeductionSection_User1" />
+        <AssociationConnector Association="MicroPayModel.FK_DeductionSubSection_DeductionSection" />
+        <AssociationConnector Association="MicroPayModel.FK_DeductionSubSectionDescription_DeductionSection" />
+        <AssociationConnector Association="MicroPayModel.FK_empDeduction_DeductionSection" />
+        <AssociationConnector Association="MicroPayModel.FK_DeductionSubSection_User" />
+        <AssociationConnector Association="MicroPayModel.FK_DeductionSubSection_User1" />
+        <AssociationConnector Association="MicroPayModel.FK_DeductionSubSection_User2" />
+        <AssociationConnector Association="MicroPayModel.FK_DeductionSubSectionDescription_User" />
+        <AssociationConnector Association="MicroPayModel.FK_DeductionSubSectionDescription_User1" />
+        <AssociationConnector Association="MicroPayModel.FK_DeductionSubSectionDescription_User2" />
+        <EntityTypeShape EntityType="MicroPayModel.ChildrenEducationHdr" Width="1.5" PointX="46" PointY="110.375" />
+        <AssociationConnector Association="MicroPayModel.FK_ChildrenEducationHdr_Branch" />
+        <AssociationConnector Association="MicroPayModel.FK_ChildrenEducationDetails_ChildrenEducationHdr" />
+        <AssociationConnector Association="MicroPayModel.FK_ChildrenEducationDocuments_ChildrenEducationHdr" />
+        <AssociationConnector Association="MicroPayModel.FK_ChildrenEducationHdr_tblMstEmployee" />
+        <AssociationConnector Association="MicroPayModel.FK_ChildrenEducationHdr_User" />
+        <AssociationConnector Association="MicroPayModel.FK_ChildrenEducationHdr_User1" />
+        <EntityTypeShape EntityType="MicroPayModel.AssetType" Width="1.5" PointX="5.25" PointY="40.75" />
+        <EntityTypeShape EntityType="MicroPayModel.Manufacturer" Width="1.5" PointX="5.25" PointY="215.25" />
+        <AssociationConnector Association="MicroPayModel.FK_AssetType_CreatedBy" />
+        <AssociationConnector Association="MicroPayModel.FK_AssetType_UpdatedBy" />
+        <AssociationConnector Association="MicroPayModel.FK_Manufacturer_CreatedBy" />
+        <AssociationConnector Association="MicroPayModel.FK_Manufacturer_UpdatedBy" />
+        <EntityTypeShape EntityType="MicroPayModel.tblTDSTaxRulesSlab" Width="1.5" PointX="5.25" PointY="219.375" />
+        <AssociationConnector Association="MicroPayModel.FK_tblTDSTaxRulesSlabs_User" />
+        <AssociationConnector Association="MicroPayModel.FK_tblTDSTaxRulesSlabs_User1" />
+        <EntityTypeShape EntityType="MicroPayModel.InventoryManagement" Width="1.5" PointX="7.5" PointY="113.25" />
+        <AssociationConnector Association="MicroPayModel.FK_InventoryManagement_AssetTypeID" />
+        <AssociationConnector Association="MicroPayModel.FK_InventoryManagement_CreatedBy" />
+        <AssociationConnector Association="MicroPayModel.FK_InventoryManagement_ManufacturerID" />
+        <AssociationConnector Association="MicroPayModel.FK_InventoryManagement_UpdatedBy" />
+        <EntityTypeShape EntityType="MicroPayModel.AssetmanagementDetail" Width="1.5" PointX="32" PointY="83.5" />
+        <AssociationConnector Association="MicroPayModel.FK_AssetmanagementDetails_AssetTypeID" />
+        <AssociationConnector Association="MicroPayModel.FK_AssetmanagementDetails_CreatedBy" />
+        <AssociationConnector Association="MicroPayModel.FK_AssetmanagementDetails_EmployeeID" />
+        <AssociationConnector Association="MicroPayModel.FK_AssetmanagementDetails_IMID" />
+        <AssociationConnector Association="MicroPayModel.FK_AssetmanagementDetails_UpdatedBy" />
+        <EntityTypeShape EntityType="MicroPayModel.ConveyanceBillHdrDetail" Width="1.5" PointX="27" PointY="150.875" />
+        <AssociationConnector Association="MicroPayModel.FK_ConveyanceBillDescription_ConveyanceBillHdrDetails" />
+        <AssociationConnector Association="MicroPayModel.FK_ConveyanceBillHdr_ConveyanceBillHdrDetails" />
+        <AssociationConnector Association="MicroPayModel.FK_ConveyanceBillHdrDetails_Department" />
+        <AssociationConnector Association="MicroPayModel.FK_ConveyanceBillHdrDetails_Designation" />
+        <AssociationConnector Association="MicroPayModel.FK_ConveyanceBillHdrDetails_tblMstEmployee" />
+        <AssociationConnector Association="MicroPayModel.FK_ConveyanceBillHdrDetails_User" />
+        <EntityTypeShape EntityType="MicroPayModel.NRPFLoanHDR" Width="1.5" PointX="32" PointY="150.5" />
+        <AssociationConnector Association="MicroPayModel.FK_NRPFLoanHDR_Branch" />
+        <AssociationConnector Association="MicroPayModel.FK_NRPFLoanHDR_Department" />
+        <AssociationConnector Association="MicroPayModel.FK_NRPFLoanHDR_Designation" />
+        <AssociationConnector Association="MicroPayModel.FK_NonRefundablePFLoan_NRPFLoanID" />
+        <AssociationConnector Association="MicroPayModel.FK_NRPFLoanHDR_CreatedBy" />
+        <AssociationConnector Association="MicroPayModel.FK_NRPFLoanHDR_EmployeeId" />
+        <AssociationConnector Association="MicroPayModel.FK_NRPFLoanHDR_UpdatedBy" />
+        <EntityTypeShape EntityType="MicroPayModel.Trainer" Width="1.5" PointX="35.875" PointY="90.5" />
+        <AssociationConnector Association="MicroPayModel.FK_Trainer_Training" />
+        <AssociationConnector Association="MicroPayModel.FK_Trainer_User" />
+        <AssociationConnector Association="MicroPayModel.FK_Trainer_User1" />
+        <EntityTypeShape EntityType="MicroPayModel.ConfirmationClarification" Width="1.5" PointX="29.25" PointY="151.375" />
+        <EntityTypeShape EntityType="MicroPayModel.ConfirmationFormAHeader" Width="1.5" PointX="47.25" PointY="132.5" />
+        <EntityTypeShape EntityType="MicroPayModel.ConfirmationFormBHeader" Width="1.5" PointX="49.25" PointY="109.625" />
+        <AssociationConnector Association="MicroPayModel.FK_ConfirmationFormAHeader_Branch" />
+        <AssociationConnector Association="MicroPayModel.FK_ConfirmationFormBHeader_Branch" />
+        <AssociationConnector Association="MicroPayModel.FK_ConfirmationClarification_User" />
+        <AssociationConnector Association="MicroPayModel.FK_ConfirmationClarification_User1" />
+        <AssociationConnector Association="MicroPayModel.FK_ConfirmationFormAHeader_Designation" />
+        <AssociationConnector Association="MicroPayModel.FK_ConfirmationFormAHeader_Process" />
+        <AssociationConnector Association="MicroPayModel.FK_ConfirmationFormAHeader_tblMstEmployee" />
+        <AssociationConnector Association="MicroPayModel.FK_ConfirmationFormAHeader_User" />
+        <AssociationConnector Association="MicroPayModel.FK_ConfirmationFormAHeader_User1" />
+        <AssociationConnector Association="MicroPayModel.FK_ConfirmationFormBHeader_Designation" />
+        <AssociationConnector Association="MicroPayModel.FK_ConfirmationFormBHeader_tblMstEmployee" />
+        <AssociationConnector Association="MicroPayModel.FK_ConfirmationFormBHeader_User" />
+        <AssociationConnector Association="MicroPayModel.FK_ConfirmationFormBHeader_User1" />
+        <EntityTypeShape EntityType="MicroPayModel.FileWorkflow" Width="1.5" PointX="24" PointY="134.375" />
+        <AssociationConnector Association="MicroPayModel.FK_FileWorkflow_Department" />
+        <AssociationConnector Association="MicroPayModel.FK_FileWorkflow_Department1" />
+        <AssociationConnector Association="MicroPayModel.FK_FileWorkflow_Designation" />
+        <AssociationConnector Association="MicroPayModel.FK_FileWorkflow_Designation1" />
+        <AssociationConnector Association="MicroPayModel.FK_FileManagement_FileWorkflow" />
+        <AssociationConnector Association="MicroPayModel.FK_FileWorkflow_tblMstEmployee" />
+        <AssociationConnector Association="MicroPayModel.FK_FileWorkflow_tblMstEmployee1" />
+        <AssociationConnector Association="MicroPayModel.FK_FileWorkflow_User" />
+        <EntityTypeShape EntityType="MicroPayModel.ticket_status" Width="1.5" PointX="13.375" PointY="4.75" />
+        <EntityTypeShape EntityType="MicroPayModel.ticket_type" Width="1.5" PointX="14.375" PointY="12.75" />
+        <EntityTypeShape EntityType="MicroPayModel.ticket_priority" Width="1.5" PointX="13.375" PointY="0.75" />
+        <EntityTypeShape EntityType="MicroPayModel.EmployeeSuspensionPeriod" Width="1.5" PointX="36" PointY="106.875" />
+        <AssociationConnector Association="MicroPayModel.FK_EmployeeSuspensionPeriod_tblMstEmployee" />
+        <AssociationConnector Association="MicroPayModel.FK_EmployeeSuspensionPeriod_User" />
+        <EntityTypeShape EntityType="MicroPayModel.AppraisalFormHistory" Width="1.5" PointX="9.75" PointY="80.625" />
+        <EntityTypeShape EntityType="MicroPayModel.tblMstLTC" Width="1.5" PointX="21" PointY="97.375" />
+        <AssociationConnector Association="MicroPayModel.FK_tblMstLTC_Branch" />
+        <AssociationConnector Association="MicroPayModel.FK_tblMstLTC_tblMstEmployee" />
+        <AssociationConnector Association="MicroPayModel.FK_tblMstLTC_CreatedBy" />
+        <AssociationConnector Association="MicroPayModel.FK_tblMstLTC_UpdatedBy" />
+        <EntityTypeShape EntityType="MicroPayModel.Support_group" Width="1.5" PointX="15.375" PointY="0.75" />
+        <EntityTypeShape EntityType="MicroPayModel.Support_team" Width="1.5" PointX="15.375" PointY="4.75" />
+        <EntityTypeShape EntityType="MicroPayModel.TicketWorkFlow" Width="1.5" PointX="26.625" PointY="80.875" />
+        <AssociationConnector Association="MicroPayModel.FK_TicketWorkFlow_Department" />
+        <AssociationConnector Association="MicroPayModel.FK_TicketWorkFlow_Designation" />
+        <AssociationConnector Association="MicroPayModel.FK_TicketWorkFlow_ticket_type" />
+        <AssociationConnector Association="MicroPayModel.FK_TicketWorkFlow_User" />
+        <AssociationConnector Association="MicroPayModel.FK_TicketWorkFlow_User1" />
+        <EntityTypeShape EntityType="MicroPayModel.ticket" Width="1.5" PointX="24" PointY="73.625" />
+        <AssociationConnector Association="MicroPayModel.FK_ticket_Department" />
+        <AssociationConnector Association="MicroPayModel.FK_ticket_Designation" />
+        <AssociationConnector Association="MicroPayModel.FK_ticket_Support_group" />
+        <AssociationConnector Association="MicroPayModel.FK_ticket_Support_team" />
+        <AssociationConnector Association="MicroPayModel.FK_ticket_tblMstEmployee" />
+        <AssociationConnector Association="MicroPayModel.FK_ticket_tblMstEmployee1" />
+        <AssociationConnector Association="MicroPayModel.FK_ticket_ticket_priority" />
+        <AssociationConnector Association="MicroPayModel.FK_ticket_ticket_status" />
+        <AssociationConnector Association="MicroPayModel.FK_ticket_ticket_type" />
+        <AssociationConnector Association="MicroPayModel.FK_ticket_User" />
+        <AssociationConnector Association="MicroPayModel.FK_ticket_User1" />
+        <EntityTypeShape EntityType="MicroPayModel.ticket_attachments" Width="1.5" PointX="30.25" PointY="106.25" />
+        <AssociationConnector Association="MicroPayModel.FK_ticket_attachments_ticket" />
+        <AssociationConnector Association="MicroPayModel.FK_ticket_attachments_User" />
+        <AssociationConnector Association="MicroPayModel.FK_ticket_attachments_User1" />
+        <EntityTypeShape EntityType="MicroPayModel.ConfirmationStatu" Width="1.5" PointX="49.25" PointY="97.625" />
+        <AssociationConnector Association="MicroPayModel.FK_ConfirmationStatus_EmployeeProcessApproval" />
+        <AssociationConnector Association="MicroPayModel.FK_ConfirmationStatus_tblMstEmployee" />
+        <AssociationConnector Association="MicroPayModel.FK_ConfirmationStatus_User" />
+        <AssociationConnector Association="MicroPayModel.FK_ConfirmationStatus_User1" />
+        <EntityTypeShape EntityType="MicroPayModel.TrainingFeedbackFormat" Width="1.5" PointX="11.375" PointY="15.75" />
+        <EntityTypeShape EntityType="MicroPayModel.TrainingDateWiseTimeSlot" Width="1.5" PointX="20.875" PointY="118.75" />
+        <AssociationConnector Association="MicroPayModel.FK_TrainingDateWiseTimeSlot_Training" />
+        <AssociationConnector Association="MicroPayModel.FK_TrainingDateWiseTimeSlot_User" />
+        <AssociationConnector Association="MicroPayModel.FK_ConfirmationStatus_ConfirmationFormAHeader" />
+        <AssociationConnector Association="MicroPayModel.FK_ConfirmationStatus_ConfirmationFormBHeader" />
+        <AssociationConnector Association="MicroPayModel.FK_ConfirmationClarification_ConfirmationFormAHeader" />
+        <AssociationConnector Association="MicroPayModel.FK_ConfirmationClarification_ConfirmationFormBHeader" />
+        <AssociationConnector Association="MicroPayModel.fk_employee" />
+        <EntityTypeShape EntityType="MicroPayModel.PayrollApprovalSetting" Width="1.5" PointX="18" PointY="133" />
+        <AssociationConnector Association="MicroPayModel.FK_PayrollApprovalSetting_tblMstEmployee" />
+        <AssociationConnector Association="MicroPayModel.FK_PayrollApprovalSetting_tblMstEmployee1" />
+        <AssociationConnector Association="MicroPayModel.FK_PayrollApprovalSetting_tblMstEmployee2" />
+        <AssociationConnector Association="MicroPayModel.FK_PayrollApprovalSetting_User" />
+        <AssociationConnector Association="MicroPayModel.FK_PayrollApprovalSetting_User1" />
+        <EntityTypeShape EntityType="MicroPayModel.TblPFOPBalanceManual" Width="1.5" PointX="16.375" PointY="12.75" />
+        <EntityTypeShape EntityType="MicroPayModel.ConfirmationFormHdr" Width="1.5" PointX="18" PointY="90.375" />
+        <EntityTypeShape EntityType="MicroPayModel.FormGroupAHdr" Width="1.5" PointX="34.75" PointY="152" />
+        <EntityTypeShape EntityType="MicroPayModel.FormGroupBHdr" Width="1.5" PointX="23" PointY="108.125" />
+        <EntityTypeShape EntityType="MicroPayModel.FormGroupCHdr" Width="1.5" PointX="33" PointY="104.25" />
+        <EntityTypeShape EntityType="MicroPayModel.FormGroupDHdr" Width="1.5" PointX="20.75" PointY="153" />
+        <EntityTypeShape EntityType="MicroPayModel.FormGroupEHdr" Width="1.5" PointX="18" PointY="102.25" />
+        <EntityTypeShape EntityType="MicroPayModel.FormGroupFHdr" Width="1.5" PointX="31" PointY="93.375" />
+        <EntityTypeShape EntityType="MicroPayModel.FormGroupGHdr" Width="1.5" PointX="32" PointY="115.375" />
+        <EntityTypeShape EntityType="MicroPayModel.FormGroupHHdr" Width="1.5" PointX="23.75" PointY="153.375" />
+        <AssociationConnector Association="MicroPayModel.FK_ConfirmationClarification_ConfirmationFormHdr" />
+        <AssociationConnector Association="MicroPayModel.FK_ConfirmationFormHdr_ConfirmationForm" />
+        <AssociationConnector Association="MicroPayModel.FK__Confirmat__FormH__79C9A642" />
+        <AssociationConnector Association="MicroPayModel.FK__Confirmat__FormH__78D58209" />
+        <AssociationConnector Association="MicroPayModel.FK__Confirmat__FormH__26BC484A" />
+        <AssociationConnector Association="MicroPayModel.FK__Confirmat__FormH__2998B4F5" />
+        <AssociationConnector Association="MicroPayModel.FK_ConfirmationFormHdr_Process" />
+        <AssociationConnector Association="MicroPayModel.FK_ConfirmationFormHdr_tblMstEmployee" />
+        <AssociationConnector Association="MicroPayModel.FK_ConfirmationFormHdr_User" />
+        <AssociationConnector Association="MicroPayModel.FK_ConfirmationFormHdr_User1" />
+        <AssociationConnector Association="MicroPayModel.FK_ConfirmationFormHdr_User2" />
+        <AssociationConnector Association="MicroPayModel.FK_ConfirmationStatus_ConfirmationFormHdr" />
+        <AssociationConnector Association="MicroPayModel.FK_FormGroupAHdr_Department" />
+        <AssociationConnector Association="MicroPayModel.FK_FormGroupBHdr_Department" />
+        <AssociationConnector Association="MicroPayModel.FK_FormGroupCHdr_Department" />
+        <AssociationConnector Association="MicroPayModel.FK_FormGroupDHdr_Department" />
+        <AssociationConnector Association="MicroPayModel.FK_FormGroupEHdr_Department" />
+        <AssociationConnector Association="MicroPayModel.FK_FormGroupFHdr_Department" />
+        <AssociationConnector Association="MicroPayModel.FK_FormGroupGHdr_Department" />
+        <AssociationConnector Association="MicroPayModel.FK_FormGroupHHdr_Department" />
+        <AssociationConnector Association="MicroPayModel.FK_FormGroupAHdr_Designation" />
+        <AssociationConnector Association="MicroPayModel.FK_FormGroupBHdr_Designation" />
+        <AssociationConnector Association="MicroPayModel.FK_FormGroupCHdr_Designation" />
+        <AssociationConnector Association="MicroPayModel.FK_FormGroupDHdr_Designation" />
+        <AssociationConnector Association="MicroPayModel.FK_FormGroupEHdr_Designation" />
+        <AssociationConnector Association="MicroPayModel.FK_FormGroupFHdr_Designation" />
+        <AssociationConnector Association="MicroPayModel.FK_FormGroupGHdr_Designation" />
+        <AssociationConnector Association="MicroPayModel.FK_FormGroupHHdr_Designation" />
+        <AssociationConnector Association="MicroPayModel.FK_FormGroupADetail1_FormGroupAHdr" />
+        <AssociationConnector Association="MicroPayModel.FK_FormGroupADetail_FormGroupA" />
+        <AssociationConnector Association="MicroPayModel.FK_FormGroupA_User" />
+        <AssociationConnector Association="MicroPayModel.FK_FormGroupBDetail1_FormGroupBHdr" />
+        <AssociationConnector Association="MicroPayModel.FK_FormGroupBDetail_FormGroupB" />
+        <AssociationConnector Association="MicroPayModel.FK_FormGroupB_tblMstEmployee" />
+        <AssociationConnector Association="MicroPayModel.FK_FormGroupB_User" />
+        <AssociationConnector Association="MicroPayModel.FK_FormGroupB_User1" />
+        <AssociationConnector Association="MicroPayModel.FK_FormGroupCDetail1_FormGroupCHdr" />
+        <AssociationConnector Association="MicroPayModel.FK_FormGroupCDetail_FormGroupC" />
+        <AssociationConnector Association="MicroPayModel.FK_FormGroupC_tblMstEmployee" />
+        <AssociationConnector Association="MicroPayModel.FK_FormGroupC_User" />
+        <AssociationConnector Association="MicroPayModel.FK_FormGroupDHdr_FormGroupDHdr" />
+        <AssociationConnector Association="MicroPayModel.FK_FormGroupDHdr_User1" />
+        <AssociationConnector Association="MicroPayModel.FK_FormGroupEDetail1_FormGroupEHdr" />
+        <AssociationConnector Association="MicroPayModel.FK_FormGroupEDetail_FormGroupE" />
+        <AssociationConnector Association="MicroPayModel.FK_FormGroupE_tblMstEmployee" />
+        <AssociationConnector Association="MicroPayModel.FK_FormGroupE_User" />
+        <AssociationConnector Association="MicroPayModel.FK_FormGroupFDetail1_FormGroupFHdr" />
+        <AssociationConnector Association="MicroPayModel.FK_FormGroupFDetail2_FormGroupFHdr" />
+        <AssociationConnector Association="MicroPayModel.FK_FormGroupF_tblMstEmployee" />
+        <AssociationConnector Association="MicroPayModel.FK_FormGroupGHdr_tblMstEmployee" />
+        <EntityTypeShape EntityType="MicroPayModel.AppraisalFormHdr" Width="1.5" PointX="28" PointY="102.25" />
+        <AssociationConnector Association="MicroPayModel.FK_AppraisalFormHdr_tblMstEmployee" />
+        <AssociationConnector Association="MicroPayModel.FK_AppraisalFormHdr_User1" />
+        <EntityTypeShape EntityType="MicroPayModel.AppraisalForm" Width="1.5" PointX="0.75" PointY="128.125" />
+        <AssociationConnector Association="MicroPayModel.FK_AppraisalFormHdr_AppraisalForm" />
+        <AssociationConnector Association="MicroPayModel.FK_FormGroupA_tblMstEmployee" />
+        <AssociationConnector Association="MicroPayModel.FK_FormGroupAHdr_AppraisalForm" />
+        <AssociationConnector Association="MicroPayModel.FK_FormGroupBHdr_AppraisalForm" />
+        <AssociationConnector Association="MicroPayModel.FK_FormGroupCHdr_AppraisalForm" />
+        <AssociationConnector Association="MicroPayModel.FK_FormGroupDHdr_AppraisalForm" />
+        <AssociationConnector Association="MicroPayModel.FK_FormGroupEHdr_AppraisalForm" />
+        <AssociationConnector Association="MicroPayModel.FK_FormGroupGHdr_AppraisalForm" />
+        <AssociationConnector Association="MicroPayModel.FK_FormGroupHHdr_AppraisalForm" />
+        <EntityTypeShape EntityType="MicroPayModel.DesignationAppraisalForm" Width="1.5" PointX="23.75" PointY="119" />
+        <AssociationConnector Association="MicroPayModel.FK_DesignationAppraisalForm_AppraisalForm" />
+        <AssociationConnector Association="MicroPayModel.FK_DesignationAppraisalForm_Designation" />
+        <AssociationConnector Association="MicroPayModel.FK_DesignationAppraisalForm_User" />
+        <AssociationConnector Association="MicroPayModel.FK_DesignationAppraisalForm_User1" />
+        <EntityTypeShape EntityType="MicroPayModel.APARReviewedSignedCopy" Width="1.5" PointX="12.625" PointY="85.75" />
+        <AssociationConnector Association="MicroPayModel.FK_APARReviewedSignedCopy_AppraisalForm" />
+        <AssociationConnector Association="MicroPayModel.FK_APARReviewedSignedCopy_ProcessWorkFlow" />
+        <AssociationConnector Association="MicroPayModel.FK_APARReviewedSignedCopy_User" />
+        <AssociationConnector Association="MicroPayModel.FK_FormGroupTrainingDtls_AppraisalForm" />
+        <AssociationConnector Association="MicroPayModel.FK_FormGroupFHdr_AppraisalForm" />
+        <EntityTypeShape EntityType="MicroPayModel.SubordinatesTraining" Width="1.5" PointX="36.25" PointY="102.5" />
+        <AssociationConnector Association="MicroPayModel.FK_SubordinatesTraining_SubordinatesTraining" />
+        <AssociationConnector Association="MicroPayModel.FK_SubordinatesTraining_tblMstEmployee" />
+        <AssociationConnector Association="MicroPayModel.FK_SubordinatesTraining_User" />
+        <EntityTypeShape EntityType="MicroPayModel.EmployeeAchievement" Width="1.5" PointX="34.25" PointY="99.875" />
+        <EntityTypeShape EntityType="MicroPayModel.EmployeeCertification" Width="1.5" PointX="18.25" PointY="96.625" />
+        <AssociationConnector Association="MicroPayModel.FK_EmployeeAchievement_tblMstEmployee" />
+        <AssociationConnector Association="MicroPayModel.FK_EmployeeAchievement_User" />
+        <AssociationConnector Association="MicroPayModel.FK_EmployeeAchievement_User1" />
+        <AssociationConnector Association="MicroPayModel.FK_EmployeeCertification_EmployeeCertification" />
+        <AssociationConnector Association="MicroPayModel.FK_EmployeeCertification_tblMstEmployee" />
+        <AssociationConnector Association="MicroPayModel.FK_EmployeeCertification_User" />
+        <AssociationConnector Association="MicroPayModel.FK_EmployeeCertification_User1" />
+        <EntityTypeShape EntityType="MicroPayModel.EmpAchievementAndCertificationDocument" Width="1.5" PointX="46.75" PointY="126.75" />
+        <AssociationConnector Association="MicroPayModel.FK_EmpAchievementAndCertificationDocument_EmployeeAchievement" />
+        <AssociationConnector Association="MicroPayModel.FK_EmpAchievementAndCertificationDocument_EmployeeCertification" />
+        <AssociationConnector Association="MicroPayModel.FK_EmpAchievementAndCertificationDocument_User" />
+        <AssociationConnector Association="MicroPayModel.FK_EmpAchievementAndCertificationDocument_User1" />
+        <EntityTypeShape EntityType="MicroPayModel.EmpAttendanceHdr" Width="1.5" PointX="27" PointY="93.625" />
+        <AssociationConnector Association="MicroPayModel.FK_Tablet_tbl_proxy_Attendance_AttendanceType10" />
+        <AssociationConnector Association="MicroPayModel.FK_EmpAttendanceHdr_Branch" />
+        <AssociationConnector Association="MicroPayModel.FK_EmpAttendanceHdr_Designation" />
+        <AssociationConnector Association="MicroPayModel.FK_Tbl_Proxy_Attendance_Tablet_tbl_proxy_Attendance11" />
+        <AssociationConnector Association="MicroPayModel.FK_Tablet_tbl_proxy_Attendance_tblMstEmployee10" />
+        <AssociationConnector Association="MicroPayModel.FK_Tablet_tbl_proxy_Attendance_User10" />
+        <AssociationConnector Association="MicroPayModel.FK_Tablet_tbl_proxy_Attendance_User20" />
+        <EntityTypeShape EntityType="MicroPayModel.MaxEmpCodeTypeWise" Width="1.5" PointX="7.5" PointY="147.5" />
+        <AssociationConnector Association="MicroPayModel.FK_MaxEmpCodeTypeWise_EmployeeType" />
+        <EntityTypeShape EntityType="MicroPayModel.tblPFOpBalance" Width="1.5" PointX="12.75" PointY="133.5" />
+        <AssociationConnector Association="MicroPayModel.FK__tblPFOpBa__Branc__5B052800" />
+        <AssociationConnector Association="MicroPayModel.FK__tblPFOpBa__Creat__5BF94C39" />
+        <AssociationConnector Association="MicroPayModel.FK__tblPFOpBa__Updat__5CED7072" />
+        <EntityTypeShape EntityType="MicroPayModel.Insurance" Width="1.5" PointX="44" PointY="151.125" />
+        <EntityTypeShape EntityType="MicroPayModel.InsuranceDependent" Width="1.5" PointX="41.25" PointY="151.125" />
+        <AssociationConnector Association="MicroPayModel.FK_InsuranceDependent_EmployeeDependent" />
+        <AssociationConnector Association="MicroPayModel.FK_Insurance_tblMstEmployee" />
+        <AssociationConnector Association="MicroPayModel.FK_Insurance_User" />
+        <AssociationConnector Association="MicroPayModel.FK_Insurance_User1" />
+        <AssociationConnector Association="MicroPayModel.FK_InsuranceDependent_Insurance" />
+        <AssociationConnector Association="MicroPayModel.FK_InsuranceDependent_User" />
+        <AssociationConnector Association="MicroPayModel.FK_InsuranceDependent_User1" />
+        <EntityTypeShape EntityType="MicroPayModel.FTSUser" Width="1.5" PointX="5.25" PointY="228.75" />
+        <EntityTypeShape EntityType="MicroPayModel.FTSUserDepartment" Width="1.5" PointX="13.375" PointY="16.75" />
+        <AssociationConnector Association="MicroPayModel.FK_FTSUser_User" />
+        <EntityTypeShape EntityType="MicroPayModel.SeparationClearance" Width="1.5" PointX="47" PointY="151.75" />
+        <AssociationConnector Association="MicroPayModel.FK_SeparationClearance_tblMstEmployee" />
+        <AssociationConnector Association="MicroPayModel.FK_SeparationClearance_User" />
+        <AssociationConnector Association="MicroPayModel.FK_SeparationClearance_User1" />
+        <EntityTypeShape EntityType="MicroPayModel.Sepration" Width="1.5" PointX="50" PointY="132.125" />
+        <AssociationConnector Association="MicroPayModel.FK_SeparationClearance_Sepration" />
+        <AssociationConnector Association="MicroPayModel.FK_Sepration_tblMstEmployee" />
+        <AssociationConnector Association="MicroPayModel.FK_Sepration_User" />
+        <AssociationConnector Association="MicroPayModel.FK_Sepration_User1" />
+        <EntityTypeShape EntityType="MicroPayModel.Resignation" Width="1.5" PointX="48" PointY="147" />
+        <AssociationConnector Association="MicroPayModel.FK_Resignation_tblMstEmployee" />
+        <AssociationConnector Association="MicroPayModel.FK_Resignation_UpdatedUser" />
+        <AssociationConnector Association="MicroPayModel.FK_Resignation_User" />
+        <AssociationConnector Association="MicroPayModel.FK_FormGroupA_tblMstEmployee1" />
+        <AssociationConnector Association="MicroPayModel.FK_FormGroupAHdr_FormGroupAHdr" />
+        <AssociationConnector Association="MicroPayModel.FK_FormGroupA_tblMstEmployee1" />
+        <AssociationConnector Association="MicroPayModel.FK_FormGroupAHdr_FormGroupAHdr" />
+        <EntityTypeShape EntityType="MicroPayModel.UserLoginDetails" Width="1.5" PointX="17.375" PointY="0.75" />
+        <AssociationConnector Association="MicroPayModel.FK_UserLoginDetails_UserLoginDetails" />
+        <EntityTypeShape EntityType="MicroPayModel.InsufficientLoggingMonitoring" Width="1.5" PointX="17.375" PointY="4.75" />
+        </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

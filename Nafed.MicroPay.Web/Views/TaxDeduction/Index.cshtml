@@ -1,0 +1,30 @@
+﻿
+@{
+    ViewBag.Title = "Income Tax Declaration";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="">
+    <div class="card_new_body">
+
+        @using (Ajax.BeginForm("__Form12BBFilters", "TaxDeduction", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "div-form12BB-forms" }))
+        {
+            <div id="div-from12BB-filters">
+
+                @Html.Action("__Form12BBFilters")
+
+            </div>
+        }
+    </div>
+</div>
+
+<div class="card_new_body">
+
+    <div id="div-form12BB-forms">
+
+
+
+
+    </div>
+
+</div>

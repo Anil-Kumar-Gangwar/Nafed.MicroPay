@@ -1,0 +1,1561 @@
+﻿@using fileHelper = Nafed.MicroPay.Common.ExtensionMethods;
+@using Nafed.MicroPay.Common;
+@using Nafed.MicroPay.Model;
+
+@model Nafed.MicroPay.Model.AppraisalForm
+@{
+
+    var empSectionClass = (Model.ReportingTo == Model.loggedInEmpID || Model.ReviewingTo == Model.loggedInEmpID || Model.AcceptanceAuthorityTo == Model.loggedInEmpID) ? "noselect" : null;
+
+    var reportingSectionClass = (Model.ApprovalHierarchy == 1 && (Model.ReviewingTo == Model.loggedInEmpID || Model.AcceptanceAuthorityTo == Model.loggedInEmpID)) ? "noselect" :
+        (Model.ApprovalHierarchy == 1 && (Model.ReportingTo == Model.loggedInEmpID)) ? null :
+         (Model.ApprovalHierarchy == 2.0 && Model.loggedInEmpID == Model.ReportingTo) ? null : (Model.ApprovalHierarchy == 2.0 && Model.loggedInEmpID == Model.AcceptanceAuthorityTo) ? "noselect" : (Model.ApprovalHierarchy == 2.1) ? "noselect" :
+         (Model.ApprovalHierarchy == 3 && (Model.AcceptanceAuthorityTo == Model.loggedInEmpID)) ? null : "";
+
+    var reviewingSectionClass = (Model.ApprovalHierarchy == 1 && (Model.AcceptanceAuthorityTo == Model.loggedInEmpID)) ? "noselect" :
+        (Model.ApprovalHierarchy == 2 && (Model.ReportingTo == Model.loggedInEmpID)) ? null : (Model.ApprovalHierarchy == 2 && (Model.loggedInEmpID == Model.AcceptanceAuthorityTo)) ? "noselect" : "";
+
+    var enableReviewingToSectionClass3A = (Model.ReviewingTo == Model.loggedInEmpID && (Model.ApprovalHierarchy == 3)) ? "enableTDCells form-control text-right reviewing-part3A-input" :
+        (Model.ApprovalHierarchy == 2 && ((Model.ReportingTo == Model.ReviewingTo) && (Model.ReviewingTo == Model.loggedInEmpID))) ? "enableTDCells form-control text-right reviewing-part3A-input" :
+        (Model.ApprovalHierarchy == 2 && ((Model.ReviewingTo == Model.AcceptanceAuthorityTo) && (Model.AcceptanceAuthorityTo == Model.loggedInEmpID))) ? "enableTDCells form-control text-right reviewing-part3A-input" :
+        Model.ReviewingTo == Model.loggedInEmpID ? "enableTDCells form-control text-right reviewing-part3A-input" :
+        (Model.ReportingTo == Model.loggedInEmpID || Model.AcceptanceAuthorityTo == Model.loggedInEmpID) ? "form-control text-right reviewing-part3A-input" :
+        "enableTDCells form-control text-right reviewing-part3A-input";
+
+    var enableReviewingToSectionClass3B = (Model.ReviewingTo == Model.loggedInEmpID && (Model.ApprovalHierarchy == 3)) ? "enableTDCells form-control text-right reviewing-part3B-input" :
+       (Model.ApprovalHierarchy == 2 && ((Model.ReportingTo == Model.ReviewingTo) && (Model.ReviewingTo == Model.loggedInEmpID))) ? "enableTDCells form-control text-right reviewing-part3B-input" :
+       (Model.ApprovalHierarchy == 2 && ((Model.ReviewingTo == Model.AcceptanceAuthorityTo) && (Model.AcceptanceAuthorityTo == Model.loggedInEmpID))) ? "enableTDCells form-control text-right reviewing-part3B-input" :
+       Model.ReviewingTo == Model.loggedInEmpID ? "enableTDCells form-control text-right reviewing-part3B-input" :
+       (Model.ReportingTo == Model.loggedInEmpID || Model.AcceptanceAuthorityTo == Model.loggedInEmpID) ? "form-control text-right reviewing-part3B-input" :
+       "enableTDCells form-control text-right reviewing-part3B-input";
+
+    var enableReviewingToSectionClass3C = (Model.ReviewingTo == Model.loggedInEmpID && (Model.ApprovalHierarchy == 3)) ? "enableTDCells form-control text-right reviewing-part3C-input" :
+        (Model.ApprovalHierarchy == 2 && ((Model.ReportingTo == Model.ReviewingTo) && (Model.ReviewingTo == Model.loggedInEmpID))) ? "enableTDCells form-control text-right reviewing-part3C-input" :
+        (Model.ApprovalHierarchy == 2 && ((Model.ReviewingTo == Model.AcceptanceAuthorityTo) && (Model.AcceptanceAuthorityTo == Model.loggedInEmpID))) ? "enableTDCells form-control text-right reviewing-part3C-input" :
+        Model.ReviewingTo == Model.loggedInEmpID ? "enableTDCells form-control text-right reviewing-part3C-input" :
+        (Model.ReportingTo == Model.loggedInEmpID || Model.AcceptanceAuthorityTo == Model.loggedInEmpID) ? "form-control text-right reviewing-part3C-input" :
+        "enableTDCells form-control text-right reviewing-part3C-input";
+
+   
+    if (Model.frmAttributes != null && Model.frmAttributes.EmployeeSection) { empSectionClass = null; }
+    if (Model.frmAttributes != null && Model.frmAttributes.ReportingSection) { reportingSectionClass = null; }
+    if (Model.frmAttributes != null && Model.frmAttributes.ReviewerSection) { reviewingSectionClass = null; }
+    if (Model.ApprovalHierarchy == 2 && Model.AcceptanceAuthorityTo == Model.loggedInEmpID)
+    {
+        reviewingSectionClass = "noselect";
+        reportingSectionClass = "noselect";
+    }
+
+}
+<div id="div-main-form" class="AppraisalBGpink">
+    <div class="row">
+
+        <div class="col-lg-10 col-md-10 col-xl-10 col-sm-12 col-xs-12">
+
+            <div class="form-group">
+
+                <div class="col-lg-8 col-md-8 col-xl-8 col-sm-12 col-xs-12">
+                    <a data-toggle="modal" class="font-weight-bold text-danger" data-target="#form-F-guideline" href="#">
+                        <i class="fas fa-book-open"></i>
+                        APAR Guideline
+                    </a>
+
+                    <img class="pull-right" src="~/Images/logo.png" />
+                </div>
+
+                <div class="col-lg-4 col-md-4 col-xl-4 col-sm-12 col-xs-12">
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-2 col-md-2 col-xl-2 col-sm-12 col-xs-12">
+            <div>
+                <div class="form-group">
+                    <div class="col-lg-12 col-md-12 col-xl-12 col-sm-12 col-xs-12 text-right font-weight-bold">
+                        Form 'F'
+                    </div>
+                </div>
+                <div class="form-group mr-0 font-weight-bold">
+                    <div class="row">
+                        @Html.Name("Dossier No.") :  @(Model.formGroupAHdr.DossierNo.HasValue ? Model.formGroupAHdr.DossierNo.Value.ToString() : "Not Available")
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-lg-12 col-md-12 col-xl-12 col-sm-12 col-xs-12 text-center">
+            <h4 class="font-weight-bold">
+                National Agricultural Cooperative Marketing Federation of India Ltd.<br />
+                Nafed House, Sidhartha Enclave, Ashram Chowk, Ring Road,<br />
+                <span style="text-decoration:underline">New Delhi - 110 014</span>
+            </h4>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-lg-12 col-md-12 col-xl-12 col-sm-12 col-xs-12 text-center">
+            <h4>
+                ANNUAL PERFORMANCE APPRAISAL REPORT OF JUNIOR ASSISTANT / FIELD
+                REPRESENTATIVE / JUNIOR ACCOUNT ASSISTANT / JUNIOR FIELD REPRESENTATIVE / CLERK
+                CUM TYPIST AND EQUIVALENT POST
+            </h4>
+        </div>
+
+    </div>
+
+    <div class="form-group">
+        <div class="col-lg-12 col-md-12 col-xl-12 col-sm-12 col-xs-12">
+            @*@Html.DisplayFor(model => model.formGroupAHdr.ReportingYr, new {@class = "form-control font-weight-bold" })*@
+            <div class="row">
+                Report for the year / period ending :
+
+                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 mb-2 font-weight-bold">
+
+                    @Model.formGroupAHdr.ReportingYr
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="form-group">
+        <div class="col-lg-12 col-md-12 col-xl-12 col-sm-12 col-xs-12 text-center">
+            <h3>
+                PERSONAL DATA
+            </h3>
+            <h5>(To be filled in by the Personnel Section)</h5>
+        </div>
+
+    </div>
+
+    <div class="form-group">
+        <div class="col-lg-12 col-md-12 col-xl-12 col-sm-12 col-xs-12 font-weight-bold p-4" style="text-decoration:underline">
+            PART – 1
+        </div>
+
+    </div>
+
+    <div class="form-group">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
+
+            <div class="row">
+                <p class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                    1. Name of the Employee
+                </p>
+                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 mb-2 font-weight-bold">
+                    @Model.formGroupAHdr.EmployeeName
+                </div>
+            </div>
+            <div class="row">
+                <p class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                    2. Designation
+                </p>
+                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 mb-2 font-weight-bold">
+                    @Model.formGroupAHdr.DesignationName
+                </div>
+            </div>
+            <div class="row">
+                <p class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                    3. Date of Birth
+                </p>
+                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 mb-2 font-weight-bold">
+                    @(Model.formGroupAHdr.DOB.HasValue ? Convert.ToDateTime(Model.formGroupAHdr.DOB).ToString("dd/MM/yyyy") : "Not Available")
+                </div>
+            </div>
+            <div class="row">
+                <p class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                    4. Place of posting
+                </p>
+                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 mb-2 font-weight-bold">
+                    @Html.DisplayFor(model => model.formGroupAHdr.PlaceOfJoin, new { @class = "form-control" })
+                </div>
+
+            </div>
+            <div class="row">
+                <p class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                    5. Qualifications
+                </p>
+                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 mb-2 font-weight-bold">
+                    @Html.DisplayFor(model => model.formGroupAHdr.Qualification, new { @class = "form-control" })
+                </div>
+
+            </div>
+            <div class="row">
+                <p class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                    6. Date of joining NAFED
+                </p>
+                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 mb-2 font-weight-bold">
+                    @Convert.ToDateTime(Model.formGroupAHdr.DOJ).ToString("dd/MM/yyyy")
+                </div>
+
+            </div>
+            <div class="row">
+                <p class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                    7. Date of appointment to the present post
+                </p>
+                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 mb-2 font-weight-bold">
+                    @(Model.formGroupAHdr.DOPP.HasValue ? Convert.ToDateTime(Model.formGroupAHdr.DOPP).ToString("dd/MM/yyyy") : "Not Available")
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <div class="mb-4">
+
+        @using (Ajax.BeginForm("_PostROFormFData", "Appraisal", new AjaxOptions { HttpMethod = "POST", OnSuccess = "OnSuccess" }, new { id = "FormF" }))
+        {
+            @Html.ValidationSummary(true)
+            if (Model.isValid == false)
+            {
+                <script type="text/javascript">
+                    alert("Form Submit Failed \n\nThere are some mandatory field(s) in the form,where you have not provide inputs, Please look into the form and provide value in mandatory field(s).");
+                </script>
+            }
+            @Html.HiddenFor(model => model.ReportingYr)
+            @Html.HiddenFor(model => model.formGroupAHdr.ReportingYr)
+            @Html.HiddenFor(model => model.formGroupAHdr.EmployeeName)
+            @Html.HiddenFor(model => model.formGroupAHdr.EmployeeCode)
+            @Html.HiddenFor(model => model.formGroupAHdr.DesignationName)
+            @Html.HiddenFor(model => model.formGroupAHdr.DOB)
+            @Html.HiddenFor(model => model.formGroupAHdr.PlaceOfJoin)
+            @Html.HiddenFor(model => model.formGroupAHdr.Qualification)
+            @Html.HiddenFor(model => model.formGroupAHdr.DOJ)
+            @Html.HiddenFor(model => model.formGroupAHdr.DOPP)
+            @Html.HiddenFor(model => model.ApprovalHierarchy)
+
+            <div id="div-Employee" class="@empSectionClass @reportingSectionClass">
+                <div class="form-group">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
+
+                        <div class="row">
+                            <p class="col-lg-4 col-md-4 col-sm-4 col-xs-12 required">
+                                8. Period for which the employee has worked under
+                                the Reporting Officer during the year under review
+                              
+                            </p>
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 mb-2">
+                                @*@Html.EditorFor(model => model.formGroupAHdr.WorkedPeriodUnderROFrom, new { htmlAttributes = new { @class = "form-control", @type = "date" } })*@
+                                @Html.TextBoxFor(model => model.formGroupAHdr.WorkedPeriodUnderROFrom, String.Format("{0:dd/MM/yyyy}", Model.formGroupAHdr.WorkedPeriodUnderROFrom), new { @type = "text", @class = "form-control datepicker", @placeholder = "dd/mm/yyyy" })
+                                @Html.ValidationMessage("WorkedPeriodUnderROFrom", "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 mb-2">
+                                @*@Html.EditorFor(model => model.formGroupAHdr.WorkedPeriodUnderROTo, new { htmlAttributes = new { @class = "form-control", @type = "date" } })*@
+                                @Html.TextBoxFor(model => model.formGroupAHdr.WorkedPeriodUnderROTo, String.Format("{0:dd/MM/yyyy}", Model.formGroupAHdr.WorkedPeriodUnderROTo), new { @type = "text", @class = "form-control datepicker", @placeholder = "dd/mm/yyyy" })
+                                @Html.ValidationMessage("WorkedPeriodUnderROTo", "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-lg-12 col-md-12 col-xl-12 col-sm-12 col-xs-12 font-weight-bold p-4" style="text-decoration:underline">
+                        PART – 2
+                    </div>
+
+                </div>
+                <div class="form-group">
+                    <div class="col-lg-12 col-md-12 col-xl-12 col-sm-12 col-xs-12 text-center">
+                        <h5>
+                            To be filled in by the officer reported upon<br />
+                            (Please read carefully the instructions before filling the entries)
+                        </h5>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
+
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
+                                <p class="required">
+                                    1. Brief description of duties:
+                                </p>
+                            </div>
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
+
+                                @Html.HiddenFor(model => Model.EmployeeID)
+                                @Html.HiddenFor(model => Model.formGroupAHdr.ReportingYr)
+                                @Html.HiddenFor(model => Model.formGroupAHdr.CreatedBy)
+                                @Html.HiddenFor(model => Model.formGroupAHdr.CreatedOn)
+                                @Html.HiddenFor(model => Model.FormID)
+                                @Html.HiddenFor(model => Model.formGroupAHdr.FormID)
+                                @Html.HiddenFor(model => Model.formGroupAHdr.FormGroupID)
+                                @Html.HiddenFor(model => Model.formGroupAHdr.EmployeeID)
+                                @Html.HiddenFor(model => Model.loggedInEmpID)
+                                @Html.HiddenFor(model => model.ReportingTo)
+                                @Html.HiddenFor(model => model.ReviewingTo)
+                                @Html.HiddenFor(model => Model.AcceptanceAuthorityTo)
+                                @Html.HiddenFor(model => Model.formGroupAHdr.FormState)
+
+                                @Html.HiddenFor(model => model.formGroupAHdr.DepartmentID)
+                                @Html.HiddenFor(model => model.formGroupAHdr.DesignationID)
+
+                                @Html.TextAreaFor(model => model.formGroupAHdr.PART2_1, new { @class = "form-control xl-textarea", @maxlength = "7999" })
+                                @Html.ValidationMessageFor(model => model.formGroupAHdr.PART2_1, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
+                                <p>
+                                    2. Please specify targets/objectives/goals (in quantitative or other terms) of work you set for yourself or that
+                                    were set for you, eight to ten items of work in the order of priority and your achievement against each target
+                                    (Example Annual Action Plan for your Division)
+                                </p>
+                            </div>
+
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div class="row mb-3 text-right">
+                                    <div class="col-md-12 pull-right">
+
+
+                                        <input type="submit" value="Add Row" id="btnAddRow" name="ButtonType" class="btn btn-info btn-md pull-center toggle-tooltip btn-sectionAddRow"
+                                               title="Click here, to add new row." />
+                                    </div>
+                                </div>
+
+                                <div id="div-form-part2-grid">
+                                    @Html.Partial("_FormGroupPart2GridView", Model)
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row pbrk">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
+                                <p class="">
+                                    3. (A) Please state briefly, the shortfalls with reference to the targets/objectives/goals referred to in item 2. Please
+                                    specify constraints, if any, in achieving the targets.
+                                </p>
+                            </div>
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2 @reportingSectionClass">
+                                @Html.TextAreaFor(model => model.formGroupAHdr.PART2_3A, new { @class = "form-control xl-textarea", @maxlength = "7999" })
+                                @Html.ValidationMessageFor(model => model.formGroupAHdr.PART2_3A, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
+                                <p class="required">
+                                    (B) Please also indicate items in which there have been significantly higher achievements and your contribution
+                                    thereto.
+                                </p>
+                            </div>
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2 @reportingSectionClass">
+                                @Html.TextAreaFor(model => model.formGroupAHdr.PART2_3B, new { @class = "form-control xl-textarea", @maxlength = "7999" })
+                                @Html.ValidationMessageFor(model => model.formGroupAHdr.PART2_3B, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
+                                <p>
+                                    4. Please state whether the annual return on immovable property for the preceding calendar year was filed
+                                    within the prescribed date i.e. 31 st January of the following the calendar year if not, the date of filling the
+                                    return should be given.
+                                </p>
+                            </div>
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2 @reportingSectionClass">
+
+
+                                @*@Html.TextAreaFor(model => model.formGroupAHdr.PART2_4, new { @class = "form-control xl-textarea" })
+                                    @Html.ValidationMessageFor(model => model.formGroupAHdr.PART2_4, "", new { @class = "text-danger" })*@
+
+                                <div class="form-group">
+
+                                    <div class="row">
+
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                            <div class="row">
+                                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+
+                                                    Annual Property Return Submitted :
+                                                </div>
+
+                                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 font-weight-bold">
+
+                                                    @ExtensionMethods.BoolToYesNo(Model.AnnualPropertyReturnSubmitted)
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                @if (Model.AnnualPropertyReturnSubmitted)
+                                {
+
+                                    <div class="form-group">
+                                        <div class="row">
+
+                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                <div class="row">
+
+                                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+
+                                                        Submitted On :
+                                                    </div>
+
+                                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 font-weight-bold">
+
+                                                        @if (Model.AnnualPropertySubmittedOn.HasValue)
+                                                        {
+                                                            @Model.AnnualPropertySubmittedOn.Value.ToString("dd/MM/yyyy")
+                                                        }
+                                                        else
+                                                        {
+                                                            <text>Not Available </text>
+                                                        }
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+
+                                    </div>
+
+                                }
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
+
+                                <p class="pull-right m-4">Signature of officer reported upon</p>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2 text-left form-inline">
+                                <div class="col-lg-2 col-md-2 col-sm-4 col-xs-4 mb-2">
+                                    Place :
+                                </div>
+                                <div class="col-lg-3 col-md-3 col-sm-8 col-xs-8 mb-2 underlineinput">
+
+                                    @Html.DisplayFor(model => model.formGroupAHdr.PlaceOfJoin, new { @class = "form-control" })
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2 text-right form-inline">
+                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 mb-2 text-right">
+                                    <p>Name in Block Letters :</p>
+                                </div>
+
+                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 mb-2 underlineinput text-left">
+                                    @Html.DisplayFor(model => model.formGroupAHdr.EmployeeName, new { @class = "form-control" })
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2 text-left form-inline">
+                                <div class="col-lg-2 col-md-2 col-sm-4 col-xs-4 mb-2">
+                                    Date :
+                                </div>
+                                <div class="col-lg-3 col-md-3 col-sm-8 col-xs-8 mb-2 underlineinput">
+
+                                    @(Model.formGroupAHdr.EmpSenddate.HasValue ? Model.formGroupAHdr.EmpSenddate.Value.ToString("dd/MM/yyyy") : "" )
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2 text-right form-inline">
+                            </div>
+
+                        </div>
+
+
+                        @if ((Model.EmployeeID == Model.loggedInEmpID))
+                        {
+                            if (!Model.isAdmin)
+                            {<div class="pull-right div-action pl-1">
+                            @Html.ActionLink("Back", "Index", "Appraisal", null, new { @class = "btn btn-light btn-md", title = "Click here, to go to back on previous screen.", @data_toggle = "tooltip" })
+                        </div>
+                                if (Model.formGroupAHdr.FormState == (int)AppraisalFormState.SavedByEmployee || (Model.formGroupAHdr.FormState == 0))
+                                {
+                                    <div class="pull-right div-action">
+
+                                        <input type="submit" value="Save" id="btnESave" name="ButtonType" class="btn btn-info btn-md toggle-tooltip " title="Click here, to save the data." />
+                                        <input type="submit" value="Save & Submit" id="btnESaveSubmit" name="ButtonType" class="btn btn-info btn-md toggle-tooltip " title="Click here, to save & submit the data." />
+                                    </div>
+                                }
+                            }
+                            else
+                            {
+                                <div class="pull-right div-action pl-1">
+                                    @Html.ActionLink("Back", "Index", "AcarApar", null, new { @class = "btn btn-light btn-md", title = "Click here, to go to back on previous screen.", @data_toggle = "tooltip" })
+                                </div>
+                            }
+                        }
+                    </div>
+                </div>
+
+
+            </div>
+
+            <div id="div-RO" class="@reportingSectionClass">
+
+                @if ((Model.ReportingTo == Model.loggedInEmpID) || (Model.ReviewingTo == Model.loggedInEmpID) || (Model.AcceptanceAuthorityTo == Model.loggedInEmpID))
+                {
+                    //using (Ajax.BeginForm("_PostROFormData", "Appraisal", new AjaxOptions { HttpMethod = "POST", OnSuccess = "OnSuccess" }))
+                    //{
+                    @*}
+                        }
+                        @using (Ajax.BeginForm("_PostROFormData", "Appraisal", new AjaxOptions { HttpMethod = "POST", OnSuccess = "" }))
+                        {*@
+                    <div class="form-group">
+                        <div class="col-lg-12 col-md-12 col-xl-12 col-sm-12 col-xs-12 font-weight-bold p-4" style="text-decoration:underline">
+                            PART – 3
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-lg-12 col-md-12 col-xl-12 col-sm-12 col-xs-12">
+                            <p>
+                                Numerical grading is to be awarded by Reporting and Reviewing Authority which should be on a scale of 1-10 where 1
+                                refers to the lowest grade and 10 to the highest.
+                            </p>
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-xl-12 col-sm-12 col-xs-12 text-center">
+                            <p>
+                                (Please read carefully the guidelines before filling the entries)
+                            </p>
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-xl-12 col-sm-12 col-xs-12 text-center">
+                            <p>
+                                (A)	Assessment of work output (weightage to this Section would be 40%)
+                            </p>
+                        </div>
+
+                        <div class="col-lg-12 col-md-12 col-xl-12 col-sm-12 col-xs-12">
+                            <table id="tblActivity" class="table table-bordered table-centered dt-responsive w-100">
+                                <thead>
+                                    <tr>
+                                        <th style="width:40%">
+                                        </th>
+                                        <th style="width:15%" class="required">Reporting Authority</th>
+                                        <th class="required">Reviewing Authority (Refer Para 2 of Part 5)</th>
+                                        <th>Initial of Reviewing Authority</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    @if (Model.formGroupADetail2List != null && Model.formGroupADetail2List.Count > 0)
+                                    {
+                                        var sn = 0;
+                                        for (int i = 0; i <= 4; i++)
+                                        {
+                                            @Html.HiddenFor(m => Model.formGroupADetail2List[i].ActivityID)
+                                            @Html.HiddenFor(model => Model.formGroupADetail2List[i].FormDetailID)
+                                            <tr>
+                                                <td class="text-left">
+                                                    @if (i == 4)
+                                                    { @Model.formGroupADetail2List[i].Activities}
+                                                    else
+                                                    {
+                                                        <p class="">
+                                                            @fileHelper.GetRomanValueByNumber(sn + 1) <text>.</text>
+                                                            @Model.formGroupADetail2List[i].Activities
+                                                            </p>
+                                                            }
+
+</td>
+                                                <td class="text-right">
+                                                    @if (i == 4)
+                                                    {
+                                                        @Html.EditorFor(m => Model.formGroupADetail2List[i].ReportingAuthorityWeightage, new { htmlAttributes = new { @class = "form-control text-right reporting-part3A-weightage", @readonly = "readonly" } })
+                                                        // @Html.ValidationMessageFor(m => Model.formGroupADetail2List[i].ReportingAuthorityWeightage, "", new { @class = "text-danger" })
+                                                    }
+                                                    else
+                                                    {
+                                                        @Html.EditorFor(m => Model.formGroupADetail2List[i].ReportingAuthorityWeightage, new { htmlAttributes = new { @class = "form-control text-right reporting-part3A-input", @type = "number", @min = "1", @max = "10", @maxlength = "2", @onblur = "onReportingAuthority3A()", @onmouseup = "onReportingAuthority3A()" } })
+                                                        @Html.ValidationMessageFor(m => Model.formGroupADetail2List[i].ReportingAuthorityWeightage, "", new { @class = "text-danger" })
+                                                    }
+
+                                                </td>
+                                                <td>
+                                                    @if (i == 4)
+                                                    {
+                                                        @Html.EditorFor(model => Model.formGroupADetail2List[i].ReviewingAuthorityWeightage, new { htmlAttributes = new { @class = "form-control text-right reviewing-part3A-weightage", @readonly = "readonly" } })
+                                                    }
+                                                    else
+                                                    {
+
+                                                        if (Model.ReportingTo == Model.loggedInEmpID && Model.ApprovalHierarchy == 1)
+                                                        {
+                                                            @Html.EditorFor(model => Model.formGroupADetail2List[i].ReviewingAuthorityWeightage, new { htmlAttributes = new { @class = "form-control text-right reviewing-part3A-input", @type = "number", @min = "1", @max = "10", @maxlength = "2", @readonly = "readonly" } })
+                                                            // @Html.ValidationMessageFor(m => Model.formGroupADetail2List[i].ReviewingAuthorityWeightage, "", new { @class = "text-danger" })
+                                                        }
+                                                        else
+                                                        {
+                                                            @Html.EditorFor(model => Model.formGroupADetail2List[i].ReviewingAuthorityWeightage, new { htmlAttributes = new { @class = @enableReviewingToSectionClass3A, @type = "number", @min = "1", @max = "10", @maxlength = "2", @onblur = "onReiewingAuthority3A()", @onmouseup = "onReiewingAuthority3A()" } })
+                                                            @Html.ValidationMessageFor(m => Model.formGroupADetail2List[i].ReviewingAuthorityWeightage, "", new { @class = "text-danger" })
+                                                        }
+                                                    }
+
+                                                </td>
+
+                                                <td>@Model.formGroupAHdr.ReviewerTo</td>
+                                            </tr>
+                                            sn++;
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-lg-12 col-md-12 col-xl-12 col-sm-12 col-xs-12 text-center">
+                            <p>
+                                (B) Assessment of Personal Attributes (weightage to this Section would be 30 %)
+                            </p>
+                        </div>
+
+                        <div class="col-lg-12 col-md-12 col-xl-12 col-sm-12 col-xs-12">
+                            <table id="tblPersonalAttribute" class="table table-bordered table-centered">
+                                <thead>
+                                    <tr>
+                                        <th style="width:40%">
+
+                                        </th>
+                                        <th style="width:15%" class="required">
+                                            Reporting Authority
+                                        </th>
+                                        <th class="required">
+                                            Reviewing Authority (Refer Para 2 of Part 5)
+                                        </th>
+                                        <th>
+                                            Initial of Reviewing Authority
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (Model.formGroupADetail2List != null && Model.formGroupADetail2List.Count > 0)
+                                    {
+                                        var sn = 0;
+
+                                        for (int i = 5; i <= 14; i++)
+                                        {
+                                            @Html.HiddenFor(m => Model.formGroupADetail2List[i].ActivityID)
+                                            @Html.HiddenFor(model => Model.formGroupADetail2List[i].FormDetailID)
+                                            <tr>
+                                                <td class="text-left">
+                                                    @if (i == 14)
+                                                    { @Model.formGroupADetail2List[i].Activities}
+                                                    else
+                                                    {
+                                                        <p class="">
+                                                            @fileHelper.GetRomanValueByNumber(sn + 1) <text>.</text>
+                                                            @Model.formGroupADetail2List[i].Activities
+                                                            </p>
+                                                            }
+
+</td>
+                                                <td>
+                                                    @if (i == 14)
+                                                    {
+                                                        @Html.EditorFor(m => Model.formGroupADetail2List[i].ReportingAuthorityWeightage, new { htmlAttributes = new { @class = "form-control text-right reporting-part3B-weightage", @readonly = "readonly" } })
+                                                        //  @Html.ValidationMessageFor(m => Model.formGroupADetail2List[i].ReportingAuthorityWeightage, "", new { @class = "text-danger" })
+                                                    }
+                                                    else
+                                                    {
+                                                        @Html.EditorFor(m => Model.formGroupADetail2List[i].ReportingAuthorityWeightage, new { htmlAttributes = new { @class = "form-control text-right reporting-part3B-input", @type = "number", @min = "1", @max = "10", @maxlength = "2", @onblur = "onReportingAuthority3B()", @onmouseup = "onReportingAuthority3B()" } })
+                                                        @Html.ValidationMessageFor(m => Model.formGroupADetail2List[i].ReportingAuthorityWeightage, "", new { @class = "text-danger" })
+                                                    }
+
+
+                                                </td>
+                                                <td>
+                                                    @if (i == 14)
+                                                    {
+                                                        @Html.EditorFor(m => Model.formGroupADetail2List[i].ReviewingAuthorityWeightage, new { htmlAttributes = new { @class = "form-control text-right reviewing-part3B-weightage", @readonly = "readonly" } })}
+                                                    else
+                                                    {
+                                                        if (Model.ReportingTo == Model.loggedInEmpID && Model.ApprovalHierarchy == 1)
+                                                        {
+                                                            @Html.EditorFor(m => Model.formGroupADetail2List[i].ReviewingAuthorityWeightage, new { htmlAttributes = new { @class = "form-control text-right", @min = "1", @max = "10", @maxlength = "2", @readonly = "readonly" } })
+                                                            // @Html.ValidationMessageFor(m => Model.formGroupADetail2List[i].ReviewingAuthorityWeightage, "", new { @class = "text-danger" })
+                                                        }
+                                                        else
+                                                        {
+                                                            @Html.EditorFor(m => Model.formGroupADetail2List[i].ReviewingAuthorityWeightage, new { htmlAttributes = new { @class = @enableReviewingToSectionClass3B, @type = "number", @min = "1", @max = "10", @maxlength = "2", @onblur = "onReiewingAuthority3B()", @onmouseup = "onReiewingAuthority3B()" } })
+                                                            @Html.ValidationMessageFor(m => Model.formGroupADetail2List[i].ReviewingAuthorityWeightage, "", new { @class = "text-danger" })
+                                                        }
+                                                    }
+
+                                                </td>
+
+                                                <td>@Model.formGroupAHdr.ReviewerTo</td>
+                                            </tr>
+                                            sn++;
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-lg-12 col-md-12 col-xl-12 col-sm-12 col-xs-12 text-center">
+                            <p>
+                                (C)	Assessment of Functional Competency (weightage to this Section would be 30%)
+                            </p>
+                        </div>
+
+                        <div class="col-lg-12 col-md-12 col-xl-12 col-sm-12 col-xs-12">
+                            <table id="tblFunctionalCompetency" class="table table-bordered table-centered">
+                                <thead>
+                                    <tr>
+                                        <th style="width:40%;">
+
+                                        </th>
+                                        <th style="width:15%">
+                                            Reporting Authority
+                                        </th>
+                                        <th>
+                                            Reviewing Authority (Refer Para 2 of Part 5)
+                                        </th>
+                                        <th>
+                                            Initial of Reviewing Authority
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (Model.formGroupADetail2List != null && Model.formGroupADetail2List.Count > 0)
+                                    {
+                                        var sn = 0;
+                                        for (var i = 15; i <= 21; i++)
+                                        {
+                                            @Html.HiddenFor(m => Model.formGroupADetail2List[i].ActivityID)
+                                            @Html.HiddenFor(model => Model.formGroupADetail2List[i].FormDetailID)
+                                            <tr>
+                                                <td class="text-left">
+                                                    @if (i == 21)
+                                                    { @Model.formGroupADetail2List[i].Activities}
+                                                    else
+                                                    {
+                                                        <p class="required">
+                                                            @fileHelper.GetRomanValueByNumber(sn + 1) <text>.</text>
+                                                            @Model.formGroupADetail2List[i].Activities
+                                                            </p>
+                                                            }
+</td>
+                                                <td>
+                                                    @if (i == 21)
+                                                    {
+                                                        @Html.EditorFor(x => Model.formGroupADetail2List[i].ReportingAuthorityWeightage, new { htmlAttributes = new { @class = "form-control text-right reporting-part3C-weightage", @readonly = "readonly" } })
+                                                    }
+                                                    else
+                                                    {
+                                                        @Html.EditorFor(x => Model.formGroupADetail2List[i].ReportingAuthorityWeightage, new { htmlAttributes = new { @class = "form-control text-right reporting-part3C-input", @type = "number", @min = "1", @max = "10", maxlength = "2", @onblur = "onReportingAuthority3C()", @onmouseup = "onReportingAuthority3C()" } })
+                                                        @Html.ValidationMessageFor(m => Model.formGroupADetail2List[i].ReportingAuthorityWeightage, "", new { @class = "text-danger" })
+                                                    }
+                                                </td>
+                                                <td>
+                                                    @if (i == 21)
+                                                    {
+                                                        @Html.EditorFor(x => Model.formGroupADetail2List[i].ReviewingAuthorityWeightage, new { htmlAttributes = new { @class = "form-control text-right reviewing-part3C-weightage", @readonly = "readonly" } })}
+                                                    else
+                                                    {
+                                                        if (Model.ReportingTo == Model.loggedInEmpID && Model.ApprovalHierarchy == 1)
+                                                        {
+                                                            @Html.EditorFor(x => Model.formGroupADetail2List[i].ReviewingAuthorityWeightage, new { htmlAttributes = new { @class = "form-control text-right", @min = "1", @max = "10", maxlength = "2", @readonly = "readonly" } })
+                                                        }
+                                                        else
+                                                        {
+                                                            @Html.EditorFor(x => Model.formGroupADetail2List[i].ReviewingAuthorityWeightage, new { htmlAttributes = new { @class = @enableReviewingToSectionClass3C, @type = "number", @min = "1", @max = "10", maxlength = "2", @onblur = "onReiewingAuthority3C()", @onmouseup = "onReiewingAuthority3C()" } })
+                                                            @Html.ValidationMessageFor(m => Model.formGroupADetail2List[i].ReviewingAuthorityWeightage, "", new { @class = "text-danger" })
+                                                        }
+                                                    }
+
+                                                </td>
+
+                                                <td>@Model.formGroupAHdr.ReviewerTo</td>
+                                            </tr>
+                                            sn++;
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+
+                        <div class="form-group">
+
+                            <div class="col-lg-12 col-md-12 col-xl-12 col-sm-12 col-xs-12 text-center">
+                                <h5> GENERAL </h5>
+                            </div>
+
+                            <div class="col-lg-12 col-md-12 col-xl-12 col-sm-12 col-xs-12 font-weight-bold p-4">
+                                <u>  PART – 4  </u>
+                            </div>
+
+
+                            <div class="col-lg-12 col-md-12 col-xl-12 col-sm-12 col-xs-12 required">
+                                1. Relations with the public (whatever applicable)
+                                (Please comment on the Officer’s accessibility to the public and responsiveness to their needs)
+                            </div>
+
+                            <div class="col-lg-12 col-md-12 col-xl-12 col-sm-12 col-xs-12">
+
+                                <div class="row mt-2">
+
+                                    <div class="col-sm-4">
+
+                                        @Html.EnumDropDownListFor(model => model.formGroupAHdr.Part4_1_Gr, new { @class = "custom-select drpdown-section", @size = 4 })
+
+                                    </div>
+
+                                    <div class="col-sm-8">
+
+                                        @Html.TextAreaFor(model => model.formGroupAHdr.PART4_1_Remark, new { @class = "form-control lg-textarea", maxlength = "500" })
+                                        @Html.ValidationMessageFor(model => model.formGroupAHdr.PART4_1_Remark, "", new { @class = "text-danger" })
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="col-lg-12 col-md-12 col-xl-12 col-sm-12 col-xs-12">
+                                2. Training
+                            </div>
+
+                            <div class="col-lg-12 col-md-12 col-xl-12 col-sm-12 col-xs-12">
+                                (Please give recommendations for training with a view to further improving the effectiveness and capabilities of the Officer.)
+                            </div>
+
+                            <div class="col-lg-12 col-md-12 col-xl-12 col-sm-12 col-xs-12 mt-2">
+
+                                <div class="row mb-3 text-right">
+                                    <div class="col-md-12 pull-right">
+                                        <input type="submit" value="Add New Training Row" id="btnAddRow" name="ButtonType" class="btn btn-info btn-md pull-center toggle-tooltip btn-sectionAddRow"
+                                               title="Click here, to add new row." />
+                                    </div>
+                                </div>
+                                <div id="div-form-training-grid">
+
+                                    @Html.Partial("_FormGroupTrainingGridView", Model)
+
+                                </div>
+
+                            </div>
+
+                            <div class="col-lg-12 col-md-12 col-xl-12 col-sm-12 col-xs-12 required">
+                                3. State of health
+                            </div>
+
+                            <div class="col-lg-12 col-md-12 col-xl-12 col-sm-12 col-xs-12">
+
+                                <div class="row mt-2">
+
+                                    <div class="col-sm-4">
+
+                                        @Html.EnumDropDownListFor(model => model.formGroupAHdr.Part4_3_Gr, new { @class = "custom-select drpdown-section", @size = 4 })
+                                    </div>
+
+                                    <div class="col-sm-8">
+
+                                        @Html.TextAreaFor(model => model.formGroupAHdr.PART4_3_Remark, new { @class = "form-control lg-textarea", @maxlength = "7999" })
+                                        @Html.ValidationMessageFor(model => model.formGroupAHdr.PART4_3_Remark, "", new { @class = "text-danger" })
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="col-lg-12 col-md-12 col-xl-12 col-sm-12 col-xs-12 required">
+                                4. Integrity
+                                <div>
+                                    (Please comment on the integrity of the Officer)
+                                </div>
+                            </div>
+
+                            <div class="col-lg-12 col-md-12 col-xl-12 col-sm-12 col-xs-12">
+
+                                <div class="row mt-2">
+
+                                    <div class="col-sm-4">
+
+                                        @Html.EnumDropDownListFor(model => model.formGroupAHdr.FormPart4Integrity, new { @class = "custom-select drpdown-section", @size = 4 })
+                                    </div>
+
+                                    <div class="col-sm-8">
+
+                                        @Html.TextAreaFor(model => model.formGroupAHdr.PART4_4_Remark, new { @class = "form-control lg-textarea", @maxlength = "7999" })
+                                        @Html.ValidationMessageFor(model => model.formGroupAHdr.PART4_4_Remark, "", new { @class = "text-danger" })
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="col-lg-12 col-md-12 col-xl-12 col-sm-12 col-xs-12 required">
+                                5. Pen Picture by the Reporting Officer (in about 100 words) on the overall qualities of the officer including area of strengths and lesser strength, extraordinary achievements, significant failures (ref 3(A) & 3(B) of Part -2) and attitude towards weaker sections.
+
+                            </div>
+
+                            <div class="col-lg-12 col-md-12 col-xl-12 col-sm-12 col-xs-12">
+
+                                <div class="row mt-2">
+
+                                    <div class="col-sm-12">
+
+                                        @Html.TextAreaFor(model => model.formGroupAHdr.PART4_5_Remark, new { @class = "form-control lg-textarea", @maxlength = "7999" })
+                                        @Html.ValidationMessageFor(model => model.formGroupAHdr.PART4_5_Remark, "", new { @class = "text-danger", @maxlength = "100" })
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="col-lg-12 col-md-12 col-xl-12 col-sm-12 col-xs-12">
+                                6. Overall numerical grading on the basis of weightage given in Section A, B and C in Part-3 of the Report.
+                            </div>
+
+                            <div class="col-lg-12 col-md-12 col-xl-12 col-sm-12 col-xs-12">
+
+                                <div class="row mt-2">
+
+                                    <div class="col-sm-4">
+
+                                        @Html.TextAreaFor(model => model.formGroupAHdr.PART4_6_Weightage, new { @class = "form-control lg-textarea total-reporting", @readonly = "readonly" })
+                                    </div>
+
+                                    @*<div class="col-sm-8">
+
+                                            @Html.TextAreaFor(model => model.formGroupAHdr.PART4_6_Remark, new { @class = "form-control lg-textarea" })
+                                            @Html.ValidationMessageFor(model => model.formGroupAHdr.PART4_6_Remark, "", new { @class = "text-danger" })
+
+                                        </div>*@
+
+                                </div>
+                            </div>
+
+
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
+
+                                    <p class="pull-right m-4">Signature of the Reporting Officer</p>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-7 col-md-7 col-sm-0 col-xs-0 mb-2">
+
+                                </div>
+                                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6 mb-2 text-right">
+                                    <p>Name in Block Letters :</p>
+                                </div>
+
+                                <div class="col-lg-2 col-md-2 col-sm-6 col-xs-6 mb-2 underlineinput">
+                                    @Html.DisplayFor(model => model.formGroupAHdr.ReportingTo, new { @class = "form-control " })
+                                </div>
+
+                            </div>
+
+                            <div class="row">
+
+                                <div class="col-lg-7 col-md-7 col-sm-0 col-xs-0 mb-2">
+
+                                </div>
+                                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6 mb-2 text-right">
+                                    <p class="">Designation :</p>
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-sm-6 col-xs-6 mb-2 underlineinput">
+                                    @Html.DisplayFor(model => model.formGroupAHdr.ReportingDesignation, new { @class = "form-control " })
+                                </div>
+
+                            </div>
+
+
+
+                            <div class="row">
+                                <div class="col-lg-7 col-md-7 col-sm-0 col-xs-0 mb-2">
+
+                                </div>
+
+                                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6 mb-2 text-right">
+                                    <p class="pull-right">During the period of Report :</p>
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-sm-6 col-xs-6 mb-2 underlineinput">
+                                    @Html.Display("POP", new { @class = "form-control" })
+                                </div>
+
+                            </div>
+
+
+                            <div class="row">
+                                <div class="col-lg-1 col-md-2 col-sm-4 col-xs-4 mb-2">
+                                    <p>Place:</p>
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-sm-8 col-xs-12 mb-2 underlineinput">
+                                    @Html.DisplayFor(model => model.formGroupAHdr.PlaceOfJoin, new { @class = "form-control" })
+                                </div>
+
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-1 col-md-2 col-sm-4 col-xs-4 mb-2">
+                                    Date :
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-sm-8 col-xs-12 mb-2 underlineinput">
+
+                                    @*@DateTime.Now.Date.ToShortDateString()*@
+                                    @(Model.formGroupAHdr.RTSenddate.HasValue ? Model.formGroupAHdr.RTSenddate.Value.ToString("dd/MM/yyyy") : "" )
+                                    @*@Model.formGroupAHdr.RTSenddate.Value.ToString("dd/mm/YYYY")*@
+
+                                </div>
+
+                            </div>
+                            @if (Model.ReportingTo == Model.loggedInEmpID && Model.ApprovalHierarchy == 1 || Model.frmAttributes.ReportingButton)
+                            {
+                                if (!Model.isAdmin)
+                                {
+                                    <div class="pull-right div-action pl-1">
+                                        @Html.ActionLink("Back", "Index", "ApprovalRequest", null, new { @class = "btn btn-light btn-md", title = "Click here, to go to back on previous screen.", @data_toggle = "tooltip" })
+                                    </div>
+                                    if (Model.formGroupAHdr.FormState != (int)AppraisalFormState.SubmitedByReporting)
+                                    {
+                                        <div class="pull-right div-action">
+
+                                            <input type="submit" value="Save" id="btnSave" name="ButtonType" class="btn btn-info btn-md toggle-tooltip " title="Click here, to save the data." />
+                                            <input type="submit" value="Save & Submit" id="btnSaveSubmit" name="ButtonType" class="btn btn-info btn-md toggle-tooltip " title="Click here, to save & submit the data." />
+
+                                        </div>
+                                    }
+                                }
+                                else
+                                {
+                                    <div class="pull-right div-action pl-1">
+                                        @Html.ActionLink("Back", "Index", "AcarApar", null, new { @class = "btn btn-light btn-md", title = "Click here, to go to back on previous screen.", @data_toggle = "tooltip" })
+                                    </div>
+                                }
+                            }
+                        </div>
+
+                }
+                @*}*@
+            </div>
+
+            <div id="div-RV" class="@reviewingSectionClass">
+                @if ((Model.ReviewingTo == Model.loggedInEmpID) || (Model.AcceptanceAuthorityTo == Model.loggedInEmpID))
+                {
+                    //using (Ajax.BeginForm("_PostRVFormData", "Appraisal", new AjaxOptions { HttpMethod = "POST" }))
+                    //{
+                    @*@Html.HiddenFor(model => Model.EmployeeID)
+                        @Html.HiddenFor(model => Model.formGroupAHdr.ReportingYr)
+                        @Html.HiddenFor(model => Model.formGroupAHdr.CreatedBy)
+                        @Html.HiddenFor(model => Model.formGroupAHdr.CreatedOn)
+                        @Html.HiddenFor(model => Model.FormID)
+                        @Html.HiddenFor(model => Model.formGroupAHdr.FormID)
+                        @Html.HiddenFor(model => Model.formGroupAHdr.FormGroupID)
+                        @Html.HiddenFor(model => Model.loggedInEmpID)*@
+                    <div class="form-group">
+                        <div class="col-lg-12 col-md-12 col-xl-12 col-sm-12 col-xs-12 font-weight-bold p-5">
+                            <u>  PART – 5 - REMARKS OF THE REVIEWING OFFICER </u>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+
+                        <div class="col-lg-12 col-md-12 col-xl-12 col-sm-12 col-xs-12 required">
+                            1. Length of service under the Reviewing Officer
+                        </div>
+
+                        <div class="col-lg-12 col-md-12 col-xl-12 col-sm-12 col-xs-12 ">
+                            @Html.TextAreaFor(model => model.formGroupAHdr.PART5_1, new { @class = "form-control", @style = "min-height:50px;max-height:50px;", maxlength = "150" })
+                            @Html.ValidationMessageFor(model => model.formGroupAHdr.PART5_1, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-lg-12 col-md-12 col-xl-12 col-sm-12 col-xs-12 ">
+                            2. Do you agree with the assessment made by the reporting officer with respect to the work output and the various attributes in Part -3 & Part 4? Do you agree with the assessment of reporting officer in respect of extraordinary achievements / significant failures of the officer reported upon? (Ref Part – 3(A) (iv) and Part -4(5).
+                        </div>
+
+                        <div class="col-lg-12 col-md-12 col-xl-12 col-sm-12 col-xs-12 ">
+                            (In case you do not agree with any of the numerical assessments attributes please record your assessment in the column provided for you in the section and initial your entries)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+
+                        <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 text-center">
+
+                            @Html.Hidden("SelectedPart5_2")
+                            <div class="custom-control custom-radio">
+
+                                @if (Model.formGroupAHdr.PART5_2 == true)
+                                {
+                                    @Html.RadioButtonFor(model => model.formGroupAHdr.PART5_2, "true", new
+                               {
+                                   id = "inc_m1",
+                                   name = "incrMnth",
+                                   @class = "mr-0 mt-2 ml-3",
+                                   @onclick = "radioOnChange(this.id)",
+                                   @checked = true
+                               })}
+                                else
+                                {
+                                    @Html.RadioButtonFor(model => model.formGroupAHdr.PART5_2, "true", new
+                               {
+                                   id = "inc_m1",
+                                   name = "incrMnth",
+                                   @class = "mr-0 mt-2 ml-3",
+                                   @onclick = "radioOnChange(this.id)"
+                               })}
+                                @Html.Label("Yes", new { @for = "inc_m1", @class = "control-label" })
+
+                                @*<input id="inc_m2" name="incrMnth" value="0"
+                                           checked="@((Model.formGroupAHdr.PART5_2==false) ? true : false)"
+                                           type="radio" />
+                                    <label for="inc_m2">No</label>*@
+                                @if (Model.formGroupAHdr.PART5_2 == false)
+                                {
+                                    @Html.RadioButtonFor(model => model.formGroupAHdr.PART5_2, "false", new
+                               {
+                                   id = "inc_m2",
+                                   name = "incrMnth",
+                                   @class = "mr-0 mt-2 ml-3",
+                                   @onclick = "radioOnChange(this.id)",
+                                   @checked = true
+                               })
+                                }
+                                else
+                                {
+                                    @Html.RadioButtonFor(model => model.formGroupAHdr.PART5_2, "false", new
+                               {
+                                   id = "inc_m2",
+                                   name = "incrMnth",
+                                   @class = "mr-0 mt-2 ml-3",
+                                   @onclick = "radioOnChange(this.id)"
+
+                               })
+                                }
+                                @Html.Label("No", new { @for = "inc_m2", @class = "control-label" })
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-lg-12 col-md-12 col-xl-12 col-sm-12 col-xs-12 required" id="radPart5_3">
+                            3. In case of disagreement please specify the reasons. Is there anything you wish to modify or add?
+                        </div>
+
+                        <div class="col-lg-12 col-md-12 col-xl-12 col-sm-12 col-xs-12 ">
+                            @Html.TextAreaFor(model => model.formGroupAHdr.PART5_3, new { @class = "form-control", @style = "min-height:100px;max-height:100px;", @maxlength = "7999" })
+                            @Html.ValidationMessageFor(model => model.formGroupAHdr.PART5_3, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group pbrk">
+                        <div class="col-lg-12 col-md-12 col-xl-12 col-sm-12 col-xs-12 ">
+                            4. Pen Picture by Reviewing Officer. Please comment (in about 100 words) on the overall qualities of the officer including area of strengths and lesser strength and his attitudes towards wear sections.
+                        </div>
+
+                        <div class="col-lg-12 col-md-12 col-xl-12 col-sm-12 col-xs-12 ">
+                            @Html.TextAreaFor(model => model.formGroupAHdr.PART5_4, new { @class = "form-control", @style = "min-height:100px;max-height:100px;", @maxlength = "7999" })
+
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-lg-12 col-md-12 col-xl-12 col-sm-12 col-xs-12 ">
+                            5. Comments by Reviewing Officer please comment (in about 100 words) on the overall qualities of the officer including area of strengths and lesser strength and his attitude towards weaker sections.
+                        </div>
+
+                        <div class="col-lg-12 col-md-12 col-xl-12 col-sm-12 col-xs-12 ">
+                            @Html.TextAreaFor(model => model.formGroupAHdr.PART5_5, new { @class = "form-control", @style = "min-height:100px;max-height:100px;", @maxlength = "7999" })
+
+                        </div>
+                    </div>
+
+
+                    <div class="col-lg-12 col-md-12 col-xl-12 col-sm-12 col-xs-12">
+                        6. Overall numerical grading on the basis of weightage given in Section A, B and C in Part-3 of the Report.
+                    </div>
+
+                    <div class="col-lg-12 col-md-12 col-xl-12 col-sm-12 col-xs-12">
+
+                        <div class="row mt-2">
+
+                            <div class="col-sm-4">
+
+                                @Html.TextAreaFor(model => model.formGroupAHdr.PART5_6_Weightage, new { @class = "form-control lg-textarea total-reviewer", @readonly = "readonly" })
+                            </div>
+
+                            @*<div class="col-sm-8">
+
+                                    @Html.TextAreaFor(model => model.formGroupAHdr.PART5_6_Remark, new { @class = "form-control lg-textarea " })
+                                    @Html.ValidationMessageFor(model => model.formGroupAHdr.PART5_6_Remark, "", new { @class = "text-danger" })
+
+                                </div>*@
+
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
+
+                            <p class="pull-right m-4">Signature of the Reviewing Officer</p>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-7 col-md-7 col-sm-0 col-xs-0 mb-2">
+
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6 mb-2 text-right">
+                            <p>Name in Block Letters :</p>
+                        </div>
+
+                        <div class="col-lg-2 col-md-2 col-sm-6 col-xs-6 mb-2 underlineinput">
+                            @Html.DisplayFor(model => model.formGroupAHdr.ReviewerTo, new { @class = "form-control " })
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-lg-7 col-md-7 col-sm-0 col-xs-0 mb-2">
+
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6 mb-2 text-right">
+                            <p class="">Designation :</p>
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-6 col-xs-6 mb-2 underlineinput">
+                            @Html.DisplayFor(model => model.formGroupAHdr.ReviewerDesignation, new { @class = "form-control " })
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-7 col-md-7 col-sm-0 col-xs-0 mb-2">
+
+                        </div>
+
+                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6 mb-2 text-right">
+                            <p class="pull-right">During the period of Report :</p>
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-6 col-xs-6 mb-2 underlineinput">
+                            @Html.Display("POP", new { @class = "form-control" })
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-1 col-md-2 col-sm-4 col-xs-4 mb-2">
+                            <p>Place:</p>
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-8 col-xs-12 mb-2 underlineinput">
+                            @Html.DisplayFor(model => model.formGroupAHdr.PlaceOfJoin, new { @class = "form-control" })
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-1 col-md-2 col-sm-4 col-xs-4 mb-2">
+                            Date :
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-8 col-xs-12 mb-2 underlineinput">
+
+                            @*@Model.formGroupAHdr.RVSenddate.Value.ToString("dd/mm/YYYY")*@
+                            @(Model.formGroupAHdr.RVSenddate.HasValue ? Model.formGroupAHdr.RVSenddate.Value.ToString("dd/MM/yyyy") : "" )
+
+                            @*@DateTime.Now.Date.ToShortDateString()*@
+                        </div>
+
+                    </div>
+                    if (Model.ReviewingTo == Model.loggedInEmpID && (Model.ApprovalHierarchy == 2.0 || Model.ApprovalHierarchy == 1))
+                    {
+                        if (!Model.isAdmin)
+                        {<div class="pull-right div-action pl-1">
+                    @Html.ActionLink("Back", "Index", "ApprovalRequest", null, new { @class = "btn btn-light btn-md", title = "Click here, to go to back on previous screen.", @data_toggle = "tooltip" })
+                </div>
+                            if ((Model.formGroupAHdr.FormState != (int)AppraisalFormState.SubmitedByReviewer))
+                            {
+                                <div class="pull-right div-action">
+                                    <input type="submit" value="Save" id="btnRVSave" name="ButtonType" class="btn btn-info btn-md toggle-tooltip " title="Click here, to save the data." />
+                                    <input type="submit" value="Save & Submit" id="btnRVSaveSubmit" name="ButtonType" class="btn btn-info btn-md toggle-tooltip " title="Click here, to save & submit the data." />
+                                </div>
+
+                            }
+                        }
+                        else
+                        {
+                            <div class="pull-right div-action pl-1">
+                                @Html.ActionLink("Back", "Index", "AcarApar", null, new { @class = "btn btn-light btn-md", title = "Click here, to go to back on previous screen.", @data_toggle = "tooltip" })
+                            </div>
+                        }
+                    }
+                }
+                @*}*@
+            </div>
+
+            <div id="div-AA">
+                @if ((Model.AcceptanceAuthorityTo == Model.loggedInEmpID))
+                {
+                    <div class="form-group">
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 font-weight-bold text-center">
+                            <u> REMARKS OF ACCEPTING AUTHORITY</u>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 required">
+                            Do you agree with the report of the Reviewing Authority? Please offer your comments on various aspects of performance of the officer. Please record reasons, should you differ with the Grading given by the Reviewing Authority.
+                        </div>
+                    </div>
+
+                        <div class="form-group">
+
+                            <div class="col-lg-12 col-md-12 col-xl-12 col-sm-12 col-xs-12">
+                                @Html.TextAreaFor(model => model.formGroupAHdr.Remarks, new { @class = "form-control lg-textarea", @maxlength = "7999" })
+                                @Html.ValidationMessageFor(model => model.formGroupAHdr.Remarks, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
+                                <p class="pull-right m-4">Signature of the Accepting Authority Officer</p>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-7 col-md-7 col-sm-0 col-xs-0 mb-2">
+
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6 mb-2 text-right">
+                                <p>Name in Block Letters :</p>
+                            </div>
+
+                            <div class="col-lg-2 col-md-2 col-sm-6 col-xs-6 mb-2 underlineinput">
+                                @Html.DisplayFor(model => model.formGroupAHdr.AcceptanceAuth, new { @class = "form-control " })
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-7 col-md-7 col-sm-0 col-xs-0 mb-2">
+
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6 mb-2 text-right">
+                                <p class="">Designation :</p>
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-6 col-xs-6 mb-2 underlineinput">
+                                @Html.DisplayFor(model => model.formGroupAHdr.AcceptanceDesignation, new { @class = "form-control" })
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-7 col-md-7 col-sm-0 col-xs-0 mb-2">
+
+                            </div>
+
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6 mb-2 text-right">
+                                <p class="pull-right">During the period of Report :</p>
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-6 col-xs-6 mb-2 underlineinput">
+                                @Html.Display("POP", new { @class = "form-control" })
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-1 col-md-2 col-sm-4 col-xs-4 mb-2">
+                                <p>Place:</p>
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-8 col-xs-12 mb-2 underlineinput">
+                                @Html.DisplayFor(model => model.formGroupAHdr.PlaceOfJoin, new { @class = "form-control" })
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-1 col-md-2 col-sm-4 col-xs-4 mb-2">
+                                Date :
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-8 col-xs-12 mb-2 underlineinput">
+                                @*@DateTime.Now.Date.ToShortDateString()*@
+
+                                @*@Model.formGroupAHdr.AASenddate.Value.ToString("dd/mm/YYYY")*@
+                                @(Model.formGroupAHdr.AASenddate.HasValue ? Model.formGroupAHdr.AASenddate.Value.ToString("dd/MM/yyyy") : "" )
+                            </div>
+                        </div>
+
+                    if (Model.formGroupAHdr.FormState == (int)AppraisalFormState.SubmitedByEmployee || Model.formGroupAHdr.FormState == (int)AppraisalFormState.SavedByAcceptanceAuth || Model.formGroupAHdr.FormState == (int)AppraisalFormState.SubmitedByAcceptanceAuth || (Model.formGroupAHdr.FormState == (int)AppraisalFormState.SubmitedByReviewer) || Model.ApprovalHierarchy == 1 || Model.ApprovalHierarchy == 2 || Model.ApprovalHierarchy == 2.1 || (Model.ApprovalHierarchy == 3 && Model.frmAttributes.AcceptanceButton))
+                    {
+                        if (!Model.isAdmin)
+                        {
+                            <div class="pull-right div-action pl-1">
+                                @Html.ActionLink("Back", "Index", "ApprovalRequest", null, new { @class = "btn btn-light btn-md", title = "Click here, to go to back on previous screen.", @data_toggle = "tooltip" })
+                            </div>
+                            if (Model.formGroupAHdr.FormState != (int)AppraisalFormState.SubmitedByAcceptanceAuth)
+                            {
+                                <div class="pull-right div-action">
+                                    <input type="submit" value="Save" id="btnAASave" name="ButtonType" class="btn btn-info btn-md toggle-tooltip " title="Click here, to save the data." />
+                                    <input type="submit" value="Save & Submit" id="btnAASaveSubmit" name="ButtonType" class="btn btn-info btn-md toggle-tooltip " title="Click here, to save & submit the data." />
+
+                                </div>
+                            }
+                        }
+                        else
+                        {
+                            <div class="pull-right div-action pl-1">
+                                @Html.ActionLink("Back", "Index", "AcarApar", null, new { @class = "btn btn-light btn-md", title = "Click here, to go to back on previous screen.", @data_toggle = "tooltip" })
+                            </div>
+                        }
+                    }
+                }
+            </div>
+        }
+    </div>
+</div>
+
+
+<style type="text/css">
+    
+    .noselect {
+        -webkit-touch-callout: none; /* iOS Safari */
+        -webkit-user-select: none; /* Safari */
+        -khtml-user-select: none; /* Konqueror HTML */
+        -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+        user-select: none; /* Non-prefixed version, currently supported by Chrome, Opera and Firefox */
+    }
+</style>
+
+
+<script type="text/javascript">
+
+    $('.noselect').find('input, textarea, button, select').attr('readonly', 'readonly').removeAttr('href');
+    $('.enableTDCells').removeAttr('readonly').addClass('form-control text-right');
+
+    $("#formGroupAHdr_WorkedPeriodUnderROFrom").datepicker({ changeYear: true, dateFormat: 'dd/mm/yy' });
+    $("#formGroupAHdr_WorkedPeriodUnderROTo").datepicker({ changeYear: true, dateFormat: 'dd/mm/yy' });
+
+    function OnSuccess(data) {
+        if (data.isTraining == 1) {
+            $("#div-main-form").html(data.htmlData);
+        }
+        else if (data.part == undefined) {
+            $("#div-main-form").html(data);
+        }
+        else if (data.part == 0)
+            $("#div-main-form").html(data.htmlData);
+        else if (data.part == 1)
+            $("#div-form-part2-grid").html(data.htmlData);
+        else if (data.part == 2)
+            $("#div-form-training-grid").html(data.htmlData);
+
+        if (data.msgType == "success") {
+            commonMessage(data.msgType, data.msg);
+            window.location.reload();
+        }
+        if (data.msgType == "error") {
+            commonMessage(data.msgType, data.msg);
+        }
+
+        if ((data.formState != undefined && data.formState != 0) && (parseInt(data.formState) % 2) == 0)
+            $(".div-action").addClass('hide');
+    }
+
+    function radioOnChange(controlID) {
+        var jj = $("#" + controlID).val();
+        $("#PART5_2").val($("#" + controlID).val());
+
+        if (jj == "true") {
+            $("#radPart5_3").removeClass("required");
+        }
+        else {
+            $("#radPart5_3").addClass("required");
+        }
+    }
+
+    $(document).ready(function () {
+        if ($("#inc_m2").is(":checked")) {
+            $("#radPart5_3").addClass("required");
+        }
+        else if ($("#inc_m1").is(":checked")) {
+            $("#radPart5_3").removeClass("required");
+        }
+    });
+</script>
+
+<div class="modal fade" id="form-F-guideline" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <h4 class="modal-title w-100 font-weight-bold">Guidelines for APAR</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body mx-3">
+
+                <p><strong><u>Guidelines regarding filling up of APAR with numerical grading </u></strong></p>
+                <ol start="1">
+                    <li>
+                        The columns in the APAR should be filled in with due care and attention and after devoting
+                        adequate time.
+                    </li>
+                </ol>
+
+                <ol start="2">
+                    <li>
+                        It is expected that any grading of 1 or 2 (against work output or attributes or Overall grade) would
+                        be adequately justified in the pen-picture by way of specific failures and similarly, any grade of 9
+                        or 10 would be justified with respect of specific accomplishments. Grade of 1-2 or 9-10 are
+                        expected to be rare occurrences and hence the need to justify them. In awarding a numerical grade
+                        the reporting and reviewing authorities should rate the officer against a larger population of his
+                        /her peers that may be currently working under them.
+                    </li>
+                </ol>
+
+                <ol start="3">
+                    <li>
+                        APARs graded between 8 and 10 will be rated as “Outstanding” and will be given a score of 9 for
+                        the purpose of calculating average scores by empanelment / promotion.
+                    </li>
+                </ol>
+
+
+                <ol start="4">
+                    <li>
+                        APARs graded between 6 and short of 8 will be rated as “Very Good” and will be given a score of
+                        7.
+                    </li>
+                </ol>
+
+                <ol start="5">
+                    <li>APARs graded between 4 and 6 short of 6 will be rated as “Good” and given a score of 5. </li>
+                </ol>
+
+                <ol start="6">
+                    <li>APARs graded below 4 will be given a score of “Zero”. </li>
+                </ol>
+
+            </div>
+            <div class="modal-footer d-flex justify-content-center">
+                <button data-dismiss="modal" class="btn btn-info">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $('.noselect').find('input, textarea, button, select').attr('readonly', 'readonly').removeAttr('href');
+    $('.enableTDCells').removeAttr('readonly').addClass('form-control text-right');
+    $('.noselect .btn-sectionAddRow').addClass('hide');
+    //  $('.noselect .drpdown-section').attr('disabled', true);
+    $('.noselect .drpdown-section').attr("style", "pointer-events: none;");
+</script>

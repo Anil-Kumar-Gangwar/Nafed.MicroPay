@@ -1,0 +1,39 @@
+﻿@using Nafed.MicroPay.Model;
+@{
+    ViewBag.Title = "History - Applications for reimbursement of Children Education Allowance";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var uDetails = (UserDetail)Session["user"];
+}
+
+<div class="">
+    <div class="card_new_header text-right">
+        @if (uDetails.UserTypeID != 1)
+            {
+            @Ajax.ActionLink("Children Education Allowance Application Form", "Create", new
+       {
+           empID = uDetails.EmployeeID
+       },
+            new AjaxOptions
+            {
+                OnSuccess = "OnCreateSuccess",
+                InsertionMode = InsertionMode.Replace,
+                HttpMethod = "POST"
+            }, new { @class = "btn btn-info btn-md clickClass", @title = "Click here, to submit children education details." })
+        }
+    </div>
+    <div class="card_new_body">
+        <div id="">
+            @Html.Action("MyChildrenEducationList")
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function OnCreateSuccess(data) {
+        if (data.part == 2) {
+            if (data.msgType == "Inserted") {
+                window.location.href = "@Url.Action("Edit", "ChildrenEducation")?empID=" + data.empID + "&childrenEduHdrId=" + data.childrenEduHdrId;
+            }
+        }
+    }
+</script>

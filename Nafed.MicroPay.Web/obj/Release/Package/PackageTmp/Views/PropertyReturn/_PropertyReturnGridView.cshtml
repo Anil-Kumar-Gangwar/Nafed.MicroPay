@@ -1,0 +1,165 @@
+﻿@model MicroPay.Web.Models.PropertyReturnViewModel
+@using Nafed.MicroPay.Common;
+
+<table id="tblGrid" class="table table-centered table-striped dt-responsive w-100">
+    <thead>
+        <tr>
+            <th>
+                #
+            </th>
+            <th>
+                Name of District, Sub-Division, Taluk, Village in which property is situated
+            </th>
+
+            <th>
+                Name & details of property
+            </th>
+            <th class="text-right">
+                Present value (*)
+            </th>
+            <th>
+                If not in own name state in whose name held & his/her relationship with him/her
+            </th>
+            <th>
+                How acquired whether purchase, lease mortgage, inheritance, gift or otherwise with date of acquisition & name with details of persons from whom acquired (**)
+            </th>
+            <th class="text-right">
+                Amount income from the property
+            </th>
+            <th class="text-left">
+                Remarks
+            </th>
+            <th class="text-center" style="width:60px">
+                Action
+            </th>
+        </tr>
+
+    </thead>
+    <tbody>
+        @{
+            int index = 1;
+            if (Model != null && Model.PRList.Count > 0)
+            {
+                foreach (var item in Model.PRList)
+                {
+                    <tr>
+                        <td> @index</td>
+                        <td class="text-left"> @item.PropertySituated</td>
+                        <td class="text-left">
+                            @if (@item.PropertyType == 1)
+                            {
+                                <span>Housing</span>
+
+                            }
+                            else if (@item.PropertyType == 2)
+                            {
+                                <span>In Building</span>
+                            }
+                            else if (@item.PropertyType == 3)
+                            {
+                                <span>Land</span>
+                            }
+
+                        </td>
+                        <td class="text-right">
+                            @item.PresentValue
+                        </td>
+                        <td class="text-left">
+
+                            @if (item.SelfProperty == true)
+                            {
+                                <span>Self</span>
+                            }
+                            else
+                            {
+
+                                @item.PropertyOwner <br />
+
+                                if (item.RelationID == 2)
+                                {
+                                    <span>Father</span>
+                                }
+                                else if (@item.RelationID == 3)
+                                {
+                                    <span>Mother</span>
+                                }
+                                else if (@item.RelationID == 4)
+                                {
+                                    <span>Husband</span>
+                                }
+                                else if (@item.RelationID == 5)
+                                {
+                                    <span>Wife</span>
+                                }
+                                else if (@item.RelationID == 6)
+                                {
+                                    <span>Daughter</span>
+                                }
+                                else if (@item.RelationID == 7)
+                                {
+                                    <span>Son</span>
+                                }
+                                else if (@item.RelationID == 8)
+                                {
+                                    <span>Others</span>
+                                }
+                            }
+                        </td>
+
+                        <td class="text-left">
+                            @if (@item.AcquiredTypeID == 1)
+                            {
+                                <span>Purchase</span>
+                            }
+                            else if (@item.AcquiredTypeID == 2)
+                            {
+                                <span>lease</span>
+                            }
+                            else if (@item.AcquiredTypeID == 3)
+                            {
+                                <span>Mortgage</span>
+                            }
+                            else if (@item.AcquiredTypeID == 4)
+                            {
+                                <span>Inheritance</span>
+                            }
+                            else if (@item.AcquiredTypeID == 5)
+                            {
+                                <span>Gift or Otherwise</span>
+                            }<br />
+                            @(item.AcquisitionDate.HasValue ? item.AcquisitionDate.Value.ToString("dd/MM/yyyy") : "")
+                            <br /> @item.AcquiredPerson
+                        </td>
+                        <td class="text-right">@item.PropertyIncome</td>
+                        <td class="text-left">@item.Remarks</td>
+                        <td class="text-center">
+                            @if (item.StatusID==0)
+                            {
+                                <a data-ajax="true" class="label-info pull-center toggle-tooltip"
+                                   href="@Url.Action("_GetPropertyreturn", "PropertyReturn", new { Counter = item.Counter })"
+                                   method="GET" title="Click here, to edit this record"
+                                   data-ajax-update="#div-salHead" data-ajax-mode="replace"
+                                   data-backdrop="static" data-keyboard="false"
+                                   data-toggle="modal" data-target="#PRHeadSlabModal">
+                                    <span class="far fa-edit text-info" aria-hidden="true"></span>
+                                </a>
+
+
+
+
+                                @*<a class="toggle-tooltip" data-toggle="confirm" href="@Url.Action("Delete", "Propertyreturn", new { Counter = @item.Counter })" title="Click here, to delete this record">
+                                    <span class="far fa-trash-alt text-danger" aria-hidden="true"></span>
+                                </a>*@
+                                @Html.EncodedImageActionLink("", "Delete", "Propertyreturn", new { Counter = @item.Counter }, new { @class = "toggle-tooltip", title = "Click here, to delete this record" }, "~/Images/delete.png", true)
+                            }
+                        </td>
+
+                    </tr>
+                    index++;
+                }
+            }
+
+        }
+
+    </tbody>
+</table>

@@ -1,0 +1,45 @@
+﻿@model Nafed.MicroPay.Model.CandidateRegistration
+@{
+    //ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_OuterPageLayout.cshtml";
+    ViewBag.Title = "Generate Registration No";
+}
+<style type="text/css">
+    .link {
+        background: none !important;
+        border: none;
+        padding: 0 !important;
+        /*optional*/
+        font-family: arial, sans-serif;
+        /*input has OS specific font-family*/
+        color: #069;
+        text-decoration: underline;
+        cursor: pointer;
+    }
+</style>
+
+<div class="container-fluid">
+    @*<div class="row">*@
+        <div id="OTPSection1">
+            @Html.Partial("_RegistrationOTP", Model)
+        </div>
+    @*</div>*@
+</div>
+
+<script type="text/javascript">
+    var elem = document.getElementById('sp-timer');
+    function otpCountDown() {
+        $("#sp-timer").attr("display", "block");
+        var timeleft = 100;
+        var downloadTimer = setInterval(function () {
+            document.getElementById("sp-timer").innerHTML = 'OTP expire in ' + timeleft + ' seconds.';
+            timeleft -= 1;
+            if (timeleft <= 0) {
+                clearInterval(downloadTimer);
+                document.getElementById("sp-timer").innerHTML = ""
+                $("#some_div").removeClass("d-none");
+            }
+        }, 1000);
+    }
+</script>
+

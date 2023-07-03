@@ -1,0 +1,170 @@
+﻿@using Nafed.MicroPay.Common;
+@using Nafed.MicroPay.Model;
+@model List<APARSkillSetFormHdr>
+@{ 
+
+    var uDetails = (UserDetail)Session["user"];
+}
+
+<table id="tblGrid-skillAssessment" class="table_card table table-centered table-striped text-left dt-responsive w-100 mt-2">
+    <thead>
+        <tr>
+            <th scope="col">
+                #
+            </th>
+
+            <th scope="col">
+                Reporting Yr
+            </th>            
+            @*<th>
+                Employee Code
+            </th>*@
+            <th scope="col">
+                Name
+            </th>
+            <th scope="col">
+                Department
+            </th>
+            <th scope="col">
+                Designation
+            </th>
+            <th scope="col">
+                Status
+            </th>
+            <th scope="col" class="text-center" style="width:60px">
+                Action
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+
+            if (Model != null && Model.Count() > 0)
+            {
+                var totalskillpending = 0;
+                var sno = 1;
+                foreach (var item in Model)
+                {
+                    if (item.EmpProceeApproval.ReportingTo == uDetails.EmployeeID)
+                    {
+                        totalskillpending = Model.Where(x => x.StatusID == (int)AppraisalFormState.SubmitedByEmployee && x.EmpProceeApproval.ReportingTo == uDetails.EmployeeID).Count();
+                        if (item.StatusID == (int)AppraisalFormState.SubmitedByEmployee || item.StatusID == (int)AppraisalFormState.SavedByReporting || item.StatusID == (int)AppraisalFormState.SubmitedByReporting || item.StatusID == (int)AppraisalFormState.RejectedbyReporting)
+                        {
+                    <tr>
+                        <td data-label="S.No.">@sno</td>
+                        <td data-label="Reporting Yr">@item.ReportingYr</td>
+                        @*<td>@item.EmployeeCode </td>*@
+                        <td data-label="Name">@item.EmployeeCode - @item.EmployeeName</td>
+                        <td data-label="Department"> @item.DepartmentName</td>
+                        <td data-label="Designation"> @item.DesignationName</td>
+                        <td data-label="Status" class="text-center">
+                            @if (item.StatusID == (int)AppraisalFormState.SavedByEmployee)
+                            {
+                                <h5 class="mb-0">
+                                    <span class="badge badge-pill badge-light col-md-12">
+                                        Save
+                                    </span>
+                                </h5>
+                            }
+                            else if (item.StatusID == (int)AppraisalFormState.SubmitedByEmployee)
+                            {
+                                <h5 class="mb-0">
+                                    <span class="badge badge-pill badge-dark col-md-12">
+                                        Submitted
+                                    </span>
+                                </h5>
+                            }
+                            else if (item.StatusID == (int)AppraisalFormState.SavedByReporting)
+                            {
+                                <h5 class="mb-0">
+                                    <span class="badge badge-pill badge-dark col-md-12">
+                                        Saved by Reporting Officer
+                                    </span>
+                                </h5>
+                            }
+                            else if (item.StatusID == (int)AppraisalFormState.RejectedbyReporting)
+                            {
+                                <h5>
+                                    <span class="badge badge-pill bg-danger col-md-12">
+                                        Rejected by Reporting Officer
+                                    </span>
+                                  
+                                </h5>
+                            }
+                            else if (item.StatusID == (int)AppraisalFormState.SubmitedByReporting)
+                            {
+                                <h5 class="mb-0">
+                                    <span class="badge badge-pill bg-success col-md-12">
+                                        Reviewed by Reporting Officer
+                                    </span>
+                                    @*<span class="badge badge-pill badge-success col-md-12 toggle-tooltip" title="Employee Remark: @item.Reason <br/> Reporting Remark: @item.ReporotingToRemark <br/> Reviwer Remark: @item.ReviewerToRemark">Approved</span>*@
+                                </h5>
+                            }
+
+                            @*else if (item.StatusID == (int)AppraisalFormState.SavedByReviewer)
+                                {
+                                    <h5>
+                                        <span class="badge badge-pill badge-dark col-md-12">
+                                        Saved by Reviewer Officer
+                                        </span>
+                                    </h5>
+                                }*@
+                            else if (item.StatusID == (int)AppraisalFormState.SubmitedByReviewer)
+                            {
+                                <h5 class="mb-0">
+                                    <span class="badge badge-pill badge-info col-md-12">
+                                        Reviewed by Reviewer Officer
+                                    </span>
+                                </h5>
+                            }
+                            @*else if (item.StatusID == (int)AppraisalFormState.SavedByAcceptanceAuth)
+                                {
+                                    <h5>
+                                        <span class="badge badge-pill badge-danger col-md-12">
+                                        Saved by Acceptance Authority
+                                        </span>
+                                    </h5>
+                                }*@
+                            else if (item.StatusID == (int)AppraisalFormState.SubmitedByAcceptanceAuth)
+                            {
+                                <h5 class="mb-0">
+                                    <span class="badge badge-pill badge-success col-md-12">
+                                        Approved
+                                    </span>
+                                </h5>
+                            }
+                        </td>
+
+                        @*@if (Model.userRights.Edit)
+                            {*@
+                        <td data-label="Action" class="text-center">
+                            @*<a href="@Url.Action("Edit", "APARSkills", new { reportingTo = item.EmpProceeApproval.ReportingTo, empID = item.EmployeeID, departmentID = item.DepartmentID, designationID = item.DesignationID,ryr=item.ReportingYr })" title="Click here, to view this record" data-toggle="tooltip">
+
+                                <i class="far fa-eye text-info" aria-hidden="true"></i>
+                            </a>*@
+                            @Html.EncodedImageActionLink("", "Edit", "APARSkills", new { reportingTo = item.EmpProceeApproval.ReportingTo, empID = item.EmployeeID, departmentID = item.DepartmentID, designationID = item.DesignationID, ryr = item.ReportingYr }, new { @class = "toggle-tooltip", title = "Click here, to view this record" }, "~/Images/view.png")
+                        </td>
+                        @*}*@
+                    </tr>
+                        }
+                        sno++;
+                    }
+                }
+                <script type="text/javascript">
+                $("#skillCount").text(@totalskillpending);
+                </script>
+            }
+
+            <script type="text/javascript">
+
+                var table = $('#tblGrid-skillAssessment').DataTable({
+                    });
+                $('#tblGrid-skillAssessment').find('select').addClass('custom-select');
+            </script>
+        }
+
+    </tbody>
+
+
+
+    </table>

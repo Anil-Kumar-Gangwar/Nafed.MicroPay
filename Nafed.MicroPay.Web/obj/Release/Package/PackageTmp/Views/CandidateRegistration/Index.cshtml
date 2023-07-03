@@ -1,0 +1,323 @@
+﻿@using Nafed.MicroPay.Model
+@model CandidateRegistration
+@{
+    var RegID = @Session["RegistrationID"];
+}
+@{
+    ViewBag.Title = "Candidate Registration Form";
+    Layout = "~/Views/Shared/_OuterPageLayout.cshtml";
+}
+
+@if (RegID != null)
+{
+    <div class="row float-lg-right">
+        <div class="col-12">
+            <input type="button" class="btn btn-danger" value="LogOff" onclick="location.href='@Url.Action("Index", "LogOff")'"/>
+        </div>
+    </div>
+}
+<div class="row">
+    <div class="col-lg-3 col-md-3 col-sm-3 text-right">
+    </div>
+    <div class="col-lg-6 col-md-6 col-sm-6 text-center">
+        <h3 class="mb-4">APPLICATION FORM</h3>
+    </div>
+</div>
+<div class="col-lg-12 col-md-12 col-sm-12 text-right">
+    <h5>All fields/input are mandatory,which is marked with(<span class="required"></span> ) <span>sign</span></h5>
+</div>
+<hr />
+@using (Ajax.BeginForm("SubmitRegistrationForm", "CandidateRegistration", new AjaxOptions { HttpMethod = "POST", OnSuccess = "OnSuccess" }, new { id = "candidateRegistrationForm" }))
+{
+
+
+    <div id="div-main-form" class="" style="margin-top:10px;">
+
+        @Html.Partial("_CandidateRegistration", Model)
+
+    </div>
+
+}
+
+
+<div class="modal fade" id="modalCookie1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <h4 class="modal-title w-100 font-weight-bold">Passport Photo and Signature Upload Instruction</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body mx-3">
+
+                <p><strong><u>Guidelines for Scanning Photograph, Signature </u></strong></p>
+
+                <p>Photograph to be  uploded through following modes:</p>
+
+
+                <ul>
+                    <li>By scanning a physical photograph.</li>
+                </ul>
+
+                <p><strong><u>Guidelines for Scanning Photograph</u></strong></p>
+                <ol start="1">
+                    <li>The size of image should be less than 35 kb. If the size of the image is more than 35 kb, then resize the image to required size.</li>
+                </ol>
+
+                <ol start="2">
+                    <li>Photograph must be a passport size color photograph without border & with white background only, clearly showing the face.</li>
+                </ol>
+
+                <ol start="3">
+                    <li>Photograph must be a recently clicked or should not be more than 6 months old. The dimension of photograph must be 3.5*4.5 cm (width*height).</li>
+                </ol>
+
+
+                <ol start="4">
+                    <li>Draw a box of 3.5*4.5 cm (width*height) on A4 white paper sheet and paste the photo in the box.</li>
+                </ol>
+
+                <ol start="5"
+                    <li>Scan the box with photograph pasted in it, not the whole paper sheet.</li>
+                </ol>
+
+                <ol start="6">
+                    <li>Save the image as .jpg/.jpeg/.image6. The size of image should be less than 35kb. Size of the image can be checked by right click on the image and then go to &ldquo;Properties&rdquo; link.</li>
+                </ol>
+
+                <ol start="7">
+                    <li>If the size of the image is more than 35 kb, then adjust the settings of scanner such as set the dpi of the scanner to 200 dpi and quality of image at low. If image size is still more than 35 kb then resize the image to the given specifications.</li>
+                </ol>
+
+
+                <p><strong><u>Check for the following before uploading the photograph File:</u></strong></p>
+
+                <ol>
+                    <li>Photograph should be color with white background.</li>
+                </ol>
+
+                <ol start="2">
+                    <li>Size of the image should be less than 35kb</li>
+                </ol>
+
+                <ol start="3">
+                    <li>Scanner dpi should be 200 dpi.</li>
+                </ol>
+
+                <ol start="4">
+                    <li>Image should be in .jpg/.jpeg format.</li>
+                </ol>
+
+                <p><strong><u>Guidelines for Scanning Signature </u></strong></p>
+
+                <ol start="1">
+                    <li>Draw a box of 6*3 cm (width*height) on a white paper sheet.</li>
+                </ol>
+
+                <ol start="2">
+                    <li>Take a thick tip black/blue pen (preferably fountain pen).</li>
+                </ol>
+
+                <ol start="3">
+                    <li>The applicant has to put his/her signature in the box drawn.</li>
+                </ol>
+
+                <ol start="4">
+                    <li>Following kind of signatures are NOT acceptable:</li>
+                    <ol start="1">
+                        <li>Signature containing Initials only</li>
+                    </ol>
+
+                    <ol start="2">
+                        <li>Signature with overwriting</li>
+                    </ol>
+
+                </ol>
+
+
+
+
+                <ol start="5">
+                    <li>Signature must be signed by the applicant, not by any other person. Signature should be done in the center of the box.</li>
+                </ol>
+
+                <ol start="6">
+                    <li>Scan the box with signature only, not the whole sheet. Save the signature as .jpg/.jpeg image.</li>
+                </ol>
+
+                <ol start="7">
+                    <li>The size of image should be less than 15kb. Size of the image can be checked by right click on the image and then go to &ldquo;Properties&rdquo; link.</li>
+                </ol>
+
+                <ol start="8">
+                    <li>If the size of the image is more than 15 kb, then adjust the settings of scanner such as set the dpi of the scanner to 200 dpi and quality of image at low. If image size is still more than 15 kb then resize the image to the given specifications.</li>
+                </ol>
+
+                <p><strong><u>Check for the following before uploading the Signature File: </u></strong></p>
+
+                <ol>
+                    <li>Signature should be clear and without overwriting on a white paper sheet within a box of 6*3 cms (width*height).</li>
+                </ol>
+
+                <ol start="2">
+                    <li>Size of the image should be less than 15kb</li>
+                </ol>
+
+                <ol start="3">
+                    <li>Scanner dpi should be 200 dpi.</li>
+                </ol>
+
+                <ol start="4">
+                    <li>Image should be in .jpg/.jpeg format.</li>
+                </ol>
+
+            </div>
+            <div class="modal-footer d-flex justify-content-center">
+                <button data-dismiss="modal" class="btn btn-info">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        $(document).on('click', '#candidate_img', function (event) {
+
+            $("input[id='candidatePhotoFile']").click();
+        });
+
+        $(document).on('click', '#candidateSignature_img', function (event) {
+
+            $("input[id='signaturePhotoFile']").click();
+        });
+
+    });
+
+    function showPreview(ele, upid) {
+        debugger;
+        // var maxsize = 5 * 1024//1kb=1*1024
+        var aspFileUpload = document.getElementById("" + upid + "");
+        var filesze = aspFileUpload.files[0].size;
+        var fileName = aspFileUpload.value;
+        var ext = fileName.substr(fileName.lastIndexOf('.') + 1).toLowerCase();
+        if (!(ext == "jpg" || ext == "jpeg" || ext == "png" || ext == "gif")) {
+            alert("Invalid file type, please select a (jpg,png,jpeg,gif) file");
+            return false;
+        }
+
+        var id = "";
+        if (upid == "candidatePhotoFile") {
+            if (filesze > 35840) {
+                //alert("Maximum file size is " + maxsize / (1024) + "KB");
+                alert("Please select image size less than 35KB.");
+                return false;
+            }
+            id = document.getElementById("candidate_img").id;
+        }
+        if (upid == "signaturePhotoFile") {
+            if (filesze > 15360) {
+                //alert("Maximum file size is " + maxsize / (1024) + "KB");
+                alert("Please select image size less than 15KB.");
+                return false;
+            }
+            id = document.getElementById("candidateSignature_img").id;
+        }
+
+        $('#' + id + '').attr('src', ele.value); // for IE
+        if (ele.files && ele.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $('#' + id + '').attr('src', e.target.result);
+                if (id == 'candidateSignature_img')
+                    $('#candidatedigitalsign').attr('src', e.target.result);
+            }
+            reader.readAsDataURL(ele.files[0]);
+        }
+
+        uploadImage(upid);
+
+    }
+    function uploadImage(upid) {
+        debugger;
+        if (upid == "candidatePhotoFile") {
+            var fileUpload = $("#candidatePhotoFile").get(0);
+        }
+        if (upid == "signaturePhotoFile") {
+            var fileUpload = $("#signaturePhotoFile").get(0);
+        }
+        var files = fileUpload.files;
+
+        // Create FormData object
+        var fileData = new FormData();
+
+        // Looping over all files and add it to FormData object
+        for (var i = 0; i < files.length; i++) {
+            fileData.append(files[i].name, files[i]);
+        }
+
+        // Adding one more key to FormData object
+
+        if (upid == "candidatePhotoFile") {
+            fileData.append('doctype', "photo");
+            fileData.append('CandidatePicture', $("#CandidatePicture").val());
+        }
+        if (upid == "signaturePhotoFile") {
+            fileData.append('doctype', "signature");
+            fileData.append('CandidateSignature', $("#CandidateSignature").val());
+
+        }
+
+        $.ajax({
+            url: '@Url.Action("UploadFiles", "CandidateRegistration")',
+            type: "POST",
+            contentType: false, // Not to set any content header
+            processData: false, // Not to process data
+            data: fileData,
+            success: function (result) {
+                if (result.msgType == "success" && result.filetype == "photo") {
+                    $("#CandidatePicture").val(result.FileName);
+                }
+                if (result.msgType == "success" && result.filetype == "signature") {
+                    $("#CandidateSignature").val(result.FileName);
+                }
+                if (result.msgType == "error") {
+                    commonMessage(data.msgType, data.FileName);
+                }
+            },
+            error: function (err) {
+                alert(err.statusText);
+            }
+        });
+
+    }
+    function OnSuccess(data) {
+        debugger;
+
+        if (data.part == 1)
+            $("#div-form-CandidateWorkExperience-grid").html(data.htmlData);
+        else if (data.part == 2)
+            $("#div-form-CandidateGovtWorkExperience-grid").html(data.htmlData);
+        else if (data.part == 3)
+            $("#div-form-CandidateEducation-grid").html(data.htmlData);
+
+        if (data.part == undefined) {
+            $("#div-main-form").html(data);
+        }
+
+        if (data.registrationNo != undefined) {
+            commonMessage(data.msgType, data.msg);
+        }
+        if (data.action == "update") {
+            var registrationID = data.registrationID;
+            window.location.href = "@Url.Action("Index", "CandidateRegistration")" + '?registrationID=' + registrationID;
+        }
+    }
+
+</script>

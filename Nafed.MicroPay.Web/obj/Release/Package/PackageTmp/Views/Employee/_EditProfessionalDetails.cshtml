@@ -1,0 +1,105 @@
+﻿
+@model MicroPay.Web.Models.EmployeeViewModel
+@using MvcCheckBoxList.Model
+@{
+    Layout = null;
+    var message = TempData["Message"] == null ? "" : TempData["Message"].ToString();
+    var messageError = TempData["Error"] == null ? "" : TempData["Error"].ToString();
+}
+<script type="text/javascript">
+
+    function EditSuccess(data) {
+
+        //var i=@ViewBag.ActiveTab;
+
+        if (data.status == "1") {
+           
+            var empID = data.empID; var activeTab = data.activeTab;
+            window.location.href = '@Url.Action("Edit", "Employee")?employeeID=' + empID + '';
+            $('.nav-tabs li:eq(' + activeTab + ') a').attr('data-toggle', 'tab').tab('show');
+            commonMessage("success", data.msg);
+        }
+
+            //$('.nav-tabs li:eq(' + i + ') a').tab('show');
+
+            @*if ('@messageError' != "") {
+                var str = '@WebUtility.HtmlEncode(@messageError)';
+                str = str.replace(/&amp;lt;/g, "<").replace(/&amp;gt;/g, ">").replace(/&amp;#39;/g, "'");
+                $.bootstrapGrowl("<i class='mdi-android-debug-bridge' aria-hidden='true'></i> " + str + "", {
+                    type: 'warning',
+                    align: 'center',
+                    width: 'auto',
+                    allow_dismiss: true,
+                    delay: 50000
+                });
+            }
+            if ('@message' != "") {
+                $.bootstrapGrowl("<i class='mdi-checkbox-marked-circle-outline' aria-hidden='true'></i> " + '@message', {
+                    type: 'success',
+                    align: 'center',
+                    width: 'auto',
+                    allow_dismiss: true,
+                    delay: 20000
+                });
+            }*@
+
+
+     
+
+    }
+
+</script>
+
+@using (Ajax.BeginForm("_EditProfessionalDetails", "Employee", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "Professional", OnSuccess = "EditSuccess" }, new { defaultbutton = "submitform" }))
+{
+    @Html.HiddenFor(model => model.EmployeeID)
+    @Html.AntiForgeryToken()
+    <div class="" style="margin-top:10px;">
+
+        <div class="">
+           
+
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mt-4 form-group">
+                        @Html.Label("Academic Qualification :", htmlAttributes: new { @class = "control-label font-weight-bold text-uppercase" })
+                    
+                    <div class="scrollbar border border-secondary p-2" style="height:257px">
+                        @Html.CheckBoxListFor(model => model.CheckBoxListAcademic.PostedFields.fieldIds,
+                           model => model.CheckBoxListAcademic.AvailableFields,
+                           model => model.Id,
+                           model => model.Name,
+                           model => model.CheckBoxListAcademic.SelectedFields,
+                             position: Position.Vertical)
+                        @*@Html.ValidationMessage("AcademinQualificationRequired", "", new { @class = "text-danger" })*@
+                    </div>
+                        </div>
+                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mt-4 form-group">
+                        @Html.Label("Professional Qualification :", htmlAttributes: new { @class = "control-label font-weight-bold text-uppercase" })
+
+                        <div class="scrollbar border border-secondary p-2" style="height:257px">
+                            @Html.CheckBoxListFor(model => model.CheckBoxListProfessional.PostedFields.fieldIds,
+                           model => model.CheckBoxListProfessional.AvailableFields,
+                           model => model.Id,
+                           model => model.Name,
+                           model => model.CheckBoxListProfessional.SelectedFields,
+                             position: Position.Vertical)
+                        </div>
+                    </div>
+                </div>
+            </div>
+             
+
+                    <div class="form-group">
+
+                        <span class="pull-right">
+                            @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-light btn-md toggle-tooltip", @title = "Click here, to redirect on list page" })
+                            <input type="submit" value="Update" class="btn btn-info btn-md pull-center toggle-tooltip" title="Click here, to update this record" />
+                        </span>
+                    </div>
+                </div>
+            </div>
+            }
+
+
+

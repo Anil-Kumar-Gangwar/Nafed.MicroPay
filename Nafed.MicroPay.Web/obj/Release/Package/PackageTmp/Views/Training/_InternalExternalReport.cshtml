@@ -1,0 +1,166 @@
+﻿@model MicroPay.Web.Models.TrainingViewModel
+@using Nafed.MicroPay.Model;
+
+<table id="tblGrid" class="table table-centered table-striped dt-responsive w-100">
+    <thead>
+        <tr>
+            <th style="width:2%">
+                #
+            </th>
+            <th style="width:10%">
+                Name
+            </th>
+            <th style="width:10%">
+                Training Title
+            </th>
+            <th style="width:5%">
+                External/Internal
+            </th>
+            <th style="width:10%">
+                Training Type
+            </th>
+            <th style="width:15%">
+                Training Provider/Vendor
+            </th>
+            @*<th>
+                    Trainer
+                </th>*@
+            <th style="width:15%">
+                Training Objective
+            </th>
+            <th style="width:15%">
+                Venue
+            </th>
+            <th style="width:8%">
+                Date (From - To)
+            </th>
+
+            <th style="width:8%">
+                Duration
+            </th>
+            <th style="width:12%">
+                Mode of Training
+            </th>
+
+            @*<th style="width:5%">
+                Participant Report
+            </th>*@
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            if (Model != null && Model.TrainingList.Count > 0)
+            {
+                var sno = 1;
+                foreach (var item in Model.TrainingList)
+                {
+                    <tr>
+                        <td style="width:2%"> @sno</td>
+                        <td style="width:10%"> @item.EmpName</td>
+                        <td style="width:10%"> @item.TrainingTitle</td>
+                        <td style="width:5%">
+                            @if (item.ExternalTrainer)
+                            {
+                                <span>External</span>
+                            }
+                            else if (item.InternalTrainer)
+                            {
+                                <span>Internal</span>
+                            }
+                            else
+                            {
+                                <span>Both</span>
+                            }
+                        </td>
+                        <td style="width:5%">@item.enumTrainingList.GetDisplayName()</td>
+                        <td style="width:10%">@item.VendorName</td>
+                        <td>
+                            <label class="label-ellipsis toggle-tooltip" title="@item.TrainingObjective" style="width:150px;">
+                                @item.TrainingObjective
+                            </label>
+                        </td>
+                        <td style="width:15%">
+                            <label class="label-ellipsis toggle-tooltip" title="@item.Address" style="width:150px;">
+                                @item.Address
+                            </label>
+
+                        </td>
+                        <td style="width:8%" class="text-center"> @item.StartDate.Value.ToString("dd-MM-yyyy") <text>-</text> @item.EndDate.Value.ToString("dd-MM-yyyy")</td>
+                        <td style="width:8%" class="text-center">
+
+                            @{
+                                var day = (@item.EndDate.Value - @item.StartDate.Value).Days + 1;
+                            }
+
+                            @day<text> Day(s)</text>
+                        <td>
+                            <label class="label-ellipsis toggle-tooltip" title="@item.ModeofTraining" style="width:150px;">
+                                @item.ModeofTraining
+                            </label>
+
+                        </td>
+
+                        @*<td>
+                            <a data-ajax="true" class="toggle-tooltip"
+                            href="@Url.Action("", "Training", new { @trainingID = item.TrainingID, @interexternal = item.InternalTrainer == true ? 1 : item.ExternalTrainer == true?2 : 3 })"
+                            method="GET" title="Click here, to view training rating"
+                            data-ajax-update="#div-trRating" data-ajax-mode="replace"
+                            data-backdrop="static" data-keyboard="false"
+                            data-toggle="modal" data-target="#trainingRatingModel">
+                            <span class="far fa-eye text-info" aria-hidden="true"></span>
+                            </a>
+                        </td>*@
+
+                    </tr>
+                                        sno++;
+                                    }
+                                }
+        }
+
+    </tbody>
+</table>
+
+
+
+<div class="modal" id="trainingRatingModel">
+    <div class="modal-dialog modal-big">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Training Rating</h4>
+                <button type="button" class="close toggle-tooltip" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body" id="div-trRating">
+            </div>
+            <!-- Modal footer -->
+
+            <div class="modal-footer">
+
+                <a data-ajax="true" id="lnk-Export"
+                   class="col-sm-2 text-center btn-md btn btn-warning toggle-tooltip"
+                   href="@Url.Action("_ExportTrainingRating", "Training",new { @traningID =(int?)null})"
+                   method="GET" title="Click here ,to export training rating."
+                   data-ajax-success="OnExportSuccess">
+                    <span class="far fa-file-excel text-info" aria-hidden="true"></span>
+                    Export Training Rating
+                </a>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+
+
+    $('.toggle-tooltip').tooltip();
+    ///==== Adding jquery datatable reference to all master grid
+    var table = $('#tblGrid').DataTable({
+    });
+    $('#tblGrid_length').find('select').addClass('custom-select');
+    //========= End==================================================
+</script>

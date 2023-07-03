@@ -1,0 +1,67 @@
+﻿@model List<Nafed.MicroPay.Model.EmployeeAttendanceDetails>
+@{ var month = @ViewBag.Month;
+    var year = @ViewBag.Year;
+    var branchId = @ViewBag.BranchID;
+}
+
+<table id="tblEmployeeAttendance" class="table table-striped" style="max-height:500px; border:1px solid #ddd;font-size: 11px;">
+    <thead>
+        <tr>
+            <th style="width:10px;">
+                #
+            </th>
+            <th>
+                Code
+            </th>
+            <th>
+                Name
+            </th>
+            <th>
+                Designation
+            </th>          
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            int index = 1;
+            if (Model != null)
+            {
+                foreach (var item in Model)
+                {
+                    <tr rowID="@item.EmployeeId">
+                        <td style="width:10px;">@index</td>
+                        <td> @item.Code</td>
+                        <td> @item.Name</td>
+                        <td> @item.Designation</td>                      
+                    </tr>
+                    index++;
+                }
+            }
+
+        }
+
+    </tbody>
+</table>
+
+
+<style>
+     table tbody tr td, table thead tr th {
+         border: 1px solid #ddd;
+     }
+
+     /*table thead tr th{
+
+         border:1px solid #000;
+    }*/
+
+     td, th {
+         padding: 0;
+     }
+
+
+     table thead tr th {
+         background-color: #17A2B8;
+         color: #fff;
+     }
+</style>
+

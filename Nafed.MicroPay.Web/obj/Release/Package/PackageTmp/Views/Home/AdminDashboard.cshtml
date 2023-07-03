@@ -1,0 +1,40 @@
+﻿@{
+    ViewBag.Title = "Home";
+    ViewBag.NavigationTitle = "Home";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    System.Globalization.CultureInfo Indian = new System.Globalization.CultureInfo("hi-IN");
+}
+<div>
+    <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+        <span class="count_top"><i class="fa fa-user fa-2x green"></i> Total Staff</span>
+        <div class="count green"> <?php echo $dashboardstat->totaltaff;?></div>
+        <span class="count_bottom"><i class="green"><i class="fas fa-angle-up"></i>4% </i>From last month</span>
+    </div>
+
+    <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+        <span class="count_top"><i class="fa fa-male fa-2x blue"></i> Total Male Staff</span>
+        <div class="count blue"> <?php echo  $dashboardstat->malecount;?></div>
+        <span class="count_bottom"><i class="green"><i class="fas fa-angle-up"></i>2% </i> From last month</span>
+    </div>
+    <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+        <span class="count_top"><i class="fa fa-female fa-2x icon-b"></i> Total Female Staff</span>
+        <div class="count icon-b"> <?php echo  $dashboardstat->femalecount;?></div>
+        <span class="count_bottom"><i class="red"><i class="fas fa-angle-down"></i>1% </i> From last month</span>
+    </div>
+    <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+        <span class="count_top"><i class="fas fa-clock fa-2x"></i> Last Month Average Attendance</span>
+        <div class="count green">90.23</div>
+
+        <span class="count_bottom"><i class="green"><i class="fas fa-angle-up"></i>13% </i> From last month</span>
+    </div>
+    <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+        <span class="count_top"><i class="fa fa-rupee-sign fa-2x"></i> Jan, 2019 Gross Salary</span>
+        <div class="count green">26,00,315</div>
+        <span class="count_bottom"><i class="green"><i class="fas fa-angle-up"></i>6% </i> From last month</span>
+    </div>
+    <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+        <span class="count_top"><i class="fa fa-user fa-2x"></i> Total separation in this month</span>
+        <div class="count red"> <?php echo  $dashboardstat->totalsep;?></div>
+        <span class="count_bottom"><i class="red"><i class="fas fa-angle-down"></i>3% </i> From last month</span>
+    </div>
+</div>

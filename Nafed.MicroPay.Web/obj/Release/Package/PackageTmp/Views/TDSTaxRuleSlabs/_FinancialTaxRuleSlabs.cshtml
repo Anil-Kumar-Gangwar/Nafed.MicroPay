@@ -1,0 +1,103 @@
+﻿
+@using MicroPay.Web.Models;
+@model TDSTaxRuleSlabsVM
+
+<table id="tblGrid" class="table table-centered table-striped dt-responsive w-100">
+    <thead>
+        <tr>
+            <th>
+                #
+            </th>
+            <th>
+                Financial Year
+            </th>
+            <th>
+                Standard Deduction
+            </th>
+           
+    
+            @if (Model.userRights.View)
+            {
+                <th class="text-center" style="width:40px">
+                    View
+                </th>
+            }
+            @if (Model.userRights.Edit)
+            {
+                <th class="text-center" style="width:40px">
+                    Edit
+                </th>
+            }
+
+            @*@if (Model.userRights.Delete)
+            {
+                <th class="text-center" style="width:40px">
+                    Delete
+                </th>
+            }*@
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            if (Model != null && Model.fYrTdsSlabs.Count()>0)
+            {
+                var sno = 1;
+                foreach (var item in Model.fYrTdsSlabs)
+                {
+                    <tr>
+                        <td> @sno</td>
+                        <td>
+
+                            @item.FinancialYear
+
+                        </td>
+
+                        <td> @item.StandardDeduction</td>
+                       
+
+                        @if (Model.userRights.View)
+                        {
+                            <td class="text-center">
+
+                                @*<a class="toggle-tooltip" href="@Url.Action("GetTaxRuleSlabForm", "TDSTaxRuleSlabs", new { view = 1, fYear = item.FinancialYear })" title="Click here, to view this record">
+                                    <span class="fa fa-eye text-info" aria-hidden="true"></span>
+                                </a>*@
+
+                                @Html.EncodedImageActionLink("", "GetTaxRuleSlabForm", "TDSTaxRuleSlabs", new { view = 1, fYear = item.FinancialYear }, new { @class = "toggle-tooltip", title = "Click here, to view this record" }, "~/Images/view.png")
+                            </td>
+                        }
+                        @if (Model.userRights.Edit)
+                        {
+                            <td class="text-center">
+                                @*<a class="toggle-tooltip" href="@Url.Action("GetTaxRuleSlabForm", "TDSTaxRuleSlabs", new { fYear = item.FinancialYear })" title="Click here, to edit this record">
+                                    <span class="far fa-edit text-info" aria-hidden="true"></span>
+                                </a>*@
+                                @Html.EncodedImageActionLink("", "GetTaxRuleSlabForm", "TDSTaxRuleSlabs", new { fYear = item.FinancialYear }, new { @class = "toggle-tooltip", title = "Click here, to edit this record" }, "~/Images/edit.png")
+                            </td>
+                        }
+                        @*@if (Model.userRights.Delete)
+                        {
+                            <td class="text-center">
+                                <a data-toggle="confirm" class="toggle-tooltip" href="@Url.Action("Delete", "Employee", new { employeeID = 0 })" title="Click here, to delete this record">
+                                    <span class="far fa-trash-alt text-danger" aria-hidden="true"></span>
+                                </a>
+                            </td>
+                        }*@
+                    </tr>
+
+                    sno++;
+                }
+            }
+
+        }
+
+    </tbody>
+</table>
+<script>
+    $('.toggle-tooltip').tooltip();
+    ///==== Adding jquery datatable reference to all master grid ==== (Sujeet G)
+    var table = $('#tblGrid').DataTable({
+    });
+    $('#tblGrid_length').find('select').addClass('custom-select');
+    //========= End==================================================
+</script>

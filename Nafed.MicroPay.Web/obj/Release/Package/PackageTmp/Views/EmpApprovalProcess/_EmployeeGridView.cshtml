@@ -1,0 +1,76 @@
+﻿@model MicroPay.Web.Models.EmployeeViewModel
+
+
+<table id="tblGrid" class="table table-centered table-striped dt-responsive w-100">
+    <thead>
+        <tr>
+            <th>
+                #
+            </th>          
+            
+            <th>
+                Name
+            </th>
+            <th>
+                Designation
+            </th>
+            <th>
+                Branch
+            </th>
+            <th>
+                Department
+            </th>          
+           
+            
+            @if (Model.userRights.Edit)
+            {
+                <th class="text-center" style="width:40px">
+                    Set Approval Process
+                </th>
+            }
+           
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            if (Model != null && Model.Employee.Count > 0)
+            {
+                var sno = 1;
+                foreach (var item in Model.Employee)
+                {
+                    <tr>
+                        <td> @sno</td>
+                        <td>@item.EmployeeCode<text>-</text> @item.Name</td>
+                        <td> @item.DesignationName</td>
+                        <td> @item.BranchName</td>
+                        <td> @item.DepartmentName</td>                       
+                        @if (Model.userRights.Edit)
+                        {
+                            <td class="text-center">
+                                @*<a class="toggle-tooltip" href="@Url.Action("Edit", "EmpApprovalProcess", new { employeeID = item.EmployeeID, userTypeID = item.UserTypeID })" title="Click here, to edit this record">
+                                    <span class="far fa-edit text-info" aria-hidden="true"></span>
+                                </a>*@
+                                @Html.EncodedImageActionLink("", "Edit", "EmpApprovalProcess", new { employeeID = item.EmployeeID, userTypeID = item.UserTypeID }, new { @class = "toggle-tooltip", title = "Click here, to edit this record" }, "~/Images/edit.png")
+                            </td>
+                        }
+                      
+                    </tr>
+                    sno++;
+                }
+            }
+
+        }
+
+    </tbody>
+</table>
+
+
+
+<script>
+    $('.toggle-tooltip').tooltip();
+    ///==== Adding jquery datatable reference to all master grid ==== (Sujeet G)
+    var table = $('#tblGrid').DataTable({
+    });
+    $('#tblGrid_length').find('select').addClass('custom-select');
+    //========= End==================================================
+</script>

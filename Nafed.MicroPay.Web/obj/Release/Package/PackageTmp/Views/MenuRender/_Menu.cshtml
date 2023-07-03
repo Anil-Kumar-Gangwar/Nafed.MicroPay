@@ -1,0 +1,183 @@
+﻿
+@using MicroPay.Web.Models
+
+@model MenuVM
+@{
+    List<MenuVM> menusList = ViewBag.Menu;
+    Layout = null;
+}
+
+@if (menusList != null)
+{
+    foreach (var parent in menusList.Where(p => p.ParentID == null))
+    {
+        if (menusList.Count(p => p.ParentID == parent.MenuID) > 0)
+        {
+            <li class="nav-item new_nav-item asd">
+                <a style="cursor:pointer" class="nav-link text-wrap ">
+                    <i class="@parent.IconClass mr-2"></i>
+                    <p>
+                        @parent.MenuName
+                        <i class="fas fa-angle-right right"></i>
+                    </p>
+                </a>
+                <ul class="nav nav-treeview">
+                    @foreach (var child in menusList.Where(p => p.ParentID == parent.MenuID))
+                    {
+                        if (menusList.Count(p => p.ParentID == child.MenuID) > 0)
+                        {
+                            <li class="nav-item new_nav-item">
+                                <a style="cursor:pointer" class="nav-link text-wrap">
+                                    <i class="fas fa-circle nav-icon"></i>
+                                    <p>
+                                        <span>@child.MenuName</span>
+                                        <i class="fas fa-angle-right right"></i>
+                                    </p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    @foreach (var subChild in menusList.Where(p => p.ParentID == child.MenuID))
+                                {
+                                    if (menusList.Count(p => p.ParentID == subChild.MenuID) > 0)
+                                    {
+                                            <li class="nav-item new_nav-item">
+                                                <a style="cursor:pointer" class="nav-link subb-padd text-wrap">
+                                                    <i class="fas fa-circle nav-icon"></i>
+                                                    <p>
+                                                        <span>@subChild.MenuName</span>
+                                                        <i class="fas fa-angle-right right"></i>
+                                                    </p>
+                                                </a>
+                                                <ul class="nav nav-treeview">
+                                                    @foreach (var subSubChild in menusList.Where(p => p.ParentID == subChild.MenuID))
+                                                    {
+                                                        var subSubChildActionName = subSubChild.URL.Split(new char[] { '/' })[1]; var subSubChildControllerName = subSubChild.URL.Split(new char[] { '/' })[0];
+                                                        <li class="nav-item new_nav-item subb-padd4">
+                                                            <a class="nav-link text-wrap" onclick="SetMenuID(@subSubChild.MenuID)" href="@Url.Action(subSubChildActionName,subSubChildControllerName)">
+                                                                <i class="fas fa-circle nav-icon"></i>
+                                                                <p>
+                                                                    <span> @subSubChild.MenuName </span>
+                                                                </p>
+                                                            </a>
+                                                        </li>
+                                                    }
+                                                </ul>
+                                            </li>
+                                        }
+                                        else
+                                        {
+                                            var subChildActionName = subChild.URL.Split(new char[] { '/' })[1]; var subChildControllerName = subChild.URL.Split(new char[] { '/' })[0];
+                                            <li class="nav-item new_nav-item">
+                                                <a class="nav-link text-wrap subb-padd" onclick="SetMenuID(@subChild.MenuID)"
+                                                   href="@Url.Action(subChildActionName, subChildControllerName)">
+                                                    <i class="fas fa-circle nav-icon"></i>
+                                                    <p>
+                                                        <span> @subChild.MenuName </span>
+                                                    </p>
+                                                </a>
+                                            </li>
+                                        }
+                                    }
+                                </ul>
+                            </li>
+                        }
+                        else
+                        {
+                            if (!string.IsNullOrEmpty(child.URL))
+                            {
+
+                                if (child.URL.Length > 1)
+                                {
+                                    var childActionName = child.URL.Split(new char[] { '/' })[1]; var childControllerName = child.URL.Split(new char[] { '/' })[0];
+
+                                    <li class="nav-item new_nav-item">
+                                        <a class="nav-link text-wrap" onclick="SetMenuID(@child.MenuID)" href="@Url.Action(childActionName, childControllerName)">
+                                            <i class="fas fa-circle nav-icon"></i>
+                                            <p>
+                                                <span>@child.MenuName</span>
+                                            </p>
+                                        </a>
+                                    </li>
+                                }
+                                else
+                                {
+                                    <li class="nav-item new_nav-item">
+                                        <a class="nav-link text-wrap" onclick="SetMenuID(@child.MenuID)" href="../@child.URL">
+                                            <i class="fas fa-circle nav-icon"></i>
+                                            <p>
+                                                <span> @child.MenuName </span>
+                                            </p>
+                                        </a>
+                                    </li>
+                                }
+                            }
+                            else
+                            {
+                                <li class="nav-item new_nav-item">
+                                    <a class="nav-link" href="javascript: void(0);">
+                                        <i class="fas fa-circle nav-icon"></i>
+                                        <p>
+                                            <span> @parent.MenuName</span>
+                                        </p>
+                                    </a>
+                                </li>
+                            }
+                        }
+                    }
+                </ul>
+            </li>
+
+        }
+        else
+        {
+            if (!string.IsNullOrEmpty(parent.URL))
+            {
+                if (parent.URL.Length > 1)
+                {
+                    var parentActionName = parent.URL.Split(new char[] { '/' })[1]; var parentControllerName = parent.URL.Split(new char[] { '/' })[0];
+                    <li class="nav-item new_nav-item">
+                        <a class="nav-link" onclick="SetMenuID(@parent.MenuID)" href="@Url.Action(parentActionName, parentControllerName)">
+                            <i class="@parent.IconClass mr-2"></i>
+                            <p>
+                                <span> @parent.MenuName </span>
+                            </p>
+                        </a>
+                    </li>
+                }
+                else
+                {
+                    <li class="nav-item new_nav-item">
+                        <a class="nav-link" onclick="SetMenuID(@parent.MenuID)" href="../@parent.URL">
+                            <p>
+                                <span> @parent.MenuName </span>
+                            </p>
+                        </a>
+                    </li>
+                }
+            }
+            else
+            {
+                <li class="nav-item new_nav-item">
+                    <a class="nav-link" href="javascript: void(0);">
+                        <p>
+                            <span> @parent.MenuName </span>
+                        </p>
+                    </a>
+                </li>
+
+            }
+        }
+
+    }
+}
+
+<script type="text/javascript">
+
+    function SetMenuID(menuID) {
+        jQuery.post('@Url.Action("SetMenuID", "MenuRender") ',
+        {
+            menuID: menuID,
+        }).done(function (data) {
+
+        });
+    }
+</script>

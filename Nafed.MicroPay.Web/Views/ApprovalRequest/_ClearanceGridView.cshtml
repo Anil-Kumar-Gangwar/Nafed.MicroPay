@@ -1,0 +1,109 @@
+﻿@using Nafed.MicroPay.Model;
+@model MicroPay.Web.Models.ApprovalRequestVM
+@using Nafed.MicroPay.Common;
+
+@{
+    var uDetails = (UserDetail)Session["user"];
+}
+<table id="tblGrid-clearance" class="table_card table table-centered table-striped dt-responsive w-100 mt-2">
+    <thead>
+        <tr>
+            <th scope="col">
+                #
+            </th>
+            <th scope="col">
+                Request Type
+            </th>
+            <th scope="col">
+                Employee
+            </th>
+            <th scope="col">
+                Remark
+            </th>
+            <th scope="col" class="text-center">
+                Status
+            </th>
+
+            <th scope="col" class="text-center" style="width:60px">
+                Action
+            </th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            if (Model != null && (Model.ClearanceList != null && Model.ClearanceList.Count > 0))
+            {
+                var sno = 1;
+                var totalpending = 0;
+                foreach (var item in Model.ClearanceList)
+                {
+                    <tr>
+                        <td data-label="S. No."> @sno</td>
+                        <td data-label="Request Type"> @(item.ApprovalType == "1" ? "Clearance Approval for Supperannuation" : item.ApprovalType == "2"? "No Dues Approval for Supperannuation": "Resignation Approval")</td>
+                        <td data-label="Employee"> @item.EmployeeName</td>
+                        <td data-label="Remark"> @item.Remark</td>
+                        <td data-label="Status" class="text-center">
+                            <h5>
+                                <span class="badge badge-pill bg-info col-md-12">
+                                    InProcess
+                                </span>
+                            </h5>
+                        </td>
+                        <td data-label="Action" class="text-center">
+                            @if (item.StatusId == null)
+                            {
+                                totalpending = Model.ClearanceList.Count;
+
+                                <a data-ajax="true"
+                                   method="POST" class="toggle-tooltip" title="Click here, to approve request."
+                                   data-ajax-update="#div-clearanceapprovalPopup" data-ajax-mode="replace"
+                                   data-backdrop="static" data-keyboard="false"
+                                   href="@Url.Action("_GetClearanceApprovalPopup", "ApprovalRequest", new
+                                    {
+                                        sepId = item.SeparationId,
+                                        clearanceId = item.ClearanceId,
+                                        actionType = "accept",
+                                        reportingTo = item.ReportingTo,
+                                        aprType = item.ApprovalType
+                                    })"
+                                   id="a_clearancepopup" data-toggle="modal" data-target="#div-clearance-approval-popup">
+                                    <i class="fa fa-check-square text-success fa-2x" aria-hidden="true"></i>
+                                </a>
+
+                                <text> | </text>
+                                <a data-ajax="true"
+                                   method="POST" class="toggle-tooltip" title="Click here, to reject request."
+                                   data-ajax-update="#div-clearanceapprovalPopup" data-ajax-mode="replace"
+                                   data-backdrop="static" data-keyboard="false"
+                                   href="@Url.Action("_GetClearanceApprovalPopup", "ApprovalRequest", new
+                                    {
+                                        sepId = item.SeparationId,
+                                        clearanceId = item.ClearanceId,
+                                        actionType = "reject",
+                                        reportingTo = item.ReportingTo,
+                                        arpType = item.ApprovalType
+                                    })"
+                                   id="a_clearancepopup" data-toggle="modal" data-target="#div-clearance-approval-popup">
+                                    <i class="fas fa-window-close" aria-hidden="true"></i>
+                                </a>
+
+
+                            }
+
+                        </td>
+                    </tr>
+
+                    sno++;
+                }
+            }
+        }
+
+
+    </tbody>
+</table>
+
+<script type="text/javascript">
+    var table = $('#tblGrid-clearance').DataTable({
+    });
+</script>

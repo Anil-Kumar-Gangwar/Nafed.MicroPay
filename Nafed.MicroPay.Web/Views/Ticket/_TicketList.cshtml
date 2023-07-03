@@ -1,0 +1,264 @@
+﻿@using MicroPay.Web.Models
+@model HelpDesk
+<table id="tblGrid" class="table table-centered table-striped dt-responsive w-100">
+    <thead>
+        <tr>
+            <th style="width:20px">
+                Ticket No.
+            </th>
+            <th>
+                Previous Ticket No.
+            </th>
+            <th>
+                Priority
+            </th>
+            <th style="width:15%">
+                Name
+            </th>
+            <th>
+                Department
+            </th>
+            <th>
+                Type
+            </th>
+            <th>
+                Subject
+            </th>
+            <th style="width:25%">
+                Message
+            </th>
+            <th>
+                Document
+            </th>
+            <th>
+                Reply
+            </th>
+            <th>
+                Status
+            </th>
+            <th class="text-center" style="width:60px">
+                Action
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            if (Model.TList != null && Model.TList.Count > 0)
+            {
+                var sno = 1;
+                for (int i = 0; i < Model.TList.Count; i++)
+                {
+                    <tr>
+                        <td class="text-center"> @Model.TList[i].ID</td>
+                        <td> @Model.TList[i].PreviousTicket</td>
+                        <td class="text-center">
+                            @switch (Model.TList[i].priority_id)
+                            {
+                                case 1:
+                                    <span class="badge badge-pill badge-success col-md-12">Low </span>
+                                    break;
+                                case 2:
+                                    <span class="badge badge-pill badge-info col-md-12">Medium </span>
+                                    break;
+                                case 3:
+                                    <span class="badge badge-pill badge-warning col-md-12">High </span>
+                                    break;
+                                case 4:
+                                    <span class="badge badge-pill badge-danger col-md-12">Urgent </span>
+                                    break;
+                                default:
+                                    <span>N.A. </span>
+                                    break;
+                            }
+                        </td>
+                        <td> @Model.TList[i].name</td>
+                        <td> @Model.TList[i].Department</td>
+                        <td> @Model.TList[i].TicketType</td>
+                        <td> @Model.TList[i].subject</td>
+                        <td id="@("remark_"+i)">
+                            @if (!string.IsNullOrEmpty(Model.TList[i].Message))
+                            {
+                                if (Model.TList[i].Message.Length > 50)
+                                {
+                                    @Html.HiddenFor(model => Model.TList[i].Message)
+                                    <a href="#" class="toggle-tooltip" title="Click here to see message">@Model.TList[i].Message.Substring(0, 50)...</a>
+                                }
+                                else
+                                {
+                                    @Model.TList[i].Message
+                                }
+                            }
+
+                        </td>
+
+                        <td>
+                            @if (Model.TList[i].TicketDocumentList != null && Model.TList[i].TicketDocumentList.Count > 0)
+                            {
+                                foreach (var doc in Model.TList[i].TicketDocumentList)
+                                {
+                                    <p class="media-body pb-3 mb-0 lh-125">
+                                        @if (Convert.ToString(doc.docpathname).IndexOf(".", 0) > 0)
+                                        {
+                                            var ext = Convert.ToString(doc.docpathname).Substring(Convert.ToString(doc.docpathname).IndexOf(".", 1) + 1, Convert.ToString(doc.docpathname).Length - (Convert.ToString(doc.docpathname).IndexOf(".", 1) + 1)).Trim();
+                                            if (ext == "xls" || ext == "xlsx")
+                                            {
+                                                <i class="fas fa-file-excel text-success fa-1x mr-2"></i>
+
+                                            }
+                                            else if (ext == "doc" || ext == "docx")
+                                            {
+                                                <i class="fas fa-file-word text-primary fa-1x mr-2"></i>
+
+                                            }
+                                            else if (ext == "pdf")
+                                            {
+                                                <i class="fas fa-file-pdf text-danger fa-1x mr-2"></i>
+
+                                            }
+                                            else if (ext == "png" || ext == "jpg" || ext == "gif" || ext == "bmp")
+                                            {
+                                                <i class="fas fa-file-image text-waring fa-1x mr-2"></i>
+
+                                            }
+                                            else
+                                            {
+                                                <i class="fas fa-file text-light fa-1x mr-2"></i>
+
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <i class="fas fa-file text-light fa-1x mr-2"></i>
+
+                                        }
+                                        <a aria-current="page" style="font-size:10px;" href="~/Document/HelpDesk/@doc.docpathname" data-toggle="tooltip" title="@doc.docname" download="@doc.docorgname">
+                                            @doc.docorgname
+
+                                        </a>
+                                    </p>
+
+                                }
+                            }
+                        </td>
+                        <td>@Model.TList[i].TicketSolverRmk</td>
+                        <td style="width:5%">
+                            @if (Model.TList[i].status_id == (int)Nafed.MicroPay.Model.TicketTypeStatus.Open)
+                            {
+                                <span class="badge badge-pill badge-warning col-md-12">Open </span>
+                            }
+                            @if (Model.TList[i].status_id == (int)Nafed.MicroPay.Model.TicketTypeStatus.Pending)
+                            {
+                                <span class="badge badge-pill badge-info col-md-12">Pending </span>
+                            }
+                            else if (Model.TList[i].status_id == (int)Nafed.MicroPay.Model.TicketTypeStatus.Answered)
+                            {
+                                <span class="badge badge-pill badge-primary col-md-12">Answered</span>
+                            }
+                            else if (Model.TList[i].status_id == (int)Nafed.MicroPay.Model.TicketTypeStatus.Resolved)
+                            {
+                                <span class="badge badge-pill badge-success col-md-12">Resolved</span>
+                            }
+
+                        </td>
+                        <td class="text-center">
+                            @if (Model.TList[i].status_id == (int)Nafed.MicroPay.Model.TicketTypeStatus.Open)
+                            {
+                                <a data-ajax="true"
+                                   method="POST" title="Click here, to assign ticket."
+                                   data-ajax-update="#div-forward-body" data-ajax-mode="replace"
+                                   data-backdrop="static" data-keyboard="false"
+                                   href="@Url.Action("Assign", "Ticket", new { ticketID = @Model.TList[i].ID,subj= @Model.TList[i].subject,empID=@Model.TList[i].customer_id })"
+                                   id="a_forward" data-toggle="modal" data-target="#div-forward">
+                                    <i class="fa fa-share" aria-hidden="true"></i>
+                                </a>
+                                <text>|</text>
+                                <a data-ajax="true"
+                                   method="POST" title="Click here, to mark ticket as resolved."
+                                   data-ajax-update="#div-forward-body" data-ajax-mode="replace"
+                                   data-backdrop="static" data-keyboard="false"
+                                   href="@Url.Action("MarkTicketAsResolved", "Ticket", new {ticketID = @Model.TList[i].ID,subj= @Model.TList[i].subject,empID=@Model.TList[i].customer_id,status=@Model.TList[i].status_id})"
+                                   id="a_answered" data-toggle="modal" data-target="#div-forward">
+                                    <i class="fas fa-check-circle" aria-hidden="true"></i>
+                                </a>
+
+                            }
+                            @if (Model.TList[i].status_id == (int)Nafed.MicroPay.Model.TicketTypeStatus.Answered)
+                            {
+                                <a data-ajax="true"
+                                   method="POST" title="Click here, to mark ticket as resolved or forward ticket."
+                                   data-ajax-update="#div-forward-body" data-ajax-mode="replace"
+                                   data-backdrop="static" data-keyboard="false"
+                                   href="@Url.Action("MarkTicketAsResolved", "Ticket", new {ticketID = @Model.TList[i].ID,subj= @Model.TList[i].subject,empID=@Model.TList[i].customer_id,status=@Model.TList[i].status_id})"
+                                   id="a_answered" data-toggle="modal" data-target="#div-forward">
+                                    <i class="fas fa-check-circle" aria-hidden="true"></i>
+
+                                </a>
+                            }
+                            @if (Model.TList[i].status_id == (int)Nafed.MicroPay.Model.TicketTypeStatus.Pending)
+                            {
+                                <a data-ajax="true"
+                                   method="POST" title="Click here, to rollback ticket."
+                                   data-ajax-update="#div-TicketList" data-ajax-mode="replace"
+                                   data-backdrop="static" data-keyboard="false"
+                                   href="@Url.Action("TicketRollback", "Ticket", new {ticketID = @Model.TList[i].ID,empId=@Model.TList[i].customer_id})"
+                                   id="a_rollback">
+                                    <i class="fas fa-undo" aria-hidden="true"></i>
+                                </a>
+                            }
+                        </td>
+                    </tr>
+                    sno++;
+                }
+            }
+
+        }
+
+    </tbody>
+</table>
+
+<div class="modal" id="div-forward" style="max-height:600px;">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body" id="div-forward-body">
+
+
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    $('.toggle-tooltip').tooltip();
+
+    $('#tblGrid tr td').click(function () {
+        debugger;
+        var cid = $(this).attr('id');
+        var res = cid.substring(0, 6);
+        var id_indx = cid.substring(7);
+        var filemanagmtid = "TList_0__Message";
+        var filemgn = filemanagmtid.substring(0, 6);
+        var hdnremark = filemgn + id_indx + "__Message";
+        if (res == "remark") {
+            var rmk = $("#" + hdnremark).val();
+            if (rmk.length > 50) {
+                $("#div-remarks").text(rmk)
+                $('#div-remarks-popup').modal('show');
+            }
+        }
+    });
+
+</script>

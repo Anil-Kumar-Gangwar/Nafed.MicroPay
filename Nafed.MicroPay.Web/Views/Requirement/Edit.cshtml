@@ -1,0 +1,79 @@
+﻿@model Nafed.MicroPay.Model.Requirement
+@using MicroPay.Web.Models;
+@{
+    ViewBag.Title = "Edit Requirement";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+@using (Ajax.BeginForm("Edit", "Requirement", new AjaxOptions { HttpMethod = "POST", OnSuccess = "OnEditSuccess" }, new { id = "RequirementEditForm" }))
+{
+    @Html.HiddenFor(model => model.RequirementID)
+    @Html.HiddenFor(model => model.JLocTypeId)
+
+    <div id="div-Editmain-form" class="" style="margin-top:10px;">
+        @Html.Partial("_EditRequirement", Model)
+    </div>
+}
+<script type="text/javascript">
+    function OnEditSuccess(data) {
+        if (data.part == 1) {
+            $("#div-form-ExamCenter-grid").html(data.htmlData);
+        }
+
+        if (data.part == 6 && data.msgType == "success") {
+            //commonMessage(data.msgType, data.msg);
+            window.location.href = "@Url.Action("Index", "Requirement")";
+        }
+
+        if (data.part == undefined) {
+            $("#div-Editmain-form").html(data);
+        }
+    }
+    $(document).ready(function () {
+        if($("#FeesApplicable").is(":checked")){
+            $("#ApplicationFees").removeAttr("readonly");
+        }
+        else{
+            $("#ApplicationFees").attr("readonly","readonly");
+        }
+
+        if(@Model.editFlag==1){
+            var jLTypeID = $("#JLocTypeId").val();
+            var requirementVal = $("#RequirementID").val();
+            if(jLTypeID==1){
+                $("#requirementIn").removeClass("hide");
+                $("#requirementIn").addClass("required");
+                $("#requirementIn").html("Branch");
+            }
+            else if(jLTypeID==2){
+                $("#requirementIn").removeClass("hide");
+                $("#requirementIn").addClass("required");
+                $("#requirementIn").html("Zone");
+            }
+            else{
+                $("#requirementIn").removeClass("hide");
+                $("#requirementIn").removeClass("required");
+                $("#requirementIn").html("");
+                //$("#divExamCenter").addClass("hide");
+                jLTypeID=null;
+                requirementVal=null;
+            }
+            jQuery.post('@Url.Action("_FillFilterFieldList", "Requirement")',
+                   { fieldID: $("#JLocTypeId").val(), jLocTypeId: jLTypeID, requirementId: requirementVal }).done(function (data) {
+                       $("#div-filter-list").html(data);
+                       locationCheckbox();
+                   });
+        }
+    });
+
+    function FeesApplicableChange(value) {
+        if (value.checked) {
+            $("#ApplicationFees").removeAttr("readonly");
+        }
+        else {
+            $("#ApplicationFees").attr("readonly", "readonly");
+        }
+    }
+</script>

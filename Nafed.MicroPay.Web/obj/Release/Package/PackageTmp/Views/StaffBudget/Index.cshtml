@@ -1,0 +1,126 @@
+﻿@model MicroPay.Web.Models.StaffBudgetViewModel
+@{
+    ViewBag.Title = "Staff Budget";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Ajax.BeginForm("StaffBudgetGridView", "StaffBudget", new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "divStaffBudgetGridView" }))
+{
+    <div class="row patty_panel" style="background-color: #0c858e; box-shadow: 0px 1px 2px;padding-top: 0px;">
+
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 pb-1 pt-2">
+
+            <h4>
+                @Html.Label("SEARCH FILTERS")
+            </h4>
+        </div>
+
+        <hr style="background-color:#fff !important;">
+
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="form-group">
+                <div class="row">
+
+                    <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+                        @Html.LabelFor(model => model.selectYearID, htmlAttributes: new { @class = "" })
+                    </div>
+
+                    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 ">
+                        @Html.DropDownListFor(model => model.selectYearID, new SelectList(Model.yearList, "Value", "Text"), "Select", new { @class = "custom-select" })
+                    </div>
+
+                    <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12 ">
+                        @Html.LabelFor(model => model.designationID, htmlAttributes: new { @class = "" })
+                    </div>
+
+                    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 ">
+                        @Html.DropDownListFor(model => model.designationID, new SelectList(Model.designationList, "id", "value"), "Select", new { @class = "custom-select" })
+
+                    </div>
+
+                    <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+                        <input type="submit" id="submitform" value="Search" title="Click here, to search records" name="eventType" class="btn btn-warning toggle-tooltip" formtarget="_blank" >
+                         
+                    </div>
+
+                    @*<div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                        @Html.ActionLink("View Report", null, null, null, new { @class = "btn btn-warning toggle-tooltip saveButton", title = "Click here, to create new record", @data_toggle = "tooltip", target = "_blank", @name = "eventType", onClick = "OnBegin('Report');" })
+                        <a href="javascript:void(0)" target="_blank" class="btn btn-warning toggle-tooltip" title = "Click here, to create new record" data-toggle="tooltip" onClick = "OnBegin('Report');">View Report</a>
+
+                    </div>*@
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<div class="card_new_header text-right">
+    @Ajax.ActionLink("Generate", "GenerateStaffBudget", null, null,
+new
+{
+    @class = "btn btn-info btn-md toggle-tooltip",
+    @data_target = "#generateStaffBudgetModal",
+    title = "Click here, to create new record",
+    @data_toggle = "modal",
+    @method = "GET",
+    @data_backdrop = "static",
+    @data_keyboard = "false",
+    @data_ajax_update = "#div-result-body",
+    @data_ajax_mode = "replace"
+})
+
+
+    @*@if (Model.userRights.Create)
+        {*@
+    @Html.ActionLink("Create New", "Create", "StaffBudget", null, new { @class = "btn btn-info btn-md", title = "Click here, to create new record", @data_toggle = "tooltip" })
+    @*}*@
+</div>
+<div class="card_new_body">
+    <div id="divStaffBudgetGridView">
+    </div>
+</div>
+
+
+<div class="modal" id="generateStaffBudgetModal" data-backdrop="static" data-keyboard="false" role="dialog" style="overflow:auto;">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Generate Staff Budget</h4>
+                <button type="button" class="close toggle-tooltip" data-dismiss="modal">&times;</button>
+            </div>
+
+            @using (Ajax.BeginForm("GenerateStaffBudget", "StaffBudget", null,
+                  new AjaxOptions { HttpMethod = "POST", OnSuccess = "OnSuccess" }))
+            {
+            <!-- Modal body -->
+            <div class="modal-body" id="div-result-body">
+
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <input type="submit" value="Generate" id="btnSave" class="btn btn-primary btn-md pull-left" />
+            </div>
+            }
+
+        </div>
+    </div>
+</div>
+<script>
+    //$(document).ready(function () { $('.saveButton').click(function () { $(this).closest('form')[0].submit(); }); });
+    function OnSuccess(data) {
+        if (data.success != undefined) {
+            commonMessage("success", data.success);
+            $("#generateStaffBudgetModal").modal('hide');
+        }
+        if (data.warning != undefined) {
+            commonMessage("warning", data.warning);
+        }
+        if (data.htmlData != undefined) {
+            $("#div-result-body").html("");
+            $("#div-result-body").html(data.htmlData);
+        }
+    }
+ </script>

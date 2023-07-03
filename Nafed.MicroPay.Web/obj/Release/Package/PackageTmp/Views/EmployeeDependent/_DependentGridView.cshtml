@@ -1,0 +1,103 @@
+﻿@model MicroPay.Web.Models.DependentViewModel
+@using Nafed.MicroPay.Common
+
+<table id="tblGrid" class="table table-centered table-striped dt-responsive w-100">
+    <thead>
+        <tr>
+            <th>
+                #
+            </th>
+            <th>
+                Branch
+            </th>
+            @*@if (Model.userTypeID == 1)
+            {*@
+                <th>
+                    Employee
+                </th>
+            @*}*@
+           
+            <th>
+                Dependent Name
+            </th>
+            <th>
+                Gender
+            </th>
+            <th>
+                Date Of Birth
+            </th>
+            <th>
+                Relation
+            </th>
+            <th>
+                Handicapped
+            </th>
+            <th>
+                PF Nominee
+            </th>
+            <th>
+                (%)
+            </th>
+            <th>
+                EPS Nominee
+            </th>
+            <th>
+               Address
+            </th>
+             <th class="text-center" style="width:60px">
+                    Edit
+                </th>
+           
+            
+                <th class="text-center" style="width:60px">
+                    Delete
+                </th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            if (Model.listDependent != null && Model.listDependent.Count() > 0)
+            {
+                var sno = 1;
+                foreach (var item in Model.listDependent)
+                {
+                    <tr>
+                        <td> @sno</td>
+                        <td> @item.Branch</td>
+                        @*@if (Model.userTypeID == 1)
+                        {*@
+                            <td> @item.EmpCode <text> - @item.Employee</text> </td>
+                        @*}*@
+                        @*<td> @item.DependentCode</td>*@
+                        <td> @item.DependentName</td>
+                        <td> @(item.Gender != null ? item.Gender : "NA")</td>
+                        <td> @(item.DOB.HasValue ? item.DOB.Value.ToString("dd/MM/yyyy") : "NA")</td>
+                        <td> @(item.Relation != null ? item.Relation : "NA")</td>
+                        <td> @ExtensionMethods.BoolToYesNo(@item.Handicapped)</td>
+                        <td> @ExtensionMethods.BoolToYesNo(@item.PFNominee)</td>
+                        <td> @(item.PFDistribution == null ? 0 : item.PFDistribution)</td>
+                        <td> @ExtensionMethods.BoolToYesNo(@item.EPSNominee)</td>
+                        <td>@item.Address</td>
+                         <td class="text-center">
+                                @*<a href="@Url.Action("Edit", "EmployeeDependent", new { empDependentID = item.EmpDependentID })" title="Click here, to edit this record" data-toggle="tooltip">
+                                    <i class="far fa-edit text-info" aria-hidden="true"></i>
+                                </a>*@
+                             @Html.EncodedImageActionLink("", "Edit", "EmployeeDependent", new { empDependentID = item.EmpDependentID }, new { @class = "toggle-tooltip", title = "Click here, to edit this record" }, "~/Images/edit.png")
+                            </td>
+                       
+                            <td class="text-center">
+                                @*<a data-toggle="confirm" class="toggle-tooltip" href="@Url.Action("Delete", "EmployeeDependent", new { empDependentID = item.EmpDependentID })" title="Click here, to delete this record">
+                                    <span class="far fa-trash-alt text-danger" aria-hidden="true"></span>
+                                </a>*@
+                                @Html.EncodedImageActionLink("", "Delete", "EmployeeDependent", new { empDependentID = item.EmpDependentID }, new { @class = "toggle-tooltip", title = "Click here, to delete this record" }, "~/Images/delete.png", true)
+                            </td>
+                    </tr>
+
+                    sno++;
+                }
+            }
+
+        }
+
+    </tbody>
+</table>

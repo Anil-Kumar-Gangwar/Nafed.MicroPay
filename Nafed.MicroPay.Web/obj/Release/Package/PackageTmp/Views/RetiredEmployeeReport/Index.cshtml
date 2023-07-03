@@ -1,0 +1,15 @@
+﻿@model Nafed.MicroPay.Model.UserAccessRight
+@{
+    ViewBag.Title = "Employee Who Left Nafed Report";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="">
+    <div class="card_new_body">
+        @using (Ajax.BeginForm("ShowReport", "RetiredEmployeeReport", new AjaxOptions { HttpMethod = "POST", OnSuccess = "OnReportSuccess" }))
+        {
+            <div id="div-report-filters">
+                @Html.Action("GetReportFilters")
+            </div>
+        }
+    </div>
+</div>

@@ -1,0 +1,98 @@
+﻿@using Nafed.MicroPay.Model
+@model ExgratiaList
+
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    <div class="form-group">
+        <div class="row">
+
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                @Html.LabelFor(model => model.FinancialYear, htmlAttributes: new { @class = "control-label required"  })
+            </div>
+
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                @if (Model.ExgratiaID == 0 || Model.ExgratiaID==null)
+                {
+                    @Html.DropDownListFor(model => model.FinancialYear, (IEnumerable<SelectListItem>)ViewBag.ddlYear, "Select", new { @class = "custom-select" })
+                }
+                else
+                {
+                    @Html.DropDownListFor(model => model.FinancialYear, (IEnumerable<SelectListItem>)ViewBag.ddlYear, "Select", new { @class = "custom-select" , @disabled = "disabled" })
+                }
+                
+                @Html.ValidationMessageFor(model => model.FinancialYear, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+
+                @Html.LabelFor(model => model.EmployeeID, htmlAttributes: new { @class = "control-label required" })
+
+            </div>
+
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                @if (Model.ExgratiaID == 0 || Model.ExgratiaID == null)
+                {
+                    {
+                    @Html.DropDownListFor(model => model.EmployeeID, (IEnumerable<SelectListItem>)ViewBag.employee, "Select", new { @class = "custom-select" })
+                }
+                else
+                {
+                    @Html.DropDownListFor(model => model.EmployeeID, (IEnumerable<SelectListItem>)ViewBag.employee, "Select", new { @class = "custom-select", @disabled = "disabled" })
+                }
+                
+                @Html.ValidationMessageFor(model => model.EmployeeID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+    
+    </div>
+    <div class="form-group">
+        <div class="row">
+
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                @Html.LabelFor(model => model.OtherDeduction, htmlAttributes: new { @class = "control mb-2 " })
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                <div class="form-group">
+                    <label class="switch">
+
+                        @Html.CheckBoxFor(model => model.OtherDeduction, new { @class = "form-control",@id="chkOtherDeduction" })
+                        <div class="slider round">
+
+                        </div>
+                    </label>
+                </div>
+            </div>
+
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                @Html.LabelFor(model => model.Incometax, htmlAttributes: new { @class = "control-label", @id = "lblIncomeTax" })
+            </div>
+
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                @Html.EditorFor(model => model.Incometax, new { htmlAttributes = new { @class = "form-control", @placeholder = "Income tax", @type = "number" } })
+               
+             </div>
+
+        </div>
+    </div>
+
+
+
+    <script type="text/javascript">
+        $('#chkOtherDeduction').on("change", function () {
+            if ($(this).is(":checked")) {
+                $("#lblIncomeTax").html("Other Deduction");
+
+            } else {
+                $("#lblIncomeTax").html("Income Tax");
+            }
+        })
+
+
+    </script>
+
+
+
+
+
+

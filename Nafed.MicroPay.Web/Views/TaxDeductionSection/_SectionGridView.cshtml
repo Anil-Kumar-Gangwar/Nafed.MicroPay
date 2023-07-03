@@ -1,0 +1,70 @@
+﻿
+@using Nafed.MicroPay.Model
+@model List<DeductionSection>
+
+<table id="tblGrid" class="table table-centered table-striped dt-responsive w-100">
+    <thead>
+        <tr>
+            <th>
+                #
+            </th>
+            <th>
+                Finanical Year
+            </th>
+            <th>
+                Section
+            </th>
+            <th class="text-center" style="width:40px">
+                Edit
+            </th>
+            <th class="text-center" style="width:40px">
+                Delete
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            if (Model != null && Model.Count() > 0)
+            {
+                var sno = 1;
+                foreach (var item in Model)
+                {
+                    <tr>
+                        <td> @sno</td>
+                        <td> @item.FYear</td>
+                        <td> @item.SectionName</td>
+
+                            <td class="text-center">
+
+                                <a data-ajax="true" class="toggle-tooltip"
+                                    href="@Url.Action("_EditSection", "TaxDeductionSection",
+                                        new { sectionID = item.SectionID })"
+                                   method="GET" title="Click here, to edit this record"
+                                   data-ajax-update="#div-section-form" data-ajax-mode="replace"
+                                   data-backdrop="static" data-keyboard="false">
+                                    <i class="far fa-edit text-info" aria-hidden="true"></i>
+                                </a>
+
+
+                                @*<a href="@Url.Action("EditSection", "TaxDeductionSection", new { sectionID = item.SectionID })" title="Click here, to edit this record" data-toggle="tooltip">
+                                    <i class="far fa-edit text-info" aria-hidden="true"></i>
+                                </a>*@
+                            </td>
+                        
+                            <td class="text-center">
+                                @*<a data-toggle="confirm" class="toggle-tooltip" href="@Url.Action("DeleteSection", "TaxDeductionSection",new { sectionID = item.SectionID })" title="Click here, to delete this record">
+                                    <span class="far fa-trash-alt text-danger" aria-hidden="true"></span>
+                                </a>*@
+                                @Html.EncodedImageActionLink("", "DeleteSection", "TaxDeductionSection", new { sectionID = item.SectionID }, new { @class = "toggle-tooltip", title = "Click here, to delete this record" }, "~/Images/delete.png", true)
+                            </td>
+                        
+                    </tr>
+
+                    sno++;
+                }
+            }
+
+        }
+
+    </tbody>
+</table>

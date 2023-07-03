@@ -1,0 +1,181 @@
+﻿@model Nafed.MicroPay.Model.MasterReports
+
+
+<div  class="row">
+    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+        <fieldset class="border p-2 col-md-12 col-xs-12 col-lg-12 col-xl-12">
+            <legend style="font-size:1.3rem !important;" class="w-auto">Report Filters</legend>
+            <div class="form-group">
+                <div class="row">
+     
+                    @Html.LabelFor(model => model.BranchID, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2" })
+                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
+                        @Html.DropDownListFor(model => model.BranchID, new SelectList(ViewBag.ddlBranch, "id", "value"), new { @class = "custom-select" })
+                        <span id="loantypeRequired"></span>
+                    </div>
+                </div>
+
+                <div class="row">
+                    @Html.LabelFor(model => model.Year, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2" })
+
+                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
+                        @Html.DropDownListFor(model => model.Year, new SelectList(ViewBag.ddlYear, "id", "value"), new { @class = "custom-select" })
+                    </div>
+                </div>
+
+                <div class="row">
+                    @Html.LabelFor(model => model.Month, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2" })
+
+                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
+                        @Html.DropDownListFor(model => model.Month, new SelectList(ViewBag.ddlMonth, "id", "value"), new { @class = "custom-select" })
+                    </div>
+                </div>
+
+                <div class="row">
+                    @Html.LabelFor(model => model.EmployeeTypeID, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2" })
+
+                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
+                        @Html.DropDownListFor(model => model.EmployeeTypeID, new SelectList(ViewBag.ddlEmployeeType, "id", "value"), new { @class = "custom-select"})
+                    </div>
+                </div>
+
+                <div class="row">
+                    @Html.LabelFor(model => model.BankCode, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2" })
+
+                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
+                        @Html.DropDownListFor(model => model.BankCode, new SelectList(ViewBag.Banks, "BankCode", "BankName"), "Select", new { @class = "custom-select", @onChange = "BankCodeChange(this)" })
+                                            </div>
+                </div>
+                               
+                @*<div class="row">
+                    @Html.LabelFor(model => model.AllEmployee, new { @class = "control-label col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2" })
+
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-4">
+                            <label class="switch">
+                                @Html.CheckBoxFor(model => model.AllEmployee, new { @class = "form-control", @checked = "checked",@onChange="checkboxOnchange(this)" })
+                                <div class="slider round">
+                                </div>
+                            </label>
+                        </div>  
+                </div>*@
+
+                <div class="row">
+                    @Html.LabelFor(model => model.AllBranch, new { @class = "control-label col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2" })
+
+                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-4">
+                        <label class="switch">
+                            @Html.CheckBoxFor(model => model.AllBranch, new { @class = "form-control" })
+                            <div class="slider round">
+                            </div>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+
+    </div>
+    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+        <fieldset class="border p-2 col-md-12 col-xs-12 col-lg-12 col-xl-12">
+            <legend style="font-size:1.3rem !important;" class="w-auto">Reports Type</legend>
+            <div class="form-group">
+                <div>
+                    <div class="row mb-2">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            @Html.RadioButtonFor(model => model.RadioReportType, "EmployeewiseBankAcnt", new { id = "EmployeewiseBankAcnt", @onChange = "radioChangeEvents(this)"})
+
+                            @Html.Label("Employee With Bank Account (Floppy)", htmlAttributes: new { @class = "control-label mb-0",@for= "EmployeewiseBankAcnt" })<br />
+                            <span class="text-danger">(Do not select All Employees and All Branches)</span>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            @Html.RadioButtonFor(model => model.RadioReportType, "BankAcnt", new { id = "BankAcnt", @onChange = "radioChangeEvents(this)" })
+
+                            @Html.Label("Bank Statement (Complete)", htmlAttributes: new { @class = "control-label mb-0", @for = "BankAcnt" })<br />
+                            <span class="text-danger">(Select Head Office from Branch Code)</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            @Html.RadioButtonFor(model => model.RadioReportType, "CCA", new { id = "CCA", @onChange = "radioChangeEvents(this)" })
+
+                            @Html.Label("CCA", htmlAttributes: new { @class = "control-label mb-2", @for = "CCA" })
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            @Html.RadioButtonFor(model => model.RadioReportType, "SpeciaPay", new { id = "SpeciaPay", @onChange = "radioChangeEvents(this)" })
+
+                            @Html.Label("Special Pay", htmlAttributes: new { @class = "control-label mb-2", @for = "SpeciaPay" })
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            @Html.RadioButtonFor(model => model.RadioReportType, "IncometaxDedc", new { id = "IncometaxDedc", @onChange = "radioChangeEvents(this)" })
+                            @*</div>
+                                <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">*@
+                            @Html.Label("Income Tax Deduction", htmlAttributes: new { @class = "control-label mb-2", @for = "IncometaxDedc" })
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            @Html.RadioButtonFor(model => model.RadioReportType, "Classificationofcitiesgrade", new { id = "Classificationofcitiesgrade", @onChange = "radioChangeEvents(this)" })
+
+                            @Html.Label("Classification of Cities Grade", htmlAttributes: new { @class = "control-label mb-2", @for = "Classificationofcitiesgrade" })
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            @Html.RadioButtonFor(model => model.RadioReportType, "Locationwisettl", new { id = "Locationwisettl", @onChange = "radioChangeEvents(this)" })
+
+                            @Html.Label("Location Wise Total No of Employees", htmlAttributes: new { @class = "control-label mb-2", @for = "Locationwisettl" })
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            @Html.RadioButtonFor(model => model.RadioReportType, "Locationwiselstttlemployess", new { id = "Locationwiselstttlemployess", @onChange = "radioChangeEvents(this)" })
+
+                            @Html.Label("Location Wise List of Total Employees (PF No)", htmlAttributes: new { @class = "control-label mb-2", @for = "Locationwiselstttlemployess" })
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            @Html.RadioButtonFor(model => model.RadioReportType, "locationwisenetPay", new { id = "locationwisenetPay", @onChange = "radioChangeEvents(this)" })
+
+                            @Html.Label("Location Wise Net Pay Differencial", htmlAttributes: new { @class = "control-label mb-2", @for = "locationwisenetPay" })
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            @Html.RadioButtonFor(model => model.RadioReportType, "EmployeelstDOB", new { id = "EmployeelstDOB", @onChange = "radioChangeEvents(this)" })
+
+                            @Html.Label("Employee Listing DOB", htmlAttributes: new { @class = "control-label mb-2", @for = "EmployeelstDOB" })
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            @Html.RadioButtonFor(model => model.RadioReportType, "EmployeelstAdmngft", new { id = "EmployeelstAdmngft", @onChange = "radioChangeEvents(this)" })
+
+                            @Html.Label("Location Wise Employee With Designation", htmlAttributes: new { @class = "control-label mb-2", @for = "EmployeelstAdmngft" })
+                        </div>
+                    </div>
+                </div>
+                <br />
+           
+                <span class="pull-right">
+                    <input type="submit" value="Print" class="btn btn-info btn-md pull-center toggle-tooltip" title="Click here, to print report." name="ButtonType" id="btnprint" formtarget="_blank" />
+                </span>
+            </div>
+
+        </fieldset>
+    </div>
+</div>

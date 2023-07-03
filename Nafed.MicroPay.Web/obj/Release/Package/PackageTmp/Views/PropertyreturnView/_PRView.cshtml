@@ -1,0 +1,163 @@
+﻿@using MicroPay.Web.Models
+@model PropertyReturnViewModel
+
+@{
+    ViewBag.Title = "Annual Property Return Form";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@using (Ajax.BeginForm("_PropertyReturnGridView", "PropertyreturnView", new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "divPR" }))
+{
+
+<div class="row">
+    <input id="printdiv" type="submit" value="Print" onclick="printContent('div-appraisal-form-container')" />
+</div>
+<div class="row">
+
+     
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 pb-1 pt-2 mb-4">
+                <div class="col-md-12 text-center  mb-2"><h4>NAFED</h4></div>
+                <div class="col-md-12 text-center"><h4>STATEMENT OF IMMOVABLE PROPERTY RETURN</h4></div>
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 pb-1 pt-2 mt-4">
+                <div class="col-md-6 pull-left">
+                    Name of the Employee:
+
+                    <label class="col-lg-4 col-md-4 col-sm-8 col-xs-8 mb-2 underlineinput" id="lblEmployeeName"></label>
+                </div>
+                <div class="col-md-6 pull-right  text-right">Year ending: <label class="col-lg-3 col-md-3 col-sm-8 col-xs-8 mb-2 underlineinput" id="lblYear"></label></div>
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 pb-1 pt-2 mt-4">
+                <div class="col-md-6 pull-left">1. Designation:<label class="col-lg-3 col-md-3 col-sm-8 col-xs-8 mb-2 underlineinput" id="lblDesignation"></label></div>
+                <div class="col-md-6 pull-right  text-right">2. Basic pay :<label class="col-lg-3 col-md-3 col-sm-8 col-xs-8 mb-2 underlineinput" id="lblBasicPay"></label></div>
+            </div>
+            <hr style="background-color:#fff !important;">
+
+            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                            @*@Html.Label("Name", htmlAttributes: new { @class = "" })*@
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+
+                            @*@Html.DropDownList("ddlEmployee", (IEnumerable<SelectListItem>)ViewBag.EmployeeDetails, new { @class = "custom-select" })*@
+
+
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                            @*<input type="submit" id="Search" value="Search" title="Click here, to search records" class="btn btn-warning toggle-tooltip" onclick="GetEmployeePRGridData();">*@
+                            @*<input type="submit" value="Search" id="btnSearch" class="btn btn-warning" onclick="GetEmployeePRGridData();">*@
+                        </div>
+
+                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+       
+
+
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div id="divPR">
+                @Html.Action("_PropertyReturnGridView", "PropertyreturnView")
+            </div>
+        </div>
+
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mt-3">
+
+            <div class="col-md-6 pull-left"></div>
+            <div class="col-md-6 pull-right  text-right">Name <label class="col-lg-4 col-md-4 col-sm-8 col-xs-8 mb-2 underlineinput" id="lblFEmployeeName"></label></div>
+        </div>
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="col-md-6 pull-left"></div>
+            <div class="col-md-6 pull-right  text-right">Place of posting<label class="col-lg-3 col-md-3 col-sm-8 col-xs-8 mb-2 underlineinput" id="lblPlaceofposting"></label></div>
+        </div>
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="col-md-6 pull-left"></div>
+            <div class="col-md-6 pull-right  text-right">Date <label class="col-lg-3 col-md-3 col-sm-8 col-xs-8 mb-2 underlineinput" id="lblFDate"></label> </div>
+        </div>
+
+
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 pb-1 pt-2 mt-4">
+            <h4>Notes </h4>
+
+        </div>
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 pb-1 pt-2 mt-4">
+            <p>1.	(*) In case where it is not possible to assess the value accurately, the approximate value in relation to present condition may be indicated.</p>
+            <p>2.	(**) Includes short-term lease also.</p>
+            <p>3.	The declaration form is required to be filled in and submitted by every employee under relevant provision of Conduct Rules and the first appointment to the service and thereafter, at the interval of every twelve months, giving particulars of all immovable property owned, acquired or inherited by him or held by him/her on lease or mortgage, either in his/her own name or in the name of any member of his/her family or in the name of any other person dependent on him/her.</p>
+            <p>4.	The wording “No change or No addition or as in previous year” may be avoided and all details filled up.</p>
+        </div>
+
+   
+
+   
+    </div>
+    <div class="form-group">
+
+        <span class="pull-right">
+            @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-light btn-md toggle-tooltip", @title = "Click here, to redirect on list page" })
+
+        </span>
+    </div>
+}
+
+
+
+    <script type="text/javascript">
+
+
+        $(document).ready(function () {
+
+
+            $("#lblYear").html(@ViewBag.Year);
+            $("#lblEmployeeName").html("@ViewBag.Employeename");
+            $("#lblFEmployeeName").html("@ViewBag.Employeename");
+            $("#lblPlaceofposting").text("@ViewBag.BranchName");
+            $("#lblDesignation").html("@ViewBag.DesignationName");
+            $("#lblBasicPay").text(@ViewBag.BasicPay);
+
+            var today = new Date();
+            var month = today.getMonth() + 1;
+            var day = today.getDate();
+            if (day < 10) {
+                day = '0' + day
+            }
+            if (month < 10) {
+                month = '0' + month
+            }
+
+            var year = today.getFullYear();
+            $("#lblFDate").html(day + "/" + month + "/" + year);
+
+
+        });
+
+        function GetEmployeePRGridData() {
+            var employeeId = $("#ddlEmployee").val();
+            alert(employeeId);
+            jQuery.post("@Url.Action("_PropertyReturnGridView", "PropertyReturn")", {
+                EmployeeId: employeeId,
+
+            }).done(function (data) {
+                //  debugger;
+                if (data != "") {
+                    alert("Hi");
+
+                    var table = $('#tblGrid').DataTable({
+                    });
+                    $('#tblGrid_length').find('select').addClass('custom-select');
+                }
+                else {
+                }
+            });
+        }
+
+
+        function printContent(el) { var restorepage = document.body.innerHTML; var printcontent = document.getElementById(el).innerHTML; document.body.innerHTML = printcontent; window.print(); document.body.innerHTML = restorepage; }
+
+    </script>

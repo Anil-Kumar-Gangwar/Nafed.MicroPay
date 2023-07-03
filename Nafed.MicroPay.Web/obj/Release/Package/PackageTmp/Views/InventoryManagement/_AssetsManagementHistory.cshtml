@@ -1,0 +1,84 @@
+﻿
+@using Nafed.MicroPay.Common
+
+@model MicroPay.Web.Models.InventorymanagementViewModel
+
+<div class="row"><div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+
+    <h4>  Asset Type :   @Model.AssetType</h4>
+</div>
+    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+        <h4>  Asset :   @Model.Asset</h4>
+    </div>
+</div>
+
+<table id="tblassetHistory" class="table table-centered table-striped dt-responsive w-100">
+    <thead>
+        <tr>
+
+            <th>
+                Employee
+            </th>
+            <th>
+                Allocation Date
+            </th>
+            <th>
+                Deallocation Date
+            </th>
+            <th>
+                Status
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            if (Model.listInventoryManagement != null && Model.listInventoryManagement.Count() > 0)
+            {
+                foreach (var item in Model.listInventoryManagement)
+                {
+                    <tr>
+                        <td>@item.Employeecode <text>-</text> @item.EmployeeName</td>
+                        <td> @item.AllocationDate.Value.ToString("dd-MM-yyyy")</td>
+                        <td>
+                            @if (item.DeAllocationDate.HasValue)
+                            {
+                                @item.DeAllocationDate.Value.ToString("dd-MM-yyyy")
+                            }
+                        </td>
+                        <td>
+                            @if (@item.StatusID == 1)
+                            {
+                                <span class="badge badge-success badge-pill col-md-12">In Stock</span>
+                            }
+                            else if (@item.StatusID == 2)
+                            {
+                                <span class="badge badge-danger badge-pill col-md-12">Damage</span>
+                            }
+                            else if (@item.StatusID == 3)
+                            {
+                                <span class="badge badge-warning badge-pill col-md-12">Missing</span>
+                            }
+                            else if (@item.StatusID == 4)
+                            {
+                                <span class="badge badge-info badge-pill col-md-12 align-middle">Allocated</span>
+                            }
+                            else if (@item.StatusID == 5)
+                            {
+                                <span class="badge badge-dark badge-pill col-md-12">Repair</span>
+                            }
+                        </td>
+                    </tr>
+                }
+            }
+        }
+
+    </tbody>
+</table>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        var table = $('#tblassetHistory').DataTable(
+            { paging: false, sorting: false }
+            );
+    });
+</script>

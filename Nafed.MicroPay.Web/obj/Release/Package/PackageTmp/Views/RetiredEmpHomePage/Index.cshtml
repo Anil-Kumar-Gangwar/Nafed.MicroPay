@@ -1,0 +1,109 @@
+﻿@model Nafed.MicroPay.Model.Dashboard
+@using Nafed.MicroPay.Common
+@{
+    ViewBag.Title = "Work Area";
+    //ViewBag.NavigationTitle = "Home";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    System.Globalization.CultureInfo Indian = new System.Globalization.CultureInfo("hi-IN");
+}
+
+<div class="row tile_count mt-3 p-0 counter_shadow">
+
+    <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count text-center att_width p-0">
+        <span class="count_top text-center"> <img style="height: 50px;width: 50px;" src="~/images/location.svg"> </span>
+        <div class="text-muted">
+            Last Branch
+        </div>
+        <div class="count green label-ellipsis text-center fs">
+            @(Model.BranchName ?? "Not Available")
+
+
+        </div>
+    </div>
+
+    <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count text-center att_width p-0">
+        <span class="count_top text-center"> <img style="height: 50px;width: 50px;" src="~/images/designation.svg"></span>
+        <div class="text-muted">
+            Last Designation
+
+        </div>
+        <div class="count green label-ellipsis text-center fs px-2">
+            @(Model.DesignationName ?? "Not Available")
+
+        </div>
+    </div>
+
+    <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count text-center att_width p-0">
+        <span class="count_top text-center">
+            <img style="height: 50px;width: 50px;"
+                 src="~/images/reporting_manager.svg">
+        </span>
+        <div class="text-muted">
+            Reporting Manager
+
+        </div>
+        <div class="count green label-ellipsis text-center fs px-2">
+
+            @(Model.RM ?? "Not Available")
+
+        </div>
+    </div>
+
+
+    <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count text-center att_width p-0">
+        <span class="count_top text-center">
+            <img style="height: 50px;width: 50px;" src="~/images/date_leaving.svg">
+        </span>
+        <div class="text-muted">
+            Date of Leaving Organization
+
+        </div>
+        <div class="count green label-ellipsis text-center fs px-2">
+
+            @Model.DOLeaveOrg.Value.ToString("dd-MM-yyyy")
+
+        </div>
+    </div>
+</div>
+
+<div id="counter" class="row">
+
+    <div class="row p-3">
+        <div class="col-md-2 att_width mb-3 att_box-shadow-odd">
+            <a href="@Url.Action("Index","Ticket")" data-toggle="tooltip" data-placement="bottom" title="Click here for Help Desk." class="text-decoration-none">
+                <div class="count m-auto card p-4 justify-content-center">
+
+                    <p class="mb-0">
+
+                        <img class="img_height" alt="Leave" src="~/images/DashboardImages/helpdesk.png">
+
+                    </p>
+                    <p class="count_top text-white mb-0 att_text" style="font-weight: 600;">Help Desk</p>
+
+                    @* <P><a href="@Url.Action("Create","EmployeeLeave")" class="btn btn-light btn-sm" data-toggle="tooltip" data-placement="bottom" title="Click here to make request.">Click</a></P>*@
+                </div>
+
+                <p class="count_top text-secondary att_text2" style="font-weight: 600;">Leave Request</p>
+            </a>
+        </div>
+
+        <div class="col-md-2 att_width mb-3 att_box-shadow-odd">
+            <a href="#" data-toggle="tooltip" data-placement="bottom" title="" class="text-decoration-none">
+                <div class="count m-auto card p-4 justify-content-center">
+
+                    <p class="mb-0">
+
+                        <img class="img_height" alt="Leave" src="~/images/DashboardImages/pf.png">
+
+                    </p>
+                    <p class="count_top text-white mb-0 att_text" style="font-weight: 600;">PF</p>
+
+                    @* <P><a href="@Url.Action("Create","EmployeeLeave")" class="btn btn-light btn-sm" data-toggle="tooltip" data-placement="bottom" title="Click here to make request.">Click</a></P>*@
+                </div>
+
+                <p class="count_top text-secondary att_text2" style="font-weight: 600;">Leave Request</p>
+            </a>
+        </div>
+    </div>
+
+</div>

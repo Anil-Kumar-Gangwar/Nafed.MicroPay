@@ -1,0 +1,27 @@
+﻿
+@{
+    ViewBag.Title = "Approval Status";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var employeeId = Request["empId"];
+    var separationId = Request["sepId"];
+    var aprType = Request["aprType"];
+}
+
+
+<div class="row" id="div-status">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        @Html.Action("GetClearanceStatus", "Separation", new { empId = employeeId, sepId = separationId , aprType = aprType })
+    </div>
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-right">
+        <input id="printdiv" type="submit" class="btn btn-primary btn-md" value="Print" onclick="printContent('div-status')" />
+        @Html.ActionLink("Back", "Index", "Separation", null, new { @class = "btn btn-secondary btn-md", title = "Click here, to go to back on previous screen.", @data_toggle = "tooltip" })
+    </div>
+</div>
+
+<script>
+    function printContent(el) {
+        var printcontent = document.getElementById(el).innerHTML;
+        document.body.innerHTML = printcontent; window.print();
+
+    }
+</script>

@@ -1,0 +1,62 @@
+﻿@model MicroPay.Web.Models.RequirementViewModel
+@{
+//Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h4 class="text-center m-4 text-success ">National Agricultural Cooperative Marketing Federation of India Ltd – NAFED Recruitment</h4>
+<h6 class="text-center m-4 text-primary">We invites Application for the below post. Qualification/ eligibility condition, how to apply and other rules you can see in detail section of each post. </h6>
+
+<table id="tblGrid" class="table table-centered table-striped dt-responsive w-100">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>
+               Post Name
+            </th>
+            <th class="text-center">
+                No Of Vacancy
+            </th>
+            <th class="text-center">
+               Last Date Of Application Submit
+            </th>
+            <th class="text-center" style="width:60px">
+                View Details
+            </th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            if (Model.RequirementList != null && Model.RequirementList.Count() > 0)
+            {
+                var sno = 1;
+                foreach (var item in Model.RequirementList)
+                {
+                    <tr>
+                        <td>@sno</td>
+                        <td> @item.Post</td>
+                        <td class="text-center"> @item.NoofPosition</td>
+                        <td class="text-center"> @item.LastDateofApplicationReceived.Value.ToString("dd/MM/yyyy")</td>
+                        <td class="text-center">
+                            @*<a href="@Url.Action("ViewDetails", "JobList", new { requirementId = item.RequirementID })" title="Click here, to edit this record" data-toggle="tooltip">
+                                <i class="far fa-eye text-info" aria-hidden="true"></i>
+                            </a>*@
+                            @Html.EncodedImageActionLink("", "ViewDetails", "JobList", new { requirementId = item.RequirementID }, new { @class = "toggle-tooltip", title = "Click here, to view this record" }, "~/Images/view.png")
+                        </td>
+                    </tr>
+                    sno++;
+                }
+            }
+
+        }
+
+    </tbody>
+</table>
+<p>
+    If you already registered with us, please
+
+    <a href="@Url.Action("Index", "CandidateLogin")" title="For registered candidate only." data-toggle="tooltip" class="pull-center toggle-tooltip">
+        Click here.
+    </a>
+</p>
+
+

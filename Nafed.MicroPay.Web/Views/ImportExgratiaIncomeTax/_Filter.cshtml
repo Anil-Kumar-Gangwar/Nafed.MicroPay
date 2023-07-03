@@ -1,0 +1,112 @@
+﻿@using MicroPay.Web.Models
+@using Nafed.MicroPay.Common;
+@model ExgratiaIncomeTaxFilterModel
+
+@{
+    Layout = null;
+}
+@{ 
+    var reportingYr = ExtensionMethods.GetFinancialYrList(2002, DateTime.Now.Year).Select(x => new SelectListItem { Text = x, Value = x }).OrderByDescending(x => x.Value).ToList();
+}
+
+@using (Ajax.BeginForm("_ExportTemplate", "ImportExgratiaIncomeTax", new AjaxOptions { HttpMethod = "POST", OnBegin = "onBegin", UpdateTargetId = "dv-filter", OnSuccess = "onSuccess" }))
+{
+    <div class="row" id="exportDIV">
+
+        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+            @Html.LabelFor(model => model.EmpTypeID, new { @class = "required" })
+        </div>
+
+        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+            @Html.DropDownListFor(model => model.EmpTypeID, (IEnumerable<SelectListItem>)ViewBag.EmpType, new { @class = "custom-select"})
+            <span class="text-danger" id="EmpTypeID_error"></span>
+        </div>
+
+        <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+            @Html.LabelFor(model => model.selectYearID, new { @class = "required" })
+        </div>
+
+        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+            @Html.DropDownListFor(model => model.selectYearID, new SelectList(reportingYr, "Text", "Value"), "Select", new { @class = "custom-select"})
+            <span class="text-danger" id="selectYearID_error"></span>
+        </div>
+
+        <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+            @Html.LabelFor(model => model.branchID, new { @class = "required" })
+        </div>
+
+        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+            @Html.DropDownListFor(model => model.branchID, (IEnumerable<SelectListItem>)ViewBag.Branch, new { @class = "custom-select" })
+            <span class="text-danger" id="branchID_error"></span>
+
+        </div>
+
+        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+            @*<input type="submit" value="Export Template" class="btn btn-warning pull-center toggle-tooltip" title="Click here, to download the template" />*@
+            <button type="submit" id="submitform" class="btn btn-warning pull-center toggle-tooltip" title="Click here, to download the template.">
+                <i class="fa fa-file-excel"></i> Export Template
+            </button>
+
+        </div>
+
+
+    </div>
+
+    <hr style="background-color:#fff !important;">
+    <div class="row mt-3">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-right">
+            <span class="text-right">
+                @Html.ValidationMessage("OtherValidation", null, new { @class = "text-danger" })
+            </span>
+        </div>
+    </div>
+}
+
+<script type="text/javascript">
+
+    function onSuccess(data) {
+        if (data.fileName != "" && data.message == "success") {
+            window.location.href = "@Url.RouteUrl(new { Controller = "Base", Action = "DownloadAndDelete" })/?sFileName=" + data.fileName + "&sFileFullPath=" + data.fullPath;
+            $("#dv-filter").html(data.htmlData);
+        }
+    }
+    function onBegin() {
+        $('#waitLoading').modal('hide');
+    }
+
+    $("#submitform").click(function (event) {
+        var isValid = true;       
+        if ($("#EmpTypeID").val() == '0')
+        {
+            $('#EmpTypeID_error').html('Please Select Employee Type');
+            isValid = false;
+        }
+        else {
+            $('#EmpTypeID_error').html('');
+        }
+
+        if ($("#selectYearID").val() == '') {
+            $('#selectYearID_error').html('Please Select Year');
+            isValid = false;
+        }
+        else {
+            $('#selectYearID_error').html('');
+        }
+
+        if ($("#branchID").val() == '0') {
+            $('#branchID_error').html('Please Select Branch');
+            isValid = false;
+        }
+        else {
+            $('#branchID_error').html('');
+        }
+
+        
+        if (!isValid) {
+            event.preventDefault();
+        }
+        else {
+           // submited form
+        }
+    });
+</script>

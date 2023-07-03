@@ -1,0 +1,26 @@
+﻿
+@{
+    ViewBag.Title = "Schedule Your Training";
+    Layout = "~/Views/Shared/_Layout.cshtml"; 
+}
+
+@*<script type="text/javascript" src="@Url.Content("~/Scripts/jquery.unobtrusive-ajax.min.js")"></script>*@
+
+<div class="container mt-3 col-lg-12 col-sm-12 col-md-12 col-xs-12">
+     
+     <ul class="nav nav-tabs">
+         <li class="nav-item">
+            <a class="nav-link active toggle-tooltip"  title="General" data-toggle="tab" href="#general">General</a>
+        </li>        
+     </ul>
+
+    <!-- Tab panes -->
+    <div class="tab-content">
+        <div id="general" class="container tab-pane active fullwidth-container">            
+           @Html.Action("GenerateGeneralTab", "Training")
+        </div>      
+    </div>
+</div>
+
+
+

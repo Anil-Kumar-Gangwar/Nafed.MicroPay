@@ -1,0 +1,54 @@
+﻿@model List<Nafed.MicroPay.Model.LeaveAccruedDetails>
+
+
+<table id="tblGrid" class="table table-centered table-striped dt-responsive w-100">
+    <thead>
+        <tr>
+            <th>
+                #
+            </th>
+            <th>
+               Code
+            </th>
+            <th>
+                Name
+            </th>
+            <th>
+                Designation
+            </th>
+            <th>
+               Branch
+            </th>
+            <th>
+                Leave Type
+            </th>
+            <th>
+                Leave Credited
+            </th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            int index = 1;
+            if (Model != null)
+            {
+                foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@index</td>
+                        <td> @item.EmployeeCode</td>
+                        <td> @item.Name</td>
+                        <td> @item.DesignationName</td>
+                        <td> @item.BranchName</td>
+                        <td> @item.LeaveType</td>
+                        <td> @item.AccruedLeave</td>
+                    </tr>
+                    index++;
+                }
+            }
+
+        }
+
+    </tbody>
+</table>

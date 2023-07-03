@@ -1,0 +1,283 @@
+﻿@using MicroPay.Web.Models
+@model AdjustOldLoanViewModel
+@{
+    ViewBag.Title = "Adjust Old Loan";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div>
+    @using (Ajax.BeginForm("SaveAdjustOldLoanDetails", "AdjustOldLoan", new AjaxOptions { HttpMethod = "POST", OnSuccess = "OnSuccess" }, new { defaultbutton = "submitform" }))
+    {
+        <div id="AdjustLoanContent">
+            @Html.Action("_AdjustLoanContent")
+        </div>
+    }
+</div>
+
+@section scripts{
+
+}
+<script type="text/javascript">
+    function OnSuccess(data) {
+        if (data.msgType == "error") {
+            $("#AdjustLoanContent").html("");
+            $("#AdjustLoanContent").html(data.htmlData);
+            if ($("#TotalRefund").is(":checked")) {
+                $("#hddnpayFlag").val("TR");
+                var oldP1 = ($("#BalancePAmt").val() != "" ? parseFloat($("#BalancePAmt").val()) : 0);
+                $("#oldP1").val(oldP1);
+                var oldI2 = ($("#BalanceIAmt").val() != "" ? parseFloat($("#BalanceIAmt").val()) : 0);
+                $("#oldI2").val(oldI2);
+                $("#remainingInstallment").html("Refund Date");
+                $("#DivRemainingInstallment").addClass("hide");
+                $("#DivRefundDate").removeClass("hide");
+                $("#BalancePAmt").removeAttr("readonly");
+                $("#BalanceIAmt").removeAttr("readonly");
+                $("#InstNo").removeAttr("readonly");
+                $("#RemainingPInstNo1").removeAttr("readonly");
+                $("#DivRefundMonth").removeClass("hide");
+            }
+            if ($("#PartialRefund").is(":checked")) {
+                $("#hddnpayFlag").val("PP");
+                var oldP1 = ($("#BalancePAmt").val() != "" ? parseFloat($("#BalancePAmt").val()) : 0);
+                $("#oldP1").val(oldP1);
+                var oldI2 = ($("#BalanceIAmt").val() != "" ? parseFloat($("#BalanceIAmt").val()) : 0);
+                $("#oldI2").val(oldI2);
+                $("#remainingInstallment").html("Payment Date");
+                $("#DivRemainingInstallment").addClass("hide");
+                $("#DivRefundDate").removeClass("hide");
+                $("#BalancePAmt").removeAttr("readonly");
+                $("#BalanceIAmt").removeAttr("readonly");
+                $("#InstNo").removeAttr("readonly");
+                $("#RemainingPInstNo1").removeAttr("readonly");
+                //$("#DivRefundMonth").addClass("hide");
+                $("#DivRefundMonth").removeClass("hide");
+            }
+            if ($("#LastInstallAdjust").is(":checked")) {
+                $("#remainingInstallment").html("Remaining Installment");
+                $("#DivRefundDate").addClass("hide");
+                $("#DivRemainingInstallment").removeClass("hide");
+                $("#RemainingPInstNo1").removeAttr("readonly");
+                $("#BalancePAmt").removeAttr("readonly");
+                $("#BalanceIAmt").removeAttr("readonly");
+                $("#InstNo").removeAttr("readonly");
+                $("#DivRefundMonth").addClass("hide");
+            }
+
+            if ($("#InstallmentAdjestment").is(":checked")) {
+                $("#remainingInstallment").html("Remaining Installment");
+                $("#DivRefundDate").addClass("hide");
+                $("#DivRemainingInstallment").removeClass("hide");
+                $("#RemainingPInstNo1").removeAttr("readonly");
+                $("#BalancePAmt").removeAttr("readonly");
+                $("#BalanceIAmt").removeAttr("readonly");
+                $("#InstNo").removeAttr("readonly");
+                $("#DivRefundMonth").addClass("hide");
+            }
+        }
+        if (data.msgType == "success") {
+            commonMessage("success", data.msg);
+            GetAdjustLoanDetails();
+        }
+        if (data.msgType == "confirm") {
+            if (confirm(data.msg)) {
+                UpdateLoanpriority(true);
+                return true;
+            } else {
+                UpdateLoanpriority(false);
+                return false;
+            }
+        }
+    }
+
+    function UpdateLoanpriority(boolFlag) {
+        var priority = $("#PriorityNo").val();
+        var remainingInstallments = parseFloat($("#RemainingPInstNo").val());
+        var installmentAmt = parseFloat($("#OriginalPinstAmt").val());
+        var intInstallment = parseFloat($("#RemainingIInstNo").val());
+        var intInstallmentAmount = parseFloat($("#InterestInstAmt").val());
+        var status = $("#Status").val();
+
+        jQuery.post("@Url.Action("UpdateLoanpriority", "AdjustOldLoan")", {
+            priority: priority,
+            remainingInstallments: remainingInstallments,
+            installmentAmt: installmentAmt,
+            intInstallment: intInstallment,
+            intInstallmentAmount: intInstallmentAmount,
+            status: status,
+            flag: boolFlag
+        }).done(function (data) {
+
+        });
+    }
+
+
+    function ShowEmployeeByLoanType() {
+        Clear();
+        var loanTypeId = parseInt($("#LoanTypeId").val());
+        if (loanTypeId > 0) {
+            if (loanTypeId == 1)
+                $("#btnLastInstallment").removeClass("hide");
+            else
+                $("#btnLastInstallment").addClass("hide");
+
+            $("#loanRequired").html("").css("color", "");
+            var oldLoanEmployee = $("#OldLoanEmployee").is(":checked");
+            jQuery.get("@Url.Action("GetEmployeeByLoanType", "AdjustOldLoan")", {
+                loanTypeId: loanTypeId,
+                oldLoanEmployee: oldLoanEmployee
+            }).done(function (data) {
+                $("#EmployeeId").html("");
+                if (data.employees != "") {
+                    $("#EmployeeId").append($("<option selected></option>").val(0).html('Select'));
+                    $.each(data.employees, function (key, value) {
+                        $("#EmployeeId").append($("<option></option>").val(value.id).html(value.value));
+                    });
+                }
+                else {
+                    $("#EmployeeId").append($("<option></option>").val(0).html('Select'));
+                }
+            });
+        }
+        else {
+            $("#loanRequired").html("Select Loan Type.").css("color", "red");
+        }
+    }
+
+    function SearchByPF() {
+        if ($("#PFNumber").val() == "") {
+            $("#pfNumberRequired").html("Please Enter PF Number.").css("color", "red");
+            return false;
+        }
+        else {
+            $("#pfNumberRequired").html("").css("color", "");
+            $.ajax({
+                url: "@Url.Action("GetEmployeeByPFNumber", "SanctionLoan")",
+                type: "GET",
+                dataType: "JSON",
+                data: { PFNumber: parseInt($("#PFNumber").val()) },
+                success: function (data) {
+                    debugger;
+                    if (data.htmlData != "") {
+                        $('#EmployeeId > option').each(function () {
+                            if (parseInt($(this).val()) > 0) {
+                                if (parseInt($(this).val()) == data.htmlData.id) {
+                                    $("#EmployeeId").val(data.htmlData.id);
+                                    GetAdjustLoanDetails();
+                                }
+                            }
+                        });
+                    }
+                }
+            });
+
+        }
+    }
+
+
+    function GetAdjustLoanDetails() {
+        Clear();
+        if ($("#LoanTypeId").val() == "") {
+            $("#loantypeRequired").html("Loan Type Required.").css("color", "red");
+        }
+        else {
+            $("#loantypeRequired").html("").css("color", "");
+            var empid = $("#EmployeeId").val() == null ? 0 : $("#EmployeeId").val();
+            $.ajax({
+                url: "@Url.Action("GetAdjustLoanDetails", "AdjustOldLoan")",
+                type: "GET",
+                dataType: "JSON",
+                data: { loanTypeId: parseInt($("#LoanTypeId").val()), employeeId: parseInt(empid), showOld: $("#OldLoanEmployee").is(":checked") },
+                success: function (data) {
+                    debugger;
+                    $("#AdjustLoanContent").html("");
+                    if (data.msgType == "success" && data.htmlData != "") {
+                        $("#AdjustLoanContent").html(data.htmlData);
+                        if (parseInt($("#LoanTypeId").val()) == 1)
+                            $("#btnLastInstallment").removeClass("hide");
+                        else
+                            $("#btnLastInstallment").addClass("hide");
+                    }
+                }
+            });
+        }
+    }
+
+    function Clear() {
+        //$("#OldLoanEmployee").prop("checked", false);
+        $("#PFNumber").val("");
+        $("#PriorityNo").val("");
+        $("#OriginalPinstAmt").val("");
+        $("#RemainingPInstNo").val("");
+        $("#InterestInstAmt").val("");
+        $("#RemainingIInstNo").val("");
+        $("#BalancePAmt").val("");
+        $("#BalanceIAmt").val("");
+        $("#RemainingPInstNo1").val("");
+        $("#tblGrid4 > tbody").html("");
+    }
+
+    function radioChangeEvents(events) {
+        var ss = events.id;
+        if ($("#" + ss).is(":checked") && events.id == "TotalRefund") {
+            $("#hddnpayFlag").val("TR");
+            var oldP1 = ($("#BalancePAmt").val() != "" ? parseFloat($("#BalancePAmt").val()) : 0);
+            $("#oldP1").val(oldP1);
+            var oldI2 = ($("#BalanceIAmt").val() != "" ? parseFloat($("#BalanceIAmt").val()) : 0);
+            $("#oldI2").val(oldI2);
+            $("#remainingInstallment").html("Refund Date");
+            $("#DivRemainingInstallment").addClass("hide");
+            $("#DivRefundDate").removeClass("hide");
+            $("#BalancePAmt").removeAttr("readonly");
+            $("#BalanceIAmt").removeAttr("readonly");
+            $("#InstNo").removeAttr("readonly");
+            $("#RemainingPInstNo1").removeAttr("readonly");
+            $("#DivRefundMonth").removeClass("hide");
+            $("#RefundDate").val("");
+            $("#totlRefundMonthId").val("0");
+            $("#totlRefundYearId").val("0");
+        }
+
+        if ($("#" + ss).is(":checked") && events.id == "PartialRefund") {
+            $("#hddnpayFlag").val("PP");
+            var oldP1 = ($("#BalancePAmt").val() != "" ? parseFloat($("#BalancePAmt").val()) : 0);
+            $("#oldP1").val(oldP1);
+            var oldI2 = ($("#BalanceIAmt").val() != "" ? parseFloat($("#BalanceIAmt").val()) : 0);
+            $("#oldI2").val(oldI2);
+            $("#remainingInstallment").html("Payment Date");
+            $("#DivRemainingInstallment").addClass("hide");
+            $("#DivRefundDate").removeClass("hide");
+            $("#BalancePAmt").removeAttr("readonly");
+            $("#BalanceIAmt").removeAttr("readonly");
+            $("#InstNo").removeAttr("readonly");
+            $("#RemainingPInstNo1").removeAttr("readonly");
+            //$("#DivRefundMonth").addClass("hide");
+            $("#DivRefundMonth").removeClass("hide");
+            $("#RefundDate").val("");
+            $("#totlRefundMonthId").val("0");
+            $("#totlRefundYearId").val("0");
+        }
+
+        if ($("#" + ss).is(":checked") && events.id == "LastInstallAdjust") {
+            $("#remainingInstallment").html("Remaining Installment");
+            $("#DivRefundDate").addClass("hide");
+            $("#DivRemainingInstallment").removeClass("hide");
+            $("#RemainingPInstNo1").removeAttr("readonly");
+            $("#BalancePAmt").removeAttr("readonly");
+            $("#BalanceIAmt").removeAttr("readonly");
+            $("#InstNo").removeAttr("readonly");
+            $("#DivRefundMonth").addClass("hide");
+        }
+
+        if ($("#" + ss).is(":checked") && events.id == "InstallmentAdjestment") {
+            $("#remainingInstallment").html("Remaining Installment");
+            $("#DivRefundDate").addClass("hide");
+            $("#DivRemainingInstallment").removeClass("hide");
+            $("#RemainingPInstNo1").removeAttr("readonly");
+            $("#BalancePAmt").removeAttr("readonly");
+            $("#BalanceIAmt").removeAttr("readonly");
+            $("#InstNo").removeAttr("readonly");
+            $("#DivRefundMonth").addClass("hide");
+        }
+    }
+</script>

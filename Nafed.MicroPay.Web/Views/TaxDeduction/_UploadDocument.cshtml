@@ -1,0 +1,323 @@
+﻿@using MicroPay.Web.Models
+@model UploadForm12BBDocument
+
+@Html.HiddenFor(model => model.EmpFormID)
+
+<br />
+
+<hr />
+
+<div class="row">
+
+    <div class="col-lg-12 col-xl-12 col-md-12 col-sm-12 col-xs-12">
+
+        <div class="panel panel-default">
+
+            <div class="panel-heading">
+
+                Upload Supporting Evidence / Document :
+
+            </div>
+
+            <div class="panel-body">
+
+                <div class="form-group">
+
+                    <div class="row">
+
+                        <div class="col-lg-1 col-xl-1 col-md-1 col-sm-12 col-xs-12">
+
+                            @Html.LabelFor(model => model.selectedClaim, htmlAttributes: new { @class = "control-label required" })
+
+                        </div>
+
+                        <div class="col-lg-3 col-xl-3 col-md-3 col-sm-12 col-xs-12">
+
+                            @Html.DropDownListFor(model => model.selectedClaim, new SelectList(Model.claimList, "Text", "Value"), "Select", new { @class = "custom-select" })
+                            @Html.ValidationMessageFor(m => Model.selectedClaim, "", new { @class = "text-danger" })
+
+                            <span id="nOfClaimRequired" class="text-danger"></span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="form-group hide" id="dv-deduction-VI-A">
+
+                    <div class="row">
+
+                        <div class="col-lg-1 col-xl-1 col-md-1 col-sm-12 col-xs-12">
+
+                            @Html.LabelFor(model => model.sectionID, htmlAttributes: new { @class = "control-label" })
+                        </div>
+
+                        <div class="col-lg-3 col-xl-3 col-md-3 col-sm-12 col-xs-12">
+
+                            @Html.DropDownListFor(model => model.sectionID, new SelectList(Model.sections, "id", "Value"), "Select", new { @class = "custom-select" })
+                            @Html.ValidationMessageFor(m => Model.sectionID, "", new { @class = "text-danger" })
+
+                            <span id="sectionRequired" class="text-danger"></span>
+                        </div>
+
+                        <div class="col-lg-1 col-xl-1 col-md-1 col-sm-12 col-xs-12">
+
+                            @Html.LabelFor(model => model.subSectionID, htmlAttributes: new { @class = "control-label" })
+                        </div>
+
+                        <div class="col-lg-3 col-xl-3 col-md-3 col-sm-12 col-xs-12">
+
+                            @Html.DropDownListFor(model => model.subSectionID, new SelectList(Model.subSections, "id", "Value"), "Select", new { @class = "custom-select" })
+                            @Html.ValidationMessageFor(m => Model.subSectionID, "", new { @class = "text-danger" })
+
+                            <span id="subSectionRequired" class="text-danger"></span>
+                        </div>
+
+                        <div class="col-lg-1 col-xl-1 col-md-1 col-sm-12 col-xs-12">
+
+                            @Html.LabelFor(model => model.subSectionDescriptionID, htmlAttributes: new { @class = "control-label" })
+                        </div>
+
+                        <div class="col-lg-3 col-xl-3 col-md-3 col-sm-12 col-xs-12">
+
+                            @Html.DropDownListFor(model => model.subSectionDescriptionID, new SelectList(Model.subSectionDescriptions, "id", "Value"), "Select", new { @class = "custom-select" })
+                            @Html.ValidationMessageFor(m => Model.subSectionDescriptionID, "", new { @class = "text-danger" })
+
+                            <span id="subSectionDescriptionIDRequired" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+
+                    <div class="row">
+
+                        <div class="col-lg-1 col-xl-1 col-md-1 col-sm-12 col-xs-12">
+
+                            @Html.LabelFor(model => model.FileDescription, htmlAttributes: new { @class = "control-label required" })
+
+                        </div>
+
+                        <div class="col-lg-3 col-xl-3 col-md-3 col-sm-12 col-xs-12">
+
+                            @Html.EditorFor(model => model.FileDescription, new { htmlAttributes = new { @class = "form-control", @maxlength = "100", @autocomplete = "off" } })
+
+                            <span id="FileDescRequired" class="text-danger"></span>
+                            @Html.ValidationMessageFor(m => Model.FileDescription, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="col-lg-1 col-xl-1 col-md-1 col-sm-12 col-xs-12">
+
+                            @Html.LabelFor(model => model.FileName, htmlAttributes: new { @class = "control-label required" })
+
+                        </div>
+
+                        <div class="col-lg-3 col-xl-3 col-md-3 col-sm-12 col-xs-12">
+
+                            <input name="frm12BBDoc" type="file" id="frm12BBDocFile" style="" />
+
+                        </div>
+
+                        <div class="col-lg-2 col-xl-2 col-md-2 col-sm-12 col-xs-12">
+
+                            <span id="documentFileRequired" class="text-danger"></span>
+                        </div>
+
+                        <div class="col-lg-2 col-xl-2 col-md-2 col-sm-12 col-xs-12">
+
+                            <span class="pull-right">
+
+                                <input type="submit" value="Upload" id="btnUpload" title="Click here, to upload supporting document."
+                                        class="btn btn-info btn-md pull-center toggle-tooltip" />
+                            </span>
+
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $('.toggle-tooltip').tooltip();
+
+    $(document).ready(function () {
+        $('#btnUpload').click(function () {
+            debugger;
+
+            var natureOfClaim = $("#selectedClaim option:selected").val();
+            var txtFileDescription = $("#FileDescription").val();
+
+            if (natureOfClaim != "") {
+
+                if (natureOfClaim == "DeductionUnderChapterVI-A") {
+                    var sectionID = $("#sectionID option:selected").val();
+                    var subSectionID = $("#subSectionID option:selected").val();
+                    var subSectionDescriptionID = $("#subSectionDescriptionID option:selected").val();
+
+                    if (sectionID != "") {
+                        if (subSectionID != "") {
+
+                        }
+                        else {
+                            $("#subSectionRequired").text("Please select sub section.");
+                        }
+                    }
+                    else {
+                        $("#sectionRequired").text("Please select section.");
+                    }
+                }
+                if (txtFileDescription != "") {
+                    file_upload(natureOfClaim);
+                } else {
+                    $("#FileDescRequired").text("Please enter file description.");
+                }
+            }
+            else {
+                $("#nOfClaimRequired").text("Please select nature of claim.");
+            }
+        });
+
+        $("#selectedClaim").change(function () {
+            var selectedClaim = this.value;
+            if (selectedClaim == "DeductionUnderChapterVI-A")
+                // alert('A');
+                $("#dv-deduction-VI-A").removeClass("hide");
+            else
+                $("#dv-deduction-VI-A").addClass("hide");
+        });
+
+
+
+        $("#sectionID").change(function () {
+
+            $('#subSectionDescriptionID').empty();
+
+            var selectedSection = this.value;
+            if (selectedSection > 0) {
+                jQuery.post("@Url.Action("GetSubSectionBySectionID", "TaxDeductionSection")", {
+                    sectionID: selectedSection,
+                }).done(function (data) {
+                    $("#subSectionID").html("");
+                    if (data.length > 0) {
+                        for (var i = 0; i < data.length; i++) {
+                            $('#subSectionID').append('<option value=' + data[i].id + '>' + data[i].value + '</option > ');
+                        }
+                    }
+                    else {
+                        $("#subSectionID").append($("<option></option>").val(0).html('Select'));
+                    }
+                });
+            }
+        });
+
+        $("#subSectionID").change(function () {
+            var selectedSubSectionID = this.value;
+
+            var sectionID = $("#sectionID option:selected").val();
+
+            if (selectedSubSectionID > 0) {
+                jQuery.post("@Url.Action("GetSubSectionDescriptions", "TaxDeductionSection")", {
+                    sectionID: sectionID,
+                    subSectionID: selectedSubSectionID
+                }).done(function (data) {
+                    $("#subSectionDescriptionID").html("");
+                    if (data.length > 0) {
+                        for (var i = 0; i < data.length; i++) {
+                            $('#subSectionDescriptionID').append('<option value=' + data[i].id + '>' + data[i].value + '</option > ');
+                        }
+                    }
+                    else {
+                        $("#subSectionDescriptionID").append($("<option></option>").val(0).html('Select'));
+                    }
+                });
+
+            }
+
+        });
+    });
+
+
+    function file_upload(nClaim) {
+
+        if ($("#frm12BBDocFile").get(0).files.length > 0) {
+
+            if (window.FormData !== undefined) {
+                var fileUpload = $("#frm12BBDocFile").get(0);
+                var files = fileUpload.files[0];
+                var filesze = files.size;
+                var fileName = fileUpload.value;
+
+                var ext = fileName.substr(fileName.lastIndexOf('.') + 1).toLowerCase();
+                if (!(ext == "jpg" || ext == "jpeg" || ext == "png" || ext == "pdf")) {
+                    alert("Invalid file type, please select a (pdf,jpeg,png) file");
+                    return false;
+                }
+                if (filesze > 5000000) {  // 50KB
+                    //alert("Maximum file size is " + maxsize / (1024) + "KB");
+                    alert("Please select file less than 5MB.");
+                    return false;
+                }
+                // Create FormData object
+                var fileData = new FormData();
+
+                // Looping over all files and add it to FormData object
+                fileData.append(files.name, files);
+                //for (var i = 0; i < files.length; i++) {
+                //    fileData.append(files[i].name, files[i]);
+                //}
+
+                // Adding one more key to FormData object
+
+                fileData.append('NatureOfCliam', $("#selectedClaim option:selected").val());
+                fileData.append('FileDescription', $("#FileDescription").val());
+                fileData.append('EmpFormID', $("#EmpFormID").val());
+
+                if (nClaim == "DeductionUnderChapterVI-A") {
+
+                    fileData.append('sectionID', $("#sectionID option:selected").val());
+                    fileData.append('subSectionID', $("#subSectionID option:selected").val());
+                    fileData.append('subSectionDescriptionID', $("#subSectionDescriptionID option:selected").val());
+                }
+
+                $.ajax({
+                    url: "@Url.Action("UploadFiles", "TaxDeduction")",
+                    type: "POST",
+                    contentType: false, // Not to set any content header
+                    processData: false, // Not to process data
+                    data: fileData,
+                    success: function (result) {
+                        if (result.success != undefined && result.success == "1") {
+                            commonMessage("success", "File uploaded successfully.");
+
+                            var employeeID = $("#EmployeeID").val();
+                            var fYr = $("#FYear").val();
+                            var empFormID = $("#EmpFormID").val();
+
+                            $("#div-main-form").load("@Url.Action("_GetForm12BB", "TaxDeduction")?employeeID=" + employeeID + "&fYear=" + fYr);
+                            $("#div-upload-docs").load("@Url.Action("_GetUploadDocumentForm", "TaxDeduction")?empFormID=" + empFormID + "&fYear=" + fYr);
+                            $("#div-list-docs").load("@Url.Action("_GetUploadDocument", "TaxDeduction")?empFormID=" + empFormID);
+
+                        }
+                        else {
+                            commonMessage("error", result.msg);
+                        }
+                    },
+                    error: function (err) {
+                        alert(err.statusText);
+                    }
+                });
+            }
+        } else {
+            if ($("#frm12BBDocFile").get(0).files.length == 0) {
+                $("#documentFileRequired").html("Please Select File.");
+            }
+        }
+    }
+
+
+</script>

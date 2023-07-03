@@ -1,0 +1,42 @@
+﻿@{
+    ViewBag.Title = "OTA Slip";
+
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    System.Globalization.CultureInfo Indian = new System.Globalization.CultureInfo("hi-IN");
+}
+
+
+<div class="">
+    <div class="card_new_header text-right">
+        @Html.ActionLink("Create New", "Create", "OTASlip", new {  }, new { @class = "btn btn-info btn-md", title = "Click here, to create new record", @data_toggle = "tooltip" })
+    </div>
+    <div class="card_new_body">
+        <div id="">
+            @Html.Action("GetOTASlipList")
+        </div>
+    </div>
+
+</div>
+
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        var table = $('#tblUser').DataTable();
+        $('#tblUser_length').find('select').addClass('custom-select');
+        //$('[data-toggle="tooltip"]').tooltip();
+    });
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+

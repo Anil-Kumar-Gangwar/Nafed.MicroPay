@@ -1,0 +1,123 @@
+﻿@using Nafed.MicroPay.Model
+@model MicroPay.Web.Models.ImportMonthlyInputViewModel
+@using System.Data;
+@{
+    // var messageHeaderClass = Model.NoOfErrors == 0 ? "hide" : null;
+    //var validationResultMsg = Model.NoOfErrors > 0 ? string.Format("{0} error(s) found ,Please check the sheet and reupload.", Model.NoOfErrors.ToString())
+    //    : "Sheet validated successfully, Click on Update button to update your data.";
+    var validationResultMsg = Model.Message;
+
+    var msgClass = Model.NoOfErrors > 0 ? "alert alert-danger" : "alert alert-success";
+
+    validationResultMsg = Model.NoOfErrors == -1 ? "Please select file." :
+        Model.NoOfErrors == -2 ? "Please select valid file." : validationResultMsg;
+
+    msgClass = Model.NoOfErrors == -1 ? "alert alert-danger" :
+    Model.NoOfErrors == -2 ? "alert alert-danger" : msgClass;
+
+}
+<script src="~/Scripts/popper.min.js"></script>
+
+<script>
+    $('.toggle-tooltip').tooltip();
+    if(@Model.NoOfErrors==0){
+        $('#btnSave').removeClass('hide');
+    }
+</script>
+
+
+<div id="validation-hdr" class="pull-right @msgClass" role="alert">
+    @validationResultMsg
+</div>
+
+<div id="tblMonthlyGrid" style="max-width:93%;min-width:100%;min-height:600px;max-height:600px;overflow-x:scroll;overflow-y:scroll;">
+    <table id="" class="table table-centered table-striped dt-responsive w-100">
+        <thead>
+            <tr>
+                @if (Model.monthlyInput != null && Model.monthlyInput.Columns.Count > 0)
+                {
+                    foreach (var item in Model.monthlyInput.Columns)
+                    {
+                        if (item.ToString() != "EmployeeId" && item.ToString() != "BranchId" && item.ToString() != "error" && item.ToString() != "warning" && item.ToString() != "isDuplicatedRow")
+                        {
+                            <th>
+                                @item
+                            </th>
+                        }
+                    }
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                if (Model != null && Model.monthlyInput.Rows.Count > 0)
+                {
+                    Dictionary<string, string> dicErrorMsg = Model.ErrorMsgCollection;
+                    string str1 = string.Empty;
+                    var title = string.Empty;
+                    try
+                    {
+                        foreach (DataRow dr in Model.monthlyInput.Rows)
+                        {
+                            int err = 0;
+                            string[] arrError = dr["error"].ToString().Split('|').ToArray();
+                            if (!Convert.ToBoolean(dr["isDuplicatedRow"]))
+                            {
+                                <tr>
+                                    @foreach (DataColumn dc in Model.monthlyInput.Columns)
+                                    {
+
+                                        if (dc.ToString() != "EmployeeId" && dc.ToString() != "BranchId" && dc.ToString() != "error" && dc.ToString() != "warning" && dc.ToString() != "isDuplicatedRow")
+                                        {
+                                            if (dc.ToString() == "EmployeeCode" || dc.ToString() == "BranchCode" || dc.ToString() == "Month" || dc.ToString() == "Year")
+                                            {
+                                                title = (arrError[err].Length > 0) ? string.Format(dicErrorMsg[arrError[err]], dc.ToString()) : "";
+                                            }
+                                            else
+                                            {
+                                                title = (arrError[err].Length > 0) ? string.Format(dicErrorMsg[arrError[err]]) : "";
+                                            }
+                                            var errorClass = (arrError[err].Length > 0) ? "error" : null;
+                                            str1 = dr[dc].ToString();
+                                            <td title="@title" class="toggle-tooltip @errorClass"> @str1</td>
+                                        }
+                                        err++;
+                                    }
+                                </tr>
+                            }
+                            else
+                            {
+                                <tr title="Duplicate Row Found" class="error toggle-tooltip">
+                                    @foreach (DataColumn dc in Model.monthlyInput.Columns)
+                                    {
+
+                                        if (dc.ToString() != "EmployeeId" && dc.ToString() != "BranchId" && dc.ToString() != "error" && dc.ToString() != "warning" && dc.ToString() != "isDuplicatedRow")
+                                        {
+                                            if (dc.ToString() == "EmployeeCode" || dc.ToString() == "BranchCode" || dc.ToString() == "Month" || dc.ToString() == "Year")
+                                            {
+                                                title = (arrError[err].Length > 0) ? string.Format(dicErrorMsg[arrError[err]], dc.ToString()) : "";
+                                            }
+                                            else
+                                            {
+                                                title = (arrError[err].Length > 0) ? string.Format(dicErrorMsg[arrError[err]]) : "";
+                                            }
+                                            var errorClass = (arrError[err].Length > 0) ? "error" : null;
+                                            str1 = dr[dc].ToString();
+                                            <td title="@title" class="toggle-tooltip @errorClass"> @str1</td>
+                                        }
+                                        err++;
+                                    }
+                                </tr>
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        throw ex;
+                    }
+                }
+            }
+        </tbody>
+    </table>
+
+</div>

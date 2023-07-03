@@ -1,0 +1,77 @@
+﻿
+@{
+    ViewBag.Title = "File List";
+    Layout = "~/Views/Shared/_Layout.cshtml";    
+}
+
+
+<div class="container mt-3 col-lg-12 col-sm-12 col-md-12 col-xs-12">
+
+    <ul class="nav nav-tabs">
+
+        <li class="nav-item">
+            <a class="nav-link active toggle-tooltip" data-toggle="tab" title="Inbox" href="#TabInbox">Inbox</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link toggle-tooltip" data-toggle="tab" title="Outbox" href="#TabOutbox">Outbox</a>
+        </li>
+
+    </ul>
+
+    <!-- Tab panes -->
+    <div class="tab-content">
+        <div id="TabInbox" class="container tab-pane active fullwidth-container">
+            @Html.Action("GetInboxFiles", "GenerateFileNo")
+        </div>
+
+        <div id="TabOutbox" class="container tab-pane fade fullwidth-container">
+            @Html.Action("GetOutboxFiles", "GenerateFileNo")
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">    
+    $("#tblGrid1").dataTable();
+
+        $('#tblGrid1 tr td').click(function () {
+            debugger;
+            var cid = $(this).attr('id');
+            var res = cid.substring(0, 6);
+            var id_indx = cid.substring(7);
+            var filemanagmtid = "fileManagementList_0__Remarks";
+            var filemgn = filemanagmtid.substring(0, 19);
+            var hdnremark = filemgn + id_indx + "__Remarks";
+            if (res == "remark") {
+                var rmk = $("#" + hdnremark).val();
+                if (rmk.length > 50) {
+                    $("#div-remarks").text(rmk)
+                    $('#div-remarks-popup').modal('show');
+                }
+            }
+        });
+</script>
+
+
+<div class="modal" id="div-remarks-popup">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Remark</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body" id="div-remarks" style="word-wrap: break-word">
+               
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+
+            </div>
+
+        </div>
+    </div>
+</div>

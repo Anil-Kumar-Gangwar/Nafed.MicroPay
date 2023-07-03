@@ -1,0 +1,214 @@
+﻿@using Nafed.MicroPay.Model
+@using MvcCheckBoxList.Model
+@using MicroPay.Web.Models
+@model TransferApprovalViewModel
+@{
+    ViewBag.Title = "Transfer Approval Rights";
+    ViewBag.NavigationTitle = "Transfer Approval Rights";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    System.Globalization.CultureInfo Indian = new System.Globalization.CultureInfo("hi-IN");
+}
+
+
+<div class="card_new_body">
+    <div class="row mb-4">
+        <div class="col-2 h6">Select Process</div>
+        <div class="col-4">@Html.DropDownListFor(model => model.ProcessId, new SelectList(Model.ProcessList, "id", "value"), "All", new { @class = "form-control",onChange = "process_OnChange(this);" })</div>
+    </div>
+    <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-12 card p-2">
+            <div class="row">
+                <div class="col-6 ">
+                    <h5>From Employee</h5>
+                </div>
+                <div class="col-6 ">
+                    <div class="float-right">
+                        @Ajax.ActionLink("Select Employee", "AddTransferEmployee", new
+                   {
+                       @type = 1
+
+                   }, null,
+              new
+              {
+                  @class = "btn btn-warning btn-md toggle-tooltip pull-left",
+                  @data_target = "#AddTransferEmployeeModal",
+                  title = "Click here, to select from Employee",
+                  @data_toggle = "modal",
+                  @method = "GET",
+                  @data_backdrop = "static",
+                  @data_keyboard = "false",
+                  @data_ajax_update = "#div-result-body",
+                  @data_ajax_mode = "replace"
+              })
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-2">
+                @Html.HiddenFor(model => model.fromEmployeeCode)
+                @Html.HiddenFor(model => model.fromEmployeeID)
+                <div class="col-3 mb-2">Selected Employee: </div>
+                <div class="col-9 mb-2"><p class="font-weight-bold" id="fromEmployeeName">@Model.fromEmployeeName</p></div>
+                <div class="col-3 mb-2">Designation: </div>
+                <div class="col-9 mb-2"><p class="font-weight-bold" id="fromDesignationName">@Model.fromDesignationName</p></div>
+                <div class="col-3 mb-2">Department: </div>
+                <div class="col-9 mb-2"><p class="font-weight-bold" id="fromDepartmentName">@Model.fromDepartmentName </p></div>
+                <div class="col-3 mb-2">Branch: </div>
+                <div class="col-9 mb-2"><p class="font-weight-bold" id="fromEmployeeBranch">@Model.fromEmployeeBranch</p></div>
+            </div>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-12 card p-2">
+            <div class="row mt-2">
+                <div class="col-6">
+                    <h5>To Employee</h5>
+                </div>
+                <div class="col-6">
+                    <div class="float-right">
+                        @Ajax.ActionLink("Select Employee", "AddTransferEmployee", new
+                   {
+                       @type = 2
+
+                   }, null,
+              new
+              {
+                  @class = "btn btn-success btn-md toggle-tooltip pull-left",
+                  @data_target = "#AddTransferEmployeeModal",
+                  title = "Click here, to select to Employee",
+                  @data_toggle = "modal",
+                  @method = "GET",
+                  @data_backdrop = "static",
+                  @data_keyboard = "false",
+                  @data_ajax_update = "#div-result-body",
+                  @data_ajax_mode = "replace"
+              })
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                @Html.HiddenFor(model => model.toEmployeeCode)
+                @Html.HiddenFor(model => model.toEmployeeID)
+                <div class="col-3 mb-2">Selected Employee: </div>
+                <div class="col-9 mb-2"><p class="font-weight-bold" id="toEmployeeName">@Model.toEmployeeName</p></div>
+                <div class="col-3 mb-2">Designation: </div>
+                <div class="col-9 mb-2"><p class="font-weight-bold" id="toDesignationName">@Model.toDesignationName</p></div>
+                <div class="col-3 mb-2">Department: </div>
+                <div class="col-9 mb-2"><p class="font-weight-bold" id="toDepartmentName">@Model.toDepartmentName </p></div>
+                <div class="col-3 mb-2">Branch: </div>
+                <div class="col-9 mb-2"><p class="font-weight-bold" id="toEmployeeBranch">@Model.toEmployeeBranch</p></div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 pr-0 mb-2">
+            <div class="form-group">
+                <span class="pull-right">
+                    <input type="submit" value="Transfer" id="btnTransfer" class="btn btn-info btn-md pull-center toggle-tooltip" title="Click here, to transfer employee" />
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal" id="AddTransferEmployeeModal" data-backdrop="static" data-keyboard="false" role="dialog" style="overflow:auto;">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Select Employee</h4>
+                <button type="button" class="close toggle-tooltip" data-dismiss="modal">&times;</button>
+            </div>
+            <!-- Modal body -->
+            <div class="modal-body" id="div-result-body">
+                <!-- div to show result data -->
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <input type="button" value="Select Employee" id="btnSelectEmp" class="btn btn-primary btn-md" />
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $("#btnSelectEmp").click(function () {
+        $("#AddTransferEmployeeModal").modal('hide');
+    });
+
+    function process_OnChange(ctrl) {
+
+        var ProcessId = $(ctrl).find('option:selected').val();
+        $('#ProcessId').val(ProcessId);
+    }
+
+
+    function getValue(radio) {
+        debugger;
+        var EmployeeID = $('#' + radio.id.replace('IsChecked', 'EmployeeID')).val();
+        var EmployeeCode = $('#' + radio.id.replace('IsChecked', 'EmployeeCode')).val();
+        var EmployeeName = $('#' + radio.id.replace('IsChecked', 'EmployeeName')).val();
+        var DesignationName = $('#' + radio.id.replace('IsChecked', 'DesignationName')).val();
+        var DepartmentName = $('#' + radio.id.replace('IsChecked', 'DepartmentName')).val();
+        var EmployeeBranch = $('#' + radio.id.replace('IsChecked', 'EmployeeBranch')).val();
+        if ($('#type').val() == '1') {
+            $('#fromEmployeeID').val(EmployeeID);
+            $('#fromEmployeeCode').val(EmployeeCode);
+            $('#fromEmployeeName').text(EmployeeCode + '-' + EmployeeName);
+            $('#fromDesignationName').text(DesignationName);
+            $('#fromDepartmentName').text(DepartmentName);
+            $('#fromEmployeeBranch').text(EmployeeBranch);
+        }
+        else {
+            $('#toEmployeeID').val(EmployeeID);
+            $('#toEmployeeCode').val(EmployeeCode);
+            $('#toEmployeeName').text(EmployeeCode + '-' + EmployeeName);
+            $('#toDesignationName').text(DesignationName);
+            $('#toDepartmentName').text(DepartmentName);
+            $('#toEmployeeBranch').text(EmployeeBranch);
+        }
+
+    }
+
+    $("#btnTransfer").click(function () {
+        var agree = confirm("Are you sure you want to transfer approval rights from one employee to another?");
+        if (agree) {
+            if (window.FormData !== undefined)
+                var fileData = new FormData();
+            var hdnfromEmployeeCode = $('#fromEmployeeCode').val();
+            var hdntoEmployeeCode = $('#toEmployeeCode').val();
+            var hdnfromEmployeeID = $('#fromEmployeeID').val();
+            var hdntoEmployeeID = $('#toEmployeeID').val();
+            fileData.append("fromEmployeeCode", hdnfromEmployeeCode);
+            fileData.append("toEmployeeCode", hdntoEmployeeCode);
+            fileData.append("fromEmployeeID", hdnfromEmployeeID);
+            fileData.append("toEmployeeID", hdntoEmployeeID);
+            fileData.append("ProcessId", $('#ProcessId').val());
+
+            if (hdnfromEmployeeCode == '') {
+                commonMessage("error", "Please select from employee");
+            }
+            else if (hdntoEmployeeCode == '') {
+                commonMessage("error", "Please select to employee");
+            }
+            else if (hdnfromEmployeeCode == hdntoEmployeeCode) {
+                commonMessage("error", "Cannot be same from employee and to employee");
+            }
+            else {
+                $.ajax({
+                    url: "@Url.Action("_PostTransferApproval", "TransferApproval")",
+                    type: "POST",
+                    contentType: false, // Not to set any content header
+                    processData: false, // Not to process data
+                    data: fileData,
+                    success: function (data) {
+                        commonMessage(data.msgType, data.msg);
+                    }
+                });
+            }
+        }
+        else {
+            return false;
+        }
+    });
+</script>

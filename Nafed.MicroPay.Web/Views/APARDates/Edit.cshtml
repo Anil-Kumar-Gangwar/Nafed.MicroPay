@@ -1,0 +1,98 @@
+﻿@using Nafed.MicroPay.Model
+@model AppraisalFormDueDate
+@{
+    ViewBag.Title = "Set APAR Due Dates";
+    ViewBag.NavigationTitle = "APAR Due Dates";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    System.Globalization.CultureInfo Indian = new System.Globalization.CultureInfo("hi-IN");
+}
+@using (@Html.BeginForm("Edit", "APARDates", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+
+            <div class="row">
+
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 mb-2">
+                    @Html.LabelFor(model => model.ReportingYear, htmlAttributes: new { @class = "control-label" })
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 mb-2 text-right font-weight-bold">
+
+                    @Model.ReportingYear
+                    @Html.HiddenFor(model => model.ReportingYear)
+
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 mb-2">
+                    @Html.LabelFor(model => model.EmployeeSubmissionDueDate, htmlAttributes: new { @class = "control-label required" })
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 mb-2">
+                    @*@Html.EditorFor(model => model.EmployeeSubmissionDueDate, new { htmlAttributes = new { @class = "form-control", @type = "date", @min = DateTime.Now.Date.Year + "-" + "01-" + "01", @max = DateTime.Now.Date.Year + "-" + "12-" + "31" } })*@
+                    @Html.TextBoxFor(model => model.EmployeeSubmissionDueDate, new { @type = "text", @class = "form-control datepicker", @Value = Model.EmployeeSubmissionDueDate.ToString("dd/MM/yyyy") })
+                    @Html.ValidationMessageFor(model => model.EmployeeSubmissionDueDate, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 mb-2">
+                    @Html.LabelFor(model => model.ReportingSubmissionDueDate, htmlAttributes: new { @class = "control-label required" })
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 mb-2">
+                    @*@Html.EditorFor(model => model.ReportingSubmissionDueDate, new { htmlAttributes = new { @class = "form-control", @type = "date", @min = DateTime.Now.Date.Year + "-" + "01-" + "01", @max = DateTime.Now.Date.Year + "-" + "12-" + "31" } })*@
+                    @Html.TextBoxFor(model => model.ReportingSubmissionDueDate, new { @type = "text", @class = "form-control datepicker", @Value = Model.ReportingSubmissionDueDate.ToString("dd/MM/yyyy") })
+                    @Html.ValidationMessageFor(model => model.ReportingSubmissionDueDate, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 mb-2">
+                    @Html.LabelFor(model => model.ReviewerSubmissionDueDate, htmlAttributes: new { @class = "control-label required" })
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 mb-2">
+                    @*@Html.EditorFor(model => model.ReviewerSubmissionDueDate, new { htmlAttributes = new { @class = "form-control", @type = "date", @min = DateTime.Now.Date.Year + "-" + "01-" + "01", @max = DateTime.Now.Date.Year + "-" + "12-" + "31" } })*@
+                    @Html.TextBoxFor(model => model.ReviewerSubmissionDueDate, new { @type = "text", @class = "form-control datepicker", @Value = Model.ReviewerSubmissionDueDate.ToString("dd/MM/yyyy") })
+                    @Html.ValidationMessageFor(model => model.ReviewerSubmissionDueDate, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 mb-2">
+                    @Html.LabelFor(model => model.AcceptanceAuthSubmissionDueDate, htmlAttributes: new { @class = "control-label required" })
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 mb-2">
+                    @*@Html.EditorFor(model => model.AcceptanceAuthSubmissionDueDate, new { htmlAttributes = new { @class = "form-control", @type = "date", @min = DateTime.Now.Date.Year + "-" + "01-" + "01", @max = DateTime.Now.Date.Year + "-" + "12-" + "31" } })*@
+                    @Html.TextBoxFor(model => model.AcceptanceAuthSubmissionDueDate, new { @type = "text", @class = "form-control datepicker", @Value = Model.AcceptanceAuthSubmissionDueDate.ToString("dd/MM/yyyy") })
+
+
+                    @Html.ValidationMessageFor(model => model.AcceptanceAuthSubmissionDueDate, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="row">
+
+                <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                    <span class="pull-right">
+                        @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-light btn-md toggle-tooltip", @title = "Click here, to redirect on list page" })
+
+                        <input type="submit" value="Update" title="Click here, to update due dates." class="btn btn-info btn-md pull-center toggle-tooltip" />
+                    </span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+}
+
+<script>
+    var Year = new Date().getFullYear();
+    var min = Year + '-01-01'
+    var max = Year + '-12-31'
+    $("#EmployeeSubmissionDueDate").datepicker({ dateFormat: 'dd/mm/yy', changeYear: false, minDate: new Date(min), maxDate: new Date(max) });
+    $("#ReportingSubmissionDueDate").datepicker({ dateFormat: 'dd/mm/yy', changeYear: false, minDate: new Date(min), maxDate: new Date(max) });
+    $("#ReviewerSubmissionDueDate").datepicker({ dateFormat: 'dd/mm/yy', changeYear: false, minDate: new Date(min), maxDate: new Date(max) });
+    $("#AcceptanceAuthSubmissionDueDate").datepicker({ dateFormat: 'dd/mm/yy', changeYear: false, minDate: new Date(min), maxDate: new Date(max) });
+
+
+</script>

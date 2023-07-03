@@ -1,0 +1,47 @@
+﻿@{
+
+    ViewBag.Title = "Maintenance";
+    Layout = null;
+}
+   
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Maintenance</title>
+    @Styles.Render("~/Content/style")
+
+</head>
+<body>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="logoff_bg div_pos">
+                <div class="container">
+                    <div class="row ">
+                        <div class="col-sm-12 text-right pt-2">
+                            <span style="color: #5198ff;">Powered By: </span>
+                            <img src="~/Images/mini_logo.png" style="height: 35px;" />
+                        </div>
+                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                            <div style="margin-top: calc(50% - 25%);margin-left: 0px;">
+                                <h1 class="bb">Maintenance</h1>
+                                <div style="float: left;width: 100%;height: auto; margin-top: 15px;color:#fff;">                                  
+                                        <h4>We’ll be back soon!</h4>
+                                        <div>
+                                            <p>Sorry for the inconvenience but we’re performing some maintenance at the moment. If you need to you can always <a style="color:#000;" href="mailto:#"><b>contact us</b></a>, otherwise we’ll be back online shortly!</p>
+                                            @*<p> Microware Computing & Consulting</p>*@
+                                        </div>                              
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 text-right  d-none d-sm-block">
+                            <img src="~/Images/wheel.png" style="width: 85%;margin-top: calc(50% - 40%);" />
+                        </div>
+                    </div>
+                </div>
+                <div class="logoff-footer">Copyright © 2019 Nafed-india.com, All rights Reserved</div>
+            </div>
+        </div>
+    </div>    
+</body>
+</html>

@@ -1,0 +1,263 @@
+﻿@using MicroPay.Web.Models
+@model FileTrackingViewModel
+
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        @Html.HiddenFor(model => model.processWorkFlow.Remark)
+        @Html.HiddenFor(model => model.processWorkFlow.Purpose)
+        <h4>Forward File (<b>File No. </b>- @Model.processWorkFlow.Purpose,<b> File Subject </b>- @Model.processWorkFlow.Remark)</h4>
+
+    </div>
+</div>
+<hr />
+
+
+        @using (Ajax.BeginForm("TabFileForward", "GenerateFileNo", new AjaxOptions() { HttpMethod = "POST", OnSuccess = "onSuccessFile" }, new { enctype = "multipart/form-data" }))
+            {
+            @Html.AntiForgeryToken()
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">                   
+
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 mb-2">
+                            @Html.Label("Remarks", htmlAttributes: new { @class = "control-label required" })
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 mb-2">
+                            @Html.TextAreaFor(model => model.processWorkFlow.Scomments, htmlAttributes: new { @class = "form-control", @maxlength = "1000", @cols = "60", @rows = "6", @style = "min-height:80px;max-height:80px;" })
+                            @Html.ValidationMessage("RemarkModelError", "", new { @class = "text-danger" })
+                            <span id="RemarkError"></span>
+
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-right pb-2">
+
+                                    <input type="button" value="Add Document" id="btnAddRowExper" name="ButtonType" class="btn btn-info btn-md pull-center toggle-tooltip btn-sectionAddRow"
+                                           title="Click here, to add new row." />
+                                </div>
+
+                                <div id="div-form-documents-grid" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
+
+                                    @Html.Partial("_UploadDocuments", Model)
+
+                                </div>
+                            </div>
+                            <div>
+                                <label class="font-weight-bold text-danger">[FileType=.jpg,.jpeg,.png,.pdf,.xlsx,.xls,.doc,.docx, Size <= 5MB, single document] <br /></label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <span class="pull-right">
+                    <input type="button" value="Forward" id="btnSubmit" class="btn btn-info btn-md pull-center toggle-tooltip" />
+                </span>
+            </div>
+
+        }
+
+
+<script type="text/javascript">
+
+    $('.toggle-tooltip').tooltip();
+
+    function BindEmployeeOnDepartment(e) {
+        if ($("#processWorkFlow_ReceiverDepartmentID").val() != "") {
+            var departmentId = 0;
+            departmentId = $("#processWorkFlow_ReceiverDepartmentID").val();
+
+            $("#processWorkFlow_ReceiverID").html("");
+            $("#ReceiverDepartmentError").html("");
+            if (departmentId > 0) {
+                jQuery.post("@Url.Action("GetEmployeeByDepartment", "GenerateFileNo")", {
+                    departmentID: departmentId
+                }).done(function (data) {
+
+                    if (data.employees != "") {
+                        $("#processWorkFlow_ReceiverID").html("");
+                        $.each(data.employees, function (key, value) {
+                            $("#processWorkFlow_ReceiverID").append($("<option></option>").val(value.Value).html(value.Text));
+                        });
+                    }
+                });
+            } else {
+                $("#processWorkFlow_ReceiverID").append($("<option></option>").val(0).html('Select'));
+            }
+        }
+        else {
+            if ($("#processWorkFlow_ReceiverID").val() == "") {
+                $("#ReceiverDepartmentError").html("Please select Department").css("color", "red");
+            }
+        }
+    }
+
+
+    $("#btnAddRowExper").click(function () {
+        $.ajax({
+            url: "@Url.Action("_AddDocumentRow", "GenerateFileNo")",
+            type: "POST",
+            contentType: false, // Not to set any content header
+            processData: false, // Not to process data
+
+            success: function (result) {
+                $("#div-form-documents-grid").html(result.htmlData);
+            },
+            error: function (err) {
+                alert(err.statusText);
+            }
+        });
+    });
+
+    $(document).ready(function () {
+        $('#btnSubmit').click(function () {
+            debugger;
+            if ($("#processWorkFlow_ReceiverDepartmentID").val() != 0 && $("#processWorkFlow_ReceiverID").val() != 0
+         && $("#processWorkFlow_Scomments").val() != "") {
+
+                var ReferenceID = 0;
+                ReferenceID = $("#processWorkFlow_ReferenceID").val();
+                var WorkflowID = 0;
+                WorkflowID = $("#processWorkFlow_WorkflowID").val();
+
+                var revdepartmentId = 0;
+                revdepartmentId = $("#processWorkFlow_ReceiverDepartmentID").val();
+                var receiverID = 0;
+                receiverID = $("#processWorkFlow_ReceiverID").val();
+                var Scomments = "";
+                Scomments = $("#processWorkFlow_Scomments").val();
+                // Create FormData object
+                if (window.FormData !== undefined)
+                    var fileData = new FormData();
+
+                var table = document.getElementById("tblDocument");
+
+                // $('tr', $(this).find('tbody')).length;
+
+                //var rows = $("#tblDocument>tr");
+                // var i = 0;
+
+                var ff = $('#tblDocument >tbody >tr').length;
+
+                var cnt = 1;
+                debugger; var i = 0;
+                for (var l = 1; l < ff + 1; l++) {
+
+                    //for (var i = 0, row; row = table.rows[l]; i++) {
+                    var row = table.rows[l];
+                    if (i == 0)
+                        cnt = 1;
+                    else
+                        cnt = ff
+                    for (i ; i < cnt;) {
+                        var dds = table.rows[l];
+                        for (var j = 0, col; col = row.cells[j]; j++) {
+
+                            if (col.id == "docName") {
+                                var filename = $("#documentFiles_" + i + "__DocName").val();
+                                if (filename == "") {
+                                    $("#documentnameError_" + i).html("Please Enter Document Name").css("color", "red");
+                                    return false;
+                                }
+                                else {
+                                    $("#documentnameError_" + i).html("")
+                                }
+                            }
+                            if (col.id == "docFile") {
+                                debugger;
+                                if ($("#Files_" + i).get(0).files.length > 0) {
+                                    $("#documentFileError_" + i).html("");
+                                    // Looping over all files and add it to FormData object
+                                    //fileData.append(files.name, files);
+                                    var fileUpload = $("#Files_" + i);
+                                    var lg = fileUpload[0].files.length; // get length
+                                    var items = fileUpload[0].files;
+                                    for (var k = 0; k < lg; k++) {
+                                        // var fileUpload = $("#TCSDocumentFile").get(0);
+
+                                        var filesze = items[k].size;
+                                        var fileName = items[k].name;
+                                        var ext = fileName.substr(fileName.lastIndexOf('.') + 1).toLowerCase();
+                                        if (!(ext == "xlsx" || ext == "xls" || ext == "jpg" || ext == "jpeg" || ext == "png" || ext == "pdf" || ext == "doc" || ext == "docx")) {
+                                            $("#documentFileError_" + i).html("Invalid file type, please select a (word,excel,jpeg,png,pdf) file").css("color", "red");
+                                            return false;
+                                        }
+                                        if (filesze > 5000000) {  // 5MB
+                                            $("#documentFileError_" + i).html("Please select image size less than 5MB.").css("color", "red");
+                                            return false;
+                                        }
+                                        // Adding one more key to FormData object
+                                        fileData.append(items[k].name, items[k]);
+                                        fileData.append('FileName', $("#documentFiles_" + i + "__DocName").val());
+                                    }
+                                }
+                                else {
+                                    $("#documentFileError_" + i).html("Please Upload Document").css("color", "red");
+                                    return false;
+                                }
+
+                            }
+                        }
+                        i++;
+                    }
+                }
+                fileData.append('revdepartmentId', revdepartmentId);
+                fileData.append('receiverID', receiverID);
+                fileData.append('Scomments', Scomments);
+                fileData.append('ReferenceID', ReferenceID);
+                fileData.append('WorkflowID', WorkflowID);
+
+                $.ajax({
+                    url: "@Url.Action("TabFileForward", "GenerateFileNo")",
+                    type: "POST",
+                    contentType: false, // Not to set any content header
+                    processData: false, // Not to process data
+                    data: fileData,
+                    success: function (result) {
+                        if (result.status == 1) {
+                            $("#div-inbox").modal("hide");
+                            commonMessage(result.type, result.msg);
+                            $("#TabInbox").load("@Url.Action("GetInboxFiles", "GenerateFileNo")");
+                            $("#TabOutbox").load("@Url.Action("GetOutboxFiles", "GenerateFileNo")");
+                        }
+                    }
+                });
+            }
+            else {
+                if ($("#processWorkFlow_ReceiverDepartmentID").val() == 0) {
+                    $("#ReceiverDepartmentError").html("Please Select Department.").css("color", "red");
+                }
+                if ($("#processWorkFlow_ReceiverID").val() == 0) {
+                    $("#EmployeeError").html("Please Select Employee.").css("color", "red");
+                }
+                if ($("#processWorkFlow_Scomments").val() == "") {
+                    $("#RemarkError").html("Please Enter Remarks.").css("color", "red");
+                }
+            }
+        })
+    });
+
+    $('#tblGrid tr td').click(function () {
+        var cid = $(this).attr('id');
+        var res = cid.substring(0, 6);
+        var id_indx = cid.substring(7);
+        var filemanagmtid = "fileManagementList_0__Remarks";
+        var filemgn = filemanagmtid.substring(0, 19);
+        var hdnremark = filemgn + id_indx + "__Remarks";
+        if (res == "remark") {
+            var rmk = $("#" + hdnremark).val();
+            if (rmk.length > 50) {
+                $("#div-remarks").text(rmk)
+                $('#div-remarks-popup').modal('show');
+            }
+        }
+    });
+
+</script>
+
+
+

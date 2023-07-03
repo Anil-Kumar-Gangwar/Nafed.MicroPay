@@ -1,0 +1,175 @@
+﻿@model MicroPay.Web.Models.CandidateDetailsViewModel
+
+@using (Ajax.BeginForm("_PostCandidateSearchdetails", "CandidateSearchDetails", new AjaxOptions { HttpMethod = "POST" }, new { defaultbutton = "submitform" }))
+{
+    if (Model.IssueAdmitCard == 2)
+    {
+    <div style="text-align:right;margin-bottom:5px">
+        <input type="submit" id="submitform" value="Submit" title="Save records" class="btn btn-info toggle-tooltip">
+    </div>
+    }
+
+    <table id="tblGrid2" class="table table-centered table-striped dt-responsive w-100">
+        <thead>
+            <tr>
+                <th>
+                    #
+                </th>
+                <th>
+                    Name of the Post
+                </th>
+                <th>
+                    Full Name
+                </th>
+                <th>
+                    Gender
+                </th>
+                <th>
+                    Email ID
+                </th>
+                <th class="text-center">
+                    Eligible for Written Exam
+                </th>
+                <th class="text-center">
+                    Issue Admit Card
+                </th>
+                @if (Model.userRights.Edit)
+                {
+                    <th class="text-center" style="width:100px">
+                        Application Form
+                    </th>
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                if (Model != null && Model.CandidateDetails.Count > 0)
+                {
+                    var sno = 1;
+                    for (int i = 0; i < Model.CandidateDetails.Count; i++)
+                    {
+
+                        <tr>
+                            <td> @sno</td>
+                            <td> @Model.CandidateDetails[i].Post</td>
+                            <td> @Model.CandidateDetails[i].CandidateFullName</td>
+                            <td>
+                                @if (@Model.CandidateDetails[i].GenderID == 1)
+                                {
+                                    <span>Male</span>
+
+                                }
+                                else if (@Model.CandidateDetails[i].GenderID == 2)
+                                {
+                                    <span>Female</span>
+                                }
+                            </td>
+                            <td> @Model.CandidateDetails[i].PersonalEmailID</td>
+                            <td class="text-center">
+                                @if (Model.CandidateDetails[i].EligibleForWrittenExam == true)
+                                {
+                                    <span>Yes</span>
+
+                                }
+                                else if (Model.CandidateDetails[i].EligibleForWrittenExam == false)
+                                {
+                                    <span>No</span>
+                                }
+                            </td>
+                            <td class="text-center">
+                                @Html.HiddenFor(model => Model.CandidateDetails[i].RegistrationID)
+                                @if (!Model.CandidateDetails[i].IssueAdmitCard)
+                                {
+                                    @Html.CheckBoxFor(model => Model.CandidateDetails[i].IssueAdmitCard, new { Style = "vertical-align:3px}" })
+                                }
+                                else
+                                {
+                                    <span>Yes</span>
+                                }
+                            </td>
+
+                            @if (Model.userRights.Edit)
+                            {
+                                <td class="text-center">
+                                    @*<a class="toggle-tooltip" href="@Url.Action("ViewApplicationForm", "CandidateRegistration", new { registrationID = Model.CandidateDetails[i].RegistrationID })" title="Click here, to open application form">
+                                        <span class="fa fa-eye text-info" aria-hidden="true"></span>
+                                    </a>*@
+                                    @Html.EncodedImageActionLink("", "ViewApplicationForm", "CandidateRegistration", new { registrationID = Model.CandidateDetails[i].RegistrationID }, new { @class = "toggle-tooltip", title = "Click here, to open application form" }, "~/Images/view.png")
+                                </td>
+                            }
+
+                        </tr>
+
+                        sno++;
+                    }
+                    @*foreach (var item in Model.CandidateDetails)
+                        {
+                            <tr>
+                                <td> @sno</td>
+                                <td> @item.Post</td>
+                                <td> @item.CandidateFullName</td>
+                                <td>
+                                    @if (@item.GenderID == 1)
+                                    {
+                                        <span>Male</span>
+
+                                    }
+                                    else if (@item.GenderID == 2)
+                                    {
+                                        <span>Female</span>
+                                    }
+                                </td>
+                                <td> @item.PersonalEmailID</td>
+                                <td class="text-center">
+                                    @if (item.EligibleForWrittenExam == true)
+                                    {
+                                        <span>Yes</span>
+
+                                    }
+                                    else if (item.EligibleForWrittenExam == false)
+                                    {
+                                        <span>No</span>
+                                    }
+                                </td>
+                                    <td class="text-center">
+                                        @Html.HiddenFor(model => item.RegistrationID)
+                                        @if (item.EligibleForWrittenExam)
+                                        {
+                                        @Html.CheckBoxFor(model => item.IssueAdmitCard, new { Style = "vertical-align:3px}" })
+                                        }
+                                    </td>
+
+                                @if (Model.userRights.Edit)
+                            {
+                                    <td class="text-center">
+                                        <a class="toggle-tooltip" href="@Url.Action("ViewApplicationForm", "CandidateRegistration", new { registrationID = item.RegistrationNo })" title="Click here, to open BDF">
+                                            <span class="fa fa-eye text-info" aria-hidden="true"></span>
+                                        </a>
+                                    </td>
+                                }
+
+                            </tr>
+
+                            sno++;
+                        }*@
+                }
+            }
+
+        </tbody>
+    </table>
+                }
+
+
+
+<script>
+    $('.toggle-tooltip').tooltip();
+    ///==== Adding jquery datatable reference to all master grid ==== (Sujeet G)
+    var table = $('#tblGrid2').DataTable({
+    });
+    $('#tblGrid2_length').find('select').addClass('custom-select');
+    //========= End==================================================
+</script>
+
+
+
+

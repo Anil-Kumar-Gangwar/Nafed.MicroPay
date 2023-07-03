@@ -1,0 +1,83 @@
+﻿@using Common = Nafed.MicroPay.Common
+@model MicroPay.Web.Models.DesignationViewModel
+
+<table id="tblGrid" class="table table-centered table-striped dt-responsive w-100">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>
+                Designation Code
+            </th>
+            <th>
+                Designation Name
+            </th>
+            <th>
+                Level
+            </th>
+            <th>
+                IsOfficer
+            </th>
+            <th>
+                LCT
+            </th>
+            <th>
+                Promotion
+            </th>
+            @if (Model.userRights.Edit)
+            {
+                <th class="text-center" style="width:60px">
+                    Edit
+                </th>
+            }
+            @if (Model.userRights.Delete)
+            {
+                <th class="text-center" style="width:60px">
+                    Delete
+                </th>
+            }
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            if (Model.listDesignation != null && Model.listDesignation.Count() > 0)
+            {
+                var sno = 1;
+                foreach (var item in Model.listDesignation)
+                {
+                    <tr>
+                        <td>@sno</td>
+                        <td> @item.DesignationCode</td>
+                        <td> @item.DesignationName</td>
+                        <td> @item.Level</td>
+                        <td> @Common.ExtensionMethods.BoolToYesNo(@item.IsOfficer)   </td>
+                        <td> @item.LCT</td>
+                        <td> @item.Promotion</td>
+                        @if (Model.userRights.Edit)
+                        {
+                            <td class="text-center">
+                                @*<a href="@Url.Action("Edit", "Designation", new { designationID = item.DesignationID })" title="Click here, to edit this record" data-toggle="tooltip">
+                                    <i class="far fa-edit text-info" aria-hidden="true"></i>
+                                </a>*@
+
+                                @Html.EncodedImageActionLink("", "Edit", "Designation", new { designationID = item.DesignationID }, new { @class = "toggle-tooltip", title = "Click here, to edit this record" }, "~/Images/edit.png")
+                            </td>
+                        }
+                        @if (Model.userRights.Delete)
+                        {
+                            <td class="text-center">
+                                @*<a data-toggle="confirm" class="toggle-tooltip" href="@Url.Action("Delete", "Designation", new { designationID = item.DesignationID})" title="Click here, to delete this record">
+                                    <span class="far fa-trash-alt text-danger" aria-hidden="true"></span>
+                                </a>*@
+                                @Html.EncodedImageActionLink("", "Delete", "Designation", new { designationID = item.DesignationID }, new { @class = "toggle-tooltip", title = "Click here, to delete this record" }, "~/Images/delete.png", true)
+                            </td>
+                        }
+                    </tr>
+                    sno++;
+                }
+            }
+
+        }
+
+    </tbody>
+</table>
+

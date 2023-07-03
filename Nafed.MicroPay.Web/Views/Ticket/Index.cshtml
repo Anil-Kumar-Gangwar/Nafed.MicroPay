@@ -1,0 +1,30 @@
+﻿
+@{
+    ViewBag.Title = "Ticket";
+    ViewBag.NavigationTitle = "Ticket";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    System.Globalization.CultureInfo Indian = new System.Globalization.CultureInfo("hi-IN");
+}
+
+<div>
+    <div class="card_new_header text-right">
+        @Html.ActionLink("NEW TICKET", "Create", "Ticket", null, new { @class = "btn btn-info", title = "Click here, to create New Ticket", @data_toggle = "tooltip" })
+
+    </div>
+    <div class="card_new_body">
+        <div id="div-TicketType">
+            @Html.Action("_GetTicketGridView")
+        </div>
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+

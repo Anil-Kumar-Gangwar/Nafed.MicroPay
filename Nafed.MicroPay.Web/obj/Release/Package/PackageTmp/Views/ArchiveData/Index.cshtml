@@ -1,0 +1,69 @@
+﻿
+@{
+    ViewBag.Title = "Data Archival";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="form-group">
+
+
+    <div class="panel panel-default">
+        <div class="panel-heading">Select Year from below upto which you want to archive data </div>
+
+        <div class="panel-body">
+
+            @using (Ajax.BeginForm("_PostArchiveData", "ArchiveData",
+new AjaxOptions
+{
+    HttpMethod = "POST",
+    UpdateTargetId = "dv-archiveData-form",
+    OnSuccess = "archivesuccess"
+},
+new { id = "frm-archive-data" }))
+            {
+                <div id="dv-archiveData-form">
+
+                    @{ Html.RenderAction("_GetArchiveDataForm"); }
+                </div>
+                        }
+        </div>
+    </div>
+
+
+
+
+
+
+</div>
+
+<div class="form-group">
+
+    <div class="panel panel-default">
+
+        <div class="panel-heading">
+            Archived Data Transaction List
+
+        </div>
+
+
+        <div class="panel-body">
+            @{ Html.RenderAction("_GetArchivedDataTrans"); }
+        </div>
+
+    </div>
+
+
+
+
+</div>
+<script type="text/javascript">
+    $('.toggle-tooltip').tooltip();
+
+    function archivesuccess(data) {
+        debugger;
+        if (data.status == true) {
+            commonMessage(data.msgType, data.message);
+            window.location.reload();
+        }
+    }
+</script>

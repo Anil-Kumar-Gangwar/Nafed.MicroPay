@@ -1,0 +1,100 @@
+﻿@using MicroPay.Web.Models
+@model ProjectedIncrementViewModel
+@{
+    ViewBag.Title = "Applicable Increment";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    System.Globalization.CultureInfo Indian = new System.Globalization.CultureInfo("hi-IN");
+}
+
+<div>
+
+    @using (Ajax.BeginForm("_GetProjectedIncrementGridView", "ProjectedIncrement", new AjaxOptions { HttpMethod = "Get", UpdateTargetId = "ProjectedIncrementGridDiv" }, new { defaultbutton = "submitform", id = "IncrementGridView" }))
+    {
+        <div class="advance-search" style="">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 pb-1 pt-2 form-inline align-middle">
+                <i class="fa fa-search fa-2x" style="color:#d4d4d4;" aria-hidden="true"></i><h4 class="desc" style="color:#0bb70b;">
+                    @Html.Label("Search")
+                </h4>
+            </div>
+            <hr style="background-color:#fff !important;">
+
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12 text-secondary mb-3">
+                            <i class="fas fa-filter"></i> Filter By :
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12 ">
+                            @Html.LabelFor(model => model.BranchID, htmlAttributes: new { @class = "" })
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 ">
+                            @Html.DropDownListFor(model => model.BranchID, new SelectList(Model.branchList, "id", "value"), "All", new { @class = "custom-select" })
+                        </div>
+                        <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+                            @Html.LabelFor(model => model.EmployeeCode, htmlAttributes: new { @class = "" })
+                        </div>
+                        <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+                            @Html.EditorFor(model => model.EmployeeCode, new { htmlAttributes = new { @class = "form-control custom-input", @placeholder = "Code", @maxlength = "6" } })
+                        </div>
+                        <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12 ">
+                            @Html.LabelFor(model => model.EmployeeName, htmlAttributes: new { @class = "" })
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 ">
+                            @Html.EditorFor(model => model.EmployeeName, new { htmlAttributes = new { @class = "form-control custom-input", @placeholder = "Employee Name", @maxlength = "100" } })
+                        </div>
+                        <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12 ">
+                            @Html.LabelFor(model => model.incrementMonthId, htmlAttributes: new { @class = "" })
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 ">
+                            @Html.DropDownListFor(model => model.incrementMonthId, new SelectList(Model.incrementMonth, "Value", "Text"), new { @class = "custom-select", onChange = "SubmitForm();" })
+                        </div>
+                        </div>
+                </div>
+            </div>
+            <hr style="background-color:#fff !important;">
+            <div class="row mt-3">                
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-right">                   
+                    <button type="submit" id="submitform" class="btn btn-warning toggle-tooltip mt-2" title="Click here, to search records.">
+                        <i class="fa fa-search"></i> Search
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    }
+    <div class="card_new_body">
+        <div id="ProjectedIncrementGridDiv">
+        </div>
+    </div>
+</div>
+
+@section scripts{
+
+}
+<script type="text/javascript">
+    function SubmitForm() {
+        if ($("#incrementMonthId").val() != "0") {
+            $("#btnUpdateBasic").removeAttr("disabled");
+        }
+        else {
+            $("#btnUpdateBasic").attr("disabled", "disabled");
+        }
+
+        var branchID = $("#BranchID").val() == "0" ? null : $("#BranchID").val();
+        var employeeCode = $("#EmployeeCode").val();
+        var employeeName = $("#EmployeeName").val();
+        var incrementMonth = $("#incrementMonthId").val() == "0" ? null : $("#incrementMonthId").val();
+        jQuery.get("@Url.Action("_GetProjectedIncrementGridView", "ProjectedIncrement")", {
+            BranchID: branchID,
+            EmployeeCode: employeeCode,
+            EmployeeName: employeeName,
+            incrementMonthId: incrementMonth
+        }).done(function (data) {
+            if (data != "") {
+                $("#ProjectedIncrementGridDiv").html(data);
+            }
+        });
+    }
+</script>

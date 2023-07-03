@@ -1,0 +1,350 @@
+﻿@using Nafed.MicroPay.Model
+@model CandidateRegistration
+
+<script type="text/javascript">
+    $('.toggle-tooltip').tooltip();
+</script>
+
+<table class="table table-bordered table-centered dt-responsive w-100">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th class="required" style="width:30px">Qualification Type</th>
+            <th class="required">From (MM/YYYY)</th>
+            <th class="required">To (MM/YYYY)</th>
+            <th class="required">Degree / Diploma</th>
+            <th class="required">University / Institute</th>
+            <th class="required">Specialization / Subjects</th>
+            <th class="required">Percentage / Grade</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @if (Model.JobRequirementQualification != null && Model.JobRequirementQualification.Count() > 0)
+        {
+
+            for (int j = 0; j < Model.JobRequirementQualification.Count(); j++)
+            {
+                <tr>
+                    <td class="text-right">@(j + 1)<text>.</text> </td>
+                    <td class="text-bold">
+
+                        @Html.HiddenFor(model => model.JobRequirementQualification[j].Per_GradeTextBoxCss)
+                        @Html.HiddenFor(model => model.JobRequirementQualification[j].Qualification)
+                        @Html.HiddenFor(model => model.JobRequirementQualification[j].SelectedQualificationID)
+                        @Html.DisplayFor(model => Model.JobRequirementQualification[j].Qualification)
+                        @Html.HiddenFor(model => Model.JobRequirementQualification[j].FromMonth)
+                        @Html.HiddenFor(model => Model.JobRequirementQualification[j].FromYear)
+                        @Html.HiddenFor(model => Model.JobRequirementQualification[j].ToMonth)
+                        @Html.HiddenFor(model => Model.JobRequirementQualification[j].ToYear)
+
+
+                    </td>
+
+                    <td style="width:12%">
+
+                        <div class="row">
+
+                            <div class="col-lg-5 col-xl-5 col-sm-5 col-xs-5">
+                                <div class="row pl-0 pr-2">
+                                    <div class="col-lg-12 col-xl-12 col-sm-12 col-xs-12 pl-2 pr-0">
+                                        @*@Html.DropDownListFor(model => model.JobRequirementQualification[j].FromMonth, new SelectList(Model.JobRequirementQualification[j].ddlFromMonth, "id", "value"), new { @class = "custom-select" })*@
+                                        @Html.EnumDropDownListFor(model => model.JobRequirementQualification[j].enumFromMonth, "Select", new { @class = "custom-select" })
+                                        @Html.HiddenFor(model => model.JobRequirementQualification[j].CreatedBy)
+                                        @Html.HiddenFor(model => model.JobRequirementQualification[j].CreatedOn)
+                                        @Html.HiddenFor(model => model.JobRequirementQualification[j].RegistrationID)
+                                        @Html.ValidationMessageFor(m => Model.JobRequirementQualification[j].enumFromMonth, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-lg-7 col-xl-7 col-sm-7 col-xs-7 mr-0">
+                                <div class="row pr-2">
+                                    @*@Html.DropDownListFor(model => model.JobRequirementQualification[j].FromYear, new SelectList(Model.JobRequirementQualification[j].ddlFromYear, "id", "value"), new { @class = "custom-select" })*@
+                                    @Html.EnumDropDownListFor(model => model.JobRequirementQualification[j].enumFromYear, "Select", new { @class = "custom-select" })
+                                    @Html.ValidationMessageFor(m => Model.JobRequirementQualification[j].enumFromYear, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                        </div>
+                    
+
+                        @*@Html.ValidationMessageFor(m => Model.CandidateEducationSummary[i].ToYear, "", new { @class = "text-danger" })*@
+                    </td>
+
+
+
+                    <td style="width:12%">
+
+                        <div class="row">
+
+                            <div class="col-lg-5 col-xl-5 col-sm-5 col-xs-5">
+                                <div class="row pl-0 pr-2">
+                                    <div class="col-lg-12 col-xl-12 col-sm-12 col-xs-12 pl-2 pr-0">
+                                        @Html.EnumDropDownListFor(model => model.JobRequirementQualification[j].enumToMonth, "Select", new { @class = "custom-select" })
+                                        @Html.ValidationMessageFor(m => Model.JobRequirementQualification[j].enumToMonth, "", new { @class = "text-danger" })
+                                        @*@Html.DropDownListFor(model => model.JobRequirementQualification[j].ToMonth, new SelectList(Model.JobRequirementQualification[j].ddlToMonth, "id", "value"), new { @class = "custom-select" })*@
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-lg-7 col-xl-7 col-sm-7 col-xs-7 mr-0">
+                                <div class="row pr-2">
+                                    @Html.EnumDropDownListFor(model => model.JobRequirementQualification[j].enumToYear, "Select", new { @class = "custom-select" })
+                                    @Html.ValidationMessageFor(m => Model.JobRequirementQualification[j].enumToYear, "", new { @class = "text-danger" })
+                                    @*@Html.DropDownListFor(model => model.JobRequirementQualification[j].ToYear, new SelectList(Model.JobRequirementQualification[j].ddlToYear, "id", "value"), new { @class = "custom-select" })*@
+
+                                </div>
+                            </div>
+
+                        </div>
+                     
+                        @*@Html.ValidationMessageFor(m => Model.CandidateEducationSummary[i].ToYear, "", new { @class = "text-danger" })*@
+                    </td>
+                    
+                    <td>
+                        @Html.EditorFor(model => model.JobRequirementQualification[j].DegreeDiploma, new { htmlAttributes = new { @class = "form-control", @maxlength = "200" } })
+                        @Html.ValidationMessageFor(m => Model.JobRequirementQualification[j].DegreeDiploma, "", new { @class = "text-danger" })
+                    </td>
+
+                    <td>
+                        @Html.EditorFor(model => model.JobRequirementQualification[j].University_Institute, new { htmlAttributes = new { @class = "form-control", @maxlength = "100" } })
+                        @Html.ValidationMessageFor(m => Model.JobRequirementQualification[j].University_Institute, "", new { @class = "text-danger" })
+                    </td>
+
+
+                    <td>
+                        @Html.EditorFor(model => model.JobRequirementQualification[j].Specialization_Subjects, new { htmlAttributes = new { @class = "form-control", @maxlength = "200" } })
+                        @Html.ValidationMessageFor(m => Model.JobRequirementQualification[j].Specialization_Subjects, "", new { @class = "text-danger" })
+                    </td>
+
+                    <td>
+                        <div class="row">
+
+                            <div class="col-lg-6 col-xl-6 col-sm-12 col-xs-12 pr-0">
+                                <div class="row">
+                                    <div class="col-lg-12 col-xl-12 col-sm-12 col-xs-12">
+                                        @Html.RadioButtonFor(model => model.JobRequirementQualification[j].Percentage_GradeSystem, true, new { id = "Percentage_GradeSystem_Per_" + j, @checked = true, onclick = "Per_Grade_Change(this.id,'" + j + "')" })
+                                        @Html.Label("Percentage", new { @for = "Percentage_GradeSystem_Per_" + j })
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-12 col-xl-12 col-sm-12 col-xs-12">
+
+                                        @Html.RadioButtonFor(model => model.JobRequirementQualification[j].Percentage_GradeSystem, false, new { id = "Percentage_GradeSystem_Gra_" + j, onclick = "Per_Grade_Change(this.id,'" + j + "')" })
+                                        @Html.Label("Grade", new { @for = "Percentage_GradeSystem_Gra_" + j })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-xl-6 col-sm-12 col-xs-12">
+                                @Html.EditorFor(model => model.JobRequirementQualification[j].Percentage, new { htmlAttributes = new { id = "Percentage_" + j, @class = "form-control text-right " + @Model.JobRequirementQualification[j].Per_GradeTextBoxCss, placeholder = "Percentage", @type = "number", @min = 1, @max = 100, @maxlength = "3" } })
+
+                                @if (Model.JobRequirementQualification[j].RegistrationID > 0 && Model.JobRequirementQualification[j].Percentage_GradeSystem)
+                                {
+                                    @Html.EditorFor(model => model.JobRequirementQualification[j].Grade, new { htmlAttributes = new { id = "Grade_" + j, @class = "form-control hide", placeholder = "Grade", @maxlength = "3" } })
+                                }
+                                else
+                                {
+                                    @Html.EditorFor(model => model.JobRequirementQualification[j].Grade, new { htmlAttributes = new { id = "Grade_" + j, @class = "form-control", placeholder = "Grade", @maxlength = "3" } })
+
+                                }
+
+
+                            </div>
+
+                        </div>
+                    </td>
+                    <td></td>
+                </tr>
+            }
+        }
+
+
+        @if (Model.CandidateEducationSummary != null && Model.CandidateEducationSummary.Count() > 0)
+        {
+            var sno_1 = Model.JobRequirementQualification != null && Model.JobRequirementQualification.Count > 0 ? Model.JobRequirementQualification.Count : 0;
+            for (int i = 0; i < Model.CandidateEducationSummary.Count(); i++)
+            {                
+                <tr>
+                    <td class="text-right">@(sno_1 + i + 1)<text>.</text> </td>
+                    <td>
+
+                        @Html.EnumDropDownListFor(model => model.CandidateEducationSummary[i].OtherQualificationType, "Select", new { @class = "custom-select" })
+                        @Html.ValidationMessageFor(m => Model.CandidateEducationSummary[i].OtherQualificationType, "", new { @class = "text-danger" })
+
+                    </td>
+                    <td style="width:10%">
+                        <div class="row">
+
+                            <div class="col-lg-5 col-xl-5 col-sm-5 col-xs-5">
+                                <div class="row p1-1">
+                                    <div class="col-lg-12 col-xl-12 col-sm-12 col-xs-12 pl-2 pr-0">
+
+                                     
+                                        @Html.EnumDropDownListFor(model => model.CandidateEducationSummary[i].enumFromMonth, "Select", new { @class = "custom-select" })
+                                        @Html.ValidationMessageFor(m => Model.CandidateEducationSummary[i].enumFromMonth, "", new { @class = "text-danger" })
+                                    @*@Html.DropDownListFor(model => Model.CandidateEducationSummary[i].FromMonth, new SelectList(Model.CandidateEducationSummary[i].ddlFromMonth, "id", "value"), new { @class = "custom-select" })*@
+                                    </div>
+                                </div>
+                              
+                            </div>
+                            <div class="col-lg-7 col-xl-7 col-sm-7 col-xs-7 mr-0">
+                                <div class="row pr-1">
+                                    @Html.EnumDropDownListFor(model => model.CandidateEducationSummary[i].enumFromYear, "Select", new { @class = "custom-select" })
+                                    @Html.ValidationMessageFor(m => Model.CandidateEducationSummary[i].enumFromYear, "", new { @class = "text-danger" })
+                                    @*@Html.DropDownListFor(model => Model.CandidateEducationSummary[i].FromYear, new SelectList(Model.CandidateEducationSummary[i].ddlFromYear, "id", "value"), new { @class = "custom-select" })*@
+                                </div>
+                            </div>
+
+                        </div>
+
+                        @Html.HiddenFor(model => model.CandidateEducationSummary[i].RegistrationID)
+                        @Html.HiddenFor(model => model.CandidateEducationSummary[i].CreatedBy)
+                        @Html.HiddenFor(model => model.CandidateEducationSummary[i].CreatedOn)
+                        @Html.HiddenFor(model => model.CandidateEducationSummary[i].Per_GradeTextBoxCss)
+                  
+
+                        @*@Html.ValidationMessageFor(m => Model.CandidateEducationSummary[i].FromYear, "", new { @class = "custom-select" })*@
+
+                    </td>
+                    <td style="width:10%">
+
+                        <div class="row">
+
+                            <div class="col-lg-5 col-xl-5 col-sm-5 col-xs-5">
+                                <div class="row p1-1">
+                                    <div class="col-lg-12 col-xl-12 col-sm-12 col-xs-12 pl-2 pr-0">
+                                        @Html.EnumDropDownListFor(model => model.CandidateEducationSummary[i].enumToMonth, "Select", new { @class = "custom-select" })
+                                        @Html.ValidationMessageFor(m => Model.CandidateEducationSummary[i].enumToMonth, "", new { @class = "text-danger" })
+                                        @*@Html.DropDownListFor(model => Model.CandidateEducationSummary[i].ToMonth, new SelectList(Model.CandidateEducationSummary[i].ddlToMonth, "id", "value"), new { @class = "custom-select" })*@
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-lg-7 col-xl-7 col-sm-7 col-xs-7 mr-0">
+                                <div class="row pr-1">
+                                    @Html.EnumDropDownListFor(model => model.CandidateEducationSummary[i].enumToYear, "Select", new { @class = "custom-select" })
+                                    @Html.ValidationMessageFor(m => Model.CandidateEducationSummary[i].enumToYear, "", new { @class = "text-danger" })
+                                    @*@Html.DropDownListFor(model => Model.CandidateEducationSummary[i].ToYear, new SelectList(Model.CandidateEducationSummary[i].ddlToYear, "id", "value"), new { @class = "custom-select" })*@
+                                </div>
+                            </div>
+
+                        </div>
+                        @Html.HiddenFor(model => model.CandidateEducationSummary[i].FromMonth)
+                        @Html.HiddenFor(model => model.CandidateEducationSummary[i].FromYear)
+                        @Html.HiddenFor(model => model.CandidateEducationSummary[i].ToMonth)
+                        @Html.HiddenFor(model => model.CandidateEducationSummary[i].ToYear)
+
+                        @*@Html.ValidationMessageFor(m => Model.CandidateEducationSummary[i].ToYear, "", new { @class = "text-danger" })*@
+                    </td>
+
+                    <td>
+                        @Html.EditorFor(model => model.CandidateEducationSummary[i].DegreeDiploma, new { htmlAttributes = new { @class = "form-control", @maxlength = "200" } })
+                        @Html.ValidationMessageFor(m => Model.CandidateEducationSummary[i].DegreeDiploma, "", new { @class = "text-danger" })
+                    </td>
+
+                    <td>
+                        @Html.EditorFor(model => model.CandidateEducationSummary[i].University_Institute, new { htmlAttributes = new { @class = "form-control", @maxlength = "100" } })
+                        @Html.ValidationMessageFor(m => Model.CandidateEducationSummary[i].University_Institute, "", new { @class = "text-danger" })
+                    </td>
+
+
+                    <td>
+                        @Html.EditorFor(model => model.CandidateEducationSummary[i].Specialization_Subjects, new { htmlAttributes = new { @class = "form-control", @maxlength = "200" } })
+                        @Html.ValidationMessageFor(m => Model.CandidateEducationSummary[i].Specialization_Subjects, "", new { @class = "text-danger" })
+                    </td>
+
+                    <td>
+                        <div class="row">
+
+                            <div class="col-lg-6 col-xl-6 col-sm-12 col-xs-12 pr-0">
+                                <div class="row">
+                                    <div class="col-lg-12 col-xl-12 col-sm-12 col-xs-12">
+                                        @Html.RadioButtonFor(model => model.CandidateEducationSummary[i].Percentage_GradeSystem, true, new { id = "Percentage_GradeSystem_Per_" + (sno_1 + i + 1), @checked = true, onclick = "Per_Grade_Change(this.id,'" + (sno_1 + i + 1) + "')" })
+                                        @Html.Label("Percentage", new { @for = "Percentage_GradeSystem_Per_" + (sno_1 + i + 1) })
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-12 col-xl-12 col-sm-12 col-xs-12">
+
+                                        @Html.RadioButtonFor(model => model.CandidateEducationSummary[i].Percentage_GradeSystem, false, new { id = "Percentage_GradeSystem_Gra_" + (sno_1 + i + 1), onclick = "Per_Grade_Change(this.id,'" + (sno_1 + i + 1) + "')" })
+                                        @Html.Label("Grade", new { @for = "Percentage_GradeSystem_Gra_" + (sno_1 + i + 1) })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-xl-6 col-sm-12 col-xs-12">
+
+                                @if (Model.CandidateEducationSummary[i].RegistrationID > 0 && Model.CandidateEducationSummary[i].Percentage_GradeSystem)
+                                {
+
+                                    @Html.EditorFor(model => model.CandidateEducationSummary[i].Percentage, new { htmlAttributes = new { id = "Percentage_" + (sno_1 + i + 1), @class = "form-control text-right " + @Model.CandidateEducationSummary[i].Per_GradeTextBoxCss, placeholder = "Percentage", @type = "number", @min = 1, @max = 100, @maxlength = "3" } })
+
+                                }
+                                else
+                                {
+                                    @Html.EditorFor(model => model.CandidateEducationSummary[i].Percentage, new { htmlAttributes = new { id = "Percentage_" + (sno_1 + i + 1), @class = "form-control text-right " + @Model.CandidateEducationSummary[i].Per_GradeTextBoxCss, placeholder = "Percentage", @type = "number", @min = 1, @max = 100, @maxlength = "3" } })
+
+                                }
+
+                                @if (Model.CandidateEducationSummary[i].RegistrationID > 0 && Model.CandidateEducationSummary[i].Percentage_GradeSystem)
+                                {
+                                    @Html.EditorFor(model => model.CandidateEducationSummary[i].Grade, new { htmlAttributes = new { id = "Grade_" + (sno_1 + i + 1), @class = "form-control hide", placeholder = "Grade", @maxlength = "3" } })
+                                }
+                                else
+                                {
+                                    @Html.EditorFor(model => model.CandidateEducationSummary[i].Grade, new { htmlAttributes = new { id = "Grade_" + (sno_1 + i + 1), @class = "form-control", placeholder = "Grade", @maxlength = "3" } })
+                                }
+
+                            </div>
+
+                        </div>
+                    </td>
+                    <td class="text-center">
+
+                        @Ajax.ActionLink("Remove",
+                             "_RemoveCandidateEducRow", new
+                             {
+                                 sNo = Model.CandidateEducationSummary[i].sno
+                             },
+                             new AjaxOptions
+                             {
+                                 // OnBegin = "OnBegin('tr_" + @sno + "')",
+                                 // OnSuccess = "OnRowDeletedSuccess",
+                                 UpdateTargetId = "div-form-CandidateEducation-grid",
+                                 InsertionMode = InsertionMode.Replace,
+                                 Confirm = "Are you sure you want to remove this row?",
+                                 HttpMethod = "GET"
+                             }, new { @class = "btn btn-danger btn-xs toggle-tooltip btn-sectionAddRow", @title = "Click here, to remove this row." })
+                    </td>
+
+                </tr>
+
+            }
+        }
+        @*else
+            {
+                <tr>
+                    <td colspan="12" class="text-center">No Record Found. </td>
+                </tr>
+            }*@
+    </tbody>
+
+</table>
+<script type="text/javascript">
+
+    function Per_Grade_Change(controlID, indx) {
+        debugger;
+        var contrl = controlID.substring(26, 0);
+        if (contrl == 'Percentage_GradeSystem_Per') {
+            $('#Percentage_' + indx).show();
+            $('#Grade_' + indx).hide();
+        }
+        else {
+            $('#Percentage_' + indx).hide();
+            $('#Grade_' + indx).show();
+        }
+
+    }
+
+</script>

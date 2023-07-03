@@ -1,0 +1,137 @@
+﻿@using Nafed.MicroPay.Model
+@model MicroPay.Web.Models.AttendanceImportViewModel
+
+@{ 
+    // var messageHeaderClass = Model.NoOfErrors == 0 ? "hide" : null;
+    var validationResultMsg = Model.NoOfErrors > 0 ? string.Format("{0} error(s) found ,Please check the sheet and reupload.", Model.NoOfErrors.ToString())
+        : "Sheet validated successfully, Press save button to submit the data."
+        ;
+    var msgClass = Model.NoOfErrors > 0  ? "alert alert-danger" :  "alert alert-success";
+
+    validationResultMsg= Model.NoOfErrors==-1 ? "Please select file." :
+        Model.NoOfErrors==-2 ? "Please select valid file." : validationResultMsg ;
+
+    msgClass = Model.NoOfErrors == -1 ? "alert alert-danger" :
+Model.NoOfErrors == -2 ? "alert alert-danger" : msgClass;
+
+}
+<script src="~/Scripts/popper.min.js"></script>
+
+<script>
+    $('.toggle-tooltip').tooltip();
+
+    if(@Model.NoOfErrors==0){
+
+        $('#btnSave').removeClass('hide');
+    }
+
+
+   
+</script>
+
+
+<div id="validation-hdr" class="pull-right @msgClass" role="alert">
+        
+    @validationResultMsg
+</div>
+
+<table id="" class="table table-centered table-striped dt-responsive w-100">
+    <thead>
+        <tr>
+            <th>
+                #
+            </th>
+            <th>
+                Employee Code
+            </th>
+            <th>
+                Employee Name
+            </th>
+            <th>
+                In Date
+            </th>
+
+            <th>
+                In Time
+            </th>
+            <th>
+                Out Time
+            </th>
+            <th>
+                Remarks
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            int index = 1;
+            if (Model != null && Model.attendanceData.Count > 0)
+            {
+                Dictionary<string, string> dicErrorMsg = Model.ErrorMsgCollection;
+
+                foreach (var item in Model.attendanceData)
+                {
+
+                    string[] arrError = item.error.Split('|').ToArray();
+                    string[] arrWarning = item.warning.Split('|').ToArray();
+
+                    string empCodeTitle = (arrError[1].Length > 0) ? string.Format(dicErrorMsg[arrError[1]],"Employee Code") : "";
+                    string inDateTitle = (arrError[3].Length > 0) ? string.Format(dicErrorMsg[arrError[3]]) : "";
+                    string inTimeTitle = (arrError[4].Length > 0) ? string.Format(dicErrorMsg[arrError[4]]) : "";
+                    string outTimeTitle = (arrError[5].Length > 0) ? string.Format(dicErrorMsg[arrError[5]]) : "";
+                    string remarksTitle = (arrError[6].Length > 0) ? string.Format(dicErrorMsg[arrError[6]]) : "";
+
+                    string classEmpCode = (arrError[1].Length > 0) ? "error" : null;
+                    string classInDate = (arrError[3].Length > 0) ? "error" : null;
+                    string classInTime = (arrError[4].Length > 0) ? "error" : null;
+                    string classOutTime = (arrError[5].Length > 0) ? "error" : null;
+                    string classRemarks = (arrError[6].Length > 0) ? "error" : null;
+
+                    if (!item.isDuplicatedRow)
+                    {
+                    <tr>
+                        <td> @index</td>
+                        <td title="@empCodeTitle" class="toggle-tooltip @classEmpCode"> @item.EmpCode</td>
+                        <td> @item.EmployeeName</td>
+                        <td title="@inDateTitle" class="toggle-tooltip @classInDate"> @item.InDate</td>
+                        <td title="@inTimeTitle" class="toggle-tooltip @classInTime"> @item.InTime</td>
+                        <td title="@outTimeTitle" class="toggle-tooltip @classOutTime"> @item.OutTime</td>
+                        <td title="@remarksTitle" class="toggle-tooltip @classRemarks">
+                        
+                            <label class="label-ellipsis">
+                                @item.Remarks
+                            </label>
+                            
+                        
+                        </td>
+                    </tr>
+                    }
+                    else
+                    {
+
+                        <tr title="Duplicate Row Found" class="error toggle-tooltip">
+                            <td> @index</td>
+                            <td title="@empCodeTitle" class="toggle-tooltip @classEmpCode"> @item.EmpCode</td>
+                            <td> @item.EmployeeName</td>
+                            <td title="@inDateTitle" class="toggle-tooltip @classInDate"> @item.InDate</td>
+                            <td title="@inTimeTitle" class="toggle-tooltip @classInTime"> @item.InTime</td>
+                            <td title="@outTimeTitle" class="toggle-tooltip @classOutTime"> @item.OutTime</td>
+                            <td title="@remarksTitle" class="toggle-tooltip @classRemarks">
+
+                                <label class="label-ellipsis">
+                                    @item.Remarks
+                                </label>
+
+
+                            </td>
+                        </tr>
+                    }
+                    index++;
+                }
+            }
+
+        }
+
+    </tbody>
+</table>
+

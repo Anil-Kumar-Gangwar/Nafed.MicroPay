@@ -1,0 +1,20 @@
+﻿@using MvcCheckBoxList.Model
+@using Nafed.MicroPay.Model
+@using MicroPay.Web.Models
+@model CheckBoxListViewModel
+
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="div-chk-list-container">
+
+    @Html.CheckBoxListFor(model => model.PostedFields.fieldIds,
+                                      model => model.AvailableFields,
+                                      model => model.Id,
+                                      model => model.Name,
+                                      model => model.SelectedFields,
+                                      position: Position.Vertical)
+
+</div>
+
+
+
+
+

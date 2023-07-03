@@ -1,0 +1,17 @@
+﻿@model MicroPay.Web.Models.BranchMgrReportFilter
+@{
+    ViewBag.Title = "Branch Manager";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+ 
+<div class="">
+    <div class="card_new_body">
+        @using (Ajax.BeginForm("BranchManagerDetails", "BranchManager", new AjaxOptions { HttpMethod = "POST", OnSuccess = "OnReportSuccess" }))
+        {
+            <div id="div-report-filters">
+                @Html.Action("_ReportFilter")
+            </div>
+        }
+    </div>
+</div>

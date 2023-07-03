@@ -1,0 +1,127 @@
+﻿@using Nafed.MicroPay.Common;
+@using Nafed.MicroPay.Model;
+
+@model List<NonRefundablePFLoan>
+@{
+    var uDetails = (UserDetail)Session["user"];
+}
+
+
+<table id="tblGrid-NRPFLoan" class="table_card table table-centered table-striped text-left dt-responsive w-100 mt-2">
+    <thead>
+        <tr>
+            <th scope="col">
+                #
+            </th>
+            <th scope="col">
+                Name
+            </th>
+        
+            <th scope="col">
+                Department
+            </th>
+            <th scope="col">
+                Designation
+            </th>
+            <th scope="col">
+                Status
+            </th>
+            <th scope="col" class="text-center" style="width:60px">
+                Action
+            </th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @{
+
+            var totalLTCpending = 0;
+            if (Model != null && Model.Count() > 0)
+            {
+               
+                var sno = 1;
+
+                foreach (var item in Model)
+                {
+
+                    if (uDetails.EmployeeID == item.EmpProceeApproval.ReportingTo)
+                    {
+                        if (item.FormStatus == (int)NRPFLoanFormState.SubmitedByEmployee || item.FormStatus == (int)NRPFLoanFormState.AcceptedByReporting  )
+                        {
+                                <tr>
+                                    <td data-label="S.No.">@sno</td>
+                                    @*<td> @item.Employeecode</td>*@
+                                    <td data-label="Name">@item.Employeecode - @item.Employeename</td>
+                                    <td data-label="Department"> @item.DepartmentName</td>
+                                    <td data-label="Designation"> @item.DesignationName</td>
+                                    <td  data-label="Status" class="text-center">
+                                        @if (item.FormStatus == (int)NRPFLoanFormState.SubmitedByEmployee)
+                                        {
+                                            <h5 class="mb-0">
+                                                <span class="badge badge-pill bg-teal col-md-12">
+                                                    Submitted by Employee
+                                                </span>
+                                            </h5>
+                                        }
+                                        else if (item.FormStatus == (int)NRPFLoanFormState.AcceptedByReporting)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill bg-teal col-md-12">
+                                                   Approved by Secretary
+                                                </span>
+
+                                            </h5>
+                                        }
+                                      
+                                        else if (item.FormStatus == (int)NRPFLoanFormState.RejectedByReporting)
+                                        {
+                                            <h5>
+                                                <span class="badge badge-pill badge-danger col-md-12">
+                                                    Rejected by Secretary
+                                                </span>
+                                            </h5>
+                                        }
+
+                                    </td>
+
+                                    @*@if (Model.userRights.Edit)
+                                        {*@
+
+                                    <td  data-label="Action" class="text-center">
+                                        @*<a href="@Url.Action("Create", "NonRefundablePFLoan", new {NRPFLoanID =item.NRPFLoanID,StatusID=item.StatusID, reportingTo = item.EmpProceeApproval.ReportingTo, reviewingTo = item.EmpProceeApproval.ReviewingTo, acceptanceAuthority =item.EmpProceeApproval.AcceptanceAuthority, empID = item.EmployeeId})" title="Click here, to view this record" data-toggle="tooltip">
+                                            <i class="far fa-eye text-info" aria-hidden="true"></i>
+                                        </a>*@
+                                        @Html.EncodedImageActionLink("", "Create", "NonRefundablePFLoan", new { NRPFLoanID = item.NRPFLoanID, StatusID = item.StatusID, reportingTo = item.EmpProceeApproval.ReportingTo, reviewingTo = item.EmpProceeApproval.ReviewingTo, acceptanceAuthority = item.EmpProceeApproval.AcceptanceAuthority, empID = item.EmployeeId }, new { @class = "toggle-tooltip", title = "Click here, to view this record" }, "~/Images/view.png")
+                                    </td>
+                                    @*}*@
+                                </tr>
+                                if (item.FormStatus == (int)NRPFLoanFormState.SubmitedByEmployee)
+                                {
+                                    totalLTCpending = Model.Where(x => x.FormStatus == (int)NRPFLoanFormState.SubmitedByEmployee).Count();
+                                }
+                            }
+                        }
+                    sno++;
+                }
+
+
+                @*<script type="text/javascript">
+                    $("#NRPFLoanApprovalReqCount").text(@totalLTCpending);
+                </script>*@
+
+            }
+
+        }
+
+    </tbody>
+
+
+
+</table>
+
+<script type="text/javascript">
+    $("#NRPFLoanApprovalReqCount").text(@totalLTCpending);
+    var table = $('#tblGrid-NRPFLoan').DataTable({
+    });
+    $('#tblGrid-NRPFLoan').find('select').addClass('custom-select');
+</script>

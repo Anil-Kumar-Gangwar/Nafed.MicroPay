@@ -1,0 +1,78 @@
+﻿@model MicroPay.Web.Models.SalaryManualDataViewModel
+@using Nafed.MicroPay.Common;
+
+<table id="tblGrid" class="table table-centered table-striped dt-responsive w-100">
+    <thead>
+        <tr>
+            <th>
+                #
+            </th>
+            <th>
+                Code
+            </th>
+            <th>
+                Employee
+            </th>
+            <th class="text-right">
+                Month
+            </th>
+            <th class="text-right">
+                Year
+            </th>
+            @if (Model.userRights.Edit)
+            {
+                <th class="text-center" style="width:60px">
+                    Edit
+                </th>
+            }
+            @if (Model.userRights.Delete)
+            {
+                <th class="text-center" style="width:60px">
+                    Delete
+                </th>
+            }
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            int index = 1;
+            if (Model != null && Model.SalaryManualDataList.Count > 0)
+            {
+                foreach (var item in Model.SalaryManualDataList)
+                {
+                    <tr>
+                        <td> @index</td>
+                        <td> @item.Empcode</td>
+                        <td> @item.Empname</td>
+                        <td class="text-right"> @item.SalMonth</td>
+                        <td class="text-right"> @item.SalYear</td>
+
+                        @if (Model.userRights.Edit)
+                        {
+                            <td class="text-center">
+                                @*<a href="@Url.Action("Edit", "SalaryManualData", new { ID = @item.ID })" title="Click here, to edit this record" data-toggle="tooltip">
+                                    <span class="far fa-edit text-info" aria-hidden="true"></span>
+                                </a>*@
+                                @Html.EncodedImageActionLink("", "Edit", "SalaryManualData", new { ID = @item.ID }, new { @class = "toggle-tooltip", title = "Click here, to edit this record" }, "~/Images/edit.png")
+                            </td>
+                        }
+                        @if (Model.userRights.Delete)
+                        {
+                            <td class="text-center">
+                                @*<a class="toggle-tooltip" data-toggle="confirm" href="@Url.Action("Delete", "SalaryManualData", new { ID = @item.ID })" title="Click here, to delete this record">
+                                    <span class="far fa-trash-alt text-danger" aria-hidden="true"></span>
+                                </a>*@
+                                @Html.EncodedImageActionLink("", "Delete", "SalaryManualData", new { ID = @item.ID }, new { @class = "toggle-tooltip", title = "Click here, to delete this record" }, "~/Images/delete.png", true)
+                            </td>
+                        }
+                    </tr>
+                    index++;
+                }
+            }
+
+        }
+
+    </tbody>
+</table>
+
+

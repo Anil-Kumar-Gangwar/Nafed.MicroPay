@@ -1,0 +1,686 @@
+﻿@model MicroPay.Web.Models.EmployeeAppraisalViewModel
+@using Nafed.MicroPay.Model;
+@{
+    ViewBag.Title = "Annual Performance Appraisal Report History";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var uDetails = (UserDetail)Session["user"];
+    System.Globalization.CultureInfo Indian = new System.Globalization.CultureInfo("hi-IN");
+}
+
+
+@*<div class="">
+        <div>
+            @Html.Partial("_AppraisalStatusBar")
+
+        </div>
+        <div class="card_new_header text-right">
+
+
+               @if (Model.empAppraisalFormID.HasValue)
+               {
+                 @Html.ActionLink("New Application for Appraisal Form ", "AppraisalList", "Appraisal", new { appraisalFormID= Model.empAppraisalFormID.Value,empID= uDetails.EmployeeID}, new { @class = "btn btn-info btn-md", title = "Click here to add New Application for Appraisal Form", @data_toggle = "tooltip" })
+               }
+        </div>
+        <div class="card_new_body">
+            <div id="">
+                @Html.Action("EmployeeGridView")
+            </div>
+        </div>
+
+    </div>*@
+
+@*<script type="text/javascript">
+        //function APARSuccess(data) {
+        //    if (data.type == "1")
+        //    {
+        //        $("#modalAPAR").modal("show");
+        //    }
+        //}
+        $(document).ready(function () {
+            $(".clickClass").click(function (e) {
+                $.ajax({
+                    url: "@Url.Action("SkillSetDefine", "Appraisal")",
+                    type: "POST",
+                    dataType: "JSON",
+                    data: {},
+                    success: function (data) {
+                        if (data) {
+                            //alert("A");
+                            return true;
+                        }
+                        else {
+                            // alert("B");
+                            //$(".clickClass").attr("href", "#").trigger("click");
+                            //e.stopPropagation();
+                            top.location.href = document.location.href;
+                            $("#modalAPAR").modal("show");
+                            return false;
+                           // top.location.href = document.location.href;
+                        }
+                    }
+                });
+            });
+        });
+
+    </script>*@
+
+
+<div class="">
+    <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+            <a data-toggle="modal" class="font-weight-bold text-danger" data-target="#forms-guideline" href="#">
+                <i class="fas fa-book-open"></i>
+                APAR - Important Instructions
+            </a>            
+
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 card_new_header text-right">
+            @*@Html.ActionLink("Back", "Index", "CompetencyAPAR", null, new { @class = "btn btn-light btn-md", title = "Click here, to go to back on previous screen.", @data_toggle = "tooltip" })*@
+            @if (uDetails.AppraisalFormID.HasValue && uDetails.UserTypeID != 1)
+            {
+                @*using (Ajax.BeginForm("Edit", "Appraisal", new { @appraisalFormID = Model.empAppraisalFormID.Value, @reportingTo = Model.approvalSetting.ReportingTo, @reviewingTo = Model.approvalSetting.ReviewingTo, @acceptanceAuthority = Model.approvalSetting.AcceptanceAuthority, @empID = uDetails.EmployeeID }, new AjaxOptions { HttpMethod = "POST", OnSuccess = "APARSuccess" }))
+                    {
+                    <input type="submit" value="Annual Performance Appraisal Report" id="btnSave" name="ButtonType" class="btn btn-info btn-md toggle-tooltip " title="Click here, to create new record" />
+                    }*@
+
+                @*@Html.ActionLink("Annual Performance Appraisal Report", "Edit", "Appraisal", new { appraisalFormID = Model.empAppraisalFormID.Value, reportingTo = Model.approvalSetting.ReportingTo, reviewingTo = Model.approvalSetting.ReviewingTo, acceptanceAuthority = Model.approvalSetting.AcceptanceAuthority, empID = uDetails.EmployeeID }, new { @class = "btn btn-info btn-md clickClass", title = "Click here, to submit Annual Performance Appraisal Report", @data_toggle = "tooltip" })*@
+                @*<span class="btn btn-info btn-md" data-toggle="modal" data-target="#modalAPAR">Annual Performance Appraisal Report</span>*@
+                @*@Ajax.ActionLink("Annual Performance Appraisal Report",
+                    "Edit", "Appraisal",
+                    new
+                    {
+                    appraisalFormID = Model.empAppraisalFormID.Value,
+                    reportingTo = Model.approvalSetting.ReportingTo,
+                    reviewingTo = Model.approvalSetting.ReviewingTo,
+                    acceptanceAuthority = Model.approvalSetting.AcceptanceAuthority,
+                    empID = uDetails.EmployeeID
+                    }
+                    ,null,
+                    //new AjaxOptions
+                    //{
+                    //    //OnBegin = "return OnBegin()",
+                    //   // OnBegin = "OnBegin",
+                    //},
+                    new { @class = "btn btn-info btn-md toggle-tooltip clickClass",@id="lnk-post-button", @title = "Click here, to create new record." })*@
+
+
+            }
+        </div>
+    </div>
+    <div class="card_new_body">
+        <div id="">
+            @Html.Action("MyAppraisalList")
+        </div>
+    </div>
+
+</div>
+
+
+<div class="modal fade" id="forms-guideline" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-big" role="document">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <h4 class="modal-title w-100 font-weight-bold">APAR - Important Instructions</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body mx-3">
+                <p>                   
+                      <div class="text-center">
+                          <h3>
+                              AMENDED RULES AND PROCEDURE PERFORMANCE APPRAISAL
+                              </h3>
+</div>
+                    
+                </p>
+                <p class="mb-4">
+                    <h4 class="text-danger">Note: All the mandatory input fields are mark with (*) sign in the APAR form, kindly check that all the mandatory fields should be filled before submited you forms.</h4>
+                </p>
+              
+                <p>
+                    1.	These rules may be called the Annual Performance Appraisal Rules (APAR) for the employees of the National Agricultural Cooperative Marketing Federation of India Limited (NAFED).
+                </p>
+                <p>
+                    2.	They shall come into force with effect from 2016-17
+                </p>
+                <p>
+                    3.	Definition
+                </p>
+                <p>
+                    In these Rules unless the context otherwise requires:<br />
+                    (a)	"Federation" means the National Agricultural Cooperative Marketing Federation of India Ltd.
+
+                </p>
+                <p>
+                    (b)	"Board" means the Board of Directors of the Federation.
+                </p>
+                <p>
+                    (c)	"Officer" means an employee of the Federation who is not a workman within the meaning of either Industrial Disputes Act, 1947 or Industrial Employment (Standing Order) Act, 1946 and shall include such employees as have been declared as holding managerial or confidential position under the Factories Act 1948 and Rules made there under.
+                </p>
+                <p>
+                    (d)	"Employee other than Officer" means an employee of the Federation who is not covered by the Clause 3(C) above.
+                </p>
+                <p>
+                    (e)  Reporting/ Reviewing/ Accepting Authority as per following:
+                </p>
+                <table id="tblgrd" class="table table-bordered table-centered dt-responsive w-100">
+                    <thead>
+                        <tr>
+                            <th class="text-right" style="width:5%">SL.No.</th>
+                            <th class="text-center">Category</th>
+                            <th class="text-center">Reporting Officer</th>
+                            <th class="text-center">Reviewing Officer </th>
+                            <th class="text-center">Accepting Authority </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>Upto AM-II/AM-II (A/cs) and all equivalent post</td>
+                            <td>Branch Manager / Sectional Head</td>
+                            <td>State Coordinator Or Divisional Head</td>
+                            <td>Divisional Head of Personnel Division</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>AM to Dy. Manager /AM (A/cs)/ Dy. Manager (A/cs) and equivalent post</td>
+                            <td>Sectional Head/ Branch Manager</td>
+                            <td>State Coordinator Or Divisional Head</td>
+                            <td>
+                                AMD Or Sr most ED There will be no need of Accepting Authority as the AMD/Sr ED is the Reviewing Officer.
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>3</td>
+                            <td>Manager / Manager (F&A) / Branch Manager and equivalent post</td>
+                            <td>
+                                State Coordinator Or Divisional Head
+                            </td>
+                            <td>Managing Director</td>
+                            <td>Chairman</td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td>GM/GM (F&A)/ ED/AMD</td>
+                            <td>Managing Director</td>
+                            <td>Chairman</td>
+                            <td>There will be no need of Accepting Authority as the Chairman is the Reviewing Officer.</td>
+                        </tr>
+
+                    </tbody>
+                </table>
+                <p>
+                    (f)	"Management" for the purpose of these rules means the Managing Director of the NACMF Ltd. or any other officer of NACMF or General Manager/Project Head/Unit Head by any designation authorized by him (MD) to act as such on his behalf in respect of the Industrial Unit.
+                </p>
+                <p>
+                    (g)	"Custodian of Appraisal Forms" means the officer authorised by the Management to keep in custody the appraisal forms of the Project or Head Office or Branches as the case may be.
+                </p>
+                <p>
+                    (h)	"Form" means a form appended to these Rules.
+                </p>
+                <p>
+                    (i)	"Cooperative Year" means the period commencing from the first day of April of a calendar year and ending with the 31st March of the following calendar year.
+                </p>
+
+                <p>
+                    <b>
+                        4.     Who will submit APAR <br />
+                    </b>
+                    Self Appraisal form to be filled by all employees except category G & H i.e  Drivers, Dispatch Riders , Grading Attendant, Daftries, Peons and  Multi Tasking Staff  in prescribed format. 
+                </p>
+
+
+                <p>
+                    <b>
+                        5.     Types of Appraisal Forms <br />
+                    </b>
+                    The appraisal forms for employees of the Federation shall be as under :
+                </p>
+
+                <p>
+                    A)	APAR FORM 'A' : For AMD & EDs level Officers.
+                </p>
+
+                <p>
+                    B)	APAR Form 'B' :    For General Managers  and Managers and equivalent  post officers.
+                </p>
+                <p>
+                    C)	APAR FORM 'C' :   For Dy. Managers & Asstt. Managers or equivalent post officers.
+                </p>
+                <p>
+                    D)	APAR FORM 'D' : For  Sr. PS to Stenographers or equivalent post staff.
+                </p>
+                <p>
+                    E)	APAR Form 'E' :   For AM-II to Assistants or equivalent post  staff
+                </p>
+                <p>
+                    F)	APAR FORM 'F' :   For Jr. Assistant to Clerk cum typist and equivalent post.
+                </p>
+                <p>
+                    G)	ACR  FORM 'G' :   For Drivers/ Dispatch Riders.
+                </p>
+                <p>
+                    H)	ACR FORM 'H' :   For Grading Attendant/ Daftries/ Peons/ Multi Tasking Staff.
+                </p>
+                <p>
+                    <b>
+                        6.    Time schedule for preparation/completion of APAR (Reporting year- Financial year)
+                    </b>
+                </p>
+                <table id="tblgrd1" class="table table-bordered table-centered dt-responsive w-100">
+                    <thead>
+                        <tr>
+                            <th class="text-right" style="width:5%">SL.No.</th>
+                            <th class="text-center">Activity</th>
+                            <th class="text-center">Date by which to be completed</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>Distribution of blank APAR forms to all concerned (i.e., to officer to be reported upon where self-appraisal has to be given and to reporting officers where self-appraisal is not to be given)</td>
+                            <td>
+                                24th May, 2021                              
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>Submission of self-appraisal to reporting officer by officer to be reported upon (where applicable).</td>
+                            <td>20th June, 2021 </td>
+
+                        </tr>
+
+                        <tr>
+                            <td>3</td>
+                            <td>Submission of report by reporting officer to reviewing officer</td>
+                            <td>
+                                20th July, 2021
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td>Report to be completed by Reviewing Officer and to be sent to Administration or CR Section/Cell or accepting authority, wherever provided.</td>
+                            <td>20th August, 2021</td>
+                        </tr>
+                        <tr>
+                            <td>5</td>
+                            <td>Appraisal by accepting authority, wherever provided</td>
+                            <td>20th September, 2021</td>
+                        </tr>
+                        <tr>
+                            <td>6</td>
+                            <td>
+                                (a)	Disclosure to the officer reported upon where there is no accepting authority<br />
+                                (b)	Disclosure to the officer reported upon where there is accepting authority
+                            </td>
+                            <td>30th September, 2021<br /> 30th September, 2021</td>
+                        </tr>
+                        <tr>
+                            <td>7</td>
+                            <td>Receipt of representation, if any, on APAR</td>
+                            <td>10 days from the date of receipt of communication</td>
+                        </tr>
+                        <tr>
+                            <td>8</td>
+                            <td>
+                                Forwarding of representations to the competent authority<br />
+                                (a) where there is no accepting authority for APAR<br />
+                                (b) where there is accepting authority for APAR
+                            </td>
+                            <td>10th October, 2021</td>
+                        </tr>
+                        <tr>
+                            <td>9</td>
+                            <td>Disposal of representation by the competent authority</td>
+                            <td>Within one month from the date of receipt of representation.</td>
+                        </tr>
+                        <tr>
+                            <td>10</td>
+                            <td>Communication of the decision of the competent authority on the representation by the APAR Cell</td>
+                            <td>15th November</td>
+                        </tr>
+                        <tr>
+                            <td>11</td>
+                            <td>End of entire APAR process, after which the APAR will be finally taken on record</td>
+                            <td>30th November </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+                <p>
+                    <b>
+                        7.  TIMELY COMPLETION OF ANNUAL PERFORMANCE  ASSESSMENT  REPORT
+                    </b>
+                </p>
+                <p>
+                    7.1 Annual Performance Assessment Reports are vital for proper personnel administration, it is essential that they are completed within a time-frame so that up-to- date Annual Performance Assessment Reports are available at any given time. With this end in view, a time-schedule has been prescribed above.
+                </p>
+                <p>
+                    7.2	After the expiry of the first week of the time-schedule, if the self appraisal is not received by that time, Reporting Officer should take it upon himself to remind the officer to be reported upon in writing, asking him to submit his self-appraisal. If no self-appraisal is received by the stipulated date, the reporting officer can obtain another blank APAR form and proceed to write the report on the basis of his experience of the work and conduct of the officer reported upon. While doing so, he can also point out the failure of the officer reported upon to submit his self-appraisal within the stipulated time.
+                </p>
+                <p>
+                    7.3	It has now been provided that in case the APAR is not initiated by the Reporting Officer for any reason beyond 30th June of the year in which the financial year ended, he shall forfeit his right to enter any remarks in the APAR of the officer to be reported upon and he shall submit all APARs held by him for reporting to the Reviewing Officer on the next working day.
+                </p>
+                <p>
+                    7.4	Similarly, the Reviewing Officer shall also forfeit his right to enter any remarks in the APAR beyond 31st August of the year in which the financial year ended.
+                </p>
+                <p>
+                    7.5	The Section entrusted with maintaining the APARs shall, while forwarding the APARs for self-appraisal with copy to the Reporting/Reviewing Officers also annexes the schedule of dates. It shall also bring to the notice of Managing Director, the names of those Reporting Officers and Reviewing Officers in the month of October after receiving the completed APARs who have failed to initiate/review the APARs even by 30th June or 31st August as the case may be.
+                </p>
+                <p>
+                    7.6	The Managing Director may direct to call for the explanation of the concerned officers for not having performed the duty of writing the APARs within the due date and in the absence of proper justification direct that a written warning for delay in completing the APAR be placed in the APAR folder of the defaulting officer concerned.
+                </p>
+                <p>
+                    7.7	In case the remarks of the Reporting officer or Reviewing Officer as the case may be have not been entered in the APAR due to the concerned officer forfeiting his right to make any entry as per the provision in para 2 above, a certificate to this effect shall be added in his APAR for the relevant period. In case both the Reporting officer and Reviewing officer had forfeited their rights to enter any remarks, the CR format with the self appraisal given by the officer to be reported upon will be placed in his ACR dossier.
+                </p>
+                <p>
+                    7.8	Wherever there is any gap in the APAR during a particular reporting period, it is the responsibility of the officer in-charge for maintaining the APAR to place a no report certificate indicating the reasons, e.g. the officer has not worked for minimum 3 months under a reporting officer; he was on leave/training during the period; he was on unathorised absence if it is a fact; the APAR could not be completed by lapse of the time limit for making remarks by the retired reporting/reviewing officer etc.
+                </p>
+                <p>
+
+                    <b>8.            APAR of Officers on deputation.</b>
+                </p>
+                <p>
+                    8.1	In the case of employees who are deputed to other Departments, State Governments or are on Foreign Service, the Annual Performance Assessment Report should be maintained by Nafed and the periodicity of such confidential reports should be the same as in the parent Departments.
+                </p>
+
+                <p>
+                    <b>9.	Custodian of the Appraisal Forms</b>
+                </p>
+                <p>
+                    9.1	The appraisal forms except the appraisal forms of the custodian and such other appraisal forms as may be specified hereafter, shall be kept under lock and key under the strict control of the custodian at Head Office.
+                </p>
+
+                <p>
+                    9.2	The appraisal forms of the Custodian/ Managers / Project Heads / Unit      /Branch heads shall be kept at the Head Office by the Managing Director/Personnel Officer or any other officer authorised in that behalf by the Managing Director.
+                </p>
+                <p>
+                    9.3	The Reviewing Officer shall have to see that the appraisal form submitted by the Reporting Officer is complete. Similarly, the officer who shall receive it for preservation, shall see that it is made complete by the Reporting and Reviewing Officers.
+                </p>
+                <p>
+                    <b>
+                        10.	Register/Record of the Appraisal Forms
+                    </b>
+                </p>
+                <p>
+                    10.1	The forms received by the custodian shall be recorded in a register in Form-X. Some pages shall be earmarkd for each Department Office/Project/Unit to be maintained separately for officers and employees. One page should be allotted for each officer or employee.
+                </p>
+                <p>
+                    10.2	These CRs will be maintained chronologically in double punched folded file covers and a "CR Dossier Form" in "Form-Y" will also be kept on top of the CRs as page 1 which shall be filled in by the custodian as and when a CR or any other document is added in the cover.
+                </p>
+
+
+                <p>
+                    10.3	The Appraisal Form maintained in file shall be issued only on production of written requisition of an officer, bearing, where necessary, the endorsement of the sanctioning authority to issue. The sanctioning authority is the Managing Director.
+                </p>
+                <p>
+                    <b>11. </b>Whenever any Reporting Officer or Reviewing Officer is transferred, resigns, retires or superannuates in the middle of the year wherever the employees under such Reporting Officer/Reviewing Officer have worked the period required for Reporting/Reviewing, the Reporting officer and/or Reviewing Officer shall make their reporting/reviewing in the prescribed appraisal form before leaving the organisation or project.
+                </p>
+                <p>
+                    11.1	Clearance and final payment to such officers will only be given after they have given their report in the Appraisal Forms or review of the appraisal forms, as the case may be, except when the service of such officer is terminated or he is discharged or dismissed.
+                </p>
+                <p>
+                    <b>
+                        12. <u>	CONTENTS OF ANNUAL PERFORMANCE ASSESSMENT REPORTS </u>
+                    </b>
+                </p>
+                <p>
+                    12.1 The form in which the Annual Performance Assessment Reports are recorded may vary between different departments and between different levels of responsibility within a departmental hierarchy depending upon the nature of work and duties attached to various posts. However, each Report should begin with the brief description of duties of the Nafed employees reported upon, the quantitative/physical targets/objectives set for him and his achievements against each target and shortfalls with reference to the targets and the constraints encountered if any and items where the achievements have been significantly higher.
+                </p>
+                <p>
+                    12.2     The filling up of the APAR will be governed by the following guidelines:-
+                </p>
+                <p>
+                    (i)	There is a box in the APAR for reflecting by the reporting officer the pen picture of the officer reported upon where the reporting officer will be required to indicate his comments on the overall qualities of the officer including areas of strengths and lesser strength and his attitude towards others. A column has added in the section relating to the reviewing authority for giving the reviewing authority's remarks on the pen picture reflected by the reporting officer. There is no other separate column in the APAR for overall assessment apart from the pen picture.
+                </p>
+                <p>
+                    (ii)	The APAR  have a provision in the relevant section for remarks by the reviewing officer to indicate specifically the differences, if any, with the assessment made by the reporting officer, and the reasons therefore.
+                </p>
+                <p>
+                    (iii)	Numerical grading are to be awarded by reporting and reviewing authorities for the quality of work output, personal attributes and functional competence of the officer reported upon. These should be on a scale of 1-10, where 1 refers to the lowest grade and 10 to the highest. The guidelines given in <b>Annexure-I</b> shall be kept in mind while awarding numerical gradings.
+                </p>
+                <p>
+                    (iv)	The format for the purpose of numerical grading for Group 'A' officers in the three areas of work output, assessment of personal attributes and assessment of functional competency is in <b>Annexure-II.</b> For Group 'B' and 'C' officials however, suitable changes may be made by the concerned cadre authorities in the items of assessment as per functional requirements of the job and the next promotional post for them. The overall grade on a score of 1-10 will be based on 40% weightage on assessment of work output, and 30% each for assessment of personal attributes and functional competency. The overall grading will be based on addition of the mean value of each group of indicators in proportion to weightage assigned.
+                </p>
+                <p>
+                    (v)	Wherever 'accepting authority' has been prescribed in the existing system in the cadre, columns are provided for such authority to give his comments on the remarks of the reporting/reviewing authority and details of difference of opinion, if any, with reasons for the same. In such cases, the accepting authority will also give overall grade on a score of 1-10.
+                </p>
+                <p>
+                    (vi)	There are a column in the APAR forms of all Group 'A' officers, indicating whether the officer had completed APARs of Group 'A' and B' officers working under him/her, in respect of the previous reporting year, within the stipulated time.
+                </p>
+                <p>
+                    12.3	There are also given  a column in the Annual Performance Assessment Report form for enabling the Reporting Officer to give his specific comments on the attitude of the Employee towards others , his understanding and his willingness to deal with them.
+                </p>
+                <p>
+                     <b>13 <u>Guidelines regarding filling up of APAR with numerical grading</u></b>
+                </p>
+                <p>
+                    (i)	The columns in the APAR should be filled with due care and attention and after devoting adequate time.
+                </p>
+                <p>
+                    (ii)	It is expected that any grading of 1 or 2 (against work output or attributes or overall grade) would be adequately justified in the pen-picture by way of specific failures and similarly, any grade of 9 or 10 would be justified with respect to specific accomplishments. Grades of 1-2 or 9-10 are expected to be rare occurrences and hence the need to justify them. In awarding a numerical grade the reporting and reviewing authorities should rate the officer against a larger population of his/her peers that may be currently working under them.
+                </p>
+                <p>
+                    (iii)	APARs	graded between 8 and 10 will be rated as 'outstanding' and will be given a score of 9 for the purpose of calculating average scores for empanelment/promotion.
+
+
+                </p>
+                <p>
+                    (iv)	APARs graded between 6 and short of 8 will be rated as 'very good' and will be given a score of 7.
+
+                </p>
+                <p>
+                    (v)	APARs graded between 4 and 6 short of 6 will be rated as 'good' and given a score of 5.
+
+                </p>
+                <p>
+                    (vi)	APARs graded below 4 will be given a score of zero.
+
+                </p>
+                <p>
+                    (vii)	Assessment of work output (weightage to this Section would be 40%)
+                </p>
+
+                <table id="tblgrd2" class="table table-bordered table-centered dt-responsive w-100">
+                    <thead>
+                        <tr>
+
+                            <th class="text-center"></th>
+                            <th class="text-center">Reporting Authority</th>
+                            <th class="text-center">Reviewing Authority</th>
+                            <th class="text-center">Initial of Reviewing Authority</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                i)	Accomplishment	of planned work/work allotted as per subjects allotted
+                                <br />
+                                ii)	Quality of output
+                                <br />
+                                iii)	Analytical ability
+                                <br />
+                                (iv)Accomplishment of exceptional work / unforeseen tasks performed
+                                <br />
+                                Overall Grading on 'Work Output'
+                            </td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+
+                    </tbody>
+                </table>
+                <p>
+                    (viii)	Assessment of personal attributes (weight age to this Section would be 30%)
+                </p>
+                <table id="tblgrd3" class="table table-bordered table-centered dt-responsive w-100">
+                    <thead>
+                        <tr>
+
+                            <th class="text-center"></th>
+                            <th class="text-center">Reporting Authority</th>
+                            <th class="text-center">Reviewing Authority</th>
+                            <th class="text-center">Initial of Reviewing Authority</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                i)	Attitude to work<br />
+                                ii)	Sense of responsibility<br />
+                                iii)	Maintenance of Discipline<br />
+                                iv)	Communication skills<br />
+                                v)	Leadership qualities<br />
+                                vii)	Capacity to adhere to time schedule<br />
+                                viii)	Inter-personal relationship<br />
+                                ix)	Overall bearing and personality<br />
+                                Overall Grading on personal attributes
+
+                            </td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+
+                    </tbody>
+                </table>
+                <p>
+                    (ix)	Assessment of functional competency (weightage to this Section would be 30%)
+                </p>
+                <table id="tblgrd3" class="table table-bordered table-centered dt-responsive w-100">
+                    <thead>
+                        <tr>
+
+                            <th class="text-center"></th>
+                            <th class="text-center">Reporting Authority</th>
+                            <th class="text-center">Reviewing Authority</th>
+                            <th class="text-center">Initial of Reviewing Authority</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                i)	Knowledge of Rules / Regulations /Procedures in the area of function and ability to apply them correctly.<br />
+                                ii)	Strategic planning ability<br />
+                                iii)	Decision making ability<br />
+                                iv)	Coordination ability<br />
+                                v)	Ability to motivate and develop subordinates<br />
+                                vi)	Initiative<br />
+                                Overall Grading on functional competency
+
+
+                            </td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+
+                    </tbody>
+                </table>
+                <p>
+                    <b>14      Confidential Reports-Recording of entry regarding "INTEGRITY"</b>
+                </p>
+                <p>
+                    The following procedure should be followed in filling up the column relating to the integrity in the confidential report of the employee by the Reporting /Reviewing Officers :<br />
+                    (i)	If the Employee’s integrity is beyond doubt, it may be so stated.
+                </p>
+                <p>
+                    (ii)	If there is any doubt or suspicion, the column, should be left blank and action taken as under :¬
+                </p>
+                <p>
+                    (a)	A separate secret note should be recorded and followed up. A copy of the note should also be sent together with the confidential report to the next superior officer who will ensure that the follow up action is taken expeditiously. Where it is not possible either to certify the integrity or to record the secret note, the Reporting Officer should state either that he has not watched the employee’s work for sufficient time to form a definite judgment or that he has heard nothing against the employee, as the case may be.
+                </p>
+                <p>
+                    (b)	If, as a result of the follow up action the doubts or suspicions are cleared, the employee’s integrity should be certified and an entry made accordingly in the confidential Report.
+                </p>
+                <p>
+                    (c)	If, the doubts or suspicions are con¬firmed, this fact should also be recorded and duly communicated to the employee concerned.
+                </p>
+                <p>
+                    (d) If, as a result of the follow up action, the doubts or suspicions  are neither cleared nor confirmed,  the employee’s conduct should be watched for a further period and thereafter action taken as indicated as (b) & (c) above.
+                </p>
+                <p>
+                    <b>15. Guidelines  to the Reporting/Reviewing Officers</b>
+                </p>
+                <p>
+                    15.1  Purpose of Appraisal<br />
+                    The success of an organization depends primarily upon the knowledge, skill, ability, sincerity, attitude and loyalty of its employees. The purpose of this appraisal is to make a periodic assessment of these qualities of the executive personnel of the Federation, the manner in which they are being utilized and their potentialities for development. As this matter is of greatest impor¬tance for the efficiency and morale of the services, all assessments should flow as from a conscien¬tious observations of facts and should be impartial.
+                </p>
+                <p>
+                    15.2	All officers are required to develop a work plan for the year and agree upon the same with the reporting officer. The work plan should incorporate the relative annual work rhythm and budgetary cycle. This exercise is to be carried out at the beginning of the year. In case of a change of the reporting officer during the year, the work plan agreed with the previous reporting officer would continue to apply. The work plan agreed upon at the beginning of the year has to be reviewed again during the month of September/October as a mid-year exercise and finalized by 31st October. Based on this review the work plan may undergo some changes from that originally prepared.
+                </p>
+                <p>
+                    15.3	The work plans may be submitted to the reviewing authority for his/her perusal and custody. The performance appraisal form provides for an assessment of the accomplishments vis-a-vis the work plan agreed at the commencement of the year and reviewed mid-year.
+                </p>
+                <p>
+                    15.4	It is not necessary that the work plan should be entirely quantitative in nature. While for field level posts, the work plan would consist essentially of quantifiable targets, for secretarial level posts it would consist of policy objectives to be achieved etc.
+                </p>
+                <p>
+                    15.5	The officer reported upon may be required to indicate specific areas in which he/she feels the need to upgrade skills and attend training programs. He/she should also mention the specific steps that he/she has taken or proposes to take to upgrade his/her skills in the identified area. The Reporting/Reviewing Officer may give specific comments on the requirement of skill upgradation for the officer reported upon and suggestions to achieve it.
+                </p>
+                <p>
+                    15.6	There is an increased emphasis on competency building in the new performance assessment system. There would be a premium on competency and skill upgradation. Hence, all officers are advised to keep the cadre controlling authority informed, at least once in five years, of all educational and training programs attended, including the details of marks/grades secured in such programs, details of professional papers published.
+                </p>
+                <p>
+                    15.7      It is expected that any grading of 1 or 2 (against work output or attributes or overall grade) would be adequately justified in the pen-picture by way of specific failures and similarly, any grade of 9 or 10 would be justified with respect to specific accomplishments. In awarding a numerical grade the reporting, reviewing and accepting authorities should rate the officer against a larger population of his/her peers that may be currently working under them or would have worked under them in the past
+                </p>
+                <p>
+                    <b>16.	Communication of Adverse Remarks</b>
+                </p>
+                <p>
+                    The various processes in regard to completion of the APAR and its final taking on record are given below:-<br />
+                    16.1 The full APAR including the overall grade and assessment of integrity shall be communicated to the concerned officer after the Report is complete with the remarks of the Reviewing Officer and the Accepting Authority wherever such system is in vogue. Where employees has only one supervisory level above him as in the case of personal staff attached to officers, such communication shall be made after the reporting officer has completed the performance assessment.
+                </p>
+                <p>
+                    16.2	The Section entrusted with the maintenance of APARs after its receipt shall disclose the same to the officer reported upon.
+                </p>
+                <p>
+                    16.3	The concerned officer shall be given the opportunity to make any representation against the entries and the final grading given in the Report within a period of fifteen days from the date of receipt of the entries in the APAR. The representation shall be restricted to the specific factual observations contained in the report leading to assessment of the officer in terms of attributes, work output etc. While communicating the entries, it shall be made clear that in case no representation is received within the fifteen days, it shall be deemed that he/she has no representation to make. If the concerned APAR Section does not receive any information from the concerned officer on or before fifteen days from the date of disclosure, the APAR will be treated as final.
+                </p>
+                <p>
+                    16.4	The competent authority may consider the representation, if necessary, in consultation with the reporting and/or reviewing officer and shall decide the matter objectively based on the material placed before him within a period of thirty days from the date of receipt of the representation.
+                </p>
+                <p>
+                    16.5	The competent authority after due consideration may reject the representation or may accept and modify the APAR accordingly. The decision of the competent authority and the final grading shall be communicated to the officer reported upon within fifteen days of receipt of the decision of the competent authority by the concerned APAR Section.
+                </p>
+                <p>
+                    <b>
+                        17. Granting letter of appreciation
+                    </b>
+                </p>
+                <p>
+                    17.1	The practice of granting letter of appreciation or notes of commendation to Nafed employees and placing them in Annual Performance Assessment Reports Dossier should be discouraged.
+                </p>
+                <p>
+                    17.1	The practice of granting letter of appreciation or notes of commendation to Nafed employees and placing them in Annual Performance Assessment Reports Dossier should be discouraged.
+                </p>
+                <p>
+                    <b>
+                        18.	 Time limit of retention of APAR
+
+                    </b>
+
+                </p>
+                <p>
+                    Annual Performance Assessment Report relating o deceased Nafed employees may be destroyed after a period of two years from the date of death. In the case of employees, the Annual Performance Assessment Reports dossiers may be retained for a period of five years after the date of retirement.
+                </p>
+                <p>
+                    <b>19.	General</b>
+                </p>
+                <p>
+                    19.1	With regard to the interpretation or implementation of these rules, the decision of the Managing Director will be final.
+                </p>
+                <p>
+                    19.2	 If any doubt or difficulty arises in giving effect to the provisions of these Rules, the Managing Director, as occasion may require, issue such order, which appears to him necessary for purpose of removing the doubt or difficulty.
+                </p>               
+            </div>
+            <div class="modal-footer d-flex justify-content-center">
+                <button data-dismiss="modal" class="btn btn-info">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

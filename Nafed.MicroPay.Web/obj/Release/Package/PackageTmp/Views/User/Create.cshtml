@@ -1,0 +1,269 @@
+﻿@model Nafed.MicroPay.Model.User
+@{
+    ViewBag.Title = "Create User";
+    ViewBag.NavigationTitle = "User";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card_new_header alert alert-danger">
+
+    <div class="col-sm-6">
+        NOTE : Fields marked with (*) are compulsory fields
+    </div>
+    <div class="col-sm-6 text-right">
+        <b>@*[ Characters < > # ^ ; | $ are not allowed ]*@</b>
+    </div>
+
+</div>
+
+
+@using (Html.BeginForm(Html.BeginForm("Create", "User", FormMethod.Post, new { enctype = "multipart/form-data", @autocomplete = "off" })))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <div class="card_new_body">
+        <div class="row">
+            
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 mb-2">
+
+                <div class="row">
+                    @Html.LabelFor(model => model.EmployeeID, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-6 col-xs-12 mb-2 required" })
+
+                    <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 mb-2">
+
+                        @Html.DropDownListFor(model => model.EmployeeID, new SelectList(Model.EmployeeList, "id", "value"),"Select", new { @class = "form-control", onChange="employee_OnChange(this);" })
+                        @Html.ValidationMessageFor(model => model.EmployeeID, "", new { @class = "text-danger" })
+                       </div>
+                </div>
+               
+
+
+                <div class="row">
+                    @Html.LabelFor(model => model.UserName, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-6 col-xs-12 mb-2 required" })
+                    @Html.HiddenFor(model=>model.hdUserName)
+                    <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 mb-2">
+                        @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control", @placeholder = "User Name", @maxlength = "50", @readOnly="readOnly"} })
+                        @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
+                        @Html.ValidationMessage("UserNameAlreadyExist", "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="row">
+                    @Html.LabelFor(model => model.FullName, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-6 col-xs-12 mb-2 required" })
+                    <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 mb-2">
+                        @Html.EditorFor(model => model.FullName, new { htmlAttributes = new { @class = "form-control", @placeholder = "Full Name", @maxlength = "100" } })
+                        @Html.ValidationMessageFor(model => model.FullName, "", new { @class = "text-danger" })
+
+                    </div>
+                </div>
+                <div class="row">
+                    @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-6 col-xs-12 mb-2 required" })
+                    @Html.HiddenFor(model => model.hdPassword)
+                    <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 mb-2">
+
+                        <div class="input-group">
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <i class="fa fa-key"></i>
+                                </div>
+                            </div>
+                            @Html.PasswordFor(model => model.Password, new { placeholder = "Password", @class = "form-control", autocomplete = "off", @maxlength = "25"})
+                        </div>
+
+
+                        @*@Html.PasswordFor(model => model.Password, new { @class = "form-control", @placeholder = "Password", @maxlength = "25" })*@
+                        @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="row">
+                    @Html.LabelFor(model => model.ConfirmPassword, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-6 col-xs-12 mb-2 required" })
+                    <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 mb-2">
+                        @*@Html.PasswordFor(model => model.ConfirmPassword, new { @class = "form-control", @placeholder = "Confirm Password", @maxlength = "25" })*@
+
+                        <div class="input-group">
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <i class="fa fa-key"></i>
+                                </div>
+                            </div>
+                            @Html.PasswordFor(model => model.ConfirmPassword, new { placeholder = "Confirm Password", @class = "form-control", autocomplete = "off", @maxlength = "25" })
+                        </div>
+                        @Html.HiddenFor(model => model.hdConfirmPassword)
+                        @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="row">
+                    @Html.LabelFor(model => model.DepartmentID, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-6 col-xs-12 mb-2 required" })
+
+                    <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 mb-2">
+                        @Html.DropDownListFor(model => model.DepartmentID, (IEnumerable<SelectListItem>)ViewBag.DepartmentList, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.DepartmentID, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="row">
+                    @Html.LabelFor(model => model.UserTypeID, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-6 col-xs-12 mb-2 required" })
+
+                    <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 mb-2">
+                        @Html.DropDownListFor(model => model.UserTypeID, (IEnumerable<SelectListItem>)ViewBag.UserTypeList, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.UserTypeID, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="row">
+                    @Html.LabelFor(model => model.MobileNo, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-6 col-xs-12 mb-2 " })
+                    <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 mb-2">
+                        @*@Html.EditorFor(model => model.MobileNo, new { htmlAttributes = new { @class = "form-control", @placeholder = "Mobile No", @maxlength = "10", } })*@
+                        
+                        <div class="input-group">
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <i class="fa fa-mobile-alt"></i>
+                                </div>
+                            </div>
+                            @Html.TextBoxFor(model => model.MobileNo, new { placeholder = "Mobile No", @class = "form-control", @maxlength = "10", @autocomplete = "off" })
+                        </div>
+                        
+                        @Html.ValidationMessageFor(model => model.MobileNo, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="row">
+                    @Html.LabelFor(model => model.EmailID, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-6 col-xs-12 mb-2 " })
+                    <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 mb-2">
+                       
+                        
+                        <div class="input-group">
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <i class="fa fa-envelope"></i>
+                                </div>
+                            </div>
+                            @Html.TextBoxFor(model => model.EmailID, new { placeholder = "example@mail.ru", @class = "form-control", @maxlength = "50", @autocomplete = "off" })
+                        </div>
+
+                         @*@Html.EditorFor(model => model.EmailID, new { htmlAttributes = new { @class = "form-control", @placeholder = "Email Id", @maxlength = "50", } })*@
+                     
+                        
+                        
+                           @Html.ValidationMessageFor(model => model.EmailID, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="row">
+                    @Html.LabelFor(model => model.IsActive, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-6 col-xs-12 mb-2" })
+                    <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 mb-2">
+                        <div class="form-group">
+                            <label class="switch">
+                                @Html.CheckBoxFor(model => model.IsActive, new { @class = "form-control" })
+                                <div class="slider round">
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <span class="pull-right">
+                    @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-light btn-md toggle-tooltip", @title = "Click here, to redirect on list page" })
+                    <input type="submit" value="Create" onclick="SubmitEncry()" class="btn btn-info btn-md pull-center toggle-tooltip" title="Click here, to update current record" />
+                </span>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 mb-2">
+                <div class="row">
+                    <div class="col-sm-12 text-center">
+                        <h4>
+                            Profile Picture
+                        </h4>
+                    </div>
+                    <div class="col-sm-12 text-center">
+                        @*<img id="myImg" src="@Url.Action("GetImage","Base",new {imgPath=Model.UserProfilePhotoUNCPath})" alt="Profile Picture" data-toggle="tooltip"
+                             style="width: 200px; height: 200px;" class="rounded-circle img-thumbnail" title="Click to select image" />*@
+
+                        <img id="myImg" src="/@Model.UserProfilePhotoUNCPath" alt="Profile Picture" data-toggle="tooltip"
+                             style="width: 200px; height: 200px;" class="rounded-circle img-thumbnail" title="Click to select image" />
+                        <input id="UserImg" title="Upload image" type="file" name="files" accept=".png,.jpg,.jpeg,.gif,.tif"
+                               style="display: none" />
+                        @Html.ValidationMessageFor(model => model.ImageName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@section scripts{
+<script src="~/Scripts/CryptoJS/aes.js"></script> 
+    <script type="text/javascript">
+
+        function employee_OnChange(ctrl) {
+
+            var selectedEmployee = $(ctrl).find('option:selected').text();
+            var selectedEmployeeCode = selectedEmployee.split('-')[0];
+            $("#UserName").val(selectedEmployeeCode);
+        }
+
+        $(document).ready(function () {
+
+            //$(":text").keyup(function () {
+            //    var yourInput = $(this).val();
+            //    re = /[`~!#$%^&*()_|+\- =?;:'",<>\{\}\[\]\\\/]/gi;
+            //    var isSplChar = re.test(yourInput);
+            //    if (isSplChar) {
+            //        var no_spl_char = yourInput.replace(/[`~!#$%^&*()_|+\-=?;:'",<>\{\}\[\]\\\/]/gi, '');
+            //        $(this).val(no_spl_char);
+            //    }
+            //});
+            $("#myImg").click(function () {
+                $("#UserImg").trigger('click');
+            });
+            $(":file").change(function () {
+                if (this.files && this.files[0]) {
+                    var reader = new FileReader();
+                    reader.onload = imageIsLoaded;
+                    reader.readAsDataURL(this.files[0]);
+                }
+            });
+        });
+
+        function imageIsLoaded(e) {
+            $('#myImg').attr('src', e.target.result);
+        };
+
+        function SubmitEncry() {
+            debugger;
+            var txtUserName = $('#UserName').val();
+            var txtPassword = $('#Password').val();
+            var txtConfirmPassword = $('#ConfirmPassword').val();
+
+            if (txtUserName == '' || txtPassword == '' || txtConfirmPassword == '') {
+                return;
+            }
+            var key = CryptoJS.enc.Utf8.parse('8080808080808080');
+            var iv = CryptoJS.enc.Utf8.parse('8080808080808080');
+            var encryptedlogin = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(txtUserName), key,
+                {
+                    keySize: 128 / 8,
+                    iv: iv,
+                    mode: CryptoJS.mode.CBC,
+                    padding: CryptoJS.pad.Pkcs7
+                });
+            $('#hdUserName').val(encryptedlogin);
+            var encryptedpassword = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(txtPassword), key,
+                {
+                    keySize: 128 / 8,
+                    iv: iv,
+                    mode: CryptoJS.mode.CBC,
+                    padding: CryptoJS.pad.Pkcs7
+                });
+            $('#hdPassword').val(encryptedpassword);
+            $('#Password').val(encryptedpassword);
+
+            var encryptedCpassword = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(txtConfirmPassword), key,
+                {
+                    keySize: 128 / 8,
+                    iv: iv,
+                    mode: CryptoJS.mode.CBC,
+                    padding: CryptoJS.pad.Pkcs7
+                });
+            $('#hdConfirmPassword').val(encryptedCpassword);
+            $('#ConfirmPassword').val(encryptedCpassword);
+
+        }
+    </script>
+}

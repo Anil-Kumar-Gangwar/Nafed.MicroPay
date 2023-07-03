@@ -1,0 +1,24 @@
+﻿
+@{
+    ViewBag.Title = "APAR Status";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="">
+    <div class="card_new_body">
+        @using (Ajax.BeginForm("_PostAcarAparFilters", "AcarApar", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "div-acarapar-forms" }, new { id = "AcarAparFilter" }))
+        {
+            <div id="div-acarapar-filters">
+                @Html.Action("_AdminACARAPARFilters")
+            </div>
+        }
+    </div>
+    @Html.Partial("_AppraisalStatusBar")
+</div>
+
+<div class="card_new_body">
+    <div id="div-acarapar-forms">
+
+    </div>
+</div>
+

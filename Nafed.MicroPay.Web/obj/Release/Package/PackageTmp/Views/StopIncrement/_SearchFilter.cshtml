@@ -1,0 +1,50 @@
+﻿@model MicroPay.Web.Models.ProjectedIncrementViewModel
+<fieldset class="border p-4 col-md-12 col-xs-12 col-lg-12 col-xl-12">
+    <legend class="w-auto">Stop Search</legend>
+    <div class="form-inline p-1">
+        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 text-left">
+            @Html.LabelFor(m => m.OnlyStopped, new { @class = "label" })
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+            <label class="switch p-3" style="margin-top: -10px;">
+                @Html.CheckBoxFor(m => m.OnlyStopped, new { @class = "", onChange = "StopIncrementDetails()" })
+                <div class="slider round">
+
+                </div>
+            </label>
+        </div>
+        </div>
+       
+       
+</fieldset>
+
+<fieldset class="border p-4 col-md-12 col-xs-12 col-lg-12 col-xl-12">
+    <legend class="w-auto">Increment Month</legend> 
+    <div class="form-inline p-1">
+        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+            @Html.LabelFor(m => m.January, new { @class = "label" })
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+            <label class="switch p-3" style="margin-top: -10px;">
+                @Html.CheckBoxFor(m => m.January, new { @class = "", onChange = "StopIncrementDetails()" })
+                <div class="slider round">
+                </div>
+            </label>
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 text-right">
+            @Html.LabelFor(m => m.July, new { @class = "label" })
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+            <label class="switch p-3" style="margin-top: -10px;">
+                @Html.CheckBoxFor(m => m.July, new { @class = "", onChange = "StopIncrementDetails()" })
+                <div class="slider round">
+
+                </div>
+            </label>
+        </div>
+    </div>  
+</fieldset>
+<br />
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+    <input type="submit" value="Update" id="btnUpdateStop" name="Validate" class="btn btn-info toggle-tooltip " title="Click here, to update the stop increment." />
+</div>

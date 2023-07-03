@@ -1,0 +1,98 @@
+﻿@using Nafed.MicroPay.Model;
+
+@model List<Form12BBInfo>
+
+<table id="tblGrid" class="table table-centered table-striped dt-responsive w-100 mt-2">
+    <thead>
+        <tr>
+            <th>
+                #
+            </th>
+            <th>
+                Financial Yr
+            </th>
+            <th>
+                Employee Code 
+            </th>
+            <th>
+                Employee Name
+            </th>
+            <th>
+                PAN No
+            </th>            
+            <th class="">
+                Designation
+            </th>
+
+            <th class="text-center">
+                 Status
+            </th>
+            <th class="text-center">
+                Submitted On
+            </th>
+            <th class="text-center">
+                Document Uploded
+            </th>
+            <th class="text-center">
+                View
+            </th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @{
+            int sno = 1;
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td>@sno</td>
+                    <td>@item.FYear</td>
+                    <td>@item.EmployeeCode </td>
+                    <td>@item.EmployeeName </td>
+                    <td>@item.PANNo</td>
+                    <td>@item.Designation</td>                    
+                    <td class="text-center">
+                        @if (item.FormState == 1)
+                        {
+                            <h5>
+                                <span class="badge badge-pill badge-light col-md-12">
+                                    Save
+                                </span>
+                            </h5>
+                        }
+                        else if (item.FormState == 2)
+                        {
+                            <h5>
+                                <span class="badge badge-pill badge-dark col-md-12">
+                                    Submitted
+                                </span>
+                            </h5>
+                        }
+                    </td>
+                    <td>@item.SubmittedOn</td>
+                    <td class="text-center"><span class="badge badge-pill badge-info">@item.UploadDocument</span></td>
+
+                    <td class="text-center">
+                        @*<a class="toggle-tooltip" href="@Url.Action("_EditForm12BB", "TaxDeduction",
+                                new { view=(short?) 1,employeeID = item.EmployeeID, fYear = item.FYear})"
+                           title="Click here, to view this record" data-toggle="tooltip">
+                            <i class="far fa-eye text-info" aria-hidden="true"></i>
+                        </a>*@
+
+                        @Html.EncodedImageActionLink("", "_EditForm12BB", "TaxDeduction", new { view = (int?)1, employeeID = item.EmployeeID, fYear = item.FYear }, new { @class = "toggle-tooltip", title = "Click here, to view this record" }, "~/Images/view.png")
+                    </td>
+                </tr>
+                sno++;
+            }
+        }
+       
+
+    </tbody>
+
+</table>
+
+<script type="text/javascript">
+            $('.toggle-tooltip').tooltip();
+            var table = $('#tblGrid').DataTable({});
+            $('#tblGrid').find('select').addClass('custom-select');
+</script>

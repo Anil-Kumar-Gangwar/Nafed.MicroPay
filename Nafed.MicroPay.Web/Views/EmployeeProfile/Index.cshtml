@@ -1,0 +1,993 @@
+﻿@using Nafed.MicroPay.Model
+@model Nafed.MicroPay.Model.EmployeeProfile
+
+@{
+    ViewBag.Title = "Employee Profile";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var userDetail = (UserDetail)Session["User"];
+}
+
+<div class="row mb-4" style="background-color: #fbfbfb;">
+    @if (userDetail != null && !userDetail.DoLeaveOrg.HasValue)
+    {
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-right" style='margin-bottom: 2px'>
+            @*@Html.ActionLink("Create", "Create", "EmployeeProfile", null, new { @class = "btn btn-info", title = "Click here, to edit profile", @data_toggle = "tooltip",style="margin - bottom: 2px"})*@
+            @Html.EncodedActionLink("Edit", "Edit", "EmployeeProfile", new { employeeID = userDetail.EmployeeID }, new { @class = "btn btn-info", title = "Click here, to edit profile", @data_toggle = "tooltip", style = "margin - bottom: 2px" })
+
+        </div>
+    }
+
+    <div class="col-sm-12" style="background-color: #17a2b8;"><h4 class="text-white m-0 pt-2 pb-2">Personal Information</h4> </div>
+    <div class="col-xl-2 col-lg-2 col-md-3 col-sm-12 pt-2 profileimagealign" style="">
+
+        @*<img class="img-responsive rounded-circle img-thumbnail pb-2 text-center" alt="Employee Photo" style="height:150px;width:150px;"
+             src='@Url.Action("GetImage","Base",new {imgPath=Model.EmpProfilePhotoUNCPath})' />*@
+
+        <img class="img-responsive rounded-circle img-thumbnail pb-2 text-center" alt="Employee Photo" style="height:150px;width:150px;"
+             src='/@Model.EmpProfilePhotoUNCPath' />
+
+        @*ModelState.AddModelError("InValidPAN", "Please select valid image file.");*@
+        <h5 class="text-left"></h5>
+        <p class="">
+            <i class="fa fa-envelope"></i>
+            @(Model.EmailID ?? "Not Available")
+        </p>
+        <p class="">
+            <i class="fas fa-mobile-alt"></i>
+            @(Model.MobileNo ?? "Not Available")
+        </p>
+
+    </div>
+    <div class="col-xl-10 col-lg-10 col-md-9 col-sm-12 bbordercolor">
+        <div class="row mt-4">
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                <div class="form-group">
+                    <div class="row">
+                        <label class="col-sm-5">Name : </label>
+                        <label class="col-sm-7 labelvalue">@Model.EmpCode - @Model.Title   @Model.EmpName</label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+            </div>
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                <div class="form-group">
+                    <div class="row">
+                        <label class="col-sm-5">Mother Name  : </label>
+                        <label class="col-sm-7 labelvalue">
+                            @(Model.MotherName ?? "Not Available")
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                <div class="form-group">
+                    <div class="row">
+                        <label class="col-sm-5">Husband/Father Name  : </label>
+                        <label class="col-sm-7 labelvalue">
+                            @(Model.HBName ?? "Not Available")
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                <div class="form-group">
+                    <div class="row">
+                        <label class="col-sm-5">Gender  : </label>
+                        <label class="col-sm-7 labelvalue">@Model.Gender</label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                <div class="form-group">
+                    <div class="row">
+                        <label class="col-sm-5">Date of Birth  : </label>
+                        <label class="col-sm-7 labelvalue">
+
+                            @if (Model.DOB.HasValue)
+                            {
+                                @Model.DOB.Value.ToString("dd/MM/yyyy")
+                            }
+                            else
+                            {
+                                <text>Not Available </text>
+                            }
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                <div class="form-group">
+                    <div class="row">
+                        <label class="col-sm-5">Category  : </label>
+                        <label class="col-sm-7 labelvalue">
+                            @(Model.Category ?? "Not Available")
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                <div class="form-group">
+                    <div class="row">
+                        <label class="col-sm-5">Blood Group  : </label>
+                        <label class="col-sm-7 labelvalue">
+                            @(Model.BloodGroupName ?? "Not Available")
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                <div class="form-group">
+                    <div class="row">
+                        <label class="col-sm-5">Aadhaar No  : </label>
+                        <label class="col-sm-7 labelvalue">
+                            @(Model.AadhaarNo ?? "Not Available")
+                            @*<a data-toggle="modal" data-target="#AadhaarModal"> <i class="fas fa-image fa-2x"></i></a>*@
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                <div class="form-group">
+                    <div class="row">
+                        <label class="col-sm-5">Pan No  : </label>
+                        <label class="col-sm-7 labelvalue">
+                            @(Model.PANNo ?? "Not Available")
+                            @*<a data-toggle="modal" data-target="#exampleModal"> <i class="fas fa-image fa-2x"></i></a>*@
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                <div class="form-group">
+                    <div class="row">
+                        <label class="col-sm-5">Professional Qualification  : </label>
+                        <label class="col-sm-7 labelvalue">
+                            @if (@Model.QualificationList != null && Model.QualificationList.Count > 0)
+                            {
+                                var professionalQualification = Model.QualificationList.Where(x => x.TypeID == 2).ToList();
+                                if (professionalQualification.Count > 0)
+                                {
+                                    var qualificationName = "";
+                                    for (int i = 0; i < professionalQualification.Count; i++)
+                                    {
+                                        qualificationName += professionalQualification[i].Value + ", ";
+                                    }
+                                    @qualificationName.Substring(0, qualificationName.Length - 2);
+                                }
+                                else
+                                {
+                                    <text>Not Available</text>
+                                }
+                            }
+                            else
+                            {
+
+                                <text>Not Available</text>
+                            }
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                <div class="form-group">
+                    <div class="row">
+                        <label class="col-sm-5">Academic Qualification  : </label>
+                        <label class="col-sm-7 labelvalue">
+                            @if (@Model.QualificationList != null && Model.QualificationList.Count > 0)
+                            {
+                                var academicQualification = Model.QualificationList.Where(x => x.TypeID == 1).ToList();
+                                if (academicQualification.Count > 0)
+                                {
+                                    var qualificationName = "";
+                                    for (int i = 0; i < academicQualification.Count; i++)
+                                    {
+                                        qualificationName += academicQualification[i].Value + ", ";
+                                    }
+                                    @qualificationName.Substring(0, qualificationName.Length - 2);
+                                }
+                                else
+                                {
+                                    <text>Not Available</text>
+                                }
+                            }
+                            else
+                            {
+
+                                <text>Not Available</text>
+                            }
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                <div class="form-group">
+                    <div class="row">
+                        <label class="col-sm-5">Reporting 1 (Leave)  : </label>
+                        <label class="col-sm-7 labelvalue">
+                            @if (!string.IsNullOrEmpty(Model.SupervisorName))
+                            {
+                                @Model.SupervisorName
+                            }
+                            else
+                            {
+                                <text> Not Available</text>
+                            }
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                <div class="form-group">
+                    <div class="row">
+                        <label class="col-sm-5">Reporting 2 (Leave)  : </label>
+                        <label class="col-sm-7 labelvalue">
+
+                            @if (!string.IsNullOrEmpty(Model.ReviewerName))
+                            {
+                                @Model.ReviewerName
+                            }
+                            else
+                            {
+                                <text> Not Available</text>
+                            }
+
+
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                <div class="form-group">
+                    <div class="row">
+                        <label class="col-sm-5">Reporting 3 (Leave) : </label>
+                        <label class="col-sm-7 labelvalue">
+                            @if (!string.IsNullOrEmpty(Model.AcceptanceAuthorityName))
+                            {
+                                @Model.AcceptanceAuthorityName
+                            }
+                            else
+                            {
+                                <text> Not Available</text>
+                            }
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="row mb-4" style="background-color: #fbfbfb;">
+
+    <div class="col-sm-12" style="background-color: #17a2b8;">
+        <h4 class="text-white m-0 pt-2 pb-2">Communication Address  : </h4>
+    </div>
+
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="row">
+            <div class="col-xl-6 col-lg-6 col-md-5 col-sm-12 bbordercolor" style="background-color: #e5edef;">
+                <h5 class="m-0 pt-2 pb-2">Present Mailing Address</h5>
+                <hr />
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <div class="row">
+                                <label class="col-sm-2">Adderss  : </label>
+                                <label class="col-sm-10 labelvalue">
+
+                                    @(Model.PresentAddress ?? "Not Available")
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-6 col-lg-6 col-md-5 col-sm-12">
+                        <div class="form-group">
+                            <div class="row">
+                                <label class="col-sm-4">State  : </label>
+                                <label class="col-sm-8 labelvalue">
+                                    @(Model.PresentState ?? "Not Available")
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-6 col-lg-6 col-md-5 col-sm-12">
+                        <div class="form-group">
+                            <div class="row">
+                                <label class="col-sm-4">City  : </label>
+                                <label class="col-sm-8 labelvalue">
+
+                                    @(Model.PresentCity ?? "Not Available")
+
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-6 col-lg-6 col-md-5 col-sm-12">
+                        <div class="form-group">
+                            <div class="row">
+                                <label class="col-sm-4">Pin  : </label>
+                                <label class="col-sm-8 labelvalue">
+
+                                    @(Model.PresentPin ?? "Not Available")
+
+
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-6 col-lg-6 col-md-5 col-sm-12">
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-6 col-lg-6 col-md-5 col-sm-12" style="background-color: #fbfbfb;">
+                <h5 class="m-0 pt-2 pb-2">Permanent Mailing Address</h5>
+                <hr />
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <div class="row">
+                                <label class="col-sm-2">Adderss  : </label>
+                                <label class="col-sm-10 labelvalue">
+
+
+                                    @(Model.PermanentAddress ?? "Not Available")
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-6 col-lg-6 col-md-5 col-sm-12">
+                        <div class="form-group">
+                            <div class="row">
+                                <label class="col-sm-4">State  : </label>
+                                <label class="col-sm-8 labelvalue">
+
+
+
+                                    @(Model.PermanentState ?? "Not Available")
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-6 col-lg-6 col-md-5 col-sm-12">
+                        <div class="form-group">
+                            <div class="row">
+                                <label class="col-sm-4">City  : </label>
+                                <label class="col-sm-8 labelvalue">
+                                    @(Model.PermanentCity ?? "Not Available")
+
+
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-6 col-lg-6 col-md-5 col-sm-12">
+                        <div class="form-group">
+                            <div class="row">
+                                <label class="col-sm-4">Pin  : </label>
+                                <label class="col-sm-8 labelvalue">
+                                    @(Model.PermanentPin ?? "Not Available")
+
+
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-6 col-lg-6 col-md-5 col-sm-12">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="row mb-4" style="background-color: #fbfbfb;">
+
+    <div class="col-sm-12" style="background-color: #17a2b8;">
+        <h4 class="text-white m-0 pt-2 pb-2">General Information</h4>
+    </div>
+
+
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+
+        <div class="form-group">
+            <div class="row mt-4">
+                <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                    Branch  : 
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12 labelvalue">
+                    @(Model.Branch ?? "Not Available")
+                </div>
+                <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                    Department  :
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12 labelvalue">
+                    @(Model.Department ?? "Not Available")
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="row mt-4">
+                <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                    Designation  :
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12 labelvalue">
+                    @(Model.Designation ?? "Not Available")
+                </div>
+                <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                    Section  :
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12 labelvalue">
+                    @(Model.Section ?? "Not Available")
+                </div>
+
+            </div>
+        </div>
+
+
+
+        <div class="form-group">
+            <div class="row mt-4">
+                <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                    File No.  :
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12 labelvalue">
+                    @(Model.FileNo ?? "Not Available")
+                </div>
+                <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                    ID Mark  :
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12 labelvalue">
+                    @(Model.IDMark ?? "Not Available")
+
+                </div>
+
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <div class="row mt-4">
+
+                <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                    Nominee  :
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12 labelvalue">
+                    @(Model.Nominee ?? "Not Available")
+                </div>
+                <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                    Relation  :
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12 labelvalue">
+                    @(Model.Relation ?? "Not Available")
+                </div>
+
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <div class="row mt-4">
+                <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                    Pay Scale  :
+                </div>
+
+                @*<div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-xs-12 font-weight-bold">
+                    <p style="word-break: break-all">@(Model.PayScale ?? "Not Available")</p>
+                </div>*@
+                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12 labelvalue label-ellipsis" data-toggle="tooltip" title="@Model.PayScale">
+                    @(Model.PayScale ?? "Not Available")
+                </div>
+                <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                    Increment Month  :
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12 labelvalue">
+                    @if (Model.IncrementMonth.HasValue)
+                    {
+                        if (Model.IncrementMonth.Value == 1)
+                        {
+                            <text>  January </text>
+                        }
+                        if (Model.IncrementMonth.Value == 7)
+                        {
+                            <text>  July </text>
+                        }
+                    }
+                    else
+                    {
+                        <text>  Not Available </text>
+                    }
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="row mt-4">
+
+                <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12 col-xs-12">
+
+                    Seniority Code  :
+
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12 labelvalue">
+
+                    @if (Model.Sen_Code.HasValue)
+                    {
+                        @Model.Sen_Code.Value
+                    }
+                    else
+                    {
+                        <text>  Not Available </text>
+                    }
+                </div>
+                <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                    Passport No. :
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12 labelvalue">
+                    @(Model.PassportNo ?? "Not Available")
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="row mb-4" style="background-color: #fbfbfb;">
+
+    <div class="col-sm-12" style="background-color: #17a2b8;">
+        <h4 class="text-white m-0 pt-2 pb-2">Other Information</h4>
+    </div>
+
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+        <div class="form-group">
+            <div class="row mt-4">
+
+                <div class="col-xl-2 col-lg-2 col-md-3 col-sm-12 col-xs-12">
+                   PF No  : 
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12 labelvalue">
+                    @if (Model.PFNo == null)
+                    {
+                        <text> Not Available</text>
+                    }
+                    else
+                    {
+                        @Model.PFNo
+                    }
+
+
+                </div>
+                <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                   ACR No  : 
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12 labelvalue">
+                    @(Model.ACRNo ?? "Not Available")
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="row mt-4">
+                <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                   UAN No  :
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12 labelvalue">
+                    @(Model.UANNo ?? "Not Available")
+                </div>
+                <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                   Date of Joining  :
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12 labelvalue">
+                    @Model.DOJ.ToString("dd/MM/yyyy")
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="row mt-4">
+
+                <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                    Bank  : 
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12 labelvalue">
+                    @(Model.Bank ?? "Not Available")
+                </div>
+                <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                   Bank Account No  :
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12 labelvalue">
+                    @(Model.BankAccountNo ?? "Not Available")
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="row mt-4">
+
+                <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                   IFSC Code  : 
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12 labelvalue">
+                    @(Model.IFSCCode ?? "Not Available")
+                </div>
+                <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                    Pension No.  :
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12 labelvalue">
+                    @(Model.PensionNumber ?? "Not Available")
+                </div>
+
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="row mt-4">
+
+                <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                    EPFO Member ID  :
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12 labelvalue">
+                    @(Model.EPFOMemberID ?? "Not Available")
+                </div>
+                <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                  
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12 labelvalue">
+                   
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@if (Model.certifications != null && Model.certifications.Count > 0)
+{
+    <div class="row mb-4" style="background-color: #fbfbfb;">
+
+        <div class="col-sm-12" style="background-color: #17a2b8;">
+            <h4 class="text-white m-0 pt-2 pb-2">Certification</h4>
+        </div>
+
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+            <div class="row">
+
+
+
+                @foreach (var item in Model.certifications)
+                {
+                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+
+                        <div class="card mt-2 mb-0">
+
+                            <div class="card-header">
+
+                                <h5>
+                                    @(Model.certifications.IndexOf(item) + 1). @*<i class="fas fa-certificate"></i>*@ @item.CertificationName
+                                </h5>
+                            </div>
+
+                            <div class="card-body pb-0" style="max-height:300px;min-height:300px; overflow-y:auto;">
+
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 p-0">
+
+                                    <div class="form-group">
+
+                                        <div class="row">
+
+                                            <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12 col-xs-12">
+
+                                                Date of Achievement :
+
+                                            </div>
+
+                                            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12">
+
+                                                <b>
+                                                    @item.DateOfIssue.Value.ToString("dd/MM/yyyy")
+                                                </b>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+
+                                    @if (!string.IsNullOrEmpty(item.CertificationRemark))
+                                    {
+                                        <div class="form-group">
+
+                                            <b>
+                                                @Html.Raw(item.CertificationRemark)
+                                            </b>
+                                        </div>
+                                    }
+
+                                    @if (item.documents.Count > 0)
+                                    {
+
+                                        <div class="form-group">
+
+                                            <div class="form-group">
+
+                                                Documents :
+
+                                                <ul style="list-style-type:disc;">
+
+                                                    @foreach (var doc in item.documents)
+                                                    {
+                                                        <li>
+                                                            <a href=@Url.Action("DownloadFile", "Base", new { sFileName = doc.DocumentFilePath, sFileFullPath = doc.DocumentUNCPath })>
+
+
+                                                                <span class="fm_file" aria-hidden="true" f_name="@doc.DocumentFilePath"></span>
+
+                                                                @doc.DocumentTitle
+                                                            </a>
+                                                        </li>
+                                                    }
+
+                                                </ul>
+
+                                            </div>
+
+
+                                        </div>
+                                    }
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                }
+            </div>
+
+        </div>
+
+
+    </div>
+}
+
+@if (Model.achievements != null && Model.achievements.Count > 0)
+{
+    <div class="row mb-4" style="background-color: #fbfbfb;">
+        <div class="col-sm-12" style="background-color: #17a2b8;">
+            <h4 class="text-white m-0 pt-2 pb-2">Achievement</h4>
+        </div>
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="row">
+
+                @foreach (var item in Model.achievements)
+                {
+                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+
+                        <div class="card mt-2 mb-0">
+
+                            <div class="card-header">
+
+                                <h5>
+                                    @(Model.achievements.IndexOf(item) + 1). @*<i class="fas fa-certificate"></i>*@ @item.AchievementName
+                                </h5>
+                            </div>
+
+                            <div class="card-body pb-0" style="max-height:300px;min-height:300px; overflow-y:auto;">
+
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 p-0">
+
+                                    <div class="form-group">
+
+                                        <div class="row">
+
+                                            <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12 col-xs-12">
+
+                                                Date of Achievement :
+
+                                            </div>
+
+                                            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12">
+
+                                                <b>
+                                                    @item.DateOfAchievement.Value.ToString("dd/MM/yyyy")
+                                                </b>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+
+                                    @if (!string.IsNullOrEmpty(item.AchievementRemark))
+                                    {
+                                        <div class="form-group">
+
+                                            <b>
+                                                @Html.Raw(item.AchievementRemark)
+                                            </b>
+                                        </div>
+                                    }
+
+                                    @if (item.documents.Count > 0)
+                                    {
+
+                                        <div class="form-group">
+
+                                            <div class="form-group">
+
+                                                Documents :
+
+                                                <ul style="list-style-type:disc;">
+
+                                                    @foreach (var doc in item.documents)
+                                                    {
+                                                        <li>
+                                                            <a href=@Url.Action("DownloadFile", "Base", new { sFileName = doc.DocumentFilePath, sFileFullPath = doc.DocumentUNCPath })>
+
+
+                                                                <span class="fm_file" aria-hidden="true" f_name="@doc.DocumentFilePath"></span>
+
+                                                                @doc.DocumentTitle
+                                                            </a>
+                                                        </li>
+                                                    }
+
+                                                </ul>
+
+                                            </div>
+
+
+                                        </div>
+                                    }
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+
+                }
+            </div>
+        </div>
+    </div>
+}
+
+
+@if (userDetail.DoLeaveOrg.HasValue)
+{
+    <div class="form-group">
+        <span class="pull-right">
+
+            <a href='@Url.Action("Index", "RetiredEmpHomePage")'>
+                <input type='button' class="btn btn-dark btn-md pull-center toggle-tooltip"
+                       value='Back'
+                       title="Click here, to redirect to home page" />
+            </a>
+
+
+            @*<input type="button" value="Back" class="btn btn-dark btn-md pull-center toggle-tooltip"
+                title="Click here, to redirect to home page"
+                onclick="window.location.href('@Url.Action("Index", "RetiredEmpHomePage")')"
+                />*@
+
+        </span>
+    </div>
+}
+@if (Model.EmployeeInsurance != null)
+{
+<div class="row mb-4" style="background-color: #fbfbfb;">
+    <div class="col-sm-12" style="background-color: #17a2b8;">
+        <h4 class="text-white m-0 pt-2 pb-2">Mediclaim</h4>
+    </div>
+    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="row"> 
+            @Html.Partial("_Insurance", Model.EmployeeInsurance)        
+        </div>
+    </div>
+</div>
+}
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Pan No - @Model.PANNo </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body text-center">
+                @*<img id="imgPanCard" style="width:100%; height:250px;border:solid 1px #e1e1e1;"
+                     src='@Url.Action("GetImage",new {imgPath=Model.PanCardUNCFilePath})'
+                     data-toggle="tooltip" />*@
+
+                <img id="imgPanCard" style="width:100%; height:250px;border:solid 1px #e1e1e1;"
+                     src='/@Model.PanCardUNCFilePath'
+                     data-toggle="tooltip" />
+
+                @*<img id="idproof" height="200" width="400" src="~/Images/PANNO/SamplePAN_Card.jpg" />*@
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="AadhaarModal" tabindex="-1" role="dialog" aria-labelledby="AadharCardPopup" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="AadharCardPopup">Aadhaar No - @Model.AadhaarNo </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body text-center">
+                @*<img id="imgPanCard" style="width:100%; height:250px;border:solid 1px #e1e1e1;"
+                     src='@Url.Action("GetImage",new {imgPath=Model.AadhaarCardUNCFilePath})'
+                     data-toggle="tooltip" />*@
+                <img id="imgPanCard" style="width:100%; height:250px;border:solid 1px #e1e1e1;"
+                     src='/@Model.AadhaarCardUNCFilePath'
+                     data-toggle="tooltip" />
+
+                @*<img id="idproof" height="200" width="400" src="~/Images/PANNO/SamplePAN_Card.jpg" />*@
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+
+
+
+        $('.fm_file').each(function (idx) {
+            var ext = $(this).attr('f_name').split('.').pop().toLowerCase();
+            if(ext=="pdf")
+                $(this).addClass('text-danger fas fa-file-pdf');
+            else if(ext=="doc" || ext=="docx")
+                $(this).addClass('text-info fas fa-file-word');
+            else if(ext=="xls" || ext=="xlsx")
+                $(this).addClass('text-info fas fa-file-excel');
+            else if(ext=="jpg" || ext=="jpeg" || ext=="png")
+                $(this).addClass('text-info fas fa-file-image');
+        });
+ 
+</script>

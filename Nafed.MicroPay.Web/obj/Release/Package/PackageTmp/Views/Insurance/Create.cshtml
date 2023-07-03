@@ -1,0 +1,296 @@
+﻿@model Nafed.MicroPay.Model.Insurance
+@{
+    ViewBag.Title = "Insurance";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm("Create", "Insurance", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+  
+    <div class="card_new_body">
+        <div class="form-group">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
+                <div class="row">
+                    <p class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                        @Html.LabelFor(model => model.EmployeeId, htmlAttributes: new { @class = "control-label" })
+                    </p>
+                    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                      @Model.EmployeeName
+                        @Html.HiddenFor(model=> model.EmployeeId)
+                        @Html.HiddenFor(model => model.EmployeeName)
+                    </div>
+                </div>
+                <div class="row">
+                    <p class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                        @Html.LabelFor(model => model.DesignationName, htmlAttributes: new { @class = "control-label" })
+                    </p>
+                    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                        @Model.DesignationName
+                        @Html.HiddenFor(model => model.DesignationName)
+                    </div>
+                </div>
+                <div class="row">
+                    <p class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                        @Html.LabelFor(model => model.PolicyAvail, htmlAttributes: new { @class = "control-label required" })
+                    </p>
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                        <label class="switch">
+                            @Html.CheckBoxFor(model => model.PolicyAvail, new { @class = "form-control" })
+                            <div class="slider round">
+                            </div>
+                        </label>
+                    </div>
+                </div>
+                @*<div class="row">
+                    <p class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                        @Html.LabelFor(model => model.EmployeeId, htmlAttributes: new { @class = "control-label required" })
+                    </p>
+                    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                        @Html.DropDownListFor(m => m.EmployeeId, new SelectList(ViewBag.Employee, "id", "value"), "Select", new { @class = "custom-select", @onchange = "GetDependent(this)" })
+                    </div>
+                </div>*@
+                <div class="row">
+                    <p class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                        @Html.LabelFor(model => model.PolicyJoinDate, htmlAttributes: new { @class = "control-label required" })
+                    </p>
+                    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                        @Html.TextBoxFor(model => model.PolicyJoinDate, new { @type = "text", @class = "form-control datepicker", @placeholder = "dd/mm/yyyy",@autocomplete="off" })
+                        @Html.ValidationMessageFor(model => model.PolicyJoinDate, "", new { @class = "text-danger" })
+
+
+                    </div>
+                </div>
+                <div class="row">
+                    <p class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                        @Html.LabelFor(model => model.FamilyAssuredSum, htmlAttributes: new { @class = "control-label required" })
+                    </p>
+                    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                        @Html.EditorFor(model => model.FamilyAssuredSum, new { htmlAttributes = new { @class = "form-control integerOnly ", @style = "text-align: right;", @autocomplete = "off" } })
+                        @Html.ValidationMessageFor(model => model.FamilyAssuredSum, "", new { @class = "text-danger" })
+                    </div>
+
+                </div>
+                <div class="row">
+                    <p class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                        @Html.LabelFor(model => model.PolicyExpDate, htmlAttributes: new { @class = "control-label" })
+                    </p>
+                    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                        @Html.TextBoxFor(model => model.PolicyExpDate, new { @type = "text", @class = "form-control datepicker", @placeholder = "dd/mm/yyyy", @autocomplete = "off" })
+                        @Html.ValidationMessageFor(model => model.PolicyExpDate, "", new { @class = "text-danger" })
+                    </div>
+
+                </div>
+                <div class="row">
+                    <p class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                        @Html.LabelFor(model => model.DependentMedicalPolicy, htmlAttributes: new { @class = "control-label required" })
+                    </p>
+                    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                        <label class="switch">
+                            @Html.CheckBoxFor(model => model.DependentMedicalPolicy, new { @class = "form-control" })
+                            <div class="slider round">
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="div-dependent">
+                <table id="tblDependent" class="table table-centered dt-responsive w-100">
+                    <thead>
+                        <tr>
+                            <th style="width:5%">
+
+                            </th>
+                            <th class="text-center" style="width:10%">
+                                Name of Dependent
+                            </th>
+                            <th class="text-center" style="width:10%">
+                                Relation
+                            </th>
+                            <th class="text-center" style="width:5%">
+                                Gender
+                            </th>
+                            <th class="text-center" style="width:5%">
+                                Age
+                            </th>
+                            <th class="text-center" style="width:15%">
+                                Date of joining Insurance policy
+                            </th>
+                            <th class="text-center" style="width:15%">
+                                Date of expire Insurance policy
+                            </th>
+                            <th class="text-center" style="width:20%">
+                                Reason
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        @if (Model.InsuranceDependenceList != null && Model.InsuranceDependenceList.Count() > 0)
+                        {
+
+                            for (int i = 0; i < Model.InsuranceDependenceList.Count; i++)
+                            {
+                                <tr>
+                                    @Html.HiddenFor(model => Model.InsuranceDependenceList[i].DependentId)
+                                    <td id="NotApplicableDetails">
+                                        @if (!Model.InsuranceDependenceList[i].IsApplicable)
+                                        {
+                                                @Html.CheckBoxFor(model => Model.InsuranceDependenceList[i].IsApplicable, new { @class = "enabledisable", @checked = false, @id = "check_" + i + "_IsApplicable", @onChange = "NotApplicableCheck(this.id," + i + ")" })
+                                        }
+                                        else
+                                        {
+                                                @Html.CheckBoxFor(model => Model.InsuranceDependenceList[i].IsApplicable, new { @class = "enabledisable", @checked = true, @onChange = "NotApplicableCheck(this.id," + i + ")" })
+                                        }
+                                    </td>
+                                    <td>
+                                        @Model.InsuranceDependenceList[i].DependentName
+                                        @Html.HiddenFor(model => Model.InsuranceDependenceList[i].DependentName)
+                                    </td>
+                                    <td>
+                                        @Model.InsuranceDependenceList[i].Relation
+                                        @Html.HiddenFor(model => Model.InsuranceDependenceList[i].Relation)
+                                    </td>
+                                    <td class="text-center">
+                                        @Model.InsuranceDependenceList[i].Gender
+                                        @Html.HiddenFor(model => Model.InsuranceDependenceList[i].Gender)
+                                    </td>
+                                    <td class="text-center">
+                                        @Model.InsuranceDependenceList[i].Age
+                                        @Html.HiddenFor(model => Model.InsuranceDependenceList[i].Age)
+                                    </td>
+                                    <td>
+                                        @Html.TextBoxFor(model => Model.InsuranceDependenceList[i].PolicyJoinDate, new { @type = "text", @class = "form-control datepicker policyJoin", id = "PolicyJoinDate_" + i, @placeholder = "dd/mm/yyyy", @autocomplete = "off" })
+                                        @Html.ValidationMessageFor(model => Model.InsuranceDependenceList[i].PolicyJoinDate, "", new { @class = "text-danger" })
+                                    </td>
+                                    <td>
+                                        @Html.TextBoxFor(model => Model.InsuranceDependenceList[i].PolicyExpDate, new { @type = "text", @class = "form-control datepicker policyexp", id = "PolicyExpDate_" + i, @placeholder = "dd/mm/yyyy", @autocomplete = "off" })
+                                        @Html.ValidationMessageFor(model => Model.InsuranceDependenceList[i].PolicyExpDate, "", new { @class = "text-danger" })
+                                    </td>
+                                    <td>
+                                        @Html.EditorFor(model => Model.InsuranceDependenceList[i].Reason, new { htmlAttributes = new { @class = "form-control", id = "Reason_" + i, @autocomplete = "off" } })
+                                    </td>
+                                </tr>
+
+                            }
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-right">
+                @Html.ActionLink("Back", "Index", "Insurance", null, new { @class = "btn btn-light btn-md", title = "Click here, to go to back on previous screen.", @data_toggle = "tooltip" })
+                <input type="submit" value="Create" name="ButtonType" class="btn btn-info  toggle-tooltip " title="Click here, to submit the data." />
+            </div>
+        </div>
+    </div>
+}
+
+<script type="text/javascript">
+    function GetDependent(e) {
+   
+        var empId = e.value;
+        if (empId > 0) {
+            jQuery.get("@Url.Action("GetDependent", "Insurance")", {
+                employeeId: empId,
+            }).done(function (data) {
+                if (data.dependent != "") {
+                    $("#div-dependent").html(data.dependent);
+                }
+            });
+        }
+    }
+
+    $("#DependentMedicalPolicy").click(function () {
+
+        if ($("#DependentMedicalPolicy").is(':checked')) {
+            $(".enabledisable").removeAttr("disabled");
+        }
+        else {
+            
+            $(".enabledisable").attr("disabled", "disabled");
+        }
+    })
+
+    $("#PolicyAvail").click(function () {
+
+        if ($("#PolicyAvail").is(':checked')) {
+            $("#DependentMedicalPolicy").attr('checked', 'checked');
+
+        }
+        else {
+          
+        } $("#DependentMedicalPolicy").removeAttr("checked");
+    })
+
+    
+   
+</script>
+
+<script type="text/javascript">
+    $(".policyJoin").datepicker({ dateFormat: 'dd/mm/yy', changeYear: true });
+    $(".policyexp").datepicker({ dateFormat: 'dd/mm/yy', changeYear: true });
+    $(document).ready(function () {
+        var table = $('#tblDependent').DataTable({
+            searching: false, paging: false, sorting: false,
+
+            "ordering": false,
+            "info": false
+        });
+
+        var tableDetails = document.getElementById('tblDependent');
+        var rowLength = tableDetails.rows.length;
+        for (var i = 0; i < rowLength; i += 1) {
+            var row = tableDetails.rows[i];
+            var cellLength = row.cells.length;
+            for (var y = 0; y < cellLength; y += 1) {
+                var cell = row.cells[y];
+                if (cell.id = "NotApplicableDetails") {
+                    debugger;
+                    if ($("#check" + i + "_IsApplicable").is(":checked") == false) {
+                        $("#PolicyJoinDate_" + i).value = "";
+                        $("#PolicyExpDate_" + i).value = "";
+                        $("#Reason_" + i).value = "";
+                        $("#PolicyJoinDate_" + i).attr("disabled", "disabled");
+                        $("#PolicyExpDate_" + i).attr("disabled", "disabled");
+                        $("#Reason_" + i).attr("disabled", "disabled");
+                    }
+                    else {
+                        $("#PolicyJoinDate_" + i).value = "";
+                        $("#PolicyExpDate_" + i).value = "";
+                        $("#Reason_" + i).value = "";
+                        $("#PolicyJoinDate_" + i).removeAttr("disabled");
+                        $("#PolicyExpDate_" + i).removeAttr("disabled");
+                        $("#Reason_" + i).removeAttr("disabled");
+                    }
+                }
+            }
+        }
+    });
+
+    function NotApplicableCheck(id, index) {
+        debugger;
+        if ($("#" + id).is(":checked")) {
+            $("#PolicyJoinDate_" + index).removeAttr("disabled");
+            $("#PolicyExpDate_" + index).removeAttr("disabled");
+            $("#Reason_" + index).removeAttr("disabled");
+        }
+        else {
+
+            $("#PolicyJoinDate_" + index).value = "";
+            $("#PolicyJoinDate_" + index).value = "";
+            $("#Reason_" + index).value = "";
+            $("#PolicyJoinDate_" + index).attr("disabled", "disabled");
+            $("#PolicyExpDate_" + index).attr("disabled", "disabled");
+            $("#Reason_" + index).attr("disabled", "disabled");
+        }
+    }
+
+</script>

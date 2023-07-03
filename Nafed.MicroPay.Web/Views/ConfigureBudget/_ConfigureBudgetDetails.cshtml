@@ -1,0 +1,186 @@
+﻿@model Nafed.MicroPay.Model.PromotionCota
+@{
+    var updationmsg = ViewBag.Message == null ? "" : ViewBag.Message;
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+        if ("@updationmsg" != "")
+            commonMessage("success", "@updationmsg");
+    });
+</script>
+@using (Ajax.BeginForm("UpdateConfigureBudget", "ConfigureBudget", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "divConfigureBudgetView" }))
+{
+    <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 mb-2">
+            <div class="row">
+                @Html.LabelFor(model => model.DesignationID, htmlAttributes: new { @class = "control-label col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-2 required" })
+
+                <div class="col-lg-7 col-md-7 col-sm-12 col-xs-12 mb-2">
+                    @Html.DropDownListFor(model => model.DesignationID, (IEnumerable<SelectListItem>)ViewBag.DesignationList, new { @class = "custom-select", onChange = "GetPromotionCotaDetails()" })
+
+                    @Html.ValidationMessageFor(model => model.DesignationID, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="row">
+                @Html.LabelFor(model => model.Promotion, htmlAttributes: new { @class = "control-label col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-2" })
+                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-2">
+                    @Html.EditorFor(model => model.Promotion, new { htmlAttributes = new { @class = "form-control text-right percentage", @placeholder = "Promotion", @type = "number", @min = "0", @max = "100" } })
+                </div>
+                <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12 mb-2">
+                    %
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-2">
+                    @Html.EditorFor(model => model.NPromotion, new { htmlAttributes = new { @class = "form-control text-right number", @placeholder = "Promotion", @type = "number", @min = "0", @max = "100" } })
+                </div>
+            </div>
+
+            <div class="row">
+                @Html.LabelFor(model => model.Direct, htmlAttributes: new { @class = "control-label col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-2" })
+                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-2">
+                    @Html.EditorFor(model => model.Direct, new { htmlAttributes = new { @class = "form-control text-right percentage", @placeholder = "Direct", @type = "number", @min = "0", @max = "100" } })
+                </div>
+                <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12 mb-2">
+                    %
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-2">
+                    @Html.EditorFor(model => model.NDirect, new { htmlAttributes = new { @class = "form-control text-right number", @placeholder = "Direct", @type = "number", @min = "0", @max = "100" } })
+                </div>
+            </div>
+
+            <div class="row">
+                @Html.LabelFor(model => model.LCT, htmlAttributes: new { @class = "control-label col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-2" })
+                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-2">
+                    @Html.EditorFor(model => model.LCT, new { htmlAttributes = new { @class = "form-control text-right percentage", @placeholder = "LCT", @type = "number", @min = "0", @max = "100" } })
+                </div>
+                <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12 mb-2">
+                    %
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-2">
+                    @Html.EditorFor(model => model.NLCT, new { htmlAttributes = new { @class = "form-control text-right number", @placeholder = "LCT", @type = "number", @min = "0", @max = "100" } })
+                </div>
+            </div>
+            <div class="divider-chevron"></div>
+            <span class="pull-right">
+                @*@Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-light btn-md toggle-tooltip", @title = "Click here, to redirect on list page" })*@
+                <input type="submit" value="Update" class="btn btn-info btn-md pull-center toggle-tooltip" title="Click here, to update current record" />
+            </span>
+        </div>
+    </div>
+}
+
+<script type="text/javascript">
+    $('.toggle-tooltip').tooltip();
+    function GetPromotionCotaDetails() {
+        var designationID = $("#DesignationID").val();
+        jQuery.get("@Url.Action("GetConfigureBudgetDetails", "ConfigureBudget")", {
+            DesignationID: designationID
+        }).done(function (data) {
+            $("#divConfigureBudgetView").html("");
+            if (data != "") {
+                $("#divConfigureBudgetView").html(data);
+                onLoadBudgetValidation();
+            }
+        });
+    }
+
+    function onLoadBudgetValidation() {
+        var arrNumber = new Array();
+        var arrId = new Array();
+        $('input.percentage').each(function () {
+            var inputValue = this.value;
+            var inputId = this.id;
+            arrNumber.push(inputValue);
+            arrId.push(inputId);
+        });
+        var find = jQuery.inArray("100", arrNumber);
+        if (find >= 0) {
+            $('input.number').each(function () {
+                $("#" + (this).id).val(0);
+                $("#" + (this).id).attr("readonly", "readonly");
+            })
+        }
+        else if (find < 0) {
+            $('input.number').each(function () {
+                $("#" + (this).id).removeAttr("readonly");
+            })
+        }
+        for (var k = 0; k < arrId.length; k++) {
+            var arrIdValue = arrId[k];
+            var val = $("#" + arrIdValue).val();
+            if (parseInt(val) >= 100) {
+                arrId = $.grep(arrId, function (value) {
+                    return value != arrIdValue;
+                });
+                for (var j = 0; j < arrId.length; j++) {
+                    $("#" + arrId[j]).val(0);
+                    $("#" + arrId[j]).attr("readonly", "readonly");
+                }
+                break;
+            }
+            else {
+                $("#" + arrId[k]).removeAttr("readonly");
+            }
+        }
+    }
+
+    function BudgetValidation() {
+        $('input.percentage').change(function () {
+            var total = 0;
+            $('input.percentage').each(function () {
+                var inputValue = parseInt(this.value);
+                total += inputValue;
+            });
+            if (total > 100) {
+                $('input.percentage').each(function () {
+                    $("#" + (this).id).val(0);
+                });
+                $('input.number').each(function () {
+                    $("#" + (this).id).val(0);
+                });
+            }
+
+            var arrNumber = new Array();
+            var arrId = new Array();
+            $('input.percentage').each(function () {
+                var inputValue = this.value;
+                var inputId = this.id;
+                arrNumber.push(inputValue);
+                arrId.push(inputId);
+            });
+            var find = jQuery.inArray("100", arrNumber);
+            if (find >= 0) {
+                $('input.number').each(function () {
+                    $("#" + (this).id).val(0);
+                    $("#" + (this).id).attr("readonly", "readonly");
+                })
+            }
+            else if (find < 0) {
+                $('input.number').each(function () {
+                    $("#" + (this).id).removeAttr("readonly");
+                })
+            }
+            for (var k = 0; k < arrId.length; k++) {
+                var arrIdValue = arrId[k];
+                var val = $("#" + arrIdValue).val();
+                if (parseInt(val) >= 100) {
+                    arrId = $.grep(arrId, function (value) {
+                        return value != arrIdValue;
+                    });
+                    for (var j = 0; j < arrId.length; j++) {
+                        $("#" + arrId[j]).val(0);
+                        $("#" + arrId[j]).attr("readonly", "readonly");
+                    }
+                    break;
+                }
+                else {
+                    $("#" + arrId[k]).removeAttr("readonly");
+                }
+            }
+        });
+    }
+    $(function () {
+        BudgetValidation();
+    });
+
+</script>

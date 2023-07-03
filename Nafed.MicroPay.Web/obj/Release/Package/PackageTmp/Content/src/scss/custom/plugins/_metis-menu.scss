@@ -1,0 +1,36 @@
+// 
+// metis-menu.scss
+//
+
+// Metis Menu Overwrite
+
+.metismenu {
+    padding: 0;
+    ul {
+        padding: 0;
+        li {
+            list-style: none;
+        }
+    }
+}
+
+.side-nav-second-level {
+    li {
+        a {
+            padding: 8px 20px 8px 68px;
+            color: $menu-item;
+            display: block;
+            position: relative;
+            transition: all 0.4s;
+            &:focus,
+            &:hover {
+                color: $menu-item-hover;
+            }
+        }
+        &.active {
+            >a {
+                color: $menu-item-active;
+            }
+        }
+    }
+}

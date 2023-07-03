@@ -1,0 +1,133 @@
+﻿@model MicroPay.Web.Models.APARSkillSetViewModel
+@using MvcCheckBoxList.Model
+@{
+    ViewBag.Title = "Create Skill Set";
+
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card_new_header alert alert-danger">
+    <div class="col-sm-6">
+        NOTE : Fields marked with (*) are compulsory fields
+    </div>
+    <div class="col-sm-6 text-right">
+        <b> </b>
+    </div>
+</div>
+@using (Html.BeginForm("Create", "APARSkillsSet", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <div class="card_new_body">
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 mb-2">
+                <div class="row">
+
+                    @Html.LabelFor(model => model.APARSkillSet.DepartmentID, htmlAttributes: new { @class = "control-label required" })
+                    <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 mb-2">
+
+                        @Html.DropDownListFor(model => model.APARSkillSet.DepartmentID, new SelectList(Model.DepartmentList, "id", "value"), new { @class = "custom-select" })
+                        @Html.ValidationMessageFor(model => model.APARSkillSet.DepartmentID, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="row">
+
+                    @Html.LabelFor(model => model.APARSkillSet.DesignationID, htmlAttributes: new { @class = "control-label required" })
+                    <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 mb-2">
+
+                        @Html.DropDownListFor(model => model.APARSkillSet.DesignationID, new SelectList(Model.DesignationList, "id", "value"), new { @class = "custom-select" })
+                        @Html.ValidationMessageFor(model => model.APARSkillSet.DesignationID, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 mb-2">
+                <div class="row" style="font-weight:bold">
+                    @Html.HiddenFor(model => model.APARSkillSetDetails.SkillTypeID)
+                    @*<div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 mb-2">
+                        @Html.Label("Skill Type", htmlAttributes: new { @class = "control-label" })
+                    </div>
+                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12 mb-2">
+                        @Html.Label("Behavioral", htmlAttributes: new { @class = "control-label" })
+
+                    </div>
+
+                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12 mb-2">
+                        @Html.Label("Functional/Technical", htmlAttributes: new { @class = "control-label" })
+
+                    </div>*@
+                </div>
+
+                @*<div class="row">
+                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 mb-2">
+                        @Html.Label("Choose Skill", htmlAttributes: new { @class = "control-label", @style = "font-weight:bold" })
+                        </Div>
+                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12 mb-2">
+                            @Html.CheckBoxListFor(model => model.CheckBoxListBehavioral.PostedFields.fieldIds,
+                                      model => model.CheckBoxListBehavioral.AvailableFields,
+                                      model => model.Id,
+                                      model => model.Name,
+                                      model => model.CheckBoxListBehavioral.SelectedFields,
+                                      position: Position.Vertical)
+
+                        </div>
+
+                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12 mb-2">
+
+                            @Html.CheckBoxListFor(model => model.CheckBoxListFunctional.PostedFields.fieldIds,
+                                      model => model.CheckBoxListFunctional.AvailableFields,
+                                      model => model.Id,
+                                      model => model.Name,
+                                      model => model.CheckBoxListFunctional.SelectedFields,
+                                      position: Position.Vertical)
+                        </div>
+                    </div>*@
+
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 mb-2">
+                            @Html.Label("Behavioral", htmlAttributes: new { @class = "control-label", @style = "font-weight:bold" })
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
+                            @Html.CheckBoxListFor(model => model.CheckBoxListBehavioral.PostedFields.fieldIds,
+                                      model => model.CheckBoxListBehavioral.AvailableFields,
+                                      model => model.Id,
+                                      model => model.Name,
+                                      model => model.CheckBoxListBehavioral.SelectedFields,
+                                      position: Position.Vertical)
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 mb-2">
+                            @Html.Label("Functional/Technical", htmlAttributes: new { @class = "control-label", @style = "font-weight:bold" })
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
+
+                            @Html.CheckBoxListFor(model => model.CheckBoxListFunctional.PostedFields.fieldIds,
+                                      model => model.CheckBoxListFunctional.AvailableFields,
+                                      model => model.Id,
+                                      model => model.Name,
+                                      model => model.CheckBoxListFunctional.SelectedFields,
+                                      position: Position.Vertical)
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="divider-chevron"></div>
+            <span class="pull-right">
+                @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-light btn-md toggle-tooltip", @title = "Click here, to redirect on list page" })
+                <input type="submit" value="Create" class="btn btn-info btn-md pull-center toggle-tooltip" title="Click here, to save current record" />
+            </span>
+        </div>
+
+    </div>
+}
+
+@section scripts{
+
+}

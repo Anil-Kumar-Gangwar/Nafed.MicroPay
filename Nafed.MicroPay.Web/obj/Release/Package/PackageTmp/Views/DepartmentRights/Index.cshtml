@@ -1,0 +1,160 @@
+﻿@model Nafed.MicroPay.Model.DepartmentRights
+@{
+    ViewBag.Title = "Department Rights";
+    ViewBag.NavigationTitle = "Department Rights";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using (Html.BeginForm("InsertUpdateDepartmentRights", "DepartmentRights", FormMethod.Post))
+{<div class="card_new_body">
+        <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                <div class="card">
+                    <div class="card-header">
+                        <b>Department Access Rights</b>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <input type="checkbox" id="chkAll" /><text> All </text>
+                                @Html.ListBoxFor(m => m.DepartmentID, new SelectList(ViewBag.DepartmentList, "id", "value", "22"), new { @onclick = "return list_OnSelectedIndexChanged()", @class = "custom-select", @style = "min-height: 280px; overflow: auto;" })
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                <div class="card">
+                    <div class="card-header">
+                        <b>Menu Rights</b>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="max-height: 280px; overflow: auto">
+                                @Html.Partial("_DepartmentRights")
+                            </div>
+                            @Html.HiddenFor(m => m.hdnCheckedVal)
+                            @Html.HiddenFor(m=>m.isAll)
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <span class="pull-right">
+            <input type="submit" value="Save" class="btn btn-primary btn-md" onclick="Javascript:getCheckValues(event);" />
+        </span>
+
+        
+    </div>
+}
+@section scripts{
+    <script src="../../Scripts/JqueryTreeview.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        //$(window).load(function () {
+        //    $('#DepartmentID').change(function () {
+        //        var value = $(this).val();
+              
+        //    });
+        //    list_OnSelectedIndexChanged();
+        //});
+
+        $(window).on('load',
+               function () {
+                   //$('#DepartmentID').change(function () {
+                   //    var value = $(this).val();
+                   //    //  alert(value);
+                   //});
+                   list_OnSelectedIndexChanged();
+               });
+    </script>
+    <script type="text/javascript">
+
+        $('#chkAll').change(function () {
+            if ($(this).is(':checked')) {
+                $('#DepartmentID').attr('disabled', '');
+                $('ul li input:checkbox').each(function () {
+                    $(this).prop('checked', true);
+                });
+                $('#isAll').val('True');
+                return;
+            }else
+                $('#DepartmentID').removeAttr('disabled', '');
+            $('#isAll').val('False');
+            // respond to change
+        })
+
+        function list_OnSelectedIndexChanged() {
+            var departmentID = $('#DepartmentID').val();
+            if (DepartmentID != null) {
+                $.ajax({
+                    url:"@Url.Action("BindDepartmentRights", "DepartmentRights")",
+                    type: "GET",
+                    dataType: "JSON",
+                    data: { departmentID: departmentID[0] },
+                    beforeSend: function () {
+                       // $('.loader2').show();
+                    },
+                    complete: function () {
+                      //  $('.loader2').hide();
+                    },
+                    success: function (data) {
+                        var strLength = Object.keys(data).length;
+                        $('ul li input:checkbox').each(function () {
+                            $(this).prop('checked', false);
+                        });
+                        if (strLength > 0) {
+                            $.each(data, function (index, value) {
+                                if (value.ShowMenu == true) {
+                                    $('ul li input:checkbox').each(function () {
+                                        if ($(this).val() == value.MenuID) {
+                                            $(this).prop('checked', true);
+                                        }
+                                    });
+                                }
+                                else {
+                                    $('ul li input:checkbox').each(function () {
+                                        if ($(this).val() == value.MenuID) {
+                                            $(this).prop('checked', false);
+                                        }
+                                    });
+                                }
+                            });
+                        }
+
+                    }
+
+                });
+            }
+        }
+        function getCheckValues(e) {
+            var DepartmentID = $("#DepartmentID option:selected").val();
+            if (DepartmentID == "") {
+                $.bootstrapGrowl("<i class='fa fa-exclamation-triangle' aria-hidden='true'></i> Please select Department.", {
+                    type: 'warning',
+                    align: 'center',
+                    width: 'auto',
+                    allow_dismiss: true
+                });
+                e.preventDefault();
+            }
+            else {
+                var allVals = [];
+                $('ul li input:checked').each(function () {
+                    allVals.push($(this).val());
+                });
+                $("#hdnCheckedVal").val(allVals);
+                if (allVals.length == 0) {
+                    $.bootstrapGrowl("<i class='fa fa-exclamation-triangle' aria-hidden='true'></i> Please select Department rights.", {
+                        type: 'warning',
+                        align: 'center',
+                        width: 'auto',
+                        allow_dismiss: true
+                    });
+                    e.preventDefault();
+                }
+            }
+        }
+    </script>
+
+}

@@ -1,0 +1,69 @@
+﻿
+@*@model MicroPay.Web.Models.ApprovalRequestVM*@
+
+@using Nafed.MicroPay.Model;
+
+@model List<ProcessWorkFlow>
+@{
+    var uDetails = (UserDetail)Session["user"];
+}
+
+
+<table id="tblGrid" class="table table-centered table-striped dt-responsive w-100">
+    <thead>
+        <tr>
+            <th>
+                #
+            </th>
+            <th>
+                Code
+            </th>
+         
+            <th>
+                Employee
+            </th>
+
+            <th>
+                Sender
+            </th>
+
+            <th>
+                Receiver
+            </th>
+            <th>
+                 Date
+            </th>
+            <th>
+                Status
+            </th>
+            <th>
+               System Generated Remarks
+            </th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            var sno = 1;
+            foreach (var item in Model)
+            {
+
+                    <tr>
+                        <td> @sno</td>
+                        <td> @item.EmployeeCode</td>
+                        <td> @item.EmployeeName </td>
+                        <td> @item.SenderName</td>
+                        <td> @item.Receivername</td>
+                        <td> @item.Senddate</td>
+                        <td> @item.Status</td>
+                        <td> @item.Scomments</td>
+                    </tr>
+                    sno++;
+             }
+        }
+
+    </tbody>
+</table>
+
+
+

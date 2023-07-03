@@ -1,0 +1,22 @@
+﻿
+@{
+    ViewBag.Title = "Employee Confirmation";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="">
+    <div class="card_new_body">
+        @using (Ajax.BeginForm("_PostEmployeeConfirmation", "EmployeeConfirmation", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "div-employeeConfirmation-forms" }))
+        {
+            <div id="div-employeeConfirmation-filters">
+                @Html.Action("_EmployeeConfirmationFilters")
+            </div>
+        }
+    </div>
+</div>
+
+<div class="card_new_body">
+    <div id="div-employeeConfirmation-forms">
+    </div>
+</div>
+

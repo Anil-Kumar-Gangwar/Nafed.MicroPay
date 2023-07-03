@@ -1,0 +1,60 @@
+﻿@using Nafed.MicroPay.Model;
+@using Nafed.MicroPay.Common;
+@model List<Insurance>
+
+<table id="tblGrid" class="table table-centered table-striped dt-responsive w-100">
+    <thead>
+        <tr>
+            <th style="width:5%">
+                #
+            </th>
+            <th style="width:20%">
+                Employee Name
+            </th>
+            <th class="text-center" style="width:20%">
+                Policy Join Date
+            </th>
+            <th class="text-center" style="width:20%">
+                Family sum assured
+            </th>
+            <th class="text-center" style="width:25%">
+                Dependents covered under Nafed Cashless Group Mediclaim policy
+            </th>
+            <th class="text-center" style="width:10%">
+                Action
+            </th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            int index = 1;
+            if (Model != null)
+            {
+                foreach (var item in Model)
+                {
+                    <tr>
+                        <td> @index</td>
+                        <td> @item.EmployeeName</td>
+                        <td class="text-center"> @Convert.ToDateTime(item.PolicyJoinDate).ToString("dd-MM-yyyy")</td>
+                        <td class="text-center">
+                            @item.FamilyAssuredSum
+                        </td>
+                        <td class="text-center">
+                            @ExtensionMethods.BoolToYesNo(item.DependentMedicalPolicy)
+                        </td>
+                        <td class="text-center">
+                            @*<a href="@Url.Action("Edit", "Insurance", new {insuranceID = item.InsuranceId,employeeId = item.EmployeeId })" title="Click here, to edit this record" data-toggle="tooltip">
+                                <span class="far fa-edit text-info" aria-hidden="true"></span>
+                            </a>*@
+                            @Html.EncodedImageActionLink("", "Edit", "Insurance", new { insuranceID = item.InsuranceId, employeeId = item.EmployeeId }, new { @class = "toggle-tooltip", title = "Click here, to edit this record" }, "~/Images/edit.png")
+                        </td>
+                    </tr>
+                    index++;
+                }
+            }
+
+        }
+
+    </tbody>
+</table>

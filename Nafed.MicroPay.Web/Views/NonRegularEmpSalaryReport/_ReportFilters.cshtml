@@ -1,0 +1,75 @@
+﻿@using Nafed.MicroPay.Model
+@{
+
+    var yearDDl = Enumerable.Range(2007, (DateTime.Now.Year - 2007) + 1).
+                                  Select(i => new SelectListModel { id = i, value = i.ToString() }).OrderByDescending(x => x.value).ToList();
+
+    yearDDl.Insert(0, new SelectListModel { value = "Select", id = 0 });
+
+
+
+    var monthDDL = Enumerable.Range(1, 12).Select(i => new SelectListModel
+    {
+        id = i,
+        value = System.Globalization.CultureInfo.InvariantCulture.DateTimeFormat.GetMonthName(i)
+    }).ToList();
+
+    monthDDL.Insert(0, new SelectListModel { value = "Select", id = 0 });
+}
+
+
+<div class="advance-search" style="">
+
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 pb-1 pt-2 form-inline align-middle">
+
+        <i class="fa fa-search fa-2x" style="color:#d4d4d4;" aria-hidden="true"></i><h4 class="desc" style="color:#0bb70b;">
+
+            @Html.Label("Search")
+        </h4>
+
+    </div>
+
+    <hr style="background-color:#fff !important;">
+
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+        <div class="form-group">
+
+            <div class="row">
+                <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12 text-secondary">
+
+                    <i class="fas fa-filter"></i> Filter By :
+
+                </div>
+
+                <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12 ">
+                    @Html.Label("Month", htmlAttributes: new { @class = "" })
+                </div>
+
+                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                    @Html.DropDownList("ddlMonth", new SelectList(monthDDL, "id", "value"), new { @class = "custom-select" })
+                    @Html.ValidationMessage("monthRequired", "", new { @class = "text-danger" })
+                </div>
+
+                <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+                    @Html.Label("Year", htmlAttributes: new { @class = "" })
+                </div>
+
+                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                    @Html.DropDownList("ddlYear", new SelectList(yearDDl, "id", "value"), new { @class = "custom-select" })
+                    @Html.ValidationMessage("yearRequired", "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <hr style="background-color:#fff !important;">
+    <div class="row mt-3">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-right">
+            <button type="submit" id="submitform" class="btn btn-warning" title="Click here, to search records.">
+                <i class="fa fa-search"></i> Search
+            </button>
+        </div>
+    </div>
+
+</div>

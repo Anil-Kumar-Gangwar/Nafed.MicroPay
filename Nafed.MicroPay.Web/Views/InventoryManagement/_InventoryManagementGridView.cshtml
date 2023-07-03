@@ -1,0 +1,147 @@
+﻿@using Nafed.MicroPay.Common
+@model MicroPay.Web.Models.InventorymanagementViewModel
+
+<table id="tblGrid" class="table table-centered table-striped dt-responsive w-100">
+    <thead>
+        <tr>
+            <th>
+                #
+            </th>           
+            <th style="width:6%">
+                Asset Type
+            </th>
+
+            <th style="width:6%">
+                Manufacturer
+            </th>
+            <th style="width:5%">
+                Manufacture Year
+            </th>
+            <th style="width:10%">
+                Asset Name
+            </th>
+          
+            <th style="width:6%">
+                Serial No.
+            </th>
+            <th style="width:6%">
+                Price
+            </th>
+            <th style="width:6%">
+                Consumable
+            </th>
+            <th style="width:10%">
+                Remarks
+            </th>
+            <th style="width:6%">
+                Status
+            </th>
+            <th style="width:6%">
+                Last Updated On
+            </th>
+            <th style="width:6%">
+                Last Updated
+            </th>
+            @if (Model.userRights != null)
+            {
+                if (Model.userRights.Edit)
+                {
+                    <th class="text-center" style="width:60px">
+                        Action
+                    </th>
+                }
+            }
+
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            if (Model.listInventoryManagement != null && Model.listInventoryManagement.Count() > 0)
+            {
+                var sno = 1;
+                foreach (var item in Model.listInventoryManagement)
+                {
+                    <tr>
+                        <td> @sno</td>                       
+                        <td> @item.AssetTypeName</td>
+                        <td> @item.ManufacturerName</td>
+                        <td> @item.ManufacturingYr</td>
+                        <td> @item.AssetName</td>
+                        <td style="width:2%"> @item.SerialNo</td>
+                        <td class="text-right">@item.Price.ToString("0.00")</td>
+                        <td class="text-center"> @ExtensionMethods.BoolToYesNo(item.Consumable)</td>
+                        <td> @item.Remarks</td>
+                        <td>
+                            @if (@item.StatusID == 1)
+                            {
+                                <span class="badge badge-success badge-pill col-md-12">In Stock</span>
+                            }
+                            else if (@item.StatusID == 2)
+                            {
+                                <span class="badge badge-danger badge-pill col-md-12">Damage</span>
+                            }
+                            else if (@item.StatusID == 3)
+                            {
+                                <span class="badge badge-warning badge-pill col-md-12">Missing</span>
+                            }
+                            else if (@item.StatusID == 4)
+                            {
+                                <span class="badge badge-info badge-pill col-md-12">Allocated</span>
+                            }
+                            else if (@item.StatusID == 5)
+                            {
+                                <span class="badge badge-dark badge-pill col-md-12">Repair</span>
+                            }
+                        </td>                      
+                        <td>
+                            @if (item.UpdatedOn.HasValue)
+                            {                              
+                                @Convert.ToDateTime(item.UpdatedOn).ToString("dd-MM-yyyy")
+                            }
+                            else
+                            {                              
+                                @Convert.ToDateTime(item.CreatedOn).ToString("dd-MM-yyyy")
+                            }
+                        </td>
+                        <td>
+                            @if (item.UpdatedBy.HasValue)
+                            {
+                                @item.UpdatedName
+                            }
+                            else
+                            {
+                                @item.CreatedName
+                            }
+                        </td>
+                        @if (Model.userRights != null)
+                        {
+                            if (Model.userRights.Edit)
+                            {
+                                <td class="text-center">
+                                    @if (item.StatusID != 4)
+                                    {
+
+                                        @*<a href="@Url.Action("Edit", "InventoryManagement", new { imid = item.IMID })" title="Click here, to edit this record" data-toggle="tooltip">
+                                            <i class="far fa-edit text-info" aria-hidden="true"></i>
+                                        </a>*@
+                                        @Html.EncodedImageActionLink("", "Edit", "InventoryManagement", new { imid = item.IMID }, new { @class = "toggle-tooltip", title = "Click here, to edit this record" }, "~/Images/edit.png")<text> | </text>
+                                    }
+                                    <a data-ajax="true"
+                                       method="GET" class="toggle-tooltip" title="Click here, to view item history"
+                                       data-ajax-update="#div-assethistory-container" data-ajax-mode="replace"
+                                       data-backdrop="static" data-keyboard="false"
+                                       href="@Url.Action("AssetHistory", "InventoryManagement", new { imid =item.IMID,assetType=item.AssetTypeName,asset=item.AssetName})"
+                                       id="a_assetdetail" data-toggle="modal" data-target="#div-asset-history">
+                                        <i class="fa fa-history" aria-hidden="true"></i>
+                                    </a>
+                                </td>
+                            }
+                        }
+                    </tr>
+                    sno++;
+                }
+            }
+        }
+
+    </tbody>
+</table>

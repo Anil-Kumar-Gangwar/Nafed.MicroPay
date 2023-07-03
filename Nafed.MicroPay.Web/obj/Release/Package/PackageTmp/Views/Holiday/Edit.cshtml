@@ -1,0 +1,89 @@
+﻿@model Nafed.MicroPay.Model.Holiday
+@{
+    ViewBag.Title = "Edit Holiday";
+    ViewBag.NavigationTitle = "Holiday";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    System.Globalization.CultureInfo Indian = new System.Globalization.CultureInfo("hi-IN");
+
+    
+
+}
+
+<div class="card_new_header alert alert-danger">
+    <div class="col-sm-6">
+        NOTE : Fields marked with (*) are compulsory fields
+    </div>
+    <div class="col-sm-6 text-right">
+        <b>@*[ Characters < > # ^ ; | $ are not allowed ]*@</b>
+    </div>
+</div>
+@using (Html.BeginForm("Edit", "Holiday", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    <div class="card_new_body">
+        <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 mb-2">
+                @Html.HiddenFor(model => model.HolidayID)
+                @Html.HiddenFor(model=>model.CYear)
+
+                <div class="row">
+
+                    @Html.LabelFor(model => model.CYear, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-6 col-xs-12 mb-2" })
+                    <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 mb-2">
+                        @Html.DropDownListFor(model => model.CYear, new SelectList(Model.CYearList, "id", "value"), "Select", new { @class = "custom-select", @disabled="disabled" })
+                    </div>
+
+                </div>
+
+
+                <div class="row">
+                    @Html.LabelFor(model => model.HolidayName, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-6 col-xs-12 mb-2 required" })
+                    <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 mb-2">
+                        @Html.EditorFor(model => model.HolidayName, new { htmlAttributes = new { @class = "form-control", @placeholder = "Holiday Name", @maxlength = "50" } })
+                        @Html.ValidationMessageFor(model => model.HolidayName, "", new { @class = "text-danger" })
+                        @Html.ValidationMessage("HolidayNameAlreadyExist", "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="row">
+                    @Html.LabelFor(model => model.HolidayDate, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-6 col-xs-12 mb-2  required" })
+
+                    <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 mb-2">
+                        @Html.EditorFor(model => model.HolidayDate, new { htmlAttributes = new { @class = "form-control", @placeholder = "Holiday Date", @type = "date", @maxlength = "10" } })
+                        @Html.ValidationMessageFor(model => model.HolidayDate, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="row">
+                    @Html.LabelFor(model => model.HolidayDate, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-6 col-xs-12 mb-2 required" })
+
+                    <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 mb-2">
+                        @Html.DropDownListFor(model => model.BranchId, (IEnumerable<SelectListItem>)ViewBag.Branch, new { id = "BranchId", @class = "custom-select" })
+                        @Html.ValidationMessageFor(model => model.BranchId, "", new { @class = "text-danger" })
+                        @Html.ValidationMessage("HolidayBankRequired", "", new { @class = "text-danger" })
+                    </div>
+                </div> 
+                <span class="pull-right">
+                    @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-light btn-md toggle-tooltip", @title = "Click here, to redirect on list page" })
+                    <input type="submit" value="Update" class="btn btn-info btn-md pull-center toggle-tooltip" title="Click here, to update current record" />
+                </span>
+            </div>
+        </div>
+
+    </div>
+}
+@section scripts{
+    @*<script type="text/javascript">
+            $(document).ready(function () {
+                $('.date').datetimepicker({ format: 'DD/MM/YYYY' });
+                $(":text").keyup(function () {
+                    var yourInput = $(this).val();
+                    re = /[`~!#$%^&*()_|+\- =?;:'",.<>\{\}\[\]\\\/]/gi;
+                    var isSplChar = re.test(yourInput);
+                    if (isSplChar) {
+                        var no_spl_char = yourInput.replace(/[`~!#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, '');
+                        $(this).val(no_spl_char);
+                    }
+                });
+            });
+    </script>*@
+}

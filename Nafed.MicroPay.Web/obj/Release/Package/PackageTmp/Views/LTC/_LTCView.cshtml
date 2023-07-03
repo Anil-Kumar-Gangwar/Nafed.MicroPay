@@ -1,0 +1,514 @@
+﻿
+@model Nafed.MicroPay.Model.LTC
+<script src="~/Scripts/bootstrap-multiselect.js"></script>
+
+<div id="div-main-form">
+    @using (Ajax.BeginForm("Create", "LTC", new AjaxOptions { HttpMethod = "POST" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+
+        @Html.Hidden("Employeecode");
+
+        <div class="form-group">
+            <div class="col-lg-12 col-md-12 col-xl-12 col-sm-12 col-xs-12 text-center">
+                <h4 class="font-weight-bold">
+                    NATIONAL AGRICULTURAL COOPERATIVE MARKETING FEDERATION OF INDIA LTD.,
+                    SIDHARTHA ENCLAVE, ASHRAM CHOWK, NEW DELHI-110014.
+                </h4>
+            </div>
+
+        </div>
+
+        <div class="form-group">
+            <div class="col-lg-12 col-md-12 col-xl-12 col-sm-12 col-xs-12 text-left">
+                <h4>
+                    APPLICATION FORM FOR GRANT OF LEAVE TRAVEL CONCESSION UNDER THE SCHEME OF VISITING HOME TOWN/ANY PLACE IN INDIA FOR THE BLOCK/CALENDAR YEAR -
+                </h4>
+            </div>
+
+        </div>
+        <div id="div-Employee">
+
+            <div class="form-group">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
+
+                    <div class="row">
+                        <p class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                            Name and Designation of the Applicant (in block letters)
+                        </p>
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 mb-2 font-weight-bold">
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <p class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                            Office and Section
+                        </p>
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 mb-2 font-weight-bold">
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <p class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                            Natue Of Leave
+                        </p>
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 mb-2">
+                            @Html.DropDownListFor(model => model.Natureofleave, (IEnumerable<SelectListItem>)ViewBag.Natureofleave, new { @class = "custom-select" })
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                            @Html.LabelFor(model => model.WhetherSelf, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 mb-2">
+                            <div class="form-group">
+                                <label class="switch">
+                                    @Html.CheckBoxFor(model => model.WhetherSelf, new { @class = "form-control" })
+                                    <div class="slider round">
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="row">
+                        <p class="col-lg-4 col-md-4 col-sm-4 col-xs-12 mb-2 required">
+                            @* Particulars of family members*@
+                            @Html.LabelFor(model => model.Dependents, htmlAttributes: new { @class = "control-label" })
+                        </p>
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 mb-2">
+                            @Html.ListBoxFor(m => m.Dependentid, (IEnumerable<SelectListItem>)ViewBag.DependentDetails, new { @class = "form-control col-lg-11 col-md-11 col-sm-11 col-xs-12", @id = "ddldependents" })
+                            @Html.HiddenFor(m => m.hdnCheckedVal)
+                        </div>
+
+                    </div>
+                    <hr />
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 required">
+
+                            Name of the places to be visited
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 mb-2">
+
+                            @Html.DropDownListFor(model => model.HomeTown, (IEnumerable<SelectListItem>)ViewBag.HomeDetails, new { @class = "custom-select" })
+                            @*@Html.ValidationMessageFor(model => model.HomeTown, "", new { @class = "text-danger" })*@
+                            @Html.ValidationMessage("HomeTownRequired", "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 mb-2 font-weight-bold">
+
+                            @Html.EditorFor(model => model.WhereDetail, new { htmlAttributes = new { @class = "form-control", @placeholder = "Name of place", @maxlength = "100" } })
+                            @Html.ValidationMessage("WhereDetailRequired", "", new { @class = "text-danger" })
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+                        <p class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                            Distance from the Headquarter
+                        </p>
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 mb-2">
+                            @Html.EditorFor(model => model.Distance, new { htmlAttributes = new { @class = "form-control integerOnly ", @style = "text-align: right;", @placeholder = "Distance" } })
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 required">
+                            Probable date of commencement of journey
+                        </div>
+
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 mb-2">
+                            @Html.EditorFor(model => model.DateAvailLTC, new { htmlAttributes = new { @class = "form-control", @placeholder = "Date of Avail LTC", @type = "date" } })
+                            @Html.ValidationMessageFor(model => model.DateAvailLTC, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 mb-2">
+                            @Html.EditorFor(model => model.DateofReturn, new { htmlAttributes = new { @class = "form-control", @placeholder = "Date of Return", @type = "date" } })
+                            @Html.ValidationMessageFor(model => model.DateAvailLTC, "", new { @class = "text-danger" })
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
+
+                    <div class="row">
+                        <p class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            1.	The family members in respect of whom LTC is being availed are entirely dependent on me and are also residing with me.
+                        </p>
+                    </div>
+                    <div class="row">
+                        <p class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            2.	That my husband/wife is not an employee of the Federation.
+                        </p>
+                    </div>
+                    <div class="row">
+                        <p class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            3.	That my husband/wife is employed in @Html.EditorFor(model => model.WhereDetail, new { htmlAttributes = new { @class = "col-lg-2 col-md-2 col-sm-2 col-xs-2", @placeholder = "Organisation Name", @maxlength = "100" } }) and the Leave Travel Concession facility has not been availed by him/her separately for himself/herself or for any of the family members for the concerned Block  year/Calendar Year
+                        </p>
+                    </div>
+                    <div class="row">
+                        <p class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            4.	That the journey shall be performed by the class of accommodation for which the advance has been drawn.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2 text-right form-inline">
+                    <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10 mb-2 text-right">
+                        <p>Name :</p>
+                    </div>
+
+                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-6 mb-2 underlineinput text-left">
+
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2 text-right form-inline">
+                    <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10 mb-2 text-right">
+                        <p>Date :</p>
+                    </div>
+
+                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-6 mb-2 underlineinput text-left">
+
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2 text-right form-inline">
+                    <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10 mb-2 text-right">
+                        <p>Branch/Office :</p>
+                    </div>
+
+                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-6 mb-2 underlineinput text-left">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 font-weight-bold text-center">
+                <u> PART  II</u>
+            </div>
+        </div>
+
+            <div id="div-Divisional" class="">
+
+                <div class="row">
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-10 mb-2">
+                        Comment
+                    </div>
+
+                    <div class="col-lg-6 col-md-2 col-sm-6 col-xs-6 mb-2">
+                        @Html.TextAreaFor(model => model.Detail, new { @class = "form-control lg-textarea" })
+                        @Html.ValidationMessageFor(model => model.Detail, "", new { @class = "text-danger" })
+                    </div>
+
+
+                </div>
+
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2 text-right form-inline">
+                    <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10 mb-2 text-right">
+                        <p>Name & Designation of Divisional Head :</p>
+                    </div>
+
+                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-6 mb-2 underlineinput text-left">
+
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2 text-right form-inline">
+                        <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10 mb-2 text-right">
+                            <p>Date :</p>
+                        </div>
+
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-6 mb-2 underlineinput text-left">
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div id="div-SH" class="">
+                <div class="row">
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-10 mb-2">
+                        Comment
+                    </div>
+
+                    <div class="col-lg-6 col-md-2 col-sm-6 col-xs-6 mb-2">
+                        @Html.TextAreaFor(model => model.Detail, new { @class = "form-control lg-textarea" })
+                        @Html.ValidationMessageFor(model => model.Detail, "", new { @class = "text-danger" })
+                    </div>
+
+
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2 text-right form-inline">
+                        <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10 mb-2 text-right">
+                            <p>Name & Designation of Sectional Head :</p>
+                        </div>
+
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-6 mb-2 underlineinput text-left">
+
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2 text-right form-inline">
+                        <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10 mb-2 text-right">
+                            <p>Date :</p>
+                        </div>
+
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-6 mb-2 underlineinput text-left">
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2 text-right">
+                    @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-light btn-sm toggle-tooltip", @title = "Click here, to redirect on list page", @data_toggle = "tooltip" })
+                    <input type="submit" value="Create" class="btn btn-info btn-md pull-center toggle-tooltip" title="Click here, to Create current record" data-toggle="tooltip" />
+                </div>
+            </div>
+            <div>
+                @*<div class="card_new_body">
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
+
+                                <div class="row">
+                                    @Html.LabelFor(model => model.BranchId, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2 required" })
+                                    <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 mb-2">
+                                        @Html.DropDownListFor(model => model.BranchId, (IEnumerable<SelectListItem>)ViewBag.Branch, new { @class = "custom-select nonpopup", @id = "ddlBranchList1", onchange = "BindEmployeeOnBranch(this)" })
+                                    </div>
+
+                                </div>
+
+
+                                <div class="row">
+                                    @Html.LabelFor(model => model.EmployeeId, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2 required" })
+                                    <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 mb-2">
+                                        @Html.DropDownListFor(model => model.EmployeeId, (IEnumerable<SelectListItem>)ViewBag.EmployeeDetails, new { @class = "custom-select ", @id = "ddlEmployee" })
+                                        @Html.ValidationMessageFor(model => model.EmployeeId, "", new { @class = "text-danger" })
+                                    </div>
+
+
+                                </div>
+
+                                <div class="row">
+                                    @Html.LabelFor(model => model.Dependents, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2 required" })
+                                    <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 mb-2">
+
+
+
+                                        @Html.ListBoxFor(m => m.Dependentid, (IEnumerable<SelectListItem>)ViewBag.DependentDetails, new { @class = "form-control d-none", @id = "ddldependents" })
+                                        @Html.HiddenFor(m => m.hdnCheckedVal)
+                                    </div>
+                                </div>
+
+
+
+                                <div class="row">
+                                    @Html.LabelFor(model => model.WhetherSelf, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2 " })
+
+                                    <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 mb-2">
+                                        <div class="form-group">
+                                            <label class="switch">
+                                                @Html.CheckBoxFor(model => model.WhetherSelf, new { @class = "form-control" })
+                                                <div class="slider round">
+                                                </div>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    @Html.LabelFor(model => model.HomeTown, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-6 col-xs-12 mb-2 required" })
+
+                                    <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 mb-2">
+
+                                        @Html.DropDownListFor(model => model.HomeTown, (IEnumerable<SelectListItem>)ViewBag.HomeDetails, new { @class = "custom-select" })
+
+                                        @Html.ValidationMessage("HomeTownRequired", "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    @Html.LabelFor(model => model.WhereDetail, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-6 col-xs-12 mb-2" })
+
+                                    <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 mb-2">
+                                        @Html.EditorFor(model => model.WhereDetail, new { htmlAttributes = new { @class = "form-control", @placeholder = "Where Detail", @maxlength = "100" } })
+                                        @Html.ValidationMessage("WhereDetailRequired", "", new { @class = "text-danger" })
+
+                                    </div>
+                                </div>
+
+
+                                <div class="row">
+                                    @Html.LabelFor(model => model.InitialcalAmount, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2 " })
+                                    <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 mb-2">
+                                        @Html.EditorFor(model => model.InitialcalAmount, new { htmlAttributes = new { @class = "form-control integerOnly ", @style = "text-align: right;", @placeholder = "Initial Amount" } })
+
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    @Html.LabelFor(model => model.DateofApplication, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2 required" })
+                                    <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 mb-2">
+                                        @Html.EditorFor(model => model.DateofApplication, new { htmlAttributes = new { @class = "form-control", @placeholder = "Date of Application", @type = "date" } })
+                                        @Html.ValidationMessageFor(model => model.DateofApplication, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    @Html.LabelFor(model => model.TentativeAdvance, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2 " })
+                                    <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 mb-2">
+                                        @Html.EditorFor(model => model.TentativeAdvance, new { htmlAttributes = new { @class = "form-control integerOnly ", @style = "text-align: right;", @placeholder = "Tentative Advance" } })
+
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    @Html.LabelFor(model => model.Distance, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2 " })
+                                    <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 mb-2">
+                                        @Html.EditorFor(model => model.Distance, new { htmlAttributes = new { @class = "form-control integerOnly ", @style = "text-align: right;", @placeholder = "Distance" } })
+
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    @Html.LabelFor(model => model.DateAvailLTC, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2 required" })
+                                    <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 mb-2">
+                                        @Html.EditorFor(model => model.DateAvailLTC, new { htmlAttributes = new { @class = "form-control", @placeholder = "Date of Avail LTC", @type = "date" } })
+                                        @Html.ValidationMessageFor(model => model.DateAvailLTC, "", new { @class = "text-danger" })
+                                    </div>
+
+                                </div>
+
+                                <div class="row">
+                                    @Html.LabelFor(model => model.DateofReturn, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2 required" })
+                                    <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 mb-2">
+                                        @Html.EditorFor(model => model.DateofReturn, new { htmlAttributes = new { @class = "form-control", @placeholder = "Date of Return", @type = "date" } })
+                                        @Html.ValidationMessageFor(model => model.DateAvailLTC, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    @Html.LabelFor(model => model.LTCBillAmt, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2 required" })
+                                    <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 mb-2">
+                                        @Html.EditorFor(model => model.LTCBillAmt, new { htmlAttributes = new { @class = "form-control integerOnly ", @style = "text-align: right;", @placeholder = "LTC Bill Amt" } })
+                                        @Html.ValidationMessageFor(model => model.LTCBillAmt, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    @Html.LabelFor(model => model.Settlementdone, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-6 col-xs-12 mb-2" })
+
+                                    <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 mb-2">
+                                        @Html.EditorFor(model => model.Settlementdone, new { htmlAttributes = new { @class = "form-control integerOnly", @style = "text-align: right;", @placeholder = "Settlement Done" } })
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    @Html.LabelFor(model => model.Natureofleave, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-6 col-xs-12 mb-2" })
+
+                                    <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 mb-2">
+                                        @Html.DropDownListFor(model => model.Natureofleave, (IEnumerable<SelectListItem>)ViewBag.Natureofleave, new { @class = "custom-select" })
+
+                                    </div>
+                                </div>
+
+
+
+
+                                <div class="row">
+                                    @Html.LabelFor(model => model.Detail, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2" })
+                                    <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 mb-2">
+                                        @Html.EditorFor(model => model.Detail, new { htmlAttributes = new { @class = "form-control", @placeholder = "Max Length : 200", @maxlength = "200" } })
+
+                                    </div>
+                                </div>
+
+                                <span class="pull-right">
+                                    @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-light btn-sm toggle-tooltip", @title = "Click here, to redirect on list page", @data_toggle = "tooltip" })
+                                    <input type="submit" value="Create" class="btn btn-info btn-md pull-center toggle-tooltip" title="Click here, to Create current record" data-toggle="tooltip" />
+                                </span>
+
+                            </div>
+                        </div>
+                    </div>*@
+            </div>
+    }
+</div>
+
+<script type="text/javascript">
+
+        $(document).ready(function () {
+            $('#ddldependents').multiselect();
+            $(".multiselect ").addClass('col-lg-11 col-md-6 col-sm-6 col-xs-12');
+        });
+
+        @*function BindEmployeeOnBranch(e) {
+
+            var branchId = 0;
+            var filldropdown = 0;
+            filldropdown = (e.id == "ddlBranchList1" ? 1 : 2);
+
+            if ($("#ddlBranchList1").val() > 0) {
+
+                jQuery.post("@Url.Action("GetBranchEmployee", "LTC")", {
+                    branchID: $("#ddlBranchList1").val(),
+                }).done(function (data) {
+                    debugger;
+                    if (data.employees != "") {
+
+                        $("#ddlEmployee").html("");
+                        $.each(data.employees, function (key, value) {
+                            $("#ddlEmployee").append($("<option></option>").val(value.Value).html(value.Text));
+                        });
+                    }
+                });
+            }
+        }
+
+
+
+        $("#ddlEmployee").change(function () {
+            var EmployeeID = $('#ddlEmployee').val();
+            if (EmployeeID != null) {
+                jQuery.post("@Url.Action("BindDependentlist", "LTC")", {
+                    EmployeeID: $('#ddlEmployee').val(),
+                }).done(function (data) {
+                    // debugger;
+                    $("#ddldependents").html("");
+                    $("#ddldependents").removeClass("d-none");
+                    $("#ddldependents").addClass("col-md-12");
+                    $.each(data.Dependentlist, function (key, value) {
+
+                        $("#ddldependents").append($("<option></option>").val(value.id).html(value.value));
+                    });
+                    $('#ddldependents').multiselect();
+                }
+
+            )
+
+            }
+        });*@
+
+
+
+</script>
+
+
+

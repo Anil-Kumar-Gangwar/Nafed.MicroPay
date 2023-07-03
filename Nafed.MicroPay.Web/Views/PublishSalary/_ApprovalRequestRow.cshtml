@@ -1,0 +1,263 @@
+﻿@using Nafed.MicroPay.Model
+@model PayrollApprovalRequest
+
+@using (Ajax.BeginForm("_PostRequestRow", "PublishSalary", new AjaxOptions
+{
+    HttpMethod = "POST",
+    InsertionMode = InsertionMode.Replace,
+    OnSuccess = "OnSuccess"
+}))
+{
+    @Html.HiddenFor(model => model.EmployeeTypeID)
+    @Html.HiddenFor(model => model.BranchCode)
+    @Html.HiddenFor(model => model.BranchID)
+    @Html.HiddenFor(model => model.ApprovalRequestID)
+    @Html.HiddenFor(model => model.ProcessID)
+    @Html.HiddenFor(model => model.Status)
+    @Html.HiddenFor(model => model.Period)
+    @Html.HiddenFor(model => model.sno)
+
+
+    @Html.HiddenFor(model => model.Reporting1)
+    @Html.HiddenFor(model => model.Reporting2)
+    @Html.HiddenFor(model => model.Reporting3)
+    @Html.HiddenFor(model => model.CreatedBy)
+    @Html.HiddenFor(model => model.CreatedOn)
+
+    @Html.Hidden("hdnAction_" + Model.sno)
+
+    <td style='vertical-align:middle;'> @Model.sno</td>
+    <td style='vertical-align:middle;'>
+
+        @if (!Model.BranchID.HasValue)
+        {
+            Model.BranchName = Model.BranchCode == "Except-HO" ? "All Branches (Except HO)" : "All Branches";
+        }
+
+        @*<a data-ajax="true" data-toggle="tooltip"
+           href="@Url.Action("_ExportMonthlyPaySlip", "PublishSalary",
+                new { branchID = Model.BranchID, empTypeID= Model.EmployeeTypeID,
+                    salMonth = Model.periodInDateFormat.Value.Month,
+                    salYear= Model.periodInDateFormat.Value.Year })"
+           method="GET" title="Click here ,to export monthly pay slip report."
+           data-ajax-success="OnExportSuccess">
+            @Model.BranchName
+        </a>*@
+
+        @if (Model.BranchName == "All Branches (Except HO)")
+        {
+            var branch = Model.BranchID ?? 0;
+            <a style="cursor:pointer; color:blue" data-toggle="tooltip" title="Click here ,to view monthly pay slip report (Except HO)" onclick="ViewReport(@branch, @Model.EmployeeTypeID, @Model.periodInDateFormat.Value.Month, @Model.periodInDateFormat.Value.Year, 1,true)">
+                @Model.BranchName
+            </a>
+        }
+        @if (Model.BranchName == "HEAD OFFICE")
+        {
+            var branch = Model.BranchID ?? 0;
+            <a style="cursor:pointer; color:blue" data-toggle="tooltip" title="Click here ,to view monthly pay slip report" onclick="ViewReport(@branch, @Model.EmployeeTypeID, @Model.periodInDateFormat.Value.Month, @Model.periodInDateFormat.Value.Year, 1,false)">
+                @Model.BranchName
+            </a>
+        }
+
+        @*<a data-ajax="true" data-toggle="tooltip"
+               href="@Url.Action("_GetSalaryReport", "PublishSalary",
+                    new { branchID = Model.BranchID, empTypeID= Model.EmployeeTypeID,
+                        salMonth = Model.periodInDateFormat.Value.Month,
+                        salYear= Model.periodInDateFormat.Value.Year,type="summary" })"
+               method="GET" title="Click here ,to view pay summary report."
+               data-ajax-success="OnReportSuccess">
+                @Model.BranchName
+            </a>*@
+
+    </td>
+    <td style='vertical-align:middle;'>
+
+        @if (@Model.periodInDateFormat.HasValue)
+        {
+            <text>
+                @Model.periodInDateFormat.Value.ToString("MMM, yyyy")
+            </text>
+        }
+        else
+        {
+            <text>--</text>
+        }
+    </td>
+    <td style='vertical-align:middle;'> @Model.EmpployeeTypeName </td>
+
+    <td class="text-center" style='vertical-align:middle;'>
+
+        @if (@Model.Status == (int)ApprovalStatus.RequestedByReporting1)
+        {
+            <h5>
+                <span class="badge badge-pill badge-light col-md-12">
+                    @(((ApprovalStatus)@Model.Status).GetDisplayName())
+                </span>
+            </h5>
+        }
+        else if (@Model.Status == (int)ApprovalStatus.RejectedByReporting2)
+        {
+            <h5>
+                <span class="badge badge-pill badge-dark col-md-12">
+                    @(((ApprovalStatus)Model.Status).GetDisplayName())
+                </span>
+            </h5>
+        }
+        else if (@Model.Status == (int)ApprovalStatus.ApprovedByReporting2)
+        {
+            <h5>
+                <span class="badge badge-pill badge-dark col-md-12">
+                    @(((ApprovalStatus)@Model.Status).GetDisplayName())
+                </span>
+            </h5>
+        }
+        else if (@Model.Status == (int)ApprovalStatus.RejectedByReporting3)
+        {
+            <h5>
+                <span class="badge badge-pill bg-teal col-md-12">
+                    @(((ApprovalStatus)@Model.Status).GetDisplayName())
+                </span>
+                @*<span class="badge badge-pill badge-success col-md-12 toggle-tooltip" title="Employee Remark: @item.Reason <br/> Reporting Remark: @item.ReporotingToRemark <br/> Reviwer Remark: @item.ReviewerToRemark">Approved</span>*@
+            </h5>
+        }
+        else if (@Model.Status == (int)ApprovalStatus.ApprovedByReporting3)
+        {
+            <h5>
+                <span class="badge badge-pill badge-dark col-md-12">
+                    @(((ApprovalStatus)@Model.Status).GetDisplayName())
+                </span>
+            </h5>
+        }
+
+    </td>
+
+    <td>
+        @Html.TextAreaFor(model => @Model.Comments,
+                                  new
+                                  {
+                                      @class = "form-control",
+                                      @maxlength = "200",
+                                      @style = "min-height:100px;max-height:100px"
+                                  })
+    </td>
+
+    <td class="text-center" style='vertical-align:middle;'>
+        @*<a data-ajax="true" data-toggle="tooltip"
+               href="@Url.Action("_ExportMonthlyPaySummary", "PublishSalary",
+                    new { branchID = Model.BranchID, empTypeID= Model.EmployeeTypeID,
+                        salMonth = Model.periodInDateFormat.Value.Month,
+                        salYear= Model.periodInDateFormat.Value.Year
+                    })"
+               method="GET" title="Click here ,to export monthly pay summary report."
+               data-ajax-success="OnExportSuccess">
+
+                <span class="far fa-file-excel text-info" aria-hidden="true"></span>
+            </a>*@
+        @if (Model.BranchName == "All Branches (Except HO)")
+        {
+            var branch = Model.BranchID ?? 0;
+            <a style="cursor:pointer" data-toggle="tooltip" title="Click here ,to view all branches report (Except HO)" onclick="ViewReport(@branch, @Model.EmployeeTypeID, @Model.periodInDateFormat.Value.Month, @Model.periodInDateFormat.Value.Year, 4,true)">
+                <i class="far fa-eye text-info" aria-hidden="true"></i>
+            </a>
+        }
+        @if (Model.BranchName == "HEAD OFFICE")
+        {
+            var branch = Model.BranchID ?? 0;
+            <a style="cursor:pointer" data-toggle="tooltip" title="Click here ,to view head office report" onclick="ViewReport(@branch, @Model.EmployeeTypeID, @Model.periodInDateFormat.Value.Month, @Model.periodInDateFormat.Value.Year, 2,true)">
+                <i class="far fa-eye text-info" aria-hidden="true"></i>
+            </a>
+        }
+
+    </td>
+
+
+    @*<td class="text-center" style='vertical-align:middle;'>
+
+            <a data-ajax="true" data-toggle="tooltip"
+               href="@Url.Action("_GetSalaryReport", "PublishSalary",
+                    new { branchID = Model.BranchID, empTypeID= Model.EmployeeTypeID,
+                        salMonth = Model.periodInDateFormat.Value.Month,
+                        salYear= Model.periodInDateFormat.Value.Year,
+                        type="detail"
+                    })"
+               method="GET" title="Click here ,to view pay slip report."
+               data-ajax-success="OnReportSuccess">
+
+                <span class="far fa-eye text-info" aria-hidden="true"></span>
+            </a>
+
+        </td>*@
+
+    <td class="text-center" style='white-space: nowrap; vertical-align:middle;'>
+        @if (Model.Status == (int)ApprovalStatus.RequestedByReporting1 || Model.Status == (int)ApprovalStatus.ApprovedByReporting2)
+        {
+            <input type="submit" value="Approve" id=btnArrpove_@Model.sno name="ButtonTypeX" onclick="btnClick('@Model.sno','Approve');" class="btn btn-success btn-md pull-center toggle-tooltip" title="Click here, to approve this request." />
+
+            <input type="submit" value="Reject" id=btnReject_@Model.sno name="ButtonTypeX" onclick="btnClick('@Model.sno','Reject');" class="btn btn-danger btn-md pull-center toggle-tooltip" title="Click here, to reject this request." />
+        }
+    </td>
+}
+
+<script type="text/javascript">
+
+    function OnExportSuccess(data) {
+
+        if (data.fileName == "" || data.fileName == undefined) {
+            $("#branchRequired").text('Please select branch.');
+        }
+        if (data.fileName != "" && data.message == "success") {
+            //  $("#div-report-filters").load("@Url.Action("_ReportFilter", "ExportSalaryReport")");
+            window.location.href = "@Url.RouteUrl(new { Controller = "Base", Action = "DownloadAndDelete" })/?sFileName=" + data.fileName + "&sFileFullPath=" + data.fullPath;
+
+        }
+
+        if (data.message == "error" && data.part == 1) {
+            $("#div-report-filters").html(data.htmlData);
+        }
+    }
+
+    function ViewReport(branchID, employeeTypeID, monthID, yearID, salaryReportRadio, AllBranch) {
+        debugger;
+        var model = {
+            branchID: branchID,
+            employeeTypeID: employeeTypeID,
+            monthID: monthID,
+            yearID: yearID,
+            salaryReportRadio: salaryReportRadio,
+            AllBranch: AllBranch
+        };
+        var url = "@Url.Action("SalaryReportDetails", "SalaryReport")";
+        $.ajax({
+            type: "POST",
+            data: JSON.stringify(model),
+            url: url,
+            contentType: "application/json"
+        }).done(function (data) {
+            if (data.IsValidFilter) {
+                window.open("@Url.Action("ReportViewer", "Base")", "_blank");
+            }
+            else {
+                $("#div-report-filters").html(data);
+            }
+        });
+    }
+
+
+    function btnClick(sno, action) {
+
+        var hdfieldID = "#hdnAction_" + sno;
+        $(hdfieldID).val(action);
+
+    }
+    function OnSuccess(data) {
+
+        if (data.msgType == "success") {
+            commonMessage(data.msgType, data.msg);
+            window.location.reload();
+        }
+        if (data.msgType == "error") {
+            commonMessage(data.msgType, data.msg);
+        }
+    }
+
+</script>

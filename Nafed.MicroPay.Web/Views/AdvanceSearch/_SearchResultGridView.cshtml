@@ -1,0 +1,73 @@
+﻿@using Nafed.MicroPay.Model
+@model AdvanceSearchResult
+
+<div style="height:250px; overflow-y:scroll;">
+
+    <table class="table table-centered table-striped dt-responsive w-100" role="grid" id="tblGrid">
+        <thead>
+            <tr>
+                <th>
+                    #
+                </th>
+                <th>
+                    @Html.LabelFor(model => model.DefaultTableSchema.BranchCode)
+                </th>
+
+                <th>
+                    @Html.LabelFor(model => model.DefaultTableSchema.EmployeeCode)
+                </th>
+
+                <th>
+                    @Html.LabelFor(model => model.DefaultTableSchema.EmployeeName)
+                </th>
+
+                <th>
+                    @Html.LabelFor(model => model.DefaultTableSchema.DesignationCode)
+
+                </th>
+                <th>
+                    @Html.LabelFor(model => model.DefaultTableSchema.EmployeeType)
+
+                </th>
+                @if (Model.GridView!=null &&  Model.GridView.Rows.Count>0  && Model.GridView.Columns != null)
+                {
+                    foreach (var item in Model.GridView.Columns)
+                    {
+                        <th data-hide="phone,tablet">
+                            <a class="columnheader">  @item </a>
+                        </th>
+                    }
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                if (Model.GridView != null && Model.GridView.Rows.Count > 0)
+                {
+                    var sno = 1;
+                    for (int ii = 0; ii < Model.GridView.Rows.Count; ii++, sno++)
+                    {
+                        <tr>
+                            <td>@sno </td>
+                            <td>@Model.GridView.Rows[ii].BranchCode </td>
+                            <td>@Model.GridView.Rows[ii].EmployeeCode </td>
+                            <td>@Model.GridView.Rows[ii].EmployeeName </td>
+                            <td>@Model.GridView.Rows[ii].DesignationCode </td>
+                            <td>@Model.GridView.Rows[ii].EmployeeType </td>
+
+                            @if (Model.GridView.Rows.Count > 0 &&  Model.GridView.Rows[ii].Values != null)
+                            {
+                                foreach (var item in (Model.GridView.Rows[ii].Values))
+                                {
+                                    <td>@item </td>
+                                }
+                            }
+                        </tr>
+                    }
+                }
+              
+            }
+        </tbody>
+    </table>
+
+</div>

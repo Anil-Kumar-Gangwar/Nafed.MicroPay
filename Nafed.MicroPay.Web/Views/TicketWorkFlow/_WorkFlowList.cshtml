@@ -1,0 +1,73 @@
+﻿@using Nafed.MicroPay.Model
+@model List<TicketWorkFlow>
+<table id="tblGrid" class="table table-centered table-striped dt-responsive w-100">
+    <thead>
+        <tr>
+            <th>
+                #
+            </th>
+            <th>
+                Department
+            </th>
+            <th>
+               Ticket Type
+            </th>           
+            <th>
+                Designation
+            </th>
+           
+            <th class="text-center" style="width:40px">
+                Edit
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+    @{
+        if (Model != null && Model.Count > 0)
+        {
+            var sno = 1;
+            for (int i = 0; i < Model.Count; i++)
+            {
+                <tr>
+                    <td> @sno</td>
+                    <td>
+                        @Model[i].Department
+                    </td>
+                    <td> @Model[i].TicketType</td>              
+                    <td>
+                        @Model[i].Designation
+
+                    </td>              
+                                        
+                    <td class="text-center">
+                        @*<a class="toggle-tooltip"  href="@Url.Action("Edit", "TicketWorkFlow", new { tWorkFlowID = Model[i].WflowID})" title="Click here, to edit this record">
+                            <span class="far fa-edit" aria-hidden="true"></span>
+                        </a>*@
+                        @Html.EncodedImageActionLink("", "Edit", "TicketWorkFlow", new { tWorkFlowID = Model[i].WflowID }, new { @class = "toggle-tooltip", title = "Click here, to edit this record" }, "~/Images/edit.png")
+                    </td> 
+                </tr>
+                sno++;
+            }
+        }
+        else
+        {
+         <tr><td colspan="5" class="text-center"> No Record Found.</td>
+        </tr>  
+        }
+    }
+    </tbody>
+</table>
+
+
+<script type="text/javascript">
+    $('.toggle-tooltip').tooltip();
+</script>
+
+
+
+
+
+
+
+
+

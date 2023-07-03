@@ -1,0 +1,155 @@
+﻿@using MicroPay.Web.Models;
+@model DashboardDocumentsVM
+
+@{
+    ViewBag.Title = "Upload Document";
+    ViewBag.NavigationTitle = "Document Management System";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    System.Globalization.CultureInfo Indian = new System.Globalization.CultureInfo("hi-IN");
+}
+
+<script type="text/javascript">
+    $('.toggle-tooltip').tooltip();
+</script>
+
+<div class="row">
+    @Html.LabelFor(model => model.dashboardDocuments.DocTypeID, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-6 col-xs-12 mb-2 required" })
+
+    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 mb-2">
+        @Html.DropDownListFor(model => model.dashboardDocuments.DocTypeID, new SelectList(ViewBag.DocumentType, "id", "value"), "Select", new { @class = "custom-select" })
+        <span id="documentTypeRequired"></span>
+    </div>
+</div>
+
+<div class="row">
+    @Html.LabelFor(model => model.dashboardDocuments.DocumentName, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-6 col-xs-12 mb-2 required" })
+
+    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 mb-2">
+        @Html.EditorFor(model => model.dashboardDocuments.DocumentName, new { htmlAttributes = new { @class = "form-control", @placeholder = "Document Name", @maxlength = "100" } })
+        <span id="documentNameRequired"></span>
+    </div>
+</div>
+<div class="row">
+    @Html.LabelFor(model => model.dashboardDocuments.DocumentDesc, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-6 col-xs-12 mb-2 " })
+    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 mb-2">
+        @Html.TextAreaFor(model => model.dashboardDocuments.DocumentDesc, htmlAttributes: new { @class = "form-control", @placeholder = "Document Description", @style = "min-height:60px;max-height:60px;", @maxlength = "200", @cols = "60", @rows = "3" })
+        @*<span id="documentDetailRequired"></span>*@
+    </div>
+</div>
+
+
+<div class="row">
+    @Html.Label("File Upload", htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-6 col-xs-12 mb-2 required" })
+    <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 mb-2">
+        <input name="Document" type="file" id="DocumentFile" style="" />
+        <span id="documentFileRequired"></span>
+    </div>
+
+</div>
+
+<div>
+    <label class="font-weight-bold">([FileType=.jpg,.jpeg,.png,.pdf,.xlsx,.xls,.doc,.docx, Size <= 5MB, single document] <br /></label>
+
+</div>
+<div class="form-group">
+
+    <span class="pull-right">
+
+        @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-light btn-md toggle-tooltip", @title = "Click here, to redirect on list page" })
+        <input type="submit" name="ButtonType" value="Upload" class="btn btn-info btn-md pull-center toggle-tooltip" id="btnUpload"
+               title="Click here, to add training document ." />
+    </span>
+</div>
+
+
+<script type="text/javascript">
+    $('.toggle-tooltip').tooltip();
+
+    $(document).ready(function () {
+        $('#btnUpload').click(function () {
+            debugger;
+            if ($("#dashboardDocuments_DocTypeID").val() != ""
+               && $("#DocumentFile").get(0).files.length > 0) {
+                if (window.FormData !== undefined) {
+                    var fileUpload = $("#DocumentFile").get(0);
+                    var files = fileUpload.files[0];
+                    var filesze = files.size;
+                    var fileName = fileUpload.value;
+
+                    //alert(filesze);
+
+                    var ext = fileName.substr(fileName.lastIndexOf('.') + 1).toLowerCase();
+                    if (!(ext == "jpg" || ext == "jpeg" || ext == "png" || ext == "pdf" || ext == "xlsx" || ext == "xls" || ext == "doc" || ext == "docx")) {
+                        alert("Invalid file type, please select a (pdf,word,excel,jpeg,png) file");
+                        return false;
+                    }
+                    if (filesze > 5000000) {  // 50KB
+                        //alert("Maximum file size is " + maxsize / (1024) + "KB");
+                        alert("Please select file less than 5MB.");
+                        return false;
+                    }
+                    // Create FormData object
+                    var fileData = new FormData();
+
+                    // Looping over all files and add it to FormData object
+                    fileData.append(files.name, files);
+                    //for (var i = 0; i < files.length; i++) {
+                    //    fileData.append(files[i].name, files[i]);
+                    //}
+
+                    // Adding one more key to FormData object
+
+                    fileData.append('DocTypeID', $("#dashboardDocuments_DocTypeID").val());
+                    fileData.append('DocumentName', $("#dashboardDocuments_DocumentName").val());
+                    fileData.append('DocumentDesc', $("#dashboardDocuments_DocumentDesc").val());
+
+                    $.ajax({
+                        url: "@Url.Action("UploadFiles", "DocumentManagement")",
+                        type: "POST",
+                        contentType: false, // Not to set any content header
+                        processData: false, // Not to process data
+                        data: fileData,
+                        success: function (result) {
+                            if (result.msgType == "success") {
+                                $("#dashboardDocuments_DocTypeID").val("");
+                                $("#dashboardDocuments_DocumentName").val("");
+                                $("#dashboardDocuments_DocumentDesc").val("");
+                                $("#DocumentFile").val("");
+                                commonMessage(result.msgType, result.msg);
+                            }
+                            else if (result.msgType == "error")
+                            {
+                                commonMessage(result.msgType, result.msg);
+                            }
+                        },
+                        error: function (err) {
+                            alert(err.statusText);
+                        }
+                    });
+                }
+            }
+            else {
+                if ($("#dashboardDocuments_DocumentName").val() == "") {
+                    $("#documentNameRequired").html("Please Enter Document Name.").css("color", "red");
+                }
+                else {
+                    $("#documentNameRequired").html("").css("color", "");
+                }
+                if ($("#dashboardDocuments_DocTypeID").val() == "") {
+                    $("#documentTypeRequired").html("Please Select Document Type.").css("color", "red");
+                }
+                else {
+                    $("#documentTypeRequired").html("").css("color", "red");
+                }
+                if ($("#DocumentFile").get(0).files.length == 0) {
+                    $("#documentFileRequired").html("Please Select File.").css("color", "red");
+                }
+                else {
+                    $("#documentFileRequired").html("").css("color", "");
+                }
+
+            }
+        });
+    });
+
+</script>

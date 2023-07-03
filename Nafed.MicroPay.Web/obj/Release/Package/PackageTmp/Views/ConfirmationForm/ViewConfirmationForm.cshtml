@@ -1,0 +1,34 @@
+﻿@model Nafed.MicroPay.Model.ConfirmationFormHdr
+@{
+    //ViewBag.Title = "Confirmation Form";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<input id="printdiv" type="submit" value="Print" onclick="printContent('div-confirmation-form-container')" />
+
+<div id="div-confirmation-form-container" class="container-fluid">
+    @if (Model.FormTypeID == 1)
+    {
+        <div id="div-formA">
+            @Html.Action("ViewConfirmationFormA", Model)
+        </div>
+    }
+    else if (Model.FormTypeID == 2)
+    {
+        <div id="div-formB">
+            @Html.Action("ViewConfirmationFormB", Model)
+        </div>
+    }
+</div>
+
+<script>
+    function printContent(el) {
+        var restorepage = document.body.innerHTML;
+        var printcontent = document.getElementById(el).innerHTML;
+        document.body.innerHTML = printcontent; window.print();
+    }
+    $('.noselect input.radio-section').attr("style", "pointer-events: none !important;");
+    $('.noselect').find('input, textarea, button, select').attr('readonly', 'readonly').removeAttr('href');
+    
+    $('.noselect .drpdown-section').attr("style", "pointer-events: none;");
+    $('.noselect .btn-sectionAddRow').addClass('hide');
+</script>

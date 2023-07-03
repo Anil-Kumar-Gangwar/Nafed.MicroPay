@@ -1,0 +1,13 @@
+﻿@{
+    ViewBag.Title = "PF Report";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using Nafed.MicroPay.Model
+@model PFLoanReportFilters
+
+@using (Ajax.BeginForm("_PFLoanReport", "PFLoanReport", new AjaxOptions { HttpMethod = "POST", OnSuccess = "OnReportSuccess" }))
+{
+    <div id="div-report-filters">
+        @Html.Action("_PFLoanReportDetails")
+    </div>
+}

@@ -1,0 +1,413 @@
+﻿
+@using Nafed.MicroPay.Model
+@model RegularEmployeeSalary
+
+@Html.HiddenFor(model => model.TCSFilePeriod)
+@*@Html.HiddenFor(model => model.salMonth)
+    @Html.HiddenFor(model => model.salYear)*@
+@Html.HiddenFor(model => model.otaMaxAmt)
+@Html.HiddenFor(model => model.otaMaxRatePerHour)
+@Html.HiddenFor(model => model.washingAllowanceRate)
+@Html.HiddenFor(model => model.pFLoanAccuralRate)
+
+@{
+
+    var singleEmpVisibilityClass = Model.enumEmpCategory == EnumEmpCategory.SingleEmployee ? null : "hide";
+    var singleBranchVisibilityClass = Model.enumBranch == EnumBranch.SingleBranch ? null : "hide";
+
+
+    var yearDDl = Enumerable.Range(2006, DateTime.Now.Year - 2006 + 1).
+         Select(i => new SelectListModel { id = i, value = i.ToString() }).OrderByDescending(x => x.value).ToList();
+    var monthDDL = Enumerable.Range(1, 12).
+                            Select(i => new SelectListModel
+                            {
+                                id = i,
+                                value = System.Globalization.CultureInfo.InvariantCulture.DateTimeFormat.GetMonthName(i)
+                            }).ToList();
+
+    monthDDL.Insert(0, new SelectListModel { id = 0, value = "Select" });
+
+}
+
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+    <div class="form-group">
+
+        <span class="pull-right">
+
+            <input type="submit" value="Generate Salary" name="ButtonType" class="btn btn-info btn-md pull-center toggle-tooltip" title="Click here, to generate salary." />
+
+            @*<input type="submit" value="Reverse" name="ButtonType" class="btn btn-secondary btn-md pull-center toggle-tooltip" title="Click here, to reverse salary" />*@
+
+            <button type="submit" value="Revert Loan Entries" name="ButtonType" title="Click here, to revert processed loan entries" class="toggle-tooltip btn btn-secondary btn-md pull-center">
+                <i class="fa fa-undo"></i> Reverse
+            </button>
+
+            <input type="submit" value="Send for Approval" name="ButtonType" class="btn btn-warning btn-md pull-center toggle-tooltip" title="Click here, to send approval request." />
+
+            <button type="submit" value="NegSal" name="ButtonType" class="btn btn-primary btn-md pull-center toggle-tooltip" title="Please select Year and Month before,click here." >Adjust Negative Salary</button>
+
+
+            @*<input type="submit" value="PF For Manual" name="ButtonType" class="btn btn-info btn-md pull-center toggle-tooltip" title="Click here, to update this record" />
+                <input type="submit" value="Generate PF Loan" name="ButtonType" class="btn btn-info btn-md pull-center toggle-tooltip" title="Click here, to update this record" />*@
+        </span>
+
+    </div>
+
+    @if (Model.CustomErrorFound)
+    {
+        <br />
+
+        <div class="form-group pl-3 pr-3 pt-2">
+
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 alert alert-danger">
+
+                    @Html.Raw(Model.CustomErrorMsg)
+
+                </div>
+
+            </div>
+
+        </div>
+    }
+
+    @if (Model.ApprovalRequestSent)
+    {
+        <br />
+
+        <div class="form-group pl-3 pr-3 pt-2">
+
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-0 alert alert-success">
+
+                    Approval Request has been sent successfully.
+
+                </div>
+
+            </div>
+
+        </div>
+    }
+    @*@if (Model.IsSalaryCalculationDone)
+        {*@
+    <br />
+
+    <div class="form-group pl-3 pr-3 pt-2 hide" id="dv-msg">
+
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-0 alert alert-success">
+
+                Salary Calculated Successfully.
+
+            </div>
+
+        </div>
+
+    </div>
+    @*}*@
+
+    <fieldset class="border p-2 col-md-12 col-xs-12 col-lg-12 col-xl-12">
+
+        <legend style="font-size:1.3rem !important;" class="w-auto">SELECT PERIOD</legend>
+
+        <div class="form-group">
+
+            <div class="row">
+
+                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+
+                    @Html.LabelFor(model => model.salMonth, new { @class = "control-label required" })
+
+                </div>
+
+                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+
+                    @Html.DropDownListFor(model => model.salMonth, new SelectList(monthDDL, "id", "value"), new { @class = "custom-select" })
+                    @Html.ValidationMessageFor(model => model.salMonth, "", new { @class = "text-danger" })
+
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 ">
+
+                    @Html.LabelFor(model => model.salYear, new { @class = "control-label required" })
+
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 ">
+
+                    @Html.DropDownListFor(model => model.salYear, new SelectList(yearDDl, "id", "value"), new { @class = "custom-select" })
+
+
+
+
+
+
+                </div>
+            </div>
+
+        </div>
+
+    </fieldset>
+
+
+
+
+    <fieldset class="border p-2 col-md-12 col-xs-12 col-lg-12 col-xl-12">
+
+        <legend style="font-size:1.3rem !important;" class="w-auto">SELECT CATEGORY</legend>
+
+        <div class="form-group">
+
+            <div class="row">
+
+                <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+
+                    @Html.RadioButtonFor(model => model.enumEmpCategory, "AllEmployees", new { id = "AllEmployees" })
+                    @Html.LabelFor(model => model.AllEmployees, new { @for = "AllEmployees" })
+
+                </div>
+
+                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+
+                    @Html.RadioButtonFor(model => model.enumEmpCategory, "SingleEmployee", new { id = "SingleEmployee" })
+                    @Html.LabelFor(model => model.SingleEmployee, new { @for = "SingleEmployee" })
+
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 @singleEmpVisibilityClass" id="dv-single-employee">
+
+                    @Html.DropDownListFor(model => model.selectedEmployeeID, new SelectList(Model.Employees, "id", "value"), "Select", new { @class = "custom-select" })
+                    @Html.ValidationMessage("EmployeeIDRequired", "", new { @class = "text-danger" })
+
+
+                    @if (Model.selectedEmployeeID.HasValue)
+                    {
+                        <script type="text/javascript">
+                            $("input[type=radio][name=enumBranch]").prop("checked", false).attr('disabled', true);
+                        </script>
+                    }
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </fieldset>
+
+
+    <fieldset class="border p-2 col-md-12 col-xs-12 col-lg-12 col-xl-12">
+        <legend style="font-size:1.3rem !important;" class="w-auto">SELECT BRANCH</legend>
+
+        <div class="form-group">
+
+
+            <div class="row">
+
+                <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+
+                    @Html.RadioButtonFor(model => model.enumBranch, "AllBranches", new { id = "AllBranches" })
+                    @Html.LabelFor(model => model.AllBranches, new { @for = "AllBranches" })
+
+                </div>
+            </div>
+
+            <div class="row">
+
+                <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+
+                    @Html.RadioButtonFor(model => model.enumBranch, "BranchesExcecptHO", new { id = "BranchesExcecptHO" })
+                    @Html.LabelFor(model => model.BranchesExcecptHO, new { @for = "BranchesExcecptHO" })
+
+                </div>
+
+                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+
+                    @Html.RadioButtonFor(model => model.enumBranch, "SingleBranch", new { id = "SingleBranch" })
+                    @Html.LabelFor(model => model.SingleBranch, new { @for = "SingleBranch" })
+
+
+                </div>
+
+                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 @singleBranchVisibilityClass" id="dv-single-branch">
+                    @Html.DropDownListFor(model => model.selectedBranchID, new SelectList(Model.Branchs, "id", "value"), "Select", new { @class = "custom-select" })
+
+                    @Html.ValidationMessage("BranchIDRequired", "", new { @class = "text-danger" })
+
+
+                </div>
+
+            </div>
+
+        </div>
+    </fieldset>
+
+    <fieldset class="border p-2 col-md-12 col-xs-12 col-lg-12 col-xl-12">
+        <legend style="font-size:1.3rem !important;" class="w-auto">EMPLOYEE TYPE</legend>
+        <div class="form-group">
+
+            <div class="row">
+
+                <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+
+                    @if (Model.enumEmpCategory == EnumEmpCategory.AllEmployees)
+                    {
+                        @Html.DropDownListFor(model => model.selectedEmployeeTypeID, new SelectList(Model.EmployeeTypes, "id", "value"), "Select", new { @class = "custom-select" })
+
+                    }
+                    else
+                    {
+                        @Html.DropDownListFor(model => model.selectedEmployeeTypeID, new SelectList(Model.EmployeeTypes, "id", "value"), "Select", new { @class = "custom-select", @disabled = "disabled" })
+
+                    }
+                </div>
+
+                <div class="col-lg-7 col-md-7 col-sm-12 col-xs-12">
+
+                    @Html.ValidationMessageFor(model => model.selectedEmployeeTypeID, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+        </div>
+    </fieldset>
+
+
+    @*<div class="row">
+
+            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 mt-2">
+
+                @Html.LabelFor(model => model.DeductReliefFund, new { @class = "control-label" })
+
+            </div>
+
+            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                <div class="form-group">
+
+                    <label class="switch">
+                        @Html.CheckBoxFor(model => model.RegularEmployee, new { @class = "form-control" })
+                        <div class="slider round">
+                        </div>
+                    </label>
+                </div>
+
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 mt-2">
+
+                @Html.LabelFor(model => model.MedicalReimbursement, new { @class = "control-label" })
+
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+
+                <div class="form-group">
+
+                    <label class="switch">
+                        @Html.CheckBoxFor(model => model.RegularEmployee, new { @class = "form-control" })
+                        <div class="slider round">
+                        </div>
+                    </label>
+                </div>
+            </div>
+
+
+        </div>*@
+
+
+    @*<fieldset class="border p-2 col-md-12 col-xs-12 col-lg-12 col-xl-12">
+            <legend style="font-size:1.3rem !important;" class="w-auto">PF Loan Generate (Please use this option after salary generate)</legend>
+
+            <div class="form-group">
+
+                <div class="row">
+
+                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+
+                        <div class="form-group">
+
+                            @Html.LabelFor(model => model.NonRegular, new { @class = "control-label" })
+
+                            <div class="form-group">
+
+                                <label class="switch">
+                                    @Html.CheckBoxFor(model => model.NonRegular, new { @class = "form-control" })
+                                    <div class="slider round">
+                                    </div>
+                                </label>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+
+                        <div class="form-group">
+
+                            @Html.LabelFor(model => model.RegularEmployee, new { @class = "control-label" })
+
+                            <div class="form-group">
+
+                                <label class="switch">
+                                    @Html.CheckBoxFor(model => model.RegularEmployee, new { @class = "form-control" })
+                                    <div class="slider round">
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+
+                        <div class="form-group">
+
+                            @Html.LabelFor(model => model.NoReflectionInLoan, new { @class = "control-label" })
+
+                            <div class="form-group">
+
+                                <label class="switch">
+                                    @Html.CheckBoxFor(model => model.NoReflectionInLoan, new { @class = "form-control" })
+                                    <div class="slider round">
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </fieldset>*@
+
+</div>
+
+
+
+<script type="text/javascript">
+
+    $('input[type=radio][name=enumEmpCategory]').change(function () {
+
+        var checkedRadio = this.value; //alert($("#selectedEmployeeID").val());
+        if (checkedRadio == "SingleEmployee") {
+            $("#dv-single-employee").removeClass("hide");
+            $("#selectedEmployeeTypeID,#selectedEmployeeID,#branchID").val('');
+            $("#selectedEmployeeTypeID").attr("disabled", "disabled");
+            $("#dv-single-branch").addClass("hide");
+            $("input[type=radio][name=enumBranch]").prop("checked", false).attr('disabled', true);
+        }
+        else {
+            $("#selectedEmployeeTypeID,#selectedEmployeeID").val('');
+            $("#dv-single-employee").addClass("hide");
+            $("#selectedEmployeeTypeID").removeAttr("disabled");
+            $("input[type=radio][name=enumBranch]").removeAttr('disabled');
+            $("#BranchesExcecptHO").prop("checked", true);
+        }
+
+    });
+
+    $('input[type=radio][name=enumBranch]').change(function () {
+        var checkedRadio = this.value; //alert($("#selectedEmployeeID").val());
+        if (checkedRadio == "SingleBranch") {
+            $("#selectedBranchID").val('');
+            $("#dv-single-branch").removeClass("hide");
+        }
+        else {
+            $("#dv-single-branch").addClass("hide");
+        }
+    });
+</script>

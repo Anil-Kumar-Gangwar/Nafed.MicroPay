@@ -1,0 +1,325 @@
+F:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.Services.dll
+F:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.Services.pdb
+F:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\log4net.dll
+F:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.Common.dll
+F:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.Data.dll
+F:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.Model.dll
+F:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\EntityFramework.dll
+F:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.Data.pdb
+F:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.Model.pdb
+F:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\log4net.xml
+F:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.Common.pdb
+F:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\EntityFramework.xml
+F:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Services\obj\Debug\Nafed.MicroPay.Services.csprojResolveAssemblyReference.cache
+F:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Services\obj\Debug\Nafed.MicroPay.Services.dll
+F:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Services\obj\Debug\Nafed.MicroPay.Services.pdb
+F:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\AutoMapper.dll
+F:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\AutoMapper.xml
+D:\Rajdarbaar Project\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.Services.dll
+D:\Rajdarbaar Project\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.Services.pdb
+D:\Rajdarbaar Project\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\AutoMapper.dll
+D:\Rajdarbaar Project\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\log4net.dll
+D:\Rajdarbaar Project\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.Common.dll
+D:\Rajdarbaar Project\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.Data.dll
+D:\Rajdarbaar Project\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.Model.dll
+D:\Rajdarbaar Project\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\EntityFramework.dll
+D:\Rajdarbaar Project\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.Data.pdb
+D:\Rajdarbaar Project\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.Model.pdb
+D:\Rajdarbaar Project\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\AutoMapper.xml
+D:\Rajdarbaar Project\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\log4net.xml
+D:\Rajdarbaar Project\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.Common.pdb
+D:\Rajdarbaar Project\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\EntityFramework.xml
+D:\Rajdarbaar Project\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Services\obj\Debug\Nafed.MicroPay.Services.csprojResolveAssemblyReference.cache
+D:\Rajdarbaar Project\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Services\obj\Debug\Nafed.MicroPay.Services.dll
+D:\Rajdarbaar Project\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Services\obj\Debug\Nafed.MicroPay.Services.pdb
+D:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Services\obj\Debug\Nafed.MicroPay.Services.csprojResolveAssemblyReference.cache
+D:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.Services.dll
+D:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.Services.pdb
+D:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\AutoMapper.dll
+D:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\log4net.dll
+D:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.Common.dll
+D:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.Data.dll
+D:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.Model.dll
+D:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\EntityFramework.dll
+D:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.Data.pdb
+D:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.Model.pdb
+D:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\AutoMapper.xml
+D:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\log4net.xml
+D:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.Common.pdb
+D:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\EntityFramework.xml
+D:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Services\obj\Debug\Nafed.MicroPay.Services.dll
+D:\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Services\obj\Debug\Nafed.MicroPay.Services.pdb
+D:\chandan\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.Services.dll
+D:\chandan\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.Services.pdb
+D:\chandan\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\AutoMapper.dll
+D:\chandan\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\log4net.dll
+D:\chandan\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.Common.dll
+D:\chandan\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.Data.dll
+D:\chandan\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.Model.dll
+D:\chandan\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\EntityFramework.dll
+D:\chandan\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.Data.pdb
+D:\chandan\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.Model.pdb
+D:\chandan\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\AutoMapper.xml
+D:\chandan\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\log4net.xml
+D:\chandan\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.Common.pdb
+D:\chandan\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\EntityFramework.xml
+D:\chandan\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Services\obj\Debug\Nafed.MicroPay.Services.csprojResolveAssemblyReference.cache
+D:\chandan\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Services\obj\Debug\Nafed.MicroPay.Services.dll
+D:\chandan\MicroPay\Nafed.MicroPay\Nafed.MicroPay.Services\obj\Debug\Nafed.MicroPay.Services.pdb
+F:\Nafed By Rajesh Sir\MicroPayLatest\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.Services.dll
+F:\Nafed By Rajesh Sir\MicroPayLatest\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.Services.pdb
+F:\Nafed By Rajesh Sir\MicroPayLatest\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\AutoMapper.dll
+F:\Nafed By Rajesh Sir\MicroPayLatest\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\log4net.dll
+F:\Nafed By Rajesh Sir\MicroPayLatest\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.Common.dll
+F:\Nafed By Rajesh Sir\MicroPayLatest\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.Data.dll
+F:\Nafed By Rajesh Sir\MicroPayLatest\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.Model.dll
+F:\Nafed By Rajesh Sir\MicroPayLatest\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\EntityFramework.dll
+F:\Nafed By Rajesh Sir\MicroPayLatest\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.Data.pdb
+F:\Nafed By Rajesh Sir\MicroPayLatest\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.Model.pdb
+F:\Nafed By Rajesh Sir\MicroPayLatest\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\AutoMapper.xml
+F:\Nafed By Rajesh Sir\MicroPayLatest\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\log4net.xml
+F:\Nafed By Rajesh Sir\MicroPayLatest\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.Common.pdb
+F:\Nafed By Rajesh Sir\MicroPayLatest\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\EntityFramework.xml
+F:\Nafed By Rajesh Sir\MicroPayLatest\Nafed.MicroPay\Nafed.MicroPay.Services\obj\Debug\Nafed.MicroPay.Services.csprojResolveAssemblyReference.cache
+F:\Nafed By Rajesh Sir\MicroPayLatest\Nafed.MicroPay\Nafed.MicroPay.Services\obj\Debug\Nafed.MicroPay.Services.dll
+F:\Nafed By Rajesh Sir\MicroPayLatest\Nafed.MicroPay\Nafed.MicroPay.Services\obj\Debug\Nafed.MicroPay.Services.pdb
+F:\Nafed By Rajesh Sir\Chandan\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.Services.dll
+F:\Nafed By Rajesh Sir\Chandan\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.Services.pdb
+F:\Nafed By Rajesh Sir\Chandan\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\AutoMapper.dll
+F:\Nafed By Rajesh Sir\Chandan\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\log4net.dll
+F:\Nafed By Rajesh Sir\Chandan\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.Common.dll
+F:\Nafed By Rajesh Sir\Chandan\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.Data.dll
+F:\Nafed By Rajesh Sir\Chandan\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.Model.dll
+F:\Nafed By Rajesh Sir\Chandan\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\EntityFramework.dll
+F:\Nafed By Rajesh Sir\Chandan\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.Data.pdb
+F:\Nafed By Rajesh Sir\Chandan\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.Model.pdb
+F:\Nafed By Rajesh Sir\Chandan\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\AutoMapper.xml
+F:\Nafed By Rajesh Sir\Chandan\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\log4net.xml
+F:\Nafed By Rajesh Sir\Chandan\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.Common.pdb
+F:\Nafed By Rajesh Sir\Chandan\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\EntityFramework.xml
+F:\Nafed By Rajesh Sir\Chandan\Nafed.MicroPay\Nafed.MicroPay.Services\obj\Debug\Nafed.MicroPay.Services.csprojResolveAssemblyReference.cache
+F:\Nafed By Rajesh Sir\Chandan\Nafed.MicroPay\Nafed.MicroPay.Services\obj\Debug\Nafed.MicroPay.Services.dll
+F:\Nafed By Rajesh Sir\Chandan\Nafed.MicroPay\Nafed.MicroPay.Services\obj\Debug\Nafed.MicroPay.Services.pdb
+F:\Nafed By Rajesh Sir\Nafed.MicroPayLatest\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.Services.dll
+F:\Nafed By Rajesh Sir\Nafed.MicroPayLatest\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.Services.pdb
+F:\Nafed By Rajesh Sir\Nafed.MicroPayLatest\Nafed.MicroPay.Services\bin\Debug\AutoMapper.dll
+F:\Nafed By Rajesh Sir\Nafed.MicroPayLatest\Nafed.MicroPay.Services\bin\Debug\log4net.dll
+F:\Nafed By Rajesh Sir\Nafed.MicroPayLatest\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.Common.dll
+F:\Nafed By Rajesh Sir\Nafed.MicroPayLatest\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.Data.dll
+F:\Nafed By Rajesh Sir\Nafed.MicroPayLatest\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.Model.dll
+F:\Nafed By Rajesh Sir\Nafed.MicroPayLatest\Nafed.MicroPay.Services\bin\Debug\EntityFramework.dll
+F:\Nafed By Rajesh Sir\Nafed.MicroPayLatest\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.Data.pdb
+F:\Nafed By Rajesh Sir\Nafed.MicroPayLatest\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.Model.pdb
+F:\Nafed By Rajesh Sir\Nafed.MicroPayLatest\Nafed.MicroPay.Services\bin\Debug\AutoMapper.xml
+F:\Nafed By Rajesh Sir\Nafed.MicroPayLatest\Nafed.MicroPay.Services\bin\Debug\log4net.xml
+F:\Nafed By Rajesh Sir\Nafed.MicroPayLatest\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.Common.pdb
+F:\Nafed By Rajesh Sir\Nafed.MicroPayLatest\Nafed.MicroPay.Services\bin\Debug\EntityFramework.xml
+F:\Nafed By Rajesh Sir\Nafed.MicroPayLatest\Nafed.MicroPay.Services\obj\Debug\Nafed.MicroPay.Services.csprojResolveAssemblyReference.cache
+F:\Nafed By Rajesh Sir\Nafed.MicroPayLatest\Nafed.MicroPay.Services\obj\Debug\Nafed.MicroPay.Services.dll
+F:\Nafed By Rajesh Sir\Nafed.MicroPayLatest\Nafed.MicroPay.Services\obj\Debug\Nafed.MicroPay.Services.pdb
+F:\Nafed By Rajesh Sir\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.Services.dll
+F:\Nafed By Rajesh Sir\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.Services.pdb
+F:\Nafed By Rajesh Sir\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\AutoMapper.dll
+F:\Nafed By Rajesh Sir\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\log4net.dll
+F:\Nafed By Rajesh Sir\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.Common.dll
+F:\Nafed By Rajesh Sir\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.Data.dll
+F:\Nafed By Rajesh Sir\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.Model.dll
+F:\Nafed By Rajesh Sir\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\EntityFramework.dll
+F:\Nafed By Rajesh Sir\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.Data.pdb
+F:\Nafed By Rajesh Sir\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.Model.pdb
+F:\Nafed By Rajesh Sir\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\AutoMapper.xml
+F:\Nafed By Rajesh Sir\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\log4net.xml
+F:\Nafed By Rajesh Sir\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.Common.pdb
+F:\Nafed By Rajesh Sir\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\EntityFramework.xml
+F:\Nafed By Rajesh Sir\Nafed.MicroPay\Nafed.MicroPay.Services\obj\Debug\Nafed.MicroPay.Services.csprojResolveAssemblyReference.cache
+F:\Nafed By Rajesh Sir\Nafed.MicroPay\Nafed.MicroPay.Services\obj\Debug\Nafed.MicroPay.Services.dll
+F:\Nafed By Rajesh Sir\Nafed.MicroPay\Nafed.MicroPay.Services\obj\Debug\Nafed.MicroPay.Services.pdb
+F:\HR_And_Payroll\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.Services.dll
+F:\HR_And_Payroll\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.Services.pdb
+F:\HR_And_Payroll\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\AutoMapper.dll
+F:\HR_And_Payroll\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\EntityFramework.dll
+F:\HR_And_Payroll\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\log4net.dll
+F:\HR_And_Payroll\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.Common.dll
+F:\HR_And_Payroll\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.Data.dll
+F:\HR_And_Payroll\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.Model.dll
+F:\HR_And_Payroll\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.Data.pdb
+F:\HR_And_Payroll\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.Model.pdb
+F:\HR_And_Payroll\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\AutoMapper.xml
+F:\HR_And_Payroll\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\EntityFramework.xml
+F:\HR_And_Payroll\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\log4net.xml
+F:\HR_And_Payroll\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.Common.pdb
+F:\HR_And_Payroll\Nafed.MicroPay\Nafed.MicroPay.Services\obj\Debug\Nafed.MicroPay.Services.csprojResolveAssemblyReference.cache
+F:\HR_And_Payroll\Nafed.MicroPay\Nafed.MicroPay.Services\obj\Debug\Nafed.MicroPay.Services.dll
+F:\HR_And_Payroll\Nafed.MicroPay\Nafed.MicroPay.Services\obj\Debug\Nafed.MicroPay.Services.pdb
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.Services.dll.config
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.Services.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.Services.pdb
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\AutoMapper.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\log4net.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.Common.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.Data.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.ImportExport.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.Model.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\EntityFramework.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\NPOI.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\NPOI.OOXML.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\ICSharpCode.SharpZipLib.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\NPOI.OpenXml4Net.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\NPOI.OpenXmlFormats.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.Data.pdb
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.ImportExport.pdb
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.Model.pdb
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\AutoMapper.xml
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\log4net.xml
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.Common.pdb
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\EntityFramework.xml
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\ICSharpCode.SharpZipLib.xml
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.Services\obj\Debug\Nafed.MicroPay.Services.csprojResolveAssemblyReference.cache
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.Services\obj\Debug\Nafed.MicroPay.Services.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.Services\obj\Debug\Nafed.MicroPay.Services.pdb
+F:\NAFED\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.Services.dll.config
+F:\NAFED\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.Services.dll
+F:\NAFED\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.Services.pdb
+F:\NAFED\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\AutoMapper.dll
+F:\NAFED\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\log4net.dll
+F:\NAFED\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.Common.dll
+F:\NAFED\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.Data.dll
+F:\NAFED\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.ImportExport.dll
+F:\NAFED\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.Model.dll
+F:\NAFED\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\EntityFramework.dll
+F:\NAFED\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\NPOI.dll
+F:\NAFED\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\NPOI.OOXML.dll
+F:\NAFED\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\ICSharpCode.SharpZipLib.dll
+F:\NAFED\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\NPOI.OpenXml4Net.dll
+F:\NAFED\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\NPOI.OpenXmlFormats.dll
+F:\NAFED\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.Data.pdb
+F:\NAFED\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.ImportExport.pdb
+F:\NAFED\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.Model.pdb
+F:\NAFED\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\AutoMapper.xml
+F:\NAFED\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\log4net.xml
+F:\NAFED\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.Common.pdb
+F:\NAFED\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\EntityFramework.xml
+F:\NAFED\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\ICSharpCode.SharpZipLib.xml
+F:\NAFED\Nafed.MicroPay\Nafed.MicroPay.Services\obj\Debug\Nafed.MicroPay.Services.csprojResolveAssemblyReference.cache
+F:\NAFED\Nafed.MicroPay\Nafed.MicroPay.Services\obj\Debug\Nafed.MicroPay.Services.dll
+F:\NAFED\Nafed.MicroPay\Nafed.MicroPay.Services\obj\Debug\Nafed.MicroPay.Services.pdb
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.Services.dll.config
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.Services.dll
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.Services.pdb
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\AutoMapper.dll
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\log4net.dll
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.Common.dll
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.Data.dll
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.ImportExport.dll
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.Model.dll
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\EntityFramework.dll
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\NPOI.dll
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\NPOI.OOXML.dll
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\itextsharp.dll
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\ICSharpCode.SharpZipLib.dll
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\NPOI.OpenXml4Net.dll
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\NPOI.OpenXmlFormats.dll
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.Common.pdb
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.Data.pdb
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.ImportExport.pdb
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.Model.pdb
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\AutoMapper.xml
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\log4net.xml
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\EntityFramework.xml
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\itextsharp.xml
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\ICSharpCode.SharpZipLib.xml
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Services\obj\Debug\Nafed.MicroPay.Services.csprojResolveAssemblyReference.cache
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Services\obj\Debug\Nafed.MicroPay.Services.dll
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.Services\obj\Debug\Nafed.MicroPay.Services.pdb
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.Services.dll.config
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.Services.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.Services.pdb
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\AutoMapper.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\log4net.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.Common.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.Data.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.ImportExport.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.Model.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\EntityFramework.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\NPOI.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\NPOI.OOXML.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\itextsharp.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\ICSharpCode.SharpZipLib.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\NPOI.OpenXml4Net.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\NPOI.OpenXmlFormats.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.Common.pdb
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.Data.pdb
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.ImportExport.pdb
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.Model.pdb
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\AutoMapper.xml
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\log4net.xml
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\EntityFramework.xml
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\itextsharp.xml
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\ICSharpCode.SharpZipLib.xml
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Services\obj\Debug\Nafed.MicroPay.Services.csprojResolveAssemblyReference.cache
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Services\obj\Debug\Nafed.MicroPay.Services.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay.Services\obj\Debug\Nafed.MicroPay.Services.pdb
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.Services.dll.config
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.Services.dll
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.Services.pdb
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\AutoMapper.dll
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\log4net.dll
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.Common.dll
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.Data.dll
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.ImportExport.dll
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.Model.dll
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\EntityFramework.dll
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\NPOI.OOXML.dll
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\NPOI.dll
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\itextsharp.dll
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\NPOI.OpenXml4Net.dll
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\NPOI.OpenXmlFormats.dll
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\ICSharpCode.SharpZipLib.dll
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.Common.pdb
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.Data.pdb
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.ImportExport.pdb
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.Model.pdb
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\AutoMapper.xml
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\log4net.xml
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\EntityFramework.xml
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\itextsharp.xml
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\ICSharpCode.SharpZipLib.xml
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Services\obj\Debug\Nafed.MicroPay.Services.csprojResolveAssemblyReference.cache
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Services\obj\Debug\Nafed.MicroPay.Services.dll
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Services\obj\Debug\Nafed.MicroPay.Services.pdb
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Newtonsoft.Json.dll
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Newtonsoft.Json.xml
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.Services.dll.config
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.Services.dll
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.Services.pdb
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\AutoMapper.dll
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\log4net.dll
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.Common.dll
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.Data.dll
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.ImportExport.dll
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.Model.dll
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Newtonsoft.Json.dll
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\EntityFramework.dll
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\NPOI.OOXML.dll
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\NPOI.dll
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\itextsharp.dll
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\NPOI.OpenXml4Net.dll
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\NPOI.OpenXmlFormats.dll
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\ICSharpCode.SharpZipLib.dll
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.Common.pdb
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.Data.pdb
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.ImportExport.pdb
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.Model.pdb
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\AutoMapper.xml
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\log4net.xml
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Newtonsoft.Json.xml
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\EntityFramework.xml
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\itextsharp.xml
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\ICSharpCode.SharpZipLib.xml
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Services\obj\Debug\Nafed.MicroPay.Services.dll
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Services\obj\Debug\Nafed.MicroPay.Services.pdb
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.Data.dll.config
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Services\bin\Debug\Nafed.MicroPay.ImportExport.dll.config
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Services\obj\Debug\Nafed.MicroPay.Services.csproj.AssemblyReference.cache
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Services\obj\Debug\Nafed.MicroPay.Services.csproj.CoreCompileInputs.cache
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.Services\obj\Debug\Nafed.MicroPay.Services.csproj.CopyComplete

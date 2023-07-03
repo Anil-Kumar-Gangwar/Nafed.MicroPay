@@ -1,0 +1,295 @@
+﻿@using Nafed.MicroPay.Model;
+@model EmailConfiguration
+@{
+    ViewBag.Title = "Auto Email Configuration";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/Content/jquery.datetimepicker.min.css" rel="stylesheet" />
+<script src="~/Scripts/jquery.datetimepicker.full.min.js"></script>
+
+@using (Html.BeginForm("Create", "EmailConfiguration"))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+            <div class="card">
+
+                <div class="card-header">
+                    <h4>Mail Out Configuration</h4>
+
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2">
+                            @Html.LabelFor(model => model.ToEmail)
+                            @Html.HiddenFor(model => model.EmailConfigurationID)
+                            @Html.HiddenFor(model => model.CreatedBy)
+                            @Html.HiddenFor(model => model.CreatedOn)
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 mb-2">
+                            <div class="input-group">
+                                <div class="input-group-append">
+                                    <div class="input-group-text">
+                                        <i class="fa fa-envelope"></i>
+                                    </div>
+                                </div>
+                                @Html.TextBoxFor(model => model.ToEmail, new { placeholder = "example@mail.ru", @class = "form-control", @maxlength = "50", @autocomplete = "off" })
+                            </div>
+                            @Html.ValidationMessageFor(model => model.ToEmail)
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2">
+                            @Html.LabelFor(model => model.Bcc)
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 mb-2">
+                            <div class="input-group">
+                                <div class="input-group-append">
+                                    <div class="input-group-text">
+                                        <i class="fa fa-envelope"></i>
+                                    </div>
+                                </div>
+                                @Html.TextBoxFor(model => model.Bcc, new { placeholder = "example@mail.ru", @class = "form-control", @maxlength = "50", @autocomplete = "off" })
+                            </div>
+                            @Html.ValidationMessageFor(model => model.Bcc)
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2">
+                            @Html.LabelFor(model => model.UserName)
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 mb-2">
+                            <div class="input-group">
+                                <div class="input-group-append">
+                                    <div class="input-group-text">
+                                        <i class="fa fa-user"></i>
+                                    </div>
+                                </div>
+                                @Html.TextBoxFor(model => model.UserName, new { placeholder = "Username", @class = "form-control", @maxlength = "50", @autocomplete = "off" })
+                            </div>
+                            @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+
+
+
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2">
+                            @Html.LabelFor(model => model.Password)
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 mb-2">
+                            <div class="input-group">
+                                <div class="input-group-append">
+                                    <div class="input-group-text">
+                                        <i class="fa fa-key"></i>
+                                    </div>
+                                </div>
+                                @Html.PasswordFor(model => model.Password, new { placeholder = "Password", @class = "form-control", @maxlength = "100", @onchange = "checkPwd(this.value)" })
+                            </div>
+                            @Html.ValidationMessageFor(model => model.Password,"",new { @class="text-danger"})
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2">
+                            @Html.LabelFor(model => model.CPassword)
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 mb-2">
+                            <div class="input-group">
+                                <div class="input-group-append">
+                                    <div class="input-group-text">
+                                        <i class="fa fa-key"></i>
+                                    </div>
+                                </div>
+                                @Html.PasswordFor(model => model.CPassword, new { placeholder = "Confirm Password", @class = "form-control", @maxlength = "100", @onchange = "checkPwd(this.value)" })
+                            </div>
+                            @Html.ValidationMessageFor(model => model.CPassword, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2">
+                            @Html.LabelFor(model => model.Server, htmlAttributes: new { @class = "control-label required" })
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 mb-2">
+                            @Html.TextBoxFor(model => model.Server, new { placeholder = "Server", @class = "form-control required", @maxlength = "50", @autocomplete = "off" })
+                            @Html.ValidationMessageFor(model => model.Server, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2">
+                            @Html.LabelFor(model => model.Port, htmlAttributes: new { @class = "control-label required" })
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 mb-2">
+                            @Html.TextBoxFor(model => model.Port, new { placeholder = "Port", @class = "form-control numeric required", @MaxLength = "3", @onchange = "CheckPortNo()", @autocomplete = "off", @type = "number" })
+                            @Html.ValidationMessageFor(model => model.Port, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2">
+                            @Html.LabelFor(model => model.Signature)
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 mb-2">
+                            @Html.TextAreaFor(model => model.Signature, new { placeholder = "Signature", @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.Signature, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2">
+                            @Html.LabelFor(model => model.SSLStatus)
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 mb-2">
+
+                            <div class="form-group">
+                                <label class="switch">
+                                    @Html.CheckBoxFor(model => model.SSLStatus, new { @checked = "checked" })
+                                    <div class="slider round">
+                                    </div>
+                                </label>
+                            </div>
+
+
+
+                            @*@Html.DropDownListFor(model => model.SSLStatus,
+                                (IEnumerable<SelectListItem>)ViewBag.items,
+                                new { id = "sslStatusID", @class = "form-control" })*@
+
+                            @*@Html.ValidationMessageFor(model => model.ParentID, "", new { @class = "text-danger" })*@
+
+
+                            @*@Html.DropDownListFor(model => Model.SSLStatus, new List<SelectListItem>
+                    {
+                          new SelectListItem{ Text="Enable", Value = "1" },
+                          new SelectListItem{ Text="Disable", Value = "0" },
+                     }, new { @class = "custom-select" })*@
+
+
+                        </div>
+                    </div>
+                    <div class="row">
+
+
+                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2">
+                            @Html.LabelFor(model => model.IsMaintenance)
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 mb-2">
+                            <div class="form-group">
+                                <label class="switch">
+                                    @Html.CheckBoxFor(model => model.IsMaintenance, new { @checked = "checked" })
+                                    <div class="slider round">
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="row datehide">
+                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2">
+                            @Html.LabelFor(model => model.MaintenanceDateTime,new {@class= "control-label required" })
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 mb-2">
+                            <div class="form-group">
+                                @Html.EditorFor(model => model.MaintenanceDateTime, new { htmlAttributes = new { @class = "form-control required", @type = "dateTimePicker",@placeholder="dd-MM-yyyy hh:mm AM/PM", @autocomplete = "off" } })
+                                @Html.ValidationMessageFor(model => model.MaintenanceDateTime, "", new { @class = "text-danger" })
+                                @Html.ValidationMessage("validateDate", "", new { @class = "text-danger" })
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-header">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+                        <input type="submit" value="Save" class="btn btn-primary btn-md pull-right" />
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+
+@section Scripts {
+    @*@Scripts.Render("~/bundles/jqueryval")*@
+
+    <script type="text/javascript">
+
+        $("#IsMaintenance").click(function () {
+
+            if ($("#IsMaintenance").is(':checked')) {
+                $('.datehide').removeClass('hide');
+            }
+            else {
+                $("#MaintenanceDateTime").val('');
+                $('.datehide').addClass('hide');
+            }
+        })
+
+        function checkPwd(str) {
+            var msg = "";
+            if (str.length < 6) {
+                msg += 'Minimum 6 character'; //  for min length
+            } else if (str.length > 100) {
+                msg += 'Maximum 100 character'; //  for max length
+            }
+            if (msg != "") {
+                alert(msg);
+                $('#Password').val('');
+                $('#CPassword').val('');
+                $('#Password').focus();
+                return false;
+            }
+            else { return true; }
+        }
+
+        function CheckPortNo() {
+            var PortNo = $('#Port').val();
+            PortNo = parseInt(PortNo);
+            if (parseInt(PortNo) >= 100) {
+
+            }
+            else {
+                alert('Invalid Port No.');
+                $('#Port').val('');
+            }
+        }
+
+    </script>
+    <script type="text/javascript">
+        $('#MaintenanceDateTime').datetimepicker();
+
+        $(document).ready(function () {           
+            if ($("#IsMaintenance").is(':checked'))
+                $('.datehide').removeClass('hide');
+            else
+                $('.datehide').addClass('hide');       
+
+            if ('@ViewBag.Error' != "") {
+                var str = '@WebUtility.HtmlEncode(ViewBag.Error)';
+                str = str.replace(/&amp;lt;/g, "<").replace(/&amp;gt;/g, ">").replace(/&amp;#39;/g, "'");
+                $.bootstrapGrowl("<i class='fa fa-exclamation-triangle' aria-hidden='true'></i> " + str + "", {
+                    type: 'warning',
+                    align: 'center',
+                    width: 'auto',
+                    allow_dismiss: true,
+                    delay: 100000
+                });
+            }
+            if ('@ViewBag.Message' != "") {
+                $.bootstrapGrowl("<i class='fa fa-check-circle' aria-hidden='true'></i> " + '@ViewBag.Message', {
+                    type: 'success',
+                    align: 'center',
+                    width: 'auto',
+                    allow_dismiss: true,
+                    delay: 20000
+                });
+            }
+        });
+    </script>
+}
+

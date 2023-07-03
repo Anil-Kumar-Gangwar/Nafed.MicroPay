@@ -1,0 +1,118 @@
+﻿@using MicroPay.Web.Models
+@model RequirementViewModel
+@{
+    ViewBag.Title = "Requirement List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div>
+
+    @using (Ajax.BeginForm("_GetRequirementGridView", "Requirement", new AjaxOptions { HttpMethod = "Get", OnSuccess = "OnSuccess" }, new { defaultbutton = "submitform" }))
+    {
+        <div class="advance-search" style="">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 pb-1 pt-2 form-inline align-middle">
+                <i class="fa fa-search fa-2x" style="color:#d4d4d4;" aria-hidden="true"></i><h4 class="desc" style="color:#0bb70b;">
+                    @Html.Label("Search")
+                </h4>
+            </div>
+            <hr style="background-color:#fff !important;">
+
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+                <div class="form-group">
+
+                    <div class="row">
+                        <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12 text-secondary mb-3">
+                            <i class="fas fa-filter"></i> Filter By :
+                        </div>
+                        <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12 ">
+                            @Html.LabelFor(model => model.DesignationId, htmlAttributes: new { @class = "" })
+                        </div>
+
+                        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 ">
+                            @Html.DropDownListFor(model => model.DesignationId, new SelectList(Model.designationList, "id", "value"), "Select", new { @class = "custom-select" })
+
+                        </div>
+
+                        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                            @Html.LabelFor(model => model.FromDate, htmlAttributes: new { @class = "" })
+                        </div>
+
+                        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                            @Html.EditorFor(model => model.FromDate, new { htmlAttributes = new { @class = "form-control", @placeholder = "From Date", @type = "date" } })
+                            @Html.ValidationMessage("FromDateValidation", "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 ">
+                            @Html.LabelFor(model => model.ToDate, htmlAttributes: new { @class = "" })
+                        </div>
+
+                        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 ">
+                            @Html.EditorFor(model => model.ToDate, new { htmlAttributes = new { @class = "form-control", @placeholder = "To Date", @type = "date" } })
+                            @Html.ValidationMessage("ToDateRangeValidation", "", new { @class = "text-danger" })
+                        </div>
+                        @*<div class="col-lg-1 col-md-1 col-sm-12 col-xs-12 ">
+                            <input type="submit" id="submitform" value="Search" title="Click here, to search records" class="btn btn-warning toggle-tooltip">
+                        </div>*@
+
+                    </div>
+
+                    <hr style="background-color:#fff !important;">
+                    <div class="row mt-3">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-right">
+                            @if (Model.userRights != null && Model.userRights.Create)
+                            {
+                                @Html.ActionLink("Click here, to post new job requirement.", "Create", "Requirement", null, new { @class = "btn btn-info mt-2", title = "Click here, to create new record", @data_toggle = "tooltip" })
+                            }
+                            <button type="submit" id="submitform" class="btn btn-warning toggle-tooltip mt-2" title="Click here, to search records.">
+                                <i class="fa fa-search"></i> Search Old Posted Jobs
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="card_new_body">
+            <div id="RequirementGridDiv">
+                @*@Html.Action("_GetRequirementGridView", Model)*@
+            </div>
+        </div>
+    }
+</div>
+
+<script type="text/javascript">
+    function OnSuccess(data) {
+        debugger;
+        if (data.msgType == "sucess") {
+            $("#RequirementGridDiv").html(data.htmlData);
+        }
+        if (data.msgType == "warning") {
+            commonMessage(data.msgType, data.msg);
+        }
+    }
+</script>
+
+<div class="modal" id="div-requirement-history" data-backdrop="static" data-keyboard="false" role="dialog" style="overflow:auto">
+    <div class="modal-dialog modal-big">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">              
+                <button type="button" class="close toggle-tooltip" data-dismiss="modal">&times;</button>
+            </div>
+
+           
+            <!-- Modal body -->
+                <div class="modal-body" id="div-requirement-body">
+
+                </div>
+
+            <!-- Modal footer -->
+                <div class="modal-footer">  
+                </div>           
+
+        </div>
+    </div>
+</div>

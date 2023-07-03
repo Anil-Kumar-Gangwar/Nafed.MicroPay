@@ -1,0 +1,340 @@
+﻿@model Nafed.MicroPay.Model.Employee
+@{
+    Layout = null;
+    var message = TempData["Message"] == null ? "" : TempData["Message"].ToString();
+    var messageError = TempData["Error"] == null ? "" : TempData["Error"].ToString();
+}
+
+<script type="text/javascript">
+    function EditSuccess(data) {
+
+            var i=@ViewBag.ActiveTab;
+            $('.nav-tabs li:eq(' + i + ') a').tab('show');
+
+            if ('@messageError' != "") {
+                var str = '@WebUtility.HtmlEncode(@messageError)';
+                str = str.replace(/&amp;lt;/g, "<").replace(/&amp;gt;/g, ">").replace(/&amp;#39;/g, "'");
+                $.bootstrapGrowl("<i class='mdi-android-debug-bridge' aria-hidden='true'></i> " + str + "", {
+                    type: 'warning',
+                    align: 'center',
+                    width: 'auto',
+                    allow_dismiss: true,
+                    delay: 50000
+                });
+            }
+            if ('@message' != "") {
+                $.bootstrapGrowl("<i class='mdi-checkbox-marked-circle-outline' aria-hidden='true'></i> " + '@message', {
+                    type: 'success',
+                    align: 'center',
+                    width: 'auto',
+                    allow_dismiss: true,
+                    delay: 20000
+                });
+            }
+    }
+
+</script>
+
+
+@using (Ajax.BeginForm("_EditOtherDetails", "Employee", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "Others", OnSuccess = "EditSuccess" }, new { defaultbutton = "submitform" }))
+{
+    @Html.HiddenFor(model => model.EmployeeID)
+    @Html.HiddenFor(model => model.DesignationID)
+    @Html.HiddenFor(model => model.PFNO)
+
+    @Html.AntiForgeryToken()
+
+    <div class="" style="margin-top:10px;">
+
+        <div class="">
+
+            <div class="row">
+
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-12">
+
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-lg-2 col-md-2 col-sm-2">
+                                @Html.LabelFor(model => model.PFNO, htmlAttributes: new { @class = "control-label" })
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-4">
+
+                                @Html.EditorFor(model => model.PFNO, new { htmlAttributes = new { @class = "form-control", @placeholder = "PF No", disabled = "disabled", onKeyPress = "if(this.value.length==6) return false;" } })
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-2">
+                                @Html.LabelFor(model => model.Folio_No, htmlAttributes: new { @class = "control-label" })
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-4">
+                                @Html.EditorFor(model => model.Folio_No, new { htmlAttributes = new { @class = "form-control" } })
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+
+                        <div class="row">
+
+                            <div class="col-lg-2 col-md-2 col-sm-2">
+                                @Html.LabelFor(model => model.ACR_No, htmlAttributes: new { @class = "control-label " })
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-4">
+                                @Html.EditorFor(model => model.ACR_No, new { htmlAttributes = new { @class = "form-control" } })
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-2">
+                                @Html.LabelFor(model => model.GraAssuranceNo, htmlAttributes: new { @class = "control-label " })
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-4">
+                                @Html.EditorFor(model => model.GraAssuranceNo, new { htmlAttributes = new { @class = "form-control" } })
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+
+                        <div class="row">
+
+                            <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2">
+                                @Html.LabelFor(model => model.PeriodAppointment, htmlAttributes: new { @class = "control-label" })
+                            </div>
+                            <div class="col-lg-4 col-sm-4 col-md-4 col-xs-4">
+                                @Html.TextBoxFor(model => model.PeriodAppointment, String.Format("{0:dd/MM/yyyy}", Model.PeriodAppointment), new { @type = "text", @class = "form-control datepicker", id = "PeriodAppointment", @placeholder = "dd/mm/yyyy" })
+                                @*@Html.EditorFor(model => model.PeriodAppointment, new { htmlAttributes = new { @class = "form-control", @type = "date" } })*@
+                            </div>
+                            <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2">
+                                @Html.LabelFor(model => model.ExtnAppointment, htmlAttributes: new { @class = "control-label" })
+                            </div>
+                            <div class="col-lg-4 col-sm-4 col-md-4 col-xs-4">
+                                @Html.TextBoxFor(model => model.ExtnAppointment, String.Format("{0:dd/MM/yyyy}", Model.ExtnAppointment), new { @type = "text", @class = "form-control datepicker", id = "ExtnAppointment", @placeholder = "dd/mm/yyyy" })
+                                @*@Html.EditorFor(model => model.ExtnAppointment, new { htmlAttributes = new { @class = "form-control", @type = "date" } })*@
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+
+                        <div class="row">
+                            <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2">
+
+                                @Html.LabelFor(model => model.GISNominee, htmlAttributes: new { @class = "control-label" })
+                            </div>
+                            <div class="col-lg-4 col-sm-4 col-md-4 col-xs-4">
+                                @Html.EditorFor(model => model.GISNominee, new { htmlAttributes = new { @class = "form-control" } })
+                            </div>
+                            <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2">
+                                @Html.LabelFor(model => model.NomineeRelationID, htmlAttributes: new { @class = "control-label" })
+                            </div>
+                            <div class="col-lg-4 col-sm-4 col-md-4 col-xs-4">
+                                @Html.DropDownListFor(model => model.NomineeRelationID, (IEnumerable<SelectListItem>)ViewBag.Relation, new { @class = "custom-select" })
+
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+
+
+                        <div class="row">
+                            <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2">
+
+                                @Html.LabelFor(model => model.EmpCatID, htmlAttributes: new { @class = "control-label" })
+                            </div>
+                            <div class="col-lg-4 col-sm-4 col-md-4 col-xs-4">
+                                @Html.DropDownListFor(model => model.EmpCatID, (IEnumerable<SelectListItem>)ViewBag.EmpCategory, new { @class = "custom-select" })
+
+
+                            </div>
+                            <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2">
+                                @Html.LabelFor(model => model.cota, htmlAttributes: new { @class = "control-label" })
+                            </div>
+                            <div class="col-lg-4 col-sm-4 col-md-4 col-xs-4">
+
+                                @Html.EnumDropDownListFor(x => x.cota, "Select Cota", new { @class = "custom-select" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+
+                        <div class="row">
+
+                            <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2">
+
+                                @Html.LabelFor(model => model.Dept_Enq, htmlAttributes: new { @class = "control-label" })
+                            </div>
+                            <div class="col-lg-4 col-sm-4 col-md-4 col-xs-4">
+                                <div class="form-group">
+                                    <label class="switch">
+                                        @Html.CheckBoxFor(model => model.Dept_Enq, new { @class = "form-control" })
+                                        <div class="slider round">
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-lg-2 col-sm-2 col-md-2 col-xs-2">
+                                @Html.LabelFor(model => model.Cer_Given, htmlAttributes: new { @class = "control-label" })
+                            </div>
+                            <div class="col-lg-4 col-sm-4 col-md-4 col-xs-4">
+                                <div class="form-group">
+                                    <label class="switch">
+                                        @Html.CheckBoxFor(model => model.Cer_Given, new { @class = "form-control" })
+                                        <div class="slider round">
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+
+                        <div class="row">
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                @Html.LabelFor(model => model.Inv_Issued, htmlAttributes: new { @class = "control-label" })
+
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                <div class="form-group">
+                                    <label class="switch">
+                                        @Html.CheckBoxFor(model => model.Inv_Issued, new { @class = "form-control" })
+                                        <div class="slider round">
+                                        </div>
+                                    </label>
+                                </div>
+
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                @Html.LabelFor(model => model.Books_LIB, htmlAttributes: new { @class = "control-label" })
+
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+
+                                <div class="form-group">
+                                    <label class="switch">
+                                        @Html.CheckBoxFor(model => model.Books_LIB, new { @class = "form-control" })
+                                        <div class="slider round">
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+
+                        <div class="row">
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+
+                                @Html.LabelFor(model => model.DOSupAnnuating, htmlAttributes: new { @class = "control-label" })
+
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                @Html.TextBoxFor(model => model.DOSupAnnuating, String.Format("{0:dd/MM/yyyy}", Model.DOSupAnnuating), new { @type = "text", @class = "form-control datepicker", id = "DOSupAnnuating", @placeholder = "dd/mm/yyyy" })
+                                @*@Html.EditorFor(model => model.DOSupAnnuating, new { htmlAttributes = new { @class = "form-control", @type = "date" } })*@
+
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                @Html.LabelFor(model => model.DOLeaveOrg, htmlAttributes: new { @class = "control-label" })
+
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                @Html.TextBoxFor(model => model.DOLeaveOrg, String.Format("{0:dd/MM/yyyy}", Model.DOLeaveOrg), new { @type = "text", @class = "form-control datepicker", id = "DOLeaveOrg", @placeholder = "dd/mm/yyyy" })
+                                @*@Html.EditorFor(model => model.DOLeaveOrg, new { htmlAttributes = new { @class = "form-control", @type = "date" } })*@
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                Way of Leaving Organization
+                            </div>
+
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+
+                                <div class="container-fluid">
+                                    <div class="custom-control custom-radio">
+
+                                        @Html.RadioButtonFor(model => model.wayOfLeaving, "IsVRS", new { id = "IsVRS" })
+                                        @Html.LabelFor(model => model.IsVRS, new { @for = "IsVRS" })
+
+                                        <br />
+                                        @Html.RadioButtonFor(model => model.wayOfLeaving, "IsDismissal", new { id = "IsDismissal" })
+                                        @Html.LabelFor(model => model.IsDismissal, new { @for = "IsDismissal" })
+
+                                        <br />
+                                        @Html.RadioButtonFor(model => model.wayOfLeaving, "IsSuperAnnuated", new { id = "IsSuperAnnuated" })
+                                        @Html.LabelFor(model => model.IsSuperAnnuated, new { @for = "IsSuperAnnuated" })
+                                        <br />
+
+                                        @Html.RadioButtonFor(model => model.wayOfLeaving, "IsTermination", new { id = "IsTermination" })
+                                        @Html.LabelFor(model => model.IsTermination, new { @for = "IsTermination" })
+
+                                        <br />
+
+                                        @Html.RadioButtonFor(model => model.wayOfLeaving, "IsForceFully", new { id = "IsForceFully" })
+                                        @Html.LabelFor(model => model.IsForceFully, new { @for = "IsForceFully" })
+
+                                        <br />
+
+                                        @Html.RadioButtonFor(model => model.wayOfLeaving, "IsExpire", new { id = "IsExpire" })
+                                        @Html.LabelFor(model => model.IsExpire, new { @for = "IsExpire" })
+
+                                        <br />
+
+                                        @Html.RadioButtonFor(model => model.wayOfLeaving, "NotApplicable", new { @id = "rdNotApplicable", @onChange = "rbtNotApplicableClick('rdNotApplicable');" })
+                                        @Html.LabelFor(model => model.NotApplicable, new { @for = "rdNotApplicable" })
+
+                                        <br />
+
+                                        @Html.RadioButtonFor(model => model.wayOfLeaving, "IsResigned", new { id = "IsResigned" })
+                                        @Html.LabelFor(model => model.IsResigned, new { @for = "IsResigned" })
+
+                                        <br />
+
+                                        @*@Html.RadioButtonFor(model => model.wayOfLeaving, "IsCompulsaryRetirement", new { id = "IsCompulsaryRetirement" })
+                                            @Html.LabelFor(model => model.IsCompulsaryRetirement, new { @for = "IsCompulsaryRetirement" })*@
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+
+                                @Html.LabelFor(model => model.ReasonOfLeaving, htmlAttributes: new { @class = "control-label" })
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                @Html.EditorFor(model => model.ReasonOfLeaving, new { htmlAttributes = new { @class = "form-control" } })
+                            </div>
+                        </div>
+                    </div>
+
+                    <span class="pull-right">
+                        @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-light btn-md toggle-tooltip", @title = "Click here, to redirect on list page" })
+                        <input type="submit" value="Update" class="btn btn-info btn-md pull-center toggle-tooltip" title="Click here, to update this record" />
+                    </span>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+}
+
+<script type="text/javascript">
+
+    function rbtNotApplicableClick(cntrlID) {
+
+        var chkChecked = $("#" + cntrlID).is(":checked");
+        if (chkChecked)
+            $("#DOLeaveOrg").val('');
+    }
+
+    $("#PeriodAppointment").datepicker({ dateFormat: 'dd/mm/yy', changeYear: true });
+    $("#DOSupAnnuating").datepicker({ dateFormat: 'dd/mm/yy', changeYear: true });
+    $("#DOLeaveOrg").datepicker({ dateFormat: 'dd/mm/yy', changeYear: true });
+    $("#ExtnAppointment").datepicker({ dateFormat: 'dd/mm/yy', changeYear: true });
+
+</script>

@@ -1,0 +1,82 @@
+﻿
+@model MicroPay.Web.Models.CCAViewModel
+
+
+    <table id="tblGrid" class="table table-centered table-striped dt-responsive w-100">
+        <thead>
+            <tr>
+                <th>
+                    #
+                </th>
+                <th class="text-right">
+                    Upper Limit
+                </th>
+                <th class="text-right">
+                    A1
+                </th>
+                <th class="text-right">
+                    A
+                </th>
+                <th class="text-right">
+                    B1
+                </th>
+                <th class="text-right">
+                    B2
+                </th>
+
+                @if (Model.userRights.Edit)
+            {
+                    <th class="text-center" style="width:60px">
+                        Edit
+                    </th>
+                }
+                @if (Model.userRights.Delete)
+            {
+                    <th class="text-center" style="width:60px">
+                        Delete
+                    </th>
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                if (Model.CCAList != null && Model.CCAList.Count() > 0)
+                {
+                    var sno = 1;
+                    foreach (var item in Model.CCAList)
+                    {
+                        <tr>
+                            <td> @sno</td>                          
+                            <td class="text-right"> @item.UpperLimit.ToString("0.00")</td>
+                            <td class="text-right">@string.Format("{0:F2}", @item.AmtCityGradeA1)</td>
+                            <td class="text-right"> @string.Format("{0:F2}", @item.AmtCityGradeA)</td>
+                            <td class="text-right"> @string.Format("{0:F2}", @item.AmtCityGradeB1)</td>
+                            <td class="text-right">@string.Format("{0:F2}", @item.AmtCityGradeB2)</td>
+                            @if (Model.userRights.Edit)
+                            {
+                                <td class="text-center">
+                                    @*<a href="@Url.Action("Edit", "CCA", new { upperLimit = item.UpperLimit})" title="Click here, to edit this record" data-toggle="tooltip">
+                                        <i class="far fa-edit text-info" aria-hidden="true"></i>
+                                    </a>*@
+                                    @Html.EncodedImageActionLink("", "Edit", "CCA", new { upperLimit = item.UpperLimit }, new { @class = "toggle-tooltip", title = "Click here, to edit this record" }, "~/Images/edit.png")
+                                </td>
+                            }
+                            @if (Model.userRights.Delete)
+                            {
+                                <td class="text-center">
+                                    @*<a data-toggle="confirm" class="toggle-tooltip" href="@Url.Action("Delete", "CCA", new {upperLimit = item.UpperLimit})" title="Click here, to delete this record">
+                                        <span class="far fa-trash-alt text-danger" aria-hidden="true"></span>
+                                    </a>*@
+                                    @Html.EncodedImageActionLink("", "Delete", "CCA", new { upperLimit = item.UpperLimit }, new { @class = "toggle-tooltip", title = "Click here, to delete this record" }, "~/Images/delete.png", true)
+                                </td>
+                            }
+                        </tr>
+
+                        sno++;
+                    }
+                }
+
+            }
+
+        </tbody>
+    </table>

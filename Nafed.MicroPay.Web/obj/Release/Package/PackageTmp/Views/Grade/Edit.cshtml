@@ -1,0 +1,59 @@
+﻿@model Nafed.MicroPay.Model.Grade
+@{
+    ViewBag.Title = "Edit Grade";
+    ViewBag.NavigationTitle = "Grade";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card_new_header alert alert-danger">
+    <div class="col-sm-6">
+        NOTE : Fields marked with (*) are compulsory fields
+    </div>
+    <div class="col-sm-6 text-right">
+        <b>@*[ Characters < > # ^ ; | $ are not allowed ]*@</b>
+    </div>
+</div>
+@using (Html.BeginForm("Edit", "Grade", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    <div class="card_new_body">
+        <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 mb-2">
+                @Html.HiddenFor(model => model.GradeID)
+
+              
+                <div class="row">
+                    @Html.LabelFor(model => model.GradeName, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-6 col-xs-12 mb-2  required" })
+
+                    <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 mb-2">
+                        @Html.EditorFor(model => model.GradeName, new { htmlAttributes = new { @class = "form-control", @placeholder = "Grade Name", @maxlength = "10" } })
+                        @Html.ValidationMessageFor(model => model.GradeName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <span class="pull-right">
+                    @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-light btn-md toggle-tooltip", @title = "Click here, to redirect on list page" })
+                    <input type="submit" value="Update" class="btn btn-info btn-md pull-center toggle-tooltip" title="Click here, to update current record" />
+                </span>
+            </div>
+        </div>
+
+    </div>
+}
+@section scripts{
+    @*<script type="text/javascript">
+            $(document).ready(function () {
+              //  $('.date').datetimepicker({ format: 'DD/MM/YYYY' });
+                $(":text").keyup(function () {
+                    var yourInput = $(this).val();
+                    re = /[`~!#$%^&*()_|+\- =?;:'",.<>\{\}\[\]\\\/]/gi;
+                    var isSplChar = re.test(yourInput);
+                    if (isSplChar) {
+                        var no_spl_char = yourInput.replace(/[`~!#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, '');
+                        $(this).val(no_spl_char);
+                    }
+                });
+            });
+    </script>*@
+}

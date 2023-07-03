@@ -1,0 +1,89 @@
+﻿@using Nafed.MicroPay.Model
+@model PromotionFilters
+
+@{
+    var yearDDl = Enumerable.Range(2005, (DateTime.Now.Year - 2005) + 1).
+                                  Select(i => new SelectListModel { id = i, value = i.ToString() }).OrderByDescending(x => x.value).ToList();
+    yearDDl.Insert(0, new SelectListModel { id = 0, value = "Select" });
+
+    //var monthDDL = Enumerable.Range(1, 12).
+    //        Select(i => new SelectListModel
+    //        {
+    //            id = i,
+    //            value = System.Globalization.CultureInfo.InvariantCulture.DateTimeFormat.GetMonthName(i)
+    //        }).ToList();
+
+    Model.branchList.Insert(0, new SelectListModel { value = "Select", id = 0 });
+}
+
+<div class="row">
+    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+        <fieldset class="border p-2 col-md-12 col-xs-12 col-lg-12 col-xl-12">
+            <legend style="font-size:1.3rem !important;" class="w-auto"></legend>
+            <div class="form-group">
+                <div class="row">
+                    @Html.LabelFor(model => model.branchId, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2" })
+                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
+                        @Html.DropDownListFor(model => model.branchId, new SelectList(Model.branchList, "id", "value"), new { @class = "custom-select" })
+                        @Html.ValidationMessageFor(model => model.branchId, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="row">
+                    @Html.LabelFor(model => model.monthId, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2" })
+
+                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
+                        @Html.DropDownListFor(model => model.monthId, new SelectList(Model.monthList, "id", "value"), new { @class = "custom-select" })
+                        @Html.ValidationMessageFor(model => model.monthId, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="row">
+                    @Html.LabelFor(model => model.yearId, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2" })
+
+                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
+                        @Html.DropDownListFor(model => model.yearId, new SelectList(yearDDl, "id", "value"), new { @class = "custom-select" })
+                        @Html.ValidationMessageFor(model => model.yearId, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="row">
+                    @Html.LabelFor(model => model.staffBudgetYearId, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2" })
+
+                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
+                        @Html.DropDownListFor(model => model.staffBudgetYearId, new SelectList(Model.staffBudgetYearList, "value", "value"), "Select", new { @class = "custom-select" })
+                        @Html.ValidationMessageFor(model => model.staffBudgetYearId, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="row">
+                    @Html.LabelFor(model => model.AllBranch, new { @class = "control-label col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-2" })
+                    @if (Model.AllBranch == false)
+                    {
+                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-4">
+                            <label class="switch">
+                                @Html.CheckBoxFor(model => model.AllBranch, new { @class = "form-control", @onChange = "checkboxChange(this)" })
+                                <div class="slider round">
+                                </div>
+                            </label>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-4">
+                            <label class="switch">
+                                @Html.CheckBoxFor(model => model.AllBranch, new { @class = "form-control", @checked = "checked", @onChange = "checkboxChange(this)" })
+                                <div class="slider round">
+                                </div>
+                            </label>
+                        </div>
+                    }
+                </div>
+                <span class="pull-left">
+                    <input type="submit" value="Print" class="btn btn-info btn-md pull-center toggle-tooltip" title="Click here, to save current record" name="ButtonType" />
+                </span>
+            </div>
+        </fieldset>
+
+    </div>
+</div>

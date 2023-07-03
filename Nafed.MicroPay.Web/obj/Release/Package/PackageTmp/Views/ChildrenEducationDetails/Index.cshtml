@@ -1,0 +1,23 @@
+﻿
+@{
+    ViewBag.Title = "History - Applications for reimbursement of Children Education Allowance";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="">
+    <div class="card_new_body">
+        @using (Ajax.BeginForm("_PostChildrenEducationFilters", "ChildrenEducationDetails", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "div-ChildrenEducation-forms" }))
+        {
+            <div id="div-ChildrenEducation-filters">
+                @Html.Action("_AdminChildrenEducationFilters")
+            </div>
+        }
+    </div>
+</div>
+
+<div class="card_new_body">
+    <div id="div-ChildrenEducation-forms">
+
+    </div>
+</div>
+

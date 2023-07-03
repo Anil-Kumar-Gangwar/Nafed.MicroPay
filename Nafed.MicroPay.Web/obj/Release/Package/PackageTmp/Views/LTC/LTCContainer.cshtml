@@ -1,0 +1,19 @@
+﻿@model Nafed.MicroPay.Model.LTC
+@{
+    ViewBag.Title = "LTC";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div id="div-LTC-form-container" class="container-fluid">
+    @Html.Partial("_LTCView", Model)
+
+</div>
+
+
+<script>
+    $('.noselect').find('input, textarea, button, select').attr('readonly', 'readonly').removeAttr('href');
+    $('.noselect .btn-sectionAddRow').addClass('hide');
+    $('.noselect .drpdown-section').attr("style", "pointer-events: none;");
+</script>
+
+

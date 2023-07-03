@@ -1,0 +1,818 @@
+﻿@using Nafed.MicroPay.Model;
+@model Nafed.MicroPay.Model.EmployeePFORG
+@{
+    ViewBag.Title = "Form No. 11";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var messageError = TempData["Error"] == null ? "" : TempData["Error"].ToString();
+    var ddd = Model.PanCardFilePath;
+
+
+    var empSectionClass = (Model.EmpProceeApproval.ReportingTo == Model.loggedInEmpID || Model.EmpProceeApproval.ReviewingTo == Model.loggedInEmpID || Model.EmpProceeApproval.AcceptanceAuthority == Model.loggedInEmpID) ? "noselect" : null;
+
+    var divisionalSectionClass = (Model.ApprovalHierarchy == 1
+        && (Model.EmpProceeApproval.ReviewingTo == Model.loggedInEmpID || Model.EmpProceeApproval.AcceptanceAuthority == Model.loggedInEmpID)) ? "noselect" :
+         (Model.ApprovalHierarchy == 1 && (Model.EmpProceeApproval.ReportingTo == Model.loggedInEmpID)) ? null :
+         (Model.ApprovalHierarchy == 2.0) ? null : (Model.ApprovalHierarchy == 2.1) ? "noselect" :
+         (Model.ApprovalHierarchy == 3 && (Model.EmpProceeApproval.AcceptanceAuthority == Model.loggedInEmpID)) ? null : "";
+
+    var SectionalSectionClass = (Model.ApprovalHierarchy == 1 && (Model.EmpProceeApproval.AcceptanceAuthority == Model.loggedInEmpID)) ? "noselect" :
+        (Model.ApprovalHierarchy == 2 && (Model.EmpProceeApproval.AcceptanceAuthority == Model.loggedInEmpID)) ? null : "";
+
+    if (Model.frmAttributes != null && Model.frmAttributes.EmployeeSection) { empSectionClass = null; }
+    if (Model.frmAttributes != null && Model.frmAttributes.ReportingSection) { divisionalSectionClass = null; }
+    if (Model.frmAttributes != null && Model.frmAttributes.ReviewerSection) { SectionalSectionClass = null; }
+
+}
+
+<script src="~/Scripts/bootstrap-multiselect.js"></script>
+@if (Model.StatusID == 7)
+{
+    <div class="row">
+        <input id="printdiv" type="submit" value="Print" onclick="printContent('div-PF-form-container')" />
+    </div>
+}
+
+@using (Html.BeginForm("Create", "EmployeePFOrganisationHeader", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    @Html.HiddenFor(model => model.EmpPFID)
+    @Html.HiddenFor(model => model.ID)
+    @Html.HiddenFor(model => model.StatusID)
+    @Html.HiddenFor(model => model.loggedInEmpID)
+    @Html.HiddenFor(model => model.EmployeeId)
+    @Html.HiddenFor(model => model.Employeecode)
+    @Html.HiddenFor(model => model.Employeename)
+    @Html.HiddenFor(model => model.HBName)
+    @Html.HiddenFor(model => model.DOB)
+    @Html.HiddenFor(model => model.DOJ)
+    @Html.HiddenFor(model => model.Gender)
+    @Html.HiddenFor(model => model.MaritalSts)
+    @Html.HiddenFor(model => model.OfficialEmail)
+    @Html.HiddenFor(model => model.MobileNo)
+    @Html.HiddenFor(model => model.EmpProceeApproval.ReportingTo)
+    @Html.HiddenFor(model => model.EmpProceeApproval.ReviewingTo)
+    @Html.HiddenFor(model => model.EmpProceeApproval.AcceptanceAuthority)
+    @Html.HiddenFor(model => model.ApprovalHierarchy)
+    @Html.HiddenFor(model => model.PersonalEmailID)
+    @Html.HiddenFor(model => model.Branchname)
+    @Html.HiddenFor(model => model.DesignationName)
+    <div id="div-PF-form-container">
+        <div class="form-group">
+            <div class="col-lg-12 col-md-12 col-xl-12 col-sm-12 col-xs-12 text-right">
+                <h4 class="font-weight-bold">
+                    New Form No. 11- Declaration Form<br />
+                </h4>
+                <h6>
+                    (To be retained by the employer for future reference)
+                </h6>
+            </div>
+        </div>
+        <div class="form-group ">
+            <div class="col-lg-12 col-md-12 col-xl-12 col-sm-12 col-xs-12 text-center mb-4">
+                <h4 class="font-weight-bold">
+                    EMPLOYEE'S PROVIDENT FUND ORGANISATION<br />
+                </h4>
+                <h5>
+                    <span class="mt-4">Employee's Provident Fund Scheme , 1952 (Paragraph 34 &  57) &</span> <br />
+                    <span class="mt-4"> Employee's Pension Fund Scheme , 1995 (Paragraph 24)</span> <br />
+                    <span class="mt-4">(Declaration by a person taking up employment in any establishment on which EPF Scheme 1952 and/or EPS, 1995 is applicable)</span>
+
+
+                </h5>
+            </div>
+        </div>
+
+        <hr />
+
+        <div id="div-Employee" class="@empSectionClass @divisionalSectionClass">
+
+
+            <div class="form-group">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2 mt-4">
+
+                    <div class="row">
+                        <p class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                            1. Name of the member
+                        </p>
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 mb-2 font-weight-bold">
+                            @Model.Employeecode <text> - </text>  @Model.Employeename
+                        </div>
+                    </div>
+                    <div class="row">
+                        <p class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                            2. Father's /Spouse Name
+
+                            @Model.HBName <text>
+                        </p>
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 mb-2 font-weight-bold">
+                            @Model.HBName
+                        </div>
+                    </div>
+                    <div class="row">
+                        <p class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                            3. Date of birth
+                        </p>
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 mb-2 font-weight-bold">
+                            @(Model.DOB.HasValue ? Convert.ToDateTime(Model.DOB).ToString("dd/MM/yyyy") : "Not Available")
+                        </div>
+                    </div>
+                    <div class="row">
+                        <p class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                            4. Gender
+                        </p>
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 mb-2 font-weight-bold">
+                            @Model.Gender
+                        </div>
+                    </div>
+                    <div class="row">
+                        <p class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                            5. Martial Status
+                        </p>
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 mb-2 font-weight-bold">
+                            @Model.MaritalSts
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <p class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                            6 a). Email ID
+                        </p>
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 mb-2 font-weight-bold">
+                            @Model.OfficialEmail
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <p class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                            6 b). Mobile No.
+                        </p>
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 mb-2 font-weight-bold">
+                            @Model.MobileNo
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <p class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                            7. Whether earlier a member of Employee's Provident Fund Scheme, 1952
+                        </p>
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 mb-2" font-weight-bold">
+
+                            @Html.DropDownListFor(model => model.Employee_PF_Scheme_1952, (IEnumerable<SelectListItem>)ViewBag.select, new { @class = "custom-select", @id = "ddlemployeePFScheme1952" })
+
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 mb-2" font-weight-bold">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <p class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                            8. Whether earlier a member of Employee's Pension  Scheme, 1995
+                        </p>
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 mb-2" font-weight-bold">
+                            @Html.DropDownListFor(model => model.Employee_Pension_Scheme_1995, (IEnumerable<SelectListItem>)ViewBag.select, new { @class = "custom-select", @id = "ddlemployeePensionScheme1995" })
+
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 mb-2" font-weight-bold">
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-lg-12 col-md-12 col-xl-12 col-sm-12 col-xs-12 font-weight-bold p-4" style="text-decoration:underline">
+                    9. Previous employeement details : [If Yes to 7 AND/OR 8 above]
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
+
+                    <div class="row">
+                        <p class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                            a). Universal Account Number
+                        </p>
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 mb-2" font-weight-bold">
+                            @Html.EditorFor(model => model.Universal_Acc_No, new { htmlAttributes = new { @class = "form-control integerOnly", @placeholder = "Account No.", @maxlength = "15", @id = "lblaccno" } })
+
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 mb-2 font-weight-bold"></div>
+                    </div>
+                    <div class="row">
+                        <p class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                            b). Previous PF Account Number
+                        </p>
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 mb-2" font-weight-bold">
+                            @Html.EditorFor(model => model.Previous_PF_Acc_No, new { htmlAttributes = new { @class = "form-control integeronly", @placeholder = "Previous PF Account No.", @maxlength = "15", @id = "lblpreviousPFaccno" } })
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 mb-2 font-weight-bold"></div>
+                    </div>
+                    <div class="row">
+                        <p class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                            c) Date of exit from previous employement
+                        </p>
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 mb-2" font-weight-bold">
+                            @Html.EditorFor(model => model.Dateof_Exit_Previos_Employment, new { htmlAttributes = new { @class = "form-control", @type = "date", @id = "lbldateofexitpreviousempl" } })
+
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 mb-2 font-weight-bold"></div>
+                    </div>
+                    <div class="row">
+                        <p class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                            d) Scheme Certificate No. (is issued)
+                        </p>
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 mb-2" font-weight-bold">
+                            @Html.EditorFor(model => model.Scheme_Certificate_No, new { htmlAttributes = new { @class = "form-control", @placeholder = "Scheme Certificate No.", @maxlength = "15", @id = "lblschemecerNo" } })
+
+
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 mb-2 font-weight-bold"></div>
+                    </div>
+                    <div class="row">
+                        <p class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                            e) Pension Payment Order (PPO.) No. (if issued)
+                        </p>
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 mb-2" font-weight-bold">
+                            @Html.EditorFor(model => model.Pension_payment_Order_No, new { htmlAttributes = new { @class = "form-control", @placeholder = "Pension payment Order No.", @maxlength = "15", @id = "lblPPOrderNo" } })
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 mb-2 font-weight-bold"></div>
+                    </div>
+                    <div class="row">
+                        <p class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                            10. a) International Worker
+                        </p>
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 mb-2" font-weight-bold">
+                            @Html.DropDownListFor(model => model.International_Worker, (IEnumerable<SelectListItem>)ViewBag.select, new { @class = "custom-select", @id = "ddlInternationalWorker" })
+
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 mb-2 font-weight-bold"></div>
+                    </div>
+
+                    <div class="row">
+                        <p class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                            b) If yes state country of origin(India/name of other country)
+                        </p>
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 mb-2" font-weight-bold">
+                            @Html.EditorFor(model => model.State_Country_Origin, new { htmlAttributes = new { @class = "form-control", @placeholder = "State/Country Origin", @maxlength = "20", @id = "lblstateCountry" } })
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 mb-2 font-weight-bold"></div>
+                    </div>
+                    <div class="row">
+                        <p class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                            c) Passport No.
+                        </p>
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 mb-2" font-weight-bold">
+                            @Html.EditorFor(model => model.Passport_No, new { htmlAttributes = new { @class = "form-control", @placeholder = "Passport No.", @maxlength = "12", @id = "lblPassPortNo" } })
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 mb-2">
+                            <div class="input-group-append">
+                                <input id="filePassportNo" title="Upload Passport" data-toggle="tooltip" type="file" name="files"
+                                       accept=".png,.jpg,.jpeg,.gif,.tif" style="display: none" />
+                                <span id="imgPassport" class="input-group-text">Upload Passport</span>
+                            </div>
+                        </div>
+                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-12 mt-2 pl-0"><a data-toggle="modal" title="Click here to view Uploaded Password" data-target="#PassportModal"> <i class="fas fa-image fa-2x"></i></a></div>
+                    </div>
+                    <div class="row">
+                        <p class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                            d) Validity of Passport
+                        </p>
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 mb-2">
+                            @Html.EditorFor(model => model.Validity_Passport_from, new { htmlAttributes = new { @class = "form-control", @type = "date", @id = "lblPassportfrom" } })
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 mb-2">
+                            @Html.EditorFor(model => model.Validity_Passport_to, new { htmlAttributes = new { @class = "form-control", @type = "date", @id = "lblPassportTo" } })
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-lg-12 col-md-12 col-xl-12 col-sm-12 col-xs-12 font-weight-bold p-4" style="text-decoration:underline">
+                    11. KYC Details
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
+
+                    <div class="row">
+                        <p class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                            a). Bank Account No. and IFSC Code
+                        </p>
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 mb-2">
+                            @Html.EditorFor(model => model.BankAcNo, new { htmlAttributes = new { @class = "form-control", @placeholder = "bank Acc No.", @maxlength = "16" } })
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 mb-2">
+                            @Html.EditorFor(model => model.IFSCCode, new { htmlAttributes = new { @class = "form-control", @placeholder = "IFSC Code", @maxlength = "12" } })
+                        </div>
+
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 mt-1 mr-4">
+                            <div class="input-group-append">
+                                <input id="fileBankAcc" title="Upload Bank Details" data-toggle="tooltip" type="file" name="files"
+                                       accept=".png,.jpg,.jpeg,.gif,.tif" style="display: none" />
+                                <span id="imgBankDetails" class="input-group-text">Upload Bank Details</span>
+                            </div>
+                        </div>
+                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-12 mt-2 pl-0"><a data-toggle="modal"  title="Click here to view Uploaded Bank Details" data-target="#BankAccModal"> <i class="fas fa-image fa-2x"></i></a></div>
+
+                    </div>
+                    <div class="row">
+                        <p class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                            b). AADHAR Number
+                        </p>
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 mb-2">
+                            @Html.EditorFor(model => model.AadhaarNo, new { htmlAttributes = new { @class = "form-control integerOnly", @placeholder = "Aadhar No.", @maxlength = "12" } })
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                            <div class="input-group-append">
+                                <input id="fileAadhaarCard" title="Upload Aadhaar Card" data-toggle="tooltip" type="file" name="files"
+                                       accept=".png,.jpg,.jpeg,.gif,.tif" style="display: none" />
+                                <span id="imgAadhaar" class="input-group-text">Upload Aadhaar</span>
+                            </div>
+                        </div>
+                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-12 mt-2 pl-0"><a data-toggle="modal"  title="Click here to view Uploaded Aadhaar" data-target="#AadhaarModal"> <i class="fas fa-image fa-2x"></i></a></div>
+
+                        @*<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 mb-2 font-weight-bold"></div>*@
+                    </div>
+                    <div class="row">
+                        <p class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                            c) Permanent Account Number(PAN) , if available
+                        </p>
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 mb-2">
+                            @Html.EditorFor(model => model.Permanent_AcNo, new { htmlAttributes = new { @class = "form-control", @placeholder = "Permanent Account No.", @maxlength = "12" } })
+                        </div>
+
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                            <div>
+                                <input id="filePanCard" title="Upload PAN Card" data-toggle="tooltip" type="file" name="files"
+                                       accept=".png,.jpg,.jpeg,.gif" style="display: none" />
+                                <span id="imgPanCard" class="input-group-text">Upload PAN </span>
+                            </div>
+                        </div>
+                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-12 mt-2 pl-0"><a data-toggle="modal"  title="Click here to view Uploaded PAN" data-target="#PANModal"> <i class="fas fa-image fa-2x"></i></a></div>
+                    </div>
+
+                </div>
+            </div>
+
+
+            <div class="col-lg-12 col-md-12 col-xl-12 col-sm-12 col-xs-12 text-center mt-4">
+                <h4 class="font-weight-bold">
+                     @if (Model.EmployeeDeclaration)
+                    { @Html.CheckBoxFor(model => model.EmployeeDeclaration,new { htmlAttributes = new {@checked="true" } })}
+                    else
+                    { @Html.CheckBoxFor(model => model.EmployeeDeclaration) }UNDERTAKING <br />
+                </h4>
+
+            </div>
+            <hr />
+            <div class="col-lg-12 col-md-12 col-xl-12 col-sm-12 col-xs-12 text-left" style="line-height:2">
+                <p>
+                    1) Certified that the particulars are true to be best of me knowledge.<br />
+                    2) I authorize EPFO to use my Addhar for verification/authentication/eKYC purpose for service delivery.<br />
+                    3) Kindly transfer the funds and service details , is applicable, from the previous PF accounts as declared above to the present P.F. Account.<br />
+                    (The transfer would be possible only if the identified KYC detail approved by previous employer has been verified by present employer using digital signature Certificate).<br />
+                    4) I  case of changes in above details, the same will be intimate to employer at the earliest.<br />
+                </p>
+            </div>
+
+
+            <div class="row mt-4">
+
+                <div class="col-md-6 text-left">Date : <label class="col-lg-6 col-md-6 col-sm-6 col-xs-6 col-xs-8 mb-2 underlineinput text-left" id="lblDate">@Model.currentDate</label></div>
+                <div class="col-md-6 text-right "> <label class="col-lg-6 col-md-6 col-sm-6 col-xs-6 mb-2 "></label></div>
+            </div>
+
+
+            <div class="row mt-4">
+                <div class="col-md-6 text-left">Place :<label class="col-lg-6 col-md-6 col-sm-6 col-xs-6 mb-2 underlineinput  text-left" id="lblPlaceofposting">@Model.Branchname</label></div>
+                <div class="col-md-6  text-right">Name of Member<label class="col-lg-6 col-md-6 col-sm-6 col-xs-6 mb-2  underlineinput text-left" id="lblNameofMmber">@Model.Employeename</label></div>
+            </div>
+            <div class="row mt-4">
+                <div class="col-md-6 text-left"></div>
+                <div class="col-md-6  text-right">Signature of Member<label class="col-lg-6 col-md-6 col-sm-6 col-xs-6 mb-2  underlineinput text-left" id="lblSigofMmber"></label></div>
+            </div>
+
+
+        </div>
+
+
+        <div id="div-DHSH">
+            @if (Model.EmpProceeApproval.ReviewingTo == Model.loggedInEmpID || Model.EmpProceeApproval.AcceptanceAuthority == Model.loggedInEmpID)
+            {
+                <div class="col-lg-12 col-md-12 col-xl-12 col-sm-12 col-xs-12 text-center mt-4">
+                    <h4 class="font-weight-bold text-center">
+                        DECLARATION BY PRESENT EMPLOYER<br />
+                    </h4>
+
+                </div>
+                <hr />
+                <div class="form-group mt-4">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
+
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                1. The Member Mr./Ms./Mrs. <b>@Model.Employeename</b> has joined on <b>@(Model.DOJ.HasValue ? Convert.ToDateTime(Model.DOJ).ToString("dd/MM/yyyy") : "")</b> and has been alloted PF Number @Html.EditorFor(model => model.PFNo, new { htmlAttributes = new { @class = "col-lg-1 col-md-1 col-sm-1 col-xs-1 form-textbox required", @min = 1, @placeholder = "PF No", @maxlength = "5" } }) @Html.ValidationMessageFor(model => model.PFNo, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                B. In case the person was earlier not a member of EPF scheme, 1952 and EPS, 1995: .<br />
+
+                                <b> . (Post allotment of UAN)</b> The UAN allotted for the member is @Html.EditorFor(model => model.Universal_Acc_No, new { htmlAttributes = new { @class = "col-lg-2 col-md-2 col-sm-2 col-xs-2 form-textbox", @placeholder = "UAN No", @maxlength = "12", } })
+                            </div>
+                        </div>
+                        <div class="row">
+                            <p class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                3.	<b> . Please tick the Appropriate Option :</b><br />
+                                the KYC details of the above member in the UAN database<br />
+                            </p>
+                        </div>
+                        <div class="row">
+                            <p class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                @Html.CheckBox("check1", new { Style = "vertical-align:3px}" })Have not been uploaded<br />
+                                @Html.CheckBox("check2", new { Style = "vertical-align:3px}" })Have been uploaded but not approved<br />
+                                @Html.CheckBox("check3", new { Style = "vertical-align:3px}" })Have been uploaded and approved with DSC<br />
+                                C. In case the person was earlier a member of EPF Scheme, 1952 and EPS, 1995 :<br />
+
+                                . The above PF Account number/UAN of the member as mentioned in (A) above has been tagged with his/her UAN/Previous Member ID as declared by member. <br />
+
+                                <b> . Please tick the Appropriate Option :</b><br />
+                                @Html.CheckBox("check4", new { Style = "vertical-align:3px}" }) The KYC details of the above member in the UAN database has been approved with Digital Signature Certificate and transfer request has been generated on portal.<br />
+                                @Html.CheckBox("check5", new { Style = "vertical-align:3px}" }) As the DSC of the establishment are not registered with EPFo, the member has been informed to file physical claim (From- 13) fro transfer of funds from his previous establishmnet.<br />
+
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+
+        <div id="div-Acceptance">
+            @if (Model.EmpProceeApproval.AcceptanceAuthority == Model.loggedInEmpID)
+            {
+                <div class="form-group mt-5">
+                    <div class="row">
+                        <div class="col-md-6 text-left">Date : <label class="col-lg-6 col-md-6 col-sm-6 col-xs-6 col-xs-8 mb-2 underlineinput text-left" id="lblfinaldate">@Model.currentDateAA</label></div>
+                        <div class="col-md-6  text-right">Name of Employer with Seal of Establishment<label class="col-lg-6 col-md-6 col-sm-6 col-xs-6 mb-2  underlineinput" id="lblnameofEmployer"></label></div>
+                    </div>
+                </div>
+                <div class="row mt-4">
+                    <div class="col-md-6 text-left"></div>
+                    <div class="col-md-6  text-right">Signature of Employer with Seal of Establishment<label class="col-lg-6 col-md-6 col-sm-6 col-xs-6 mb-2  underlineinput text-left" id="lblSigofEmployer"></label></div>
+                </div>
+            }
+        </div>
+
+
+    </div>
+
+
+
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2 text-right">
+            @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-light btn-md toggle-tooltip", @title = "Click here, to redirect on list page", @data_toggle = "tooltip" })
+
+            @if (Model.loggedInEmpID == Model.EmployeeId)
+            {
+                if (Model.StatusID == 0)
+                {
+                    <input type="submit" value="Save" id="btnSave" name="ButtonType" class="btn btn-info btn-md pull-center toggle-tooltip" title="Click here, to save the data" data-toggle="tooltip" />
+                }
+            }
+            else if (Model.loggedInEmpID == Model.EmpProceeApproval.ReportingTo)
+            {
+                if (Model.FormStatus == (int)form11FormState.SubmitedByEmployee)
+                {
+                    <input type="submit" value="Submit" id="btnSave" name="ButtonType" class="btn btn-info btn-md pull-center toggle-tooltip" title="Click here, to submit the data" data-toggle="tooltip" />
+                    <input type="submit" value="Rejected" id="btnrejected" name="ButtonType" class="btn btn-info btn-md pull-center toggle-tooltip" title="Click here, to reject the data" data-toggle="tooltip" />
+                }
+            }
+            else if (Model.loggedInEmpID == Model.EmpProceeApproval.ReviewingTo)
+            {
+                if (Model.FormStatus == (int)form11FormState.AcceptedByReporting)
+                {
+                    <input type="submit" value="Submit" id="btnSave" name="ButtonType" class="btn btn-info btn-md pull-center toggle-tooltip" title="Click here, to submit the data" data-toggle="tooltip" />
+                    <input type="submit" value="Rejected" id="btnrejected" name="ButtonType" class="btn btn-info btn-md pull-center toggle-tooltip" title="Click here, to reject the data" data-toggle="tooltip" />
+
+                }
+            }
+            else if (Model.loggedInEmpID == Model.EmpProceeApproval.AcceptanceAuthority)
+            {
+                if (Model.FormStatus == (int)form11FormState.AcceptedByReviewer)
+                {
+                    <input type="submit" value="Submit" id="btnSave" name="ButtonType" class="btn btn-info btn-md pull-center toggle-tooltip" title="Click here, to submit the data" data-toggle="tooltip" />
+                    <input type="submit" value="Rejected" id="btnrejected" name="ButtonType" class="btn btn-info btn-md pull-center toggle-tooltip" title="Click here, to reject the data" data-toggle="tooltip" />
+                }
+            }
+        </div>
+    </div>
+}
+<div class="modal fade" id="AadhaarModal" tabindex="-1" role="dialog" aria-labelledby="AadharCardPopup" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="AadharCardPopup">Aadhaar No - @Model.AadhaarNo </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body text-center">
+                @*<img id="imgPanCard" style="width:100%; height:250px;border:solid 1px #e1e1e1;"
+                     src='@Url.Action("GetImage",new {imgPath=Model.AadhaarCardUNCFilePath})'
+                     data-toggle="tooltip" />*@
+                <img id="imgPanCard" style="width:100%; height:250px;border:solid 1px #e1e1e1;"
+                     src='/@Model.AadhaarCardUNCFilePath'
+                     data-toggle="tooltip" />
+                @*<img id="idproof" height="200" width="400" src="~/Images/PANNO/SamplePAN_Card.jpg" />*@
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="PANModal" tabindex="-1" role="dialog" aria-labelledby="PANCardPopup" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="PANCardPopup">PAN No - @Model.Permanent_AcNo </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body text-center">
+                @*<img id="imgPanCard" style="width:100%; height:250px;border:solid 1px #e1e1e1;"
+                     src='@Url.Action("GetImage",new {imgPath=Model.PanCardUNCFilePath})'
+                     data-toggle="tooltip" />*@
+                <img id="imgPanCard" style="width:100%; height:250px;border:solid 1px #e1e1e1;"
+                     src='/@Model.PanCardUNCFilePath'
+                     data-toggle="tooltip" />
+                @*<img id="idproof" height="200" width="400" src="~/Images/PANNO/SamplePAN_Card.jpg" />*@
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="PassportModal" tabindex="-1" role="dialog" aria-labelledby="PassportCardPopup" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="PassportCardPopup">Passport No - @Model.Passport_No </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body text-center">
+                @*<img id="imgPanCard" style="width:100%; height:250px;border:solid 1px #e1e1e1;"
+                     src='@Url.Action("GetImage",new {imgPath=Model.PassportUNCFilePath})'
+                     data-toggle="tooltip" />*@
+
+                <img id="imgPanCard" style="width:100%; height:250px;border:solid 1px #e1e1e1;"
+                     src='/@Model.PassportUNCFilePath'
+                     data-toggle="tooltip" />
+                @*<img id="idproof" height="200" width="400" src="~/Images/PANNO/SamplePAN_Card.jpg" />*@
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="BankAccModal" tabindex="-1" role="dialog" aria-labelledby="BankAccCardPopup" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="BankAccCardPopup">Bank details - @Model.BankAcNo - @Model.IFSCCode</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body text-center">
+                @*<img id="imgPanCard" style="width:100%; height:250px;border:solid 1px #e1e1e1;"
+                     src='@Url.Action("GetImage",new {imgPath=Model.BankAccUNCFilePath})'
+                     data-toggle="tooltip" />*@
+
+                <img id="imgPanCard" style="width:100%; height:250px;border:solid 1px #e1e1e1;"
+                     src='/@Model.BankAccUNCFilePath'
+                     data-toggle="tooltip" />
+                @*<img id="idproof" height="200" width="400" src="~/Images/PANNO/SamplePAN_Card.jpg" />*@
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    $(document).on("click", "#imgPanCard", function () {
+
+        $("#filePanCard").trigger('click');
+    });
+
+
+    $(document).on("click", "#imgAadhaar", function () {
+        $("#fileAadhaarCard").trigger('click');
+    });
+
+    $(document).on("click", "#imgPassport", function () {
+        $("#filePassportNo").trigger('click');
+    });
+
+    $(document).on("click", "#imgBankDetails", function () {
+        $("#fileBankAcc").trigger('click');
+    });
+
+    $(":file").change(function () {
+        var fileControlID = $(this).attr('id');
+
+        if (this.files && this.files[0]) {
+            var reader = new FileReader();
+            if (fileControlID == "filePanCard")
+                reader.onload = panIsLoaded;
+            else if (fileControlID == "fileAadhaarCard")
+                reader.onload = aadhaarIsLoaded;
+            else if (fileControlID == "fileBankAcc")
+                reader.onload = bankaccIsLoaded;
+            else
+                reader.onload = passportIsLoaded;
+
+            reader.readAsDataURL(this.files[0]);
+            alert(e.target.result);
+        }
+    });
+
+    function bankaccIsLoaded(e) {
+
+        $('#imgBankDetails').attr('src', e.target.result);
+        // alert(e.target.result);
+    };
+
+    function panIsLoaded(e) {
+        $('#imgPanCard').attr('src', e.target.result);
+        // alert(e.target.result);
+    };
+
+    function aadhaarIsLoaded(e) {
+        $('#imgAadhaar').attr('src', e.target.result);
+        //  alert(e.target.result);
+    };
+
+    function passportIsLoaded(e) {
+        $('#imgPassport').attr('src', e.target.result);
+        //  alert(e.target.result);
+    };
+
+    window.addEventListener("submit", function (e) {
+        alert(form.getAttribute("enctype"));
+        var form = e.target;
+        if (form.getAttribute("enctype") === "multipart/form-data") {
+            if (form.dataset.ajax) {
+                e.preventDefault();
+                e.stopImmediatePropagation();
+                var xhr = new XMLHttpRequest();
+                xhr.open(form.method, form.action);
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState == 4 && xhr.status == 200) {
+
+                        if (form.dataset.ajaxUpdate) {
+
+                            var updateTarget = document.querySelector(form.dataset.ajaxUpdate);
+                            if (updateTarget) {
+                                var inValid = '@messageError';
+
+
+                                if (inValid != "InValidDOB") {
+                                    var i = 2;
+                                    $('.nav-tabs li:eq(' + i + ') a').tab('show');
+                                }
+                                updateTarget.innerHTML = xhr.responseText;
+                            }
+                        }
+                    }
+                };
+                xhr.send(new FormData(form));
+            }
+        }
+    }, true);
+
+    $(document).ready(function () {
+        var ddlinternationalworker = $("#ddlInternationalWorker").val();
+
+        if (ddlinternationalworker == 1) {
+            $("#lblstateCountry").removeAttr('disabled');
+            $("#lblPassPortNo").removeAttr('disabled');
+            $("#lblPassportfrom").removeAttr('disabled');
+            $("#lblPassportTo").removeAttr('disabled');
+        }
+        else {
+            $("#lblstateCountry").attr("disabled", "disabled");
+            $("#lblPassPortNo").attr("disabled", "disabled");
+            $("#lblPassportfrom").attr("disabled", "disabled");
+            $("#lblPassportTo").attr("disabled", "disabled");
+
+
+        }
+
+        var PfScheme = $("#ddlemployeePFScheme1952").val();
+        var Pensionscheme = $("#ddlemployeePensionScheme1995").val();
+
+        if ((PfScheme == 2 && Pensionscheme == 2) || (PfScheme == 0 && Pensionscheme == 0) || (PfScheme == 2 && Pensionscheme == 0) || (PfScheme == 0 && Pensionscheme == 2)) {
+            $("#lblaccno").attr("disabled", "disabled");
+            $("#lblpreviousPFaccno").attr("disabled", "disabled");
+            $("#lbldateofexitpreviousempl").attr("disabled", "disabled");
+            $("#lblschemecerNo").attr("disabled", "disabled");
+            $("#lblPPOrderNo").attr("disabled", "disabled");
+        }
+        else {
+            $("#lblaccno").removeAttr('disabled');
+            $("#lblpreviousPFaccno").removeAttr('disabled');
+            $("#lbldateofexitpreviousempl").removeAttr('disabled');
+            $("#lblschemecerNo").removeAttr('disabled');
+            $("#lblPPOrderNo").removeAttr('disabled');
+
+        }
+    });
+
+    function printContent(el) { var restorepage = document.body.innerHTML; var printcontent = document.getElementById(el).innerHTML; document.body.innerHTML = printcontent; window.print(); document.body.innerHTML = restorepage; }
+
+    $('#ddlInternationalWorker').on("change", function () {
+        var ddlinternationalworker = $("#ddlInternationalWorker").val();
+        if (ddlinternationalworker == 1) {
+            $("#lblstateCountry").removeAttr('disabled');
+            $("#lblPassPortNo").removeAttr('disabled');
+            $("#lblPassportfrom").removeAttr('disabled');
+            $("#lblPassportTo").removeAttr('disabled');
+
+        } else {
+            $("#lblstateCountry").attr("disabled", "disabled");
+            $("#lblPassPortNo").attr("disabled", "disabled");
+            $("#lblPassportfrom").attr("disabled", "disabled");
+            $("#lblPassportTo").attr("disabled", "disabled");
+
+        }
+    })
+    $('#ddlemployeePFScheme1952').on("change", function () {
+
+        var PfScheme = $("#ddlemployeePFScheme1952").val();
+        var Pensionscheme = $("#ddlemployeePensionScheme1995").val();
+
+        if ((PfScheme == 2 && Pensionscheme == 2) || (PfScheme == 0 && Pensionscheme == 0) || (PfScheme == 2 && Pensionscheme == 0) || (PfScheme == 0 && Pensionscheme == 2)) {
+            $("#lblaccno").attr("disabled", "disabled");
+            $("#lblpreviousPFaccno").attr("disabled", "disabled");
+            $("#lbldateofexitpreviousempl").attr("disabled", "disabled");
+            $("#lblschemecerNo").attr("disabled", "disabled");
+            $("#lblPPOrderNo").attr("disabled", "disabled");
+
+        } else {
+            $("#lblaccno").removeAttr('disabled');
+            $("#lblpreviousPFaccno").removeAttr('disabled');
+            $("#lbldateofexitpreviousempl").removeAttr('disabled');
+            $("#lblschemecerNo").removeAttr('disabled');
+            $("#lblPPOrderNo").removeAttr('disabled');
+
+
+
+        }
+    })
+
+    $('#ddlemployeePensionScheme1995').on("change", function () {
+        var PfScheme = $("#ddlemployeePFScheme1952").val();
+        var Pensionscheme = $("#ddlemployeePensionScheme1995").val();
+        if ((PfScheme == 2 && Pensionscheme == 2) || (PfScheme == 0 && Pensionscheme == 0) || (PfScheme == 2 && Pensionscheme == 0) || (PfScheme == 0 && Pensionscheme == 2)) {
+            $("#lblaccno").attr("disabled", "disabled");
+            $("#lblpreviousPFaccno").attr("disabled", "disabled");
+            $("#lbldateofexitpreviousempl").attr("disabled", "disabled");
+            $("#lblschemecerNo").attr("disabled", "disabled");
+            $("#lblPPOrderNo").attr("disabled", "disabled");
+
+        } else {
+            $("#lblaccno").removeAttr('disabled');
+            $("#lblpreviousPFaccno").removeAttr('disabled');
+            $("#lbldateofexitpreviousempl").removeAttr('disabled');
+            $("#lblschemecerNo").removeAttr('disabled');
+            $("#lblPPOrderNo").removeAttr('disabled');
+
+
+
+        }
+    })
+
+
+
+</script>

@@ -1,0 +1,395 @@
+﻿@using Nafed.MicroPay.Model;
+@model Nafed.MicroPay.Model.LoanApplication
+@{
+    ViewBag.Title = "Loan Application";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div id="div-main-form" style="padding-left:60px;padding-right:60px;padding-top:20px;padding-bottom:20px">
+    @using (Html.BeginForm("Create", "LoanApplication", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+        @Html.HiddenFor(model => model.ApplicationID)
+        @Html.HiddenFor(model => model.EmployeeID)
+        @Html.HiddenFor(model => model.EmployeeName)
+        @Html.HiddenFor(model => model.EmployeeCode)
+        @Html.HiddenFor(model => model.Dateofjoining)
+        @Html.HiddenFor(model => model.PFNo)
+        @Html.HiddenFor(model => model.approvalSetting.ReportingTo)
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2 text-center" style="font-weight:bolder">
+                <h4>  Application for Loan from PF Trust</h4>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
+
+                <div class="row">
+                    <p class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        The Chairman,<br />
+                        NAFED Employee' Provident Fund Trust<br />
+                        1, Sidhartha Enclave, Ashram Chowk,<br />
+                        New Delhi.
+                    </p>
+                </div>
+                <div class="row">
+                    <p class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        Dear Sir,
+                    </p>
+                </div>
+                <div class="row">
+                    <p class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+                        This is to inform that I am in need of money for the reason (at S.No) given below.  It is @Html.ValidationMessageFor(model => model.LoanAmount, "", new { @class = "text-danger" })<br />
+                        therefore, requested that I may please be granted a sum of Rs. @Html.EditorFor(model => model.LoanAmount, new { htmlAttributes = new { @class = "col-lg-2 col-md-2 col-sm-2 col-xs-2 underlineinput text-right", @maxlength = "12", @type = "number", @min = "0", @max = "9999999999", @step = "1" } }) as loan from my PF <br />
+                        accumulations as per rules of the NAFED Employees Provident Fund Trust.
+
+
+                    </p>
+                </div>
+                <div class="row">
+                    <p class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        Thanking you,
+                    </p>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2 text-right form-inline">
+                <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10 mb-2 text-right">
+                    <p>Yours faithfully.</p>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2 text-right form-inline">
+                <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10 mb-2 text-right">
+                    <p>PF A/c No :</p>
+                </div>
+
+                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-6 mb-2 underlineinput text-left">
+                    @Model.PFNo
+
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2 text-center" style="font-weight:bold">
+                REASONS FOR LOAN APPLIED FOR :
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
+
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        @Html.ValidationMessageFor(model => model.LoanReason, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="row">
+                    <p class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+
+                        @if (Model.LoanReason == 1)
+                        {
+                            @Html.RadioButtonFor(model => model.LoanReason, 1, new
+                       {
+                           id = "LoanReason_1",
+                           name = "LoanReason",
+                           @checked = true
+                       })}
+                        else
+                        {
+                            @Html.RadioButtonFor(model => model.LoanReason, 1, new
+                       {
+                           id = "LoanReason_1",
+                           name = "LoanReason"
+                       })}
+                        @*@Html.Label("To meet expenses of prolonged illness of a member or members of his family.", new { @for = "LoanReason_1", @class = "control-label" })*@
+
+
+                        <label for="LoanReason_1">    1.	To meet expenses of prolonged illness of a member or members of his family.</label>
+                    </p>
+                </div>
+                <div class="row">
+                    <p class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        @if (Model.LoanReason == 2)
+                        {
+                            @Html.RadioButtonFor(model => model.LoanReason, 2, new
+                       {
+                           id = "LoanReason_2",
+                           name = "LoanReason",
+                           @checked = true
+                       })}
+                        else
+                        {
+                            @Html.RadioButtonFor(model => model.LoanReason, 2, new
+                       {
+                           id = "LoanReason_2",
+                           name = "LoanReason"
+                       })}
+                        <label for="LoanReason_2">  2.	To meet expenses of marriage, funerals or ceremonies of any member of his family.</label>
+
+                    </p>
+                </div>
+                <div class="row">
+                    <p class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        @if (Model.LoanReason == 3)
+                        {
+                            @Html.RadioButtonFor(model => model.LoanReason, 3, new
+                       {
+                           id = "LoanReason_3",
+                           name = "LoanReason",
+                           @checked = true
+                       })}
+                        else
+                        {
+                            @Html.RadioButtonFor(model => model.LoanReason, 3, new
+                       {
+                           id = "LoanReason_3",
+                           name = "LoanReason"
+                       })}
+                        <label for="LoanReason_3">
+                            3.	To purchase a dwelling house or dwelling site or for construction of a dwelling house.
+                        </label>
+                        @*3. @Html.EditorFor(model => model.SpouseOrg, new { htmlAttributes = new { @class = "col-lg-2 col-md-2 col-sm-2 col-xs-2", @placeholder = "Organisation Name", @maxlength = "100" } })*@
+
+                    </p>
+                </div>
+                <div class="row">
+                    <p class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        @if (Model.LoanReason == 4)
+                        {
+                            @Html.RadioButtonFor(model => model.LoanReason, 4, new
+                       {
+                           id = "LoanReason_4",
+                           name = "LoanReason",
+                           @checked = true
+                       })}
+                        else
+                        {
+                            @Html.RadioButtonFor(model => model.LoanReason, 4, new
+                       {
+                           id = "LoanReason_4",
+                           name = "LoanReason"
+                       })}
+                        <label for="LoanReason_4">
+                            4.	Advance towards the allotment of a tenement constructed or to be constructed under <br />
+                            subsidised Housing Scheme of Group Housing Scheme.
+                        </label>
+                    </p>
+                </div>
+                <div class="row">
+                    <p class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        @if (Model.LoanReason == 5)
+                        {
+                            @Html.RadioButtonFor(model => model.LoanReason, 5, new
+                       {
+                           id = "LoanReason_5",
+                           name = "LoanReason",
+                           @checked = true
+                       })}
+                        else
+                        {
+                            @Html.RadioButtonFor(model => model.LoanReason, 5, new
+                       {
+                           id = "LoanReason_5",
+                           name = "LoanReason"
+                       })}
+                        <label for="LoanReason_5">   5.	Advance for construction of house under middle/low income Group Housing Society.</label>
+                    </p>
+                </div>
+                <div class="row">
+                    <p class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        @if (Model.LoanReason == 6)
+                        {
+                            @Html.RadioButtonFor(model => model.LoanReason, 6, new
+                       {
+                           id = "LoanReason_6",
+                           name = "LoanReason",
+                           @checked = true
+                       })}
+                        else
+                        {
+                            @Html.RadioButtonFor(model => model.LoanReason, 6, new
+                       {
+                           id = "LoanReason_6",
+                           name = "LoanReason"
+                       })}
+                        <label for="LoanReason_6">  6.	Grant of non-refundable advance in abnormal conditions like damage of property due to.</label>
+                    </p>
+                </div>
+                <div class="row">
+                    <p class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        @if (Model.LoanReason == 7)
+                        {
+                            @Html.RadioButtonFor(model => model.LoanReason, 7, new
+                       {
+                           id = "LoanReason_7",
+                           name = "LoanReason",
+                           @checked = true
+                       })}
+                        else
+                        {
+                            @Html.RadioButtonFor(model => model.LoanReason, 7, new
+                       {
+                           id = "LoanReason_7",
+                           name = "LoanReason"
+                       })}
+                        <label for="LoanReason_7"> 7.	Non-refundable advance for daughter's marriage or matriculation education of children.</label>
+                    </p>
+                </div>
+                <div class="row">
+                    <p class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        @if (Model.LoanReason == 8)
+                        {
+                            @Html.RadioButtonFor(model => model.LoanReason, 8, new
+                   {
+                       id = "LoanReason_8",
+                       name = "LoanReason",
+                       @checked = true
+                   })}
+                        else
+                        {
+                            @Html.RadioButtonFor(model => model.LoanReason, 8, new
+                   {
+                       id = "LoanReason_8",
+                       name = "LoanReason"
+                   })}
+                        <label for="LoanReason_8">   8.	Special provision for payment towards Insurance Policies.</label>
+                    </p>
+                </div>
+
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2 text-center" style="font-weight:bold">
+                CERTIFICATE
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
+
+                <div class="row">
+                    <p class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        This is to certify that marriage/funeral/ religious @Html.EditorFor(model => model.Ceremony, new { htmlAttributes = new { @class = "col-lg-4 col-md-4 col-sm-4 col-xs-4 underlineinput", @maxlength = "100", @placeholder = "Max. 100 characters" } }) cermony of @Html.ValidationMessageFor(model => model.Ceremony, "", new { @class = "text-danger" })<br />
+                        member of my family(as defiend under Nafed Employees Provident Fund Rules) is to be held  for <br />
+                        which loan out of provident money lying to my credit in the Trust is applied for. The other <br />
+                        particulars  regarding the same are given below:
+                    </p>
+                </div>
+            </div>
+        </div>
+            <div class="row">
+                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                    Date of Ceremony :
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+
+                  @Html.TextBoxFor(model => model.CeremonyDate, String.Format("{0:dd/MM/yyyy}", Model.CeremonyDate), new { @type = "text", @class = "form-control datepicker", @placeholder = "dd/mm/yyyy" })<br />
+                    @Html.ValidationMessageFor(model => model.CeremonyDate, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                    Place where the ceremony <br />
+                    to be held :
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+
+                    @Html.EditorFor(model => model.CeremonyPlace, new { htmlAttributes = new { @class = "form-control ", @placeholder = "Max. 100 characters", @maxlength = "100" } }) <br />
+                    @Html.ValidationMessageFor(model => model.CeremonyPlace, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                    In case of death, the name<br />
+                    of place where cremation<br />
+                    took place :
+                </div>
+
+                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                    @Html.EditorFor(model => model.DeathPlace, new { htmlAttributes = new { @class = "form-control", @placeholder = "Max. 100 characters", @maxlength = "100" } }) <br />
+
+                </div>
+            </div>
+
+
+
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2 text-right">
+
+                        <p>(Signature of the Applicant)</p>
+
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2 text-right form-inline">
+                        <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10 mb-2 text-right">
+                            <p>Name :</p>
+                        </div>
+
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-6 mb-2 underlineinput text-left">
+                            @Model.EmployeeName
+                        </div>
+                    </div>
+                </div>
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2 text-right form-inline">
+                            <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10 mb-2 text-right">
+                                <p>Membership No :</p>
+                            </div>
+
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-6 mb-2 underlineinput text-left">
+                                @Model.PFNo
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2 text-right form-inline">
+                            <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10 mb-2 text-right">
+                                <p>Employee Code :</p>
+                            </div>
+
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-6 mb-2 underlineinput text-left">
+                                @Model.EmployeeCode
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2 text-right form-inline">
+                            <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10 mb-2 text-right">
+                                <p>Date of joining :</p>
+                            </div>
+
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-6 mb-2 underlineinput text-left">
+                                @if (Model.Dateofjoining.HasValue)
+                                {
+                                    @Model.Dateofjoining.Value.ToString("dd-MM-yyyy");
+                                }
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2 text-right">
+                            @Html.ActionLink("Back", "Index", null, new { @class = "btn btn-light btn-md toggle-tooltip", @title = "Click here, to redirect on list page", @data_toggle = "tooltip" })
+
+                            <input type="submit" value="Submit" id="btnSubmit" name="ButtonType" class="btn btn-info btn-md pull-center toggle-tooltip" title="Click here, to submit the data." />
+
+                        </div>
+                    </div>
+    }
+</div>

@@ -1,0 +1,898 @@
+﻿@using Nafed.MicroPay.Model;
+@using MvcCheckBoxList.Model
+@model MicroPay.Web.Models.APARSkillsViewModel
+
+@{
+    var empSectionClass = (Model.EmployeeID == Model.LoggedInEmpID) ? null : "noselect";
+    var reportingSectionClass = (Model.ReportingTo == Model.LoggedInEmpID) ? null : "noselect";
+    var enableTDCell = "enableTDCells form-control";
+
+}
+<div id="div-main-form">
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-xl-12 col-sm-12 col-xs-12 text-center">
+            <div class="form-group">
+                <div class="col-lg-12 col-md-12 col-xl-12 col-sm-12 col-xs-12 ">
+                    <img src="~/Images/logo.png" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-lg-12 col-md-12 col-xl-12 col-sm-12 col-xs-12 text-center">
+            <h4 class="font-weight-bold">
+                National Agricultural Cooperative Marketing Federation of India Ltd.<br />
+                Nafed House, Sidhartha Enclave, Ashram Chowk, Ring Road,<br />
+                <span style="text-decoration:underline">New Delhi - 110 014</span>
+            </h4>
+        </div>
+    </div>
+
+    <div class="bg-light">
+        <div class="col-lg-12 col-md-12 col-xl-12 col-sm-12 col-xs-12 text-center p-2 mt-4" style="background-color:#d4d4d4;">
+            <h5>
+                ANNUAL COMPETENCY ASSESSMENT REPORT - @Model.APARFormHdr.ReportingYr
+            </h5>
+        </div>
+        <div class="row p-3">
+            <div class="col-md-12">
+
+                <div class="form-group">
+                    <div class="col-lg-12 col-md-12 col-xl-12 col-sm-12 col-xs-12 text-left pl-1">
+                        <h3>
+                            Personal Details
+                        </h3>
+                    </div>
+
+                </div>
+
+                <div class="form-group bg-white text-black pt-3">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 table" style="line-height:2; ">
+
+                        <div class="row" style="border-bottom:solid 1px #d4d4d4;">
+                            <p class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                Name:
+                            </p>
+                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 font-weight-bold">
+                                @Model.APARFormHdr.EmployeeCode - @Model.APARFormHdr.EmployeeName
+                            </div>
+
+                            <p class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                Designation:
+                            </p>
+                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 font-weight-bold">
+                                @Model.APARFormHdr.DesignationName
+                            </div>
+                        </div>
+                        <div class="row" style="border-bottom:solid 1px #d4d4d4;">
+                            <p class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                Date of Birth:
+                            </p>
+                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 font-weight-bold">
+                                @(Model.APARFormHdr.DOB.HasValue ? Convert.ToDateTime(Model.APARFormHdr.DOB).ToString("dd/MM/yyyy") : "Not Available")
+                            </div>
+
+                            <p class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                Place of posting:
+                            </p>
+                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 font-weight-bold">
+                                @Html.DisplayFor(model => model.APARFormHdr.PlaceOfJoin, new { @class = "form-control" })
+                            </div>
+
+                        </div>
+                        <div class="row" style="border-bottom:solid 1px #d4d4d4;">
+                            <p class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                Qualifications:
+                            </p>
+                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 font-weight-bold">
+                                @Html.DisplayFor(model => model.APARFormHdr.Qualification, new { @class = "form-control" })
+                            </div>
+
+
+                            <p class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                Date of joining NAFED:
+                            </p>
+                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 font-weight-bold">
+                                @Convert.ToDateTime(Model.APARFormHdr.DOJ).ToString("dd/MM/yyyy")
+
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <p class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                Date of appointment to the present post:
+                            </p>
+                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 font-weight-bold">
+                                @(Model.APARFormHdr.DOPP.HasValue ? Convert.ToDateTime(Model.APARFormHdr.DOPP).ToString("dd/MM/yyyy") : "Not Available")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div>
+                    @using (Ajax.BeginForm("_PostAPARFormData", "APARSkills", new AjaxOptions { HttpMethod = "POST", OnSuccess = "OnSuccess" }))
+                    {
+                        @Html.ValidationSummary(true)
+                        @Html.HiddenFor(model => model.APARFormHdr.ReportingYr)
+                        @Html.HiddenFor(model => model.APARFormHdr.EmployeeName)
+                        @Html.HiddenFor(model => model.APARFormHdr.DesignationName)
+                        @Html.HiddenFor(model => model.APARFormHdr.DOB)
+                        @Html.HiddenFor(model => model.APARFormHdr.PlaceOfJoin)
+                        @Html.HiddenFor(model => model.APARFormHdr.Qualification)
+                        @Html.HiddenFor(model => model.APARFormHdr.DOJ)
+                        @Html.HiddenFor(model => model.APARFormHdr.DOPP)
+                        @Html.HiddenFor(model => Model.APARFormHdr.APARHdrID)
+                        @Html.HiddenFor(model => Model.APARFormHdr.EmployeeID)
+                        @Html.HiddenFor(model => Model.EmployeeID)
+                        @Html.HiddenFor(model => Model.LoggedInEmpID)
+                        @Html.HiddenFor(model => Model.ReportingTo)
+                        @Html.HiddenFor(model => Model.APARFormHdr.StatusID)
+                        @Html.HiddenFor(model => Model.APARFormHdr.EmpSenddate)
+
+                        <div id="div-Employee" class="@empSectionClass">
+                            <div class="form-group">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
+
+                                    <div class="row">
+                                        <p class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                            Period for which the employee has worked under
+                                            the Reporting Officer during the year under review
+                                            (to be filled in by the Reporting Officer)
+                                        </p>
+                                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-2">
+                                            @*@Html.EditorFor(model => model.APARFormHdr.WorkedPeriodUnderROFrom, new { htmlAttributes = new { @class = "form-control", @type = "date", max = DateTime.Now.ToString("yyyy-MM-dd") } })*@
+                                            @Html.TextBoxFor(model => model.APARFormHdr.WorkedPeriodUnderROFrom, String.Format("{0:dd/MM/yyyy}", Model.APARFormHdr.WorkedPeriodUnderROFrom), new { @type = "text", @class = "form-control datepicker", @id = "fromdate", @placeholder = "dd/mm/yyyy" })
+                                            
+                                            @Html.ValidationMessage("WorkedPeriodUnderROFrom", "", new { @class = "text-danger" })
+
+
+                                        </div>
+                                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-2">
+                                            @*@Html.EditorFor(model => model.APARFormHdr.WorkedPeriodUnderROTo, new { htmlAttributes = new { @class = "form-control", @type = "date", max = DateTime.Now.ToString("yyyy-MM-dd") } })*@
+                                            @Html.TextBoxFor(model => model.APARFormHdr.WorkedPeriodUnderROTo, String.Format("{0:dd/MM/yyyy}", Model.APARFormHdr.WorkedPeriodUnderROTo), new { @type = "text", @class = "form-control datepicker", @id = "todate", @placeholder = "dd/mm/yyyy" })
+                                            
+                                            @Html.ValidationMessage("WorkedPeriodUnderROTo", "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-lg-6 col-md-6 col-xl-6 col-sm-12 col-xs-12 font-weight-bold pl-4 text-uppercase" style="text-decoration:underline; padding-left: 25px !important;">
+                                        <h5>PART – 1 <br /> Self Competency Assessment</h5>
+                                    </div>
+                                    @if (Model.ReportingTo != Model.LoggedInEmpID)
+                                    {
+                                    <div class="col-lg-6 col-md-6 col-xl-6 col-sm-12 col-xs-12 font-weight-bold text-justify">
+                                        @*@Html.ActionLink("Add Skill", "Index", "APARSkillsSet")*@
+
+                                        <span class="text-info " data-toggle="modal" style="cursor:pointer" data-target="#modalAPARSkill">Click here</span>
+                                        @*<a class="badge badge-info" data-toggle="modal" data-target="#modalAPARSkill">Click here</a>*@
+                                        , if you want to add any new Competency in below, Default Competency can not be remove from list (use N.A.option if its not belong to your Designation / Department).
+
+                                    </div>
+                                    }
+                                </div>
+                            </div>
+
+                            <div class="col-lg-12 col-md-12 col-xl-12 col-sm-12 col-xs-12">
+                                <div class="row">
+
+                                    <div class="col-lg-12 col-md-12 col-xl-12 col-sm-12 col-xs-12">
+                                        <table id="tblPart1Behavioral" class="table table-bordered table-centered dt-responsive w-100">
+                                            <thead>
+                                                <tr class="bg-secondary text-white text-uppercase">
+                                                    <th colspan="7">
+                                                        Behavioral
+                                                    </th>
+                                                </tr>
+
+                                                <tr class="bg-dark text-white">
+                                                    <th>
+                                                        #
+                                                    </th>
+                                                    <th style="text-align:center">
+                                                        N.A.
+                                                    </th>
+                                                    <th>
+                                                        COMPETENCY
+                                                    </th>
+                                                    <th>
+                                                        ASSESSMENT
+                                                    </th>
+                                                    <th>COMMENTS</th>
+
+                                                    <th style="width:100px;">
+                                                        REPORTING MANAGER ASSESSMENT
+                                                    </th>
+                                                    <th style="width:100px;">
+                                                        REPORTING MANAGER COMMENTS
+                                                    </th>
+                                                </tr>
+                                            </thead>
+
+                                            <tbody class="bg-white" style="color:#000 !important;">
+                                                @if (Model.Part1BehavioralList != null && Model.Part1BehavioralList.Count > 0)
+                                                {
+                                                    var sno = 1;
+                                                    for (int i = 0; i < Model.Part1BehavioralList.Count; i++)
+                                                    {
+                                                        @Html.HiddenFor(m => Model.Part1BehavioralList[i].SkillTypeID)
+                                                        @Html.HiddenFor(model => Model.Part1BehavioralList[i].SkillID)
+                                                        @Html.HiddenFor(model => Model.Part1BehavioralList[i].Skill)
+                                                        @Html.HiddenFor(model => Model.Part1BehavioralList[i].SkillSetID)
+                                                        @Html.HiddenFor(model => Model.Part1BehavioralList[i].SkillRemark)
+
+                                                        <tr>
+                                                            <td class="text-left" style="width:2%">
+
+                                                                @sno
+                                                            </td>
+                                                            <td class="text-left" style="width:5%">
+                                                                @if (Model.ReportingTo == Model.LoggedInEmpID)
+                                                                {
+                                                                    @Html.HiddenFor(model => model.Part1BehavioralList[i].IsDeleted)
+                                                                    @Html.EditorFor(model => model.Part1BehavioralList[i].IsDeleted, new { htmlAttributes = new { @class = "form-control", @style = "font-size:4px;", @disabled = "disabled" } })
+                                                                }
+                                                                else
+                                                                {
+                                                                    @Html.EditorFor(model => model.Part1BehavioralList[i].IsDeleted, new { htmlAttributes = new { @class = "form-control", @style = "font-size:4px;" } })
+                                                                }
+                                                            </td>
+                                                            <td class="text-left" style="width:23%">
+                                                                @Model.Part1BehavioralList[i].Skill <text style="font-style:italic"> <br /> <i style="font-weight: 600">@Model.Part1BehavioralList[i].SkillRemark </i></text>
+
+                                                            </td>
+                                                            <td class="text-left" style="width:15%">
+
+                                                                @Html.EnumDropDownListFor(model => Model.Part1BehavioralList[i].enumAssessment, "Select", new { @class = "custom-select drpdown-section" })
+
+                                                                @Html.ValidationMessage("Part1Behavioral_" + i, "", new { @class = "text-danger" })
+                                                            </td>
+                                                            <td class="text-left" style="width:20%">
+                                                                @Html.EditorFor(model => model.Part1BehavioralList[i].Remark, new { htmlAttributes = new { @class = "form-control", @placeholder = "Max. 100 characters", @maxlength = "100" } })
+
+                                                            </td>
+                                                            @if (Model.ReportingTo == Model.LoggedInEmpID)
+                                                            {
+                                                                <td class="text-left" style="width:15%">
+
+                                                                    @Html.EnumDropDownListFor(model => Model.Part1BehavioralList[i].enumAssessmentReporting, "Select", new { @class = "custom-select" })
+
+                                                                    @Html.ValidationMessage("ReportingPart1Behavioral_" + i, "", new { @class = "text-danger" })
+                                                                </td>
+                                                                <td class="text-left" style="width:20%">
+                                                                    @Html.EditorFor(model => model.Part1BehavioralList[i].ReportingRemarks, new { htmlAttributes = new { @class = @enableTDCell, @placeholder = "Max. 100 characters", @maxlength = "100" } })
+
+                                                                </td>                                                                
+                                                            }
+                                                            else
+                                                            {
+                                                                <td class="text-left" style="width:15%">
+
+                                                                    @Html.EnumDropDownListFor(model => Model.Part1BehavioralList[i].enumAssessmentReporting, "Select", new { @class = "custom-select", @style = "pointer-events: none;" })
+
+                                                                    @Html.ValidationMessage("ReportingPart1Behavioral_" + i, "", new { @class = "text-danger" })
+                                                                </td>
+                                                                <td class="text-left" style="width:20%">
+                                                                    @Html.EditorFor(model => model.Part1BehavioralList[i].ReportingRemarks, new { htmlAttributes = new { @class = "form-control", @placeholder = "Max. 100 characters", @maxlength = "100", @readonly = "readonly" } })
+
+                                                                </td>
+                                                            }
+
+                                                        </tr>
+                                                        sno++;
+                                                    }
+                                                }
+                                            </tbody>
+                                        </table>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+
+                            <div class="col-lg-12 col-md-12 col-xl-12 col-sm-12 col-xs-12">
+                                <div class="row">
+
+                                    <div class="col-lg-12 col-md-12 col-xl-12 col-sm-12 col-xs-12">
+                                        <table id="tblPart1Functional" class="table table-bordered table-centered dt-responsive w-100">
+                                            <thead>
+                                                <tr class="bg-secondary text-white text-uppercase">
+                                                    <th colspan="7">
+                                                        Functional
+                                                    </th>
+                                                </tr>
+                                                <tr class="bg-dark text-white">
+                                                    <th>
+                                                        #
+                                                    </th>
+                                                    <th style="text-align:center">
+                                                        N.A.
+                                                    </th>
+                                                    <th>
+                                                        COMPETENCY
+                                                    </th>
+                                                    <th>
+                                                        ASSESSMENT
+                                                    </th>
+                                                    <th>COMMENTS</th>
+                                                    <th>
+                                                        REPORTING MANAGER ASSESSMENT
+                                                    </th>
+                                                    <th> REPORTING MANAGER COMMENTS</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="bg-white" style="color:#000 !important;">
+                                                @if (Model.Part1FunctionalList != null && Model.Part1FunctionalList.Count > 0)
+                                                {
+                                                    var sno = 1;
+                                                    for (int i = 0; i < Model.Part1FunctionalList.Count; i++)
+                                                    {
+                                                        @Html.HiddenFor(m => Model.Part1FunctionalList[i].SkillTypeID)
+                                                        @Html.HiddenFor(model => Model.Part1FunctionalList[i].SkillID)
+                                                        @Html.HiddenFor(model => Model.Part1FunctionalList[i].Skill)
+                                                        @Html.HiddenFor(model => Model.Part1FunctionalList[i].SkillSetID)
+                                                        @Html.HiddenFor(model => Model.Part1FunctionalList[i].SkillRemark)
+
+                                                        <tr>
+                                                            <td class="text-left" style="width:2%">
+
+                                                                @sno
+                                                            </td>
+                                                            <td class="text-left" style="width:5%">
+                                                                @if (Model.ReportingTo == Model.LoggedInEmpID)
+                                                                {@Html.HiddenFor(model => model.Part1FunctionalList[i].IsDeleted)
+                                                                    @Html.EditorFor(model => model.Part1FunctionalList[i].IsDeleted, new { htmlAttributes = new { @class = "form-control text-center", @style = "font-size:4px;", @disabled = "disabled" } })
+                                                                }
+                                                                else
+                                                                {
+                                                                    @Html.EditorFor(model => model.Part1FunctionalList[i].IsDeleted, new { htmlAttributes = new { @class = "form-control text-center", @style = "font-size:4px;" } })
+                                                                }
+                                                            </td>
+                                                            <td class="text-left" style="width:23%">
+                                                                @Model.Part1FunctionalList[i].Skill <text style="font-style:italic"><br /> <i style="font-weight: 600">@Model.Part1FunctionalList[i].SkillRemark </i></text>
+
+                                                            </td>
+                                                            <td class="text-left" style="width:15%">
+                                                                @Html.EnumDropDownListFor(model => Model.Part1FunctionalList[i].enumAssessment, "Select", new { @class = "custom-select drpdown-section" })
+                                                                @Html.ValidationMessage("Part1Functional_" + i, "", new { @class = "text-danger" })
+
+                                                            </td>
+                                                            <td class="text-left" style="width:20%">
+                                                                @Html.EditorFor(model => model.Part1FunctionalList[i].Remark, new { htmlAttributes = new { @class = "form-control", @placeholder = "Max. 100 characters", @maxlength = "100" } })
+
+                                                            </td>
+
+
+
+                                                            @if (Model.ReportingTo == Model.LoggedInEmpID)
+                                                            {
+                                                                <td class="text-left" style="width:15%">
+
+                                                                    @Html.EnumDropDownListFor(model => Model.Part1FunctionalList[i].enumAssessmentReporting, "Select", new { @class = "custom-select" })
+                                                                    @Html.ValidationMessage("ReportingPart1Functional_" + i, "", new { @class = "text-danger" })
+                                                                </td>
+                                                                <td class="text-left" style="width:20%">
+                                                                    @Html.EditorFor(model => model.Part1FunctionalList[i].ReportingRemarks, new { htmlAttributes = new { @class = @enableTDCell, @placeholder = "Max. 100 characters", @maxlength = "100" } })
+
+                                                                </td>
+                                                            }
+                                                            else
+                                                            {
+                                                                <td class="text-left" style="width:15%">
+
+                                                                    @Html.EnumDropDownListFor(model => Model.Part1FunctionalList[i].enumAssessmentReporting, "Select", new { @class = "custom-select",@style = "pointer-events: none;" })
+
+                                                                    @Html.ValidationMessage("ReportingPart1Functional_" + i, "", new { @class = "text-danger" })
+                                                                </td>
+                                                                <td class="text-left" style="width:20%">
+                                                                    @Html.EditorFor(model => model.Part1FunctionalList[i].ReportingRemarks, new { htmlAttributes = new { @class = "form-control", @placeholder = "Max. 100 characters", @maxlength = "100", @readonly = "readonly" } })
+
+                                                                </td>
+                                                            }
+
+
+
+                                                        </tr>
+                                                        sno++;
+                                                    }
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <div class="row mr-4 mb-4 mt-4">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
+
+                                    <p class="pull-right">Signature of Officer reported upon</p>
+                                </div>
+                            </div>
+
+                            <div class="row mr-4">
+
+                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
+                                    <div class="form-inline">
+                                        <p class="col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-2">Place:</p>
+                                        <span class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2 underlineinput font-weight-bold">
+                                            @Html.DisplayFor(model => model.APARFormHdr.PlaceOfJoin, new { @class = "form-control" })
+                                        </span>
+                                    </div>
+
+                                </div>
+                                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-2 text-right">
+                                    <p>Name in Block Letters :</p>
+                                </div>
+
+                                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-2 underlineinput font-weight-bold">
+                                    @Html.DisplayFor(model => model.APARFormHdr.EmployeeName, new { @class = "form-control " })
+                                </div>
+
+                            </div>
+
+                            <div class="row mr-4">
+
+                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
+                                    <div class="form-inline">
+                                        <p class="col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-2">Date :</p>
+                                        <span class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2 underlineinput font-weight-bold">
+                                            @(Model.APARFormHdr.EmpSenddate.HasValue ? Model.APARFormHdr.EmpSenddate.Value.ToString("dd/MM/yyyy") : "" )
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-2 text-right">
+                                    <p class="">Designation :</p>
+                                </div>
+                                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-2 underlineinput font-weight-bold">
+                                    @Html.DisplayFor(model => model.APARFormHdr.DesignationName, new { @class = "form-control " })
+                                </div>
+
+                            </div>
+
+
+
+
+                        </div>
+
+
+                        <div id="div-RO" class="@reportingSectionClass">
+                            @if (Model.ReportingTo == Model.LoggedInEmpID)
+                            {
+                                @*<div class="form-group">
+                                        <div class="col-lg-12 col-md-12 col-xl-12 col-sm-12 col-xs-12 font-weight-bold mt-4 text-uppercase" style="text-decoration:underline; padding-left: 15px !important;">
+                                            <h5>PART -2<br />Competency Assessment</h5>
+                                        </div>
+                                    </div>*@
+
+
+                                @*<div class="col-lg-12 col-md-12 col-xl-12 col-sm-12 col-xs-12">
+                                        <div class="row">
+                                            <div class="col-lg-12 col-md-12 col-xl-12 col-sm-12 col-xs-12">
+                                                <table id="tblPart1Behavioral" class="table">
+                                                    <thead>
+                                                        <tr class="bg-secondary text-white text-uppercase">
+                                                            <th colspan="5">
+                                                                Behavioral
+                                                            </th>
+                                                        </tr>
+
+                                                        <tr class="bg-dark text-white">
+                                                            <th>
+                                                                #
+                                                            </th>
+                                                            <th style="text-align:center">
+                                                                N.A.
+                                                            </th>
+                                                            <th>
+                                                                COMPETENCY
+                                                            </th>
+                                                            <th>
+                                                                ASSESSMENT
+                                                            </th>
+                                                            <th>COMMENTS</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody class="bg-white" style="color:#000 !important;">
+                                                        @if (Model.Part2BehavioralList != null && Model.Part2BehavioralList.Count > 0)
+                                                        {
+                                                            var sno = 1;
+                                                            for (int i = 0; i < Model.Part2BehavioralList.Count; i++)
+                                                            {
+                                                                @Html.HiddenFor(m => Model.Part2BehavioralList[i].SkillTypeID)
+                                                                @Html.HiddenFor(model => Model.Part2BehavioralList[i].SkillID)
+                                                                @Html.HiddenFor(model => Model.Part2BehavioralList[i].Skill)
+                                                                @Html.HiddenFor(model => Model.Part2BehavioralList[i].SkillSetID)
+                                                                @Html.HiddenFor(model => Model.Part2BehavioralList[i].SkillRemark)
+                                                                <tr>
+                                                                    <td class="text-left" style="width:2%">
+
+                                                                        @sno
+                                                                    </td>
+                                                                    <td class="text-left" style="width:5%">
+                                                                        @Html.HiddenFor(model => model.Part1BehavioralList[i].IsDeleted)
+                                                                        @Html.EditorFor(model => model.Part1BehavioralList[i].IsDeleted, new { htmlAttributes = new { @class = "form-control text-center", @style = "font-size:4px;", @disabled = "disabled" } })
+                                                                    </td>
+                                                                    <td class="text-left">
+                                                                        @Model.Part2BehavioralList[i].Skill <text style="font-style:italic"><br /> <i style="font-weight: 600">@Model.Part2BehavioralList[i].SkillRemark</i></text>
+
+                                                                    </td>
+                                                                    <td class="text-left" style="width:15%">
+                                                                        @Html.EnumDropDownListFor(model => Model.Part2BehavioralList[i].enumAssessment, "Select", new { @class = "custom-select" })
+                                                                        @Html.ValidationMessage("Part2Behavioral_" + i, "", new { @class = "text-danger" })
+
+
+
+
+                                                                    </td>
+                                                                    <td class="text-left" style="width:30%">
+                                                                        @Html.EditorFor(model => model.Part2BehavioralList[i].Remark, new { htmlAttributes = new { @class = "form-control", @placeholder = "Max. 100 characters", @maxlength = "100" } })
+
+                                                                    </td>
+                                                                </tr>
+                                                                sno++;
+                                                            }
+                                                        }
+                                                    </tbody>
+                                                </table>
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+
+                                    <div class="col-lg-12 col-md-12 col-xl-12 col-sm-12 col-xs-12">
+                                        <div class="row">
+                                            <div class="col-lg-12 col-md-12 col-xl-12 col-sm-12 col-xs-12">
+                                                <table id="tblPart1Functional" class="table">
+                                                    <thead>
+                                                        <tr class="bg-secondary text-white text-uppercase">
+                                                            <th colspan="5">
+                                                                Functional
+                                                            </th>
+                                                        </tr>
+                                                        <tr class="bg-dark text-white">
+                                                            <th>
+                                                                #
+                                                            </th>
+                                                            <th style="text-align:center">
+                                                                N.A.
+                                                            </th>
+                                                            <th>
+                                                                COMPETENCY
+                                                            </th>
+                                                            <th>
+                                                                ASSESSMENT
+                                                            </th>
+                                                            <th>COMMENTS</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody class="bg-white" style="color:#000 !important;">
+                                                        @if (Model.Part2FunctionalList != null && Model.Part2FunctionalList.Count > 0)
+                                                        {
+                                                            var sno = 1;
+                                                            for (int i = 0; i < Model.Part2FunctionalList.Count; i++)
+                                                            {
+                                                                @Html.HiddenFor(m => Model.Part2FunctionalList[i].SkillTypeID)
+                                                                @Html.HiddenFor(model => Model.Part2FunctionalList[i].SkillID)
+                                                                @Html.HiddenFor(model => Model.Part2FunctionalList[i].Skill)
+                                                                @Html.HiddenFor(model => Model.Part2FunctionalList[i].SkillSetID)
+                                                                @Html.HiddenFor(model => Model.Part2FunctionalList[i].SkillRemark)
+                                                                <tr>
+                                                                    <td class="text-left" style="width:2%">
+
+                                                                        @sno
+                                                                    </td>
+                                                                    <td class="text-left" style="width:5%">
+
+                                                                        @Html.EditorFor(model => model.Part1FunctionalList[i].IsDeleted, new { htmlAttributes = new { @class = "form-control text-center", @style = "font-size:4px;", @disabled = "disabled" } })
+                                                                    </td>
+                                                                    <td class="text-left">
+                                                                        @Model.Part2FunctionalList[i].Skill <text style="font-style:italic"> <br /> <i style="font-weight: 600">@Model.Part2FunctionalList[i].SkillRemark</i></text>
+
+                                                                    </td>
+                                                                    <td class="text-left" style="width:15%">
+                                                                        @Html.EnumDropDownListFor(model => Model.Part2FunctionalList[i].enumAssessment, "Select", new { @class = "custom-select" })
+                                                                        @Html.ValidationMessage("Part2Functional_" + i, "", new { @class = "text-danger" })
+
+
+                                                                    </td>
+                                                                    <td class="text-left" style="width:30%">
+                                                                        @Html.EditorFor(model => model.Part2FunctionalList[i].Remark, new { htmlAttributes = new { @class = "form-control", @placeholder = "Max. 100 characters", @maxlength = "100" } })
+
+                                                                    </td>
+                                                                </tr>
+                                                                sno++;
+                                                            }
+                                                        }
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+
+                                    </div>*@
+
+
+                                <div class="row">
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
+
+                                        <p class="pull-right m-4">Signature of Reporting Officer</p>
+                                    </div>
+                                </div>
+
+
+                                <div class="row mr-4">
+
+                                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
+                                        <div class="form-inline">
+                                            <p class="col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-2">Place:</p>
+                                            <span class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2 underlineinput font-weight-bold">
+                                                @Html.DisplayFor(model => model.APARFormHdr.PlaceOfJoin, new { @class = "form-control" })
+                                            </span>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-2 text-right">
+                                        <p>Name in Block Letters :</p>
+                                    </div>
+
+                                    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-2 underlineinput font-weight-bold">
+                                        @Html.HiddenFor(model => Model.APARFormHdr.ReportingTo)
+                                        @Html.DisplayFor(model => model.APARFormHdr.ReportingTo, new { @class = "form-control " })
+                                    </div>
+
+                                </div>
+                                <div class="row mr-4">
+
+                                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2">
+                                        <div class="form-inline">
+                                            <p class="col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-2">Date :</p>
+                                            <span class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2 underlineinput font-weight-bold">
+                                                @(Model.APARFormHdr.RTSenddate.HasValue ? Model.APARFormHdr.RTSenddate.Value.ToString("dd/MM/yyyy") : "" )
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-2 text-right">
+                                        <p class="">Designation :</p>
+                                    </div>
+                                    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-2 underlineinput font-weight-bold">
+                                        @Html.HiddenFor(model => Model.APARFormHdr.ReportingDesignation)
+                                        @Html.DisplayFor(model => model.APARFormHdr.ReportingDesignation, new { @class = "form-control " })
+                                    </div>
+
+                                </div>
+
+
+                            }
+                        </div>
+                        if (Model.APARFormHdr.EmployeeID == Model.LoggedInEmpID)
+                        {
+                            if (!Model.isAdmin)
+                            {
+                                <div class="pull-right div-action mt-4">
+                                    @Html.ActionLink("Back", "Index", "APARSkills", null, new { @class = "btn btn-light btn-md", title = "Click here, to go to back on previous screen.", @data_toggle = "tooltip" })
+                                </div>
+                                if (Model.APARFormHdr.StatusID == (int)APARFormState.SavedByEmployee || Model.APARFormHdr.StatusID == 0 || Model.APARFormHdr.StatusID == (int)AppraisalFormState.RejectedbyReporting)
+                                {
+
+                                    <div class="pull-right div-action mt-4">
+
+                                        <input type="submit" value="Save" id="btnSave" name="ButtonType" class="btn btn-info btn-md toggle-tooltip " title="Click here, to save the data." />
+                                        <input type="submit" value="Submit" id="btnSaveSubmit" name="ButtonType" class="btn btn-info btn-md toggle-tooltip " title="Click here, to save & submit the data." />
+                                    </div>
+
+                                }
+                            }
+                            else
+                            {
+                                <div class="pull-right div-action pl-1">
+                                    @Html.ActionLink("Back", "Index", "AcarApar", null, new { @class = "btn btn-light btn-md", title = "Click here, to go to back on previous screen.", @data_toggle = "tooltip" })
+                                </div>
+                            }
+                        }
+                        else if (Model.ReportingTo == Model.LoggedInEmpID)
+                        {
+                            if (!Model.isAdmin)
+                            {
+                                <div class="pull-right div-action mt-4">
+                                    @Html.ActionLink("Back", "Index", "ApprovalRequest", null, new { @class = "btn btn-light btn-md", title = "Click here, to go to back on previous screen.", @data_toggle = "tooltip" })
+                                </div>
+                                if (Model.APARFormHdr.StatusID == (int)APARFormState.SubmitedByEmployee || Model.APARFormHdr.StatusID == (int)APARFormState.SavedByReporting)
+                                {
+                                    <div class="pull-right div-action mt-4">
+
+                                        <input type="submit" value="Save" id="btnSave" name="ButtonType" class="btn btn-info btn-md toggle-tooltip " title="Click here, to save the data." />
+                                        <input type="submit" value="Submit" id="btnSaveSubmit" name="ButtonType" class="btn btn-info btn-md toggle-tooltip " title="Click here, to save & submit the data." />
+                                        <input type="submit" value="Reject" id="btnReject" name="ButtonType" class="btn btn-danger btn-md toggle-tooltip " title="Click here, to reject the form." />
+                                    </div>
+                                }
+                            }
+                            else
+                            {
+                                <div class="pull-right div-action pl-1">
+                                    @Html.ActionLink("Back", "Index", "AcarApar", null, new { @class = "btn btn-light btn-md", title = "Click here, to go to back on previous screen.", @data_toggle = "tooltip" })
+                                </div>
+                            }
+                        }
+
+
+                        <div class="modal fade" id="modalAPARSkill" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+                             aria-hidden="true">
+                            <div class="modal-dialog modal-lg" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header text-center">
+                                        <h4 class="modal-title w-100 font-weight-bold">Choose Competency</h4>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body" style="line-height:2">
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
+                                            <div class="row" style="font-weight:bold">
+                                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 mb-2">
+                                                    @*@Html.Label("Competency", htmlAttributes: new { @class = "control-label" })*@
+                                                </div>
+                                                @*<div class="col-lg-5 col-md-5 col-sm-5 col-xs-12 mb-2">
+                                                        @Html.Label("Behavioral", htmlAttributes: new { @class = "control-label" })
+
+                                                    </div>
+
+                                                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12 mb-2">
+                                                        @Html.Label("Functional/Technical", htmlAttributes: new { @class = "control-label" })
+
+                                                    </div>*@
+                                            </div>
+
+                                            <div class="row" style="max-height:400px;overflow-y:scroll">
+                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                    <div class="form-group">
+                                                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 mb-2">
+                                                            @Html.Label("Behavioral", htmlAttributes: new { @class = "control-label", @style = "font-weight:bold" })
+                                                        </div>
+                                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
+                                                            @Html.CheckBoxListFor(model => model.CheckBoxListBehavioral.PostedFields.fieldIds,
+                                      model => model.CheckBoxListBehavioral.AvailableFields,
+                                      model => model.Id,
+                                      model => model.Name,
+                                      model => model.CheckBoxListBehavioral.SelectedFields,
+                                      position: Position.Vertical)
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                    <div class="form-group">
+                                                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 mb-2">
+                                                            @Html.Label("Functional", htmlAttributes: new { @class = "control-label", @style = "font-weight:bold" })
+                                                        </div>
+                                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
+
+                                                            @Html.CheckBoxListFor(model => model.CheckBoxListFunctional.PostedFields.fieldIds,
+                                      model => model.CheckBoxListFunctional.AvailableFields,
+                                      model => model.Id,
+                                      model => model.Name,
+                                      model => model.CheckBoxListFunctional.SelectedFields,
+                                      position: Position.Vertical)
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer d-flex justify-content-right">
+                                        <input type="submit" value="Add" id="btnSave" name="ButtonType" class="btn btn-info btn-md toggle-tooltip " title="Click here, to selected Competency." />
+                                        <button data-dismiss="modal" class="btn btn-secondary">Cancel</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<style>
+    .noselect {
+        -webkit-touch-callout: none; /* iOS Safari */
+        -webkit-user-select: none; /* Safari */
+        -khtml-user-select: none; /* Konqueror HTML */
+        -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+        user-select: none; /* Non-prefixed version, currently supported by Chrome, Opera and Firefox */
+    }
+</style>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.enableTDCells').removeAttr('readonly').addClass('form-control');
+
+        $('.check-box').click(function () {
+            debugger;
+            var id = $(this).attr('id');
+            var res = id.split("_");
+            var ctrlid = res[1];
+            var assessment;
+            var comment;
+            if (id.includes("Behavioral")) {
+                assessment = 'Part1BehavioralList_0__enumAssessment'
+                comment = 'Part1BehavioralList_0__Remark'
+
+            }
+            else if (id.includes("Functional")) {
+                assessment = 'Part1FunctionalList_0__enumAssessment'
+                comment = 'Part1FunctionalList_0__Remark'
+            }
+
+            assessment = assessment.replace('0', ctrlid);
+            comment = comment.replace('0', ctrlid);
+
+
+            if ($(this).is(':checked')) {
+                $("#" + assessment).prop("disabled", true);
+                $("#" + comment).prop("disabled", true);
+            }
+            else {
+                $("#" + assessment).prop("disabled", false);
+                $("#" + comment).prop("disabled", false);
+
+            }
+
+            //  alert(id);
+            // $('#textbox1').val($(this).is(':checked'));
+        });
+        //var table = $('#tblPart1Behavioral').DataTable({ searching: false, paging: false });
+        //var table1 = $('#tblPart1Functional').DataTable({ searching: false, paging: false });
+    });
+    $('.noselect').find('input, textarea, button, select').attr('readonly', 'readonly').removeAttr('href');
+    $('.noselect .btn-sectionAddRow').addClass('hide');
+    $('.noselect .drpdown-section').attr("style", "pointer-events: none;");
+
+   
+
+    function OnSuccess(data) {
+        // alert(data.htmlData);
+        if (data.part == 5) {
+            $("#div-main-form").html(data.htmlData);
+            //$("#modalAPARSkill").style.display = "none";
+            $("#modalAPARSkill").addClass("hide");
+            $('.modal-backdrop').addClass("hide");
+        }
+        if (data.part == 0 && data.msgType == "error")
+            $("#div-main-form").html(data.htmlData);
+
+        if (data.msgType == "success") {
+            commonMessage(data.msgType, data.msg);
+            window.location.reload();
+        }
+        if (data.msgType == "error") {
+            commonMessage(data.msgType, data.msg);
+        }
+        if (data.button == "Submit" && data.formState == 2) {
+            window.location.href = '@Url.Action("Index", "APARSkills")';
+        }
+        if (data.button == "Submit" && data.formState == 4) {
+            window.location.href = '@Url.Action("Index", "ApprovalRequest")';
+        }
+
+    }
+    debugger;
+
+    $("#fromdate").datepicker({ dateFormat: 'dd/mm/yy', changeYear: false, maxDate: new Date() });
+    $("#todate").datepicker({ dateFormat: 'dd/mm/yy', changeYear: false, maxDate: new Date() });
+</script>

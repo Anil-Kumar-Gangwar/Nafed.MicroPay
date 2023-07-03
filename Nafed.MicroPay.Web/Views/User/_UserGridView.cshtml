@@ -1,0 +1,97 @@
+﻿@model MicroPay.Web.Models.UserViewModel
+
+<table id="tblGrid" class="table table-centered table-striped dt-responsive w-100">
+    <thead>
+        <tr>
+            <th>
+                #
+            </th>
+            <th>
+                Profile Picture
+            </th>
+            <th>
+                User Name
+            </th>
+            <th>
+                Name
+            </th>
+            <th>
+                Department
+            </th>
+            <th>
+                User Type
+            </th>
+            <th class="text-center" style="width:60px">
+                Status
+            </th>
+            <th class="text-center" style="width:60px">
+                Edit
+            </th>
+            <th class="text-center" style="width:60px">
+                Delete
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            if (Model != null && Model.userList.Count > 0)
+            {
+                var sno = 1;
+                foreach (var item in Model.userList)
+                {
+                    <tr>
+                        <td>
+                            @sno
+                        </td>
+                        <td>
+                            @*<img style="height:50px; width:50px;" class="img-responsive rounded-circle img-thumbnail"                                
+                                 src='@Url.Action("GetImage","User",new {imgPath=item.UserProfilePhotoUNCPath})' alt="Employee Photo" />*@
+                            <img style="height:50px; width:50px;" class="img-responsive rounded-circle img-thumbnail"
+                                 src='/@item.UserProfilePhotoUNCPath' alt="Employee Photo" />
+
+                        </td>
+                        <td> @item.UserName</td>
+                        <td> @item.FullName</td>
+                        <td> @item.DepartmentName</td>
+                        <td> @item.UserTypeName</td>
+                        <td class="text-center">
+                            @if (item.WrongAttemp == 0 && (item.LockDate ?? DateTime.Now).AddHours(24) > DateTime.Now)
+                            {
+                                @*<a href="@Url.Action("LockUnlockUser", "User", new { userId = item.UserID, ulock = false })" title="This account will be unlocked by default on @((item.LockDate ?? DateTime.Now).AddHours(24).ToString("dd-MM-yyyy hh:mm:ss tt")), Click here to if you want to unlock now." data-toggle="tooltip">
+                                        <i class="fa fa-lock text-danger" aria-hidden="true"></i>
+                                    </a>*@
+                                @Html.EncodedImageActionLink("", "LockUnlockUser", "User", new { userId = item.UserID, ulock = false }, new { @class = "toggle-tooltip", title = "This account will be unlocked by default on" + (item.LockDate ?? DateTime.Now).AddHours(24).ToString("dd-MM-yyyy hh:mm:ss tt") + ", Click here to if you want to unlock now." }, "~/Images/lock.png")
+                            }
+                            else
+                            {
+
+                                @*<a href="@Url.Action("LockUnlockUser", "User", new { userId = item.UserID, ulock = true })" title="Click here, to lock this account for 24 hours." data-toggle="tooltip">
+                                    <i class="fa fa-unlock text-success" aria-hidden="true"></i>
+                                </a>*@
+                                @Html.EncodedImageActionLink("", "LockUnlockUser", "User", new { userId = item.UserID, ulock = true }, new { @class = "toggle-tooltip", title = "Click here, to lock this account for 24 hours." }, "~/Images/unlock.png")
+                            }
+
+                        </td>
+                        <td class="text-center">
+                            @*@Html.EncodedActionLink("EditUser", "Edit", "User", new { userID = item.UserID }, null)*@
+                            @*<a href="@Url.Action("Edit","User",new { userID = item.UserID })" title="Click here, to edit this record" data-toggle="tooltip">
+                                    <span class="far fa-edit text-info" aria-hidden="true"></span>
+                                </a>*@
+                            @Html.EncodedImageActionLink("", "Edit", "User", new { userID = item.UserID }, new { @class = "toggle-tooltip", title = "Click here, to edit this record" }, "~/Images/edit.png")
+                        </td>
+                        <td class="text-center">
+                            @*<a data-toggle="confirm" class="toggle-tooltip" href="@Url.Action("Delete","User",new { userID = item.UserID })" title="Click here, to delete this record">
+                                    <span class="far fa-trash-alt text-danger" aria-hidden="true"></span>
+                                </a>*@
+                            @Html.EncodedImageActionLink("", "Delete", "User", new { userID = item.UserID }, new { @class = "toggle-tooltip", title = "Click here, to delete this record" }, "~/Images/delete.png", true)
+                        </td>
+                    </tr>
+                    sno++;
+                }
+
+            }
+
+        }
+
+    </tbody>
+</table>

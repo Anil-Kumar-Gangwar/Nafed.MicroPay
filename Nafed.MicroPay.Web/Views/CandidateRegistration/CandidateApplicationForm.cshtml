@@ -1,0 +1,867 @@
+﻿@using Nafed.MicroPay.Model;
+@using Nafed.MicroPay.Common;
+@model CandidateRegistration
+@{
+    ViewBag.Title = "Application Form";
+    Layout = "~/Views/Shared/_OuterPageLayout.cshtml";
+}
+
+<div class="">
+    <div class="row">
+
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-12">
+
+            <div class="row">
+
+                <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
+
+
+                    <div class="form-group">
+
+
+
+                        <div class="row">
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                @*@Html.LabelFor(model => model.PostName, new { @class = "label-control" })*@
+
+                                Registration No :
+                            </div>
+
+                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+
+                                <h5>@Model.RegistrationNo</h5>
+                            </div>
+
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 ">
+                                @Html.LabelFor(model => model.PostName, new { @class = "label-control" })
+
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 labelvalue">
+                                <h5>@Model.PostName</h5>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+
+
+
+                        <div class="row">
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                @Html.LabelFor(model => model.CandidateFullName, new { @class = "label-control" })
+                            </div>
+
+                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 labelvalue">
+
+                                @Model.CandidateFullName
+                            </div>
+
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 ">
+                                @Html.LabelFor(model => model.GenderID, new { @class = "label-control" })
+
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 labelvalue">
+                                @(Model.GenderName ?? "Not Available")
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+
+                        <div class="row">
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+
+                                @Html.LabelFor(model => model.AppliedJobLocation, new { @class = "label-control " })
+
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 labelvalue">
+
+
+                                @(Model.AppliedJobLocation ?? "Not Available")
+
+
+                            </div>
+
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+
+                                @Html.LabelFor(model => model.Husband_FatherName, new { @class = "label-control" })
+
+
+
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 labelvalue">
+
+                                @Model.Husband_FatherName
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+
+                                @Html.LabelFor(model => model.DOB, new { @class = "label-control" })
+
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 labelvalue">
+
+                                @Model.DOB.Value.ToString("dd/MM/yyyy")
+
+                            </div>
+
+                            <div class="col-lg-2 col-md-2 col-xs-12 col-sm-12">
+
+                                <div class="row">
+
+
+                                </div>
+                            </div>
+
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+
+                                @Html.LabelFor(model => model.ReligionID, new { @class = "label-control" })
+
+                            </div>
+
+                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 labelvalue">
+
+                                @(Model.ReligionName ?? "Not Available")
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="row">
+
+                            <div class="col-lg-2 col-md-2 col-xl-2 col-sm-12 col-xs-12">
+
+                                @Html.LabelFor(model => model.NationalityID, new { @class = "label-control" })
+                            </div>
+
+                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 labelvalue">
+
+                                @(Model.Nationality ?? "Not Available")
+
+                            </div>
+
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+
+                                @Html.LabelFor(model => model.MaritalStsID, new { @class = "label-control" })
+
+                            </div>
+
+                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 labelvalue">
+                                @(Model.MaritalStatus ?? "Not Available")
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 text-center">
+
+                    @*<img style="height:170px;width:130px;" class="img-responsive img-thumbnail"
+                         src='@Url.Action("GetImage","CandidateRegistration",new {@imgPath=Model.CPhotoUNCPath})' alt="Candidate Photo" />*@
+
+                    <img style="height:170px;width:130px;" class="img-responsive img-thumbnail"
+                         src='/@Model.CPhotoUNCPath' alt="Candidate Photo" />
+
+
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 text-center">
+
+                    @if (!string.IsNullOrEmpty(Model.CSignatureUNCPath))
+                    {
+
+                        @*<img style="height:50px;width:130px;" class="img-responsive img-thumbnail" id="candidateSignature_img"
+                             src='@Url.Action("GetImage","CandidateRegistration",new {@imgPath=Model.CSignatureUNCPath})' alt="Candidate Photo" />*@
+
+                        <img style="height:50px;width:130px;" class="img-responsive img-thumbnail" id="candidateSignature_img"
+                             src='/@Model.CSignatureUNCPath' alt="Candidate Photo" />
+
+                    }
+                    else
+                    {
+                        <img style="height:50px;width:130px;height:20px !important;"
+                             class="img-responsive img-thumbnail" id="candidateSignature_img" src="" alt="Candidate Signature" />
+                    }
+
+                </div>
+
+
+            </div>
+
+
+            <div class="panel panel-default">
+                <div class="panel-heading">Address for Correspondance</div>
+
+                <div class="panel-body">
+
+                    <div class="form-group">
+
+                        <div class="row">
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                @Html.LabelFor(model => model.PmtAdd, htmlAttributes: new { @class = "control-label " })
+                            </div>
+
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 labelvalue">
+
+                                @(Model.PmtAdd ?? "Not Available")
+
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                @Html.LabelFor(model => model.PmtStateID, htmlAttributes: new { @class = "control-label " })
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 labelvalue">
+
+
+                                @(Model.StateName ?? "Not Available")
+
+
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                @Html.LabelFor(model => model.PmtStreet, htmlAttributes: new { @class = "control-label " })
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 labelvalue">
+                                @(Model.PmtStreet ?? "Not Available")
+                            </div>
+
+
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                @Html.LabelFor(model => model.PmtPin, htmlAttributes: new { @class = "control-label " })
+
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 labelvalue">
+                                @(Model.PmtPin ?? "Not Available")
+
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                @Html.LabelFor(model => model.PmtCity, htmlAttributes: new { @class = "control-label" })
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 labelvalue">
+                                @(Model.PmtCity ?? "Not Available")
+
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                @Html.LabelFor(model => model.AlternateEmailId, htmlAttributes: new { @class = "control-label" })
+
+                            </div>
+
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 labelvalue">
+
+                                @(Model.AlternateEmailId ?? "Not Available")
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+
+                        <div class="row">
+
+                            <div class="col-lg-2 col-md-2 col-xl-2 col-sm-12 col-xs-12">
+
+                                @Html.LabelFor(model => model.MobileNo, htmlAttributes: new { @class = "control-label " })
+                            </div>
+
+                            <div class="col-lg-4 col-md-4 col-xl-4 col-sm-12 col-xs-12 labelvalue">
+
+                                @(Model.MobileNo ?? "Not Available")
+
+                            </div>
+
+                            <div class="col-lg-2 col-md-2 col-xl-2 col-sm-12 col-xs-12">
+
+                                @Html.LabelFor(model => model.PersonalEmailID, htmlAttributes: new { @class = "control-label " })
+
+                            </div>
+
+                            <div class="col-lg-4 col-md-4 col-xl-4 col-sm-12 col-xs-12 labelvalue">
+
+                                @(Model.PersonalEmailID ?? "Not Available")
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+
+            <div class="panel panel-default">
+
+                <div class="panel-heading">General Declarations:</div>
+
+                <div class="panel-body">
+
+                    <div class="form-group">
+
+                        <div class="row">
+
+                            <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12 col-xs-12">
+
+                                a)	Have you ever applied to / worked for Nafed before?
+                            </div>
+
+                            <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12 labelvalue">
+
+                                @ExtensionMethods.BoolToYesNo(Model.HaveYouEverAppliedinNafedBefore)
+
+                            </div>
+
+                            @if (Model.HaveYouEverAppliedinNafedBefore)
+                            {
+
+                                <div class="col-lg-1 col-md-1 col-sm-12 col-xl-1">
+
+                                    Applied On :
+                                </div>
+
+                                <div class="col-lg-2 col-md-2 col-sm-12 col-xl-2 labelvalue">
+
+                                    @if (Model.AppliedDate.HasValue)
+                                    {
+                                        @Model.AppliedDate.Value.ToString("dd/MM/yyyy");
+                                    }
+                                    else
+                                    {
+                                        <text>Not Available</text>
+                                    }
+
+                                </div>
+
+                                <div class="col-lg-1 col-md-1 col-sm-12 col-xl-1">
+
+                                    Post :
+                                </div>
+
+                                <div class="col-lg-2 col-md-2 col-sm-12 col-xl-2 labelvalue">
+
+                                    @(Model.EarilerAppliedPostInNAFED ?? "Not Available")
+
+                                </div>
+
+                            }
+
+                        </div>
+
+
+                    </div>
+
+                    <div class="form-group">
+
+
+                        <div class="row">
+
+                            <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12 col-xs-12">
+
+                                b)	Do you have any friends, relatives, or acquaintances working in Nafed?
+                            </div>
+
+                            <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12 labelvalue">
+
+                                @ExtensionMethods.BoolToYesNo(Model.FriendsAndRelativesInNafed)
+
+                            </div>
+
+                            @if (Model.FriendsAndRelativesInNafed)
+                            {
+
+                                <div class="col-lg-3 col-md-3 col-sm-12 col-xl-3">
+
+                                    If Yes then State name & relationship :
+                                </div>
+
+                                <div class="col-lg-3 col-md-3 col-sm-12 col-xl-3 labelvalue">
+
+                                    @(Model.IfYesStateNameAndRelationship ?? "Not Available")
+
+                                </div>
+                            }
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+
+
+            <div class="panel panel-default">
+
+                <div class="panel-heading">Academic / Professional Education Summary: (Starting from most recent)</div>
+
+                <div class="panel-body">
+
+                    <table class="table table-bordered table-centered dt-responsive w-100">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th style="width:30px">Qualification Type</th>
+                                <th>From (MM/YYYY)</th>
+                                <th>To (MM/YYYY)</th>
+                                <th>Degree / Diploma</th>
+                                <th>University / Institute</th>
+                                <th>Specialization / Subjects</th>
+                                <th>Percentage / Grade</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @if (Model.CandidateEducationSummary != null && Model.CandidateEducationSummary.Count > 0)
+                            {
+                                var rowIdx = 1;
+
+                                foreach (var item in Model.CandidateEducationSummary)
+                                {
+                                    <tr>
+                                        <td>@rowIdx</td>
+                                        <td>@item.QualificationName</td>
+                                        @*<td>@item.FromDate.Value.ToString("Y")   </td>
+                                            <td> @item.ToDate.Value.ToString("Y") </td>*@
+                                        <td> @item.FromMonthName <text>/</text> @item.FromYearName </td>
+
+                                        <td> @item.ToMonthName <text>/</text> @item.ToYearName </td>
+                                        <td> @item.DegreeDiploma </td>
+                                        <td> @item.University_Institute </td>
+                                        <td> @item.Specialization_Subjects </td>
+                                        <td> @(item.Percentage_GradeSystem ? string.Format("{0} %", item.Percentage) : string.Format("Grade :{0}", item.Grade)) </td>
+                                    </tr>
+                                    rowIdx = rowIdx + 1;
+                                }
+
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="7" class="text-center"> No Record Found.</td>
+                                </tr>
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+
+                <div class="panel-heading">Work / Experience Summary: (Starting from Current/most recent) – for applicants from Private Sector /  PSUs / Autonomous /  Cooperatives, etc.</div>
+
+                <div class="panel-body">
+
+                    <table class="table table-bordered table-centered dt-responsive w-100">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Organization Type</th>
+                                <th>From Date</th>
+                                <th>To Date</th>
+                                <th>Name of Employer</th>
+                                <th>Designation</th>
+                                <th>Annual Turnover of the employer (Rs.In Crore)</th>
+                                <th>Nature of duties in detail.</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model.candidateWorkExperience != null && Model.candidateWorkExperience.Count > 0)
+                            {
+                                var rowIdx = 1;
+
+                                foreach (var item in Model.candidateWorkExperience)
+                                {
+                                    <tr>
+                                        <td>@rowIdx</td>
+                                        <td>@item.OrganisationTypeName</td>
+                                        <td> @item.FromDate.Value.ToString("dd/MM/yyyy") </td>
+                                        <td> @item.ToDate.Value.ToString("dd/MM/yyyy") </td>
+                                        <td> @item.OrganisationName </td>
+                                        <td> @item.Designation </td>
+                                        <td> @item.AnnualTurnoveroftheEmployer </td>
+                                        <td> @item.Natureofdutiesindetail </td>
+
+                                    </tr>
+                                    rowIdx = rowIdx + 1;
+                                }
+
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="7" class="text-center"> No Record Found.</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+
+                    @if (Model.candidateWorkExperience != null && Model.candidateWorkExperience.Count() > 0)
+                    {
+                        <div class="form-group">
+
+                            <div class="row">
+
+                                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+
+                                    Total relevent experience
+
+                                </div>
+
+                                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 labelvalue">
+
+                                    @string.Format("{0} Years {1} Months", Model.TotalExperienceInYear==null?0: Model.TotalExperienceInYear, Model.TotalExperienceInMonth==null?0: Model.TotalExperienceInMonth)
+
+                                </div>
+
+                                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+
+                                    Relevent experience after required minimum qualification
+
+                                </div>
+
+                                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 labelvalue">
+
+                                    @string.Format("{0} Years {1} Months", Model.RelevantExperienceInYear == null ? 0 : Model.RelevantExperienceInYear, Model.RelevantExperienceInMonth == null ? 0 : Model.RelevantExperienceInMonth)
+
+                                </div>
+                            </div>
+                        </div>
+
+                    }
+
+                </div>
+            </div>
+
+
+            <div class="panel panel-default">
+
+                <div class="panel-heading">Work / Experience Summary : (Starting from Current/most recent) – for applicants from Govt. Sector. </div>
+
+                <div class="panel-body">
+
+
+                    <table class="table table-bordered table-centered dt-responsive w-100">
+
+                        <thead>
+                            <tr>
+                                <th rowspan="2">#</th>
+                                <th rowspan="2">Office / Organization </th>
+                                <th rowspan="2">Post held on regular basis</th>
+                                <th colspan="2">Period of Service</th>
+                                <th colspan="3">Pay Band and Grade Pay / Pay scale of the post held on regular basis</th>
+                                <th rowspan="2">Nature of appointment whether regular / adhoc / deputation</th>
+                                <th rowspan="2">Nature of duties in detail</th>
+
+                            </tr>
+                            <tr>
+                                <th>From</th>
+                                <th>To</th>
+                                <th>Pay in PB</th>
+                                <th>G.P. </th>
+                                <th>Basic Pay & Level as per 7th CPC</th>
+                            </tr>
+
+                        </thead>
+                        <tbody>
+
+                            @if (Model.candidateGovtWrkExp != null && Model.candidateGovtWrkExp.Count > 0)
+                            {
+                                var rowIdx = 1;
+
+                                foreach (var item in Model.candidateGovtWrkExp)
+                                {
+                                    <tr>
+                                        <td>@rowIdx</td>
+                                        <td>@item.OrganisationName </td>
+                                        <td>@item.Postheldonregularbasis</td>
+                                        <td>@item.FromDate.Value.ToString("dd/MM/yyyy") </td>
+                                        <td>@item.ToDate.Value.ToString("dd/MM/yyyy") </td>
+                                        <td>@item.PayinPB</td>
+                                        <td>@item.GP</td>
+                                        <td>@item.BasicPay </td>
+                                        <td> @item.NatureOfAppointmentName</td>
+                                        <td>@item.Natureofdutiesindetail </td>
+
+                                    </tr>
+                                    rowIdx = rowIdx + 1;
+                                }
+
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="10" class="text-center"> No Record Found.</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+
+
+                    @if (Model.candidateGovtWrkExp != null && Model.candidateGovtWrkExp.Count() > 0)
+                    {
+                        <div class="row">
+
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+
+                                Total relevent experience
+
+                            </div>
+
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 labelvalue">
+
+                                @string.Format("{0} Years {1} Months", Model.GovtExperienceInYear == null ? 0 : Model.GovtExperienceInYear, Model.GovtExperienceInMonth == null ? 0 : Model.GovtExperienceInMonth)
+
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+
+                                Relevent experience after required minimum qualification
+
+                            </div>
+
+                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 labelvalue">
+
+                                @string.Format("{0} Years {1} Months", Model.GovtReleExpInYear == null ? 0 : Model.GovtReleExpInYear, Model.GovtReleExpInMonth == null ? 0 : Model.GovtReleExpInMonth)
+
+                            </div>
+                        </div>
+
+                    }
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+
+                <div class="panel-heading">Annual Gross Salary </div>
+
+                <div class="panel-body ">
+
+                    <div class="form-group">
+                        <div class="row">
+
+                            <div class="col-lg-2 col-md-2 col-xl-2 col-sm-12 col-xs-12">
+
+                                @Html.LabelFor(model => model.AnnualGrossSalary, htmlAttributes: new { @class = "control-label " })
+
+                            </div>
+
+                            <div class="col-lg-4 col-md-4 col-xl-4 col-sm-12 col-xs-12 labelvalue">
+
+                                @Model.AnnualGrossSalary
+
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">14. Payment Details </div>
+                <div class="panel-body">
+
+                    <div class="form-group">
+
+                        <div class="form-group">
+                            <div class="row">
+
+                                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                    @Html.LabelFor(model => model.PaymentType, htmlAttributes: new { @class = "control-label" })
+                                </div>
+
+                                <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12 labelvalue">
+
+                                    @Html.DisplayFor(model => model.PaymentTypeName, new { htmlAttributes = new { @class = "form-control", @type = "date", min = DateTime.Now.ToString("yyyy-MM-dd") } })
+
+
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 ">
+                                    @Html.LabelFor(model => model.PaymentDate, htmlAttributes: new { @class = "control-label" })
+                                </div>
+
+                                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 labelvalue">
+
+                                    @if (Model.PaymentDate.HasValue)
+                                    {
+                                        @Model.PaymentDate.Value.ToString("dd/MM/yyyy");
+                                    }
+                                    else
+                                    {
+                                        <text>Not Available</text>
+                                    }
+
+
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                    @Html.LabelFor(model => model.PaymentTransactionID, htmlAttributes: new { @class = "control-label" })
+                                </div>
+
+                                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 labelvalue">
+
+                                    @Html.DisplayFor(model => model.PaymentTransactionID, new { htmlAttributes = new { @class = "form-control" } })
+
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+
+                <div class="panel-heading"> Declaration:</div>
+
+                <div class="panel-body">
+
+                    <div class="form-group">
+
+                        <div class="row">
+                            <p class="p-2">
+
+                                I hereby declare that all information made in the application are true, complete and correct to the best of my knowledge and belief. I understand that in the event of any information being found untrue/false/incorrect or I do not satisfy the eligibility criteria my candidature will be cancelled, without assigning any reason thereof. I have read the contents of the advertisement and agree to abide by the rules, regulations and procedures for appointment to the post applied for.
+
+                            </p>
+
+                        </div>
+
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <div class="row">
+
+                            <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+
+                                @Html.LabelFor(model => model.DeclarationName, htmlAttributes: new { @class = "control-label " })
+
+                            </div>
+
+                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 labelvalue">
+
+                                @Model.DeclarationName
+                            </div>
+
+                            <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+
+                                @Html.LabelFor(model => model.DeclarationPlace, htmlAttributes: new { @class = "control-label " })
+
+                            </div>
+
+                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 labelvalue">
+
+                                @Model.DeclarationPlace
+                            </div>
+
+                            <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+
+                                @Html.LabelFor(model => model.DeclarationDate, htmlAttributes: new { @class = "control-label " })
+
+                            </div>
+
+                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 labelvalue">
+
+
+                                @Model.DeclarationDate.Value.ToString("dd/MM/yyyy")
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+
+                <div class="panel-heading"> Disclaimer: </div>
+
+                <div class="panel-body">
+
+                    <div class="form-group">
+
+                        <div class="row">
+                            <p class="p-2 font-weight-bold">
+
+
+                                The applicants are required to submit the duly filled application on or before the due date and time, failing which the application of the said applicant shall be treated as non-responsive. Nafed shall not be responsible for late receipt or non-receipt of applications for any technical reason or whatsoever. The applications received after due date and time shall not be considered.
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+
+            @if ((Model.EligibleForWrittenExam.HasValue && Model.EligibleForWrittenExam.Value))
+            {
+                <div class="form-group">
+
+                    <div class="row">
+
+                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+
+                            <h5>
+                                <span class="badge badge-pill badge-success pull-left">Status : Eligible for Written Test</span>
+
+                            </h5>
+                        </div>
+
+                        @if (Model.IssueAdmitCard)
+                        {
+
+                            <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12 text-right">
+
+                                <a data-toggle="tooltip" title="Click here, to download your Admit Card" href="@Url.Action("Download_AdmitCard", "CandidateRegistration", new { registrationNo = Model.RegistrationNo, candidatePicture = Model.CandidatePicture, candidateSignature = Model.CandidateSignature })" class="btn btn-primary">Download Admit Card</a>
+                            </div>
+                        }
+                    </div>
+
+                </div>
+            }
+
+            @if (!string.IsNullOrEmpty(Model.EligiblityRemark))
+            {
+                <div class="form-group">
+
+                    <div class="row">
+
+                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+
+                            <b> Remark : </b>  @Model.EligiblityRemark
+
+                        </div>
+
+                    </div>
+
+
+
+                </div>
+            }
+        </div>
+
+    </div>
+</div>

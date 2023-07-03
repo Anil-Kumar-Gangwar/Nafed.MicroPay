@@ -1,0 +1,118 @@
+﻿@model MicroPay.Web.Models.RequirementViewModel
+
+
+
+@using (Ajax.BeginForm("_ExportTemplate", "Requirement",new { postName=Model.PostName }, new AjaxOptions { HttpMethod = "POST" }))
+{
+    <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+            <h4>  Post:   @Model.PostName</h4>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 text-right">
+            <button type="submit" id="btnExport" class="btn btn-warning pull-center toggle-tooltip mt-2" title="Click here, to download search result data in excel.">
+                <i class="fa fa-file-excel"></i> Export
+            </button>
+
+        </div>
+    </div>
+}
+
+
+<table id="tblGrid2" class="table table-centered table-striped dt-responsive w-100">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th style="width:10%">
+                Name of the Applicant
+            </th>
+            <th>
+                Gender
+            </th>
+            <th style="width:10%">
+                Fathers Name
+            </th>
+            <th>
+                Mobile No.
+            </th>
+            <th style="width:5%">
+                E-mail Id
+            </th>
+            <th style="width:10%">
+                Position Applied for
+            </th>
+            <th>
+                Zone applied for (If applicable)
+            </th>
+            <th>
+                DOB
+            </th>
+            <th style="width:5%">
+                Age as on date of Advertisement
+            </th>
+            <th style="width:10%">
+                Qualification
+            </th>
+            <th style="width:10%">
+                Minimum experience (in YY:MM)
+            </th>
+            <th style="width:10%">
+                Pay Scale / Fixed Monthly Remuneration
+            </th>
+            <th style="width:10%">
+                Present Address
+            </th>
+            <th style="width:10%">
+                Date of Registration by the Candidates
+            </th>
+            <th style="width:10%">
+                Date of submission of Application
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            if (Model.appliedCandidateList != null && Model.appliedCandidateList.Count() > 0)
+            {
+                var sno = 1;
+                foreach (var item in Model.appliedCandidateList)
+                {
+                    <tr>
+                        <td>@sno</td>
+                        <td style="width:10%"> @item.ApplicantName</td>
+                        <td> @item.Gender</td>
+                        <td style="width:10%"> @item.FathersName</td>
+                        <td> @item.MobileNo</td>
+                        <td style="width:5%"> @item.Email</td>
+                        <td style="width:10%"> @item.Position</td>
+                        <td>@item.Zoneapplied </td>
+                        <td>@Convert.ToDateTime(item.DOB).ToString("dd-MM-yyyy") </td>
+                        <td class="text-center" style="width:5%">@item.Age </td>
+                        <td style="width:10%">@item.Qualification </td>
+                        <td style="width:10%">
+                            TotalExp. : @item.TotalExperience <br />
+                            RelevantExp. : @item.RelevantExperience <br />
+                            GovtExp. : @item.GovtExperience <br />
+                            GovtRelevantExp. : @item.GovtReleExp <br />
+                        </td>
+                        <td style="width:10%">@item.AnnualGrossSalary </td>
+                        <td style="width:10%">@item.Address </td>
+                        <td style="width:10%"> @Convert.ToDateTime(item.DateofRegistration).ToString("dd-MM-yyyy")</td>
+                        <td style="width:10%"> @Convert.ToDateTime(item.Dateofsubmission).ToString("dd-MM-yyyy")</td>
+
+                    </tr>
+                    sno++;
+                }
+            }
+
+        }
+
+    </tbody>
+</table>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        var table = $('#tblGrid2').DataTable(
+            { searching: false }
+            );
+    });
+</script>

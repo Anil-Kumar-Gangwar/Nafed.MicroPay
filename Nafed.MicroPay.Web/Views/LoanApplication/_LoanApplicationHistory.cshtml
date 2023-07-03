@@ -1,0 +1,103 @@
+﻿@using Nafed.MicroPay.Model;
+@model List<LoanApplication>
+
+
+ <table id="tblGridHistory" class="table table-centered table-striped dt-responsive w-100 mt-4">
+    <thead>
+        <tr>
+            <th>
+                #
+            </th>
+            <th style="width:15%">
+                Employee Name
+            </th>
+            <th>
+                Ceremony
+            </th>
+            <th class="text-center">
+                Ceremony Date
+            </th>
+            <th>
+                Place of Ceremony
+            </th>
+            <th class="text-center">
+                Loan Amount
+            </th>
+            <th class="text-center">
+                Status
+            </th>
+            <th class="text-center">
+                Remark
+            </th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            int index = 1;
+            if (Model != null)
+            {
+                foreach (var item in Model)
+                {
+                    <tr>
+                        <td> @index</td>
+                        <td>@{ @item.EmployeeCode <text>-</text>  @item.EmployeeName}</td>
+                        <td> @item.Ceremony</td>
+                        <td class="text-center"> @Convert.ToDateTime(item.CeremonyDate).ToString("dd-MM-yyyy")</td>
+                        <td> @item.CeremonyPlace</td>
+                        <td class="text-right"> @item.LoanAmount</td>
+
+                        <td class="text-center">
+                            @if (item.ApplicationStatusID == (int)LoanApplicationStatus.Pending || item.ApplicationStatusID == 0)
+                            {
+                                <h5>
+                                    <span class="badge badge-pill badge-warning col-md-12">
+                                        Pending
+                                    </span>
+                                </h5>
+                            }
+                            else if (item.ApplicationStatusID == (int)LoanApplicationStatus.Accept)
+                            {<h5>
+                                    <span class="badge badge-pill badge-success col-md-12">
+                                        Accepted
+                                    </span>
+                                </h5>
+
+                            }
+                            else if (item.ApplicationStatusID == (int)LoanApplicationStatus.Reject)
+                            {<h5>
+                                    <span class="badge badge-pill badge-danger col-md-12">
+                                        Rejected
+                                    </span>
+                                </h5>
+                            }
+                        </td>
+                        <td> @item.Remarks</td>
+                    </tr>
+                    index++;
+                }
+            }
+
+        }
+
+    </tbody>
+</table>
+
+<script type="text/javascript">
+    var table = $('#tblGridHistory').DataTable();
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

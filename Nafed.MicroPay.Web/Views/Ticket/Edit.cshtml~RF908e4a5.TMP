@@ -1,0 +1,334 @@
+﻿@model Nafed.MicroPay.Model.Ticket
+@{
+    ViewBag.Title = "Edit Ticket";
+    ViewBag.NavigationTitle = "Ticket";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card_new_header alert alert-danger">
+
+    <div class="col-sm-6">
+        NOTE : Fields marked with (*) are compulsory fields
+    </div>
+    <div class="col-sm-6 text-right">
+        <b>@*[ Characters < > # ^ ; | $ are not allowed ]*@</b>
+    </div>
+
+</div>
+
+
+@using (Html.BeginForm("Edit", "Ticket", FormMethod.Post, new { enctype = "multipart/form-data" ,id= "formsubmit"}))
+{
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true)
+            @Html.HiddenFor(model => model.name)
+            @Html.HiddenFor(model=>model.ID)
+    <div class="card_new_body">
+        <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 mb-2">
+                <div class="row">
+                    @Html.LabelFor(model => model.name, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-6 col-xs-12 mb-2" })
+                    <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 mb-2 font-weight-bold">
+                        @Model.name
+                    </div>
+                </div>
+                @*<div class="row">
+                    @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-6 col-xs-12 mb-2 required" })
+                    <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 mb-2">
+                        @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", @placeholder = "Email", @maxlength = "200" } })
+
+                        @Html.ValidationMessageFor(model=>model.Email, "", new { @class = "text-danger" })
+
+                    </div>
+                </div>*@
+                <div class="row">
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 mb-2">
+                        @Html.LabelFor(model => model.DepartmentID, htmlAttributes: new { @class = "control-label required" })
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 mb-2">
+                        @Html.DropDownListFor(model => model.DepartmentID, new SelectList(ViewBag.Department, "id", "value"), "Select", new { @class = "custom-select" })
+                        @Html.ValidationMessageFor(model => model.DepartmentID, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="row">
+                    @Html.LabelFor(model => model.type_id, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-6 col-xs-12 mb-2 required" })
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 mb-2">
+                        @Html.DropDownListFor(model => model.type_id, (IEnumerable<SelectListItem>)ViewBag.TypeList, new { @class = "custom-select" })
+                        @Html.ValidationMessageFor(model => model.type_id, "", new { @class = "text-danger" })
+
+                    </div>
+                </div>
+                <div class="row">
+                    @Html.LabelFor(model => model.subject, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-6 col-xs-12 mb-2 required" })
+                    <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 mb-2">
+                        @Html.EditorFor(model => model.subject, new { htmlAttributes = new { @class = "form-control", @placeholder = "Subject", @maxlength = "300" } })
+
+                        @Html.ValidationMessageFor(model => model.subject, "", new { @class = "text-danger" })
+
+                    </div>
+                </div>
+                <div class="row">
+                    @Html.LabelFor(model => model.Message, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-6 col-xs-12 mb-2 required" })
+                    <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 mb-2">
+                        @Html.TextAreaFor(model => model.Message, new { @class = "form-control textarea-lg", @row = "20", @col = "40", @style = "max-height:200px;height:150px;min-height:150px;", @placeholder = "Message", @maxlength = "1000" })
+
+                        @Html.ValidationMessageFor(model => model.Message, "", new { @class = "text-danger" })
+
+                    </div>
+                </div>
+                @if (Model.TicketDocument != null)
+                {
+                    <div class="panel panel-default">
+                        <div class="panel-heading">Old Document</div>
+                        <div class="panel-body pb-0">
+                            <div class="form-group">
+                                <div class="row">
+                                    <div id="div-form-documents-grid" class="col-lg-12 col-md-11 col-sm-11 col-xs-12 mb-2">
+                                        <table id="tbloldDocument" class="table table-bordered table-centered dt-responsive w-100">
+                                            <thead>
+                                                <tr>
+                                                    <th class="text-center" style="width:35%">Document Name</th>
+                                                    <th class="text-center" style="width:50%">Document</th>
+                                                    <th colspan="2" class="text-center" style="width:5%"></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+
+                                                <tr>
+                                                    <td class="filename">
+                                                        @Model.TicketDocument.docname
+                                                    </td>
+                                                    <td class="docname">
+                                                        @Model.TicketDocument.docorgname
+                                                    </td>
+                                                    <td class="orgName hidetd">
+                                                        @Model.TicketDocument.ID
+                                                    </td>
+                                                    <td>
+                                                        <input type="button" value="Remove" class="olddelete-row btn btn-danger btn-xs toggle-tooltip"
+                                                               title="Click here, to delete seleted row." />
+                                                    </td>
+                                                </tr>
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+                <div class="panel panel-default">
+                    <div class="panel-heading">Upload New Document</div>
+                    <div class="panel-body pb-0">
+                        <div class="form-group">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
+                                <div class="row">
+                                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 text-left pb-0">
+                                        <span id="documentnameError"></span>
+                                        <span id="documentFileError"></span>
+                                        <span id="sizeError"></span>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 text-right pb-2">
+                                        <input type="button" value="Add" id="btnAddRowExper" class="btn btn-info btn-md pull-center toggle-tooltip btn-sectionAddRow"
+                                               title="Click here, to add new row." />
+                                        <input type="button" value="Remove" class="delete-row btn btn-danger btn-xs toggle-tooltip"
+                                               title="Click here, to delete seleted row." />
+                                    </div>
+
+                                    <div id="div-form-documents-grid" class="col-lg-12 col-md-11 col-sm-11 col-xs-12 mb-2">
+
+                                        <table id="tblDocument" class="table table-bordered table-centered dt-responsive w-100">
+                                            <thead>
+                                                <tr>
+                                                    <th class="text-center" style="width:35%">Document Name</th>
+                                                    <th class="text-center" style="width:50%">Document</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+
+                                    </div>
+                                </div>
+                                <div class="col-lg-12 col-md-11 col-sm-11 col-xs-12">
+                                    <label class="font-weight-bold text-danger">[FileType=.jpg, .jpeg, .png,.pdf, .xlsx, .xls, .doc, .docx, Size <= 5MB, single document] <br /></label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>         
+            <div class="row">
+                <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 mb-2">
+                </div>
+            </div>
+            <span class="pull-right">
+                @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-light btn-md toggle-tooltip", @title = "Click here, to redirect on list page" })
+                <input type="button" id="btnsubmit" value="Update" class="btn btn-info btn-md pull-center toggle-tooltip" title="Click here, to update current record" />
+            </span>
+
+        </div>
+                </div>
+            </div>
+}
+
+<style>
+    .hidetd {
+        display: none;
+    }
+</style>
+
+<script type="text/javascript">
+
+    $("#btnAddRowExper").click(function () {
+        debugger;
+        var tblLength = $('#tblDocument >tbody >tr').length;
+
+        var oldtblLength = $('#tbloldDocument >tbody >tr').length;
+
+        if (oldtblLength == 0 && tblLength < 1) {
+            debugger;
+            $.ajax({
+                url: "@Url.Action("_AddDocumentRow", "Ticket")",
+                type: "POST",
+                contentType: false, // Not to set any content header
+                processData: false, // Not to process data
+
+                success: function (result) {
+
+                    tableBody = $("#tblDocument tbody");
+                    tableBody.append(result.htmlData);
+                },
+                error: function (err) {
+                    alert(err.statusText);
+                }
+            });
+        }
+        else {
+            if (oldtblLength>0)
+            alert('Please delete first old document.' );
+        }
+    });
+
+    $(".delete-row").click(function () {
+        $("#tblDocument tbody").find('input[name="docname"]').each(function () {
+                $(this).parents("tr").remove();
+
+        });
+    });
+
+    $(".olddelete-row").click(function () {
+        debugger;
+        var $row = $(this).closest("tr");    // Find the row
+        $(this).parents("tr").remove();
+        var docIDs = $row.find(".orgName").text().trim(); // Find the text
+
+        jQuery.post("@Url.Action("_RemoveDocumentRow", "Ticket")", {
+            docID: docIDs           
+        }).done(function (result) {
+            debugger;
+            if (result.FileStatus == true) {
+            }
+        });
+       
+    });
+
+
+
+    $(document).ready(function () {
+        $('#btnsubmit').click(function () {
+            debugger;
+            var docerror = 0;
+            var fileerror = 0;
+            var typeeerror = 0;
+            var sizeerror = 0;
+            var error = 0;
+
+            if ($("#DepartmentID").val() == "") {
+                error++;
+                $("#MessageErrorError").html("Please select Department.").css("color", "red");
+            }
+            else {
+                $("#MessageError").html("");
+            }
+            if ($("#type_id").val() == "") {
+                error++;
+                $("#TypeError").html("Please select Type.").css("color", "red");
+            } else {
+                $("#TypeError").html("");
+            }
+            if ($("#subject").val() == "") {
+                error++;
+                $("#SubjectError").html("Please enter Subject.").css("color", "red");
+            } else {
+                $("#SubjectError").html("");
+            }
+            if ($("#Message").val() == "") {
+                error++;
+                $("#MessageError").html("Please enter Message.").css("color", "red");
+            } else {
+                $("#MessageError").html("");
+            }
+
+            $("#tblDocument tr.filesvalidate").each(function () {
+
+                var filename = $(this).find(".name").val();
+                if (filename == "") {
+                    docerror++;
+                    //$("#documentnameError").html("Please Enter Document Name").css("color", "red");
+                    //return false;
+                }
+                else {
+                    $("#documentnameError").html("")
+                }
+
+                if ($(this).find(".file").get(0).files.length > 0) {
+                    $("#documentFileError").html("");
+                    // Looping over all files and add it to FormData object
+                    var fileUpload = $("#Files");
+                    var lg = fileUpload[0].files.length; // get length
+                    var items = fileUpload[0].files;
+                    for (var k = 0; k < lg; k++) {
+
+                        var filesze = items[k].size;
+                        var fileName = items[k].name;
+                        var ext = fileName.substr(fileName.lastIndexOf('.') + 1).toLowerCase();
+                        if (!(ext == "xlsx" || ext == "xls" || ext == "jpg" || ext == "jpeg" || ext == "png" || ext == "pdf" || ext == "doc" || ext == "docx")) {
+                            typeeerror++;
+                            //$("#documentFileError").html("Invalid file type, please select a (word,excel,jpeg,png,pdf) file").css("color", "red");
+                            // return false;
+                        }
+                        if (filesze > 5000000) {  // 5MB
+                            sizeerror++;
+                            //$("#documentFileError").html("Please select image size less than 5MB.").css("color", "red");
+                            // return false;
+                        }
+                    }
+                }
+                else {
+                    fileerror++;
+                    //$("#documentFileError").html("Please Upload Document").css("color", "red");
+                }
+            });
+            if (docerror > 0) {
+                $("#documentnameError").html("Enter Document Name.").css("color", "red");
+                return false;
+            }
+            if (fileerror > 0) {
+                $("#documentFileError").html("Please Upload Document").css("color", "red");
+                return false;
+            }
+            if (sizeerror > 0) {
+                $("#sieeError").html("Please select image size less than 5MB.").css("color", "red");
+                return false;
+            }
+
+            if (error > 0)
+                return false;
+
+            if (docerror == 0 || fileerror == 0 || sizeerror == 0) {
+                $("#formsubmit").submit();
+            }
+        });
+    });
+
+</script>

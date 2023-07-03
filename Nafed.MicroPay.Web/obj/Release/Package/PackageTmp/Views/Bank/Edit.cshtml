@@ -1,0 +1,86 @@
+﻿
+
+@model Nafed.MicroPay.Model.Bank
+@{
+    ViewBag.Title = "Edit Bank";
+    ViewBag.NavigationTitle = "Bank";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card_new_header alert alert-danger">
+    <div class="col-sm-6">
+        NOTE : Fields marked with (*) are compulsory fields
+    </div>
+    <div class="col-sm-6 text-right">
+        <b>@*[ Characters < > # ^ ; | $ are not allowed ]*@</b>
+    </div>
+</div>
+@using (Html.BeginForm("Edit", "Bank", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    @Html.HiddenFor(model => model.CreatedBy)
+    @Html.HiddenFor(model => model.CreatedOn)
+    @Html.HiddenFor(model=>model.BankCode)
+    <div class="card_new_body">
+        <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 mb-2">
+
+                <div class="row">
+                    @Html.LabelFor(model => model.BankCode, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-6 col-xs-12 mb-2 required" })
+
+                    <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 mb-2">
+
+                        @Html.EditorFor(model => model.BankCode, new { htmlAttributes = new { @class = "form-control", @placeholder = "Bank Code", @maxlength = "5",@disabled="disabled" } })
+                       
+
+
+                    </div>
+                </div>
+                <div class="row">
+
+                    @Html.LabelFor(model => model.BankName, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-6 col-xs-12 mb-2 required" })
+                    <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 mb-2">
+                        @Html.EditorFor(model => model.BankName, new { htmlAttributes = new { @class = "form-control", @placeholder = "Bank Name", @maxlength = "50" } })
+                        @Html.ValidationMessageFor(model => model.BankName, "", new { @class = "text-danger" })
+
+                    </div>
+                </div>
+                <div class="row">
+
+                    @Html.LabelFor(model => model.Address1, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-6 col-xs-12 mb-2 required" })
+                    <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 mb-2">
+                        @Html.EditorFor(model => model.Address1, new { htmlAttributes = new { @class = "form-control", @placeholder = "Address1", @maxlength = "50" } })
+                        @Html.ValidationMessageFor(model => model.Address1, "", new { @class = "text-danger" })
+
+                    </div>
+                </div>
+                <div class="row">
+
+                    @Html.LabelFor(model => model.Address2, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-6 col-xs-12 mb-2 required" })
+                    <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 mb-2">
+                        @Html.EditorFor(model => model.Address2, new { htmlAttributes = new { @class = "form-control", @placeholder = "Address2", @maxlength = "50" } })
+                        @Html.ValidationMessageFor(model => model.Address2, "", new { @class = "text-danger" })
+
+                    </div>
+                </div>
+                <div class="row">
+
+                    @Html.LabelFor(model => model.Address3, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-6 col-xs-12 mb-2 required" })
+                    <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 mb-2">
+                        @Html.EditorFor(model => model.Address3, new { htmlAttributes = new { @class = "form-control", @placeholder = "Address3", @maxlength = "50" } })
+                        @Html.ValidationMessageFor(model => model.Address3, "", new { @class = "text-danger" })
+
+                    </div>
+                </div>
+                <div class="divider-chevron"></div>
+                <span class="pull-right">
+                    @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-light btn-sm toggle-tooltip", @title = "Click here, to redirect on list page" })
+                    <input type="submit" value="Update" class="btn btn-info btn-sm pull-center toggle-tooltip" title="Click here, to update current record" />
+                </span>
+            </div>
+        </div>
+
+    </div>
+}
+

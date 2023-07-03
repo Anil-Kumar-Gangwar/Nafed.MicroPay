@@ -1,0 +1,108 @@
+﻿@{
+    ViewBag.Title = "Monthly Input";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div>
+    @using (Ajax.BeginForm("Create", "QuickMonthlyInput", new AjaxOptions { HttpMethod = "POST", OnSuccess = "OnSuccess" }, new { defaultbutton = "submitform" }))
+    {
+        <div id="QuicklyMonthlyContent">
+            @Html.Action("_Create")
+        </div>
+    }
+</div>
+
+
+
+<script type="text/javascript">
+
+    function OnSuccess(data) {
+        if (data.msgType == "error") {
+            $("#QuicklyMonthlyContent").html("");
+            $("#QuicklyMonthlyContent").html(data.htmlData);
+            if (data.msg != undefined) {
+                commonMessage("error", data.msg);
+            }
+        }
+        if (data.msgType == "success") {
+            @*window.location.href = "@Url.Action("Index", "QuickMonthlyInput")";*@
+            commonMessage(data.msgType, data.msg);
+        }
+        if (data.msgType == "warning") {
+            commonMessage(data.msgType, data.msg);
+        }
+    }
+
+    function GetDetails() {
+        var emp = $("#EmployeeId :selected").text().split('-')[1];
+        var empId = $("#EmployeeId").val();
+        var head = $("#MonthlyInputHeadId").val();
+        //if (head == "0") {
+        //    $("#hdnheadrequired").html("Head is required.").css("color", "red");
+        //    return false;
+        //}
+        //else {
+        //    $("#hdnheadrequired").html("").css("color", "");
+        //}
+        $("#EmployeeName").val(emp);
+        var month = $("#monthId").val();
+        var year = $("#yearId").val();
+        if (empId != "" && head != "0" && month != "" && year != "") {
+            $.ajax({
+                url: "@Url.Action("GetBranchDetails", "QuickMonthlyInput")",
+                type: "GET",
+                dataType: "JSON",
+                data: { SalaryHead: head, EmployeeId: empId, Month: month, Year: year },
+                success: function (data) {
+                    if (data.htmlData != "") {
+                        var details = eval('(' + data.htmlData + ')');
+                        if (details.length > 0) {
+                            $("#BranchName").val(details[0].BranchName);
+                            $("#Amount").val(parseFloat(details[0].SalaryHeadAmount == null ? 0 : details[0].SalaryHeadAmount));
+                            $("#OldAmount").val(parseFloat(details[0].SalaryHeadAmount == null ? 0 : details[0].SalaryHeadAmount));
+                        }
+                    }
+                }
+            });
+        }
+    }
+
+    function GetSalaryHead() {
+        var employeeTypeId = $("#EmployeeTypeId").val();
+        $.ajax({
+            url: "@Url.Action("GetSalaryHeadFields", "QuickMonthlyInput")",
+            type: "GET",
+            dataType: "JSON",
+            data: { employeeTypeId: employeeTypeId },
+            success: function (data) {
+                if (data.htmlData != "") {
+                    $("#MonthlyInputHeadId").html("");
+                    $.each(data.htmlData, function (data, value) {
+                        $("#MonthlyInputHeadId").append($("<option></option>").val(value.FieldName).html(value.FieldDesc));
+                    })
+                }
+            }
+        });
+        $("#EmployeeName").val(""); $("#BranchName").val("");
+      //  GetEmployeeByEmployeeType();
+    }
+
+    @*function GetEmployeeByEmployeeType() {
+        var employeeTypeId = $("#EmployeeTypeId").val();
+        $.ajax({
+            url: "@Url.Action("GetEmployeeByEmployeeType", "QuickMonthlyInput")",
+            type: "GET",
+            dataType: "JSON",
+            data: { employeeTypeId: employeeTypeId },
+            success: function (data) {
+                if (data.htmlData != "") {
+                    $("#EmployeeId").html("");
+                    $.each(data.htmlData, function (data, value) {
+                        $("#EmployeeId").append($("<option></option>").val(value.id).html(value.value));
+                    })
+                }
+            }
+        });
+    }*@
+</script>

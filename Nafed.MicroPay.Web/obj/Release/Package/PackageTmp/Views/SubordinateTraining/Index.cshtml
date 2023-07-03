@@ -1,0 +1,14 @@
+﻿@using Nafed.MicroPay.Model;
+@model CommonFilter
+@{
+    ViewBag.Title = "Training Need";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div id="div-filter">
+    @Html.Action("GetFilters")
+</div>
+<div id="div-SubordTraining-List">
+    @Html.Action("GetSubordTrnList")
+</div>

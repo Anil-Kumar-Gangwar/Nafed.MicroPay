@@ -1,0 +1,73 @@
+﻿@model Nafed.MicroPay.Model.FTSUserDepartment
+@{
+    ViewBag.Title = "Map Department";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (@Html.BeginForm("MapDepartment", "FTSUser", FormMethod.Post))
+{
+    <div class="row">
+        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">User Details</div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 mb-2">
+                            @Html.Label("User Name : ", htmlAttributes: new { @class = "control-label" })
+                            @Html.HiddenFor(model => model.UserId)
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 mb-2 font-weight-bold">
+                           @Model.UserName
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>  
+        <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">Select Department(S) for which you want to set user</div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 mb-2">
+                            @Html.LabelFor(model => model.DepartmentId, htmlAttributes: new { @class = "control-label required" })
+                            @Html.HiddenFor(model=> model.UserId)
+                            @Html.HiddenFor(model => model.UserName)
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 mb-2">
+                            <div id="div-deplist">
+                                @Html.Partial("_CheckBoxList", Model)
+                            
+                            </div>                                        
+                            @Html.ValidationMessage("DepartmentValidator", "", new { @class = "text-danger" })
+                        </div>
+                    </div>     
+
+                </div>
+            </div>
+        </div>     
+    </div>
+
+    <div class="form-group">
+        <span class="pull-riht">
+            @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-light btn-md toggle-tooltip", @title = "Click here, to redirect on list page" })           
+            <input type="submit" value="Save" class="btn btn-info btn-md pull-center toggle-tooltip" />
+        </span>
+    </div>
+}
+<style>
+    .dropdown-menu.show {
+    display: block;
+    background-color: #fbfbfb;
+    height: 250px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+.multiselect-container > .multiselect-option > span, .multiselect-container .multiselect-group > span {
+    padding: 3px 0px 3px 17px;
+}
+.multiselect-container > .multiselect-option > span > .form-check-label, .multiselect-container .multiselect-group > span > .form-check-label {
+    cursor: pointer;
+    white-space: normal;
+}
+</style>

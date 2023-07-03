@@ -1,0 +1,94 @@
+﻿@using Nafed.MicroPay.Model
+@model List<EmployeeCertification>
+
+@{
+
+    Layout = null;
+}
+
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 p-0">
+
+    <table id="tblGrid_C" class="table table-centered dt-responsive w-100">
+        <thead>
+
+            <tr>
+                <th class="text-right" style="width:5%;vertical-align:middle;">#</th>
+                <th class="text-center" style="width:25%;vertical-align:middle;">Date Of Issue</th>
+                <th class="text-center" style="width:30%;vertical-align:middle;">Certification Name</th>
+                <th class="text-center" style="width:35%;vertical-align:middle;">Documents</th>
+                <th class="text-center" style="width:5%;vertical-align:middle;">Delete</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            @if (Model != null && Model.Count > 0)
+            {
+                for (int i = 1; i <= Model.Count; i++)
+                {
+                    <tr>
+                        <td style="vertical-align:middle;">
+                            @i
+                        </td>
+
+                        <td class="text-center" style="vertical-align:middle;">
+                            @Model[i - 1].DateOfIssue.Value.ToString("dd/MM/yyyy")
+                        </td>
+
+                        <td class="text-center" style="vertical-align:middle;">
+                            @Model[i - 1].CertificationName
+
+                        </td>
+                        <td style="vertical-align:top;">
+                           
+                            <ul style="list-style-type:disc;">
+
+                                @foreach (var item in Model[i - 1].documents)
+                                {
+                                    <li>
+                                        <a href=@Url.Action("DownloadFile", "Base", new { sFileName = item.DocumentFilePath, sFileFullPath = item.DocumentUNCPath })>
+                                            <span class="fm_file" aria-hidden="true" f_name="@item.DocumentFilePath"></span>
+
+                                            @item.DocumentTitle
+                                        </a>
+                                    </li>
+                                }
+
+                            </ul>
+
+                        </td>
+
+
+                        <td class="text-center" style="vertical-align:middle;">
+                            <a @*data-toggle="confirm"*@ class="toggle-tooltip" data-ajax="true"
+                               data-ajax-confirm="Are you sure you want to do this?"
+                               data-ajax-success="On_EmpCertificate_Deleted"
+                               href="@Url.Action("DeleteEmpCertificate", "Employee", new { empCertificateID = Model[i-1].EmpCertificateID , employeeID = Model[i-1].EmployeeID})" title="Click here, to delete this record">
+                                <span class="far fa-trash-alt text-danger" aria-hidden="true"></span>
+                            </a>
+                        </td>
+
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+
+</div>
+
+
+<script>
+
+    function On_EmpCertificate_Deleted(data) {
+        commonMessage(data.type, data.msg);
+
+        $("#dv-EmpCertification").html(data.htmlData);
+    }
+
+    $('.toggle-tooltip').tooltip();
+    ///==== Adding jquery datatable reference to all master grid ==== (Sujeet G)
+    var table = $('#tblGrid_C').DataTable({
+    });
+    $('#tblGrid_C_length').find('select').addClass('custom-select');
+    //========= End==================================================
+</script>

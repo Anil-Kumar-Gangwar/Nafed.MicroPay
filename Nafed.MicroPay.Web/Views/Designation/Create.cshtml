@@ -1,0 +1,176 @@
+﻿@model Nafed.MicroPay.Model.Designation
+@{
+    ViewBag.Title = "Create Designation";
+    ViewBag.NavigationTitle = "Designation";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card_new_header alert alert-danger">
+    <div class="col-sm-6">
+        NOTE : Fields marked with (*) are compulsory fields
+    </div>
+    <div class="col-sm-6 text-right">
+        <b>@*[ Characters < > # ^ ; | $ are not allowed ]*@</b>
+    </div>
+</div>
+@using (Html.BeginForm("Create", "Designation", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <div class="card_new_body">
+        <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 mb-2">
+
+                <div class="row">
+                    @Html.LabelFor(model =>model.DesignationCode , htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-6 col-xs-12 mb-2" })
+
+                    <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 mb-2">
+                        @Html.EditorFor(model => model.DesignationCode, new { htmlAttributes = new { @class = "form-control", @placeholder = "To be generated", @maxlength = "4", @readonly = "readonly" } })
+                        @*@Html.ValidationMessageFor(model => model.DesignationCode, "", new { @class = "text-danger" })
+                        @Html.ValidationMessage("DesignationCodeAlreadyExist", "", new { @class = "text-danger" })*@
+                    </div>
+                </div>
+                <div class="row">
+                    @Html.LabelFor(model => model.DesignationName, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-6 col-xs-12 mb-2 required" })
+                    <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 mb-2">
+                        @Html.EditorFor(model => model.DesignationName, new { htmlAttributes = new { @class = "form-control", @placeholder = "Designation Name", @maxlength = "50" } })
+                        @Html.ValidationMessageFor(model => model.DesignationName, "", new { @class = "text-danger" })
+                        @Html.ValidationMessage("DesignationNameAlreadyExist", "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="row">
+                    @Html.LabelFor(model => model.Level, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-6 col-xs-12 mb-2" })
+                    <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 mb-2">
+                        @Html.EditorFor(model => model.Level, new { htmlAttributes = new { @class = "form-control", @placeholder = "Level", @maxlength = "3" } })
+                      
+                    </div>
+                </div>
+
+                
+
+
+                <div class="row">
+                    @Html.LabelFor(model => model.IsOfficer, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-6 col-xs-12 mb-2" })
+                    <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 mb-2">
+                        <div class="form-group">
+                            <label class="switch">
+                                @Html.CheckBoxFor(model => model.IsOfficer, new { @class = "form-control" })
+                                <div class="slider round">
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    @Html.LabelFor(model => model.Rank, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-6 col-xs-12 mb-2" })
+                    <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 mb-2">
+                        @Html.EditorFor(model => model.Rank, new { htmlAttributes = new { @class = "form-control", @placeholder = "Rank", @type = "number", @min = "0", @max = "999999" } })
+
+                    </div>
+                </div>
+
+                <div class="row">
+                    @Html.LabelFor(model => model.CadreID, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-6 col-xs-12 mb-2" })
+
+                    <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 mb-2">
+                        @Html.DropDownListFor(model => model.CadreID, (IEnumerable<SelectListItem>)ViewBag.Cadre, new { id = "CadreID", @class = "custom-select" })
+                       
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    @Html.LabelFor(model => model.CateogryID, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-6 col-xs-12 mb-2" })
+
+                    <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 mb-2">
+                        @Html.DropDownListFor(model => model.CateogryID, (IEnumerable<SelectListItem>)ViewBag.Category, new { id = "CategoryID", @class = "custom-select" })
+
+                    </div>
+                </div>
+                <div class="row">
+                    @Html.LabelFor(model => model.LCT, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-6 col-xs-12 mb-2" })
+                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 mb-2">
+                        @Html.EditorFor(model => model.LCT, new { htmlAttributes = new { @class = "form-control text-right", @placeholder = "LCT", @type = "number", @min = "0", @max = "100", @step = "0.01" } })
+
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 mt-2 mb-2">
+                      
+                        %
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 mb-2">
+                        @Html.EditorFor(model => model.LCTInNo, new { htmlAttributes = new { @class = "form-control text-right", @placeholder = "LCT", @type = "number", @min = "0", @max = "999999", @step = "1" } })
+
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 mt-2 mb-2">                        
+                        In Number
+                    </div>
+                </div>
+
+                <div class="row">
+                    @Html.LabelFor(model => model.Promotion, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-6 col-xs-12 mb-2" })
+
+
+                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 mb-2">
+                        @Html.EditorFor(model => model.Promotion, new { htmlAttributes = new { @class = "form-control text-right", @placeholder = "Promotion", @type = "number", @min = "0", @max = "100", @step = "0.01" } })
+
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 mt-2 mb-2">
+
+                        %
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 mb-2">
+                        @Html.EditorFor(model => model.PromotionInNo, new { htmlAttributes = new { @class = "form-control text-right", @placeholder = "Promotion", @type = "number", @min = "0", @max = "999999", @step = "1" } })
+
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 mt-2 mb-2">
+                        In Number
+                    </div>
+                </div>
+
+                <div class="row">
+                    @Html.LabelFor(model => model.Direct, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-6 col-xs-12 mb-2" })
+
+
+                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 mb-2">
+                        @Html.EditorFor(model => model.Direct, new { htmlAttributes = new { @class = "form-control", @placeholder = "Direct", @type = "number", @min = "0", @max = "100", @step = "0.01" } })
+
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 mt-2 mb-2">
+
+                        %
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 mb-2">
+                        @Html.EditorFor(model => model.DirectInNo, new { htmlAttributes = new { @class = "form-control", @placeholder = "Direct", @type = "number", @min = "0", @max = "999999", @step = "1" } })
+
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 mt-2 mb-2">
+                        In Number
+                    </div>
+                    
+                    
+                </div>
+                <div class="row">
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 mb-2">
+                        Family Assured Sum
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 mb-2">
+                        @Html.EditorFor(model => model.FamilyAssured, new { htmlAttributes = new { @class = "form-control text-right", @placeholder = "Family Assured", @type = "number", @min = "0", @max = "999999", @step = "1" } })
+                    </div>
+                </div>
+                <div class="divider-chevron"></div>
+                <span class="pull-right">
+                    @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-light btn-md toggle-tooltip", @title = "Click here, to redirect on list page" })
+                    <input type="submit" value="Create" class="btn btn-info btn-md pull-center toggle-tooltip" title="Click here, to save current record" />
+                </span>
+            </div>
+        </div>
+
+    </div>
+}
+
+@section scripts{
+  
+}

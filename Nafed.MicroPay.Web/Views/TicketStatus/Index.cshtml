@@ -1,0 +1,32 @@
+﻿@*@model Nafed.MicroPay.Model.TicketStatus*@
+@{
+    ViewBag.Title = "Ticket Status";
+    ViewBag.NavigationTitle = "Ticket Status";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    System.Globalization.CultureInfo Indian = new System.Globalization.CultureInfo("hi-IN");
+}
+
+<div>
+
+
+    <div class="card_new_header text-right">
+        @Html.ActionLink("NEW STATUS", "Create", "TicketStatus", null, new { @class = "btn btn-info", title = "Click here, to create New Status", @data_toggle = "tooltip" })
+
+    </div>
+    <div class="card_new_body">
+        <div id="div-TicketStatus">
+            @Html.Action("_GetTicketStatusGridView")
+        </div>
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+

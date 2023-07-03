@@ -1,0 +1,44 @@
+F:\Nafed-Work\22-July-19\Nafed.MicroPay\Nafed.MicroPay.DataScript\bin\Debug\Nafed.MicroPay.DataScript.dacpac
+F:\Nafed-Work\22-July-19\Nafed.MicroPay\Nafed.MicroPay.DataScript\obj\Debug\Nafed.MicroPay.DataScript.dll
+F:\Nafed-Work\22-July-19\Nafed.MicroPay\Nafed.MicroPay.DataScript\obj\Debug\Nafed.MicroPay.DataScript.pdb
+F:\Nafed-Work\22-July-19\Nafed.MicroPay\Nafed.MicroPay.DataScript\bin\Debug\Nafed.MicroPay.DataScript.dll
+F:\Nafed-Work\22-July-19\Nafed.MicroPay\Nafed.MicroPay.DataScript\bin\Debug\Nafed.MicroPay.DataScript.pdb
+F:\Nafed By Rajesh Sir\Nafed.MicroPay\Nafed.MicroPay.DataScript\bin\Debug\Nafed.MicroPay.DataScript.dacpac
+F:\Nafed By Rajesh Sir\Nafed.MicroPay\Nafed.MicroPay.DataScript\bin\Debug\Nafed.MicroPay.DataScript.dll
+F:\Nafed By Rajesh Sir\Nafed.MicroPay\Nafed.MicroPay.DataScript\bin\Debug\Nafed.MicroPay.DataScript.pdb
+F:\Nafed By Rajesh Sir\Nafed.MicroPay\Nafed.MicroPay.DataScript\obj\Debug\Model.xml
+F:\Nafed By Rajesh Sir\Nafed.MicroPay\Nafed.MicroPay.DataScript\obj\Debug\refactor.xml
+F:\Nafed By Rajesh Sir\Nafed.MicroPay\Nafed.MicroPay.DataScript\obj\Debug\postdeploy.sql
+F:\Nafed By Rajesh Sir\Nafed.MicroPay\Nafed.MicroPay.DataScript\obj\Debug\predeploy.sql
+F:\Nafed By Rajesh Sir\Nafed.MicroPay\Nafed.MicroPay.DataScript\obj\Debug\Nafed.MicroPay.DataScript.dll
+F:\Nafed By Rajesh Sir\Nafed.MicroPay\Nafed.MicroPay.DataScript\obj\Debug\Nafed.MicroPay.DataScript.pdb
+F:\HR_And_Payroll\Nafed.MicroPay\Nafed.MicroPay.DataScript\bin\Debug\Nafed.MicroPay.DataScript.dacpac
+F:\HR_And_Payroll\Nafed.MicroPay\Nafed.MicroPay.DataScript\bin\Debug\Nafed.MicroPay.DataScript.dll
+F:\HR_And_Payroll\Nafed.MicroPay\Nafed.MicroPay.DataScript\bin\Debug\Nafed.MicroPay.DataScript.pdb
+F:\HR_And_Payroll\Nafed.MicroPay\Nafed.MicroPay.DataScript\obj\Debug\Nafed.MicroPay.DataScript.dll
+F:\HR_And_Payroll\Nafed.MicroPay\Nafed.MicroPay.DataScript\obj\Debug\Nafed.MicroPay.DataScript.pdb
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.DataScript\bin\Debug\Nafed.MicroPay.DataScript.dacpac
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.DataScript\bin\Debug\Nafed.MicroPay.DataScript.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.DataScript\bin\Debug\Nafed.MicroPay.DataScript.pdb
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.DataScript\obj\Debug\Nafed.MicroPay.DataScript.dll
+F:\MICROHRPAY\Nafed.MicroPay\Nafed.MicroPay\Nafed.MicroPay.DataScript\obj\Debug\Nafed.MicroPay.DataScript.pdb
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.DataScript\bin\Debug\Nafed.MicroPay.DataScript.dacpac
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.DataScript\bin\Debug\Nafed.MicroPay.DataScript.dll
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.DataScript\bin\Debug\Nafed.MicroPay.DataScript.pdb
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.DataScript\obj\Debug\Nafed.MicroPay.DataScript.dll
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.DataScript\obj\Debug\Nafed.MicroPay.DataScript.pdb
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.DataScript\obj\Debug\Model.xml
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.DataScript\obj\Debug\refactor.xml
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.DataScript\obj\Debug\postdeploy.sql
+D:\Ibrahim\MICROHR\Nafed Project Backup\Nafed.MicroPay\Nafed.MicroPay.DataScript\obj\Debug\predeploy.sql
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.DataScript\bin\Debug\Nafed.MicroPay.DataScript.dacpac
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.DataScript\bin\Debug\Nafed.MicroPay.DataScript.dll
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.DataScript\bin\Debug\Nafed.MicroPay.DataScript.pdb
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.DataScript\obj\Debug\Nafed.MicroPay.DataScript.dll
+D:\Ibrahim\MICROHR\Nafed.MicroPay\Nafed.MicroPay.DataScript\obj\Debug\Nafed.MicroPay.DataScript.pdb
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.DataScript\bin\Debug\Nafed.MicroPay.DataScript.dacpac
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.DataScript\bin\Debug\Nafed.MicroPay.DataScript.dll
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.DataScript\bin\Debug\Nafed.MicroPay.DataScript.pdb
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.DataScript\obj\Debug\Nafed.MicroPay.DataScript.dll
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.DataScript\obj\Debug\Nafed.MicroPay.DataScript.pdb
+D:\Project\Nafed.MicroPay\Nafed.MicroPay.DataScript\obj\Debug\Nafed.MicroPay.DataScript.sqlproj.AssemblyReference.cache

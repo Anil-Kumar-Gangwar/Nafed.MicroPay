@@ -1,0 +1,72 @@
+﻿@model MicroPay.Web.Models.UserAccessControlViewModel
+@using Nafed.MicroPay.Model;
+@{
+    List<UserAccessControlRights> lstWithoutChild = Model.menuChildList.Where(x => x.ParentID == null && Model.menuChildList.All(y => y.ParentID != x.MenuID)).ToList();
+
+}
+
+<table id="tblUserAccessControlRight" class="table table-centered table-striped dt-responsive w-100">
+    <thead>
+        <tr>
+            <th>
+                Menu Name
+            </th>
+            <th>
+                View
+            </th>
+            <th>
+                Create
+            </th>
+            <th class="text-center" style="width:60px">
+                Edit
+            </th>
+            <th class="text-center" style="width:60px">
+                Delete
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+
+            foreach (var ItemWithNoChild in lstWithoutChild)
+            {
+                var checkedView = ItemWithNoChild.View == true ? "checked" : "";
+                var checkedCreate = ItemWithNoChild.Create == true ? "checked" : "";
+                var checkedEdit = ItemWithNoChild.Edit == true ? "checked" : "";
+                var checkedDelete = ItemWithNoChild.Delete == true ? "checked" : "";
+                <tr class="trAccessUpdate" attrMenuID="@ItemWithNoChild.MenuID">
+                    <td> @ItemWithNoChild.MenuName</td>
+                    <td> <input type="checkbox" id="chkView_@ItemWithNoChild.MenuID" class="chkCell" @checkedView /></td>
+                    <td> <input type="checkbox" id="chkCreate_@ItemWithNoChild.MenuID" class="chkCell" @checkedCreate /></td>
+                    <td> <input type="checkbox" id="chkEdit_@ItemWithNoChild.MenuID" class="chkCell" @checkedEdit /></td>
+                    <td> <input type="checkbox" id="chkDelete_@ItemWithNoChild.MenuID" class="chkCell" @checkedDelete /></td>
+                </tr>
+            }
+
+            foreach (var item in Model.menuParentList)
+            {
+                <tr>
+                    <td colspan="5" class="text-left" style="background-color:antiquewhite"><b> @item.MenuName</b></td>
+                </tr>
+                foreach (var childItem in Model.menuChildList.Where(x => x.ParentID == item.MenuID))
+                {
+                    var checkedView = childItem.View == true ? "checked" : "";
+                    var checkedCreate = childItem.Create == true ? "checked" : "";
+                    var checkedEdit = childItem.Edit == true ? "checked" : "";
+                    var checkedDelete = childItem.Delete == true ? "checked" : "";
+                    if (!Model.menuChildList.Any(x => x.ParentID == childItem.MenuID))
+                    {
+                        <tr class="trAccessUpdate" attrMenuID="@childItem.MenuID">
+                            <td> @childItem.MenuName</td>
+                            <td> <input type="checkbox" id="chkView_@childItem.MenuID" class="chkCell" @checkedView /></td>
+                            <td> <input type="checkbox" id="chkCreate_@childItem.MenuID" class="chkCell" @checkedCreate /></td>
+                            <td> <input type="checkbox" id="chkEdit_@childItem.MenuID" class="chkCell" @checkedEdit /></td>
+                            <td> <input type="checkbox" id="chkDelete_@childItem.MenuID" class="chkCell" @checkedDelete /></td>
+                        </tr>
+                    }
+                }
+            }
+        }
+
+    </tbody>
+</table>

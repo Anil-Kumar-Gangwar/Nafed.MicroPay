@@ -1,0 +1,187 @@
+﻿
+@using MicroPay.Web.Models
+@model ExgratiaViewModel
+
+@{
+    ViewBag.Title = "Exgratia";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    System.Globalization.CultureInfo Indian = new System.Globalization.CultureInfo("hi-IN");
+
+}
+
+
+@*@using (Ajax.BeginForm("ExgratiaGridView", "CalculateExgratia", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "ExgratiaDiv" }))
+{*@
+
+    <div class="advance-search" style="">
+
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 pb-1 pt-2 form-inline align-middle">
+
+            <i class="fa fa-search fa-2x" style="color:#d4d4d4;" aria-hidden="true"></i>
+            <h4 class="desc" style="color:#0bb70b;"></h4>
+            <h4 class="desc">
+
+                @Html.Label("Search")
+            </h4>
+        </div>
+        <hr style="background-color:#fff !important;">
+
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+            <div class="form-group">
+
+                <div class="row">
+
+                    <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12 text-secondary">
+
+                        <i class="fas fa-filter"></i> Filter By :
+
+                    </div>
+
+                    <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 ">
+                        @Html.LabelFor(model => model.EmpTypeID, htmlAttributes: new { @class = "" })
+                    </div>
+
+                    <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 ">
+                        @Html.DropDownListFor(model => model.EmpTypeID, (IEnumerable<SelectListItem>)ViewBag.EmpType, new { @class = "custom-select", @id = "ddlEmpType" })
+
+                    </div>
+
+                    <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12 ">
+                        @Html.LabelFor(model => model.selectYearID, htmlAttributes: new { @class = "" })
+                    </div>
+
+                    <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 ">
+                      
+                        @Html.DropDownListFor(model => model.selectYearID, new SelectList(Model.yearList, "Text", "Value"), "Select", new { @class = "custom-select",@id="ddlFYear" })
+
+                    </div>
+
+                    <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 ">
+                        @Html.LabelFor(model => model.branchID, htmlAttributes: new { @class = "" })
+                    </div>
+
+                    <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 ">
+
+                        @Html.DropDownListFor(model => model.branchID, (IEnumerable<SelectListItem>)ViewBag.Branch, new { @class = "custom-select", @id = "ddlBranchList"})
+                      
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <hr style="background-color:#fff !important;">
+        <div class="row mt-3">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-right">
+
+                <button type="submit" id="submitform"   name="ButtonType" value="Search" class="btn btn-warning" title="Click here, to search records." onclick="getExgratiaList()">
+                    <i class="fa fa-search"></i> Search
+                </button>
+                @*<button type="button"  class="btn btn-warning pull-center toggle-tooltip" title="Click here, to download the template." onclick="exporttoexcel()">
+                    <i class="fa fa-file-excel"></i> Export Template
+                </button>*@
+                <a href="@Url.Action("ExportExcel", "CalculateExgratia")" class="btn btn-primary disabled" id="btnExport">
+                    <i class="fas fa-file-export"></i>
+                    Export Data
+                </a>                
+                <a href="@Url.Action("Index", "ImportExgratiaIncomeTax")" class="btn btn-success">
+                    <i class="fas fa-file-export"></i>
+                    Import Data
+                </a>
+                 @if (Model.userRights != null && Model.userRights.Create)
+                {
+                   
+                    @Html.ActionLink("Calculate Exgratia", "Create", "CalculateExgratia", null, new { @class = "btn btn-info btn-md", title = "Click here, to calculate exgratia", @data_toggle = "tooltip" })
+                }
+               
+                <button type="submit" id="btnPublishExgratia" name="ButtonType" value="Publish Exgratia" class="btn btn-warning" title="Click here, to publish exgratia" onclick="publishExgratia()">
+                    Publish Exgratia
+                </button>
+               
+            </div>
+        </div>
+
+    </div>
+
+
+
+    <div class="card_new_body">
+        <div id="ExgratiaDiv">
+           
+        </div>
+    </div>
+
+
+
+
+
+<script type="text/javascript">
+    function getExgratiaList() {
+
+        var fyear = $("#ddlFYear").val();
+        var branchID = $("#ddlBranchList").val();
+        var EmpTypeID = $("#ddlEmpType").val();
+
+        jQuery.post("@Url.Action("ExgratiaGridView", "CalculateExgratia")", {
+        branchID: branchID,
+        selectYearID: fyear,
+        EmpTypeID: EmpTypeID,
+        }).done(function (data) {
+            //  debugger;
+            if (data != "") {
+                $("#ExgratiaDiv").html(data);
+                var table = $('#tblGrid').DataTable({
+                });
+                $('#tblGrid_length').find('select').addClass('custom-select');
+                $("#btnExport").removeClass("disabled");
+                $("#btnTemplate").removeClass("disabled");
+            }
+        });
+    }
+
+    function publishExgratia() {
+        var fyear = $("#ddlFYear").val();
+        var branchID = $("#ddlBranchList").val();
+        var EmpTypeID = $("#ddlEmpType").val();
+        if (EmpTypeID=='0')
+        {
+            commonMessage("error", "Select Employee Type");
+        }
+        else if (fyear=='') {
+            commonMessage("error", "Select Year");
+        }
+        else if (branchID == '0') {
+            commonMessage("error", "Select Branch");
+        }
+        else {
+            jQuery.post("@Url.Action("PublishExgratia", "CalculateExgratia")", {
+                branchID: branchID,
+                selectYearID: fyear,
+                EmpTypeID: EmpTypeID,
+            }).done(function (data) {
+
+                if (data) {
+                    commonMessage("success", "Exgratia Publish Successfully.");
+                }
+                else {
+                    commonMessage("error", "Exgratia Publish Failed.");
+                }
+
+            });
+        }
+    }
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+

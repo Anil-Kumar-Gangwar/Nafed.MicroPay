@@ -1,0 +1,367 @@
+﻿@model Nafed.MicroPay.Model.SalarySlipModel
+@using Nafed.MicroPay.Common
+<div>
+    <div class="row col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 font-weight-bolder text-center" style="font-size:10px">
+        NATIONAL AGRICULTURAL COOPERATIVE MARKETING FEDERATION OF INDIA LTD.
+    </div>
+    <div class="font-weight-bold text-center" style="font-size:10px;">
+        [Salary Slip] <span class="ml-3">Pay Slip No. @Model.PaySlipNo </span>
+     
+    </div>
+    <div class="row">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+            <table style="width:100%;font-size:10px">
+                <tr>
+                    <td>
+                        Employee Code : @Model.Employeecode
+                    </td>
+                    <td>
+                        PF No. - @Model.PFNO
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Employee Name : @Model.EmpName
+                    </td>
+                    <td>
+                        LWP - @String.Format("{0:0.0}", Model.LWP)
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Designation : @Model.Designation
+                    </td>
+                    <td>
+                        OT Rate : @Model.OTARATE.ThousandSeprator()
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Department :  @Model.DepartmentName
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        Period(Month) / Total number of days : @Model.SalMonth<text>-</text>@Model.SalYear /@Model.WorkingDays
+                    </td>
+
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="row pt-2">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+            <table style="width:100%;font-size:10px">
+
+                <tr>
+                    <th>Earnings</th>
+                    <th class="text-right">Amount</th>
+                    <th>Deductions</th>
+                    <th class="text-right">Amount</th>
+                </tr>
+
+                <tr>
+                    <td>
+                        BasicPay
+                    </td>
+                    <td class="text-right">@Model.BasicSalary.ThousandSeprator()</td>
+                    <td>
+                        PF Employee
+                    </td>
+                    <td class="text-right">@Model.D_PF_A.ThousandSeprator()</td>
+                </tr>
+                <tr>
+                    <td>
+                        SpecialPay
+                    </td>
+                    <td class="text-right">@Model.SplPay.ThousandSeprator()</td>
+                    <td>
+                        VPF
+                    </td>
+                    <td class="text-right">@Model.D_VPF_A.ThousandSeprator()</td>
+                </tr>
+                <tr>
+                    <td>
+                        House Rent All (H R A)
+                    </td>
+                    <td class="text-right">@Model.HRAll.ThousandSeprator()</td>
+                    <td>
+                        Professional Tax
+                    </td>
+                    <td class="text-right">@Model.ProfTax.ThousandSeprator()</td>
+                </tr>
+                <tr>
+                    <td>
+                        CCA
+                    </td>
+                    <td class="text-right">@Model.CCA.ThousandSeprator()</td>
+                    <td>
+                        Income Tax
+                    </td>
+                    <td class="text-right">@Model.IncTaxDeduc.ThousandSeprator()</td>
+                </tr>
+                <tr>
+                    <td>
+                        Transport Allowance
+                    </td>
+                    <td class="text-right">@Model.Transport_Allowance.ThousandSeprator()</td>
+                    <td>
+                        PF.LN
+                    </td>
+                    <td class="text-right">@Model.PFLoan.ThousandSeprator()</td>
+                </tr>
+                <tr>
+                    <td>
+                        Special Allowance
+                    </td>
+                    <td class="text-right">@Model.SplAll.ThousandSeprator()</td>
+                    <td>
+                        HBA
+                    </td>
+                    <td class="text-right">@Model.HBLoan.ThousandSeprator()</td>
+                </tr>
+                <tr>
+                    <td>
+                        Medical Reimbursements
+                    </td>
+                    <td class="text-right">@Model.Medical.ThousandSeprator()</td>
+                    <td>
+                        TCS.DED
+                    </td>
+                    <td class="text-right">@Model.TCSLoan.ThousandSeprator()</td>
+                </tr>
+                <tr>
+                    <td>
+                        Others
+                    </td>
+                    <td class="text-right">@Model.OTHRs.ThousandSeprator()</td>
+                    <td>
+                        F.LN
+                    </td>
+                    <td class="text-right">@Model.FestLoan.ThousandSeprator()</td>
+                </tr>
+                <tr>
+                    <td>
+                        Basic-Rate
+                    </td>
+                    <td class="text-right">@Model.E_BASIC.ThousandSeprator()</td>
+                    <td>
+                        SCT.LN
+                    </td>
+                    <td class="text-right">@Model.ScooterLoan.ThousandSeprator()</td>
+                </tr>
+                <tr>
+                    <td>
+                        OT.HRS
+                    </td>
+                    <td class="text-right">@Model.AOTHrs.ThousandSeprator()</td>
+                    <td>
+                        CAR.LN
+                    </td>
+                    <td class="text-right">@Model.CarLoan.ThousandSeprator()</td>
+                </tr>
+                <tr>
+                    <td>
+                        FDA
+                    </td>
+                    <td class="text-right">@Model.FixedDA.ThousandSeprator()</td>
+                    <td>
+                        LIC
+                    </td>
+                    <td class="text-right">@Model.LifeIns.ThousandSeprator()</td>
+                </tr>
+                <tr>
+                    <td>
+                        ADA
+                    </td>
+                    <td class="text-right">@Model.AddDA.ThousandSeprator()</td>
+                    <td>
+                        NB.DED
+                    </td>
+                    <td class="text-right">@Model.NafBazDeduc.ThousandSeprator()</td>
+                </tr>
+                <tr>
+                    <td>
+                        WASH.ALW
+                    </td>
+                    <td class="text-right">@Model.WashAll.ThousandSeprator()</td>
+                    <td>
+                        SUND.ADV
+                    </td>
+                    <td class="text-right">@Model.SunAdv.ThousandSeprator()</td>
+                </tr>
+                <tr>
+                    <td>
+                        CH.ED.ALL
+                    </td>
+                    <td class="text-right">@Model.CEA.ThousandSeprator()</td>
+                    <td>
+                        R.FUND
+                    </td>
+                    <td class="text-right">@Model.RelFundDeduc.ThousandSeprator()</td>
+                </tr>
+                <tr>
+                    <td>
+                        HCA
+                    </td>
+                    <td class="text-right">@Model.HillCompenAll.ThousandSeprator()</td>
+                    <td>
+                        BFUND
+                    </td>
+                    <td class="text-right">@Model.BFund.ThousandSeprator()</td>
+                </tr>
+                <tr>
+                    <td>
+                        OT.ALW
+                    </td>
+                    <td class="text-right">@Model.OTimeAll.ThousandSeprator()</td>
+                    <td>
+                        GIS
+                    </td>
+                    <td class="text-right">@Model.GISDeduc.ThousandSeprator()</td>
+                </tr>
+                <tr>
+                    <td>
+                        AOT.ALW
+                    </td>
+                    <td class="text-right">@Model.AddiOverAll.ThousandSeprator()</td>
+                    <td>
+                        S.CLUB
+                    </td>
+                    <td class="text-right">@Model.SCM.ThousandSeprator()</td>
+                </tr>
+                <tr>
+                    <td>
+                        P-PAY
+                    </td>
+                    <td class="text-right">@Model.E_19_A.ThousandSeprator()</td>
+                    <td>
+                        PF.LN.No
+                    </td>
+                    <td class="text-right">@Model.PFLOANINSTNO</td>
+                </tr>
+                <tr>
+                    <td>
+                        TELE.
+                    </td>
+                    <td class="text-right">@Model.E_18_A.ThousandSeprator()</td>
+                    <td>
+                        HB.LN.No
+                    </td>
+                    <td class="text-right">@Model.HBLOANINSTNO</td>
+                </tr>
+                <tr>
+                    <td>
+                        NEWS
+                    </td>
+                    <td class="text-right">@Model.E_17_A.ThousandSeprator()</td>
+                    <td>
+                        TCS.GL BAL.
+                    </td>
+                    <td class="text-right">@Model.GLINSTALLNO.ThousandSeprator()</td>
+                </tr>
+                <tr>
+                    <td>
+                        MISCI
+                    </td>
+                    <td class="text-right">@Model.MISCI1.ThousandSeprator()</td>
+                    <td>
+                        TCS.EL BAL
+                    </td>
+                    <td class="text-right">@Model.ELINSTALLNO.ThousandSeprator()</td>
+                </tr>
+
+
+                <tr>
+                    <td>
+                        MISCI2
+                    </td>
+                    <td class="text-right">
+                        @Model.MISCI2.ThousandSeprator()
+                    </td>
+                    <td>
+                        Fst.Inst
+                    </td>
+                    <td class="text-right">
+                        @Model.FESTIVALLOANINSTNO
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>MISCI3</td>
+                    <td class="text-right">@Model.MISCI3.ThousandSeprator()</td>
+                    <td>Car.Inst</td>
+                    <td class="text-right">@Model.CARLOANINSTNO</td>
+                </tr>
+
+                <tr>
+                    <td>Pet.Reimb</td>
+                    <td class="text-right">@Model.Petrol_Reimb.ThousandSeprator()</td>
+                    <td>Sct.Inst</td>
+                    <td class="text-right">@Model.SCOOTERLOANINSTNO</td>
+                </tr>
+
+                <tr>
+                    <td>Drv.All</td>
+                    <td class="text-right">@Model.Drv__All_.ThousandSeprator()</td>
+                    <td>MISCD1</td>
+                    <td class="text-right">@Model.MISCD1.ThousandSeprator()</td>
+                </tr>
+
+
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td>MISCD2</td>
+                    <td class="text-right">@Model.MISCD2.ThousandSeprator()</td>
+                </tr>
+
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td>MISCD3</td>
+                    <td class="text-right">@Model.MISCD3.ThousandSeprator()</td>
+                </tr>
+
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td>FLATDEDN</td>
+                    <td class="text-right">@Model.FlatDeduc.ThousandSeprator()</td>
+                </tr>
+
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td>SAL.DEDUCT</td>
+                    <td class="text-right">@Model.Sal_Deduc.ThousandSeprator()</td>
+                </tr>
+
+                <tr>
+                    <td class="font-weight-bold">Total Earning</td>
+                    <td class="text-right">@Model.TotalEarning.ThousandSeprator()</td>
+                    <td class="font-weight-bold">Total Deduction</td>
+                    <td class="text-right">@Model.TotalDeduction.ThousandSeprator()</td>
+                </tr>
+
+                <tr>
+
+                    <td class="font-weight-bold">Net Pay</td>
+                    <td class="text-right" colspan="3">@Convert.ToDecimal(Model.TotalEarning - Model.TotalDeduction).ThousandSeprator()</td>
+
+                </tr>
+
+            </table>
+        </div>
+    </div>
+    <div class="row col-lg-12 col-md-12 col-sm-12" style="font-size:10px;">
+        <span class="underlineinput">  Date : @DateTime.Now.Date.ToString("dd-MM-yyyy")</span>
+        <span class="underlineinput ml-3"> Bank Name : @Model.BankCode @Model.AccountNo</span>
+    </div>
+</div>
+<style>
+    table, th, td {
+        border: 1px solid grey;
+        border-collapse: collapse;
+    }
+</style>

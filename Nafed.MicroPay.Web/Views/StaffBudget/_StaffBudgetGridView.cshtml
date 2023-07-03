@@ -1,0 +1,93 @@
+﻿@model MicroPay.Web.Models.StaffBudgetViewModel
+<table id="tblGrid" class="table table-centered table-striped dt-responsive w-100">
+    <thead>
+        <tr>
+            <th>
+                #
+            </th>
+            <th>
+                Year
+            </th>
+            <th>
+                Month
+            </th>
+            <th>
+                Designation
+            </th>
+            <th>
+                Present Staff
+            </th>
+            <th>
+                Budgeted Staff
+            </th>
+            <th>
+                Vacancies
+            </th>
+            <th>
+                LTC
+            </th>
+            <th>
+                Promotion
+            </th>
+            <th>
+                Direct
+            </th>
+            @*@if (Model.userRights.Edit)
+            {*@
+                <th class="text-center" style="width:60px">
+                    Edit
+                </th>
+            @*}*@
+            @*@if (Model.userRights.Delete)
+            {*@
+                <th class="text-center" style="width:60px">
+                    Delete
+                </th>
+            @*}*@
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            int index = 1;
+            if (Model != null && Model.listStaffBudget.Count > 0)
+            {
+                foreach (var item in Model.listStaffBudget)
+                {
+                    <tr>
+                        <td>@index</td>
+                        <td>@item.Year</td>
+                        <td class="text-center">@item.Month</td>
+                        <td>@item.DesignationName</td>
+                        <td>@item.PresentStaff </td>
+                        <td>@item.BudgetedStaff</td>
+                        <td>@item.Vac</td>
+                        <td>@item.FLTC</td>
+                        <td>@item.FPromotion</td>
+                        <td>@item.FDirect</td>
+                        @*@if (Model.userRights.Edit)
+                        {*@
+                            <td class="text-center">
+                                @*<a href="@Url.Action("Edit", "StaffBudget", new { staffBudgetId = item.StaffBudgetId, designationId = item.DesignationID })" title="Click here, to edit this record" data-toggle="tooltip">
+                                    <i class="far fa-edit text-info" aria-hidden="true"></i>
+                                </a>*@
+                                @Html.EncodedImageActionLink("", "Edit", "StaffBudget", new { staffBudgetId = item.StaffBudgetId, designationId = item.DesignationID }, new { @class = "toggle-tooltip", title = "Click here, to edit this record" }, "~/Images/edit.png")
+                            </td>
+                        @*}
+                        @if (Model.userRights.Delete)
+                        {*@
+                            <td class="text-center">
+                                @*<a data-toggle="confirm" class="toggle-tooltip" href="@Url.Action("Delete", "StaffBudget", new { staffBudgetId = item.StaffBudgetId})" title="Click here, to delete this record">
+                                    <span class="far fa-trash-alt text-danger" aria-hidden="true"></span>
+                                </a>*@
+                                @Html.EncodedImageActionLink("", "Delete", "StaffBudget", new { staffBudgetId = item.StaffBudgetId }, new { @class = "toggle-tooltip", title = "Click here, to delete this record" }, "~/Images/delete.png", true)
+                            </td>
+                        @*}*@
+                    </tr>
+                    index++;
+                }
+            }
+
+        }
+
+    </tbody>
+</table>

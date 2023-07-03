@@ -1,0 +1,37 @@
+﻿
+@model Nafed.MicroPay.Model.UserAccessRight
+@{
+    ViewBag.Title = "Category";
+    ViewBag.NavigationTitle = "Category";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    System.Globalization.CultureInfo Indian = new System.Globalization.CultureInfo("hi-IN");
+}
+<div class="">
+    <div class="card_new_header text-right">
+        @if (Model.Create)
+        {
+            @Html.ActionLink("Create New", "Create", "Category", null, new { @class = "btn btn-info btn-md", title = "Click here, to create new record", @data_toggle = "tooltip" })
+        }
+    </div>
+    <div class="card_new_body">
+        <div id="CategoryGridDiv">
+            @Html.Action("CategoryGridView")
+        </div>
+    </div>
+    @*<div class="card_new_footer"></div>*@
+</div>
+@section scripts{
+
+
+}
+
+
+
+
+
+
+
+
+
+
+

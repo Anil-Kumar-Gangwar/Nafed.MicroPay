@@ -1,0 +1,87 @@
+﻿
+@{
+    ViewBag.Title = "Export-Salary Report";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="">
+
+    <div class="card_new_body">
+
+        @using (Ajax.BeginForm("_ReportFilter", "ExportSalaryReport", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "div-report-filters", OnSuccess = "onSuccess" }))
+        {
+            <div id="div-report-filters">
+
+                @Html.Action("_ReportFilter")
+
+            </div>
+        }
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    function onSuccess(data) {
+        if (data.fileName == "" || data.fileName == undefined) {
+            $("#branchRequired").text('Please select branch.');
+        }
+        if (data.fileName != "" && data.message == "success") {
+            $("#div-report-filters").load("@Url.Action("_ReportFilter", "ExportSalaryReport")");
+            window.location.href = "@Url.RouteUrl(new { Controller = "Base", Action = "DownloadAndDelete" })/?sFileName=" + data.fileName + "&sFileFullPath=" + data.fullPath;
+
+        }
+
+        if (data.message == "error" && data.part == 1) {
+            $("#div-report-filters").html(data.htmlData);
+        }
+    }
+
+    function onBegin() {
+       // $('#waitLoading').modal('hide');
+    }
+
+    function GetEmployeeDetails() {
+        var branchId = $("#branchID").val() == "" ? null : $("#branchID").val();
+        var employeeType = $("#employeeTypeID").val() == "" ? null : $("#employeeTypeID").val();
+        $.ajax({
+            url: "@Url.Action("GetEmployeeDetails", "SalaryReport")",
+            type: "GET",
+            dataType: "JSON",
+            data: { branchId: parseInt(branchId), employeeTypeId: parseInt(employeeType) },
+            success: function (data) {
+                $("#employeeID").html("");
+                if (data.employees != "") {
+                    $("#employeeID").append($("<option selected></option>").val(0).html('Select'));
+                    $.each(data.employees, function (key, value) {
+                        $("#employeeID").append($("<option></option>").val(value.id).html(value.value));
+                    });
+                }
+                else {
+                    $("#employeeID").append($("<option></option>").val(0).html('Select'));
+                }
+            }
+        });
+    }
+
+    function EnableRadioBtn(event) {
+        if (event == "salYear" && $("#" + event).val() > "0") {
+            $("#MonthlyBranchWise").removeAttr("disabled");
+            $("#MonthlyEmployeeWise").removeAttr("disabled");
+            $("#financialYear").val("Select");
+        }
+        else {
+            $("#MonthlyBranchWise").attr("disabled", "disabled");
+            $("#MonthlyEmployeeWise").attr("disabled", "disabled");
+        }
+
+        if (event == "financialYear" && $("#" + event).val() != "Select") {
+            $("#EmployeeWiseAnnual").removeAttr("disabled");
+            $("#BranchWiseAnnual").removeAttr("disabled");
+            $("#salYear").val("0");
+        }
+        else {
+            $("#EmployeeWiseAnnual").attr("disabled", "disabled");
+            $("#BranchWiseAnnual").attr("disabled", "disabled");
+        }
+    }
+</script>

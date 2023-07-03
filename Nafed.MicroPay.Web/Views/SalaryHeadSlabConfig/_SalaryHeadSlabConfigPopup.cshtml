@@ -1,0 +1,152 @@
+﻿
+@using Nafed.MicroPay.Model
+@model SalaryHeadSlab
+@{ 
+    var fieldNameValue = Model.SelectedFieldName == null ? "select" : Model.SelectedFieldName;
+
+}
+<script type="text/javascript">
+
+    function onSuccessData(data) {
+     
+        if (data.status == undefined) {           
+            $("#div-salHead").html(data);
+            var selectedFieldName = $("#ddlFieldList").attr('selectedFieldName');
+            $("#ddlFieldList").val(selectedFieldName);
+        }
+        if (data.status == true) {
+            commonMessage(data.type, data.msg);
+         
+            $("#div-salHead").load("/SalaryHeadSlabConfig/_GetSalaryHeadSlabConfigDtls");
+            var mainHeadFieldID = $("#div-salHead").find("select [id*=ddlFieldList]").val();
+            if (mainHeadFieldID != undefined)
+                $("#divSalaryHead").load("/SalaryHeadSlabConfig/_GetSalHeadSlabConfigGridView?fieldName=" + mainHeadFieldID);
+            else
+                $("#divSalaryHead").load("/SalaryHeadSlabConfig/_GetSalHeadSlabConfigGridView");
+        }
+    }
+    function onchangeFieldName() {
+        debugger;
+        var selectedFieldName = $("#ddlFieldList").val();
+        $("#div-salHead").find('select[id*=ddlFieldList]').val(selectedFieldName);
+     //   $("#FieldName").val(selectedFieldName);;
+    }
+
+</script>
+
+
+@using (Ajax.BeginForm("_PostHeadSlabConfig", "SalaryHeadSlabConfig", new AjaxOptions
+{
+    HttpMethod = "POST",
+    OnSuccess = "onSuccessData",
+}, new { defaultbutton = "Addsubmitform" }))
+{
+    @Html.AntiForgeryToken()
+
+    @Html.HiddenFor(model => model.CreatedOn)
+    @Html.HiddenFor(model => model.CreatedBy)
+    @Html.HiddenFor(model => model.SlabID)
+    @Html.HiddenFor(model => model.FieldName)
+    <div class="row">
+        <div class="col-xl-12 col-lg-12 col-md-9 col-sm-12 col-xs-12 pt-2" style="max-height:400px;">
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12">
+
+                        @Html.LabelFor(model => model.FieldName, new { @class = "control-label mt-2 required" })
+                    </div>
+                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12">
+                        @if (Model.SlabID>0)
+                        {
+                            @Html.DropDownListFor(model => model.FieldName, new SelectList(Model.fieldList, "FieldName", "FieldDesc"), "Select", new { @class = "custom-select", @disabled = "disabled" })
+                        }
+                        else
+                        {
+                            @*@Html.DropDownListFor(model => model.FieldName, new SelectList(Model.fieldList, "FieldName", "FieldDesc"), "Select", new { @class = "custom-select"})*@
+                            @Html.DropDownList("ddlFieldList", new SelectList(Model.fieldList, "FieldName", "FieldDesc"), "Select", new { @class = "custom-select", @onchange = "onchangeFieldName(this.id)", selectedFieldName = @fieldNameValue })
+
+                        }
+                        @Html.ValidationMessage("FieldNameRequired", "", new { @class = "text-danger" })
+
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+
+                <div class="row">
+                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12">
+
+                        @Html.LabelFor(model => model.LowerRange, new { @class = "control-label mt-2 required" })
+
+
+                    </div>
+                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12">
+                        @if (Model.SlabID > 0)
+                        {
+                            @Html.EditorFor(model => model.LowerRange, new { htmlAttributes = new { @class = "form-control text-right", @readonly = true, @type = "number", @step = "0.01" } })
+                        }
+                        else
+                        {
+                            @Html.EditorFor(model => model.LowerRange, new { htmlAttributes = new { @class = "form-control text-right", @type = "number", @step = "0.01" } })
+                        }
+                        @Html.ValidationMessageFor(model => model.LowerRange, "", new { @class = "text-danger" })
+                        @Html.ValidationMessage("RangeError", "", new { @class = "text-danger" })
+                    </div>
+
+                </div>
+            </div>
+            <div class="form-group">
+
+                <div class="row">
+                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12">
+
+                        @Html.LabelFor(model => model.UpperRange, new { @class = "control-label mt-2 required" })
+
+                    </div>
+                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12">
+                        @if (Model.SlabID > 0)
+                        {
+                            @Html.EditorFor(model => model.UpperRange, new { htmlAttributes = new { @class = "form-control text-right", @readonly = true, @type = "number", @step = "0.01" } })
+                        }
+                        else
+                        {
+                            @Html.EditorFor(model => model.UpperRange, new { htmlAttributes = new { @class = "form-control text-right", @type = "number", @step = "0.01" } })
+                        }
+                        @Html.ValidationMessageFor(model => model.UpperRange, "", new { @class = "text-danger" })
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="form-group">
+
+                <div class="row">
+                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12">
+
+                        @Html.LabelFor(model => model.Amount, new { @class = "control-label mt-2 required" })
+
+                    </div>
+                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12">
+
+                        @Html.EditorFor(model => model.Amount, new { htmlAttributes = new { @class = "form-control text-right", @type = "number", @step = "0.01" } })
+                        @Html.ValidationMessage("SalarySlabExist", "", new { @class = "text-danger" })
+                        @Html.ValidationMessage("AmountNullError", "", new { @class = "text-danger" })
+
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <input type="submit" value="Save" id="Addsubmitform" class="btn btn-info btn-md pull-right toggle-tooltip" />
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+}

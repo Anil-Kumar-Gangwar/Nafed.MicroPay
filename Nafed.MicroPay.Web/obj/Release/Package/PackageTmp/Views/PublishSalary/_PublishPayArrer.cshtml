@@ -1,0 +1,244 @@
+﻿@using Nafed.MicroPay.Model
+@model PublishSalaryFilters
+
+@*@Html.HiddenFor(model => model.salMonth)
+    @Html.HiddenFor(model => model.salYear)*@
+
+@{
+
+    var singleEmpVisibilityClass = Model.enumEmpPayCategory == EnumEmpPayCategory.SingleEmployee ? null : "hide";
+    var singleBranchVisibilityClass = Model.enumPayBranch == EnumPayBranch.SingleBranch ? null : "hide";
+
+    var yearDDl = Enumerable.Range(2005, (DateTime.Now.Year - 2005) + 1).
+                                  Select(i => new SelectListModel { id = i, value = i.ToString() }).OrderBy(x => x.value).ToList();
+
+    //yearDDl.Insert(0, new SelectListModel { value = "Select", id = 0 });
+
+
+
+    var monthDDL = Enumerable.Range(1, 12).
+                            Select(i => new SelectListModel
+                            {
+                                id = i,
+                                value = System.Globalization.CultureInfo.InvariantCulture.DateTimeFormat.GetMonthName(i)
+                            }).ToList();
+
+    Model.listArrerPeriod.Insert(0, new SelectListModel { value = "Select", id = 0 });
+}
+
+@using (Ajax.BeginForm("_PublishPayArrer", "PublishSalary", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "div-PublishPayArrer-form" }))
+{
+    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+
+        <div class="form-group">
+
+            <span class="pull-right">
+
+                <input type="submit" value="Publish" name="ButtonType" class="btn btn-info btn-md pull-center toggle-tooltip" title="Click here, to update this record" />
+                <input type="submit" value="Undo" name="ButtonType" class="btn btn-info btn-md pull-center toggle-tooltip" title="Click here, to update this record" />
+            </span>
+
+        </div>
+
+        @if (Model.IsUpdateDone)
+        {
+            <br />
+
+            <div class="form-group pl-3 pr-3 pt-2">
+
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-0 alert alert-success">
+
+                        Publish DA Arrer Successfully.
+
+                    </div>
+
+                </div>
+
+            </div>
+        }
+
+
+        <fieldset class="border p-2 col-md-12 col-xs-12 col-lg-12 col-xl-12">
+
+            <legend style="font-size:1.3rem !important;" class="w-auto">SELECT MONTH/YEAR</legend>
+
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                        @*@Html.DropDownListFor(model => model.salYear, new SelectList(yearDDl, "id", "value"), new { @class = "custom-select" })*@
+                        @Html.DropDownListFor(model => model.ArrerPeriodDetailsPay, new SelectList(Model.listArrerPeriod, "value", "value"), new { @class = "custom-select", onChange = "PeriodDetailsPay()" })
+                        @Html.ValidationMessage("PayArrerPeriodRequired", "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                        <div id="periodDetailsPay">
+
+                        </div>
+                        @*@Html.DropDownListFor(model => model.salMonth, new SelectList(monthDDL, "id", "value"), new { @class = "custom-select" })*@
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+
+
+        <fieldset class="border p-2 col-md-12 col-xs-12 col-lg-12 col-xl-12">
+
+            <legend style="font-size:1.3rem !important;" class="w-auto">SELECT CATEGORY</legend>
+
+            <div class="form-group">
+
+                <div class="row">
+
+                    <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+
+                        @Html.RadioButtonFor(model => model.enumEmpPayCategory, "AllEmployees", new { id = "AllEmployees" })
+                        @Html.LabelFor(model => model.AllEmployees, new { @for = "AllEmployees" })
+
+                    </div>
+
+                    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+
+                        @Html.RadioButtonFor(model => model.enumEmpPayCategory, "SingleEmployee", new { id = "SingleEmployee" })
+                        @Html.LabelFor(model => model.SingleEmployee, new { @for = "SingleEmployee" })
+
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 @singleEmpVisibilityClass" id="dv-singlePayArrer-employee">
+
+                        @Html.DropDownListFor(model => model.selectedPayEmpID, new SelectList(Model.Employees, "id", "value"), "Select", new { @class = "custom-select" })
+                        @Html.ValidationMessage("EmployeeIDRequired", "", new { @class = "text-danger" })
+
+
+                        @if (Model.selectedPayEmpID.HasValue)
+                        {
+                            <script type="text/javascript">
+                                $("input[type=radio][name=enumPayBranch]").prop("checked", false).attr('disabled', true);
+                            </script>
+                        }
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </fieldset>
+
+
+        <fieldset class="border p-2 col-md-12 col-xs-12 col-lg-12 col-xl-12">
+            <legend style="font-size:1.3rem !important;" class="w-auto">SELECT BRANCH</legend>
+
+            <div class="form-group">
+
+                <div class="row">
+
+                    <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+
+                        @Html.RadioButtonFor(model => model.enumPayBranch, "BranchesExcecptHO", new { id = "PayBranchesExcecptHO" })
+                        @Html.LabelFor(model => model.BranchesExcecptHO, new { @for = "PayBranchesExcecptHO" })
+
+                    </div>
+
+                    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+
+                        @Html.RadioButtonFor(model => model.enumPayBranch, "SingleBranch", new { id = "SingleBranch", @class = "publishPayArrer" })
+                        @Html.LabelFor(model => model.SingleBranch, new { @for = "SingleBranch" })
+
+
+                    </div>
+
+                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 @singleBranchVisibilityClass" id="dv-singlePayArrer-branch">
+                        @Html.DropDownListFor(model => model.selectedPayBranchID, new SelectList(Model.Branchs, "id", "value"), "Select", new { @class = "custom-select" })
+
+                        @Html.ValidationMessage("BranchIDRequired", "", new { @class = "text-danger" })
+
+
+                    </div>
+
+                </div>
+
+            </div>
+        </fieldset>
+
+        <fieldset class="border p-2 col-md-12 col-xs-12 col-lg-12 col-xl-12">
+            <legend style="font-size:1.3rem !important;" class="w-auto">EMPLOYEE TYPE</legend>
+            <div class="form-group">
+
+                <div class="row">
+
+                    <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+
+                        @if (Model.enumEmpPayCategory == EnumEmpPayCategory.AllEmployees)
+                        {
+                            @Html.DropDownListFor(model => model.selectedPayEmpTypeID, new SelectList(Model.EmployeeTypes, "id", "value"), "Select", new { @class = "custom-select" })
+                        }
+                        else
+                        {
+                            @Html.DropDownListFor(model => model.selectedPayEmpTypeID, new SelectList(Model.EmployeeTypes, "id", "value"), "Select", new { @class = "custom-select", @disabled = "disabled" })
+                        }
+                    </div>
+
+                    <div class="col-lg-7 col-md-7 col-sm-12 col-xs-12">
+                        @Html.ValidationMessageFor(model => model.selectedPayEmpTypeID, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+            </div>
+        </fieldset>
+    </div>
+}
+
+<script type="text/javascript">
+    $('input[type=radio][name=enumEmpPayCategory]').change(function () {
+        var checkedRadio = this.value; //alert($("#selectedEmployeeID").val());
+        if (checkedRadio == "SingleEmployee") {
+            $("#dv-singlePayArrer-employee").removeClass("hide");
+            $("#selectedPayEmpTypeID,#selectedPayEmpID,#branchID").val('');
+            $("#selectedPayBranchID").val('');
+            $("#selectedPayEmpTypeID").attr("disabled", "disabled");
+            $("#dv-singlePayArrer-branch").addClass("hide");
+            $("input[type=radio][name=enumPayBranch]").prop("checked", false).attr('disabled', true);
+        }
+        else {
+            $("#selectedPayEmpTypeID,#selectedPayEmpID").val('');
+            $("#selectedPayBranchID").val('');
+            $("#dv-singlePayArrer-employee").addClass("hide");
+            $("#selectedPayEmpTypeID").removeAttr("disabled");
+            $("input[type=radio][name=enumPayBranch]").removeAttr('disabled');
+            $("#PayBranchesExcecptHO").prop("checked", true);
+        }
+
+    });
+
+    $('input[type=radio][name=enumPayBranch]').change(function () {
+        var checkedRadio = this.value; //alert($("#selectedEmployeeID").val());
+        if (checkedRadio == "SingleBranch") {
+            $("#selectedPayBranchID").val('');
+            $("#dv-singlePayArrer-branch").removeClass("hide");
+        }
+        else {
+            $("#selectedPayBranchID").val('');
+            $("#dv-singlePayArrer-branch").addClass("hide");
+        }
+    });
+
+    //#region PAY ARRER PUBLISH PERIOD
+    $(document).ready(function () {
+        PeriodDetailsPay();
+    });
+
+    function PeriodDetailsPay() {
+        var value = $("#ArrerPeriodDetailsPay").val();
+        if (value != "Select") {
+            jQuery.get("@Url.Action("GetPeriodDetails", "PublishSalary")", {
+                details: value,
+                flag: "AB"
+            }).done(function (data) {
+                if (data != "" && data.DAArrerPeriods != null) {
+                    $("#periodDetailsPay").html("<b> Pay Arrer Period :" + data.DAArrerPeriods + "</b>");
+                }
+            });
+        }
+    }
+    //#endregion PAY ARRER PUBLISH PERIOD
+</script>

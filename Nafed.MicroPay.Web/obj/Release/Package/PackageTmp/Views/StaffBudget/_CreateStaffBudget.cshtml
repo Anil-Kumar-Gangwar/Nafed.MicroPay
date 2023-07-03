@@ -1,0 +1,178 @@
+﻿@model Nafed.MicroPay.Model.StaffBudget
+
+@{
+    var updationmsg = Model.AlertMessage == null ? "" : Model.AlertMessage;
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+        if ("@updationmsg" != "")
+            commonMessage("warning", "@updationmsg");
+    });
+</script>
+
+@using (Ajax.BeginForm("Create", "StaffBudget", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "divStaffBudgetCreate", OnSuccess = "OnSucess" })) 
+{
+<div class="row form-group">
+    @Html.LabelFor(model => model.Year, htmlAttributes: new { @class = "control-label col-lg-2 col-md-2 col-sm-2 col-xs-6 mb-2 required" })
+
+    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-6 mb-2">
+        @Html.DropDownListFor(model => model.Year, (IEnumerable<SelectListItem>)ViewBag.ddlYear, "Select", new { @class = "custom-select" })
+        @Html.ValidationMessageFor(model => model.Year, "", new { @class = "text-danger" })
+    </div>
+
+    @Html.LabelFor(model => model.Month, htmlAttributes: new { @class = "control-label col-lg-2 col-md-2 col-sm-2 col-xs-6 mb-2 required" })
+
+    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-6 mb-2">
+        @Html.DropDownListFor(model => model.Month, (IEnumerable<SelectListItem>)ViewBag.StaffMonth, new { @class = "custom-select" })
+        @Html.ValidationMessageFor(model => model.Month, "", new { @class = "text-danger" })
+    </div>
+
+    @Html.LabelFor(model => model.DesignationID, htmlAttributes: new { @class = "control-label col-lg-2 col-md-2 col-sm-2 col-xs-6 mb-2 required" })
+
+    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-6 mb-2">
+        @Html.DropDownListFor(model => model.DesignationID, (IEnumerable<SelectListItem>)ViewBag.DesignationList, new { @class = "custom-select", onChange = "GetPresentStaff()" })
+        @Html.ValidationMessageFor(model => model.DesignationID, "", new { @class = "text-danger" })
+    </div>
+</div>
+
+<div class="row form-group">
+    @Html.LabelFor(model => model.PresentStaff, htmlAttributes: new { @class = "control-label col-lg-2 col-md-2 col-sm-2 col-xs-6 mb-2" })
+
+    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-6 mb-2">
+        @Html.HiddenFor(model => model.PresentStaff)
+        @Html.EditorFor(model => model.PresentStaff, new { htmlAttributes = new { @class = "form-control text-right", @disabled = "disabled", @type = "number" } })
+    </div>
+
+    @Html.LabelFor(model => model.BudgetedStaff, htmlAttributes: new { @class = "control-label col-lg-2 col-md-2 col-sm-2 col-xs-6 mb-2 required" })
+
+    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-6 mb-2">
+        @Html.EditorFor(model => model.BudgetedStaff, new { htmlAttributes = new { @class = "form-control text-right", onblur = "CalculateVacancies('C')", @type = "number", @min = "0", @max = "100" } })
+        @Html.ValidationMessageFor(model => model.BudgetedStaff, "", new { @class = "text-danger" })
+    </div>
+
+
+    @Html.LabelFor(model => model.VRS, htmlAttributes: new { @class = "control-label col-lg-2 col-md-2 col-sm-2 col-xs-6 mb-2" })
+
+    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-6 mb-2">
+        @Html.HiddenFor(model => model.VRS)
+        @Html.EditorFor(model => model.VRS, new { htmlAttributes = new { @class = "form-control text-right", @disabled = "disabled", @type = "number" } })
+    </div>
+</div>
+
+<div class="row form-group">
+    @Html.LabelFor(model => model.TotalStaffStrenght, htmlAttributes: new { @class = "control-label col-lg-2 col-md-2 col-sm-2 col-xs-6 mb-2" })
+
+    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-6 mb-2">
+        @Html.HiddenFor(model => model.TotalStaffStrenght)
+        @Html.EditorFor(model => model.TotalStaffStrenght, new { htmlAttributes = new { @class = "form-control text-right", @disabled = "disabled", @type = "number" } })
+    </div>
+
+    @Html.LabelFor(model => model.Vac, htmlAttributes: new { @class = "control-label col-lg-2 col-md-2 col-sm-2 col-xs-6 mb-2" })
+
+    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-6 mb-2">
+        @Html.HiddenFor(model => model.Vac)
+        @Html.EditorFor(model => model.Vac, new { htmlAttributes = new { @class = "form-control text-right", @disabled = "disabled", @type = "number" } })
+    </div>
+
+
+</div>
+
+@*<div class="row form-group">
+    
+</div>*@
+
+<div class="row form-group">
+    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+        <table class="table-sm">
+            <thead>
+                <tr>
+                    <th scope="col">Vacancies Filled By:</th>
+                    <th scope="col">Promotion</th>
+                    <th scope="col">LTC</th>
+                    <th scope="col">Direct</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th scope="row">Proportion in Number</th>
+                    <td>@Html.EditorFor(model => model.FPromotion, new { htmlAttributes = new { @class = "form-control text-right", @type = "number" } })</td>
+                    <td>@Html.EditorFor(model => model.FLTC, new { htmlAttributes = new { @class = "form-control text-right", @type = "number" } })</td>
+                    <td>@Html.EditorFor(model => model.FDirect, new { htmlAttributes = new { @class = "form-control text-right", @type = "number" } })</td>
+                </tr>
+                <tr>
+                    <th scope="row">Proportin in (%)</th>
+                    <td>
+                        @Html.HiddenFor(model => model.PromotionPer)
+                        @Html.EditorFor(model => model.PromotionPer, new { htmlAttributes = new { @class = "form-control text-right", @disabled = "disabled", @type = "number" } })
+                    </td>
+                    <td>
+                        @Html.HiddenFor(model => model.LTCPerc)
+                        @Html.EditorFor(model => model.LTCPerc, new { htmlAttributes = new { @class = "form-control text-right", @disabled = "disabled", @type = "number" } })
+                    </td>
+                    <td>
+                        @Html.HiddenFor(model => model.DirectPerc)
+                        @Html.EditorFor(model => model.DirectPerc, new { htmlAttributes = new { @class = "form-control text-right",  @disabled = "disabled", @type = "number" } })
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="divider-chevron"></div>
+<span class="pull-right">
+    @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-light btn-md toggle-tooltip", @title = "Click here, to redirect on list page" })
+    <input type="submit" value="Create" class="btn btn-info btn-md pull-center toggle-tooltip" title="Click here, to save current record" />
+</span>
+}
+
+<script type="text/javascript">
+    $('.toggle-tooltip').tooltip();
+    function GetPresentStaff() {
+        var designationID = $("#DesignationID").val();
+        var year = $("#Year").val();
+        var month = $("#Month").val();
+        var presentStaff = $("#PresentStaff").val();
+        jQuery.get("@Url.Action("GetPresentStaff", "StaffBudget")", {
+            DesignationID: designationID,
+            Year: year,
+            Month: month,
+            PresentStaff: presentStaff,
+        }).done(function (data) {
+            if (data != "") {
+                $("#divStaffBudgetCreate").html("");
+                $("#divStaffBudgetCreate").html(data);
+            }
+        });
+    }
+
+    function CalculateVacancies(type) {
+        var designationID = $("#DesignationID").val();
+        var year = $("#Year").val();
+        var month = $("#Month").val();
+        var presentStaff = $("#PresentStaff").val();
+        var budgetedStaff = $("#BudgetedStaff").val();
+        var vrs = $("#VRS").val();
+        if (designationID != "0") {
+            jQuery.get("@Url.Action("CalculateVacancies", "StaffBudget")", {
+                DesignationID: designationID,
+                Year: year,
+                Month: month,
+                PresentStaff: presentStaff,
+                BudgetedStaff: budgetedStaff,
+                Event: type,
+                VRS: vrs
+            }).done(function (data) {
+                if (data != "") {
+                    $("#divStaffBudgetCreate").html("");
+                    $("#divStaffBudgetCreate").html(data);
+                }
+            });
+        }
+    }
+    function OnSucess(data) {
+        if (data.url != undefined) {
+            window.location.href = data.url;
+        }
+    }
+</script>

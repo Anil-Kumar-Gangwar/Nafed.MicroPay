@@ -1,0 +1,19 @@
+﻿@using MicroPay.Web.Models
+@model EmployeeViewModel
+@{
+    ViewBag.Title = "Multiple Reporting Approval";
+    ViewBag.NavigationTitle = "Multiple Reporting Approval";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div>
+    @Html.Partial("_Filter", Model)
+
+    <div class="card_new_body">
+        <div id="div-empApp-List">
+        </div>
+    </div>
+</div>
+
+
+

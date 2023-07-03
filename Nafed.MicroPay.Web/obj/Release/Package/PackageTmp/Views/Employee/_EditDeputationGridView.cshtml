@@ -1,0 +1,120 @@
+﻿@using Nafed.MicroPay.Model;
+@model  EmployeeDeputation
+@{
+
+    //var empID = Request["employeeID"];
+    var empID = ViewBag.employeeID;
+
+}
+
+<div style="margin-top:10px;">
+    <input type="hidden" id="hdnEmpID" value="@empID" />
+    <div class="card_new_header text-right">
+        @*<input type="button" value="Create" class="btn btn-info btn-md toggle-tooltip"
+            method="GET" title="Click here, to create new record" data-ajax-update="#div-bd" data-ajax-mode="replace"
+            data-backdrop="static" data-keyboard="false" data-toggle="modal" data-target="#myModal">*@
+
+        @Ajax.ActionLink("Create", "_GetEmployeeDeputation",
+new { @employeeID = empID }, null,
+new
+{
+    @class = "btn btn-info btn-md toggle-tooltip",
+    @data_target = "#editDeputationModal",
+    title = "Click here, to create new record",
+    @data_toggle = "modal",
+    @method = "GET",
+    @data_backdrop = "static",
+    @data_keyboard = "false",
+    @data_ajax_update = "#div-bd",
+    @data_ajax_mode = "replace"
+})
+    </div>
+
+    <div id="gridDeputation">
+        @Html.Action("_GetEditDeputationGridView", "Employee", new { employeeID = empID })
+    </div>
+</div>
+
+
+<div class="modal" id="editDeputationModal" data-backdrop="static" data-keyboard="false" role="dialog" style="overflow:auto;">
+    <div class="modal-dialog modal-big">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Add/Edit Deputation Information</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            @using (Ajax.BeginForm("_PostEmployeeDeputation", "Employee", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "div-bd", OnSuccess = "onSuccess" }, new { defaultbutton = "submitform" }))
+            {
+                @Html.AntiForgeryToken()
+                <div class="modal-body" id="div-bd">
+                    @*@Html.Action("_GetEmployeeDeputation", "Employee", new { employeeID = empID })*@
+                </div>
+
+            <!-- Modal footer -->
+                <div class="modal-footer">
+                    <input type="submit" value="Save" id="submitform" class="btn btn-info btn-md pull-center toggle-tooltip" />
+                    @*<input type="submit" value="Submit" id="btnSubmit" class="btn btn-warning">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="Clear()">Close</button>*@
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function onSuccess(data) {
+        debugger;
+        var message = "";
+        if (data.status == true) {
+            $('#editDeputationModal').modal('hide');
+            //$('.nav-tabs li:eq(5) a').attr('data-toggle', 'tab').tab('show');
+            BindGridView();
+            if (data.mode == "Insert") {
+                message = "Record added successfully.";
+                $.bootstrapGrowl("<i class='mdi-checkbox-marked-circle-outline' aria-hidden='true'></i> " + message, {
+                    type: 'success',
+                    align: 'center',
+                    width: 'auto',
+                    allow_dismiss: true,
+                    delay: 20000
+                });
+            }
+            if (data.mode == "Edit") {
+                //   $('#myModal').modal('toggle');
+                message = "Record updated successfully.";
+                $.bootstrapGrowl("<i class='mdi-checkbox-marked-circle-outline' aria-hidden='true'></i> " + message, {
+                    type: 'success',
+                    align: 'center',
+                    width: 'auto',
+                    allow_dismiss: true,
+                    delay: 20000
+                });
+            }
+        }
+    }
+
+    function BindGridView() {
+        var empID = $("#hdnEmpID").val();
+        jQuery.get("@Url.Action("_GetEditDeputationGridView", "Employee")", {
+            employeeID: empID
+        }).done(function (data) {
+            if (data != "") {
+                $("#gridDeputation").html("");
+                $("#gridDeputation").html(data);
+                var table = $('#tblGrid').DataTable({
+                });
+                $('#tblGrid_length').find('select').addClass('custom-select');
+            }
+        });
+    }
+</script>
+
+<script>
+    //$(".modal").on("hidden.bs.modal", function () {
+    //    $(".modal-body input[type!='submit']").val("");
+    //});
+</script>

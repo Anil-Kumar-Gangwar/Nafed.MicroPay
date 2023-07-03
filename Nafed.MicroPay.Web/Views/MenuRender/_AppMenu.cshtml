@@ -1,0 +1,154 @@
+﻿@using MicroPay.Web.Models
+
+@model MenuVM
+@{
+    List<MenuVM> menusList = ViewBag.Menu;
+    Layout = null;
+
+}
+
+@if (menusList != null)
+{
+    foreach (var parent in menusList.Where(p => p.ParentID == null))
+    {
+        if (menusList.Count(p => p.ParentID == parent.MenuID) > 0)
+        {
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown"
+                   aria-haspopup="true" aria-expanded="false">
+                    @*<i class="@parent.IconClass"></i>*@ @parent.MenuName
+                </a>
+                <ul class="navbar-nav mr-auto js-append-around">
+                    @foreach (var child in menusList.Where(p => p.ParentID == parent.MenuID))
+                                                    {
+                                                        if (menusList.Count(p => p.ParentID == child.MenuID) > 0)
+                                                        {
+                                                    <li class="nav-item dropdown">
+                                                        <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown"
+                                                           aria-haspopup="true" aria-expanded="false">
+                                                            @*<i class="@child.IconClass"></i>*@ @child.MenuName
+
+                                                        </a>
+                                                        <ul class="navbar-nav mr-auto js-append-around">
+                                                            @foreach (var subChild in menusList.Where(p => p.ParentID == child.MenuID))
+                                                                    {
+                                                                        if (menusList.Count(p => p.ParentID == subChild.MenuID) > 0)
+                                                                        {
+                                                                    <li class="nav-item dropdown">
+                                                                        <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown"
+                                                                           aria-haspopup="true" aria-expanded="false">
+                                                                            <i class="@subChild.IconClass"></i> @subChild.MenuName
+
+                                                                        </a>
+                                                                        <ul class="navbar-nav mr-auto js-append-around">
+                                                                            @foreach (var subSubChild in menusList.Where(p => p.ParentID == subChild.MenuID))
+                                                                                    {
+
+                                                                                        var subSubChildActionName = subSubChild.URL.Split(new char[] { '/' })[1]; var subSubChildControllerName = subSubChild.URL.Split(new char[] { '/' })[0];
+
+                                                                                    <li>
+
+                                                                                        <a onclick="SetMenuID(@subSubChild.MenuID)" @*href="../@subSubChild.URL"*@ href="@Url.Action(subSubChildActionName,subSubChildControllerName)">
+
+                                                                                            @*<i class="@subSubChild.IconClass"></i>*@ @subSubChild.MenuName
+
+                                                                                        </a>
+                                                                                    </li>
+
+                                                                                    }
+                                                                        </ul>
+                                                                    </li>
+                                                                        }
+                                                                        else
+                                                                        {
+
+                                                                            var subChildActionName = subChild.URL.Split(new char[] { '/' })[1]; var subChildControllerName = subChild.URL.Split(new char[] { '/' })[0];
+
+                                                                    <li>
+                                                                        <a onclick="SetMenuID(@subChild.MenuID)" @*href="../@subChild.URL"*@
+                                                                           href="@Url.Action(subChildActionName, subChildControllerName)">
+                                                                            @*<i class="@subChild.IconClass"></i>*@ @subChild.MenuName
+                                                                        </a>
+                                                                    </li>
+                                                                        }
+
+                                                                    }
+                                                        </ul>
+                                                    </li>
+                                                        }
+                                                        else
+                                                        {
+                                                            if (!string.IsNullOrEmpty(child.URL))
+                                                            {
+
+                                                                if (child.URL.Length > 1)
+                                                                {
+                                                                    var childActionName = child.URL.Split(new char[] { '/' })[1]; var childControllerName = child.URL.Split(new char[] { '/' })[0];
+
+                                                    <li>
+                                                        <a onclick="SetMenuID(@child.MenuID)" @*href="../@child.URL"*@ href="@Url.Action(childActionName, childControllerName)">
+                                                            @*<i class="@child.IconClass"></i>*@ @child.MenuName
+                                                        </a>
+                                                    </li>
+                                                                }
+                                                                else
+                                                                {
+                                                    <li>
+                                                        <a onclick="SetMenuID(@child.MenuID)" href="../@child.URL">
+                                                            @*<i class="@child.IconClass"></i>*@ @child.MenuName
+                                                        </a>
+                                                    </li>
+                                                                }
+                                                            }
+                                                            else
+                                                            {
+                                                    <li>
+                                                        <a class="text-white" href="javascript: void(0);">
+                                                            @*<i class="@parent.IconClass "></i>*@ @parent.MenuName
+                                                        </a>
+                                                    </li>
+                                                            }
+                                                        }
+                                                    }
+                </ul>
+
+            </li>
+        }
+        else
+        {
+            if (!string.IsNullOrEmpty(parent.URL))
+            {
+                if (parent.URL.Length > 1)
+                {
+                    var parentActionName = parent.URL.Split(new char[] { '/' })[1]; var parentControllerName = parent.URL.Split(new char[] { '/' })[0];
+
+                    <li>
+                        <a class="text-white" onclick="SetMenuID(@parent.MenuID)" @*href="../@parent.URL"*@ href="@Url.Action(parentActionName, parentControllerName)">
+                            @*<i class="@parent.IconClass "></i>*@ @parent.MenuName
+                        </a>
+                    </li>
+                }
+                else
+                {
+                    <li>
+                        <a class="text-white" onclick="SetMenuID(@parent.MenuID)" href="../@parent.URL">
+                            @*<i class="@parent.IconClass "></i>*@ @parent.MenuName
+                        </a>
+                    </li>
+
+                }
+            }
+            else
+            {
+                <li>
+                    <a class="text-white" href="javascript: void(0);">
+                        @*<i class="@parent.IconClass "></i>*@ @parent.MenuName
+                    </a>
+                </li>
+
+            }
+        }
+
+    }
+}
+

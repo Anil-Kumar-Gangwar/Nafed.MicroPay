@@ -1,0 +1,98 @@
+﻿@model MicroPay.Web.Models.SubordinateTrainingVM
+@{
+    ViewBag.Title = "Add Training";
+    ViewBag.NavigationTitle = "Training Need";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card_new_header alert alert-danger">
+
+    <div class="col-sm-6">
+        NOTE : Fields marked with (*) are compulsory fields
+    </div>
+    <div class="col-sm-6 text-right">
+        <b>@*[ Characters < > # ^ ; | $ are not allowed ]*@</b>
+    </div>
+
+</div>
+
+
+@using (Ajax.BeginForm("Create", "SubordinateTraining", new AjaxOptions { HttpMethod = "POST", OnSuccess = "OnSuccess" }, new { id = "frmsub" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <div class="card_new_body">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mb-2">
+
+
+                <div class="row">
+                    @Html.Label("Reporting Year", htmlAttributes: new { @class = "control-label col-lg-2 col-md-2 col-sm-6 col-xs-12 mb-2" })
+
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 mb-2">
+                        @Html.DropDownListFor(model => model.ReportingYr, new SelectList(ViewBag.reportingYrs, "value", "value"), "Select", new { @class = "custom-select" })
+                        <span id="reportingError" class="text-danger"></span>
+                    </div>
+                </div>                
+                <div class="row mb-3 text-right">
+                    <div class="col-md-12 pull-right">
+                        <input type="submit" value="Add New Training Row" id="btnAddRow" name="ButtonType" class="btn btn-info btn-md pull-center toggle-tooltip btn-sectionAddRow"
+                               title="Click here, to add new row." />
+                    </div>
+                </div>
+                <div id="div-training-grid">
+
+                    @Html.Partial("_Trainings", Model)
+
+                </div>
+
+
+                <span class="pull-right">
+                    @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-light btn-sm toggle-tooltip", @title = "Click here, to redirect on list page", @data_toggle = "tooltip" })
+                    <input type="button" id="btnsubmit" value="Submit" class="btn btn-info btn-md pull-center toggle-tooltip" title="Click here, to Create current record" data-toggle="tooltip" />
+                </span>
+
+            </div>
+        </div>
+    </div>
+
+}
+
+<script type="text/javascript">
+
+    function OnSuccess(data) {
+        debugger;
+        if (data.part == 1)
+            $("#div-training-grid").html(data.htmlData);
+        else if (data.success == true) {
+            window.location.href = '@Url.Action("Index", "SubordinateTraining")';
+            commonMessage("success", data.msg);
+        }
+    }
+
+
+    $(document).ready(function () {
+        $('#btnsubmit').click(function () {
+            debugger;
+            $("#reportingError").html("");
+         //   $("#employeeError").html("");
+
+            var ddlYr = $("#ReportingYr").val();
+          //  var ddlemp = $("#EmployeeID").val();
+            if (ddlYr != "") {
+                $("#frmsub").submit();
+            }
+            else {
+                if (ddlYr == 0)
+                    $("#reportingError").html("Please select Reporting Year");
+
+                //if (ddlemp == 0)
+                //    $("#employeeError").html("Please select Employee");
+
+                return false;
+            }
+        });
+    }
+        );
+</script>

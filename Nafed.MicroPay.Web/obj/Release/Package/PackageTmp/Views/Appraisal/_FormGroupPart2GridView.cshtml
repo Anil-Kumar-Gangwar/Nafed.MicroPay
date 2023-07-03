@@ -1,0 +1,79 @@
+﻿@using fileHelper = Nafed.MicroPay.Common.ExtensionMethods;
+@using Nafed.MicroPay.Model;
+@model Nafed.MicroPay.Model.AppraisalForm
+
+@{
+     TempData["frmGroupPart2Data"] = Model;
+}
+
+@*<script src="~/Scripts/popper.min.js"></script>*@
+
+<script type="text/javascript">
+
+    $('.toggle-tooltip').tooltip();
+
+</script>
+
+<table id="tblTargetGoal" class="table table-bordered table-centered dt-responsive w-100">
+    <thead>
+        <tr>
+            <th class="text-right" style="width:4%">#</th>
+            <th class="text-center" style="width:28%">Target/Objective/Goals</th>
+            <th class="text-center" style="width:60%">Acheivements</th>
+            <th class="text-center" style="width:8%">Remove </th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @if (Model.formGroupADetail1List != null && Model.formGroupADetail1List.Count() > 0)
+        {
+            for (int i = 0; i < Model.formGroupADetail1List.Count(); i++)
+            {
+                <tr>
+                    <td class="text-right">@fileHelper.GetRomanValueByNumber(i + 1) <text>.</text> </td>
+                    <td style="width:28%">
+                        @Html.EditorFor(model => model.formGroupADetail1List[i].Activities, new { htmlAttributes = new { @class = "form-control", @maxlength = "200" } })
+
+                    </td>
+                    <td>
+                        @Html.EditorFor(model => model.formGroupADetail1List[i].Achievements, new { htmlAttributes = new { @class = "form-control", @maxlength = "500" } })
+                        @Html.ValidationMessageFor(model => model.formGroupADetail1List[i].Achievements, "", new { @class = "text-danger" })
+                    </td>
+                    <td class="text-center">
+
+                        @Ajax.ActionLink("Remove",
+                             "_RemoveTargetRow", new
+                             {
+                                 sNo = Model.formGroupADetail1List[i].sno
+                             },
+                             new AjaxOptions
+                             {                               
+                                 UpdateTargetId = "div-form-part2-grid",
+                                 InsertionMode = InsertionMode.Replace,
+                                 Confirm = "Are you sure you want to remove this row?",
+                                 HttpMethod = "GET"
+                             }, new { @class = "btn btn-danger btn-xs toggle-tooltip btn-sectionAddRow",  @title = "Click here, to remove this row." })
+                    </td>
+                </tr>
+
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="4" class="text-center">No Record Found. </td>
+            </tr>
+        }
+    </tbody>   
+</table>
+@*///}*@
+<script type="text/javascript">
+    $(document).ready(function () {
+        var table = $('#tblTargetGoal').DataTable(
+            { searching: false, paging: false,sorting:false }
+            );
+    });
+</script>
+
+
+

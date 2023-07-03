@@ -1,0 +1,24 @@
+﻿@{
+    ViewBag.Title = "Employee Tour";
+    ViewBag.NavigationTitle = "Add Tour";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    System.Globalization.CultureInfo Indian = new System.Globalization.CultureInfo("hi-IN");
+}
+<style>
+    .patty_panel {
+        background-color: #0c858e;
+        color: #ffffff;
+        font-size: 14px;
+    }
+</style>
+
+<div class="card_new_body">
+    <div id="filter-div">
+        @{Html.RenderAction("AddTour");}
+    </div>
+</div>
+<br />
+<div class="card_new_body">
+    <div id="tour-div">
+    </div>
+</div>

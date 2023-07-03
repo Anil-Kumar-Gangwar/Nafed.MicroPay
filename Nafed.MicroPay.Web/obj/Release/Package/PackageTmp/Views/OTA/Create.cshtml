@@ -1,0 +1,81 @@
+﻿@model Nafed.MicroPay.Model.OTA
+@{
+    ViewBag.Title = "Create OTA Rate";
+    ViewBag.NavigationTitle = "OTA Rate";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="card_new_header alert alert-danger">
+    <div class="col-sm-6">
+        NOTE : Fields marked with (*) are compulsory fields
+    </div>
+    <div class="col-sm-6 text-right">
+        <b>@*[ Characters < > # ^ ; | $ are not allowed ]*@</b>
+    </div>
+</div>
+@using (Html.BeginForm("Create", "OTA", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <div class="card_new_body">
+        <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 mb-2">
+
+
+                <div class="row">
+                    @Html.LabelFor(model => model.FromPay, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-6 col-xs-12 mb-2 required" })
+
+                    <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 mb-2">
+                        @Html.DropDownListFor(model => model.FromPay, new SelectList(Model.FromPayList, "id", "value"), "Select", new { @class = "custom-select" })
+                        @Html.ValidationMessageFor(model => model.FromPay, "", new { @class = "text-danger" })                      
+                      
+                    </div>
+                </div>
+                <div class="row">
+                    @Html.LabelFor(model => model.ToPay, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-6 col-xs-12 mb-2 required" })
+
+                    <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 mb-2">
+                        @Html.DropDownListFor(model => model.ToPay, new SelectList(Model.ToPayList, "id", "value"), "Select", new { @class = "custom-select" })
+                        @Html.ValidationMessageFor(model => model.ToPay, "", new { @class = "text-danger" })
+
+                    </div>
+                </div>
+               
+                <div class="row">
+
+                    @Html.LabelFor(model => model.MaxRateperHour, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-6 col-xs-12 mb-2 required" })
+                    <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 mb-2">
+                        @Html.EditorFor(model => model.MaxRateperHour, new { htmlAttributes = new { @class = "form-control text-right", @type = "number" } })
+                        @Html.ValidationMessageFor(model => model.MaxRateperHour, "", new { @class = "text-danger" })
+
+                    </div>
+                </div>
+                <div class="row">
+
+                    @Html.LabelFor(model => model.MaxAmt, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-6 col-xs-12 mb-2 required" })
+                    <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 mb-2">
+                        @Html.EditorFor(model => model.MaxAmt, new { htmlAttributes = new { @class = "form-control text-right", @type = "number" } })
+                        @Html.ValidationMessageFor(model => model.MaxAmt, "", new { @class = "text-danger" })
+
+                    </div>
+                </div>
+                <div class="row">
+
+                    @Html.LabelFor(model => model.OTACode, htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-6 col-xs-12 mb-2 required" })
+                    <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 mb-2">
+                        @Html.EditorFor(model => model.OTACode, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.OTACode, "", new { @class = "text-danger" })
+                        @Html.ValidationMessage("OTACodeAlreadyExist", "", new { @class = "text-danger" })
+
+                    </div>
+                </div>
+                <div class="divider-chevron"></div>
+                <span class="pull-right">
+                    @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-light btn-sm toggle-tooltip", @title = "Click here, to redirect on list page" })
+                    <input type="submit" value="Create" class="btn btn-info btn-sm pull-center toggle-tooltip" title="Click here, to save current record" />
+                </span>
+            </div>
+        </div>
+
+    </div>
+}

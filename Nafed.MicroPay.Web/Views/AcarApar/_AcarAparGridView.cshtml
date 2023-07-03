@@ -1,0 +1,450 @@
+﻿@using Nafed.MicroPay.Model;
+
+@model MicroPay.Web.Models.ApprovalRequestVM
+@{
+    var uDetails = (UserDetail)Session["user"];
+    var formDueDate = Model.FormAttributes;
+}
+
+<script src="//cdn.rawgit.com/rainabba/jquery-table2excel/1.1.0/dist/jquery.table2excel.min.js">
+
+</script>
+
+<table id="tblGrid-apprasial1" class="table table-centered table-striped dt-responsive w-100 mt-2 ">
+    <thead>
+        <tr>
+            <th>
+                #
+            </th>
+            <th>
+                Reporting Yr
+            </th>
+            <th>
+                Form Name
+            </th>
+            <th>
+                Name
+            </th>
+            <th>
+                Department
+            </th>
+            <th>
+                Designation
+            </th>
+            <th>
+                APAR Status
+            </th>
+            <th class="text-center" style="width:60px">
+                Report
+            </th>
+            <th>
+                Upload
+            </th>
+            <th>
+                Download
+            </th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @{
+            int sno = 1;
+            if (Model.appraisalForms != null && Model.appraisalForms.Count > 0)
+            {
+                foreach (var item in Model.appraisalForms)
+                {
+                    <tr>
+                        <td>@sno</td>
+                        <td>@item.ReportingYr</td>
+                        <td>@item.FormName</td>
+                        <td>@item.EmployeeCode - @item.EmpName</td>
+                        <td> @item.DepartmentName</td>
+                        <td> @item.DesignationName</td>
+                        <td class="text-center">
+                            @if (item.StatusID == (int)AppraisalFormState.SavedByEmployee)
+                            {
+                                <h5>
+                                    <span class="badge badge-pill badge-light col-md-12">
+                                        Save
+                                    </span>
+                                </h5>
+                            }
+                            else if (item.StatusID == (int)AppraisalFormState.SubmitedByEmployee)
+                            {
+                                <h5>
+                                    <span class="badge badge-pill badge-dark col-md-12">
+                                        Submitted
+                                    </span>
+                                </h5>
+                            }
+                            else if (item.StatusID == (int)AppraisalFormState.SavedByReporting)
+                            {
+                                <h5>
+                                    <span class="badge badge-pill badge-dark col-md-12">
+                                        Saved by Reporting Officer
+                                    </span>
+                                </h5>
+                            }
+                            else if (item.StatusID == (int)AppraisalFormState.SubmitedByReporting)
+                            {
+                                <h5>
+                                    <span class="badge badge-pill bg-teal col-md-12">
+                                        Reviewed by Reporting Officer
+                                    </span>
+                                </h5>
+                            }
+                            else if (item.StatusID == (int)AppraisalFormState.SavedByReviewer)
+                            {
+                                <h5>
+                                    <span class="badge badge-pill badge-dark col-md-12">
+                                        Saved by Reviewer Officer
+                                    </span>
+                                </h5>
+                            }
+                            else if (item.StatusID == (int)AppraisalFormState.SubmitedByReviewer)
+                            {
+                                <h5>
+                                    <span class="badge badge-pill badge-info col-md-12">
+                                        Reviewed by Reviewer Officer
+                                    </span>
+                                </h5>
+                            }
+                            else if (item.StatusID == (int)AppraisalFormState.SavedByAcceptanceAuth)
+                            {
+                                <h5>
+                                    <span class="badge badge-pill badge-dark col-md-12">
+                                        Saved by Acceptance Authority
+                                    </span>
+                                </h5>
+                            }
+                            else if (item.StatusID == (int)AppraisalFormState.SubmitedByAcceptanceAuth)
+                            {
+                                <h5>
+                                    <span class="badge badge-pill badge-success col-md-12">
+                                        Approved
+                                    </span>
+                                </h5>
+                            }
+                        </td>
+
+                        <td class="text-center">
+                            @*<a href="@Url.Action("ViewAPAR", "Appraisal", new { appraisalFormID = item.FormID, reportingTo = item.EmpProceeApproval.ReportingTo, reviewingTo = item.EmpProceeApproval.ReviewingTo, acceptanceAuthority = item.EmpProceeApproval.AcceptanceAuthority, empID = item.EmployeeID,ryr=item.ReportingYr })" title="Click here, to view this record" data-toggle="tooltip">
+                                    <i class="far fa-eye text-info" aria-hidden="true"></i>
+                                </a>*@
+                            @Html.EncodedImageActionLink("", "ViewAPAR", "Appraisal", new { appraisalFormID = item.FormID, reportingTo = item.EmpProceeApproval.ReportingTo, reviewingTo = item.EmpProceeApproval.ReviewingTo, acceptanceAuthority = item.EmpProceeApproval.AcceptanceAuthority, empID = item.EmployeeID, ryr = item.ReportingYr }, new { @class = "toggle-tooltip", title = "Click here, to view this record" }, "~/Images/view.png")
+                        </td>
+
+                        @if (item.EmpProceeApproval.AcceptanceAuthority == item.EmpProceeApproval.ReviewingTo && item.EmpProceeApproval.ReviewingTo == item.EmpProceeApproval.ReportingTo)
+                        {
+                            if (item.StatusID == (int)AppraisalFormState.SubmitedByEmployee || item.aparReviewedSignedCopy != null)
+                            {
+                                <td>
+                                    <a data-ajax="true"
+                                       method="GET" class="toggle-tooltip" title="Click here, to upload documents."
+                                       data-ajax-update="#div-documents-container" data-ajax-mode="replace"
+                                       data-backdrop="static" data-keyboard="false"
+                                       href="@Url.Action("GetUploadDocuments", "AcarApar", new { appraisalFormID = item.FormID, reportingTo = item.EmpProceeApproval.ReportingTo, reviewingTo = item.EmpProceeApproval.ReviewingTo, acceptanceAuthority = item.EmpProceeApproval.AcceptanceAuthority, empID = item.EmployeeID,ryr=item.ReportingYr })"
+                                       id="a_uploadFiles" data-toggle="modal" data-target="#div-FileUpload">
+                                        <i class="fas fa-upload text-info"></i>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a data-ajax="true"
+                                       method="GET" class="toggle-tooltip" title="Click here, to download documents."
+                                       data-ajax-update="#div-DownloadDocuments-container" data-ajax-mode="replace"
+                                       data-backdrop="static" data-keyboard="false"
+                                       href="@Url.Action("GetDownloadDocuments", "AcarApar", new { appraisalFormID = item.FormID, empID = item.EmployeeID,ryr=item.ReportingYr })"
+                                       id="a_downloadFiles" data-toggle="modal" data-target="#div-FileDownload">
+                                        <i class="fas fa-download text-info"></i>
+                                    </a>
+                                </td>
+                            }
+                            else
+                            {
+                                <td></td>
+                                <td></td>
+
+                            }
+                        }
+                        else if (item.EmpProceeApproval.AcceptanceAuthority == item.EmpProceeApproval.ReviewingTo)
+                        {
+                            if ((item.StatusID == (int)AppraisalFormState.SubmitedByEmployee || item.StatusID < (int)AppraisalFormState.SubmitedByAcceptanceAuth) || item.aparReviewedSignedCopy != null)
+                            {
+                                <td>
+                                    <a data-ajax="true"
+                                       method="GET" class="toggle-tooltip" title="Click here, to upload documents."
+                                       data-ajax-update="#div-documents-container" data-ajax-mode="replace"
+                                       data-backdrop="static" data-keyboard="false"
+                                       href="@Url.Action("GetUploadDocuments", "AcarApar", new { appraisalFormID = item.FormID, reportingTo = item.EmpProceeApproval.ReportingTo, reviewingTo = item.EmpProceeApproval.ReviewingTo, acceptanceAuthority = item.EmpProceeApproval.AcceptanceAuthority, empID = item.EmployeeID,ryr=item.ReportingYr })"
+                                       id="a_uploadFiles" data-toggle="modal" data-target="#div-FileUpload">
+                                        <i class="fas fa-upload text-info"></i>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a data-ajax="true"
+                                       method="GET" class="toggle-tooltip" title="Click here, to download documents."
+                                       data-ajax-update="#div-DownloadDocuments-container" data-ajax-mode="replace"
+                                       data-backdrop="static" data-keyboard="false"
+                                       href="@Url.Action("GetDownloadDocuments", "AcarApar", new { appraisalFormID = item.FormID, empID = item.EmployeeID,ryr=item.ReportingYr })"
+                                       id="a_downloadFiles" data-toggle="modal" data-target="#div-FileDownload">
+                                        <i class="fas fa-download text-info"></i>
+                                    </a>
+                                </td>
+                            }
+                            else
+                            {
+                                <td></td>
+                                <td></td>
+
+                            }
+                        }
+                        else if (item.EmpProceeApproval.ReviewingTo.HasValue && item.EmpProceeApproval.ReviewingTo == item.EmpProceeApproval.ReportingTo)
+                        {
+                            if ((item.StatusID == (int)AppraisalFormState.SubmitedByEmployee || item.StatusID < (int)AppraisalFormState.SubmitedByAcceptanceAuth) || item.aparReviewedSignedCopy != null)
+                            {
+                                <td>
+                                    <a data-ajax="true"
+                                       method="GET" class="toggle-tooltip" title="Click here, to upload documents."
+                                       data-ajax-update="#div-documents-container" data-ajax-mode="replace"
+                                       data-backdrop="static" data-keyboard="false"
+                                       href="@Url.Action("GetUploadDocuments", "AcarApar", new { appraisalFormID = item.FormID, reportingTo = item.EmpProceeApproval.ReportingTo, reviewingTo = item.EmpProceeApproval.ReviewingTo, acceptanceAuthority = item.EmpProceeApproval.AcceptanceAuthority, empID = item.EmployeeID,ryr=item.ReportingYr })"
+                                       id="a_uploadFiles" data-toggle="modal" data-target="#div-FileUpload">
+                                        <i class="fas fa-upload text-info"></i>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a data-ajax="true"
+                                       method="GET" class="toggle-tooltip" title="Click here, to download documents."
+                                       data-ajax-update="#div-DownloadDocuments-container" data-ajax-mode="replace"
+                                       data-backdrop="static" data-keyboard="false"
+                                       href="@Url.Action("GetDownloadDocuments", "AcarApar", new { appraisalFormID = item.FormID, empID = item.EmployeeID,ryr=item.ReportingYr })"
+                                       id="a_downloadFiles" data-toggle="modal" data-target="#div-FileDownload">
+                                        <i class="fas fa-download text-info"></i>
+                                    </a>
+                                </td>
+
+                            }
+                            else
+                            {
+                                <td></td>
+                                <td></td>
+
+                            }
+                        }
+                        else if (item.EmpProceeApproval.ReviewingTo.HasValue && item.EmpProceeApproval.ReviewingTo != item.EmpProceeApproval.ReportingTo)
+                        {
+                            if ((item.StatusID == (int)AppraisalFormState.SubmitedByEmployee || item.StatusID < (int)AppraisalFormState.SubmitedByAcceptanceAuth) || item.aparReviewedSignedCopy != null)
+                            {
+                                <td>
+                                    <a data-ajax="true"
+                                       method="GET" class="toggle-tooltip" title="Click here, to upload documents."
+                                       data-ajax-update="#div-documents-container" data-ajax-mode="replace"
+                                       data-backdrop="static" data-keyboard="false"
+                                       href="@Url.Action("GetUploadDocuments", "AcarApar", new { appraisalFormID = item.FormID, reportingTo = item.EmpProceeApproval.ReportingTo, reviewingTo = item.EmpProceeApproval.ReviewingTo, acceptanceAuthority = item.EmpProceeApproval.AcceptanceAuthority, empID = item.EmployeeID,ryr=item.ReportingYr })"
+                                       id="a_uploadFiles" data-toggle="modal" data-target="#div-FileUpload">
+                                        <i class="fas fa-upload text-info"></i>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a data-ajax="true"
+                                       method="GET" class="toggle-tooltip" title="Click here, to download documents."
+                                       data-ajax-update="#div-DownloadDocuments-container" data-ajax-mode="replace"
+                                       data-backdrop="static" data-keyboard="false"
+                                       href="@Url.Action("GetDownloadDocuments", "AcarApar", new { appraisalFormID = item.FormID, empID = item.EmployeeID,ryr=item.ReportingYr })"
+                                       id="a_downloadFiles" data-toggle="modal" data-target="#div-FileDownload">
+                                        <i class="fas fa-download text-info"></i>
+                                    </a>
+                                </td>
+                            }
+                            else
+                            {
+                                <td></td>
+                                <td></td>
+                            }
+                        }
+                        else
+                        {
+                            <td></td>
+                            <td></td>
+                        }
+                    </tr>
+                    sno++;
+                }
+            }
+        }
+    </tbody>
+
+</table>
+
+
+<div class="modal" id="div-FileUpload">
+    <div class="modal-dialog modal-big">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4> Upload Document </h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            @using (Ajax.BeginForm("UploadDocuments", "AcarApar", null,
+              new AjaxOptions { HttpMethod = "POST", OnSuccess = "OnSuccess" }, new { id = "APARUploadDocument" }))
+            {
+            <!-- Modal body -->
+                <div class="modal-body" id="div-documents-container" style="height:500px;overflow-y:scroll">
+
+                </div>
+
+            <!-- Modal footer -->
+                <div class="modal-footer">
+                    <input type="button" value="Upload" id="btnDocUpload" name="ButtonType" class="btn btn-info btn-md toggle-tooltip " title="Click here, to upload the document." />
+                    @*<input type="button" value="Save&Submit" id="btnDocFinalUpload" name="ButtonType" class="btn btn-info btn-md toggle-tooltip " title="Click here, to upload the document." />*@
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="div-FileDownload">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4> Download Document </h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body" id="div-DownloadDocuments-container">
+
+
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        var table = $('#tblGrid-apprasial1').DataTable({
+        });
+        $('#tblGrid-apprasial1').find('select').addClass('custom-select');
+
+        $('#exportToExcel').on('click', function () {
+            $('<table>').append(table.$('tr').clone()).table2excel({
+                exclude: ".noExl",
+                name: "Worksheet Name",
+                filename: "APAR Status" + ".xls",
+                exclude_img: true,
+                exclude_links: true,
+                exclude_inputs: true
+            });
+        });
+
+        $("#btnDocUpload").click(function () {
+            var files = $("#file").get(0).files;
+            var fileData = new FormData();
+            var totalFiles = files.length;
+
+            var validation = 0;
+            if (totalFiles == 0) {
+                $("#fileUploadError").html("Please select file").css("color", "red");
+                validation++;
+            }
+            else {
+                $("#fileUploadError").html("");
+            }
+
+            if ($("#UploadRemarks").val() == "" || $("#UploadRemarks").val() == null) {
+                $("#UploadRemarksReq").html("Please enter remarks").css("color", "red");
+                validation++;
+            }
+            else {
+                $("#UploadRemarksReq").html("");
+            }
+            if (validation > 0) {
+                return false;
+            }
+
+            for (var i = 0; i < files.length; i++) {
+                var filesze = files[i].size;
+                var fileName = files[i].name;
+                var ext = fileName.substr(fileName.lastIndexOf('.') + 1).toLowerCase();
+                if (!(ext == "pdf")) {
+                    $("#fileUploadError").html("Invalid file type, please select a (pdf) file").css("color", "red");
+                    return false;
+                }
+                if (filesze > 3000000) {  // 3MB
+                    $("#fileUploadError").html("Please select pdf size less than 3MB.").css("color", "red");
+                    return false;
+                }
+                fileData.append("file", files[i]);
+            }
+            var formId = $("#FormID").val();
+            var formGroupId = $("#frmAttributes_FormGroupID").val();
+            var employeeId = $("#EmployeeID").val();
+
+            fileData.append("formId", formId);
+            fileData.append("formGroupId", formGroupId);
+            fileData.append("employeeId", employeeId);
+
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("UploadFiles", "AcarApar")",
+                dataType: "json",
+                contentType: false, // Not to set any content header
+                processData: false, // Not to process data
+                data: fileData,
+                success: function (result, status, xhr) {
+                    debugger;
+                    if (result.indexOf('file is incorrect') !== -1) {
+                        commonMessage("error", result);
+                    } else {
+                        $("#APARUploadDocument").submit();
+                    }
+
+                },
+                error: function (xhr, status, error) {
+                    alert(status);
+                }
+            });
+        });
+    });
+
+    function OnSuccess(data) {
+        if (data.part == 0) {
+            $("#div-FileUpload").modal("hide");
+            commonMessage(data.msgType, data.msg);
+            $("#AcarAparFilter").submit();
+        }
+    }
+
+    //$(function () {
+    //    $("#exportToExcel").click(function () {
+    //        $("#tblGrid-apprasial1").table2excel({
+    //            exclude: ".noExl",
+    //            name: "Excel Document Name",
+    //            filename: "APAR Status" + new Date().toISOString().replace(/[\-\:\.]/g, "") + ".xls"
+    //        });
+    //    });
+    //});
+
+    //$('#exportToExcel').on('click', function () {
+    //  //  debugger;
+    //   var tbl = $('#tblGrid-apprasial1').append(table);
+    //   // $('#tbl tr').find('td:eq(7),th:eq(7)').remove();
+    //   $(tbl).append(table.$('tr').clone()).table2excel({
+    //        exclude: ".noExl",
+    //        name: "Excel Document Name",
+    //        filename: "APAR Status" + ".xls",
+    //        exclude_img: true,
+    //        exclude_links: true,
+    //        exclude_inputs: true
+    //    });
+    //});
+</script>

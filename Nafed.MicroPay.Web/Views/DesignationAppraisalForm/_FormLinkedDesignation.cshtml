@@ -1,0 +1,30 @@
+﻿@using Nafed.MicroPay.Model
+@model List<SelectListModel>
+
+
+@if (Model != null && Model.Count > 0)
+{
+    <ul class="treeview tree1 pl-0">
+        @foreach (var item in Model)
+        {
+            <li style="list-style:none;">
+
+
+                @if (!string.IsNullOrEmpty(item.value))
+                {
+                    <input type="checkbox" class="Lavel1" id="@item.id" value="@(item.id)" />
+                    
+                     <label for="@item.id">@item.value</label>
+                    
+                }
+                else
+                {
+                    <input type="checkbox" class="Lavel1" value="@(item.id)" /> @item.value
+                }
+            </li>
+        }
+    </ul>
+
+}
+
+
