@@ -1,0 +1,54 @@
+﻿@using Nafed.MicroPay.Model.Employees
+@model NonRegularEmployeesExtension
+
+@Html.HiddenFor(model => model.EmployeeId)
+@Html.HiddenFor(model => model.EmployeeCode)
+@Html.HiddenFor(model => model.Id)
+
+<div class="form-group">
+    <div class="row">
+
+        <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12">
+            @Html.LabelFor(m => m.ExtentionNoticeDate, new { @class = "label required" })
+        </div>
+
+        <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12">
+            @Html.EditorFor(model => model.ExtentionNoticeDate, new { htmlAttributes = new { @class = "form-control", @type = "date" } })
+            @Html.ValidationMessageFor(model => model.ExtentionNoticeDate, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12">
+            @Html.LabelFor(m => m.ExtentionFromDate, new { @class = "label required" })
+
+        </div>
+
+        <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12">
+            @Html.EditorFor(model => model.ExtentionFromDate, new { htmlAttributes = new { @class = "form-control", @type = "date" } })
+            @Html.ValidationMessageFor(model => model.ExtentionFromDate, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12">
+            @Html.LabelFor(m => m.ExtentionToDate, new { @class = "label required" })
+        </div>
+
+        <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12">
+            @Html.EditorFor(model => model.ExtentionToDate, new { htmlAttributes = new { @class = "form-control", @type = "date" } })
+            @Html.ValidationMessageFor(model => model.ExtentionToDate, "", new { @class = "text-danger" })
+            @Html.ValidationMessage("ToDateRangeValidation", new { @class = "text-danger" })
+        </div>
+
+    </div>
+    <div class="row">
+        @if (!Model.IsValidInputs)
+        {
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center text-danger mt-2">
+                @Model.ValidationMessage
+            </div>
+        }
+    </div>
+</div>
+
+
+
+
+

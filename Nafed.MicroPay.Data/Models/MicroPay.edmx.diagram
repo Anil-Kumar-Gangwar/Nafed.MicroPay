@@ -529,9 +529,6 @@
         <AssociationConnector Association="MicroPayModel.FK_BranchSalaryHeadRules_Branch" />
         <AssociationConnector Association="MicroPayModel.FK_BranchSalaryHeadRules_User" />
         <AssociationConnector Association="MicroPayModel.FK_BranchSalaryHeadRules_User1" />
-        <EntityTypeShape EntityType="MicroPayModel.promotioncota1" Width="1.5" PointX="12.75" PointY="144.75" />
-        <AssociationConnector Association="MicroPayModel.FK__promotion__Creat__25924E90" />
-        <AssociationConnector Association="MicroPayModel.FK__promotion__Updat__268672C9" />
         <EntityTypeShape EntityType="MicroPayModel.tblMstLoanPriority" Width="1.5" PointX="21" PointY="79" />
         <AssociationConnector Association="MicroPayModel.FK__tblMstLoa__Branc__4891720A" />
         <AssociationConnector Association="MicroPayModel.FK__tblMstLoa__Emplo__4A79BA7C" />
@@ -585,7 +582,6 @@
         <AssociationConnector Association="MicroPayModel.FK_APARSkillSet_Designation" />
         <AssociationConnector Association="MicroPayModel.FK_BonusMinimumMonthlyWages_DesignationID" />
         <AssociationConnector Association="MicroPayModel.FK_Designation_CadreID" />
-        <AssociationConnector Association="MicroPayModel.FK__promotion__Desig__249E2A57" />
         <AssociationConnector Association="MicroPayModel.FK__tblFinalM__Desig__454AF10B" />
         <AssociationConnector Association="MicroPayModel.FK_Designation_CreatedBy" />
         <AssociationConnector Association="MicroPayModel.FK_Designation_EmplCatID" />
@@ -703,15 +699,6 @@
         <AssociationConnector Association="MicroPayModel.FK_ConfirmationFormBHeader_tblMstEmployee" />
         <AssociationConnector Association="MicroPayModel.FK_ConfirmationFormBHeader_User" />
         <AssociationConnector Association="MicroPayModel.FK_ConfirmationFormBHeader_User1" />
-        <EntityTypeShape EntityType="MicroPayModel.FileWorkflow" Width="1.5" PointX="24" PointY="134.375" />
-        <AssociationConnector Association="MicroPayModel.FK_FileWorkflow_Department" />
-        <AssociationConnector Association="MicroPayModel.FK_FileWorkflow_Department1" />
-        <AssociationConnector Association="MicroPayModel.FK_FileWorkflow_Designation" />
-        <AssociationConnector Association="MicroPayModel.FK_FileWorkflow_Designation1" />
-        <AssociationConnector Association="MicroPayModel.FK_FileManagement_FileWorkflow" />
-        <AssociationConnector Association="MicroPayModel.FK_FileWorkflow_tblMstEmployee" />
-        <AssociationConnector Association="MicroPayModel.FK_FileWorkflow_tblMstEmployee1" />
-        <AssociationConnector Association="MicroPayModel.FK_FileWorkflow_User" />
         <EntityTypeShape EntityType="MicroPayModel.ticket_status" Width="1.5" PointX="13.375" PointY="4.75" />
         <EntityTypeShape EntityType="MicroPayModel.ticket_type" Width="1.5" PointX="14.375" PointY="12.75" />
         <EntityTypeShape EntityType="MicroPayModel.ticket_priority" Width="1.5" PointX="13.375" PointY="0.75" />
@@ -768,7 +755,6 @@
         <AssociationConnector Association="MicroPayModel.FK_PayrollApprovalSetting_tblMstEmployee2" />
         <AssociationConnector Association="MicroPayModel.FK_PayrollApprovalSetting_User" />
         <AssociationConnector Association="MicroPayModel.FK_PayrollApprovalSetting_User1" />
-        <EntityTypeShape EntityType="MicroPayModel.TblPFOPBalanceManual" Width="1.5" PointX="16.375" PointY="12.75" />
         <EntityTypeShape EntityType="MicroPayModel.ConfirmationFormHdr" Width="1.5" PointX="18" PointY="90.375" />
         <EntityTypeShape EntityType="MicroPayModel.FormGroupAHdr" Width="1.5" PointX="34.75" PointY="152" />
         <EntityTypeShape EntityType="MicroPayModel.FormGroupBHdr" Width="1.5" PointX="23" PointY="108.125" />
@@ -911,11 +897,28 @@
         <AssociationConnector Association="MicroPayModel.FK_Resignation_User" />
         <AssociationConnector Association="MicroPayModel.FK_FormGroupA_tblMstEmployee1" />
         <AssociationConnector Association="MicroPayModel.FK_FormGroupAHdr_FormGroupAHdr" />
-        <AssociationConnector Association="MicroPayModel.FK_FormGroupA_tblMstEmployee1" />
         <AssociationConnector Association="MicroPayModel.FK_FormGroupAHdr_FormGroupAHdr" />
         <EntityTypeShape EntityType="MicroPayModel.UserLoginDetails" Width="1.5" PointX="17.375" PointY="0.75" />
         <AssociationConnector Association="MicroPayModel.FK_UserLoginDetails_UserLoginDetails" />
         <EntityTypeShape EntityType="MicroPayModel.InsufficientLoggingMonitoring" Width="1.5" PointX="17.375" PointY="4.75" />
+        <EntityTypeShape EntityType="MicroPayModel.TblPFOPBalanceManual" Width="1.5" PointX="16.375" PointY="12.75" />
+        <EntityTypeShape EntityType="MicroPayModel.promotioncota1" Width="1.5" PointX="12.75" PointY="145.875" />
+        <AssociationConnector Association="MicroPayModel.FK__promotion__Desig__249E2A57" />
+        <AssociationConnector Association="MicroPayModel.FK__promotion__Creat__25924E90" />
+        <AssociationConnector Association="MicroPayModel.FK__promotion__Updat__268672C9" />
+        <EntityTypeShape EntityType="MicroPayModel.FileWorkflow" Width="1.5" PointX="23" PointY="134.75" />
+        <AssociationConnector Association="MicroPayModel.FK_FileWorkflow_Department" />
+        <AssociationConnector Association="MicroPayModel.FK_FileWorkflow_Department1" />
+        <AssociationConnector Association="MicroPayModel.FK_FileWorkflow_Designation" />
+        <AssociationConnector Association="MicroPayModel.FK_FileWorkflow_Designation1" />
+        <AssociationConnector Association="MicroPayModel.FK_FileManagement_FileWorkflow" />
+        <AssociationConnector Association="MicroPayModel.FK_FileWorkflow_tblMstEmployee" />
+        <AssociationConnector Association="MicroPayModel.FK_FileWorkflow_tblMstEmployee1" />
+        <AssociationConnector Association="MicroPayModel.FK_FileWorkflow_User" />
+        <EntityTypeShape EntityType="MicroPayModel.NREmployeesContractExtention" Width="1.5" PointX="30" PointY="156.5" />
+        <AssociationConnector Association="MicroPayModel.FK_NREmployeesContractExtention_NREmployeesContractExtention" />
+        <AssociationConnector Association="MicroPayModel.FK_NREmployeesContractExtention_User" />
+        <AssociationConnector Association="MicroPayModel.FK_NREmployeesContractExtention_User1" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

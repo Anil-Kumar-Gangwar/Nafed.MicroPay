@@ -129,6 +129,8 @@
     <Compile Include="EmployeeCategory.cs" />
     <Compile Include="EmployeeCertification.cs" />
     <Compile Include="EmployeeConfirmationFormFilters.cs" />
+    <Compile Include="Employees\NonRegularEmployee.cs" />
+    <Compile Include="Employees\NonRegularEmployeesExtension.cs" />
     <Compile Include="Form12BBDocumentList.cs" />
     <Compile Include="FTSUser.cs" />
     <Compile Include="FTSUserDepartment.cs" />
@@ -309,6 +311,7 @@
       <Name>Nafed.MicroPay.Common</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

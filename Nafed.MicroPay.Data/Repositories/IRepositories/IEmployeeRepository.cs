@@ -26,5 +26,6 @@ namespace Nafed.MicroPay.Data.Repositories.IRepositories
         List<GetSeniorityList_Result> GetSeniorityList(int employeeID, int desID);
         GetLastEmployeeCode_Result GetLastEmployeeCode(int empTypeID);
         List<GetSuperAnnuating_Result> GetSuperAnnuating();
+        bool UpdatetEmployeePersonalDetails(tblMstEmployee employeeDetails);
     }
 }

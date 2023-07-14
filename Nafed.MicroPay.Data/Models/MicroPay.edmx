@@ -580,8 +580,8 @@ warning 6002: The table/view 'HRMS.dbo.ArrearDetail' does not have a primary key
           <Property Name="DepartmentId" Type="int" Nullable="false" />
           <Property Name="BranchId" Type="int" Nullable="false" />
           <Property Name="ReceiptNo" Type="varchar" MaxLength="50" />
-          <Property Name="ReceiptDate" Type="datetime" />
           <Property Name="ReceiptNo2" Type="varchar" MaxLength="50" />
+          <Property Name="ReceiptDate" Type="datetime" />
           <Property Name="ReceiptDate2" Type="datetime" />
           <Property Name="Amount" Type="money" />
           <Property Name="CreatedBy" Type="int" Nullable="false" />
@@ -912,7 +912,7 @@ warning 6002: The table/view 'HRMS.dbo.ArrearDetail' does not have a primary key
           </Key>
           <Property Name="SectionID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="SectionName" Type="varchar" MaxLength="200" Nullable="false" />
-          <Property Name="FYear" Type="varchar" MaxLength="9" Nullable="false" />
+          <Property Name="FYear" Type="varchar" MaxLength="11" Nullable="false" />
           <Property Name="CreatedBy" Type="int" Nullable="false" />
           <Property Name="CreatedOn" Type="datetime" Nullable="false" />
           <Property Name="IsDeleted" Type="bit" Nullable="false" />
@@ -1238,7 +1238,7 @@ warning 6002: The table/view 'HRMS.dbo.ArrearDetail' does not have a primary key
           <Property Name="EmpDeductionID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="EmpFormID" Type="int" Nullable="false" />
           <Property Name="EmployeeID" Type="int" Nullable="false" />
-          <Property Name="FYear" Type="varchar" MaxLength="9" Nullable="false" />
+          <Property Name="FYear" Type="varchar" MaxLength="11" Nullable="false" />
           <Property Name="SectionID" Type="int" Nullable="false" />
           <Property Name="SubSectionID" Type="int" />
           <Property Name="SubSectionDescriptionID" Type="int" />
@@ -1337,7 +1337,7 @@ warning 6002: The table/view 'HRMS.dbo.ArrearDetail' does not have a primary key
             <PropertyRef Name="EmpFormID" />
           </Key>
           <Property Name="EmpFormID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="FYear" Type="varchar" MaxLength="9" Nullable="false" />
+          <Property Name="FYear" Type="varchar" MaxLength="11" Nullable="false" />
           <Property Name="EmployeeID" Type="int" Nullable="false" />
           <Property Name="LandLordName" Type="varchar" MaxLength="50" />
           <Property Name="LandLordAddress" Type="varchar" MaxLength="200" />
@@ -1457,7 +1457,7 @@ warning 6002: The table/view 'HRMS.dbo.ArrearDetail' does not have a primary key
           <Property Name="CreatedBy" Type="int" Nullable="false" />
           <Property Name="UpdatedOn" Type="datetime" />
           <Property Name="UpdatedBy" Type="int" />
-          <Property Name="EmployeeDeclaration" Type="bit" Nullable="false" />
+          <Property Name="EmployeeDeclaration" Type="bit" />
         </EntityType>
         <EntityType Name="EmployeeSuspensionPeriod">
           <Key>
@@ -1600,7 +1600,7 @@ warning 6002: The table/view 'HRMS.dbo.ArrearDetail' does not have a primary key
           <Property Name="created_on" Type="datetime" Nullable="false" />
           <Property Name="created_by" Type="int" Nullable="false" />
           <Property Name="initiateDepartmentID" Type="int" Nullable="false" />
-          <Property Name="ParkByDepartmentID" Type="int" />
+          <Property Name="ParkByDepartmentID" Type="int" Nullable="false" />
           <Property Name="initiateEmployeeID" Type="int" Nullable="false" />
           <Property Name="ParkByEmployeeID" Type="int" />
           <Property Name="FileWorkFlowID" Type="int" Nullable="false" />
@@ -2532,6 +2532,21 @@ warning 6002: The table/view 'HRMS.dbo.LeaveType' does not have a primary key de
           <Property Name="UpdatedOn" Type="datetime" />
           <Property Name="UpdatedBy" Type="int" />
         </EntityType>
+        <EntityType Name="NREmployeesContractExtention">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EmployeeId" Type="int" Nullable="false" />
+          <Property Name="ExtentionNoticeDate" Type="date" Nullable="false" />
+          <Property Name="ExtentionFromDate" Type="date" Nullable="false" />
+          <Property Name="ExtentionToDate" Type="date" Nullable="false" />
+          <Property Name="CreatedBy" Type="int" Nullable="false" />
+          <Property Name="CreatedOn" Type="datetime" Nullable="false" />
+          <Property Name="UpdatedBy" Type="int" />
+          <Property Name="UpdatedOn" Type="datetime" />
+          <Property Name="Deleted" Type="bit" Nullable="false" />
+        </EntityType>
         <EntityType Name="NRPFLoanHDR">
           <Key>
             <PropertyRef Name="NRPFLoanID" />
@@ -3434,6 +3449,7 @@ warning 6002: The table/view 'HRMS.dbo.LeaveType' does not have a primary key de
           <Property Name="CreatedBy" Type="int" Nullable="false" />
           <Property Name="UpdatedOn" Type="datetime" />
           <Property Name="UpdatedBy" Type="int" />
+          <Property Name="IsPublish" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="tblFinalMonthlySalary">
           <Key>
@@ -4282,7 +4298,7 @@ warning 6002: The table/view 'HRMS.dbo.LeaveType' does not have a primary key de
           <Property Name="IsPensionDeducted" Type="bit" Nullable="false" />
           <Property Name="BasicSalPercentageForSuspendedEmp" Type="numeric" Precision="18" Scale="2" />
           <Property Name="OTACode" Type="varchar" MaxLength="10" />
-          <Property Name="E_Basic_Pay" Type="numeric" Precision="18" Scale="2" />
+          <Property Name="E_Basic_Pay" Type="decimal" Precision="18" Scale="2" />
         </EntityType>
         <EntityType Name="tblmstFDA">
           <Key>
@@ -4892,13 +4908,19 @@ warning 6002: The table/view 'HRMS.dbo.LeaveType' does not have a primary key de
           <Property Name="UpdatedOn" Type="datetime" />
           <Property Name="EmplClBal" Type="float" />
           <Property Name="EmplrClBal" Type="float" />
+          <Property Name="CB_Non_Taxable" Type="money" />
+          <Property Name="CB_Taxable" Type="money" />
+          <Property Name="IA_Non_Taxable" Type="money" />
+          <Property Name="IA_Taxable" Type="money" />
+          <Property Name="TDS_Rate" Type="money" />
         </EntityType>
         <EntityType Name="TblPFOPBalanceManual">
           <Key>
             <PropertyRef Name="id" />
           </Key>
-          <Property Name="Year" Type="int" />
-          <Property Name="Month" Type="int" />
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Year" Type="varchar" MaxLength="50" />
+          <Property Name="Month" Type="varchar" MaxLength="50" />
           <Property Name="PFNo" Type="varchar" MaxLength="50" />
           <Property Name="EPF" Type="float" />
           <Property Name="VPF" Type="float" />
@@ -4916,7 +4938,6 @@ warning 6002: The table/view 'HRMS.dbo.LeaveType' does not have a primary key de
           <Property Name="CreatedBy" Type="int" Nullable="false" />
           <Property Name="UpdatedOn" Type="datetime" />
           <Property Name="UpdatedBy" Type="int" />
-          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
         </EntityType>
         <EntityType Name="tblpromotion">
           <Key>
@@ -5006,7 +5027,7 @@ warning 6002: The table/view 'HRMS.dbo.LeaveType' does not have a primary key de
           <Key>
             <PropertyRef Name="StaffBudgetId" />
           </Key>
-          <Property Name="Year" Type="varchar" MaxLength="9" Nullable="false" />
+          <Property Name="Year" Type="varchar" MaxLength="7" Nullable="false" />
           <Property Name="Month" Type="int" />
           <Property Name="BudgetedStaff" Type="smallint" />
           <Property Name="PresentStaff" Type="smallint" />
@@ -5247,8 +5268,8 @@ warning 6002: The table/view 'HRMS.dbo.LeaveType' does not have a primary key de
           <Property Name="DirectorName" Type="varchar" MaxLength="150" />
           <Property Name="BothTraining" Type="bit" Nullable="false" />
           <Property Name="OtherTopic" Type="varchar" MaxLength="200" />
-          <Property Name="CancelReason" Type="varchar" MaxLength="200" />
           <Property Name="CancelReasonID" Type="int" />
+          <Property Name="CancelReason" Type="varchar" MaxLength="200" />
           <Property Name="TimeSlotType" Type="tinyint" Nullable="false" />
           <Property Name="NominationDate" Type="date" />
           <Property Name="Remark" Type="varchar" MaxLength="1000" />
@@ -5401,8 +5422,6 @@ warning 6002: The table/view 'HRMS.dbo.TrainingFeedbackFormat' does not have a p
           <Property Name="MobileNo" Type="varchar" MaxLength="10" />
           <Property Name="EmailID" Type="varchar" MaxLength="50" />
           <Property Name="ImageName" Type="varchar" MaxLength="50" />
-          <Property Name="WrongAttemp" Type="tinyint" />
-          <Property Name="LockDate" Type="datetime" />
           <Property Name="CreatedBy" Type="int" Nullable="false" />
           <Property Name="CreatedOn" Type="datetime" Nullable="false" />
           <Property Name="UpdatedBy" Type="int" />
@@ -5410,6 +5429,8 @@ warning 6002: The table/view 'HRMS.dbo.TrainingFeedbackFormat' does not have a p
           <Property Name="IsActive" Type="bit" Nullable="false" />
           <Property Name="IsDeleted" Type="bit" Nullable="false" />
           <Property Name="EmployeeID" Type="int" />
+          <Property Name="WrongAttemp" Type="tinyint" />
+          <Property Name="LockDate" Type="datetime" />
         </EntityType>
         <EntityType Name="UserLoginDetails">
           <Key>
@@ -5453,7 +5474,7 @@ warning 6002: The table/view 'HRMS.dbo.TrainingFeedbackFormat' does not have a p
           <Property Name="UpdatedOn" Type="datetime" />
           <Property Name="UpdatedBy" Type="int" />
         </EntityType>
-        <Association Name="FK__Confirmat__FormH__26BC484A">
+        <Association Name="FK__Confirmat__FormH__00ABADFB">
           <End Role="ConfirmationFormHdr" Type="Self.ConfirmationFormHdr" Multiplicity="0..1" />
           <End Role="ConfirmationStatus" Type="Self.ConfirmationStatus" Multiplicity="*" />
           <ReferentialConstraint>
@@ -5465,19 +5486,7 @@ warning 6002: The table/view 'HRMS.dbo.TrainingFeedbackFormat' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Confirmat__FormH__2998B4F5">
-          <End Role="ConfirmationFormHdr" Type="Self.ConfirmationFormHdr" Multiplicity="0..1" />
-          <End Role="ConfirmationStatus" Type="Self.ConfirmationStatus" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ConfirmationFormHdr">
-              <PropertyRef Name="FormHdrID" />
-            </Principal>
-            <Dependent Role="ConfirmationStatus">
-              <PropertyRef Name="FormHdrID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__Confirmat__FormH__78D58209">
+        <Association Name="FK__Confirmat__FormH__6EC207EA">
           <End Role="ConfirmationFormHdr" Type="Self.ConfirmationFormHdr" Multiplicity="1" />
           <End Role="ConfirmationFormBHeader" Type="Self.ConfirmationFormBHeader" Multiplicity="*" />
           <ReferentialConstraint>
@@ -5489,7 +5498,7 @@ warning 6002: The table/view 'HRMS.dbo.TrainingFeedbackFormat' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Confirmat__FormH__79C9A642">
+        <Association Name="FK__Confirmat__FormH__6FB62C23">
           <End Role="ConfirmationFormHdr" Type="Self.ConfirmationFormHdr" Multiplicity="1" />
           <End Role="ConfirmationFormAHeader" Type="Self.ConfirmationFormAHeader" Multiplicity="*" />
           <ReferentialConstraint>
@@ -5501,15 +5510,15 @@ warning 6002: The table/view 'HRMS.dbo.TrainingFeedbackFormat' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Mail_Proc__MailP__104DE43E">
-          <End Role="Mail_Process" Type="Self.Mail_Process" Multiplicity="1" />
-          <End Role="Mail_Process_Content" Type="Self.Mail_Process_Content" Multiplicity="*" />
+        <Association Name="FK__Confirmat__FormH__7FB789C2">
+          <End Role="ConfirmationFormHdr" Type="Self.ConfirmationFormHdr" Multiplicity="0..1" />
+          <End Role="ConfirmationStatus" Type="Self.ConfirmationStatus" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Mail_Process">
-              <PropertyRef Name="MailProcessID" />
+            <Principal Role="ConfirmationFormHdr">
+              <PropertyRef Name="FormHdrID" />
             </Principal>
-            <Dependent Role="Mail_Process_Content">
-              <PropertyRef Name="MailProcessID" />
+            <Dependent Role="ConfirmationStatus">
+              <PropertyRef Name="FormHdrID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -5681,7 +5690,7 @@ warning 6002: The table/view 'HRMS.dbo.TrainingFeedbackFormat' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__tblFinalM__Branc__4362A899">
+        <Association Name="FK__tblFinalM__Branc__3608AD7B">
           <End Role="Branch" Type="Self.Branch" Multiplicity="0..1" />
           <End Role="tblFinalMonthlySalary" Type="Self.tblFinalMonthlySalary" Multiplicity="*" />
           <ReferentialConstraint>
@@ -5693,7 +5702,7 @@ warning 6002: The table/view 'HRMS.dbo.TrainingFeedbackFormat' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__tblFinalM__Creat__4456CCD2">
+        <Association Name="FK__tblFinalM__Creat__36FCD1B4">
           <End Role="User" Type="Self.User" Multiplicity="0..1" />
           <End Role="tblFinalMonthlySalary" Type="Self.tblFinalMonthlySalary" Multiplicity="*" />
           <ReferentialConstraint>
@@ -5705,7 +5714,7 @@ warning 6002: The table/view 'HRMS.dbo.TrainingFeedbackFormat' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__tblFinalM__Desig__454AF10B">
+        <Association Name="FK__tblFinalM__Desig__37F0F5ED">
           <End Role="Designation" Type="Self.Designation" Multiplicity="0..1" />
           <End Role="tblFinalMonthlySalary" Type="Self.tblFinalMonthlySalary" Multiplicity="*" />
           <ReferentialConstraint>
@@ -5729,7 +5738,7 @@ warning 6002: The table/view 'HRMS.dbo.TrainingFeedbackFormat' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__tblFinalM__Updat__4733397D">
+        <Association Name="FK__tblFinalM__Updat__39D93E5F">
           <End Role="User" Type="Self.User" Multiplicity="0..1" />
           <End Role="tblFinalMonthlySalary" Type="Self.tblFinalMonthlySalary" Multiplicity="*" />
           <ReferentialConstraint>
@@ -5777,7 +5786,7 @@ warning 6002: The table/view 'HRMS.dbo.TrainingFeedbackFormat' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__tblLoanTr__Branc__585DC57F">
+        <Association Name="FK__tblLoanTr__Branc__491B81EF">
           <End Role="Branch" Type="Self.Branch" Multiplicity="0..1" />
           <End Role="tblLoanTrans" Type="Self.tblLoanTrans" Multiplicity="*" />
           <ReferentialConstraint>
@@ -5789,7 +5798,7 @@ warning 6002: The table/view 'HRMS.dbo.TrainingFeedbackFormat' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__tblLoanTr__Branc__5951E9B8">
+        <Association Name="FK__tblLoanTr__Branc__4A0FA628">
           <End Role="Branch" Type="Self.Branch" Multiplicity="0..1" />
           <End Role="tblLoanTrans" Type="Self.tblLoanTrans" Multiplicity="*" />
           <ReferentialConstraint>
@@ -5801,7 +5810,7 @@ warning 6002: The table/view 'HRMS.dbo.TrainingFeedbackFormat' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__tblLoanTr__Creat__5A460DF1">
+        <Association Name="FK__tblLoanTr__Creat__4B03CA61">
           <End Role="User" Type="Self.User" Multiplicity="1" />
           <End Role="tblLoanTrans" Type="Self.tblLoanTrans" Multiplicity="*" />
           <ReferentialConstraint>
@@ -5813,7 +5822,7 @@ warning 6002: The table/view 'HRMS.dbo.TrainingFeedbackFormat' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__tblLoanTr__Emplo__5B3A322A">
+        <Association Name="FK__tblLoanTr__Emplo__4BF7EE9A">
           <End Role="tblMstEmployee" Type="Self.tblMstEmployee" Multiplicity="0..1" />
           <End Role="tblLoanTrans" Type="Self.tblLoanTrans" Multiplicity="*" />
           <ReferentialConstraint>
@@ -5825,7 +5834,7 @@ warning 6002: The table/view 'HRMS.dbo.TrainingFeedbackFormat' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__tblLoanTr__Emplo__5C2E5663">
+        <Association Name="FK__tblLoanTr__Emplo__4CEC12D3">
           <End Role="tblMstEmployee" Type="Self.tblMstEmployee" Multiplicity="0..1" />
           <End Role="tblLoanTrans" Type="Self.tblLoanTrans" Multiplicity="*" />
           <ReferentialConstraint>
@@ -5837,7 +5846,7 @@ warning 6002: The table/view 'HRMS.dbo.TrainingFeedbackFormat' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__tblLoanTr__LoanT__5D227A9C">
+        <Association Name="FK__tblLoanTr__LoanT__4DE0370C">
           <End Role="tblMstLoanType" Type="Self.tblMstLoanType" Multiplicity="1" />
           <End Role="tblLoanTrans" Type="Self.tblLoanTrans" Multiplicity="*" />
           <ReferentialConstraint>
@@ -5849,7 +5858,7 @@ warning 6002: The table/view 'HRMS.dbo.TrainingFeedbackFormat' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__tblLoanTr__Updat__5E169ED5">
+        <Association Name="FK__tblLoanTr__Updat__4ED45B45">
           <End Role="User" Type="Self.User" Multiplicity="0..1" />
           <End Role="tblLoanTrans" Type="Self.tblLoanTrans" Multiplicity="*" />
           <ReferentialConstraint>
@@ -5861,7 +5870,7 @@ warning 6002: The table/view 'HRMS.dbo.TrainingFeedbackFormat' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__TBLMONTHL__Branc__4CEC12D3">
+        <Association Name="FK__TBLMONTHL__Branc__3DA9CF43">
           <End Role="Branch" Type="Self.Branch" Multiplicity="0..1" />
           <End Role="TBLMONTHLYINPUT" Type="Self.TBLMONTHLYINPUT" Multiplicity="*" />
           <ReferentialConstraint>
@@ -5873,7 +5882,7 @@ warning 6002: The table/view 'HRMS.dbo.TrainingFeedbackFormat' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__TBLMONTHL__Emplo__4DE0370C">
+        <Association Name="FK__TBLMONTHL__Emplo__3E9DF37C">
           <End Role="tblMstEmployee" Type="Self.tblMstEmployee" Multiplicity="0..1" />
           <End Role="TBLMONTHLYINPUT" Type="Self.TBLMONTHLYINPUT" Multiplicity="*" />
           <ReferentialConstraint>
@@ -5885,7 +5894,7 @@ warning 6002: The table/view 'HRMS.dbo.TrainingFeedbackFormat' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__TBLMONTHL__Emplo__4ED45B45">
+        <Association Name="FK__TBLMONTHL__Emplo__3F9217B5">
           <End Role="tblMstEmployee" Type="Self.tblMstEmployee" Multiplicity="0..1" />
           <End Role="TBLMONTHLYINPUT" Type="Self.TBLMONTHLYINPUT" Multiplicity="*" />
           <ReferentialConstraint>
@@ -5897,7 +5906,7 @@ warning 6002: The table/view 'HRMS.dbo.TrainingFeedbackFormat' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__TBLMONTHL__Emplo__4FC87F7E">
+        <Association Name="FK__TBLMONTHL__Emplo__40863BEE">
           <End Role="tblMstEmployee" Type="Self.tblMstEmployee" Multiplicity="0..1" />
           <End Role="TBLMONTHLYINPUT" Type="Self.TBLMONTHLYINPUT" Multiplicity="*" />
           <ReferentialConstraint>
@@ -6017,7 +6026,7 @@ warning 6002: The table/view 'HRMS.dbo.TrainingFeedbackFormat' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__tblmstsla__LoanT__49A591D4">
+        <Association Name="FK__tblmstsla__LoanT__648E923A">
           <End Role="tblMstLoanType" Type="Self.tblMstLoanType" Multiplicity="1" />
           <End Role="tblmstslab" Type="Self.tblmstslab" Multiplicity="*" />
           <ReferentialConstraint>
@@ -6077,7 +6086,7 @@ warning 6002: The table/view 'HRMS.dbo.TrainingFeedbackFormat' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__tblPFOpBa__Branc__5B052800">
+        <Association Name="FK__tblPFOpBa__Branc__37BBEBC3">
           <End Role="Branch" Type="Self.Branch" Multiplicity="0..1" />
           <End Role="tblPFOpBalance" Type="Self.tblPFOpBalance" Multiplicity="*" />
           <ReferentialConstraint>
@@ -6089,7 +6098,7 @@ warning 6002: The table/view 'HRMS.dbo.TrainingFeedbackFormat' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__tblPFOpBa__Creat__5BF94C39">
+        <Association Name="FK__tblPFOpBa__Creat__38B00FFC">
           <End Role="User" Type="Self.User" Multiplicity="1" />
           <End Role="tblPFOpBalance" Type="Self.tblPFOpBalance" Multiplicity="*" />
           <ReferentialConstraint>
@@ -6101,7 +6110,7 @@ warning 6002: The table/view 'HRMS.dbo.TrainingFeedbackFormat' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__tblPFOpBa__Updat__5CED7072">
+        <Association Name="FK__tblPFOpBa__Updat__39A43435">
           <End Role="User" Type="Self.User" Multiplicity="0..1" />
           <End Role="tblPFOpBalance" Type="Self.tblPFOpBalance" Multiplicity="*" />
           <ReferentialConstraint>
@@ -6109,54 +6118,6 @@ warning 6002: The table/view 'HRMS.dbo.TrainingFeedbackFormat' does not have a p
               <PropertyRef Name="UserID" />
             </Principal>
             <Dependent Role="tblPFOpBalance">
-              <PropertyRef Name="UpdatedBy" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__tblStaffB__Creat__20CD9973">
-          <End Role="User" Type="Self.User" Multiplicity="1" />
-          <End Role="tblStaffBudget" Type="Self.tblStaffBudget" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="User">
-              <PropertyRef Name="UserID" />
-            </Principal>
-            <Dependent Role="tblStaffBudget">
-              <PropertyRef Name="CreatedBy" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__tblStaffB__Desig__1FD9753A">
-          <End Role="Designation" Type="Self.Designation" Multiplicity="0..1" />
-          <End Role="tblStaffBudget" Type="Self.tblStaffBudget" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Designation">
-              <PropertyRef Name="DesignationID" />
-            </Principal>
-            <Dependent Role="tblStaffBudget">
-              <PropertyRef Name="DesignationID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__tblStaffB__Desig__2962DF74">
-          <End Role="Designation" Type="Self.Designation" Multiplicity="0..1" />
-          <End Role="tblStaffBudget" Type="Self.tblStaffBudget" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Designation">
-              <PropertyRef Name="DesignationID" />
-            </Principal>
-            <Dependent Role="tblStaffBudget">
-              <PropertyRef Name="DesignationID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__tblStaffB__Updat__21C1BDAC">
-          <End Role="User" Type="Self.User" Multiplicity="0..1" />
-          <End Role="tblStaffBudget" Type="Self.tblStaffBudget" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="User">
-              <PropertyRef Name="UserID" />
-            </Principal>
-            <Dependent Role="tblStaffBudget">
               <PropertyRef Name="UpdatedBy" />
             </Dependent>
           </ReferentialConstraint>
@@ -9036,7 +8997,7 @@ warning 6002: The table/view 'HRMS.dbo.TrainingFeedbackFormat' does not have a p
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_FileWorkflow_Department1">
-          <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
+          <End Role="Department" Type="Self.Department" Multiplicity="1" />
           <End Role="FileWorkflow" Type="Self.FileWorkflow" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Department">
@@ -9120,16 +9081,14 @@ warning 6002: The table/view 'HRMS.dbo.TrainingFeedbackFormat' does not have a p
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_FormGroupA_tblMstEmployee">
-          <End Role="AppraisalForm" Type="Self.AppraisalForm" Multiplicity="1" />
+          <End Role="tblMstEmployee" Type="Self.tblMstEmployee" Multiplicity="1" />
           <End Role="FormGroupAHdr" Type="Self.FormGroupAHdr" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="AppraisalForm">
-              <PropertyRef Name="FormID" />
-              <PropertyRef Name="ReportingYr" />
+            <Principal Role="tblMstEmployee">
+              <PropertyRef Name="EmployeeId" />
             </Principal>
             <Dependent Role="FormGroupAHdr">
-              <PropertyRef Name="FormID" />
-              <PropertyRef Name="ReportingYr" />
+              <PropertyRef Name="EmployeeID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -9214,30 +9173,6 @@ warning 6002: The table/view 'HRMS.dbo.TrainingFeedbackFormat' does not have a p
             </Principal>
             <Dependent Role="FormGroupADetail1">
               <PropertyRef Name="CreatedBy" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_FormGroupADetail1_User1">
-          <End Role="User" Type="Self.User" Multiplicity="0..1" />
-          <End Role="FormGroupADetail1" Type="Self.FormGroupADetail1" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="User">
-              <PropertyRef Name="UserID" />
-            </Principal>
-            <Dependent Role="FormGroupADetail1">
-              <PropertyRef Name="UpdateBy" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_FormGroupADetail2_User">
-          <End Role="User" Type="Self.User" Multiplicity="0..1" />
-          <End Role="FormGroupADetail2" Type="Self.FormGroupADetail2" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="User">
-              <PropertyRef Name="UserID" />
-            </Principal>
-            <Dependent Role="FormGroupADetail2">
-              <PropertyRef Name="UpdatedBy" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -9582,18 +9517,6 @@ warning 6002: The table/view 'HRMS.dbo.TrainingFeedbackFormat' does not have a p
             </Principal>
             <Dependent Role="FormGroupDHdr">
               <PropertyRef Name="DesignationID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_FormGroupDHdr_FormGroupDHdr">
-          <End Role="FormGroupDHdr" Type="Self.FormGroupDHdr" Multiplicity="1" />
-          <End Role="FormGroupDHdr1" Type="Self.FormGroupDHdr" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="FormGroupDHdr">
-              <PropertyRef Name="FormGroupID" />
-            </Principal>
-            <Dependent Role="FormGroupDHdr1">
-              <PropertyRef Name="FormGroupID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -10719,6 +10642,42 @@ warning 6002: The table/view 'HRMS.dbo.TrainingFeedbackFormat' does not have a p
               <PropertyRef Name="UserID" />
             </Principal>
             <Dependent Role="NonRefundablePFLoan">
+              <PropertyRef Name="UpdatedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NREmployeesContractExtention_NREmployeesContractExtention">
+          <End Role="tblMstEmployee" Type="Self.tblMstEmployee" Multiplicity="1" />
+          <End Role="NREmployeesContractExtention" Type="Self.NREmployeesContractExtention" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblMstEmployee">
+              <PropertyRef Name="EmployeeId" />
+            </Principal>
+            <Dependent Role="NREmployeesContractExtention">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NREmployeesContractExtention_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="NREmployeesContractExtention" Type="Self.NREmployeesContractExtention" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="NREmployeesContractExtention">
+              <PropertyRef Name="CreatedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NREmployeesContractExtention_User1">
+          <End Role="User" Type="Self.User" Multiplicity="0..1" />
+          <End Role="NREmployeesContractExtention" Type="Self.NREmployeesContractExtention" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="NREmployeesContractExtention">
               <PropertyRef Name="UpdatedBy" />
             </Dependent>
           </ReferentialConstraint>
@@ -12739,18 +12698,6 @@ warning 6002: The table/view 'HRMS.dbo.TrainingFeedbackFormat' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_tblPropertyReturnHDR_tblPropertyReturnHDR">
-          <End Role="tblPropertyReturnHDR" Type="Self.tblPropertyReturnHDR" Multiplicity="1" />
-          <End Role="tblPropertyReturnHDR1" Type="Self.tblPropertyReturnHDR" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="tblPropertyReturnHDR">
-              <PropertyRef Name="PRID" />
-            </Principal>
-            <Dependent Role="tblPropertyReturnHDR1">
-              <PropertyRef Name="PRID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_tblPropertyReturnHDR_UpdatedBy">
           <End Role="User" Type="Self.User" Multiplicity="0..1" />
           <End Role="tblPropertyReturnHDR" Type="Self.tblPropertyReturnHDR" Multiplicity="*" />
@@ -13072,6 +13019,54 @@ warning 6002: The table/view 'HRMS.dbo.TrainingFeedbackFormat' does not have a p
             </Principal>
             <Dependent Role="Trainer">
               <PropertyRef Name="UpdateBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Training_CreatedBy">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="Training" Type="Self.Training" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="Training">
+              <PropertyRef Name="CreatedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Training_SkillType">
+          <End Role="SkillType" Type="Self.SkillType" Multiplicity="1" />
+          <End Role="Training" Type="Self.Training" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SkillType">
+              <PropertyRef Name="SkillTypeID" />
+            </Principal>
+            <Dependent Role="Training">
+              <PropertyRef Name="TrainingType" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Training_State">
+          <End Role="State" Type="Self.State" Multiplicity="0..1" />
+          <End Role="Training" Type="Self.Training" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="State">
+              <PropertyRef Name="StateID" />
+            </Principal>
+            <Dependent Role="Training">
+              <PropertyRef Name="StateID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Training_UpdatedBy">
+          <End Role="User" Type="Self.User" Multiplicity="0..1" />
+          <End Role="Training" Type="Self.Training" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="Training">
+              <PropertyRef Name="UpdatedBy" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -13566,9 +13561,6 @@ warning 6002: The table/view 'HRMS.dbo.TrainingFeedbackFormat' does not have a p
         <Function Name="getArrearperiodsdetailsforPay" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="arrearType" Type="varchar" Mode="In" />
         </Function>
-        <Function Name="GetAssetHistory" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="assetID" Type="int" Mode="In" />
-        </Function>
         <Function Name="getAttendancemanually" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="fromdate" Type="datetime" Mode="In" />
           <Parameter Name="todate" Type="datetime" Mode="In" />
@@ -14052,6 +14044,7 @@ warning 6002: The table/view 'HRMS.dbo.TrainingFeedbackFormat' does not have a p
           <EntitySet Name="MonthlyTCSFile" EntityType="Self.MonthlyTCSFile" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MotherTongue" EntityType="Self.MotherTongue" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="NonRefundablePFLoan" EntityType="Self.NonRefundablePFLoan" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="NREmployeesContractExtention" EntityType="Self.NREmployeesContractExtention" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="NRPFLoanHDR" EntityType="Self.NRPFLoanHDR" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OTASlip" EntityType="Self.OTASlip" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PayrollApprovalRequest" EntityType="Self.PayrollApprovalRequest" Schema="dbo" store:Type="Tables" />
@@ -14260,25 +14253,21 @@ warning 6002: The table/view 'HRMS.dbo.TrainingFeedbackFormat' does not have a p
     [TrainingFeedbackFormat].[Question] AS [Question]
     FROM [dbo].[TrainingFeedbackFormat] AS [TrainingFeedbackFormat]</DefiningQuery>
           </EntitySet>
-          <AssociationSet Name="FK__Confirmat__FormH__26BC484A" Association="Self.FK__Confirmat__FormH__26BC484A">
+          <AssociationSet Name="FK__Confirmat__FormH__00ABADFB" Association="Self.FK__Confirmat__FormH__00ABADFB">
             <End Role="ConfirmationFormHdr" EntitySet="ConfirmationFormHdr" />
             <End Role="ConfirmationStatus" EntitySet="ConfirmationStatus" />
           </AssociationSet>
-          <AssociationSet Name="FK__Confirmat__FormH__2998B4F5" Association="Self.FK__Confirmat__FormH__2998B4F5">
-            <End Role="ConfirmationFormHdr" EntitySet="ConfirmationFormHdr" />
-            <End Role="ConfirmationStatus" EntitySet="ConfirmationStatus" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Confirmat__FormH__78D58209" Association="Self.FK__Confirmat__FormH__78D58209">
+          <AssociationSet Name="FK__Confirmat__FormH__6EC207EA" Association="Self.FK__Confirmat__FormH__6EC207EA">
             <End Role="ConfirmationFormHdr" EntitySet="ConfirmationFormHdr" />
             <End Role="ConfirmationFormBHeader" EntitySet="ConfirmationFormBHeader" />
           </AssociationSet>
-          <AssociationSet Name="FK__Confirmat__FormH__79C9A642" Association="Self.FK__Confirmat__FormH__79C9A642">
+          <AssociationSet Name="FK__Confirmat__FormH__6FB62C23" Association="Self.FK__Confirmat__FormH__6FB62C23">
             <End Role="ConfirmationFormHdr" EntitySet="ConfirmationFormHdr" />
             <End Role="ConfirmationFormAHeader" EntitySet="ConfirmationFormAHeader" />
           </AssociationSet>
-          <AssociationSet Name="FK__Mail_Proc__MailP__104DE43E" Association="Self.FK__Mail_Proc__MailP__104DE43E">
-            <End Role="Mail_Process" EntitySet="Mail_Process" />
-            <End Role="Mail_Process_Content" EntitySet="Mail_Process_Content" />
+          <AssociationSet Name="FK__Confirmat__FormH__7FB789C2" Association="Self.FK__Confirmat__FormH__7FB789C2">
+            <End Role="ConfirmationFormHdr" EntitySet="ConfirmationFormHdr" />
+            <End Role="ConfirmationStatus" EntitySet="ConfirmationStatus" />
           </AssociationSet>
           <AssociationSet Name="FK__Mail_Proc__MailP__49C4C20E" Association="Self.FK__Mail_Proc__MailP__49C4C20E">
             <End Role="Mail_Process" EntitySet="Mail_Process" />
@@ -14336,15 +14325,15 @@ warning 6002: The table/view 'HRMS.dbo.TrainingFeedbackFormat' does not have a p
             <End Role="User" EntitySet="User" />
             <End Role="TblExGratia_Cal" EntitySet="TblExGratia_Cal" />
           </AssociationSet>
-          <AssociationSet Name="FK__tblFinalM__Branc__4362A899" Association="Self.FK__tblFinalM__Branc__4362A899">
+          <AssociationSet Name="FK__tblFinalM__Branc__3608AD7B" Association="Self.FK__tblFinalM__Branc__3608AD7B">
             <End Role="Branch" EntitySet="Branch" />
             <End Role="tblFinalMonthlySalary" EntitySet="tblFinalMonthlySalary" />
           </AssociationSet>
-          <AssociationSet Name="FK__tblFinalM__Creat__4456CCD2" Association="Self.FK__tblFinalM__Creat__4456CCD2">
+          <AssociationSet Name="FK__tblFinalM__Creat__36FCD1B4" Association="Self.FK__tblFinalM__Creat__36FCD1B4">
             <End Role="User" EntitySet="User" />
             <End Role="tblFinalMonthlySalary" EntitySet="tblFinalMonthlySalary" />
           </AssociationSet>
-          <AssociationSet Name="FK__tblFinalM__Desig__454AF10B" Association="Self.FK__tblFinalM__Desig__454AF10B">
+          <AssociationSet Name="FK__tblFinalM__Desig__37F0F5ED" Association="Self.FK__tblFinalM__Desig__37F0F5ED">
             <End Role="Designation" EntitySet="Designation" />
             <End Role="tblFinalMonthlySalary" EntitySet="tblFinalMonthlySalary" />
           </AssociationSet>
@@ -14352,7 +14341,7 @@ warning 6002: The table/view 'HRMS.dbo.TrainingFeedbackFormat' does not have a p
             <End Role="tblMstEmployee" EntitySet="tblMstEmployee" />
             <End Role="tblFinalMonthlySalary" EntitySet="tblFinalMonthlySalary" />
           </AssociationSet>
-          <AssociationSet Name="FK__tblFinalM__Updat__4733397D" Association="Self.FK__tblFinalM__Updat__4733397D">
+          <AssociationSet Name="FK__tblFinalM__Updat__39D93E5F" Association="Self.FK__tblFinalM__Updat__39D93E5F">
             <End Role="User" EntitySet="User" />
             <End Role="tblFinalMonthlySalary" EntitySet="tblFinalMonthlySalary" />
           </AssociationSet>
@@ -14368,47 +14357,47 @@ warning 6002: The table/view 'HRMS.dbo.TrainingFeedbackFormat' does not have a p
             <End Role="User" EntitySet="User" />
             <End Role="TBLGRATIADUMMY" EntitySet="TBLGRATIADUMMY" />
           </AssociationSet>
-          <AssociationSet Name="FK__tblLoanTr__Branc__585DC57F" Association="Self.FK__tblLoanTr__Branc__585DC57F">
+          <AssociationSet Name="FK__tblLoanTr__Branc__491B81EF" Association="Self.FK__tblLoanTr__Branc__491B81EF">
             <End Role="Branch" EntitySet="Branch" />
             <End Role="tblLoanTrans" EntitySet="tblLoanTrans" />
           </AssociationSet>
-          <AssociationSet Name="FK__tblLoanTr__Branc__5951E9B8" Association="Self.FK__tblLoanTr__Branc__5951E9B8">
+          <AssociationSet Name="FK__tblLoanTr__Branc__4A0FA628" Association="Self.FK__tblLoanTr__Branc__4A0FA628">
             <End Role="Branch" EntitySet="Branch" />
             <End Role="tblLoanTrans" EntitySet="tblLoanTrans" />
           </AssociationSet>
-          <AssociationSet Name="FK__tblLoanTr__Creat__5A460DF1" Association="Self.FK__tblLoanTr__Creat__5A460DF1">
+          <AssociationSet Name="FK__tblLoanTr__Creat__4B03CA61" Association="Self.FK__tblLoanTr__Creat__4B03CA61">
             <End Role="User" EntitySet="User" />
             <End Role="tblLoanTrans" EntitySet="tblLoanTrans" />
           </AssociationSet>
-          <AssociationSet Name="FK__tblLoanTr__Emplo__5B3A322A" Association="Self.FK__tblLoanTr__Emplo__5B3A322A">
+          <AssociationSet Name="FK__tblLoanTr__Emplo__4BF7EE9A" Association="Self.FK__tblLoanTr__Emplo__4BF7EE9A">
             <End Role="tblMstEmployee" EntitySet="tblMstEmployee" />
             <End Role="tblLoanTrans" EntitySet="tblLoanTrans" />
           </AssociationSet>
-          <AssociationSet Name="FK__tblLoanTr__Emplo__5C2E5663" Association="Self.FK__tblLoanTr__Emplo__5C2E5663">
+          <AssociationSet Name="FK__tblLoanTr__Emplo__4CEC12D3" Association="Self.FK__tblLoanTr__Emplo__4CEC12D3">
             <End Role="tblMstEmployee" EntitySet="tblMstEmployee" />
             <End Role="tblLoanTrans" EntitySet="tblLoanTrans" />
           </AssociationSet>
-          <AssociationSet Name="FK__tblLoanTr__LoanT__5D227A9C" Association="Self.FK__tblLoanTr__LoanT__5D227A9C">
+          <AssociationSet Name="FK__tblLoanTr__LoanT__4DE0370C" Association="Self.FK__tblLoanTr__LoanT__4DE0370C">
             <End Role="tblMstLoanType" EntitySet="tblMstLoanType" />
             <End Role="tblLoanTrans" EntitySet="tblLoanTrans" />
           </AssociationSet>
-          <AssociationSet Name="FK__tblLoanTr__Updat__5E169ED5" Association="Self.FK__tblLoanTr__Updat__5E169ED5">
+          <AssociationSet Name="FK__tblLoanTr__Updat__4ED45B45" Association="Self.FK__tblLoanTr__Updat__4ED45B45">
             <End Role="User" EntitySet="User" />
             <End Role="tblLoanTrans" EntitySet="tblLoanTrans" />
           </AssociationSet>
-          <AssociationSet Name="FK__TBLMONTHL__Branc__4CEC12D3" Association="Self.FK__TBLMONTHL__Branc__4CEC12D3">
+          <AssociationSet Name="FK__TBLMONTHL__Branc__3DA9CF43" Association="Self.FK__TBLMONTHL__Branc__3DA9CF43">
             <End Role="Branch" EntitySet="Branch" />
             <End Role="TBLMONTHLYINPUT" EntitySet="TBLMONTHLYINPUT" />
           </AssociationSet>
-          <AssociationSet Name="FK__TBLMONTHL__Emplo__4DE0370C" Association="Self.FK__TBLMONTHL__Emplo__4DE0370C">
+          <AssociationSet Name="FK__TBLMONTHL__Emplo__3E9DF37C" Association="Self.FK__TBLMONTHL__Emplo__3E9DF37C">
             <End Role="tblMstEmployee" EntitySet="tblMstEmployee" />
             <End Role="TBLMONTHLYINPUT" EntitySet="TBLMONTHLYINPUT" />
           </AssociationSet>
-          <AssociationSet Name="FK__TBLMONTHL__Emplo__4ED45B45" Association="Self.FK__TBLMONTHL__Emplo__4ED45B45">
+          <AssociationSet Name="FK__TBLMONTHL__Emplo__3F9217B5" Association="Self.FK__TBLMONTHL__Emplo__3F9217B5">
             <End Role="tblMstEmployee" EntitySet="tblMstEmployee" />
             <End Role="TBLMONTHLYINPUT" EntitySet="TBLMONTHLYINPUT" />
           </AssociationSet>
-          <AssociationSet Name="FK__TBLMONTHL__Emplo__4FC87F7E" Association="Self.FK__TBLMONTHL__Emplo__4FC87F7E">
+          <AssociationSet Name="FK__TBLMONTHL__Emplo__40863BEE" Association="Self.FK__TBLMONTHL__Emplo__40863BEE">
             <End Role="tblMstEmployee" EntitySet="tblMstEmployee" />
             <End Role="TBLMONTHLYINPUT" EntitySet="TBLMONTHLYINPUT" />
           </AssociationSet>
@@ -14448,7 +14437,7 @@ warning 6002: The table/view 'HRMS.dbo.TrainingFeedbackFormat' does not have a p
             <End Role="State" EntitySet="State" />
             <End Role="tblmstprojectedemployee" EntitySet="tblmstprojectedemployee" />
           </AssociationSet>
-          <AssociationSet Name="FK__tblmstsla__LoanT__49A591D4" Association="Self.FK__tblmstsla__LoanT__49A591D4">
+          <AssociationSet Name="FK__tblmstsla__LoanT__648E923A" Association="Self.FK__tblmstsla__LoanT__648E923A">
             <End Role="tblMstLoanType" EntitySet="tblMstLoanType" />
             <End Role="tblmstslab" EntitySet="tblmstslab" />
           </AssociationSet>
@@ -14468,33 +14457,17 @@ warning 6002: The table/view 'HRMS.dbo.TrainingFeedbackFormat' does not have a p
             <End Role="User" EntitySet="User" />
             <End Role="tblmsttransfer" EntitySet="tblmsttransfer" />
           </AssociationSet>
-          <AssociationSet Name="FK__tblPFOpBa__Branc__5B052800" Association="Self.FK__tblPFOpBa__Branc__5B052800">
+          <AssociationSet Name="FK__tblPFOpBa__Branc__37BBEBC3" Association="Self.FK__tblPFOpBa__Branc__37BBEBC3">
             <End Role="Branch" EntitySet="Branch" />
             <End Role="tblPFOpBalance" EntitySet="tblPFOpBalance" />
           </AssociationSet>
-          <AssociationSet Name="FK__tblPFOpBa__Creat__5BF94C39" Association="Self.FK__tblPFOpBa__Creat__5BF94C39">
+          <AssociationSet Name="FK__tblPFOpBa__Creat__38B00FFC" Association="Self.FK__tblPFOpBa__Creat__38B00FFC">
             <End Role="User" EntitySet="User" />
             <End Role="tblPFOpBalance" EntitySet="tblPFOpBalance" />
           </AssociationSet>
-          <AssociationSet Name="FK__tblPFOpBa__Updat__5CED7072" Association="Self.FK__tblPFOpBa__Updat__5CED7072">
+          <AssociationSet Name="FK__tblPFOpBa__Updat__39A43435" Association="Self.FK__tblPFOpBa__Updat__39A43435">
             <End Role="User" EntitySet="User" />
             <End Role="tblPFOpBalance" EntitySet="tblPFOpBalance" />
-          </AssociationSet>
-          <AssociationSet Name="FK__tblStaffB__Creat__20CD9973" Association="Self.FK__tblStaffB__Creat__20CD9973">
-            <End Role="User" EntitySet="User" />
-            <End Role="tblStaffBudget" EntitySet="tblStaffBudget" />
-          </AssociationSet>
-          <AssociationSet Name="FK__tblStaffB__Desig__1FD9753A" Association="Self.FK__tblStaffB__Desig__1FD9753A">
-            <End Role="Designation" EntitySet="Designation" />
-            <End Role="tblStaffBudget" EntitySet="tblStaffBudget" />
-          </AssociationSet>
-          <AssociationSet Name="FK__tblStaffB__Desig__2962DF74" Association="Self.FK__tblStaffB__Desig__2962DF74">
-            <End Role="Designation" EntitySet="Designation" />
-            <End Role="tblStaffBudget" EntitySet="tblStaffBudget" />
-          </AssociationSet>
-          <AssociationSet Name="FK__tblStaffB__Updat__21C1BDAC" Association="Self.FK__tblStaffB__Updat__21C1BDAC">
-            <End Role="User" EntitySet="User" />
-            <End Role="tblStaffBudget" EntitySet="tblStaffBudget" />
           </AssociationSet>
           <AssociationSet Name="FK_AcadmicProfessionalDetails_CreatedBy" Association="Self.FK_AcadmicProfessionalDetails_CreatedBy">
             <End Role="User" EntitySet="User" />
@@ -15481,7 +15454,7 @@ warning 6002: The table/view 'HRMS.dbo.TrainingFeedbackFormat' does not have a p
             <End Role="EmployeeForm12BBDocument" EntitySet="EmployeeForm12BBDocument" />
           </AssociationSet>
           <AssociationSet Name="FK_FormGroupA_tblMstEmployee" Association="Self.FK_FormGroupA_tblMstEmployee">
-            <End Role="AppraisalForm" EntitySet="AppraisalForm" />
+            <End Role="tblMstEmployee" EntitySet="tblMstEmployee" />
             <End Role="FormGroupAHdr" EntitySet="FormGroupAHdr" />
           </AssociationSet>
           <AssociationSet Name="FK_FormGroupA_User" Association="Self.FK_FormGroupA_User">
@@ -15511,14 +15484,6 @@ warning 6002: The table/view 'HRMS.dbo.TrainingFeedbackFormat' does not have a p
           <AssociationSet Name="FK_FormGroupADetail1_User" Association="Self.FK_FormGroupADetail1_User">
             <End Role="User" EntitySet="User" />
             <End Role="FormGroupADetail1" EntitySet="FormGroupADetail1" />
-          </AssociationSet>
-          <AssociationSet Name="FK_FormGroupADetail1_User1" Association="Self.FK_FormGroupADetail1_User1">
-            <End Role="User" EntitySet="User" />
-            <End Role="FormGroupADetail1" EntitySet="FormGroupADetail1" />
-          </AssociationSet>
-          <AssociationSet Name="FK_FormGroupADetail2_User" Association="Self.FK_FormGroupADetail2_User">
-            <End Role="User" EntitySet="User" />
-            <End Role="FormGroupADetail2" EntitySet="FormGroupADetail2" />
           </AssociationSet>
           <AssociationSet Name="FK_FormGroupAHdr_AppraisalForm" Association="Self.FK_FormGroupAHdr_AppraisalForm">
             <End Role="AppraisalForm" EntitySet="AppraisalForm" />
@@ -15631,10 +15596,6 @@ warning 6002: The table/view 'HRMS.dbo.TrainingFeedbackFormat' does not have a p
           <AssociationSet Name="FK_FormGroupDHdr_Designation" Association="Self.FK_FormGroupDHdr_Designation">
             <End Role="Designation" EntitySet="Designation" />
             <End Role="FormGroupDHdr" EntitySet="FormGroupDHdr" />
-          </AssociationSet>
-          <AssociationSet Name="FK_FormGroupDHdr_FormGroupDHdr" Association="Self.FK_FormGroupDHdr_FormGroupDHdr">
-            <End Role="FormGroupDHdr" EntitySet="FormGroupDHdr" />
-            <End Role="FormGroupDHdr1" EntitySet="FormGroupDHdr" />
           </AssociationSet>
           <AssociationSet Name="FK_FormGroupDHdr_User1" Association="Self.FK_FormGroupDHdr_User1">
             <End Role="User" EntitySet="User" />
@@ -16007,6 +15968,18 @@ warning 6002: The table/view 'HRMS.dbo.TrainingFeedbackFormat' does not have a p
           <AssociationSet Name="FK_NonRefundablePFLoan_UpdatedBy" Association="Self.FK_NonRefundablePFLoan_UpdatedBy">
             <End Role="User" EntitySet="User" />
             <End Role="NonRefundablePFLoan" EntitySet="NonRefundablePFLoan" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NREmployeesContractExtention_NREmployeesContractExtention" Association="Self.FK_NREmployeesContractExtention_NREmployeesContractExtention">
+            <End Role="tblMstEmployee" EntitySet="tblMstEmployee" />
+            <End Role="NREmployeesContractExtention" EntitySet="NREmployeesContractExtention" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NREmployeesContractExtention_User" Association="Self.FK_NREmployeesContractExtention_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="NREmployeesContractExtention" EntitySet="NREmployeesContractExtention" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NREmployeesContractExtention_User1" Association="Self.FK_NREmployeesContractExtention_User1">
+            <End Role="User" EntitySet="User" />
+            <End Role="NREmployeesContractExtention" EntitySet="NREmployeesContractExtention" />
           </AssociationSet>
           <AssociationSet Name="FK_NRPFLoanHDR_Branch" Association="Self.FK_NRPFLoanHDR_Branch">
             <End Role="Branch" EntitySet="Branch" />
@@ -16680,10 +16653,6 @@ warning 6002: The table/view 'HRMS.dbo.TrainingFeedbackFormat' does not have a p
             <End Role="tblMstEmployee" EntitySet="tblMstEmployee" />
             <End Role="tblPropertyReturnHDR" EntitySet="tblPropertyReturnHDR" />
           </AssociationSet>
-          <AssociationSet Name="FK_tblPropertyReturnHDR_tblPropertyReturnHDR" Association="Self.FK_tblPropertyReturnHDR_tblPropertyReturnHDR">
-            <End Role="tblPropertyReturnHDR" EntitySet="tblPropertyReturnHDR" />
-            <End Role="tblPropertyReturnHDR1" EntitySet="tblPropertyReturnHDR" />
-          </AssociationSet>
           <AssociationSet Name="FK_tblPropertyReturnHDR_UpdatedBy" Association="Self.FK_tblPropertyReturnHDR_UpdatedBy">
             <End Role="User" EntitySet="User" />
             <End Role="tblPropertyReturnHDR" EntitySet="tblPropertyReturnHDR" />
@@ -16791,6 +16760,22 @@ warning 6002: The table/view 'HRMS.dbo.TrainingFeedbackFormat' does not have a p
           <AssociationSet Name="FK_Trainer_User1" Association="Self.FK_Trainer_User1">
             <End Role="User" EntitySet="User" />
             <End Role="Trainer" EntitySet="Trainer" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Training_CreatedBy" Association="Self.FK_Training_CreatedBy">
+            <End Role="User" EntitySet="User" />
+            <End Role="Training" EntitySet="Training" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Training_SkillType" Association="Self.FK_Training_SkillType">
+            <End Role="SkillType" EntitySet="SkillType" />
+            <End Role="Training" EntitySet="Training" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Training_State" Association="Self.FK_Training_State">
+            <End Role="State" EntitySet="State" />
+            <End Role="Training" EntitySet="Training" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Training_UpdatedBy" Association="Self.FK_Training_UpdatedBy">
+            <End Role="User" EntitySet="User" />
+            <End Role="Training" EntitySet="Training" />
           </AssociationSet>
           <AssociationSet Name="FK_TrainingDateWiseTimeSlot_Training" Association="Self.FK_TrainingDateWiseTimeSlot_Training">
             <End Role="Training" EntitySet="Training" />
@@ -18861,15 +18846,6 @@ warning 6002: The table/view 'HRMS.dbo.TrainingFeedbackFormat' does not have a p
             <End Role="User" EntitySet="Users" />
             <End Role="BranchSalaryHeadRule" EntitySet="BranchSalaryHeadRules" />
           </AssociationSet>
-          <EntitySet Name="promotioncota1" EntityType="MicroPayModel.promotioncota1" />
-          <AssociationSet Name="FK__promotion__Creat__25924E90" Association="MicroPayModel.FK__promotion__Creat__25924E90">
-            <End Role="User" EntitySet="Users" />
-            <End Role="promotioncota1" EntitySet="promotioncota1" />
-          </AssociationSet>
-          <AssociationSet Name="FK__promotion__Updat__268672C9" Association="MicroPayModel.FK__promotion__Updat__268672C9">
-            <End Role="User" EntitySet="Users" />
-            <End Role="promotioncota1" EntitySet="promotioncota1" />
-          </AssociationSet>
           <EntitySet Name="tblMstLoanPriorities" EntityType="MicroPayModel.tblMstLoanPriority" />
           <AssociationSet Name="FK__tblMstLoa__Branc__4891720A" Association="MicroPayModel.FK__tblMstLoa__Branc__4891720A">
             <End Role="Branch" EntitySet="Branches" />
@@ -19079,10 +19055,6 @@ warning 6002: The table/view 'HRMS.dbo.TrainingFeedbackFormat' does not have a p
           <AssociationSet Name="FK_Designation_CadreID" Association="MicroPayModel.FK_Designation_CadreID">
             <End Role="Cadre" EntitySet="Cadres" />
             <End Role="Designation" EntitySet="Designations" />
-          </AssociationSet>
-          <AssociationSet Name="FK__promotion__Desig__249E2A57" Association="MicroPayModel.FK__promotion__Desig__249E2A57">
-            <End Role="Designation" EntitySet="Designations" />
-            <End Role="promotioncota1" EntitySet="promotioncota1" />
           </AssociationSet>
           <AssociationSet Name="FK__tblFinalM__Desig__454AF10B" Association="MicroPayModel.FK__tblFinalM__Desig__454AF10B">
             <End Role="Designation" EntitySet="Designations" />
@@ -19514,39 +19486,6 @@ warning 6002: The table/view 'HRMS.dbo.TrainingFeedbackFormat' does not have a p
             <End Role="User" EntitySet="Users" />
             <End Role="ConfirmationFormBHeader" EntitySet="ConfirmationFormBHeaders" />
           </AssociationSet>
-          <EntitySet Name="FileWorkflows" EntityType="MicroPayModel.FileWorkflow" />
-          <AssociationSet Name="FK_FileWorkflow_Department" Association="MicroPayModel.FK_FileWorkflow_Department">
-            <End Role="Department" EntitySet="Departments" />
-            <End Role="FileWorkflow" EntitySet="FileWorkflows" />
-          </AssociationSet>
-          <AssociationSet Name="FK_FileWorkflow_Department1" Association="MicroPayModel.FK_FileWorkflow_Department1">
-            <End Role="Department" EntitySet="Departments" />
-            <End Role="FileWorkflow" EntitySet="FileWorkflows" />
-          </AssociationSet>
-          <AssociationSet Name="FK_FileWorkflow_Designation" Association="MicroPayModel.FK_FileWorkflow_Designation">
-            <End Role="Designation" EntitySet="Designations" />
-            <End Role="FileWorkflow" EntitySet="FileWorkflows" />
-          </AssociationSet>
-          <AssociationSet Name="FK_FileWorkflow_Designation1" Association="MicroPayModel.FK_FileWorkflow_Designation1">
-            <End Role="Designation" EntitySet="Designations" />
-            <End Role="FileWorkflow" EntitySet="FileWorkflows" />
-          </AssociationSet>
-          <AssociationSet Name="FK_FileManagement_FileWorkflow" Association="MicroPayModel.FK_FileManagement_FileWorkflow">
-            <End Role="FileWorkflow" EntitySet="FileWorkflows" />
-            <End Role="FileManagement" EntitySet="FileManagements" />
-          </AssociationSet>
-          <AssociationSet Name="FK_FileWorkflow_tblMstEmployee" Association="MicroPayModel.FK_FileWorkflow_tblMstEmployee">
-            <End Role="tblMstEmployee" EntitySet="tblMstEmployees" />
-            <End Role="FileWorkflow" EntitySet="FileWorkflows" />
-          </AssociationSet>
-          <AssociationSet Name="FK_FileWorkflow_tblMstEmployee1" Association="MicroPayModel.FK_FileWorkflow_tblMstEmployee1">
-            <End Role="tblMstEmployee" EntitySet="tblMstEmployees" />
-            <End Role="FileWorkflow" EntitySet="FileWorkflows" />
-          </AssociationSet>
-          <AssociationSet Name="FK_FileWorkflow_User" Association="MicroPayModel.FK_FileWorkflow_User">
-            <End Role="User" EntitySet="Users" />
-            <End Role="FileWorkflow" EntitySet="FileWorkflows" />
-          </AssociationSet>
           <EntitySet Name="ticket_status" EntityType="MicroPayModel.ticket_status" />
           <EntitySet Name="ticket_type" EntityType="MicroPayModel.ticket_type" />
           <EntitySet Name="ticket_priority" EntityType="MicroPayModel.ticket_priority" />
@@ -19779,7 +19718,6 @@ warning 6002: The table/view 'HRMS.dbo.TrainingFeedbackFormat' does not have a p
             <End Role="User" EntitySet="Users" />
             <End Role="PayrollApprovalSetting" EntitySet="PayrollApprovalSettings" />
           </AssociationSet>
-          <EntitySet Name="TblPFOPBalanceManuals" EntityType="MicroPayModel.TblPFOPBalanceManual" />
           <EntitySet Name="ConfirmationFormHdrs" EntityType="MicroPayModel.ConfirmationFormHdr" />
           <EntitySet Name="FormGroupAHdrs" EntityType="MicroPayModel.FormGroupAHdr" />
           <EntitySet Name="FormGroupBHdrs" EntityType="MicroPayModel.FormGroupBHdr" />
@@ -20339,6 +20277,70 @@ warning 6002: The table/view 'HRMS.dbo.TrainingFeedbackFormat' does not have a p
             <End Role="UserLoginDetails1" EntitySet="UserLoginDetails" />
           </AssociationSet>
           <EntitySet Name="InsufficientLoggingMonitoring" EntityType="MicroPayModel.InsufficientLoggingMonitoring" />
+          <AssociationSet Name="FK_FormGroupA_tblMstEmployee1" Association="MicroPayModel.FK_FormGroupA_tblMstEmployee1">
+            <End Role="tblMstEmployee" EntitySet="tblMstEmployees" />
+            <End Role="FormGroupAHdr" EntitySet="FormGroupAHdrs" />
+          </AssociationSet>
+          <EntitySet Name="TblPFOPBalanceManual" EntityType="MicroPayModel.TblPFOPBalanceManual" />
+          <EntitySet Name="promotioncota1" EntityType="MicroPayModel.promotioncota1" />
+          <AssociationSet Name="FK__promotion__Desig__249E2A57" Association="MicroPayModel.FK__promotion__Desig__249E2A57">
+            <End Role="Designation" EntitySet="Designations" />
+            <End Role="promotioncota1" EntitySet="promotioncota1" />
+          </AssociationSet>
+          <AssociationSet Name="FK__promotion__Creat__25924E90" Association="MicroPayModel.FK__promotion__Creat__25924E90">
+            <End Role="User" EntitySet="Users" />
+            <End Role="promotioncota1" EntitySet="promotioncota1" />
+          </AssociationSet>
+          <AssociationSet Name="FK__promotion__Updat__268672C9" Association="MicroPayModel.FK__promotion__Updat__268672C9">
+            <End Role="User" EntitySet="Users" />
+            <End Role="promotioncota1" EntitySet="promotioncota1" />
+          </AssociationSet>
+          <EntitySet Name="FileWorkflow" EntityType="MicroPayModel.FileWorkflow" />
+          <AssociationSet Name="FK_FileWorkflow_Department" Association="MicroPayModel.FK_FileWorkflow_Department">
+            <End Role="Department" EntitySet="Departments" />
+            <End Role="FileWorkflow" EntitySet="FileWorkflow" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FileWorkflow_Department1" Association="MicroPayModel.FK_FileWorkflow_Department1">
+            <End Role="Department" EntitySet="Departments" />
+            <End Role="FileWorkflow" EntitySet="FileWorkflow" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FileWorkflow_Designation" Association="MicroPayModel.FK_FileWorkflow_Designation">
+            <End Role="Designation" EntitySet="Designations" />
+            <End Role="FileWorkflow" EntitySet="FileWorkflow" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FileWorkflow_Designation1" Association="MicroPayModel.FK_FileWorkflow_Designation1">
+            <End Role="Designation" EntitySet="Designations" />
+            <End Role="FileWorkflow" EntitySet="FileWorkflow" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FileManagement_FileWorkflow" Association="MicroPayModel.FK_FileManagement_FileWorkflow">
+            <End Role="FileWorkflow" EntitySet="FileWorkflow" />
+            <End Role="FileManagement" EntitySet="FileManagements" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FileWorkflow_tblMstEmployee" Association="MicroPayModel.FK_FileWorkflow_tblMstEmployee">
+            <End Role="tblMstEmployee" EntitySet="tblMstEmployees" />
+            <End Role="FileWorkflow" EntitySet="FileWorkflow" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FileWorkflow_tblMstEmployee1" Association="MicroPayModel.FK_FileWorkflow_tblMstEmployee1">
+            <End Role="tblMstEmployee" EntitySet="tblMstEmployees" />
+            <End Role="FileWorkflow" EntitySet="FileWorkflow" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FileWorkflow_User" Association="MicroPayModel.FK_FileWorkflow_User">
+            <End Role="User" EntitySet="Users" />
+            <End Role="FileWorkflow" EntitySet="FileWorkflow" />
+          </AssociationSet>
+          <EntitySet Name="NREmployeesContractExtention" EntityType="MicroPayModel.NREmployeesContractExtention" />
+          <AssociationSet Name="FK_NREmployeesContractExtention_NREmployeesContractExtention" Association="MicroPayModel.FK_NREmployeesContractExtention_NREmployeesContractExtention">
+            <End Role="tblMstEmployee" EntitySet="tblMstEmployees" />
+            <End Role="NREmployeesContractExtention" EntitySet="NREmployeesContractExtention" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NREmployeesContractExtention_User" Association="MicroPayModel.FK_NREmployeesContractExtention_User">
+            <End Role="User" EntitySet="Users" />
+            <End Role="NREmployeesContractExtention" EntitySet="NREmployeesContractExtention" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NREmployeesContractExtention_User1" Association="MicroPayModel.FK_NREmployeesContractExtention_User1">
+            <End Role="User" EntitySet="Users" />
+            <End Role="NREmployeesContractExtention" EntitySet="NREmployeesContractExtention" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="AcadmicProfessionalDetail">
           <Key>
@@ -20536,8 +20538,6 @@ warning 6002: The table/view 'HRMS.dbo.TrainingFeedbackFormat' does not have a p
           <NavigationProperty Name="EmpPFOrgHDRs" Relationship="MicroPayModel.FK_EmpPFOrgHDR_Department" FromRole="Department" ToRole="EmpPFOrgHDR" />
           <NavigationProperty Name="ConveyanceBillHdrDetails" Relationship="MicroPayModel.FK_ConveyanceBillHdrDetails_Department" FromRole="Department" ToRole="ConveyanceBillHdrDetail" />
           <NavigationProperty Name="NRPFLoanHDRs" Relationship="MicroPayModel.FK_NRPFLoanHDR_Department" FromRole="Department" ToRole="NRPFLoanHDR" />
-          <NavigationProperty Name="FileWorkflows" Relationship="MicroPayModel.FK_FileWorkflow_Department" FromRole="Department" ToRole="FileWorkflow" />
-          <NavigationProperty Name="FileWorkflows1" Relationship="MicroPayModel.FK_FileWorkflow_Department1" FromRole="Department" ToRole="FileWorkflow" />
           <NavigationProperty Name="TicketWorkFlows" Relationship="MicroPayModel.FK_TicketWorkFlow_Department" FromRole="Department" ToRole="TicketWorkFlow" />
           <NavigationProperty Name="tickets" Relationship="MicroPayModel.FK_ticket_Department" FromRole="Department" ToRole="ticket" />
           <NavigationProperty Name="FormGroupAHdrs" Relationship="MicroPayModel.FK_FormGroupAHdr_Department" FromRole="Department" ToRole="FormGroupAHdr" />
@@ -20548,6 +20548,8 @@ warning 6002: The table/view 'HRMS.dbo.TrainingFeedbackFormat' does not have a p
           <NavigationProperty Name="FormGroupFHdrs" Relationship="MicroPayModel.FK_FormGroupFHdr_Department" FromRole="Department" ToRole="FormGroupFHdr" />
           <NavigationProperty Name="FormGroupGHdrs" Relationship="MicroPayModel.FK_FormGroupGHdr_Department" FromRole="Department" ToRole="FormGroupGHdr" />
           <NavigationProperty Name="FormGroupHHdrs" Relationship="MicroPayModel.FK_FormGroupHHdr_Department" FromRole="Department" ToRole="FormGroupHHdr" />
+          <NavigationProperty Name="FileWorkflow" Relationship="MicroPayModel.FK_FileWorkflow_Department" FromRole="Department" ToRole="FileWorkflow" />
+          <NavigationProperty Name="FileWorkflow1" Relationship="MicroPayModel.FK_FileWorkflow_Department1" FromRole="Department" ToRole="FileWorkflow" />
           </EntityType>
         <EntityType Name="DepartmentRight">
           <Key>
@@ -21206,8 +21208,6 @@ warning 6002: The table/view 'HRMS.dbo.TrainingFeedbackFormat' does not have a p
           <NavigationProperty Name="EmployeeProvidentFundOrganisations1" Relationship="MicroPayModel.FK_v_CreatedBy" FromRole="User" ToRole="EmployeeProvidentFundOrganisation" />
           <NavigationProperty Name="BranchSalaryHeadRules" Relationship="MicroPayModel.FK_BranchSalaryHeadRules_User" FromRole="User" ToRole="BranchSalaryHeadRule" />
           <NavigationProperty Name="BranchSalaryHeadRules1" Relationship="MicroPayModel.FK_BranchSalaryHeadRules_User1" FromRole="User" ToRole="BranchSalaryHeadRule" />
-          <NavigationProperty Name="promotioncota1" Relationship="MicroPayModel.FK__promotion__Creat__25924E90" FromRole="User" ToRole="promotioncota1" />
-          <NavigationProperty Name="promotioncota11" Relationship="MicroPayModel.FK__promotion__Updat__268672C9" FromRole="User" ToRole="promotioncota1" />
           <NavigationProperty Name="tblMstLoanPriorities" Relationship="MicroPayModel.FK__tblMstLoa__Creat__49859643" FromRole="User" ToRole="tblMstLoanPriority" />
           <NavigationProperty Name="tblMstLoanPriorities1" Relationship="MicroPayModel.FK__tblMstLoa__Updat__4C6202EE" FromRole="User" ToRole="tblMstLoanPriority" />
           <NavigationProperty Name="PayrollApprovalRequests" Relationship="MicroPayModel.FK_PayrollApprovalRequest_User" FromRole="User" ToRole="PayrollApprovalRequest" />
@@ -21270,7 +21270,6 @@ warning 6002: The table/view 'HRMS.dbo.TrainingFeedbackFormat' does not have a p
           <NavigationProperty Name="ConfirmationFormAHeaders1" Relationship="MicroPayModel.FK_ConfirmationFormAHeader_User1" FromRole="User" ToRole="ConfirmationFormAHeader" />
           <NavigationProperty Name="ConfirmationFormBHeaders" Relationship="MicroPayModel.FK_ConfirmationFormBHeader_User" FromRole="User" ToRole="ConfirmationFormBHeader" />
           <NavigationProperty Name="ConfirmationFormBHeaders1" Relationship="MicroPayModel.FK_ConfirmationFormBHeader_User1" FromRole="User" ToRole="ConfirmationFormBHeader" />
-          <NavigationProperty Name="FileWorkflows" Relationship="MicroPayModel.FK_FileWorkflow_User" FromRole="User" ToRole="FileWorkflow" />
           <NavigationProperty Name="EmployeeSuspensionPeriods" Relationship="MicroPayModel.FK_EmployeeSuspensionPeriod_User" FromRole="User" ToRole="EmployeeSuspensionPeriod" />
           <NavigationProperty Name="tblMstLTCs" Relationship="MicroPayModel.FK_tblMstLTC_CreatedBy" FromRole="User" ToRole="tblMstLTC" />
           <NavigationProperty Name="tblMstLTCs1" Relationship="MicroPayModel.FK_tblMstLTC_UpdatedBy" FromRole="User" ToRole="tblMstLTC" />
@@ -21323,6 +21322,11 @@ warning 6002: The table/view 'HRMS.dbo.TrainingFeedbackFormat' does not have a p
           <NavigationProperty Name="Resignations1" Relationship="MicroPayModel.FK_Resignation_User" FromRole="User" ToRole="Resignation" />
           <Property Name="WrongAttemp" Type="Byte" />
           <Property Name="LockDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="promotioncota1" Relationship="MicroPayModel.FK__promotion__Creat__25924E90" FromRole="User" ToRole="promotioncota1" />
+          <NavigationProperty Name="promotioncota11" Relationship="MicroPayModel.FK__promotion__Updat__268672C9" FromRole="User" ToRole="promotioncota1" />
+          <NavigationProperty Name="FileWorkflow" Relationship="MicroPayModel.FK_FileWorkflow_User" FromRole="User" ToRole="FileWorkflow" />
+          <NavigationProperty Name="NREmployeesContractExtention" Relationship="MicroPayModel.FK_NREmployeesContractExtention_User" FromRole="User" ToRole="NREmployeesContractExtention" />
+          <NavigationProperty Name="NREmployeesContractExtention1" Relationship="MicroPayModel.FK_NREmployeesContractExtention_User1" FromRole="User" ToRole="NREmployeesContractExtention" />
           </EntityType>
         <EntityType Name="UserRight">
           <Key>
@@ -28500,8 +28504,6 @@ warning 6002: The table/view 'HRMS.dbo.TrainingFeedbackFormat' does not have a p
           <NavigationProperty Name="NRPFLoanHDRs" Relationship="MicroPayModel.FK_NRPFLoanHDR_EmployeeId" FromRole="tblMstEmployee" ToRole="NRPFLoanHDR" />
           <NavigationProperty Name="ConfirmationFormAHeaders" Relationship="MicroPayModel.FK_ConfirmationFormAHeader_tblMstEmployee" FromRole="tblMstEmployee" ToRole="ConfirmationFormAHeader" />
           <NavigationProperty Name="ConfirmationFormBHeaders" Relationship="MicroPayModel.FK_ConfirmationFormBHeader_tblMstEmployee" FromRole="tblMstEmployee" ToRole="ConfirmationFormBHeader" />
-          <NavigationProperty Name="FileWorkflows" Relationship="MicroPayModel.FK_FileWorkflow_tblMstEmployee" FromRole="tblMstEmployee" ToRole="FileWorkflow" />
-          <NavigationProperty Name="FileWorkflows1" Relationship="MicroPayModel.FK_FileWorkflow_tblMstEmployee1" FromRole="tblMstEmployee" ToRole="FileWorkflow" />
           <NavigationProperty Name="EmployeeSuspensionPeriods" Relationship="MicroPayModel.FK_EmployeeSuspensionPeriod_tblMstEmployee" FromRole="tblMstEmployee" ToRole="EmployeeSuspensionPeriod" />
           <NavigationProperty Name="tblMstLTCs" Relationship="MicroPayModel.FK_tblMstLTC_tblMstEmployee" FromRole="tblMstEmployee" ToRole="tblMstLTC" />
           <NavigationProperty Name="tickets" Relationship="MicroPayModel.FK_ticket_tblMstEmployee" FromRole="tblMstEmployee" ToRole="ticket" />
@@ -28530,6 +28532,10 @@ warning 6002: The table/view 'HRMS.dbo.TrainingFeedbackFormat' does not have a p
           <NavigationProperty Name="SeparationClearances" Relationship="MicroPayModel.FK_SeparationClearance_tblMstEmployee" FromRole="tblMstEmployee" ToRole="SeparationClearance" />
           <NavigationProperty Name="Seprations" Relationship="MicroPayModel.FK_Sepration_tblMstEmployee" FromRole="tblMstEmployee" ToRole="Sepration" />
           <NavigationProperty Name="Resignations" Relationship="MicroPayModel.FK_Resignation_tblMstEmployee" FromRole="tblMstEmployee" ToRole="Resignation" />
+          <NavigationProperty Name="FormGroupAHdr" Relationship="MicroPayModel.FK_FormGroupA_tblMstEmployee1" FromRole="tblMstEmployee" ToRole="FormGroupAHdr" />
+          <NavigationProperty Name="FileWorkflow" Relationship="MicroPayModel.FK_FileWorkflow_tblMstEmployee" FromRole="tblMstEmployee" ToRole="FileWorkflow" />
+          <NavigationProperty Name="FileWorkflow1" Relationship="MicroPayModel.FK_FileWorkflow_tblMstEmployee1" FromRole="tblMstEmployee" ToRole="FileWorkflow" />
+          <NavigationProperty Name="NREmployeesContractExtention" Relationship="MicroPayModel.FK_NREmployeesContractExtention_NREmployeesContractExtention" FromRole="tblMstEmployee" ToRole="NREmployeesContractExtention" />
           </EntityType>
         <EntityType Name="tblmstprojectedemployee">
           <Key>
@@ -30119,6 +30125,7 @@ warning 6002: The table/view 'HRMS.dbo.TrainingFeedbackFormat' does not have a p
           <NavigationProperty Name="User" Relationship="MicroPayModel.FK__TblExGrat__Creat__48D1692C" FromRole="TblExGratia_Cal" ToRole="User" />
           <NavigationProperty Name="tblMstEmployee" Relationship="MicroPayModel.FK__TblExGrat__Emplo__47DD44F3" FromRole="TblExGratia_Cal" ToRole="tblMstEmployee" />
           <NavigationProperty Name="User1" Relationship="MicroPayModel.FK__TblExGrat__Updat__49C58D65" FromRole="TblExGratia_Cal" ToRole="User" />
+          <Property Name="IsPublish" Type="Boolean" Nullable="false" />
         </EntityType>
         <Association Name="FK__TblBonusAmt__BranchID">
           <End Type="MicroPayModel.Branch" Role="Branch" Multiplicity="1" />
@@ -30393,7 +30400,7 @@ warning 6002: The table/view 'HRMS.dbo.TrainingFeedbackFormat' does not have a p
           <Property Name="PFNo" Type="Int32" />
           <Property Name="CurrentDate" Type="DateTime" Precision="3" />
           <NavigationProperty Name="EmpPFOrgHDR" Relationship="MicroPayModel.FK_EmployeeProvidentFundOrganisation_EmpPFID" FromRole="EmployeeProvidentFundOrganisation" ToRole="EmpPFOrgHDR" />
-          <Property Name="EmployeeDeclaration" Type="Boolean" Nullable="false" />
+          <Property Name="EmployeeDeclaration" Type="Boolean" />
         </EntityType>
         <Association Name="FK_EmployeeProvidentFundOrganisation_EmployeeId">
           <End Type="MicroPayModel.tblMstEmployee" Role="tblMstEmployee" Multiplicity="1" />
@@ -30565,51 +30572,6 @@ warning 6002: The table/view 'HRMS.dbo.TrainingFeedbackFormat' does not have a p
               <PropertyRef Name="UserID" />
             </Principal>
             <Dependent Role="BranchSalaryHeadRule">
-              <PropertyRef Name="UpdatedBy" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="promotioncota1">
-          <Key>
-            <PropertyRef Name="PromotionCotaId" />
-          </Key>
-          <Property Name="Promotion" Type="Int32" />
-          <Property Name="Direct" Type="Int32" />
-          <Property Name="LCT" Type="Int32" />
-          <Property Name="NotCheck" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="CreatedBy" Type="Int32" Nullable="false" />
-          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="UpdatedBy" Type="Int32" />
-          <Property Name="UpdatedOn" Type="DateTime" Precision="3" />
-          <Property Name="PromotionCotaId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="DesignationID" Type="Int32" Nullable="false" />
-          <Property Name="NPromotion" Type="Int32" />
-          <Property Name="NDirect" Type="Int32" />
-          <Property Name="NLCT" Type="Int32" />
-          <NavigationProperty Name="User" Relationship="MicroPayModel.FK__promotion__Creat__25924E90" FromRole="promotioncota1" ToRole="User" />
-          <NavigationProperty Name="User1" Relationship="MicroPayModel.FK__promotion__Updat__268672C9" FromRole="promotioncota1" ToRole="User" />
-          <NavigationProperty Name="Designation" Relationship="MicroPayModel.FK__promotion__Desig__249E2A57" FromRole="promotioncota1" ToRole="Designation" />
-        </EntityType>
-        <Association Name="FK__promotion__Creat__25924E90">
-          <End Type="MicroPayModel.User" Role="User" Multiplicity="1" />
-          <End Type="MicroPayModel.promotioncota1" Role="promotioncota1" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="User">
-              <PropertyRef Name="UserID" />
-            </Principal>
-            <Dependent Role="promotioncota1">
-              <PropertyRef Name="CreatedBy" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__promotion__Updat__268672C9">
-          <End Type="MicroPayModel.User" Role="User" Multiplicity="0..1" />
-          <End Type="MicroPayModel.promotioncota1" Role="promotioncota1" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="User">
-              <PropertyRef Name="UserID" />
-            </Principal>
-            <Dependent Role="promotioncota1">
               <PropertyRef Name="UpdatedBy" />
             </Dependent>
           </ReferentialConstraint>
@@ -31541,7 +31503,6 @@ warning 6002: The table/view 'HRMS.dbo.TrainingFeedbackFormat' does not have a p
           <NavigationProperty Name="APARSkillSets" Relationship="MicroPayModel.FK_APARSkillSet_Designation" FromRole="Designation" ToRole="APARSkillSet" />
           <NavigationProperty Name="BonusMinimumMonthlyWages" Relationship="MicroPayModel.FK_BonusMinimumMonthlyWages_DesignationID" FromRole="Designation" ToRole="BonusMinimumMonthlyWage" />
           <NavigationProperty Name="Cadre" Relationship="MicroPayModel.FK_Designation_CadreID" FromRole="Designation" ToRole="Cadre" />
-          <NavigationProperty Name="promotioncota1" Relationship="MicroPayModel.FK__promotion__Desig__249E2A57" FromRole="Designation" ToRole="promotioncota1" />
           <NavigationProperty Name="tblFinalMonthlySalaries" Relationship="MicroPayModel.FK__tblFinalM__Desig__454AF10B" FromRole="Designation" ToRole="tblFinalMonthlySalary" />
           <NavigationProperty Name="User" Relationship="MicroPayModel.FK_Designation_CreatedBy" FromRole="Designation" ToRole="User" />
           <NavigationProperty Name="EmployeeCategory" Relationship="MicroPayModel.FK_Designation_EmplCatID" FromRole="Designation" ToRole="EmployeeCategory" />
@@ -31561,8 +31522,6 @@ warning 6002: The table/view 'HRMS.dbo.TrainingFeedbackFormat' does not have a p
           <NavigationProperty Name="NRPFLoanHDRs" Relationship="MicroPayModel.FK_NRPFLoanHDR_Designation" FromRole="Designation" ToRole="NRPFLoanHDR" />
           <NavigationProperty Name="ConfirmationFormAHeaders" Relationship="MicroPayModel.FK_ConfirmationFormAHeader_Designation" FromRole="Designation" ToRole="ConfirmationFormAHeader" />
           <NavigationProperty Name="ConfirmationFormBHeaders" Relationship="MicroPayModel.FK_ConfirmationFormBHeader_Designation" FromRole="Designation" ToRole="ConfirmationFormBHeader" />
-          <NavigationProperty Name="FileWorkflows" Relationship="MicroPayModel.FK_FileWorkflow_Designation" FromRole="Designation" ToRole="FileWorkflow" />
-          <NavigationProperty Name="FileWorkflows1" Relationship="MicroPayModel.FK_FileWorkflow_Designation1" FromRole="Designation" ToRole="FileWorkflow" />
           <NavigationProperty Name="TicketWorkFlows" Relationship="MicroPayModel.FK_TicketWorkFlow_Designation" FromRole="Designation" ToRole="TicketWorkFlow" />
           <NavigationProperty Name="tickets" Relationship="MicroPayModel.FK_ticket_Designation" FromRole="Designation" ToRole="ticket" />
           <NavigationProperty Name="FormGroupAHdrs" Relationship="MicroPayModel.FK_FormGroupAHdr_Designation" FromRole="Designation" ToRole="FormGroupAHdr" />
@@ -31576,6 +31535,9 @@ warning 6002: The table/view 'HRMS.dbo.TrainingFeedbackFormat' does not have a p
           <NavigationProperty Name="DesignationAppraisalForms" Relationship="MicroPayModel.FK_DesignationAppraisalForm_Designation" FromRole="Designation" ToRole="DesignationAppraisalForm" />
           <NavigationProperty Name="EmpAttendanceHdrs" Relationship="MicroPayModel.FK_EmpAttendanceHdr_Designation" FromRole="Designation" ToRole="EmpAttendanceHdr" />
           <Property Name="FamilyAssured" Type="Decimal" Precision="10" Scale="2" />
+          <NavigationProperty Name="promotioncota1" Relationship="MicroPayModel.FK__promotion__Desig__249E2A57" FromRole="Designation" ToRole="promotioncota1" />
+          <NavigationProperty Name="FileWorkflow" Relationship="MicroPayModel.FK_FileWorkflow_Designation" FromRole="Designation" ToRole="FileWorkflow" />
+          <NavigationProperty Name="FileWorkflow1" Relationship="MicroPayModel.FK_FileWorkflow_Designation1" FromRole="Designation" ToRole="FileWorkflow" />
         </EntityType>
         <Association Name="FK_APARSkillSet_Designation">
           <End Type="MicroPayModel.Designation" Role="Designation" Multiplicity="1" />
@@ -31610,18 +31572,6 @@ warning 6002: The table/view 'HRMS.dbo.TrainingFeedbackFormat' does not have a p
             </Principal>
             <Dependent Role="Designation">
               <PropertyRef Name="CadreID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__promotion__Desig__249E2A57">
-          <End Type="MicroPayModel.Designation" Role="Designation" Multiplicity="1" />
-          <End Type="MicroPayModel.promotioncota1" Role="promotioncota1" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Designation">
-              <PropertyRef Name="DesignationID" />
-            </Principal>
-            <Dependent Role="promotioncota1">
-              <PropertyRef Name="DesignationID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -31773,7 +31723,7 @@ warning 6002: The table/view 'HRMS.dbo.TrainingFeedbackFormat' does not have a p
           <Key>
             <PropertyRef Name="StaffBudgetId" />
           </Key>
-          <Property Name="Year" Type="String" Nullable="false" MaxLength="9" FixedLength="false" Unicode="false" />
+          <Property Name="Year" Type="String" Nullable="false" MaxLength="7" FixedLength="false" Unicode="false" />
           <Property Name="Month" Type="Int32" />
           <Property Name="BudgetedStaff" Type="Int16" />
           <Property Name="PresentStaff" Type="Int16" />
@@ -32021,7 +31971,7 @@ warning 6002: The table/view 'HRMS.dbo.TrainingFeedbackFormat' does not have a p
           <Property Name="EmpDeductionID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="EmpFormID" Type="Int32" Nullable="false" />
           <Property Name="EmployeeID" Type="Int32" Nullable="false" />
-          <Property Name="FYear" Type="String" Nullable="false" MaxLength="9" FixedLength="false" Unicode="false" />
+          <Property Name="FYear" Type="String" Nullable="false" MaxLength="11" FixedLength="false" Unicode="false" />
           <Property Name="SectionID" Type="Int32" Nullable="false" />
           <Property Name="SubSectionID" Type="Int32" />
           <Property Name="SubSectionDescriptionID" Type="Int32" />
@@ -32042,7 +31992,7 @@ warning 6002: The table/view 'HRMS.dbo.TrainingFeedbackFormat' does not have a p
             <PropertyRef Name="EmpFormID" />
           </Key>
           <Property Name="EmpFormID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="FYear" Type="String" Nullable="false" MaxLength="9" FixedLength="false" Unicode="false" />
+          <Property Name="FYear" Type="String" Nullable="false" MaxLength="11" FixedLength="false" Unicode="false" />
           <Property Name="EmployeeID" Type="Int32" Nullable="false" />
           <Property Name="LandLordName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="LandLordAddress" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
@@ -32200,7 +32150,7 @@ warning 6002: The table/view 'HRMS.dbo.TrainingFeedbackFormat' does not have a p
           </Key>
           <Property Name="SectionID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="SectionName" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="FYear" Type="String" Nullable="false" MaxLength="9" FixedLength="false" Unicode="false" />
+          <Property Name="FYear" Type="String" Nullable="false" MaxLength="11" FixedLength="false" Unicode="false" />
           <Property Name="CreatedBy" Type="Int32" Nullable="false" />
           <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
@@ -33403,127 +33353,6 @@ warning 6002: The table/view 'HRMS.dbo.TrainingFeedbackFormat' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="FileWorkflow">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="initiateDesignationID" Type="Int32" Nullable="false" />
-          <Property Name="ParkByDesignationID" Type="Int32" />
-          <Property Name="todate" Type="DateTime" Precision="0" />
-          <Property Name="fromdate" Type="DateTime" Precision="0" />
-          <Property Name="created_on" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="created_by" Type="Int32" Nullable="false" />
-          <Property Name="initiateDepartmentID" Type="Int32" Nullable="false" />
-          <Property Name="ParkByDepartmentID" Type="Int32" />
-          <Property Name="initiateEmployeeID" Type="Int32" Nullable="false" />
-          <Property Name="ParkByEmployeeID" Type="Int32" />
-          <Property Name="FileWorkFlowID" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Department" Relationship="MicroPayModel.FK_FileWorkflow_Department" FromRole="FileWorkflow" ToRole="Department" />
-          <NavigationProperty Name="Department1" Relationship="MicroPayModel.FK_FileWorkflow_Department1" FromRole="FileWorkflow" ToRole="Department" />
-          <NavigationProperty Name="Designation" Relationship="MicroPayModel.FK_FileWorkflow_Designation" FromRole="FileWorkflow" ToRole="Designation" />
-          <NavigationProperty Name="Designation1" Relationship="MicroPayModel.FK_FileWorkflow_Designation1" FromRole="FileWorkflow" ToRole="Designation" />
-          <NavigationProperty Name="FileManagements" Relationship="MicroPayModel.FK_FileManagement_FileWorkflow" FromRole="FileWorkflow" ToRole="FileManagement" />
-          <NavigationProperty Name="tblMstEmployee" Relationship="MicroPayModel.FK_FileWorkflow_tblMstEmployee" FromRole="FileWorkflow" ToRole="tblMstEmployee" />
-          <NavigationProperty Name="tblMstEmployee1" Relationship="MicroPayModel.FK_FileWorkflow_tblMstEmployee1" FromRole="FileWorkflow" ToRole="tblMstEmployee" />
-          <NavigationProperty Name="User" Relationship="MicroPayModel.FK_FileWorkflow_User" FromRole="FileWorkflow" ToRole="User" />
-        </EntityType>
-        <Association Name="FK_FileWorkflow_Department">
-          <End Type="MicroPayModel.Department" Role="Department" Multiplicity="1" />
-          <End Type="MicroPayModel.FileWorkflow" Role="FileWorkflow" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Department">
-              <PropertyRef Name="DepartmentID" />
-            </Principal>
-            <Dependent Role="FileWorkflow">
-              <PropertyRef Name="initiateDepartmentID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_FileWorkflow_Department1">
-          <End Type="MicroPayModel.Department" Role="Department" Multiplicity="0..1" />
-          <End Type="MicroPayModel.FileWorkflow" Role="FileWorkflow" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Department">
-              <PropertyRef Name="DepartmentID" />
-            </Principal>
-            <Dependent Role="FileWorkflow">
-              <PropertyRef Name="ParkByDepartmentID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_FileWorkflow_Designation">
-          <End Type="MicroPayModel.Designation" Role="Designation" Multiplicity="1" />
-          <End Type="MicroPayModel.FileWorkflow" Role="FileWorkflow" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Designation">
-              <PropertyRef Name="DesignationID" />
-            </Principal>
-            <Dependent Role="FileWorkflow">
-              <PropertyRef Name="initiateDesignationID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_FileWorkflow_Designation1">
-          <End Type="MicroPayModel.Designation" Role="Designation" Multiplicity="0..1" />
-          <End Type="MicroPayModel.FileWorkflow" Role="FileWorkflow" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Designation">
-              <PropertyRef Name="DesignationID" />
-            </Principal>
-            <Dependent Role="FileWorkflow">
-              <PropertyRef Name="ParkByDesignationID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_FileManagement_FileWorkflow">
-          <End Type="MicroPayModel.FileWorkflow" Role="FileWorkflow" Multiplicity="1" />
-          <End Type="MicroPayModel.FileManagement" Role="FileManagement" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="FileWorkflow">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="FileManagement">
-              <PropertyRef Name="FileWorkFlowID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_FileWorkflow_tblMstEmployee">
-          <End Type="MicroPayModel.tblMstEmployee" Role="tblMstEmployee" Multiplicity="1" />
-          <End Type="MicroPayModel.FileWorkflow" Role="FileWorkflow" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tblMstEmployee">
-              <PropertyRef Name="EmployeeId" />
-            </Principal>
-            <Dependent Role="FileWorkflow">
-              <PropertyRef Name="initiateEmployeeID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_FileWorkflow_tblMstEmployee1">
-          <End Type="MicroPayModel.tblMstEmployee" Role="tblMstEmployee" Multiplicity="0..1" />
-          <End Type="MicroPayModel.FileWorkflow" Role="FileWorkflow" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tblMstEmployee">
-              <PropertyRef Name="EmployeeId" />
-            </Principal>
-            <Dependent Role="FileWorkflow">
-              <PropertyRef Name="ParkByEmployeeID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_FileWorkflow_User">
-          <End Type="MicroPayModel.User" Role="User" Multiplicity="1" />
-          <End Type="MicroPayModel.FileWorkflow" Role="FileWorkflow" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="User">
-              <PropertyRef Name="UserID" />
-            </Principal>
-            <Dependent Role="FileWorkflow">
-              <PropertyRef Name="created_by" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="ticket_status">
           <Key>
             <PropertyRef Name="ID" />
@@ -34589,31 +34418,6 @@ warning 6002: The table/view 'HRMS.dbo.TrainingFeedbackFormat' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="TblPFOPBalanceManual">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="Year" Type="Int32" />
-          <Property Name="Month" Type="Int32" />
-          <Property Name="PFNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="EPF" Type="Double" />
-          <Property Name="VPF" Type="Double" />
-          <Property Name="EmpPF" Type="Double" />
-          <Property Name="Pension" Type="Double" />
-          <Property Name="WithEmp" Type="Double" />
-          <Property Name="WithEmplr" Type="Double" />
-          <Property Name="AddEmp" Type="Double" />
-          <Property Name="AddEmplr" Type="Double" />
-          <Property Name="IntEmp" Type="Double" />
-          <Property Name="IntEmplr" Type="Double" />
-          <Property Name="additionEmpInt" Type="Decimal" Precision="19" Scale="4" />
-          <Property Name="additionEmployerInt" Type="Decimal" Precision="19" Scale="4" />
-          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="CreatedBy" Type="Int32" Nullable="false" />
-          <Property Name="UpdatedOn" Type="DateTime" Precision="3" />
-          <Property Name="UpdatedBy" Type="Int32" />
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-        </EntityType>
         <EntityType Name="ConfirmationFormHdr">
           <Key>
             <PropertyRef Name="FormHdrID" />
@@ -34688,6 +34492,7 @@ warning 6002: The table/view 'HRMS.dbo.TrainingFeedbackFormat' does not have a p
           <NavigationProperty Name="User" Relationship="MicroPayModel.FK_FormGroupA_User" FromRole="FormGroupAHdr" ToRole="User" />
           <NavigationProperty Name="AppraisalForm" Relationship="MicroPayModel.FK_FormGroupA_tblMstEmployee" FromRole="FormGroupAHdr" ToRole="AppraisalForm" />
           <NavigationProperty Name="AppraisalForm1" Relationship="MicroPayModel.FK_FormGroupAHdr_AppraisalForm" FromRole="FormGroupAHdr" ToRole="AppraisalForm" />
+          <NavigationProperty Name="tblMstEmployee" Relationship="MicroPayModel.FK_FormGroupA_tblMstEmployee1" FromRole="FormGroupAHdr" ToRole="tblMstEmployee" />
         </EntityType>
         <EntityType Name="FormGroupBHdr">
           <Key>
@@ -36520,6 +36325,11 @@ warning 6002: The table/view 'HRMS.dbo.TrainingFeedbackFormat' does not have a p
           <NavigationProperty Name="Branch" Relationship="MicroPayModel.FK__tblPFOpBa__Branc__5B052800" FromRole="tblPFOpBalance" ToRole="Branch" />
           <NavigationProperty Name="User" Relationship="MicroPayModel.FK__tblPFOpBa__Creat__5BF94C39" FromRole="tblPFOpBalance" ToRole="User" />
           <NavigationProperty Name="User1" Relationship="MicroPayModel.FK__tblPFOpBa__Updat__5CED7072" FromRole="tblPFOpBalance" ToRole="User" />
+          <Property Name="CB_Non_Taxable" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="CB_Taxable" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="IA_Non_Taxable" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="IA_Taxable" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="TDS_Rate" Type="Decimal" Precision="19" Scale="4" />
         </EntityType>
         <Association Name="FK__tblPFOpBa__Branc__5B052800">
           <End Type="MicroPayModel.Branch" Role="Branch" Multiplicity="0..1" />
@@ -37046,6 +36856,275 @@ warning 6002: The table/view 'HRMS.dbo.TrainingFeedbackFormat' does not have a p
           <Property Name="UserAgent" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
           <Property Name="Country" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
         </EntityType>
+        <Association Name="FK_FormGroupA_tblMstEmployee1">
+          <End Type="MicroPayModel.tblMstEmployee" Role="tblMstEmployee" Multiplicity="1" />
+          <End Type="MicroPayModel.FormGroupAHdr" Role="FormGroupAHdr" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblMstEmployee">
+              <PropertyRef Name="EmployeeId" />
+            </Principal>
+            <Dependent Role="FormGroupAHdr">
+              <PropertyRef Name="EmployeeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="TblPFOPBalanceManual">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Year" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Month" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="PFNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="EPF" Type="Double" />
+          <Property Name="VPF" Type="Double" />
+          <Property Name="EmpPF" Type="Double" />
+          <Property Name="Pension" Type="Double" />
+          <Property Name="WithEmp" Type="Double" />
+          <Property Name="WithEmplr" Type="Double" />
+          <Property Name="AddEmp" Type="Double" />
+          <Property Name="AddEmplr" Type="Double" />
+          <Property Name="IntEmp" Type="Double" />
+          <Property Name="IntEmplr" Type="Double" />
+          <Property Name="additionEmpInt" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="additionEmployerInt" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreatedBy" Type="Int32" Nullable="false" />
+          <Property Name="UpdatedOn" Type="DateTime" Precision="3" />
+          <Property Name="UpdatedBy" Type="Int32" />
+        </EntityType>
+        <EntityType Name="promotioncota1">
+          <Key>
+            <PropertyRef Name="PromotionCotaId" />
+          </Key>
+          <Property Name="Promotion" Type="Int32" />
+          <Property Name="Direct" Type="Int32" />
+          <Property Name="LCT" Type="Int32" />
+          <Property Name="NotCheck" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedBy" Type="Int32" Nullable="false" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UpdatedBy" Type="Int32" />
+          <Property Name="UpdatedOn" Type="DateTime" Precision="3" />
+          <Property Name="PromotionCotaId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DesignationID" Type="Int32" Nullable="false" />
+          <Property Name="NPromotion" Type="Int32" />
+          <Property Name="NDirect" Type="Int32" />
+          <Property Name="NLCT" Type="Int32" />
+          <NavigationProperty Name="Designation" Relationship="MicroPayModel.FK__promotion__Desig__249E2A57" FromRole="promotioncota1" ToRole="Designation" />
+          <NavigationProperty Name="User" Relationship="MicroPayModel.FK__promotion__Creat__25924E90" FromRole="promotioncota1" ToRole="User" />
+          <NavigationProperty Name="User1" Relationship="MicroPayModel.FK__promotion__Updat__268672C9" FromRole="promotioncota1" ToRole="User" />
+        </EntityType>
+        <Association Name="FK__promotion__Desig__249E2A57">
+          <End Type="MicroPayModel.Designation" Role="Designation" Multiplicity="1" />
+          <End Type="MicroPayModel.promotioncota1" Role="promotioncota1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Designation">
+              <PropertyRef Name="DesignationID" />
+            </Principal>
+            <Dependent Role="promotioncota1">
+              <PropertyRef Name="DesignationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__promotion__Creat__25924E90">
+          <End Type="MicroPayModel.User" Role="User" Multiplicity="1" />
+          <End Type="MicroPayModel.promotioncota1" Role="promotioncota1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="promotioncota1">
+              <PropertyRef Name="CreatedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__promotion__Updat__268672C9">
+          <End Type="MicroPayModel.User" Role="User" Multiplicity="0..1" />
+          <End Type="MicroPayModel.promotioncota1" Role="promotioncota1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="promotioncota1">
+              <PropertyRef Name="UpdatedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="FileWorkflow">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="initiateDesignationID" Type="Int32" Nullable="false" />
+          <Property Name="ParkByDesignationID" Type="Int32" />
+          <Property Name="todate" Type="DateTime" Precision="0" />
+          <Property Name="fromdate" Type="DateTime" Precision="0" />
+          <Property Name="created_on" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="created_by" Type="Int32" Nullable="false" />
+          <Property Name="initiateDepartmentID" Type="Int32" Nullable="false" />
+          <Property Name="ParkByDepartmentID" Type="Int32" Nullable="false" />
+          <Property Name="initiateEmployeeID" Type="Int32" Nullable="false" />
+          <Property Name="ParkByEmployeeID" Type="Int32" />
+          <Property Name="FileWorkFlowID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Department" Relationship="MicroPayModel.FK_FileWorkflow_Department" FromRole="FileWorkflow" ToRole="Department" />
+          <NavigationProperty Name="Department1" Relationship="MicroPayModel.FK_FileWorkflow_Department1" FromRole="FileWorkflow" ToRole="Department" />
+          <NavigationProperty Name="Designation" Relationship="MicroPayModel.FK_FileWorkflow_Designation" FromRole="FileWorkflow" ToRole="Designation" />
+          <NavigationProperty Name="Designation1" Relationship="MicroPayModel.FK_FileWorkflow_Designation1" FromRole="FileWorkflow" ToRole="Designation" />
+          <NavigationProperty Name="FileManagement" Relationship="MicroPayModel.FK_FileManagement_FileWorkflow" FromRole="FileWorkflow" ToRole="FileManagement" />
+          <NavigationProperty Name="tblMstEmployee" Relationship="MicroPayModel.FK_FileWorkflow_tblMstEmployee" FromRole="FileWorkflow" ToRole="tblMstEmployee" />
+          <NavigationProperty Name="tblMstEmployee1" Relationship="MicroPayModel.FK_FileWorkflow_tblMstEmployee1" FromRole="FileWorkflow" ToRole="tblMstEmployee" />
+          <NavigationProperty Name="User" Relationship="MicroPayModel.FK_FileWorkflow_User" FromRole="FileWorkflow" ToRole="User" />
+        </EntityType>
+        <Association Name="FK_FileWorkflow_Department">
+          <End Type="MicroPayModel.Department" Role="Department" Multiplicity="1" />
+          <End Type="MicroPayModel.FileWorkflow" Role="FileWorkflow" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Department">
+              <PropertyRef Name="DepartmentID" />
+            </Principal>
+            <Dependent Role="FileWorkflow">
+              <PropertyRef Name="initiateDepartmentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FileWorkflow_Department1">
+          <End Type="MicroPayModel.Department" Role="Department" Multiplicity="1" />
+          <End Type="MicroPayModel.FileWorkflow" Role="FileWorkflow" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Department">
+              <PropertyRef Name="DepartmentID" />
+            </Principal>
+            <Dependent Role="FileWorkflow">
+              <PropertyRef Name="ParkByDepartmentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FileWorkflow_Designation">
+          <End Type="MicroPayModel.Designation" Role="Designation" Multiplicity="1" />
+          <End Type="MicroPayModel.FileWorkflow" Role="FileWorkflow" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Designation">
+              <PropertyRef Name="DesignationID" />
+            </Principal>
+            <Dependent Role="FileWorkflow">
+              <PropertyRef Name="initiateDesignationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FileWorkflow_Designation1">
+          <End Type="MicroPayModel.Designation" Role="Designation" Multiplicity="0..1" />
+          <End Type="MicroPayModel.FileWorkflow" Role="FileWorkflow" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Designation">
+              <PropertyRef Name="DesignationID" />
+            </Principal>
+            <Dependent Role="FileWorkflow">
+              <PropertyRef Name="ParkByDesignationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FileManagement_FileWorkflow">
+          <End Type="MicroPayModel.FileWorkflow" Role="FileWorkflow" Multiplicity="1" />
+          <End Type="MicroPayModel.FileManagement" Role="FileManagement" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FileWorkflow">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="FileManagement">
+              <PropertyRef Name="FileWorkFlowID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FileWorkflow_tblMstEmployee">
+          <End Type="MicroPayModel.tblMstEmployee" Role="tblMstEmployee" Multiplicity="1" />
+          <End Type="MicroPayModel.FileWorkflow" Role="FileWorkflow" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblMstEmployee">
+              <PropertyRef Name="EmployeeId" />
+            </Principal>
+            <Dependent Role="FileWorkflow">
+              <PropertyRef Name="initiateEmployeeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FileWorkflow_tblMstEmployee1">
+          <End Type="MicroPayModel.tblMstEmployee" Role="tblMstEmployee" Multiplicity="0..1" />
+          <End Type="MicroPayModel.FileWorkflow" Role="FileWorkflow" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblMstEmployee">
+              <PropertyRef Name="EmployeeId" />
+            </Principal>
+            <Dependent Role="FileWorkflow">
+              <PropertyRef Name="ParkByEmployeeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FileWorkflow_User">
+          <End Type="MicroPayModel.User" Role="User" Multiplicity="1" />
+          <End Type="MicroPayModel.FileWorkflow" Role="FileWorkflow" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="FileWorkflow">
+              <PropertyRef Name="created_by" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="NREmployeesContractExtention">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EmployeeId" Type="Int32" Nullable="false" />
+          <Property Name="ExtentionNoticeDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="ExtentionFromDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="ExtentionToDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="CreatedBy" Type="Int32" Nullable="false" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UpdatedBy" Type="Int32" />
+          <Property Name="UpdatedOn" Type="DateTime" Precision="3" />
+          <Property Name="Deleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="tblMstEmployee" Relationship="MicroPayModel.FK_NREmployeesContractExtention_NREmployeesContractExtention" FromRole="NREmployeesContractExtention" ToRole="tblMstEmployee" />
+          <NavigationProperty Name="User" Relationship="MicroPayModel.FK_NREmployeesContractExtention_User" FromRole="NREmployeesContractExtention" ToRole="User" />
+          <NavigationProperty Name="User1" Relationship="MicroPayModel.FK_NREmployeesContractExtention_User1" FromRole="NREmployeesContractExtention" ToRole="User" />
+        </EntityType>
+        <Association Name="FK_NREmployeesContractExtention_NREmployeesContractExtention">
+          <End Type="MicroPayModel.tblMstEmployee" Role="tblMstEmployee" Multiplicity="1" />
+          <End Type="MicroPayModel.NREmployeesContractExtention" Role="NREmployeesContractExtention" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblMstEmployee">
+              <PropertyRef Name="EmployeeId" />
+            </Principal>
+            <Dependent Role="NREmployeesContractExtention">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NREmployeesContractExtention_User">
+          <End Type="MicroPayModel.User" Role="User" Multiplicity="1" />
+          <End Type="MicroPayModel.NREmployeesContractExtention" Role="NREmployeesContractExtention" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="NREmployeesContractExtention">
+              <PropertyRef Name="CreatedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NREmployeesContractExtention_User1">
+          <End Type="MicroPayModel.User" Role="User" Multiplicity="0..1" />
+          <End Type="MicroPayModel.NREmployeesContractExtention" Role="NREmployeesContractExtention" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="NREmployeesContractExtention">
+              <PropertyRef Name="UpdatedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -41696,6 +41775,7 @@ warning 6002: The table/view 'HRMS.dbo.TrainingFeedbackFormat' does not have a p
           <EntitySetMapping Name="TblExGratia_Cal">
             <EntityTypeMapping TypeName="MicroPayModel.TblExGratia_Cal">
               <MappingFragment StoreEntitySet="TblExGratia_Cal">
+                <ScalarProperty Name="IsPublish" ColumnName="IsPublish" />
                 <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
                 <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
                 <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
@@ -41917,25 +41997,6 @@ warning 6002: The table/view 'HRMS.dbo.TrainingFeedbackFormat' does not have a p
                 <ScalarProperty Name="BranchID" ColumnName="BranchID" />
                 <ScalarProperty Name="FieldName" ColumnName="FieldName" />
                 <ScalarProperty Name="BranchFormulaID" ColumnName="BranchFormulaID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="promotioncota1">
-            <EntityTypeMapping TypeName="MicroPayModel.promotioncota1">
-              <MappingFragment StoreEntitySet="promotioncota1">
-                <ScalarProperty Name="NLCT" ColumnName="NLCT" />
-                <ScalarProperty Name="NDirect" ColumnName="NDirect" />
-                <ScalarProperty Name="NPromotion" ColumnName="NPromotion" />
-                <ScalarProperty Name="DesignationID" ColumnName="DesignationID" />
-                <ScalarProperty Name="PromotionCotaId" ColumnName="PromotionCotaId" />
-                <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
-                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
-                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="NotCheck" ColumnName="NotCheck" />
-                <ScalarProperty Name="LCT" ColumnName="LCT" />
-                <ScalarProperty Name="Direct" ColumnName="Direct" />
-                <ScalarProperty Name="Promotion" ColumnName="Promotion" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -42668,16 +42729,6 @@ warning 6002: The table/view 'HRMS.dbo.TrainingFeedbackFormat' does not have a p
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="GetAssetHistory" FunctionName="MicroPayModel.Store.GetAssetHistory">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="MicroPayModel.GetAssetHistory_Result">
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="AllocationDate" ColumnName="AllocationDate" />
-                <ScalarProperty Name="DeAllocationDate" ColumnName="DeAllocationDate" />
-                <ScalarProperty Name="StatusID" ColumnName="StatusID" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="GetAppraisalHistory" FunctionName="MicroPayModel.Store.GetAppraisalHistory">
             <ResultMapping>
               <ComplexTypeMapping TypeName="MicroPayModel.GetAppraisalHistory_Result">
@@ -42941,24 +42992,6 @@ warning 6002: The table/view 'HRMS.dbo.TrainingFeedbackFormat' does not have a p
                 <ScalarProperty Name="DesignationId" ColumnName="DesignationId" />
                 <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
                 <ScalarProperty Name="FormBHeaderId" ColumnName="FormBHeaderId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="FileWorkflows">
-            <EntityTypeMapping TypeName="MicroPayModel.FileWorkflow">
-              <MappingFragment StoreEntitySet="FileWorkflow">
-                <ScalarProperty Name="FileWorkFlowID" ColumnName="FileWorkFlowID" />
-                <ScalarProperty Name="ParkByEmployeeID" ColumnName="ParkByEmployeeID" />
-                <ScalarProperty Name="initiateEmployeeID" ColumnName="initiateEmployeeID" />
-                <ScalarProperty Name="ParkByDepartmentID" ColumnName="ParkByDepartmentID" />
-                <ScalarProperty Name="initiateDepartmentID" ColumnName="initiateDepartmentID" />
-                <ScalarProperty Name="created_by" ColumnName="created_by" />
-                <ScalarProperty Name="created_on" ColumnName="created_on" />
-                <ScalarProperty Name="fromdate" ColumnName="fromdate" />
-                <ScalarProperty Name="todate" ColumnName="todate" />
-                <ScalarProperty Name="ParkByDesignationID" ColumnName="ParkByDesignationID" />
-                <ScalarProperty Name="initiateDesignationID" ColumnName="initiateDesignationID" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -43541,32 +43574,6 @@ warning 6002: The table/view 'HRMS.dbo.TrainingFeedbackFormat' does not have a p
                 <ScalarProperty Name="Reporting1" ColumnName="Reporting1" />
                 <ScalarProperty Name="ProcessID" ColumnName="ProcessID" />
                 <ScalarProperty Name="ProcessAppID" ColumnName="ProcessAppID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="TblPFOPBalanceManuals">
-            <EntityTypeMapping TypeName="MicroPayModel.TblPFOPBalanceManual">
-              <MappingFragment StoreEntitySet="TblPFOPBalanceManual">
-                <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
-                <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
-                <ScalarProperty Name="additionEmployerInt" ColumnName="additionEmployerInt" />
-                <ScalarProperty Name="additionEmpInt" ColumnName="additionEmpInt" />
-                <ScalarProperty Name="IntEmplr" ColumnName="IntEmplr" />
-                <ScalarProperty Name="IntEmp" ColumnName="IntEmp" />
-                <ScalarProperty Name="AddEmplr" ColumnName="AddEmplr" />
-                <ScalarProperty Name="AddEmp" ColumnName="AddEmp" />
-                <ScalarProperty Name="WithEmplr" ColumnName="WithEmplr" />
-                <ScalarProperty Name="WithEmp" ColumnName="WithEmp" />
-                <ScalarProperty Name="Pension" ColumnName="Pension" />
-                <ScalarProperty Name="EmpPF" ColumnName="EmpPF" />
-                <ScalarProperty Name="VPF" ColumnName="VPF" />
-                <ScalarProperty Name="EPF" ColumnName="EPF" />
-                <ScalarProperty Name="PFNo" ColumnName="PFNo" />
-                <ScalarProperty Name="Month" ColumnName="Month" />
-                <ScalarProperty Name="Year" ColumnName="Year" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -44238,6 +44245,11 @@ warning 6002: The table/view 'HRMS.dbo.TrainingFeedbackFormat' does not have a p
           <EntitySetMapping Name="tblPFOpBalances">
             <EntityTypeMapping TypeName="MicroPayModel.tblPFOpBalance">
               <MappingFragment StoreEntitySet="tblPFOpBalance">
+                <ScalarProperty Name="TDS_Rate" ColumnName="TDS_Rate" />
+                <ScalarProperty Name="IA_Taxable" ColumnName="IA_Taxable" />
+                <ScalarProperty Name="IA_Non_Taxable" ColumnName="IA_Non_Taxable" />
+                <ScalarProperty Name="CB_Taxable" ColumnName="CB_Taxable" />
+                <ScalarProperty Name="CB_Non_Taxable" ColumnName="CB_Non_Taxable" />
                 <ScalarProperty Name="EmplrClBal" ColumnName="EmplrClBal" />
                 <ScalarProperty Name="EmplClBal" ColumnName="EmplClBal" />
                 <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
@@ -44553,6 +44565,85 @@ warning 6002: The table/view 'HRMS.dbo.TrainingFeedbackFormat' does not have a p
                 <ScalarProperty Name="IP_address" ColumnName="IP_address" />
                 <ScalarProperty Name="SessionId" ColumnName="SessionId" />
                 <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TblPFOPBalanceManual">
+            <EntityTypeMapping TypeName="MicroPayModel.TblPFOPBalanceManual">
+              <MappingFragment StoreEntitySet="TblPFOPBalanceManual">
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="additionEmployerInt" ColumnName="additionEmployerInt" />
+                <ScalarProperty Name="additionEmpInt" ColumnName="additionEmpInt" />
+                <ScalarProperty Name="IntEmplr" ColumnName="IntEmplr" />
+                <ScalarProperty Name="IntEmp" ColumnName="IntEmp" />
+                <ScalarProperty Name="AddEmplr" ColumnName="AddEmplr" />
+                <ScalarProperty Name="AddEmp" ColumnName="AddEmp" />
+                <ScalarProperty Name="WithEmplr" ColumnName="WithEmplr" />
+                <ScalarProperty Name="WithEmp" ColumnName="WithEmp" />
+                <ScalarProperty Name="Pension" ColumnName="Pension" />
+                <ScalarProperty Name="EmpPF" ColumnName="EmpPF" />
+                <ScalarProperty Name="VPF" ColumnName="VPF" />
+                <ScalarProperty Name="EPF" ColumnName="EPF" />
+                <ScalarProperty Name="PFNo" ColumnName="PFNo" />
+                <ScalarProperty Name="Month" ColumnName="Month" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="promotioncota1">
+            <EntityTypeMapping TypeName="MicroPayModel.promotioncota1">
+              <MappingFragment StoreEntitySet="promotioncota1">
+                <ScalarProperty Name="NLCT" ColumnName="NLCT" />
+                <ScalarProperty Name="NDirect" ColumnName="NDirect" />
+                <ScalarProperty Name="NPromotion" ColumnName="NPromotion" />
+                <ScalarProperty Name="DesignationID" ColumnName="DesignationID" />
+                <ScalarProperty Name="PromotionCotaId" ColumnName="PromotionCotaId" />
+                <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="NotCheck" ColumnName="NotCheck" />
+                <ScalarProperty Name="LCT" ColumnName="LCT" />
+                <ScalarProperty Name="Direct" ColumnName="Direct" />
+                <ScalarProperty Name="Promotion" ColumnName="Promotion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FileWorkflow">
+            <EntityTypeMapping TypeName="MicroPayModel.FileWorkflow">
+              <MappingFragment StoreEntitySet="FileWorkflow">
+                <ScalarProperty Name="FileWorkFlowID" ColumnName="FileWorkFlowID" />
+                <ScalarProperty Name="ParkByEmployeeID" ColumnName="ParkByEmployeeID" />
+                <ScalarProperty Name="initiateEmployeeID" ColumnName="initiateEmployeeID" />
+                <ScalarProperty Name="ParkByDepartmentID" ColumnName="ParkByDepartmentID" />
+                <ScalarProperty Name="initiateDepartmentID" ColumnName="initiateDepartmentID" />
+                <ScalarProperty Name="created_by" ColumnName="created_by" />
+                <ScalarProperty Name="created_on" ColumnName="created_on" />
+                <ScalarProperty Name="fromdate" ColumnName="fromdate" />
+                <ScalarProperty Name="todate" ColumnName="todate" />
+                <ScalarProperty Name="ParkByDesignationID" ColumnName="ParkByDesignationID" />
+                <ScalarProperty Name="initiateDesignationID" ColumnName="initiateDesignationID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="NREmployeesContractExtention">
+            <EntityTypeMapping TypeName="MicroPayModel.NREmployeesContractExtention">
+              <MappingFragment StoreEntitySet="NREmployeesContractExtention">
+                <ScalarProperty Name="Deleted" ColumnName="Deleted" />
+                <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="ExtentionToDate" ColumnName="ExtentionToDate" />
+                <ScalarProperty Name="ExtentionFromDate" ColumnName="ExtentionFromDate" />
+                <ScalarProperty Name="ExtentionNoticeDate" ColumnName="ExtentionNoticeDate" />
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

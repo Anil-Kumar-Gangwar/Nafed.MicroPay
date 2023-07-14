@@ -1,0 +1,494 @@
+﻿@model Nafed.MicroPay.Model.Employees.NonRegularEmployee
+@{
+    Layout = null;
+    var message = TempData["Message"] == null ? "" : TempData["Message"].ToString();
+    var messageError = TempData["Error"] == null ? "" : TempData["Error"].ToString();
+}
+
+<script type="text/javascript">
+    function CreateSuccess(data) {    
+        if (data.status == "1") {
+            var empID = data.empID; var activeTab = data.activeTab;
+            window.location.href = '@Url.Action("Edit", "NonRegularEmployees")?employeeID=' + empID + '';
+            $('.nav-tabs li:eq(' + activeTab + ') a').attr('data-toggle', 'tab').tab('show');
+            commonMessage("success", data.msg);
+        }
+        else if (data.status == "0") {          
+            commonMessage("error", data.msg);
+        }    
+       
+    }
+
+</script>
+
+
+@using (Ajax.BeginForm("_CreateGeneralDetails", "NonRegularEmployees", new AjaxOptions
+{
+    HttpMethod = "POST",
+    UpdateTargetId = "general",
+    OnSuccess = "CreateSuccess"
+}, new { defaultbutton = "submitform" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model=>model.BranchID)
+    @Html.HiddenFor(model=>model.DesignationID)
+    @Html.HiddenFor(model=>model.CadreID)
+
+    <div class="" style="margin-top:10px;">
+        <div class="">
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="form-group">
+
+                        <div class="row">
+
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                @Html.LabelFor(model => model.EmployeeCode, htmlAttributes: new { @class = "control-label  required" })
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+
+                                @Html.EditorFor(model => model.EmployeeCode, new { htmlAttributes = new { @class = "form-control",@disabled="disabled", @placeholder = "to be generated.", @maxlength = "6" } })
+                                @Html.ValidationMessageFor(model => model.EmployeeCode, "", new { @class = "text-danger" })
+
+                                @Html.ValidationMessage("EmployeeCodeAlreadyExist", "", new { @class = "text-danger", @id = "EmployeeCodeAlreadyExist" })
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+
+                                @*@Html.LabelFor(model => model.TitleID, htmlAttributes: new { @class = "control-label  required" })*@
+                                @Html.LabelFor(model => model.FirstBranch, htmlAttributes: new { @class = "control-label " })
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                               
+                                 @Html.DropDownListFor(model => model.FirstBranch, (IEnumerable<SelectListItem>)ViewBag.Branch, new { @class = "custom-select", @onChange="first_branchChange(this.id);" })
+                              
+                                @*@Html.DropDownListFor(model => model.TitleID, (IEnumerable<SelectListItem>)ViewBag.Title, new { @class = "custom-select" })
+                                @Html.ValidationMessage("TitleRequired", "", new { @class = "text-danger" })*@
+
+                                @Html.ValidationMessageFor(model => model.FirstBranch, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+
+                        <div class="row">
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+
+                                @Html.LabelFor(model => model.TitleID, htmlAttributes: new { @class = "control-label  required" })
+
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+
+                                @Html.DropDownListFor(model => model.TitleID, (IEnumerable<SelectListItem>)ViewBag.Title, new { @class = "custom-select" })
+                                @Html.ValidationMessage("TitleRequired", "", new { @class = "text-danger" })
+
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                             
+                                @Html.LabelFor(model => model.FirstDesg, htmlAttributes: new { @class = "control-label " })
+
+                                @*@Html.LabelFor(model => model.EmployeeTypeID, htmlAttributes: new { @class = "control-label required" })*@
+
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+
+                                @Html.DropDownListFor(model => model.FirstDesg, (IEnumerable<SelectListItem>)ViewBag.Designation, new { @class = "custom-select", @onChange="first_DesignationChange(this.id);" })
+                                @Html.ValidationMessageFor(model => model.FirstDesg, "", new { @class = "text-danger" })
+                                                               
+                                 @*@Html.DropDownListFor(model => model.EmployeeTypeID, (IEnumerable<SelectListItem>)ViewBag.EmployeeType, new { @class = "custom-select" })
+                                @Html.ValidationMessage("EmployeeTypeRequired", "", new { @class = "text-danger" })*@
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <div class="row">
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+
+                                @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label  required" })
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                               
+                              @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @placeholder = "Employee Name", @maxlength = "25", } })
+                             @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+
+                                @Html.LabelFor(model => model.EmployeeTypeID, htmlAttributes: new { @class = "control-label required" })
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                @Html.HiddenFor(model=> model.EmployeeTypeID)
+                                @Html.DropDownListFor(model => model.EmployeeTypeID, (IEnumerable<SelectListItem>)ViewBag.EmployeeType, new { @class = "custom-select"})
+                                @Html.ValidationMessage("EmployeeTypeRequired", "", new { @class = "text-danger" })
+                            
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+
+                        <div class="row">
+
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+
+                                @Html.LabelFor(model => model.GenderID, htmlAttributes: new { @class = "control-label required" })
+
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+
+                                @Html.DropDownListFor(model => model.GenderID, (IEnumerable<SelectListItem>)ViewBag.Gender, new { @class = "custom-select" })
+                                @Html.ValidationMessage("EmployeeGenderRequired", "", new { @class = "text-danger" })
+
+                            </div>
+
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+
+                                @Html.LabelFor(model => model.OfficialEmail, htmlAttributes: new { @class = "control-label required" })
+                            </div>
+
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                @Html.EditorFor(model => model.OfficialEmail, new { htmlAttributes = new { @class = "form-control", @placeholder = "Offical Email" } })
+                                @Html.ValidationMessageFor(model => model.OfficialEmail, "", new { @class = "text-danger" })
+                            </div>
+                            
+                        </div>
+
+                    </div>
+                    <div class="form-group">
+
+                        <div class="row">
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+
+                                @Html.LabelFor(model => model.CadreID, htmlAttributes: new { @class = "control-label" })
+
+                            </div>
+
+                            <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12 pr-0">
+
+                                @Html.DropDownListFor(model => model.CadreID, (IEnumerable<SelectListItem>)ViewBag.CadreCode, new { @class = "custom-select" , @disabled="disabled"})
+                                @*@Html.ValidationMessage("CadreRequired", "", new { @class = "text-danger" })*@
+
+                                @Html.Hidden("HdnCadreID")
+
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 mt-2">
+
+                                @Html.LabelFor(model => model.IsCadreOfficer, htmlAttributes: new { @class = "control-label " })
+                            </div>
+                          
+                              <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+
+                                <div class="form-group">
+                                    <label class="switch">
+
+                                        @Html.CheckBoxFor(model => model.IsCadreOfficer, new { @class = "form-control" })
+                                      
+                                          <div class="slider round">
+
+                                         </div>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                @Html.LabelFor(model => model.MobileNo, htmlAttributes: new { @class = "control-label " })
+                            </div>
+
+                            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                
+                                @Html.EditorFor(model => model.MobileNo, new { htmlAttributes = new { @class = "form-control", @placeholder = "Mobile No", @maxlength = "10" } })
+                                @*@Html.ValidationMessageFor(model => model.MobileNo, "", new { @class = "text-danger" })*@
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+
+                        <div class="row">
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+
+                                @Html.LabelFor(model => model.BranchID, htmlAttributes: new { @class = "control-label  required", @id="lbl_1" })
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                               
+                                @Html.DropDownListFor(model => model.BranchID, (IEnumerable<SelectListItem>)ViewBag.Branch, new { @class = "custom-select", disabled = "disabled" })
+                                @*@Html.ValidationMessage("BranchRequired", "", new { @class = "text-danger" })*@
+
+                               @Html.Hidden("HdnBranchID")
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+
+                                @Html.LabelFor(model => model.DepartmentID, htmlAttributes: new { @class = "control-label required" })
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                @Html.DropDownListFor(model => model.DepartmentID, (IEnumerable<SelectListItem>)ViewBag.Department, new { @class = "custom-select" })
+                                @Html.ValidationMessage("DepartmentRequired", "", new { @class = "text-danger" })
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+
+                                @Html.LabelFor(model => model.SectionID, htmlAttributes: new { @class = "control-label  required" })
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                @Html.DropDownListFor(model => model.SectionID, (IEnumerable<SelectListItem>)ViewBag.Section, new { @class = "custom-select" })
+                                @Html.ValidationMessage("SectionRequired", "", new { @class = "text-danger" })
+
+                            </div>
+                        
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+
+                                @Html.LabelFor(model => model.FileNo, htmlAttributes: new { @class = "control-label" })
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                @Html.EditorFor(model => model.FileNo, new { htmlAttributes = new { @class = "form-control", @placeholder = "File No" } })
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+
+                        <div class="row">
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                @Html.LabelFor(model => model.DesignationID, htmlAttributes: new { @class = "control-label  required" })
+                               
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                @Html.DropDownListFor(model => model.DesignationID, (IEnumerable<SelectListItem>)ViewBag.Designation, new { @class = "custom-select", disabled = "disabled" })
+                                @*@Html.ValidationMessage("EmployeeDesignationRequired", "", new { @class = "text-danger" })*@
+                                @Html.Hidden("HdnDesignationID")
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                @Html.LabelFor(model => model.DOJ, htmlAttributes: new { @class = "control-label required" })
+
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                @*@Html.EditorFor(model => model.Pr_Loc_DOJ, new { htmlAttributes = new { @class = "form-control", @placeholder = "Date of Joining", @type = "date" } })*@
+                                @Html.TextBoxFor(model => model.Pr_Loc_DOJ, String.Format("{0:dd/MM/yyyy}", Model.Pr_Loc_DOJ), new { @type = "text", @class = "form-control datepicker", id = "Pr_Loc_DOJ", @placeholder = "dd/mm/yyyy" })
+                                @Html.ValidationMessageFor(model => model.Pr_Loc_DOJ, "", new { @class = "text-danger" })
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+
+                        <div class="row">
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+
+                                @Html.LabelFor(model => model.SL_No, htmlAttributes: new { @class = "control-label" })
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                @Html.EditorFor(model => model.SL_No, new { htmlAttributes = new { @class = "form-control", @placeholder = "Serial No." } })
+
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                @Html.LabelFor(model => model.Pr_Loc_DOJ, htmlAttributes: new { @class = "control-label required" })
+
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                @*@Html.EditorFor(model => model.DOJ, new { htmlAttributes = new { @class = "form-control", @placeholder = "Date of Joining on New Desig/Branch", @type = "date", max = DateTime.Now.ToString("yyyy-MM-dd") } })*@
+                                @Html.TextBoxFor(model => model.DOJ, String.Format("{0:dd/MM/yyyy}", Model.DOJ), new { @type = "text", @class = "form-control datepicker", id = "DOJ", @placeholder = "dd/mm/yyyy" })
+                                @Html.ValidationMessageFor(model => model.DOJ, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+
+                        <div class="row">
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                @Html.LabelFor(model => model.ConfirmationDate, htmlAttributes: new { @class = "control-label " })
+
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                @Html.TextBoxFor(model => model.ConfirmationDate, String.Format("{0:dd/MM/yyyy}", Model.ConfirmationDate), new { @type = "text", @class = "form-control datepicker", id = "ConfirmationDate", @placeholder = "dd/mm/yyyy" })
+                                @*@Html.EditorFor(model => model.ConfirmationDate, new { htmlAttributes = new { @class = "form-control", @placeholder = "Confirmation Date", @type = "date" } })*@
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                @Html.LabelFor(model => model.Sen_Code, htmlAttributes: new { @class = "control-label " })
+
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                @Html.EditorFor(model => model.Sen_Code, new { htmlAttributes = new { @class = "form-control", @placeholder = "Seniority Code" } })
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+
+                        <div class="row">
+                           
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                @Html.LabelFor(model => model.CategoryID, htmlAttributes: new { @class = "control-label " })
+
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                @Html.DropDownListFor(model => model.CategoryID, (IEnumerable<SelectListItem>)ViewBag.Category, new { @class = "custom-select" })
+
+                            </div>
+
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+
+                                @Html.LabelFor(model => model.divison, htmlAttributes: new { @class = "control-label " })
+                            </div>
+
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+
+                                <div class="row">
+
+                                    <div class="col-sm-5">
+                                        @Html.CheckBoxFor(model => model.IsRM, new { @id = "IsRM" })
+                                        @Html.LabelFor(model => model.IsRM, new { @for = "IsRM" })
+
+                                    </div>
+
+                                    <div class="col-sm-7">
+                                        @Html.CheckBoxFor(model => model.IsBM, new { @id = "IsBM" })
+                                        @Html.LabelFor(model => model.IsBM, new { @for = "IsBM" })
+
+                                    </div>
+                                </div>
+                            </div>
+
+                    </div>
+
+                    
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <div class="row">
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                @Html.LabelFor(model => model.IsJoinAfterNoon, htmlAttributes: new { @class = "control-label " })
+
+                            </div>
+                            <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+                                <div class="form-group">
+                                    <label class="switch">
+                                        @Html.CheckBoxFor(model => model.IsJoinAfterNoon, new { @class = "form-control" })
+                                        <div class="slider round">
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+                          
+                        </div>
+                    </div>
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading">Mode of Payment</div>
+                        <div class="panel-body">
+
+                            <div class="form-group">
+
+                                <div class="row">
+
+                                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                        <div class="container-fluid p-0">
+
+                                            <div class="custom-control custom-radio p-0">
+
+                                                @Html.RadioButtonFor(model => model.modOfPayment, "Bank", new { id = "Bank" })
+                                                @Html.Label("Bank", new { @for = "Bank" })
+
+                                                @Html.RadioButtonFor(model => model.modOfPayment, "Cash", new { id = "Cash" })
+                                                @Html.Label("Cash", new { @for = "Cash" })
+
+                                                @*@Html.ValidationMessageFor(m => Model.enumTrainerType, "", new { @class = "text-danger" })*@
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="form-group" id="div-bank-dtls">
+                                <div class="row">
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                        @Html.LabelFor(model => model.BankCode, htmlAttributes: new { @class = "control-label" })
+                                    </div>
+                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                        @Html.DropDownListFor(model => model.BankCode, new SelectList(ViewBag.Banks, "BankCode", "BankName"), "Select", new { @class = "custom-select" })
+                                        @Html.ValidationMessage("BankRequired", "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                        @Html.LabelFor(model => model.BankAcNo, htmlAttributes: new { @class = "control-label" })
+                                    </div>
+                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                        @Html.EditorFor(model => model.BankAcNo, new { htmlAttributes = new { @class = "form-control integerOnly", @placeholder = "Bank Account No", @maxlength = "16" } })
+                                        @Html.ValidationMessage("BankAcNoRequired", "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <span class="pull-right">
+                            @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-light btn-md toggle-tooltip", @title = "Click here, to redirect on list page" })
+                            <input type="submit" value="Create" class="btn btn-info btn-md pull-center toggle-tooltip" title="Click here, to Create current record" />
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<script type="text/javascript">
+
+    function first_DesignationChange(ctrID) {
+        var selectedVal = $("#" + ctrID).val(); $("#DesignationID,#HdnDesignationID").val(selectedVal);
+
+        $.get('@Url.Action("GetCadreByDesignation", "Employee")',{ designationID: selectedVal }, function (data) {
+            // extract values from data object and assign ut to your controls
+          
+             $("#CadreID,#HdnCadreID").val(data.cadreID);
+        });
+    }
+
+    function first_branchChange(ctrID) {
+
+        var selectedVal = $("#" + ctrID).val(); $("#BranchID,#HdnBranchID").val(selectedVal);
+    }
+
+    $("#EmployeeCode").blur(function () {
+
+        $.get('@Url.Action("CheckEmployeeCode", "Employee")',{empCode:$(this).val()},function(data)
+        {
+            // extract values from data object and assign ut to your controls
+            if(data.isExists){
+                $("#EmployeeCodeAlreadyExist").text('Employee Code already exists.');
+            }else
+                $("#EmployeeCodeAlreadyExist").text('');
+        });
+    });
+
+    $("#DOJ").datepicker({ dateFormat: 'dd/mm/yy', changeYear: true, maxDate: new Date() });
+    $("#Pr_Loc_DOJ").datepicker({ dateFormat: 'dd/mm/yy', changeYear: true });
+    $("#ConfirmationDate").datepicker({ dateFormat: 'dd/mm/yy', changeYear: true });
+</script>

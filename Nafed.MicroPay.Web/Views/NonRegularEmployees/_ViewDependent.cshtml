@@ -1,0 +1,50 @@
+﻿
+@using Nafed.MicroPay.Model
+@using Nafed.MicroPay.Common
+@model List<EmployeeDependent>
+<table class="table table-centered table-striped dt-responsive w-100" role="grid" id="tblGrid">
+    <thead>
+        <tr>
+            <th>
+                #
+            </th>
+            <th>
+                Dependent Name
+            </th>
+
+            <th>
+                Date of Birth
+
+            </th>
+            <th>
+               Relation
+            </th>
+
+            <th>
+                PF Nominee
+            </th>
+
+        </tr>
+    </thead>
+    <tbody>
+
+
+        @if (Model != null && Model.Count() > 0)
+        {
+            var sno = 1;
+            foreach (var item in Model)
+            {
+        <tr>
+            <td>@sno</td>
+            <td>@item.DependentName</td>
+            <td>@(item.DOB.HasValue ? item.DOB.Value.ToString("dd/MM/yyyy") : "NA")</td>
+            <td>@(item.Relation != null ? item.Relation : "NA")</td>
+            <td>@(ExtensionMethods.BoolToYesNo(item.PFNominee))</td>
+        </tr>
+                sno++;
+            }
+
+        }
+    </tbody>
+
+    </table>

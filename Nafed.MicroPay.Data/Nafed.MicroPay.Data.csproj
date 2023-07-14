@@ -655,6 +655,9 @@
     <Compile Include="Models\NonRefundablePFLoan.cs">
       <DependentUpon>MicroPay.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\NREmployeesContractExtention.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\NRPFLoanHDR.cs">
       <DependentUpon>MicroPay.tt</DependentUpon>
     </Compile>

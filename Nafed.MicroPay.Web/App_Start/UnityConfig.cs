@@ -224,7 +224,12 @@ namespace MicroPay.Web
             #region Transfer Appoval
             container.RegisterType<ITransferApprovalService, TransferApprovalService>();
             container.RegisterType<ITransferApprovalRepository, TransferApprovalRepository>();
-            
+
+            #endregion
+
+            #region Non Regular Employee
+            container.RegisterType<INonRegularEmployeesService, NonRegularEmployeesService>();
+
             #endregion
             DependencyResolver.SetResolver(new UnityDependencyResolver(container));
 

@@ -264,6 +264,7 @@
     <Compile Include="Controllers\Arrear\SalaryManualDataController.cs" />
     <Compile Include="Controllers\AssetmanagementdetailsController.cs" />
     <Compile Include="Controllers\EmpApprovalProcessController.cs" />
+    <Compile Include="Controllers\Employees\NonRegularEmployeesController.cs" />
     <Compile Include="Controllers\HelpDeskController.cs" />
     <Compile Include="Controllers\HelpDesk\TicketWorkFlowController.cs" />
     <Compile Include="Controllers\HelpDesk\TicketController.cs" />
@@ -1383,6 +1384,7 @@
     <Compile Include="Models\EmployeeLeaveViewModel.cs" />
     <Compile Include="Models\EmployeeViewModel.cs" />
     <Compile Include="Models\EmployeeTypeViewModel.cs" />
+    <Compile Include="Models\Employees\NREmployeeViewModel.cs" />
     <Compile Include="Models\EmpPFOrgViewModel.cs" />
     <Compile Include="Models\EmpSalaryNonRegularViewModel.cs" />
     <Compile Include="Models\ExgratiaIncomeTaxFilterModel.cs" />
@@ -4019,6 +4021,15 @@
     <Content Include="Views\ImportExgratiaIncomeTax\_Filter.cshtml" />
     <Content Include="Views\ImportExgratiaIncomeTax\_ImportExgratiaIncomeTax.cshtml" />
     <Content Include="Views\ImportExgratiaIncomeTax\_ImportExgratiaIncomeTaxGridView.cshtml" />
+    <Content Include="Views\NonRegularEmployees\Create.cshtml" />
+    <Content Include="Views\NonRegularEmployees\_EmployeeGrid.cshtml" />
+    <Content Include="Views\NonRegularEmployees\_GeneralDetails.cshtml" />
+    <Content Include="Views\NonRegularEmployees\Index.cshtml" />
+    <Content Include="Views\NonRegularEmployees\Edit.cshtml" />
+    <Content Include="Views\NonRegularEmployees\_PersonalDetails.cshtml" />
+    <Content Include="Views\NonRegularEmployees\_ContractExtensionHistory.cshtml" />
+    <Content Include="Views\NonRegularEmployees\_ContractExtensionForm.cshtml" />
+    <Content Include="Views\NonRegularEmployees\_ViewDependent.cshtml" />
     <None Include="Views\TaxDeduction\_DocumentList.cshtml" />
     <Content Include="Views\TransferApproval\Index.cshtml" />
     <Content Include="Views\TransferApproval\_TransferEmployeeDetails.cshtml" />

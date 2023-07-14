@@ -192,5 +192,58 @@ namespace Nafed.MicroPay.Data.Repositories
         {
             return db.GetSuperAnnuating().ToList();
         }
+
+        public bool UpdatetEmployeePersonalDetails(tblMstEmployee employeeDetails)
+        {
+            log.Info($"EmployeeRepository/UpdatetEmployeePersonalDetails/{employeeDetails.EmployeeId}");
+
+            try
+            {
+                var dtoObj = db.tblMstEmployees.Where(x => x.EmployeeId == employeeDetails.EmployeeId && x.IsDeleted == false).FirstOrDefault();
+                if (dtoObj != null)
+                {
+                    dtoObj.HBName = employeeDetails.HBName;
+                    dtoObj.DOB = employeeDetails.DOB;
+                    dtoObj.ReligionID = employeeDetails.ReligionID == 0 ? null : employeeDetails.ReligionID;
+                    dtoObj.MTongueID = employeeDetails.MTongueID == 0 ? null : employeeDetails.MTongueID;
+                    dtoObj.MaritalStsID = employeeDetails.MaritalStsID == 0 ? null : employeeDetails.MaritalStsID;
+                    dtoObj.BGroupID = employeeDetails.BGroupID == 0 ? null : employeeDetails.BGroupID;
+                    dtoObj.ID_Mark = employeeDetails.ID_Mark;
+                    dtoObj.PANNo = employeeDetails.PANNo;
+                    dtoObj.AadhaarNo = employeeDetails.AadhaarNo;
+                    dtoObj.PassPortNo = employeeDetails.PassPortNo;
+                    dtoObj.PPIDate = employeeDetails.PPIDate;
+                    dtoObj.PPEDate = employeeDetails.PPEDate;
+                    dtoObj.PAdd = employeeDetails.PAdd;
+                    dtoObj.PStreet = employeeDetails.PStreet;
+                    dtoObj.PCity = employeeDetails.PCity;
+                    dtoObj.PPin = employeeDetails.PPin;
+                    dtoObj.TelPh = employeeDetails.TelPh;
+                    dtoObj.PmtAdd = employeeDetails.PmtAdd;
+                    dtoObj.PmtStreet = employeeDetails.PmtStreet;
+                    dtoObj.PmtCity = employeeDetails.PmtCity;
+                    dtoObj.PmtPin = employeeDetails.PmtPin;
+                    dtoObj.AadhaarCardFilePath = employeeDetails.AadhaarCardFilePath;
+                    dtoObj.PanCardFilePath = employeeDetails.PanCardFilePath;
+                    dtoObj.MotherName = employeeDetails.MotherName;
+                    dtoObj.IFSCCode = employeeDetails.IFSCCode;
+                    dtoObj.UpdatedBy = employeeDetails.UpdatedBy;
+                    dtoObj.UpdatedOn = employeeDetails.UpdatedOn;
+                    dtoObj.PState = employeeDetails.PState == 0 ? null : employeeDetails.PState;
+                    dtoObj.PmtState = employeeDetails.PmtState == 0 ? null : employeeDetails.PmtState;
+                    dtoObj.PensionUAN = employeeDetails.PensionUAN;
+                    dtoObj.PensionNumber = employeeDetails.PensionNumber;
+                    dtoObj.EPFOMemberID = employeeDetails.EPFOMemberID;
+                    db.SaveChanges();
+                    return true;
+                }
+                else return false;
+            }
+            catch (Exception ex)
+            {
+                log.Error("Message-" + ex.Message + " StackTrace-" + ex.StackTrace + " DatetimeStamp-" + DateTime.Now);
+                throw ex;
+            }
+        }
     }
 }
