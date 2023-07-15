@@ -6,23 +6,22 @@
 }
 
 <script type="text/javascript">
-    function CreateSuccess(data) {    
-        if (data.status == "1") {
+    function CreateSuccess(data) {
+     if (data.status == "1") {
             var empID = data.empID; var activeTab = data.activeTab;
             window.location.href = '@Url.Action("Edit", "NonRegularEmployees")?employeeID=' + empID + '';
             $('.nav-tabs li:eq(' + activeTab + ') a').attr('data-toggle', 'tab').tab('show');
             commonMessage("success", data.msg);
         }
-        else if (data.status == "0") {          
+        else if (data.status == "0") {
             commonMessage("error", data.msg);
-        }    
-       
+        }     
     }
 
 </script>
 
 
-@using (Ajax.BeginForm("_EditGeneralDetails", "NonRegularEmployees", new AjaxOptions
+@using (Ajax.BeginForm("_CreateGeneralDetails", "NonRegularEmployees", new AjaxOptions
 {
     HttpMethod = "POST",
     UpdateTargetId = "general",
@@ -30,12 +29,9 @@
 }, new { defaultbutton = "submitform" }))
 {
     @Html.AntiForgeryToken()
-    @Html.HiddenFor(model=>model.BranchID)
-    @Html.HiddenFor(model=>model.DesignationID)
-    @Html.HiddenFor(model=>model.CadreID)
-    @Html.HiddenFor(model => model.EmployeeID)
-    @Html.HiddenFor(model => model.EmployeeCode)
-
+    @Html.HiddenFor(model => model.BranchID)
+    @Html.HiddenFor(model => model.DesignationID)
+    @Html.HiddenFor(model => model.CadreID)
     <div class="" style="margin-top:10px;">
         <div class="">
             <div class="row">
@@ -48,7 +44,8 @@
                                 @Html.LabelFor(model => model.EmployeeCode, htmlAttributes: new { @class = "control-label  required" })
                             </div>
                             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                                @Html.EditorFor(model => model.EmployeeCode, new { htmlAttributes = new { @class = "form-control",@disabled="disabled", @maxlength = "6" } })
+
+                                @Html.EditorFor(model => model.EmployeeCode, new { htmlAttributes = new { @class = "form-control",@disabled="disabled", @placeholder = "to be generated.", @maxlength = "6" } })
                                 @Html.ValidationMessageFor(model => model.EmployeeCode, "", new { @class = "text-danger" })
 
                                 @Html.ValidationMessage("EmployeeCodeAlreadyExist", "", new { @class = "text-danger", @id = "EmployeeCodeAlreadyExist" })
@@ -123,8 +120,8 @@
                                 @Html.LabelFor(model => model.EmployeeTypeID, htmlAttributes: new { @class = "control-label required" })
                             </div>
                             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                                @Html.HiddenFor(model=> model.EmployeeTypeID)
-                                @Html.DropDownListFor(model => model.EmployeeTypeID, (IEnumerable<SelectListItem>)ViewBag.EmployeeType, new { @class = "custom-select"})
+
+                                @Html.DropDownListFor(model => model.EmployeeTypeID, (IEnumerable<SelectListItem>)ViewBag.EmployeeType, new { @class = "custom-select" })
                                 @Html.ValidationMessage("EmployeeTypeRequired", "", new { @class = "text-danger" })
                             
                             </div>
@@ -451,7 +448,7 @@
                     <div class="form-group">
                         <span class="pull-right">
                             @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-light btn-md toggle-tooltip", @title = "Click here, to redirect on list page" })
-                            <input type="submit" value="Update" class="btn btn-info btn-md pull-center toggle-tooltip" title="Click here, to update current record" />
+                            <input type="submit" value="Create" class="btn btn-info btn-md pull-center toggle-tooltip" title="Click here, to Create current record" />
                         </span>
                     </div>
                 </div>

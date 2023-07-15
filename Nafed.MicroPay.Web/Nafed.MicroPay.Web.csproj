@@ -4030,6 +4030,7 @@
     <Content Include="Views\NonRegularEmployees\_ContractExtensionHistory.cshtml" />
     <Content Include="Views\NonRegularEmployees\_ContractExtensionForm.cshtml" />
     <Content Include="Views\NonRegularEmployees\_ViewDependent.cshtml" />
+    <Content Include="Views\NonRegularEmployees\_CreateGeneralDetails.cshtml" />
     <None Include="Views\TaxDeduction\_DocumentList.cshtml" />
     <Content Include="Views\TransferApproval\Index.cshtml" />
     <Content Include="Views\TransferApproval\_TransferEmployeeDetails.cshtml" />

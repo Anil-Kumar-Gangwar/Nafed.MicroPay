@@ -66,7 +66,7 @@ namespace MicroPay.Web.Controllers.Employees
             BindDesignationBranch();
             Model.Employees.NonRegularEmployee employeeDetails = new Model.Employees.NonRegularEmployee();
             employeeDetails.EmployeeTypeID = 1; // for contract type employee
-            return PartialView("_GeneralDetails", employeeDetails);
+            return PartialView("_CreateGeneralDetails", employeeDetails);
         }
 
         [HttpPost]
@@ -122,7 +122,7 @@ namespace MicroPay.Web.Controllers.Employees
                     return Json(new { status = "1", empID = employeeDetailsID, activeTab = 1, msg = "Successfully Created" }, JsonRequestBehavior.AllowGet);
 
                 }
-                return PartialView("_GeneralDetails", employee);
+                return PartialView("_CreateGeneralDetails", employee);
             }
             catch (Exception ex)
             {
