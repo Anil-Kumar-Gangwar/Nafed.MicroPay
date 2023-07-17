@@ -36,8 +36,9 @@ namespace MicroPay.Web.Controllers
 
             EmployeeViewModel empVM = new EmployeeViewModel();
             empVM.userRights = userAccessRight;
-            empVM.employeeType = ddlService.ddlEmployeeTypeList();
+            empVM.employeeType = ddlService.ddlEmployeeTypeList().Where(x => x.id == 5).ToList();
             //  empVM.branchList = ddlService.ddlBranchList();
+            empVM.EmployeeTypeID = 5;
             empVM.designation = ddlService.ddlDesignationList();
             return View(empVM);
         }
@@ -1138,7 +1139,7 @@ namespace MicroPay.Web.Controllers
             BindDropdowns();
             BindDesignationBranch();         
             Model.Employee employeeDetails = new Model.Employee();
-   
+            employeeDetails.EmployeeTypeID = 5; // for REGULAR type employee
             return PartialView("_CreateGeneralDetails", employeeDetails);
         }
 
@@ -1285,7 +1286,7 @@ namespace MicroPay.Web.Controllers
             ViewBag.Title = new SelectList(ddlTitleList, "id", "value");
 
 
-            var ddlEmployeeTypeList = ddlService.ddlEmployeeTypeList();
+            var ddlEmployeeTypeList = ddlService.ddlEmployeeTypeList().Where(x => x.id == 5).ToList();
             ddlEmployeeTypeList.OrderBy(x => x.value);
             Model.SelectListModel selectEmployeeType = new Model.SelectListModel();
             selectEmployeeType.id = 0;
@@ -1333,7 +1334,7 @@ namespace MicroPay.Web.Controllers
             ddlSectionList.Insert(0, selectSection);
             ViewBag.Section = new SelectList(ddlSectionList, "id", "value");
 
-            var ddlCategoryList = ddlService.ddlCategoryList();
+            var ddlCategoryList = ddlService.ddlCategoryList(); 
             ddlCategoryList.OrderBy(x => x.value);
             Model.SelectListModel selectCategory = new Model.SelectListModel();
             selectCategory.id = 0;
@@ -1518,7 +1519,7 @@ namespace MicroPay.Web.Controllers
         public PartialViewResult _GetEmployeeGridView(EmployeeViewModel empVM)
         {
             EmployeeViewModel employeeVM = new EmployeeViewModel();
-            var emp = employeeService.GetEmployeeList(empVM.EmployeeName, empVM.EmployeeCode, empVM.DesignationID, empVM.EmployeeTypeID);
+            var emp = employeeService.GetEmployeeList(empVM.EmployeeName, empVM.EmployeeCode, empVM.DesignationID, empVM.EmployeeTypeID,"Regular");
             emp.ForEach(x =>
             {
                 x.EmpProfilePhotoUNCPath =

@@ -17,7 +17,7 @@ namespace Nafed.MicroPay.Services.IServices
 
         bool UpdatetEmployeePersonalDetails(Model.Employee employeeDetails);
 
-        List<Model.Employee> GetEmployeeList(string empName, string empCode, int? designationID, int? empTypeID);
+        List<Model.Employee> GetEmployeeList(string empName, string empCode, int? designationID, int? empTypeID, string employeeType = null);
 
         Model.Employee GetEmployeeByID(int employeeID);
 

@@ -241,12 +241,15 @@ namespace Nafed.MicroPay.Services
             }
             return flag;
         }
-        public List<Model.Employee> GetEmployeeList(string empName, string empCode, int? designationID, int? empTypeID)
+        public List<Model.Employee> GetEmployeeList(string empName, string empCode, int? designationID, int? empTypeID,string employeeType=null)
         {
             log.Info($"EmployeeService/GetEmployeeList");
             try
             {
                 var result = empRepo.GetEmployeeList(empName, empCode, designationID, empTypeID);
+
+                if(string.IsNullOrEmpty(employeeType))
+                result = result.Where(x => x.EmployeeTypeName.Equals(employeeType)).ToList();
 
                 Mapper.Initialize(cfg =>
                 {
