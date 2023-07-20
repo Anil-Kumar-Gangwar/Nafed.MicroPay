@@ -1,0 +1,34 @@
+﻿@using Nafed.MicroPay.Model
+@using Common = Nafed.MicroPay.Common;
+@model Nafed.MicroPay.Model.ChildrenEducationHdr
+@{
+    ViewBag.Title = "View Children Education Allowance";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style type="text/css">
+    .bottamboarder {
+        border: 0;
+        outline: 0;
+        background: transparent;
+        border-bottom: 1px solid black;
+    }
+</style>
+<input id="printdiv" type="submit" value="Print" onclick="printContent('div-ChildrenEducation-form-container')" />
+<div id="div-ChildrenEducation-form-container" class="container-fluid">
+    <div id="div-ChildrenEducation">
+        @Html.Partial("_ChildrenEducationForm", Model)
+    </div>
+</div>
+
+<script type="text/javascript">
+    function printContent(el) {      
+        var restorepage = document.body.innerHTML;
+        $('.div-action').attr('style', 'display:none');
+        $('.hideprint').attr('style', 'display:none');        
+        var printcontent = document.getElementById(el).innerHTML;
+        document.body.innerHTML = printcontent; window.print();
+        $('.div-action').removeAttr('style');
+        $('.hideprint').removeAttr('style');
+        document.body.innerHTML = restorepage;
+    }
+</script>

@@ -441,5 +441,35 @@ namespace Nafed.MicroPay.Services
                 throw ex;
             }
         }
+
+        public List<Model.ChildrenEducationHdr> GetEmployeeChildrenEducationYearWise(string reportingYr)
+        {
+            log.Info($"ChildrenEducationService/GetEmployeeChildrenEducationYearWise");
+            try
+            {
+                var dtoChildrenEducation = genericRepo.Get<DTOModel.ChildrenEducationHdr>(x => x.ReportingYear == reportingYr && !x.IsDeleted).ToList();
+
+                if (dtoChildrenEducation != null && dtoChildrenEducation.Count > 0)
+                {
+                    Mapper.Initialize(cfg =>
+                    {
+                        cfg.CreateMap<DTOModel.ChildrenEducationHdr, Model.ChildrenEducationHdr>()
+                        .ForMember(d => d.EmployeeId, o => o.MapFrom(s => s.EmployeeId))
+                        .ForMember(d => d.EmployeeName, o => o.MapFrom(s => s.tblMstEmployee.EmployeeCode+"-"+s.tblMstEmployee.Name))
+                        .ForMember(d => d.DesignationName, o => o.MapFrom(s => s.tblMstEmployee.Designation.DesignationName))
+                        .ForMember(d => d.DepartmentName, o => o.MapFrom(s => s.tblMstEmployee.Department.DepartmentName))
+                        .ForMember(d => d.ReportingYear, o => o.MapFrom(s => s.ReportingYear))
+                        .ForMember(d => d.ChildrenEduHdrID, o => o.MapFrom(s => s.ChildrenEduHdrID))
+                        .ForMember(d => d.Amount, o => o.MapFrom(s => s.Amount.HasValue ? (s.Amount.Value.ToString("0.##")) : "0"));
+                    });
+                }
+                return Mapper.Map<List<Model.ChildrenEducationHdr>>(dtoChildrenEducation);
+            }
+            catch (Exception ex)
+            {
+                log.Error("Message-" + ex.Message + " StackTrace-" + ex.StackTrace + " DatetimeStamp-" + DateTime.Now);
+                throw ex;
+            }
+        }
     }
 }

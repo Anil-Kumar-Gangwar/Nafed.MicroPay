@@ -263,6 +263,7 @@
     <Compile Include="Controllers\Arrear\PayArrearReportsController.cs" />
     <Compile Include="Controllers\Arrear\SalaryManualDataController.cs" />
     <Compile Include="Controllers\AssetmanagementdetailsController.cs" />
+    <Compile Include="Controllers\Children Education\ChildrenEducationAllowanceController.cs" />
     <Compile Include="Controllers\EmpApprovalProcessController.cs" />
     <Compile Include="Controllers\Employees\NonRegularEmployeesController.cs" />
     <Compile Include="Controllers\HelpDeskController.cs" />
@@ -4031,6 +4032,13 @@
     <Content Include="Views\NonRegularEmployees\_ContractExtensionForm.cshtml" />
     <Content Include="Views\NonRegularEmployees\_ViewDependent.cshtml" />
     <Content Include="Views\NonRegularEmployees\_CreateGeneralDetails.cshtml" />
+    <Content Include="Views\ChildrenEducationAllowance\Index.cshtml" />
+    <Content Include="Views\ChildrenEducationAllowance\ChildrenEducationContainer.cshtml" />
+    <Content Include="Views\ChildrenEducationAllowance\_ReceiptDocumentPopUp.cshtml" />
+    <Content Include="Views\ChildrenEducationAllowance\_List.cshtml" />
+    <Content Include="Views\ChildrenEducationAllowance\_ChildrenEducationGridView.cshtml" />
+    <Content Include="Views\ChildrenEducationAllowance\_ChildrenEducationForm.cshtml" />
+    <Content Include="Views\ChildrenEducationAllowance\_Filters.cshtml" />
     <None Include="Views\TaxDeduction\_DocumentList.cshtml" />
     <Content Include="Views\TransferApproval\Index.cshtml" />
     <Content Include="Views\TransferApproval\_TransferEmployeeDetails.cshtml" />

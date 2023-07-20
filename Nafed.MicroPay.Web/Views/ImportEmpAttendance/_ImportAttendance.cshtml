@@ -25,11 +25,11 @@
 @using (Ajax.BeginForm("_ImportAttendance", "ImportEmpAttendance", new AjaxOptions { HttpMethod = "POST" }, new { enctype = "multipart/form-data", defaultbutton = "submitform" }))
 {
 
-<div class="row">
-    <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12 mt-3">
+<div class="row pt-lg-2">
+    <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12 pt-lg-1 mt-lg-4 mt-md-4">
         @Html.Label("Import", htmlAttributes: new { @class = "font-weight-bold" })
     </div>
-    <div class="col-lg-7 col-md-7 col-sm-12 col-xs-12 mt-2">
+    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12  mt-lg-4 mt-md-4">
         <div class="input-group image-preview">
             <input type="text" class="form-control image-preview-filename" disabled="disabled"> <!-- don't give a name === doesn't send on POST/GET -->
             <span class="input-group-btn">
@@ -46,14 +46,14 @@
             </span>
         </div>
     </div>
-    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 mt-2 text-right">
+    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12  mt-lg-4 mt-md-4">
         <button type="submit" id="submitform" class="btn btn-success pull-center toggle-tooltip" title="Click here, to validate attendance sheet data.">
             <i class="fa fa-check" aria-hidden="true"></i>
  Validate Data
         </button>
 
     </div>
-    <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12 pull-right">
+    <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12 pl-lg-0  mt-lg-4 mt-md-4">
 
         <input type="button" id="btnSave" value="Save" class="btn btn-info pull-center hide" title="Click here, to save attendance" />
     </div>

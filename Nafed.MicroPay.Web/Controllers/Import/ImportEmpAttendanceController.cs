@@ -17,8 +17,8 @@ namespace MicroPay.Web.Controllers.Import
         private readonly IDropdownBindService dropdownService;
         private readonly IMarkAttendance markAttendance;
         private readonly IImportAttendanceService importAttendanceService;
-        public ImportEmpAttendanceController(IDropdownBindService dropdownService, 
-            IMarkAttendance markAttendance,IImportAttendanceService importAttendanceService
+        public ImportEmpAttendanceController(IDropdownBindService dropdownService,
+            IMarkAttendance markAttendance, IImportAttendanceService importAttendanceService
             )
         {
             this.dropdownService = dropdownService;
@@ -32,9 +32,9 @@ namespace MicroPay.Web.Controllers.Import
             return View();
         }
 
-        private void LoadBranch()
+        private void BindDropDown()
         {
-            log.Info("ImportEmpAttendanceController/LoadBranch");
+            log.Info("ImportEmpAttendanceController/BindDropDown");
 
             var ddlBranchList = dropdownService.ddlBranchList();
             SelectListModel selectBranch = new SelectListModel();
@@ -42,6 +42,13 @@ namespace MicroPay.Web.Controllers.Import
             selectBranch.value = "Select";
             ddlBranchList.Insert(0, selectBranch);
             ViewBag.Branch = new SelectList(ddlBranchList, "id", "value");
+
+            var ddlEmployeeTypeList = dropdownService.ddlEmployeeTypeList();
+            SelectListModel selectEmployeeType = new SelectListModel();
+            selectEmployeeType.id = 0;
+            selectEmployeeType.value = "Select";
+            ddlEmployeeTypeList.Insert(0, selectEmployeeType);
+            ViewBag.ddlEmployeeType = new SelectList(ddlEmployeeTypeList, "id", "value");
         }
 
         [HttpPost]
@@ -49,18 +56,24 @@ namespace MicroPay.Web.Controllers.Import
         {
             log.Info("ImportEmpAttendanceController/_ExportTemplate");
             var branchID = Request.Form["BranchID"];
-            if (!string.IsNullOrEmpty(branchID))
+            var EmployeeTypeId = Request.Form["EmployeeTypeId"] == "" ? (int?)null : Convert.ToInt16(Request.Form["EmployeeTypeId"]);
+            DateTime? date = Request.Form["date"] == "" ? (DateTime?)null : Convert.ToDateTime(Request.Form["date"]);
+            if (!string.IsNullOrEmpty(branchID) && date != null)
             {
                 string fileName = string.Empty, msg = string.Empty;
                 string fullPath = Server.MapPath("~/FileDownload/");
                 fileName = ExtensionMethods.SetUniqueFileName("AttendanceSheet-", FileExtension.xlsx);
-                var res = markAttendance.GetAttendanceForm(int.Parse(branchID), fileName, fullPath);
+                var res = markAttendance.GetAttendanceForm(int.Parse(branchID), fileName, fullPath, EmployeeTypeId, date.Value);
                 return Json(new { fileName = fileName, fullPath = fullPath + fileName, message = "success" });
             }
+            else
+            {
+                BindDropDown();
+                if (string.IsNullOrEmpty(branchID))
+                    ModelState.AddModelError("BranchRequired", "Select Branch");
+                if (date == null)
+                    ModelState.AddModelError("DateRequired", "Select Date");
 
-            else {
-                LoadBranch();
-                ModelState.AddModelError("BranchRequired", "Select Branch");
                 return PartialView("_ExportTemplate");
             }
         }
@@ -68,7 +81,7 @@ namespace MicroPay.Web.Controllers.Import
         public ActionResult _ExportTemplate()
         {
             log.Info("ImportEmpAttendanceController/_ExportTemplate");
-            LoadBranch();
+            BindDropDown();
             return PartialView("_ExportTemplate");
         }
 
@@ -94,7 +107,7 @@ namespace MicroPay.Web.Controllers.Import
                     fileName = Path.GetFileName(file.FileName);
                     var contentType = GetFileContentType(file.InputStream);
                     var dicValue = GetDictionaryValueByKeyName(".xlsx");
-                    if (dicValue == contentType && (fileExtension == ".xlsx" || fileExtension==".xlx"))
+                    if (dicValue == contentType && (fileExtension == ".xlsx" || fileExtension == ".xlx"))
                     {
                         #region Upload File At temp location===
 
@@ -109,14 +122,14 @@ namespace MicroPay.Web.Controllers.Import
 
                         #endregion
 
-                        var objAttendance = importAttendanceService.ReadAttendanceImportExcelData(sPhysicalPath, false, out msg,out error,out warning);
-                      //  IList<EmpAttendanceForm> res = objAttendance.ToList();
+                        var objAttendance = importAttendanceService.ReadAttendanceImportExcelData(sPhysicalPath, false, out msg, out error, out warning);
+                        //  IList<EmpAttendanceForm> res = objAttendance.ToList();
 
                         duplicateEntries = objAttendance.GroupBy(x => new { x.EmployeeID, x.InDate }).Sum(g => g.Count() - 1);
                         var getDuplicateRows = ExtensionMethods.FindDuplicates(objAttendance, x => new { x.EmployeeID, x.InDate });
-                        objAttendance.Join(getDuplicateRows, (x) =>new { x.EmployeeID,x.InDate }  , (y) => new { y.EmployeeID, y.InDate }, (x, y) =>
+                        objAttendance.Join(getDuplicateRows, (x) => new { x.EmployeeID, x.InDate }, (y) => new { y.EmployeeID, y.InDate }, (x, y) =>
                         {
-                            x.isDuplicatedRow = (((x.EmployeeID == y.EmployeeID) && (x.InDate==y.InDate)) ? true : false);
+                            x.isDuplicatedRow = (((x.EmployeeID == y.EmployeeID) && (x.InDate == y.InDate)) ? true : false);
                             return x;
                         }).ToList();
 
@@ -125,12 +138,12 @@ namespace MicroPay.Web.Controllers.Import
                         else
                             error += duplicateEntries;
 
-                         TempData["attendanceData"] = objAttendance;
-                         TempData["error"] = error;
-                         TempData.Keep("attendanceData");
-                         TempData.Keep("error");
+                        TempData["attendanceData"] = objAttendance;
+                        TempData["error"] = error;
+                        TempData.Keep("attendanceData");
+                        TempData.Keep("error");
 
-                         return Json("success");
+                        return Json("success");
                     }
                     else
                     {
@@ -142,7 +155,7 @@ namespace MicroPay.Web.Controllers.Import
                 {
                     TempData["error"] = -1;
                     return Json("nofileFound");
-                 //   return Json(new { message = "nofileFound" });
+                    //   return Json(new { message = "nofileFound" });
                 }
             }
             catch (Exception ex)
@@ -162,15 +175,15 @@ namespace MicroPay.Web.Controllers.Import
                 AttendanceImportViewModel attendanceImportVM = new AttendanceImportViewModel();
                 List<EmpAttendanceForm> empAttandanceForm = new List<EmpAttendanceForm>();
                 attendanceImportVM.ErrorMsgCollection = GetErrorMessage();
-                if (TempData["attendanceData"]!=null)
+                if (TempData["attendanceData"] != null)
                 {
                     attendanceImportVM.attendanceData = (List<EmpAttendanceForm>)TempData["attendanceData"];
                     TempData.Keep("attendanceData");
                     //attendanceImportVM.NoOfErrors = TempData["error"] != null ? (int)TempData["error"] : 0;
                 }
-               else
+                else
                     attendanceImportVM.attendanceData = empAttandanceForm;
-                    attendanceImportVM.NoOfErrors= TempData["error"] != null ? (int)TempData["error"] : 0;
+                attendanceImportVM.NoOfErrors = TempData["error"] != null ? (int)TempData["error"] : 0;
 
                 return PartialView("_ImportAttendanceGridView", attendanceImportVM);
             }
@@ -190,7 +203,7 @@ namespace MicroPay.Web.Controllers.Import
                 var importDataList = (List<EmpAttendanceForm>)TempData["attendanceData"];
                 var result = importAttendanceService.ImportAttendanceDetails(userDetail.UserID, userDetail.UserTypeID, importDataList);
 
-                if (result ==1)
+                if (result == 1)
                 {
                     return JavaScript("window.location = '" + Url.Action("Index", "EmployeeAttendancedetails") + "'");
                 }
@@ -200,11 +213,11 @@ namespace MicroPay.Web.Controllers.Import
             catch (Exception ex)
             {
                 log.Error("Error: " + ex.Message + " ,StackTrace: " + ex.StackTrace + " ,DateTimeStamp :" + DateTime.Now);
-                
-                return Json(new {errorCode=-1, error = ex.Message }, JsonRequestBehavior.AllowGet);
-               // throw;
+
+                return Json(new { errorCode = -1, error = ex.Message }, JsonRequestBehavior.AllowGet);
+                // throw;
             }
-           
+
         }
     }
 }

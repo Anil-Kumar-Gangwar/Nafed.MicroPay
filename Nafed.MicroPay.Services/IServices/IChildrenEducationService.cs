@@ -22,5 +22,6 @@ namespace Nafed.MicroPay.Services.IServices
         bool DeleteReceiptsDocuments(int receiptId);
 
         bool UpdateEmployeeDependent(List<ChildrenEducationDetails> childrenEducationDetails, IEnumerable<ChildrenEducationDetails> deletedResult);
+        List<Model.ChildrenEducationHdr> GetEmployeeChildrenEducationYearWise(string reportingYr);
     }
 }
