@@ -76,7 +76,7 @@ namespace Nafed.MicroPay.Services
 
         }
 
-        public string GetAttendanceForm(int branchID, string fileName, string sFullPath)
+        public string GetAttendanceForm(int branchID, string fileName, string sFullPath, int? employeeType, DateTime date)
         {
             log.Info($"MarkAttendanceService/GetAttendanceForm/{branchID}");
 
@@ -85,15 +85,16 @@ namespace Nafed.MicroPay.Services
             {
                 sFullPath = $"{sFullPath}{fileName}";
                 var empDTO = genericRepo.Get<DTOModel.tblMstEmployee>(x => x.BranchID == branchID && !x.IsDeleted);
+                if (employeeType.HasValue)
+                    empDTO = empDTO.Where(x => x.EmployeeTypeID == employeeType);
 
                 DataTable dtAttendanceForm = new DataTable();
-
                 Mapper.Initialize(cfg =>
                 {
                     cfg.CreateMap<DTOModel.tblMstEmployee, Model.EmpAttendanceForm>()
                     .ForMember(d => d.EmpCode, o => o.MapFrom(s => s.EmployeeCode))
                     .ForMember(d => d.EmployeeName, o => o.MapFrom(s => s.Name))
-                    .ForMember(d => d.InDate, o => o.UseValue(DateTime.Now.Date))
+                    .ForMember(d => d.InDate, o => o.UseValue(date))
                     // .ForMember(d => d.OutDate, o => o.UseValue(DateTime.Now.Date))
                     .ForMember(d => d.InTime, o => o.UseValue(""))
                     .ForMember(d => d.OutTime, o => o.UseValue(""))
@@ -536,7 +537,7 @@ namespace Nafed.MicroPay.Services
             catch (Exception ex)
             {
                 log.Error("Message-" + ex.Message + " StackTrace-" + ex.StackTrace + " DatetimeStamp-" + DateTime.Now);
-              
+
             }
 
             return flag;
@@ -711,7 +712,7 @@ namespace Nafed.MicroPay.Services
             log.Info($"MarkAttendanceService/GetTourDetails/");
             try
             {
-                var getdata = genericRepo.Get<DTOModel.EmpAttendanceHdr>(x => x.Mode == "T" && (empAttend.BranchID == 0 ? (1 > 0) : x.EmpAttendanceDetails.Any(y=> y.BranchID== empAttend.BranchID))
+                var getdata = genericRepo.Get<DTOModel.EmpAttendanceHdr>(x => x.Mode == "T" && (empAttend.BranchID == 0 ? (1 > 0) : x.EmpAttendanceDetails.Any(y => y.BranchID == empAttend.BranchID))
                   && (empAttend.EmployeeId == 0 ? (1 > 0) : x.EmployeeId == empAttend.EmployeeId) && (default(DateTime) == empAttend.ProxydateIn ? (1 > 0) :
             x.ProxydateIn >= empAttend.ProxydateIn) && (default(DateTime) == empAttend.ProxyOutDate ? (1 > 0) :
             x.ProxyOutDate <= empAttend.ProxyOutDate)).ToList();

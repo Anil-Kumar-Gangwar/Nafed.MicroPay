@@ -13,7 +13,7 @@ namespace Nafed.MicroPay.Services.IServices
         int InsertMarkAttendanceDetails(Model.EmpAttendance tabletProxyAttendanceDetails);
 
         List<Model.EmpAttendance> AttendanceDetails(Model.EmpAttendance tabletProxyAttendanceDetails);
-        string GetAttendanceForm(int branchID, string fileName, string sFullPath);       
+        string GetAttendanceForm(int branchID, string fileName, string sFullPath, int? employeeType, DateTime date);       
         int ApproveRejectAttendance(Model.EmpAttendance attendanceDetail);
         bool AttendanceExists(int branchID, int empID, DateTime inDate, DateTime outDate);
         int InsertTourDetail(Model.EmpAttendance attendanceDetails);
