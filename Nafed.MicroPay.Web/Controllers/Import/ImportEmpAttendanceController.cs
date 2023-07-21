@@ -70,9 +70,7 @@ namespace MicroPay.Web.Controllers.Import
             {
                 BindDropDown();
                 if (string.IsNullOrEmpty(branchID))
-                    ModelState.AddModelError("BranchRequired", "Select Branch");
-                if (date == null)
-                    ModelState.AddModelError("DateRequired", "Select Date");
+                    ModelState.AddModelError("BranchRequired", "Select Branch");             
 
                 return PartialView("_ExportTemplate");
             }
