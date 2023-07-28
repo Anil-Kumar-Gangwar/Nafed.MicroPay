@@ -19,7 +19,7 @@ namespace Nafed.MicroPay.Services.IServices
         List<PayrollApprovalRequest> GetDAArrearApprovalRequest(WorkFlowProcess wrkProcessID, int reportingEmpID);
 
         List<PayrollApprovalRequest> GetPayArrearApprovalRequest(WorkFlowProcess wrkProcessID, int reportingEmpID);
-        bool SubmitApprovalRequest(PayrollApprovalRequest request);
+        bool SubmitApprovalRequest(PayrollApprovalRequest request, string filePath);
         bool SubmitDAApprovalRequest(PayrollApprovalRequest request);
         bool SubmitPayArrearApprovalRequest(PayrollApprovalRequest request);
         bool SendDAArrearApprovalRequest(ArrearApprovalRequest request, out bool requestExist);

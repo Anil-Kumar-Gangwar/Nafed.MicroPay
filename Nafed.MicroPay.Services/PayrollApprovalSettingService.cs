@@ -13,6 +13,7 @@ using DTOModel = Nafed.MicroPay.Data.Models;
 using static Nafed.MicroPay.ImportExport.ArrearReportExport;
 using System.Data;
 using System.Globalization;
+using static Nafed.MicroPay.ImportExport.SalaryReportExport;
 
 namespace Nafed.MicroPay.Services
 {
@@ -21,12 +22,14 @@ namespace Nafed.MicroPay.Services
         private readonly IGenericRepository genericRepo;
         private readonly ISalaryRepository salaryRepo;
         private readonly IArrearRepository arrearRepo;
+        private readonly ISalaryReportRepository salReportRepo;
         public PayrollApprovalSettingService(IGenericRepository genericRepo,
-            ISalaryRepository salaryRepo, IArrearRepository arrearRepo)
+            ISalaryRepository salaryRepo, IArrearRepository arrearRepo, ISalaryReportRepository salReportRepo)
         {
             this.genericRepo = genericRepo;
             this.salaryRepo = salaryRepo;
             this.arrearRepo = arrearRepo;
+            this.salReportRepo = salReportRepo;
         }
         public List<PayrollApprovalSetting> GetApprovalSetting()
         {
@@ -58,7 +61,7 @@ namespace Nafed.MicroPay.Services
                                            OldReporting2 = sub == null ? 0 : sub.Reporting2,
                                            OldReporting3 = sub == null ? 0 : sub.Reporting3,
                                            Reporting1 = sub == null ? 0 : sub.Reporting1,
-                                           Reporting2 = sub == null ? 0 : sub.Reporting2.HasValue? sub.Reporting2.Value:0,
+                                           Reporting2 = sub == null ? 0 : sub.Reporting2.HasValue ? sub.Reporting2.Value : 0,
                                            Reporting3 = sub == null ? 0 : sub.Reporting3.HasValue ? sub.Reporting3.Value : 0,
                                            ProcessAppID = sub == null ? 0 : sub.ProcessAppID,
                                            CreatedBy = sub == null ? 0 : sub.CreatedBy,
@@ -294,7 +297,7 @@ namespace Nafed.MicroPay.Services
             }
         }
 
-        public bool SubmitApprovalRequest(PayrollApprovalRequest request)
+        public bool SubmitApprovalRequest(PayrollApprovalRequest request, string filePath)
         {
             log.Info($"PayrollApprovalSettingService/SubmitApprovalRequest");
             bool flag = false;
@@ -307,7 +310,7 @@ namespace Nafed.MicroPay.Services
 
                 var dtoApprovalRequest = Mapper.Map<DTOModel.PayrollApprovalRequest>(request);
 
-                genericRepo.Update<DTOModel.PayrollApprovalRequest>(dtoApprovalRequest);
+              genericRepo.Update<DTOModel.PayrollApprovalRequest>(dtoApprovalRequest);
 
                 if (request.Status == (int)ApprovalStatus.RejectedByReporting2 || request.Status == (int)ApprovalStatus.ApprovedByReporting2)
                 {
@@ -338,7 +341,10 @@ namespace Nafed.MicroPay.Services
 
                     var dtoPayrollApprovalRequest = Mapper.Map<DTOModel.PayrollApprovalRequest>(request);
                     flag = salaryRepo.PublishSalary(dtoPayrollApprovalRequest);
-
+                    if (flag && !request.BranchID.HasValue)
+                    {
+                       Task t2 = Task.Run(() => SendSalaryReportToBM(request, filePath));                        
+                    }
                 }
                 else if (request.Status == (int)ApprovalStatus.RejectedByReporting3)
                 {
@@ -595,7 +601,7 @@ namespace Nafed.MicroPay.Services
                 }
 
                 emailMessage.Body = mailBody.ToString();
-               EmailHelper.SendEmail(emailMessage);
+                EmailHelper.SendEmail(emailMessage);
             }
             catch (Exception ex)
             {
@@ -755,6 +761,187 @@ namespace Nafed.MicroPay.Services
 
         }
 
+        public void SendSalaryReportToBM(PayrollApprovalRequest request, string filePath)
+        {
+            log.Info($"PayrollApprovalSettingService/SendSalaryReportToBM");
 
+            try
+            {
+                EmailMessage emailMessage = new EmailMessage();
+                StringBuilder mailBody = new StringBuilder();
+                var year = Convert.ToInt32(request.Period.Substring(0, 4));
+                var month = Convert.ToInt32(request.Period.Substring(4, 2));
+                SalaryReportFilter filter = new SalaryReportFilter()
+                {
+                    salMonth = (byte)month,
+                    salYear = (short)year,
+                    employeeTypeID = request.EmployeeTypeID,
+                    filePath = filePath
+                };
+                var emailsetting = genericRepo.Get<DTOModel.EmailConfiguration>().FirstOrDefault();
+
+                Mapper.Initialize(cfg =>
+                {
+                    cfg.CreateMap<DTOModel.EmailConfiguration, EmailMessage>()
+                    .ForMember(d => d.From, o => o.MapFrom(s => $"NAFED HRMS <{s.ToEmail}>"))
+                    .ForMember(d => d.UserName, o => o.MapFrom(s => s.UserName))
+                    .ForMember(d => d.Password, o => o.MapFrom(s => s.Password))
+                    .ForMember(d => d.SmtpClientHost, o => o.MapFrom(s => s.Server))
+                    .ForMember(d => d.SmtpPort, o => o.MapFrom(s => s.Port))
+                    .ForMember(d => d.enableSSL, o => o.MapFrom(s => s.SSLStatus))
+                    .ForMember(d => d.HTMLView, o => o.UseValue(true))
+                    .ForMember(d => d.FriendlyName, o => o.UseValue("NAFED"));
+                });
+                emailMessage = Mapper.Map<EmailMessage>(emailsetting);
+
+                emailMessage.Subject = $"SALARY REPORT";
+                // Get All BM mail for email sending 
+                var employeeList = genericRepo.Get<DTOModel.tblMstEmployee>(x =>  x.BranchID != 44 && x.IsBM == true && x.IsDeleted == false && x.DOLeaveOrg == null).Select( s => new { s.OfficialEmail, s.BranchID}).ToArray();
+                foreach (var employee in employeeList)
+                {
+                    mailBody.Clear();
+                    mailBody.AppendFormat("<div>Dear Sir/Madam,</div> <br> ");
+                    mailBody.AppendFormat($"<div>Salary report for the month of <b>{request.periodInDateFormat.Value.ToString("MMM, yyyy")}</b> has been generatd. Kindly check.<br> <br>");
+                    mailBody.AppendFormat($"<div>Regards, </div> <br>");
+                    mailBody.AppendFormat($"<div>F & A Team, </div> <br>");
+                    mailBody.AppendFormat($"<div>Nafed  </div> <br> <br>");
+                    filter.branchID = employee.BranchID;
+                    GenerateEmployeeMonthlySalaryReport(filter);
+                    emailMessage.To = employee.OfficialEmail;
+                    emailMessage.Attachments = GetSalaryReportAttachment(filter.fileName);
+                    emailMessage.Body = mailBody.ToString();
+                   EmailHelper.SendEmail(emailMessage);
+                    foreach (var attachment in emailMessage.Attachments)
+                    {
+                        attachment.Content.Dispose();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error("Message-" + ex.Message + " StackTrace-" + ex.StackTrace + " DatetimeStamp-" + DateTime.Now);
+                throw ex;
+            }
+        }
+        public static byte[] ReadFile(string filePath)
+        {
+            byte[] buffer;
+            FileStream fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read);
+            try
+            {
+                int length = (int)fileStream.Length;  // get file length
+                buffer = new byte[length];            // create buffer
+                int count;                            // actual number of bytes read
+                int sum = 0;                          // total number of bytes read
+
+                // read until Read method returns 0 (end of the stream has been reached)
+                while ((count = fileStream.Read(buffer, sum, length - sum)) > 0)
+                    sum += count;  // sum is a buffer offset for next reading
+            }
+            finally
+            {
+                fileStream.Close();
+            }
+            return buffer;
+        }
+        private List<MailAttachment> GetSalaryReportAttachment(string fileName)
+        {
+            log.Info($"PayRollApprovalService/GetSalaryReportAttachment");
+
+            List<MailAttachment> attachments = new List<MailAttachment>();
+            try
+            {
+                string fullPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "FileDownload/" + fileName);
+
+                if (System.IO.File.Exists(fullPath))
+                {
+                    byte[] tmpBytes = ReadFile(fullPath);
+                    MemoryStream ms = new MemoryStream();
+                    using (MemoryStream tempStream = new MemoryStream())
+                    {
+                        ms.Write(tmpBytes, 0, tmpBytes.Length);
+                    }
+                    if ((ms != null) && (ms.Length != 0))
+                    {
+                        ms.Seek(0, SeekOrigin.Begin);
+                        ms.Position = 0;
+                    }
+                    attachments.Add(new MailAttachment { Content = ms, FileName = fileName });
+
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error("Message-" + ex.Message + " StackTrace-" + ex.InnerException + " DatetimeStamp-" + DateTime.Now);
+                throw ex;
+            }
+            return attachments;
+        }
+
+
+        public string GenerateEmployeeMonthlySalaryReport(SalaryReportFilter rFilter)
+        {
+            log.Info($"PayRollApprovalService/GenerateEmployeeMonthlySalaryReport");
+
+            string result = string.Empty; string sFullPath = string.Empty;
+            string selectedPeriod = $"{rFilter.salYear.ToString()}{rFilter.salMonth.ToString("00")}";
+
+            if (genericRepo.Exists<DTOModel.salaryheadshistory>(x => x.EmployeeTypeID == rFilter.employeeTypeID.Value
+             && x.Period == selectedPeriod))
+            {
+                if (Directory.Exists(rFilter.filePath))
+                {
+                    int nE_Cols = 0, nD_Cols = 0;
+
+                    DataSet dsReportData = salReportRepo.GetMonthlyEmployeeWiseReport(rFilter.salMonth, rFilter.salYear,
+                        rFilter.employeeTypeID, rFilter.branchID, out nE_Cols, out nD_Cols);
+
+                    if (dsReportData != null && dsReportData.Tables[0].Rows.Count > 0)  //====== export report if there is data ========= 
+                    {
+                        DataTable dtBaseData = new DataTable();
+                        dtBaseData = dsReportData.Tables[0].Clone();
+
+                        IEnumerable<string> exportHdr = Enumerable.Empty<string>();
+                        exportHdr = dsReportData.Tables[0].Columns.Cast<DataColumn>()
+                            .Where(x => (x.ColumnName.ToString() != "BranchCode"
+                            )).Select(x => x.ColumnName).AsEnumerable<string>();
+
+                        var distinctBrachCodes = (from row in dsReportData.Tables[0].AsEnumerable()
+                                                  select row.Field<string>("BranchCode")).Distinct();
+
+                        foreach (var item in distinctBrachCodes)
+                        {
+                            var drArray = (from myRow in dsReportData.Tables[0].AsEnumerable()
+                                           where myRow.Field<string>("BranchCode") == item
+                                           select myRow).ToArray<DataRow>();
+
+                            var drTotArray = (from myRow in dsReportData.Tables[3].AsEnumerable()
+                                              where myRow.Field<string>("BranchCode") == item
+                                              select myRow).FirstOrDefault();
+
+                            foreach (DataRow dr in drArray)
+                                dtBaseData.ImportRow(dr);
+
+                            drTotArray["SNO"] = -99;
+                            dtBaseData.ImportRow(drTotArray);
+
+                            dtBaseData.Columns.Remove("BranchCode");
+                            DateTime date = new DateTime(rFilter.salYear, rFilter.salMonth, 1);
+                            var filename = "SalaryReport_" + drTotArray.ItemArray[2].ToString() + "_" + date.ToString("MMMM") + rFilter.salYear.ToString() + ".xlsx";
+                            sFullPath = $"{rFilter.filePath}{filename}";
+                            result = MonthlyEmployeeWiseExportToExcel(exportHdr, dtBaseData, dsReportData.Tables[1], dsReportData.Tables[2], nE_Cols, nD_Cols, $"Employee Wise Monthly-{selectedPeriod}", sFullPath);
+                            rFilter.fileName = filename;
+                        }
+
+
+                    }
+                    else
+                        result = "norec";
+                }
+            }
+            else
+                result = "notfound";
+            return result;
+        }
     }
 }

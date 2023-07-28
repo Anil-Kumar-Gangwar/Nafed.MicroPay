@@ -410,21 +410,27 @@ namespace MicroPay.Web.Controllers.Salary
 
                 if (actionType == "Approve")
                 {
+                    string fullPath = string.Empty;
+
                     if (loggedInEmpID == request.Reporting2 && request.Reporting2 != request.Reporting3)
                         request.Status = (int)ApprovalStatus.ApprovedByReporting2;
 
-                    else if (loggedInEmpID == request.Reporting2 && loggedInEmpID==request.Reporting3)
+                    else if (loggedInEmpID == request.Reporting2 && loggedInEmpID == request.Reporting3)
+                    {
                         request.Status = (int)ApprovalStatus.ApprovedByReporting3;
+                        fullPath = Server.MapPath("~/FileDownload/");
+                    }
 
                     else if (loggedInEmpID == request.Reporting3)
                     {
                         request.Status = (int)ApprovalStatus.ApprovedByReporting3;
+                        fullPath = Server.MapPath("~/FileDownload/");
                     }
                     else if (loggedInEmpID == request.Reporting2 && loggedInEmpID == request.Reporting3)
                     {
 
                     }
-                    var result = pAppSettingService.SubmitApprovalRequest(request);
+                    var result = pAppSettingService.SubmitApprovalRequest(request, fullPath);
 
                     if (request.Status == (int)ApprovalStatus.ApprovedByReporting3)
                         return Json(new { msgType = "success", msg = "Salary Published Successfully." }, JsonRequestBehavior.AllowGet);
@@ -445,7 +451,7 @@ namespace MicroPay.Web.Controllers.Salary
                     {
 
                     }
-                    var result = pAppSettingService.SubmitApprovalRequest(request);
+                    var result = pAppSettingService.SubmitApprovalRequest(request,string.Empty);
                     return Json(new { msgType = "success", msg = "Request rejected Successfully." }, JsonRequestBehavior.AllowGet);
                 }
                 return PartialView("_ApprovalRequestRow", request);
