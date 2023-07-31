@@ -794,11 +794,12 @@ namespace Nafed.MicroPay.Services
                 });
                 emailMessage = Mapper.Map<EmailMessage>(emailsetting);
 
-                emailMessage.Subject = $"SALARY REPORT";
+               
                 // Get All BM mail for email sending 
-                var employeeList = genericRepo.Get<DTOModel.tblMstEmployee>(x =>  x.BranchID != 44 && x.IsBM == true && x.IsDeleted == false && x.DOLeaveOrg == null).Select( s => new { s.OfficialEmail, s.BranchID}).ToArray();
+                var employeeList = genericRepo.Get<DTOModel.tblMstEmployee>(x =>  x.BranchID != 44 && x.IsBM == true && x.IsDeleted == false && x.DOLeaveOrg == null).Select( s => new { s.OfficialEmail, s.BranchID,s.Branch.BranchName}).ToArray();
                 foreach (var employee in employeeList)
                 {
+                    emailMessage.Subject = $"SALARY REPORT FOR THE {employee.BranchName.ToUpper()} BRANCH";
                     mailBody.Clear();
                     mailBody.AppendFormat("<div>Dear Sir/Madam,</div> <br> ");
                     mailBody.AppendFormat($"<div>Salary report for the month of <b>{request.periodInDateFormat.Value.ToString("MMM, yyyy")}</b> has been generated. Kindly check.<br> <br>");
