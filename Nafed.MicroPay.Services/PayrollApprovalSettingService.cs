@@ -801,7 +801,7 @@ namespace Nafed.MicroPay.Services
                 {
                     mailBody.Clear();
                     mailBody.AppendFormat("<div>Dear Sir/Madam,</div> <br> ");
-                    mailBody.AppendFormat($"<div>Salary report for the month of <b>{request.periodInDateFormat.Value.ToString("MMM, yyyy")}</b> has been generatd. Kindly check.<br> <br>");
+                    mailBody.AppendFormat($"<div>Salary report for the month of <b>{request.periodInDateFormat.Value.ToString("MMM, yyyy")}</b> has been generated. Kindly check.<br> <br>");
                     mailBody.AppendFormat($"<div>Regards, </div> <br>");
                     mailBody.AppendFormat($"<div>F & A Team, </div> <br>");
                     mailBody.AppendFormat($"<div>Nafed  </div> <br> <br>");

@@ -241,6 +241,9 @@ namespace Nafed.MicroPay.Common
                     email.AlternateViews.Add(htmlView);
                 }
                 #endregion
+                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls
+                                     | SecurityProtocolType.Tls11
+                                     | SecurityProtocolType.Tls12;
                 SmtpClient client = new SmtpClient(message.SmtpClientHost);
                 NetworkCredential basicCredential = new NetworkCredential(message.UserName, message.Password);
 
