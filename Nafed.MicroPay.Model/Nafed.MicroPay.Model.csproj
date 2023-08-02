@@ -212,6 +212,7 @@
     <Compile Include="LTC.cs" />
     <Compile Include="LTCDependentList.cs" />
     <Compile Include="LTCReport.cs" />
+    <Compile Include="MailFailedLog.cs" />
     <Compile Include="Manufacturer.cs" />
     <Compile Include="MaritalStatus.cs" />
     <Compile Include="MasterReports.cs" />

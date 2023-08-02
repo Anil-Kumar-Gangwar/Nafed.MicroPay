@@ -310,7 +310,7 @@ namespace Nafed.MicroPay.Services
 
                 var dtoApprovalRequest = Mapper.Map<DTOModel.PayrollApprovalRequest>(request);
 
-              genericRepo.Update<DTOModel.PayrollApprovalRequest>(dtoApprovalRequest);
+                genericRepo.Update<DTOModel.PayrollApprovalRequest>(dtoApprovalRequest);
 
                 if (request.Status == (int)ApprovalStatus.RejectedByReporting2 || request.Status == (int)ApprovalStatus.ApprovedByReporting2)
                 {
@@ -343,7 +343,13 @@ namespace Nafed.MicroPay.Services
                     flag = salaryRepo.PublishSalary(dtoPayrollApprovalRequest);
                     if (flag && !request.BranchID.HasValue)
                     {
-                       Task t2 = Task.Run(() => SendSalaryReportToBM(request, filePath));                        
+                        var employee = genericRepo.GetByID<DTOModel.tblMstEmployee>(request.Reporting3);
+
+                        List<int> logIds = null;
+                        Task t2 = Task.Run(() => SendSalaryReportToBM(request, filePath, out logIds)).ContinueWith(t =>
+                        SendFailedMailLogToReporting3(logIds, employee.OfficialEmail)
+                        );
+
                     }
                 }
                 else if (request.Status == (int)ApprovalStatus.RejectedByReporting3)
@@ -761,68 +767,93 @@ namespace Nafed.MicroPay.Services
 
         }
 
-        public void SendSalaryReportToBM(PayrollApprovalRequest request, string filePath)
+        public void SendSalaryReportToBM(PayrollApprovalRequest request, string filePath, out List<int> logIds)
         {
             log.Info($"PayrollApprovalSettingService/SendSalaryReportToBM");
-
-            try
+            logIds = new List<int>();
+            MailFailedLog obj = new MailFailedLog();
+            EmailMessage emailMessage = new EmailMessage();
+            StringBuilder mailBody = new StringBuilder();
+            var year = Convert.ToInt32(request.Period.Substring(0, 4));
+            var month = Convert.ToInt32(request.Period.Substring(4, 2));
+            SalaryReportFilter filter = new SalaryReportFilter()
             {
-                EmailMessage emailMessage = new EmailMessage();
-                StringBuilder mailBody = new StringBuilder();
-                var year = Convert.ToInt32(request.Period.Substring(0, 4));
-                var month = Convert.ToInt32(request.Period.Substring(4, 2));
-                SalaryReportFilter filter = new SalaryReportFilter()
-                {
-                    salMonth = (byte)month,
-                    salYear = (short)year,
-                    employeeTypeID = request.EmployeeTypeID,
-                    filePath = filePath
-                };
-                var emailsetting = genericRepo.Get<DTOModel.EmailConfiguration>().FirstOrDefault();
+                salMonth = (byte)month,
+                salYear = (short)year,
+                employeeTypeID = request.EmployeeTypeID,
+                filePath = filePath
+            };
+            var emailsetting = genericRepo.Get<DTOModel.EmailConfiguration>().FirstOrDefault();
 
-                Mapper.Initialize(cfg =>
-                {
-                    cfg.CreateMap<DTOModel.EmailConfiguration, EmailMessage>()
-                    .ForMember(d => d.From, o => o.MapFrom(s => $"NAFED HRMS <{s.ToEmail}>"))
-                    .ForMember(d => d.UserName, o => o.MapFrom(s => s.UserName))
-                    .ForMember(d => d.Password, o => o.MapFrom(s => s.Password))
-                    .ForMember(d => d.SmtpClientHost, o => o.MapFrom(s => s.Server))
-                    .ForMember(d => d.SmtpPort, o => o.MapFrom(s => s.Port))
-                    .ForMember(d => d.enableSSL, o => o.MapFrom(s => s.SSLStatus))
-                    .ForMember(d => d.HTMLView, o => o.UseValue(true))
-                    .ForMember(d => d.FriendlyName, o => o.UseValue("NAFED"));
-                });
-                emailMessage = Mapper.Map<EmailMessage>(emailsetting);
+            Mapper.Initialize(cfg =>
+            {
+                cfg.CreateMap<DTOModel.EmailConfiguration, EmailMessage>()
+                .ForMember(d => d.From, o => o.MapFrom(s => $"NAFED HRMS <{s.ToEmail}>"))
+                .ForMember(d => d.UserName, o => o.MapFrom(s => s.UserName))
+                .ForMember(d => d.Password, o => o.MapFrom(s => s.Password))
+                .ForMember(d => d.SmtpClientHost, o => o.MapFrom(s => s.Server))
+                .ForMember(d => d.SmtpPort, o => o.MapFrom(s => s.Port))
+                .ForMember(d => d.enableSSL, o => o.MapFrom(s => s.SSLStatus))
+                .ForMember(d => d.HTMLView, o => o.UseValue(true))
+                .ForMember(d => d.FriendlyName, o => o.UseValue("NAFED"));
+            });
+            emailMessage = Mapper.Map<EmailMessage>(emailsetting);
 
-               
-                // Get All BM mail for email sending 
-                var employeeList = genericRepo.Get<DTOModel.tblMstEmployee>(x =>  x.BranchID != 44 && x.IsBM == true && x.IsDeleted == false && x.DOLeaveOrg == null).Select( s => new { s.OfficialEmail, s.BranchID,s.Branch.BranchName}).ToArray();
-                foreach (var employee in employeeList)
+
+            // Get All BM mail for email sending 
+            var employeeList = genericRepo.Get<DTOModel.tblMstEmployee>(x => x.BranchID != 44 && x.IsBM == true && x.IsDeleted == false && x.DOLeaveOrg == null).Select(s => new { s.EmployeeId, s.OfficialEmail, s.BranchID, s.Branch.BranchName, s.EmployeeTypeID }).ToArray();
+            int cntr = 0;
+            foreach (var employee in employeeList)
+            {
+                try
                 {
-                    emailMessage.Subject = $"SALARY REPORT FOR THE {employee.BranchName.ToUpper()} BRANCH";
-                    mailBody.Clear();
-                    mailBody.AppendFormat("<div>Dear Sir/Madam,</div> <br> ");
-                    mailBody.AppendFormat($"<div>Salary report for the month of <b>{request.periodInDateFormat.Value.ToString("MMM, yyyy")}</b> has been generated. Kindly check.<br> <br>");
-                    mailBody.AppendFormat($"<div>Regards, </div> <br>");
-                    mailBody.AppendFormat($"<div>F & A Team, </div> <br>");
-                    mailBody.AppendFormat($"<div>Nafed  </div> <br> <br>");
-                    filter.branchID = employee.BranchID;
-                    GenerateEmployeeMonthlySalaryReport(filter);
-                    emailMessage.To = employee.OfficialEmail;
-                    emailMessage.Attachments = GetSalaryReportAttachment(filter.fileName);
-                    emailMessage.Body = mailBody.ToString();
-                   EmailHelper.SendEmail(emailMessage);
-                    foreach (var attachment in emailMessage.Attachments)
+                    obj.WorkingArea = (int)WorkingArea.SalaryApproval;
+                    obj.EmployeeId = employee.EmployeeId;
+                    obj.BranchId = employee.BranchID;
+                    obj.EmployeeTypeId = employee.EmployeeTypeID;
+                    obj.SalMonth = (byte)month;
+                    obj.SalYear = (short)year;
+                    obj.CreatedOn = DateTime.Now;
+                    obj.CreatedBy = (int)request.UpdatedBy;
+
+                    if (!string.IsNullOrEmpty(employee.OfficialEmail))
                     {
-                        attachment.Content.Dispose();
+                        emailMessage.Subject = $"SALARY REPORT FOR THE {employee.BranchName.ToUpper()} BRANCH";
+                        mailBody.Clear();
+                        mailBody.AppendFormat("<div>Dear Sir/Madam,</div> <br> ");
+                        mailBody.AppendFormat($"<div>Salary report for the month of <b>{request.periodInDateFormat.Value.ToString("MMM, yyyy")}</b> has been generated. Kindly check.<br> <br>");
+                        mailBody.AppendFormat($"<div>Regards, </div> <br>");
+                        mailBody.AppendFormat($"<div>F & A Team, </div> <br>");
+                        mailBody.AppendFormat($"<div>Nafed</div> <br> <br>");
+                        filter.branchID = employee.BranchID;
+                        GenerateEmployeeMonthlySalaryReport(filter);
+                        emailMessage.To = employee.OfficialEmail;
+                        emailMessage.Attachments = GetSalaryReportAttachment(filter.fileName);
+                        emailMessage.Body = mailBody.ToString();
+                        EmailHelper.SendEmail(emailMessage);
+                        foreach (var attachment in emailMessage.Attachments)
+                        {
+                            attachment.Content.Dispose();
+                        }
+                    }
+                    else
+                    {
+                        obj.Reason = $"Official mail Id is missing";
+                        int id = InsertMailFailedLog(obj);
+                        logIds.Add(id);
+                        cntr++;
+
                     }
                 }
+                catch (Exception ex)
+                {
+                    obj.Reason = ex.Message;
+                    int id = InsertMailFailedLog(obj);
+                    logIds.Add(id);
+                    log.Error("Message-" + ex.Message + " StackTrace-" + ex.StackTrace + " DatetimeStamp-" + DateTime.Now);
+                }
             }
-            catch (Exception ex)
-            {
-                log.Error("Message-" + ex.Message + " StackTrace-" + ex.StackTrace + " DatetimeStamp-" + DateTime.Now);
-                throw ex;
-            }
+
         }
         public static byte[] ReadFile(string filePath)
         {
@@ -943,6 +974,96 @@ namespace Nafed.MicroPay.Services
             else
                 result = "notfound";
             return result;
+        }
+
+        public int InsertMailFailedLog(MailFailedLog model)
+        {
+            log.Info($"PayrollApprovalSettingService/InsertMailFailedLog");
+
+            try
+            {
+                Mapper.Initialize(cfg =>
+                {
+                    cfg.CreateMap<MailFailedLog, DTOModel.MailFailedLog>();
+                });
+                var dtoMailFailed = Mapper.Map<DTOModel.MailFailedLog>(model);
+                if (dtoMailFailed != null)
+                    genericRepo.Insert<DTOModel.MailFailedLog>(dtoMailFailed);
+
+                return dtoMailFailed.Id;
+
+            }
+            catch (Exception ex)
+            {
+                log.Error("Message-" + ex.Message + " StackTrace-" + ex.StackTrace + " DatetimeStamp-" + DateTime.Now);
+                throw ex;
+            }
+        }
+        public bool SendFailedMailLogToReporting3(List<int> logIds, string emailTo)
+        {
+            log.Info($"PayrollApprovalSettingService/SendFailedMailLogToReporting3");
+
+            try
+            {
+                if (logIds.Count > 0)
+                {
+                    List<dynamic> employeeDetail = new List<dynamic>();
+                    var _logIds = logIds.ToArray();
+                    var failedMails = genericRepo.Get<DTOModel.MailFailedLog>(x => _logIds.Contains(x.Id));
+
+                    var period = new DateTime((int)failedMails.First().SalYear, (int)failedMails.First().SalMonth, 1);
+
+                    foreach (var item in failedMails)
+                    {
+                        employeeDetail.Add(new
+                        {
+                            branchName = item.Branch.BranchName,
+                            reason = item.Reason,
+                        });
+                    }
+
+                    EmailMessage emailMessage = new EmailMessage();
+                    StringBuilder mailBody = new StringBuilder();
+
+                    var emailsetting = genericRepo.Get<DTOModel.EmailConfiguration>().FirstOrDefault();
+
+                    Mapper.Initialize(cfg =>
+                    {
+                        cfg.CreateMap<DTOModel.EmailConfiguration, EmailMessage>()
+                        .ForMember(d => d.From, o => o.MapFrom(s => $"NAFED HRMS <{s.ToEmail}>"))
+                        .ForMember(d => d.To, o => o.UseValue(emailTo))
+                        .ForMember(d => d.UserName, o => o.MapFrom(s => s.UserName))
+                        .ForMember(d => d.Password, o => o.MapFrom(s => s.Password))
+                        .ForMember(d => d.SmtpClientHost, o => o.MapFrom(s => s.Server))
+                        .ForMember(d => d.SmtpPort, o => o.MapFrom(s => s.Port))
+                        .ForMember(d => d.enableSSL, o => o.MapFrom(s => s.SSLStatus))
+                        .ForMember(d => d.HTMLView, o => o.UseValue(true))
+                        .ForMember(d => d.FriendlyName, o => o.UseValue("NAFED"));
+                    });
+
+                    emailMessage = Mapper.Map<EmailMessage>(emailsetting);
+                    emailMessage.Subject = $"SALARY REPORT INTIMATION MAIL FAILED";
+                    mailBody.Clear();
+                    mailBody.AppendFormat("<div>Dear Sir/Madam,</div> <br> ");
+                    mailBody.AppendFormat($"<div>Salary report intimation for the month of <b>{period.ToString("MMM, yyyy")}</b> has been failed in following branch(s). Kindly check the issue.<br> <br>");
+                    foreach (var employee in employeeDetail)
+                    {
+                        mailBody.AppendFormat($"<div>Branch :<b> {employee.branchName}</b>, Reason :{employee.reason} <br>");
+                    }
+                    mailBody.AppendFormat($"<div>Regards, </div> <br>");
+                    mailBody.AppendFormat($"<div>F & A Team, </div> <br>");
+                    mailBody.AppendFormat($"<div>Nafed</div> <br> <br>");
+                    emailMessage.Body = mailBody.ToString();
+                    EmailHelper.SendEmail(emailMessage);
+                    return true;
+                }
+                return false;
+            }
+            catch (Exception ex)
+            {
+                log.Error("Message-" + ex.Message + " StackTrace-" + ex.StackTrace + " DatetimeStamp-" + DateTime.Now);
+                throw ex;
+            }
         }
     }
 }

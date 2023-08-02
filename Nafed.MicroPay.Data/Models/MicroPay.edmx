@@ -2432,6 +2432,21 @@ warning 6002: The table/view 'HRMS.dbo.LeaveType' does not have a primary key de
           <Property Name="Content" Type="nvarchar" MaxLength="2000" />
           <Property Name="IsDeleted" Type="bit" Nullable="false" />
         </EntityType>
+        <EntityType Name="MailFailedLog">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EmployeeId" Type="int" Nullable="false" />
+          <Property Name="BranchId" Type="int" />
+          <Property Name="EmployeeTypeId" Type="int" />
+          <Property Name="WorkingArea" Type="int" />
+          <Property Name="Reason" Type="nvarchar" MaxLength="1000" Nullable="false" />
+          <Property Name="SalMonth" Type="tinyint" />
+          <Property Name="SalYear" Type="smallint" />
+          <Property Name="CreatedBy" Type="int" Nullable="false" />
+          <Property Name="CreatedOn" Type="datetime" Nullable="false" />
+        </EntityType>
         <EntityType Name="Manufacturer">
           <Key>
             <PropertyRef Name="ManufacturerID" />
@@ -10442,6 +10457,54 @@ warning 6002: The table/view 'HRMS.dbo.TrainingFeedbackFormat' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_MailFailedLog_Branch">
+          <End Role="Branch" Type="Self.Branch" Multiplicity="0..1" />
+          <End Role="MailFailedLog" Type="Self.MailFailedLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Branch">
+              <PropertyRef Name="BranchID" />
+            </Principal>
+            <Dependent Role="MailFailedLog">
+              <PropertyRef Name="BranchId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MailFailedLog_EmployeeType">
+          <End Role="EmployeeType" Type="Self.EmployeeType" Multiplicity="0..1" />
+          <End Role="MailFailedLog" Type="Self.MailFailedLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EmployeeType">
+              <PropertyRef Name="EmployeeTypeID" />
+            </Principal>
+            <Dependent Role="MailFailedLog">
+              <PropertyRef Name="EmployeeTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MailFailedLog_tblMstEmployee">
+          <End Role="tblMstEmployee" Type="Self.tblMstEmployee" Multiplicity="1" />
+          <End Role="MailFailedLog" Type="Self.MailFailedLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblMstEmployee">
+              <PropertyRef Name="EmployeeId" />
+            </Principal>
+            <Dependent Role="MailFailedLog">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MailFailedLog_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="MailFailedLog" Type="Self.MailFailedLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="MailFailedLog">
+              <PropertyRef Name="CreatedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_ManageLeaveCategory_User">
           <End Role="User" Type="Self.User" Multiplicity="1" />
           <End Role="LeaveCategory" Type="Self.LeaveCategory" Multiplicity="*" />
@@ -14037,6 +14100,7 @@ warning 6002: The table/view 'HRMS.dbo.TrainingFeedbackFormat' does not have a p
           <EntitySet Name="LoanApplicationHistory" EntityType="Self.LoanApplicationHistory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Mail_Process" EntityType="Self.Mail_Process" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Mail_Process_Content" EntityType="Self.Mail_Process_Content" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MailFailedLog" EntityType="Self.MailFailedLog" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Manufacturer" EntityType="Self.Manufacturer" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MaritalStatus" EntityType="Self.MaritalStatus" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MaxEmpCodeTypeWise" EntityType="Self.MaxEmpCodeTypeWise" Schema="dbo" store:Type="Tables" />
@@ -15900,6 +15964,22 @@ warning 6002: The table/view 'HRMS.dbo.TrainingFeedbackFormat' does not have a p
           <AssociationSet Name="FK_LoanApplicationHistory_User1" Association="Self.FK_LoanApplicationHistory_User1">
             <End Role="User" EntitySet="User" />
             <End Role="LoanApplicationHistory" EntitySet="LoanApplicationHistory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MailFailedLog_Branch" Association="Self.FK_MailFailedLog_Branch">
+            <End Role="Branch" EntitySet="Branch" />
+            <End Role="MailFailedLog" EntitySet="MailFailedLog" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MailFailedLog_EmployeeType" Association="Self.FK_MailFailedLog_EmployeeType">
+            <End Role="EmployeeType" EntitySet="EmployeeType" />
+            <End Role="MailFailedLog" EntitySet="MailFailedLog" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MailFailedLog_tblMstEmployee" Association="Self.FK_MailFailedLog_tblMstEmployee">
+            <End Role="tblMstEmployee" EntitySet="tblMstEmployee" />
+            <End Role="MailFailedLog" EntitySet="MailFailedLog" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MailFailedLog_User" Association="Self.FK_MailFailedLog_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="MailFailedLog" EntitySet="MailFailedLog" />
           </AssociationSet>
           <AssociationSet Name="FK_ManageLeaveCategory_User" Association="Self.FK_ManageLeaveCategory_User">
             <End Role="User" EntitySet="User" />
@@ -20341,6 +20421,23 @@ warning 6002: The table/view 'HRMS.dbo.TrainingFeedbackFormat' does not have a p
             <End Role="User" EntitySet="Users" />
             <End Role="NREmployeesContractExtention" EntitySet="NREmployeesContractExtention" />
           </AssociationSet>
+          <EntitySet Name="MailFailedLog" EntityType="MicroPayModel.MailFailedLog" />
+          <AssociationSet Name="FK_MailFailedLog_Branch" Association="MicroPayModel.FK_MailFailedLog_Branch">
+            <End Role="Branch" EntitySet="Branches" />
+            <End Role="MailFailedLog" EntitySet="MailFailedLog" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MailFailedLog_EmployeeType" Association="MicroPayModel.FK_MailFailedLog_EmployeeType">
+            <End Role="EmployeeType" EntitySet="EmployeeTypes" />
+            <End Role="MailFailedLog" EntitySet="MailFailedLog" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MailFailedLog_tblMstEmployee" Association="MicroPayModel.FK_MailFailedLog_tblMstEmployee">
+            <End Role="tblMstEmployee" EntitySet="tblMstEmployees" />
+            <End Role="MailFailedLog" EntitySet="MailFailedLog" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MailFailedLog_User" Association="MicroPayModel.FK_MailFailedLog_User">
+            <End Role="User" EntitySet="Users" />
+            <End Role="MailFailedLog" EntitySet="MailFailedLog" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="AcadmicProfessionalDetail">
           <Key>
@@ -20445,6 +20542,7 @@ warning 6002: The table/view 'HRMS.dbo.TrainingFeedbackFormat' does not have a p
           <NavigationProperty Name="tblMstLTCs" Relationship="MicroPayModel.FK_tblMstLTC_Branch" FromRole="Branch" ToRole="tblMstLTC" />
           <NavigationProperty Name="EmpAttendanceHdrs" Relationship="MicroPayModel.FK_EmpAttendanceHdr_Branch" FromRole="Branch" ToRole="EmpAttendanceHdr" />
           <NavigationProperty Name="tblPFOpBalances" Relationship="MicroPayModel.FK__tblPFOpBa__Branc__5B052800" FromRole="Branch" ToRole="tblPFOpBalance" />
+          <NavigationProperty Name="MailFailedLog" Relationship="MicroPayModel.FK_MailFailedLog_Branch" FromRole="Branch" ToRole="MailFailedLog" />
           </EntityType>
         <EntityType Name="Cadre">
           <Key>
@@ -20683,6 +20781,7 @@ warning 6002: The table/view 'HRMS.dbo.TrainingFeedbackFormat' does not have a p
           <NavigationProperty Name="BranchSalaryHeadRules" Relationship="MicroPayModel.FK_BranchSalaryHeadRules_EmployeeType" FromRole="EmployeeType" ToRole="BranchSalaryHeadRule" />
           <NavigationProperty Name="PayrollApprovalRequests" Relationship="MicroPayModel.FK_PayrollApprovalRequest_EmployeeType" FromRole="EmployeeType" ToRole="PayrollApprovalRequest" />
           <NavigationProperty Name="MaxEmpCodeTypeWises" Relationship="MicroPayModel.FK_MaxEmpCodeTypeWise_EmployeeType" FromRole="EmployeeType" ToRole="MaxEmpCodeTypeWise" />
+          <NavigationProperty Name="MailFailedLog" Relationship="MicroPayModel.FK_MailFailedLog_EmployeeType" FromRole="EmployeeType" ToRole="MailFailedLog" />
         </EntityType>
         <EntityType Name="Gender">
           <Key>
@@ -21327,6 +21426,7 @@ warning 6002: The table/view 'HRMS.dbo.TrainingFeedbackFormat' does not have a p
           <NavigationProperty Name="FileWorkflow" Relationship="MicroPayModel.FK_FileWorkflow_User" FromRole="User" ToRole="FileWorkflow" />
           <NavigationProperty Name="NREmployeesContractExtention" Relationship="MicroPayModel.FK_NREmployeesContractExtention_User" FromRole="User" ToRole="NREmployeesContractExtention" />
           <NavigationProperty Name="NREmployeesContractExtention1" Relationship="MicroPayModel.FK_NREmployeesContractExtention_User1" FromRole="User" ToRole="NREmployeesContractExtention" />
+          <NavigationProperty Name="MailFailedLog" Relationship="MicroPayModel.FK_MailFailedLog_User" FromRole="User" ToRole="MailFailedLog" />
           </EntityType>
         <EntityType Name="UserRight">
           <Key>
@@ -28536,6 +28636,7 @@ warning 6002: The table/view 'HRMS.dbo.TrainingFeedbackFormat' does not have a p
           <NavigationProperty Name="FileWorkflow" Relationship="MicroPayModel.FK_FileWorkflow_tblMstEmployee" FromRole="tblMstEmployee" ToRole="FileWorkflow" />
           <NavigationProperty Name="FileWorkflow1" Relationship="MicroPayModel.FK_FileWorkflow_tblMstEmployee1" FromRole="tblMstEmployee" ToRole="FileWorkflow" />
           <NavigationProperty Name="NREmployeesContractExtention" Relationship="MicroPayModel.FK_NREmployeesContractExtention_NREmployeesContractExtention" FromRole="tblMstEmployee" ToRole="NREmployeesContractExtention" />
+          <NavigationProperty Name="MailFailedLog" Relationship="MicroPayModel.FK_MailFailedLog_tblMstEmployee" FromRole="tblMstEmployee" ToRole="MailFailedLog" />
           </EntityType>
         <EntityType Name="tblmstprojectedemployee">
           <Key>
@@ -37125,6 +37226,73 @@ warning 6002: The table/view 'HRMS.dbo.TrainingFeedbackFormat' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="MailFailedLog">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EmployeeId" Type="Int32" Nullable="false" />
+          <Property Name="BranchId" Type="Int32" />
+          <Property Name="EmployeeTypeId" Type="Int32" />
+          <Property Name="WorkingArea" Type="Int32" />
+          <Property Name="Reason" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedBy" Type="Int32" Nullable="false" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Branch" Relationship="MicroPayModel.FK_MailFailedLog_Branch" FromRole="MailFailedLog" ToRole="Branch" />
+          <NavigationProperty Name="EmployeeType" Relationship="MicroPayModel.FK_MailFailedLog_EmployeeType" FromRole="MailFailedLog" ToRole="EmployeeType" />
+          <NavigationProperty Name="tblMstEmployee" Relationship="MicroPayModel.FK_MailFailedLog_tblMstEmployee" FromRole="MailFailedLog" ToRole="tblMstEmployee" />
+          <NavigationProperty Name="User" Relationship="MicroPayModel.FK_MailFailedLog_User" FromRole="MailFailedLog" ToRole="User" />
+          <Property Name="SalMonth" Type="Byte" />
+          <Property Name="SalYear" Type="Int16" />
+        </EntityType>
+        <Association Name="FK_MailFailedLog_Branch">
+          <End Type="MicroPayModel.Branch" Role="Branch" Multiplicity="0..1" />
+          <End Type="MicroPayModel.MailFailedLog" Role="MailFailedLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Branch">
+              <PropertyRef Name="BranchID" />
+            </Principal>
+            <Dependent Role="MailFailedLog">
+              <PropertyRef Name="BranchId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MailFailedLog_EmployeeType">
+          <End Type="MicroPayModel.EmployeeType" Role="EmployeeType" Multiplicity="0..1" />
+          <End Type="MicroPayModel.MailFailedLog" Role="MailFailedLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EmployeeType">
+              <PropertyRef Name="EmployeeTypeID" />
+            </Principal>
+            <Dependent Role="MailFailedLog">
+              <PropertyRef Name="EmployeeTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MailFailedLog_tblMstEmployee">
+          <End Type="MicroPayModel.tblMstEmployee" Role="tblMstEmployee" Multiplicity="1" />
+          <End Type="MicroPayModel.MailFailedLog" Role="MailFailedLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblMstEmployee">
+              <PropertyRef Name="EmployeeId" />
+            </Principal>
+            <Dependent Role="MailFailedLog">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MailFailedLog_User">
+          <End Type="MicroPayModel.User" Role="User" Multiplicity="1" />
+          <End Type="MicroPayModel.MailFailedLog" Role="MailFailedLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="MailFailedLog">
+              <PropertyRef Name="CreatedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -44643,6 +44811,22 @@ warning 6002: The table/view 'HRMS.dbo.TrainingFeedbackFormat' does not have a p
                 <ScalarProperty Name="ExtentionToDate" ColumnName="ExtentionToDate" />
                 <ScalarProperty Name="ExtentionFromDate" ColumnName="ExtentionFromDate" />
                 <ScalarProperty Name="ExtentionNoticeDate" ColumnName="ExtentionNoticeDate" />
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MailFailedLog">
+            <EntityTypeMapping TypeName="MicroPayModel.MailFailedLog">
+              <MappingFragment StoreEntitySet="MailFailedLog">
+                <ScalarProperty Name="SalYear" ColumnName="SalYear" />
+                <ScalarProperty Name="SalMonth" ColumnName="SalMonth" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Reason" ColumnName="Reason" />
+                <ScalarProperty Name="WorkingArea" ColumnName="WorkingArea" />
+                <ScalarProperty Name="EmployeeTypeId" ColumnName="EmployeeTypeId" />
+                <ScalarProperty Name="BranchId" ColumnName="BranchId" />
                 <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>

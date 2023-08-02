@@ -131,4 +131,9 @@ namespace Nafed.MicroPay.Common
         Section = 6,
         Cadre = 7
     }
+
+    public enum WorkingArea
+    {
+        SalaryApproval=1
+    }
 }

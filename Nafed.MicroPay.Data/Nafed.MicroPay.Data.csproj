@@ -613,6 +613,9 @@
     <Compile Include="Models\LoanApplicationHistory.cs">
       <DependentUpon>MicroPay.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\MailFailedLog.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Mail_Process.cs">
       <DependentUpon>MicroPay.tt</DependentUpon>
     </Compile>

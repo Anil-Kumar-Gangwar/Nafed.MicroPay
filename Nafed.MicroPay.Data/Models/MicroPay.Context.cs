@@ -475,6 +475,8 @@ public partial class MicroPayEntities : DbContext
 
     public virtual DbSet<NREmployeesContractExtention> NREmployeesContractExtention { get; set; }
 
+    public virtual DbSet<MailFailedLog> MailFailedLog { get; set; }
+
 
     public virtual ObjectResult<GetEmployeeDetails_Result> GetEmployeeDetails(string empCode, string empName, Nullable<int> empTypeID, Nullable<int> designationID)
     {

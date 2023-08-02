@@ -919,6 +919,11 @@
         <AssociationConnector Association="MicroPayModel.FK_NREmployeesContractExtention_NREmployeesContractExtention" />
         <AssociationConnector Association="MicroPayModel.FK_NREmployeesContractExtention_User" />
         <AssociationConnector Association="MicroPayModel.FK_NREmployeesContractExtention_User1" />
+        <EntityTypeShape EntityType="MicroPayModel.MailFailedLog" Width="1.5" PointX="37" PointY="156.625" />
+        <AssociationConnector Association="MicroPayModel.FK_MailFailedLog_Branch" />
+        <AssociationConnector Association="MicroPayModel.FK_MailFailedLog_EmployeeType" />
+        <AssociationConnector Association="MicroPayModel.FK_MailFailedLog_tblMstEmployee" />
+        <AssociationConnector Association="MicroPayModel.FK_MailFailedLog_User" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

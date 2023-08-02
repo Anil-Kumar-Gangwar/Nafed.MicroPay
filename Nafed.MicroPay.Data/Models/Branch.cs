@@ -94,6 +94,8 @@ public partial class Branch
 
         this.tblPFOpBalances = new HashSet<tblPFOpBalance>();
 
+        this.MailFailedLog = new HashSet<MailFailedLog>();
+
     }
 
 
@@ -292,6 +294,10 @@ public partial class Branch
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
 
     public virtual ICollection<tblPFOpBalance> tblPFOpBalances { get; set; }
+
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+
+    public virtual ICollection<MailFailedLog> MailFailedLog { get; set; }
 
 }
 

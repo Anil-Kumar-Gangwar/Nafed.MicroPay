@@ -176,6 +176,8 @@ public partial class tblMstEmployee
 
         this.NREmployeesContractExtention = new HashSet<NREmployeesContractExtention>();
 
+        this.MailFailedLog = new HashSet<MailFailedLog>();
+
     }
 
 
@@ -834,6 +836,10 @@ public partial class tblMstEmployee
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
 
     public virtual ICollection<NREmployeesContractExtention> NREmployeesContractExtention { get; set; }
+
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+
+    public virtual ICollection<MailFailedLog> MailFailedLog { get; set; }
 
 }
 

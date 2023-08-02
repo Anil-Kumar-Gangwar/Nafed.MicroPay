@@ -702,6 +702,8 @@ public partial class User
 
         this.NREmployeesContractExtention1 = new HashSet<NREmployeesContractExtention>();
 
+        this.MailFailedLog = new HashSet<MailFailedLog>();
+
     }
 
 
@@ -2112,6 +2114,10 @@ public partial class User
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
 
     public virtual ICollection<NREmployeesContractExtention> NREmployeesContractExtention1 { get; set; }
+
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+
+    public virtual ICollection<MailFailedLog> MailFailedLog { get; set; }
 
 }
 
