@@ -777,6 +777,7 @@ namespace Nafed.MicroPay.Services
                   .ForMember(c => c.PFNo, c => c.MapFrom(s => s.PFNO))
                    .ForMember(c => c.ACRNo, c => c.MapFrom(s => s.ACR_No))
                   .ForMember(c => c.UANNo, c => c.MapFrom(s => s.PensionUAN))
+
                    .ForMember(c => c.AadhaarCardFilePath, c => c.MapFrom(s => s.AadhaarCardFilePath))
                    .ForMember(c => c.PanCardFilePath, c => c.MapFrom(s => s.PanCardFilePath))
                    .ForMember(c => c.MotherName, c => c.MapFrom(s => s.MotherName))
@@ -1205,6 +1206,8 @@ namespace Nafed.MicroPay.Services
                     .ForMember(c => c.BGroupID, c => c.MapFrom(s => s.BGroupID))
                     .ForMember(c => c.ID_Mark, c => c.MapFrom(s => s.ID_Mark))
                     .ForMember(c => c.PANNo, c => c.MapFrom(s => s.PANNo))
+                    .ForMember(c => c.PensionUAN, c => c.MapFrom(s => s.PensionUAN))
+                    .ForMember(c => c.PensionNumber, c => c.MapFrom(s => s.PensionNumber))
                     .ForMember(c => c.PassPortNo, c => c.MapFrom(s => s.PassPortNo))
                     .ForMember(c => c.PPIDate, c => c.MapFrom(s => s.PPIDate))
                     .ForMember(c => c.PPEDate, c => c.MapFrom(s => s.PPEDate))
