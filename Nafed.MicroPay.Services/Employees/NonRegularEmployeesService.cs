@@ -77,18 +77,16 @@ namespace Nafed.MicroPay.Services
 
                 #region Update Last Employee Code in MaxEmpCodeTypeWise table
 
-                var empCode = string.Empty;
-                if (data.Prifix == "D" || data.Prifix == "B")
-                {
+                var empCode = string.Empty;              
                     if (data.MaxEmployee.ToString().Length == 1)
                         empCode = data.Prifix + "0000" + (data.MaxEmployee + 1);
                     else if (data.MaxEmployee.ToString().Length == 2)
                         empCode = data.Prifix + "000" + (data.MaxEmployee + 1);
                     else if (data.MaxEmployee.ToString().Length == 3)
                         empCode = data.Prifix + "00" + (data.MaxEmployee + 1);
-                    else
+                    else if (data.MaxEmployee.ToString().Length == 4)
                         empCode = data.Prifix + "0" + (data.MaxEmployee + 1);
-                }
+               
                 else
                 {
                     empCode = (data.MaxEmployee + 1).ToString();
@@ -122,7 +120,7 @@ namespace Nafed.MicroPay.Services
                 empSalRow.CreatedBy = employeeDetails.CreatedBy;
                 empSalRow.CreatedOn = employeeDetails.CreatedOn;
                 empSalRow.IsSalgenrated = false;
-
+                empSalRow.E_Basic = employeeDetails.E_Basic;
                 if (employeeDetails.modOfPayment == Model.Employees.ModeOfPayment.Bank)
                 {
                     empSalRow.BankAcNo = employeeDetails.BankAcNo;
@@ -239,6 +237,7 @@ namespace Nafed.MicroPay.Services
                 var empSalRow = genericRepo.Get<DTOModel.TblMstEmployeeSalary>(x => x.EmployeeCode == employee.EmployeeCode).FirstOrDefault();
                 if (empSalRow != null)
                 {
+                    empSalRow.E_Basic = employee.E_Basic;
                     if (employee.modOfPayment == Model.Employees.ModeOfPayment.Bank)
                     {
                         empSalRow.BankAcNo = employee.BankAcNo;
@@ -266,7 +265,7 @@ namespace Nafed.MicroPay.Services
                     newEmpSalRow.CreatedBy = employee.UpdatedBy ?? 0;
                     newEmpSalRow.CreatedOn = employee.UpdatedOn.Value;
                     newEmpSalRow.IsSalgenrated = false;
-
+                    newEmpSalRow.E_Basic = employee.E_Basic;
                     if (employee.modOfPayment == Model.Employees.ModeOfPayment.Bank)
                     {
                         newEmpSalRow.BankAcNo = employee.BankAcNo;
@@ -747,20 +746,21 @@ namespace Nafed.MicroPay.Services
                     .ForMember(c => c.Gender, c => c.MapFrom(s => s.Gender.Name))
                     .ForMember(c => c.PensionNumber, c => c.MapFrom(s => s.PensionNumber))
                     .ForMember(c => c.EPFOMemberID, c => c.MapFrom(s => s.EPFOMemberID))
-                    .ForMember(c => c.EmpPayScale, c => c.MapFrom(s => s.PayScale))
+                    //  .ForMember(c => c.EmpPayScale, c => c.MapFrom(s => s.PayScale))
                     .ForMember(c => c.IsJoinAfterNoon, c => c.MapFrom(s => s.IsJoinAfterNoon))
                      .ForMember(c => c.EmpCatID, c => c.MapFrom(s => s.EmpCatID))
                     .ForAllOtherMembers(c => c.Ignore());
                 });
                 var employee = Mapper.Map<DTOModel.tblMstEmployee, Model.Employees.NonRegularEmployee>(dtoEmployee);
 
-                //if(genericRepo.Exists<DTOModel.TblMstEmployeeSalary>(x=>x.EmployeeCode== employee.EmployeeCode))
-                //  employee.E_Basic = genericRepo.GetByID<DTOModel.TblMstEmployeeSalary>(employee.EmployeeCode).E_Basic;
-                if (string.IsNullOrEmpty(employee.PayScale))
-                {
-                    var emp_payScale = empRepo.GetDesignationPayScaleList(dtoEmployee.DesignationID).FirstOrDefault();
-                    employee.PayScale = emp_payScale?.PayScale ?? null;
-                }
+                var salary = genericRepo.Get<DTOModel.TblMstEmployeeSalary>(x => x.EmployeeID == employee.EmployeeID).FirstOrDefault();
+                if (salary != null)
+                    employee.E_Basic = salary.E_Basic;
+                //if (string.IsNullOrEmpty(employee.PayScale))
+                //{
+                //    var emp_payScale = empRepo.GetDesignationPayScaleList(dtoEmployee.DesignationID).FirstOrDefault();
+                //    employee.PayScale = emp_payScale?.PayScale ?? null;
+                //}
                 return employee;
             }
             catch (Exception ex)
@@ -947,7 +947,7 @@ namespace Nafed.MicroPay.Services
             log.Info($"NonRegularEmployeesService/GetEmployeeContractExtensionList/{employeeID}");
             try
             {
-                var dtoEmpExtension = genericRepo.Get<DTOModel.NREmployeesContractExtention>(x => x.EmployeeId == employeeID && x.Deleted==false).OrderByDescending(o=> o.Id);
+                var dtoEmpExtension = genericRepo.Get<DTOModel.NREmployeesContractExtention>(x => x.EmployeeId == employeeID && x.Deleted == false).OrderByDescending(o => o.Id);
                 Mapper.Initialize(cfg =>
                 {
                     cfg.CreateMap<DTOModel.NREmployeesContractExtention, Model.Employees.NonRegularEmployeesExtension>()

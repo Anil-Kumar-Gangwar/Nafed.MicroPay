@@ -141,7 +141,7 @@ namespace MicroPay.Web.Controllers.Arrear
                             BranchCode = "99";
 
                         if (genricRepository.Exists<Nafed.MicroPay.Data.Models.PayrollApprovalRequest>(x => x.Period == newPeriod
-                  && x.ProcessID == (int)WorkFlowProcess.DAArrearGenerate && x.BranchCode == BranchCode && (x.Status!=2 && x.Status!=4)))
+                  && x.ProcessID == (int)WorkFlowProcess.DAArrearGenerate && x.BranchCode == BranchCode && (x.Status != 2 && x.Status != 4)))
                         {
                             TempData["Error"] = $"Approval request already exists.";
                             //return PartialView("_ReportFilter", ARVM);
@@ -262,10 +262,13 @@ namespace MicroPay.Web.Controllers.Arrear
                         parameterList.Add(new ReportParameter() { name = "FROMPERIOD", value = fromYear });
                         parameterList.Add(new ReportParameter() { name = "TOPERIOD", value = toYear });
                         parameterList.Add(new ReportParameter() { name = "ArrearType", value = "D" });
-                        parameterList.Add(new ReportParameter() { name = "branchcode", value = ARVM.branchID == null ? 0 : ARVM.branchID });
-                        parameterList.Add(new ReportParameter() { name = "Empcode", value = ARVM.employeeID });
+                        parameterList.Add(new ReportParameter() { name = "branchId", value = ARVM.branchID });
+                        parameterList.Add(new ReportParameter() { name = "EmpId", value = ARVM.employeeID == 0 ? null : ARVM.employeeID });
+                        //parameterList.Add(new ReportParameter() { name = "branchCode", value = ARVM.branchID });
+                        //parameterList.Add(new ReportParameter() { name = "EmpCode", value = ARVM.employeeID == 0 ? null : ARVM.employeeID });
                         reportModel.reportParameters = parameterList;
-                        reportModel.rptName = "daareear.rpt";
+                        //   reportModel.rptName = "daareear.rpt";
+                        reportModel.rptName = "rpDAArrear.rpt";
                         reportModel.reportType = 2;
                         Session["ReportModel"] = reportModel;
                     }
@@ -349,7 +352,7 @@ namespace MicroPay.Web.Controllers.Arrear
                 log.Error("Message-" + ex.Message + " StackTrace-" + ex.StackTrace + " DatetimeStamp-" + DateTime.Now);
                 throw ex;
             }
-        }       
+        }
 
 
         public ActionResult GetPeriodDetails(string details, string flag)
