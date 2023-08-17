@@ -1,0 +1,117 @@
+﻿@using Nafed.MicroPay.Model;
+@model MicroPay.Web.Models.ChildrenEducationViewModel
+
+
+<table id="tblGrid" class="table_card table table-centered table-striped dt-responsive w-100">
+    <thead>
+        <tr>
+            <th scope="col">
+                #
+            </th>
+            <th scope="col">
+                Reporting Yr
+            </th>
+            <th scope="col">
+                Employee
+            </th>
+            <th scope="col">
+                Department
+            </th>
+            <th scope="col">
+                Designation
+            </th>
+            <th scope="col">
+                Receipt No.
+            </th>
+            <th scope="col">
+                Amount
+            </th>
+            <th scope="col" class="text-center">
+                Receipt Document
+            </th>
+            <th scope="col">
+                Status
+            </th>
+            <th scope="col" class="text-center" style="width:60px">
+                View
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            if (Model.childrenEducationList != null && Model.childrenEducationList.Count() > 0)
+            {
+                var sno = 1;
+                foreach (var item in Model.childrenEducationList)
+                {
+                    <tr>
+                        <td data-label="S.No.">@sno</td>
+                        <td data-label="Reporting Yr">@item.ReportingYear</td>
+                        <td data-label="Employee">@item.EmployeeName</td>
+                        <td data-label="Department">@item.DepartmentName</td>
+                        <td data-label="Designation">@item.DesignationName</td>
+                        <td data-label="Receipt No.">@item.ReceiptNo</td>
+                        <td data-label="Amount">@item.Amount</td>
+                        <td data-label="Receipt Document" class="text-center">
+                            <a data-ajax="true"
+                               method="POST" class="toggle-tooltip" title="Click here, to show receipts file."
+                               data-ajax-update="#div-Receipt-container" data-ajax-mode="replace"
+                               data-backdrop="static" data-keyboard="false"
+                               href="@Url.Action("GetChildrenEducationDocuments", "ChildrenEducationAllowance", new { employeeId = item.EmployeeId, childrenEduHdrID=item.ChildrenEduHdrID })"
+                               id="a_receiptFiles" data-toggle="modal" data-target="#div-FileUpload">
+                                <i class="fas fa-file text-info"></i>
+                            </a>
+                        </td>
+                        <td data-label="Status">
+                            @if (item.StatusId == (int)ChildrenEducationStatus.SavedByEmployee)
+                            {
+                                <h5>
+                                    <span class="badge badge-pill badge-light col-md-12">
+                                        Save
+                                    </span>
+                                </h5>
+                            }
+                            else if (item.StatusId == (int)ChildrenEducationStatus.SubmitedByEmployee)
+                            {
+                                <h5>
+                                    <span class="badge badge-pill badge-dark col-md-12">
+                                        Submitted
+                                    </span>
+                                </h5>
+                            }
+                        </td>
+                        <td  class="text-center" data-label="View">                         
+                            @Html.EncodedImageActionLink("", "View", "ChildrenEducationAllowance", new { empID = item.EmployeeId, childrenEduHdrId = item.ChildrenEduHdrID }, new { @class = "toggle-tooltip", title = "Click here, to view this record" }, "~/Images/view.png")
+                        </td>
+                    </tr>
+                    sno++;
+                }
+            }
+        }
+    </tbody>
+</table>
+
+
+<div class="modal" id="div-FileUpload" style="max-height:600px;">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4> Receipts / Bills List </h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <!-- Modal body -->
+            <div class="modal-body" id="div-Receipt-container" style="max-height:500px;overflow-x:scroll">
+
+
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+
+            </div>
+
+        </div>
+    </div>
+</div>

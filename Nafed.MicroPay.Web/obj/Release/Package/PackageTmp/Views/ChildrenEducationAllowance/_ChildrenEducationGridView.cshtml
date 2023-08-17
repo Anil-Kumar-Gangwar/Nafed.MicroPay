@@ -1,0 +1,116 @@
+﻿@using fileHelper = Nafed.MicroPay.Common.ExtensionMethods;
+@using Nafed.MicroPay.Model;
+@model Nafed.MicroPay.Model.ChildrenEducationHdr
+
+
+<table id="tblGrid1" class="table_card table table-bordered table-centered dt-responsive w-100">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col" class="text-left">Name of Child<span class="text-danger ml-2">*</span> </th>
+            <th scope="col" class="text-center">Date of birth <span class="text-danger ml-2">*</span></th>
+            <th scope="col" class="text-center">School/University in which studying <span class="text-danger ml-2">*</span></th>
+            <th scope="col" class="text-center">Class in which studying <span class="text-danger ml-2">*</span></th>
+            <th scope="col" class="text-right">Not Applicable</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.ChildrenEducationDetailsList != null && Model.ChildrenEducationDetailsList.Count() > 0)
+            {
+                for (int i = 0; i < Model.ChildrenEducationDetailsList.Count(); i++)
+                {
+                <tr>
+                    <td data-label="S.No." class="text-center">@fileHelper.GetRomanValueByNumber(i + 1) <text>.</text> </td>
+                    <td data-label="Name of Child">
+                        @Html.DropDownListFor(model => model.ChildrenEducationDetailsList[i].EmpDependentID, new SelectList(Model.DependentList, "id", "value", Model.ChildrenEducationDetailsList[i].EmpDependentID), "Select", new { @class = "custom-select", @style = "pointer-events: none;" })
+                        @Html.ValidationMessage("ChildrenEducationDetailsList[" + i + "].EmpDependentID", "", new { @class = "text-danger" })
+                    </td>
+                    <td data-label="Date of birth">
+                        @Html.EditorFor(model => model.ChildrenEducationDetailsList[i].DOB, new { htmlAttributes = new { @class = "form-control", @type = "date", @readonly = "readonly" } })
+                        @Html.ValidationMessage("ChildrenEducationDetailsList[" + i + "].DOB", "", new { @class = "text-danger" })
+                    </td>
+                    <td data-label="School in which studying" id="SchoolNameDetails">
+                        @Html.EditorFor(model => model.ChildrenEducationDetailsList[i].SchoolName, new { htmlAttributes = new { @class = "form-control", @Placeholder = "School Name", @maxlength = "50" } })
+                        @Html.ValidationMessage("ChildrenEducationDetailsList[" + i + "].SchoolName", "", new { @class = "text-danger", @id = "SchoolName_" + i + "" })
+                    </td>
+                    <td data-label="Class in which studying" id="ClassNameDetails">
+                        @Html.EditorFor(model => model.ChildrenEducationDetailsList[i].ClassName, new { htmlAttributes = new { @class = "form-control", @Placeholder = "Class Name", @maxlength = "20" } })
+                        @Html.ValidationMessage("ChildrenEducationDetailsList[" + i + "].ClassName", "", new { @class = "text-danger", @id = "ClassName_" + i + "" })
+                    </td>
+                    <td data-label="Not Applicable" class="text-center" id="NotApplicableDetails">
+                        @if (!Model.ChildrenEducationDetailsList[i].NotApplicable)
+                        {
+                            @Html.CheckBoxFor(model => model.ChildrenEducationDetailsList[i].NotApplicable, new { @class = "", @checked = false, @onChange = "NotApplicableCheck(this.id," + i + ")" })
+                        }
+                        else
+                        {
+                            @Html.CheckBoxFor(model => model.ChildrenEducationDetailsList[i].NotApplicable, new { @class = "", @checked = true, @onChange = "NotApplicableCheck(this.id," + i + ")" })
+                        }
+
+                        @*@Ajax.ActionLink("Remove",
+                            "_RemoveChildrenRow", new
+                            {
+                                sNo = Model.ChildrenEducationDetailsList[i].sno
+                            },
+                            new AjaxOptions
+                            {
+                                //OnSuccess = "AfterRemove",
+                                UpdateTargetId = "div-form-Children-grid",
+                                InsertionMode = InsertionMode.Replace,
+                                Confirm = "Are you sure you want to remove this row?",
+                                HttpMethod = "GET"
+                            }, new { @class = "btn btn-danger btn-xs toggle-tooltip btn-sectionAddRow", @title = "Click here, to remove this row." })*@
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="6" class="text-center">No Record Found. </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var table = $('#tblGrid1').DataTable({ searching: false, paging: false });
+
+        var tableDetails = document.getElementById('tblGrid1');
+        var rowLength = tableDetails.rows.length;
+        for (var i = 0; i < rowLength; i += 1) {
+            var row = tableDetails.rows[i];
+            var cellLength = row.cells.length;
+            for (var y = 0; y < cellLength; y += 1) {
+                var cell = row.cells[y];
+                if (cell.id = "NotApplicableDetails") {
+                    if ($("#ChildrenEducationDetailsList_" + i + "__NotApplicable").is(":checked") == false) {
+                        $("#ChildrenEducationDetailsList_" + i + "__SchoolName").removeAttr("readonly");
+                        $("#ChildrenEducationDetailsList_" + i + "__ClassName").removeAttr("readonly");
+                    }
+                    else {
+                        $("#ChildrenEducationDetailsList_" + i + "__SchoolName").val("");
+                        $("#ChildrenEducationDetailsList_" + i + "__ClassName").val("");
+                        $("#ChildrenEducationDetailsList_" + i + "__SchoolName").attr("readonly", "readonly");
+                        $("#ChildrenEducationDetailsList_" + i + "__ClassName").attr("readonly", "readonly");
+                    }
+                }
+            }
+        }
+    });
+
+    function NotApplicableCheck(id, index) {
+        if ($("#" + id).is(":checked")) {
+            $("#ChildrenEducationDetailsList_" + index + "__SchoolName").val("");
+            $("#ChildrenEducationDetailsList_" + index + "__ClassName").val("");
+            $("#ChildrenEducationDetailsList_" + index + "__SchoolName").attr("readonly", "readonly");
+            $("#ChildrenEducationDetailsList_" + index + "__ClassName").attr("readonly", "readonly");
+            $("#SchoolName_" + index).html("");
+            $("#ClassName_" + index).html("");
+        }
+        else {
+            $("#ChildrenEducationDetailsList_" + index + "__SchoolName").removeAttr("readonly");
+            $("#ChildrenEducationDetailsList_" + index + "__ClassName").removeAttr("readonly");
+        }
+    }
+</script>

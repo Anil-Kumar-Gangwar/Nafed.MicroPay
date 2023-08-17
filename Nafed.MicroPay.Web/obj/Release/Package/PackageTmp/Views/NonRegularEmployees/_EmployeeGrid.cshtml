@@ -1,0 +1,133 @@
+﻿@model MicroPay.Web.Models.Employees.NREmployeeViewModel
+
+@*@{
+    var viewRight = Model.userRights.View;
+    var editRight = Model.userRights.Edit;
+    var deleteRight = Model.userRights.Delete;
+}*@
+
+<table id="tblGrid" class="table table-centered table-striped dt-responsive w-100">
+    <thead>
+        <tr>
+            <th>
+                #
+            </th>
+            <th>
+                Profile Picture
+            </th>
+            <th>
+                Employee Code
+            </th>
+            <th>
+                Name
+            </th>
+            <th>
+                Designation
+            </th>
+            <th>
+                Branch
+            </th>
+            <th>
+                Department
+            </th>
+            <th>
+                Employee Type
+            </th>
+            <th>
+                Status
+            </th>
+            @*@if (viewRight)
+            {*@
+                <th class="text-center" style="width:40px">
+                    View
+                </th>
+            @*}
+            @if (editRight)
+            {*@
+                <th class="text-center" style="width:40px">
+                    Edit
+                </th>
+            @*}
+            @if (deleteRight)
+            {*@
+                <th class="text-center" style="width:40px">
+                    Delete
+                </th>
+            @*}*@
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            if (Model != null && Model.Employee.Count > 0)
+            {
+                var sno = 1;
+                foreach (var item in Model.Employee)
+                {
+                    <tr>
+                        <td> @sno</td>
+                        <td>
+                            <img style="height:50px; width:50px;" class="img-responsive rounded-circle img-thumbnail"
+                                 src='/@item.EmpProfilePhotoUNCPath'
+                                 alt="Employee Photo" />
+
+                        </td>
+                        <td> @item.EmployeeCode</td>
+                        <td> @item.Name</td>
+                        <td> @item.DesignationName</td>
+                        <td> @item.BranchName</td>
+                        <td> @item.DepartmentName</td>
+                        <td> @item.EmployeeTypeName</td>
+                        @if (@item.DOLeaveOrg.HasValue == false)
+                        {
+                            <td class="text-center">
+                                <a class="toggle-tooltip" title="Current Employee">
+                                    <span class="fas fa-user text-success" aria-hidden="true"></span>
+                                </a>
+                            </td>
+                        }
+                        else
+                        {
+                            <td class="text-center">
+                                <a class="toggle-tooltip" title="Retired Employee">
+                                    <span class="fas fa-user-times text-danger toggle-tooltip" aria-hidden="true"></span>
+                                </a>
+                            </td>
+                        }
+
+
+                        @*@if (viewRight)
+                        {*@
+                            <td class="text-center">
+                                @Html.EncodedImageActionLink("", "Index", "EmployeeProfile", new { employeeID = item.EmployeeID }, new { @class = "toggle-tooltip", title = "Click here, to view this record" }, "~/Images/view.png")
+                            </td>
+                        @*}
+                        @if (editRight)
+                        {*@
+                            <td class="text-center">
+                                @Html.EncodedImageActionLink("", "Edit", "NonRegularEmployees", new { employeeID = item.EmployeeID, userTypeID = item.UserTypeID }, new { @class = "toggle-tooltip", title = "Click here, to edit this record" }, "~/Images/edit.png")
+
+                            </td>
+                        @*}
+                        @if (deleteRight)
+                        {*@
+                            <td class="text-center">
+                                @Html.EncodedImageActionLink("", "Delete", "NonRegularEmployees", new { employeeID = item.EmployeeID }, new { @class = "toggle-tooltip", title = "Click here, to delete this record" }, "~/Images/delete.png", true)
+
+                            </td>
+                        @*}*@
+                    </tr>
+                    sno++;
+                }
+            }
+        }
+    </tbody>
+</table>
+
+<script>
+    $('.toggle-tooltip').tooltip();
+    ///==== Adding jquery datatable reference to all master grid ==== (Sujeet G)
+    var table = $('#tblGrid').DataTable({
+    });
+    $('#tblGrid_length').find('select').addClass('custom-select');
+    //========= End==================================================
+</script>

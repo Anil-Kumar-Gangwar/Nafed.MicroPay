@@ -1,0 +1,634 @@
+﻿@using fileHelper = Nafed.MicroPay.Common.ExtensionMethods;
+@using Nafed.MicroPay.Model;
+@model Nafed.MicroPay.Model.ChildrenEducationHdr
+@{
+    if (Model.ReceiptDate != null)
+    {
+        Model.StrReceiptDate = Model.ReceiptDate.Value.ToString("yyyy-MM-dd");
+        if (Model.ReceiptDate2.HasValue)
+        {
+            Model.StrReceiptDate2 = Model.ReceiptDate2.Value.ToString("yyyy-MM-dd");
+
+        }
+
+    }
+    var childCount = Model.ChildrenEducationDetailsList.Count;
+}
+<input type="hidden" id="hdnChildCount" value="@childCount" />
+<div id="div-main-form" class="">
+    <div class="row mb-2">
+        <div class="col-lg-12 col-md-12 col-xl-12 col-sm-12 col-xs-12 text-center">
+            <img class="" src="~/Images/logo.png" />
+        </div>
+    </div>
+    <div class="row mb-2">
+        <div class="col-lg-12 col-md-12 col-xl-12 col-sm-12 col-xs-12 text-center">
+            <h4 class="font-weight-bold">
+                National Agricultural Cooperative Marketing Federation of India Ltd.<br />
+                Nafed House, Sidhartha Enclave, Ashram Chowk, Ring Road,<br />
+                <span style="text-decoration:underline">New Delhi - 110 014</span>
+            </h4>
+        </div>
+    </div>
+    <div class="row mb-4">
+        <div class="col-lg-12 col-md-12 col-xl-12 col-sm-12 col-xs-12 text-center">
+            <h3 style="text-decoration:underline">
+                <b>Application for reimbursement of Children Education Allowance</b>
+            </h3>
+        </div>
+    </div>
+    <div class="mt-4">
+        @using (Ajax.BeginForm("_PostChildrenEducationData", "ChildrenEducation", new AjaxOptions { HttpMethod = "POST", OnSuccess = "OnSuccess" }, new { id = "frmChildrenEducation" }))
+        {
+            <div id="div-Employee">
+                <div class="row mb-2">
+                    <label class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        I certify that my child/children in respect of whom Children Education Allowance is claimed is/are wholly dependent upon me and is/are studying in the school(s) and class(es) as   under : -
+                    </label>
+                </div>
+                <hr class="underlineinput" />
+                <div class="row mb-4">
+                </div>
+                <div class="" id="div-form-Children-grid">
+                    <table id="tblGrid1" class="table_card table table-bordered table-centered dt-responsive w-100">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col" class="text-left">Name of Child </th>
+                                <th scope="col" class="text-center">Date of birth</th>
+                                <th scope="col" class="text-center">School/University in which studying</th>
+                                <th scope="col" class="text-center">Class in which studying</th>
+                                <th scope="col" class="text-right">Not Applicable</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model.ChildrenEducationDetailsList != null && Model.ChildrenEducationDetailsList.Count() > 0)
+                            {
+                                for (int i = 0; i < Model.ChildrenEducationDetailsList.Count(); i++)
+                                {
+                                    <tr>
+                                        <td data-label="S.No." class="text-center">@fileHelper.GetRomanValueByNumber(i + 1) <text>.</text> </td>
+                                        <td data-label="Name of Child">
+                                            @{ var dependentName = "";
+                                                var dependent = @Model.DependentList.Where(x => x.id == Model.ChildrenEducationDetailsList[i].EmpDependentID).FirstOrDefault();
+                                                if (dependent != null)
+                                                    dependentName = dependent.value;
+                                            }
+                                            @dependentName
+                                        </td>
+                                        <td data-label="Date of birth">
+                                            @if (Model.ChildrenEducationDetailsList[i].DOB.HasValue)
+                                            {
+                                                @Model.ChildrenEducationDetailsList[i].DOB.Value.ToShortDateString()
+                                            }
+                                        </td>
+                                        <td data-label="School in which studying" id="SchoolNameDetails">
+                                            @Model.ChildrenEducationDetailsList[i].SchoolName
+                                        </td>
+                                        <td data-label="Class in which studying" id="ClassNameDetails">
+                                            @Model.ChildrenEducationDetailsList[i].ClassName
+                                        </td>
+                                        <td data-label="Not Applicable" class="text-center" id="NotApplicableDetails">
+                                            @if (!Model.ChildrenEducationDetailsList[i].NotApplicable)
+                                            {
+                                                <text>No</text>
+                                            }
+                                            else
+                                            {
+                                                <text>Yes</text>
+                                            }
+                                        </td>
+                                    </tr>
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    <tr>
+                                                        <td colspan="6" class="text-center">No Record Found. </td>
+                                                    </tr>
+                                                }
+                        </tbody>
+                    </table>
+                </div>
+                <div class="row mt-4">
+                    <ol>
+                        <li>
+                            <div class="row">
+                                <label class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                    The amount of Rs.
+                                </label>
+                                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 mb-2 font-weight-bold">
+                                    @Model.Amount
+                                </div>
+                                <label class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                                    for children education allowance admissible vide Office Order No. 29 dated 15.01.1987 may please be paid to me.
+                                </label>
+                            </div>
+                        </li>
+                        <br />
+                        <li>
+                            <div class="row">
+                                <label class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    I also certify that my wife/husband is not in NAFED/Govt. service and that no allowance has been claimed by her/him from Government/NAFED (strike out whichever is not applicable).
+                                </label>
+                            </div>
+                        </li>
+                        <br />
+                        @if (Model.ChildrenEducationDetailsList.Count > 0)
+                        {
+                            <li>
+                                <div class="row">
+                                    <label class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                                        Original Document
+                                    </label>
+                                </div>
+                                <ol type="a">
+                                    <li>
+                                        <div class="row">
+                                            <label class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                                I enclose original receipt No for children 1,
+                                            </label>
+                                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-2 font-weight-bold">
+                                                @Model.ReceiptNo
+                                            </div>
+                                            <label class="col-lg-1 col-md-2 col-sm-12 col-xs-12">
+                                                dated
+                                            </label>
+                                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-2 font-weight-bold">
+                                                @if (!string.IsNullOrEmpty(Model.StrReceiptDate))
+                                                {
+                                                 @Convert.ToDateTime(Model.StrReceiptDate).ToShortDateString();
+                                                }
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <label class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                issued by the School authorities toward payment of fees of my above mentioned child/children for April, @DateTime.Now.Year.
+                                            </label>
+                                        </div>
+                                    </li>
+                                    @if (Model.ChildrenEducationDetailsList.Count > 1)
+                                    {
+                                        <br />
+                                        <li>
+                                            <div class="row">
+                                                <label class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                                    I enclose original receipt No for children 2,
+                                                </label>
+                                                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-2 font-weight-bold">
+                                                    @Model.ReceiptNo2
+                                                </div>
+                                                <label class="col-lg-1 col-md-2 col-sm-12 col-xs-12">
+                                                    dated
+                                                </label>
+                                                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 mb-2 font-weight-bold">
+                                                    @if (!string.IsNullOrEmpty(Model.StrReceiptDate2))
+                                                    {
+                                                        @Convert.ToDateTime(Model.StrReceiptDate2).ToShortDateString();
+                                                    }
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <label class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                    issued by the School authorities toward payment of fees of my above mentioned child/children for April, @DateTime.Now.Year.
+                                                </label>
+                                            </div>
+                                        </li>
+                                    }
+                                </ol>
+                            </li>
+                            <br />
+                        }
+                        <li>
+                            No bill/receipt is being issued by the school authorities. I am, therefore, enclosing a certificate from school of my above mentioned child/children in the prescribed proforma
+                        </li>
+                    </ol>
+                </div>
+
+
+                <div class="row mt-4 hideprint">
+                    <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 mt-2">
+                        <strong>View Uploaded Receipt/Bill No :-</strong>
+                    </div>
+                    <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12 mt-2">
+                        <a data-ajax="true"
+                           method="POST" class="toggle-tooltip" title="Click here, to show uploaded receipts file."
+                           data-ajax-update="#div-Receipt-container" data-ajax-mode="replace"
+                           data-backdrop="static" data-keyboard="false"
+                           href="@Url.Action("GetChildrenEducationDocuments", "ChildrenEducationAllowance", new { employeeId = Model.EmployeeId, childrenEduHdrID = Model.ChildrenEduHdrID })"
+                           id="a_receiptFiles" data-toggle="modal" data-target="#div-FileUpload">
+                            <i class="fas fa-file text-info"></i>
+                        </a>
+                    </div>
+                </div>
+                <hr class="underlineinput" />
+                <div class="row mt-4">
+                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2 text-left form-inline">
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2 text-right form-inline">
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 mb-2 text-right">
+                            <p class="">Name of the employee :</p>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 mb-2 underlineinput text-left font-weight-bold">
+                            @Html.DisplayFor(model => model.EmployeeName, new { @class = "form-control" })
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2 text-left form-inline">
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2 text-right form-inline">
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 mb-2 text-right">
+                            <p class="">Designation :</p>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 mb-2 underlineinput text-left font-weight-bold">
+                            @Html.DisplayFor(model => model.DesignationName, new { @class = "form-control" })
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2 text-left form-inline">
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2 text-right form-inline">
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 mb-2 text-right">
+                            <p class="">Section :</p>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 mb-2 underlineinput text-left font-weight-bold">
+                            @Html.DisplayFor(model => model.DepartmentName, new { @class = "form-control" })
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2 text-left form-inline">
+                        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-4 mb-2">
+                            <p class=""> Dated :</p>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-8 col-xs-8 mb-2 underlineinput font-weight-bold">
+                            @DateTime.Now.Date.ToShortDateString()
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-2 text-right form-inline">
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 mb-2 text-right">
+                            <p class="">Office :</p>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 mb-2 underlineinput text-left font-weight-bold">
+                            @Html.DisplayFor(model => model.Branch, new { @class = "form-control" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pull-right div-action">
+                @Html.ActionLink("Back", "Index", "ChildrenEducationAllowance", null, new { @class = "btn btn-light btn-md", title = "Click here, to go to back on previous screen.", @data_toggle = "tooltip" })
+            </div>
+                                                }
+    </div>
+</div>
+<div class="modal" id="div-FileUpload">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4> Receipts / Bills List </h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <!-- Modal body -->
+            <div class="row m-3">
+                <div class="col-12">
+                    <div class="modal-body ml-2" id="div-Receipt-container">
+                    </div>
+                </div>
+            </div>
+            <!-- Modal footer -->
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    function OnSuccess(data) {
+        if (data.part == 4) {
+            $("#div-main-form").html(data.htmlData);
+        }
+        if (data.msgType == "success") {
+            commonMessage(data.msgType, data.msg);
+            window.location.reload();
+        }
+        if (data.part == 1) {
+            $("#div-form-Children-grid").html(data.htmlData);
+        }
+    }
+</script>
+<script>
+    $(document).ready(function () {
+        $("#btnSave").click(function () {
+            $("#buttonTypeDetail").val("Save");
+            var table = document.getElementById('tblGrid1');
+            var uploadedFiles = $("#hdnFileCount").val();
+            var files = $("#file").get(0).files;
+            var fileData = new FormData();
+            var totalFiles = files.length;
+            var validation = 0;
+            if (uploadedFiles == 0 && totalFiles == 0) {
+                $("#fileUploadError").html("Please select file").css("color", "red");
+                validation++;
+            }
+            else {
+                $("#fileUploadError").html("");
+            }
+            if ($("#Amount").val() == 0) {
+                $("#AmountRequired").html("Please enter amount").css("color", "red");
+                validation++;
+            }
+            else {
+                $("#AmountRequired").html("");
+            }
+
+            if (parseFloat($("#Amount").val()) > 500000 || parseFloat($("#Amount").val()) == 0) {
+                $("#AmountRequired").html("Please enter a value that is no more than 500000 or greater than 0").css("color", "red");
+                validation++;
+            }
+            else {
+                $("#AmountRequired").html("");
+            }
+
+            if ($("#ReceiptNo").val() == "" || $("#ReceiptNo").val() == null) {
+                $("#ReceiptNoRequired").html("Please enter receipt No").css("color", "red");
+                validation++;
+            }
+            else {
+                $("#ReceiptNoRequired").html("");
+            }
+            if ($('#hdnChildCount').val() > 1) {
+                if ($("#ReceiptNo2").val() == "" || $("#ReceiptNo2").val() == null) {
+                    $("#ReceiptNoRequired2").html("Please enter receipt No").css("color", "red");
+                    validation++;
+                }
+                else {
+                    $("#ReceiptNoRequired2").html("");
+                }
+
+                if ($("#StrReceiptDate2").val() == "" || $("#StrReceiptDate2").val() == null) {
+                    $("#ReceiptDateRequired2").html("Please enter receipt date").css("color", "red");
+                    validation++;
+                }
+                else {
+                    $("#ReceiptDateRequired2").html("");
+                }
+            }
+
+            if ($("#StrReceiptDate").val() == "" || $("#StrReceiptDate").val() == null) {
+                $("#ReceiptDateRequired").html("Please enter receipt date").css("color", "red");
+                validation++;
+            }
+            else {
+                $("#ReceiptDateRequired").html("");
+            }
+
+
+            debugger;
+            var rowLength = table.rows.length;
+            for (var i = 0; i < rowLength; i += 1) {
+                var row = table.rows[i];
+                var cellLength = row.cells.length;
+                for (var y = 0; y < cellLength; y += 1) {
+                    var cell = row.cells[y];
+                    if (cell.id = "SchoolNameDetails") {
+                        if ($("#ChildrenEducationDetailsList_" + i + "__NotApplicable").is(":checked") == false) {
+                            var schoolName = $("#ChildrenEducationDetailsList_" + i + "__SchoolName").val();
+                            if (schoolName == "") {
+                                $("#SchoolName_" + i).html("Please enter school name").css("color", "red");
+                                validation++;
+                                //return false;
+                            }
+                            else {
+                                $("#SchoolName_" + i).html("");
+                            }
+                        }
+                        else {
+                            $("#SchoolName_" + i).html("");
+                        }
+                    }
+                    if (cell.id = "ClassNameDetails") {
+                        if ($("#ChildrenEducationDetailsList_" + i + "__NotApplicable").is(":checked") == false) {
+                            var className = $("#ChildrenEducationDetailsList_" + i + "__ClassName").val();
+                            if (className == "") {
+                                $("#ClassName_" + i).html("Please enter class name").css("color", "red");
+                                validation++;
+                                //return false;
+                            }
+                            else {
+                                $("#ClassName_" + i).html("");
+                            }
+                        }
+                        else {
+                            $("#ClassName_" + i).html("");
+                        }
+                    }
+                    //do something with every cell here
+                }
+            }
+            if (validation > 0) {
+                return false;
+            }
+
+            for (var i = 0; i < files.length; i++) {
+                var filesze = files[i].size;
+                var fileName = files[i].name;
+                var ext = fileName.substr(fileName.lastIndexOf('.') + 1).toLowerCase();
+                if (!(ext == "jpg" || ext == "jpeg" || ext == "png" || ext == "pdf")) {
+                    $("#fileUploadError").html("Invalid file type, please select a (jpg, jpeg, png, pdf) file").css("color", "red");
+                    return false;
+                }
+                if (filesze > 5000000) {  // 5MB
+                    $("#fileUploadError").html("Please select image size less than 5MB.").css("color", "red");
+                    return false;
+                }
+                fileData.append("file", files[i]);
+            }
+
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("UploadFiles", "ChildrenEducation")",
+                dataType: "json",
+                contentType: false, // Not to set any content header
+                processData: false, // Not to process data
+                data: fileData,
+                success: function (result, status, xhr) {
+                    if (result.indexOf('file is incorrect') !== -1) {
+                        commonMessage("error", result);
+                    } else {
+                        $("#frmChildrenEducation").submit();
+                    }
+                },
+                error: function (xhr, status, error) {
+                    alert(status);
+                }
+            });
+        });
+
+
+        $(".allownumericwithdecimal").on("keypress keyup blur", function (event) {
+            $(this).val($(this).val().replace(/[^0-9\.]/g, ''));
+            if ((event.which != 46 || $(this).val().indexOf('.') != -1) && (event.which < 48 || event.which > 57)) {
+                event.preventDefault();
+            }
+        });
+
+
+
+        $("#btnSaveSubmit").click(function () {
+            $("#buttonTypeDetail").val("Save & Submit");
+            var table = document.getElementById('tblGrid1');
+            var uploadedFiles = $("#hdnFileCount").val();
+            var files = $("#file").get(0).files;
+            var fileData = new FormData();
+            var totalFiles = files.length;
+            var validation = 0;
+            if (uploadedFiles == 0 && totalFiles == 0) {
+                $("#fileUploadError").html("Please select file").css("color", "red");
+                validation++;
+            }
+            else {
+                $("#fileUploadError").html("");
+            }
+            if ($("#Amount").val() == 0) {
+                $("#AmountRequired").html("Please enter amount").css("color", "red");
+                validation++;
+            }
+            else {
+                $("#AmountRequired").html("");
+            }
+
+            if (parseFloat($("#Amount").val()) > 500000 || parseFloat($("#Amount").val()) == 0) {
+                $("#AmountRequired").html("Please enter a value that is no more than 500000 or greater than 0").css("color", "red");
+                validation++;
+            }
+            else {
+                $("#AmountRequired").html("");
+            }
+
+            if ($("#ReceiptNo").val() == "" || $("#ReceiptNo").val() == null) {
+                $("#ReceiptNoRequired").html("Please enter receipt No").css("color", "red");
+                validation++;
+            }
+            else {
+                $("#ReceiptNoRequired").html("");
+            }
+            if ($('#hdnChildCount').val() > 1) {
+                if ($("#ReceiptNo2").val() == "" || $("#ReceiptNo2").val() == null) {
+                    $("#ReceiptNoRequired2").html("Please enter receipt No").css("color", "red");
+                    validation++;
+                }
+                else {
+                    $("#ReceiptNoRequired2").html("");
+                }
+                if ($("#StrReceiptDate2").val() == "" || $("#StrReceiptDate2").val() == null) {
+                    $("#ReceiptDateRequired2").html("Please enter receipt date").css("color", "red");
+                    validation++;
+                }
+                else {
+                    $("#ReceiptDateRequired2").html("");
+                }
+            }
+
+
+            if ($("#StrReceiptDate").val() == "" || $("#StrReceiptDate").val() == null) {
+                $("#ReceiptDateRequired").html("Please enter receipt date").css("color", "red");
+                validation++;
+            }
+            else {
+                $("#ReceiptDateRequired").html("");
+            }
+
+
+
+            var rowLength = table.rows.length;
+            for (var i = 0; i < rowLength; i += 1) {
+                var row = table.rows[i];
+                var cellLength = row.cells.length;
+                for (var y = 0; y < cellLength; y += 1) {
+                    var cell = row.cells[y];
+                    if (cell.id = "SchoolNameDetails") {
+                        if ($("#ChildrenEducationDetailsList_" + i + "__NotApplicable").is(":checked") == false) {
+                            var schoolName = $("#ChildrenEducationDetailsList_" + i + "__SchoolName").val();
+                            if (schoolName == "") {
+                                $("#SchoolName_" + i).html("Please enter school name").css("color", "red");
+                                validation++;
+                                //return false;
+                            }
+                            else {
+                                $("#SchoolName_" + i).html("");
+                            }
+                        }
+                        else {
+                            $("#SchoolName_" + i).html("");
+                        }
+                    }
+                    if (cell.id = "ClassNameDetails") {
+                        if ($("#ChildrenEducationDetailsList_" + i + "__NotApplicable").is(":checked") == false) {
+                            var className = $("#ChildrenEducationDetailsList_" + i + "__ClassName").val();
+                            if (className == "") {
+                                $("#ClassName_" + i).html("Please enter class name").css("color", "red");
+                                validation++;
+                                //return false;
+                            }
+                            else {
+                                $("#ClassName_" + i).html("");
+                            }
+                        }
+                        else {
+                            $("#ClassName_" + i).html("");
+                        }
+                    }
+                    //do something with every cell here
+                }
+            }
+            if (validation > 0) {
+                return false;
+            }
+
+            for (var i = 0; i < files.length; i++) {
+                var filesze = files[i].size;
+                var fileName = files[i].name;
+                var ext = fileName.substr(fileName.lastIndexOf('.') + 1).toLowerCase();
+                if (!(ext == "jpg" || ext == "jpeg" || ext == "png" || ext == "pdf")) {
+                    $("#fileUploadError").html("Invalid file type, please select a (jpg, jpeg, png, pdf) file").css("color", "red");
+                    return false;
+                }
+                if (filesze > 5000000) {  // 5MB
+                    $("#fileUploadError").html("Please select image size less than 5MB.").css("color", "red");
+                    return false;
+                }
+                fileData.append("file", files[i]);
+            }
+
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("UploadFiles", "ChildrenEducation")",
+                dataType: "json",
+                contentType: false, // Not to set any content header
+                processData: false, // Not to process data
+                data: fileData,
+                success: function (result, status, xhr) {
+                    $("#frmChildrenEducation").submit();
+                },
+                error: function (xhr, status, error) {
+                    alert(status);
+                }
+            });
+        });
+
+
+    });
+
+    function previewFiles() {
+        var files = $("#file").get(0).files;
+        var totalFiles = files.length;
+        var fileName = "";
+        for (var i = 0; i < files.length; i++) {
+            fileName += files[i].name + ",";
+        }
+        $("#filesinfo").val(fileName);
+    }
+</script>
