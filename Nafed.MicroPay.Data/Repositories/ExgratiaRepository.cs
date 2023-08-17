@@ -63,6 +63,7 @@ namespace Nafed.MicroPay.Data.Repositories
                 SqlDataAdapter dbSqlAdapter;
                 dbSqlCommand = new SqlCommand();
                 dbSqlCommand.Connection = dbSqlconnection;
+                dbSqlCommand.CommandTimeout = 0;
                 dbSqlCommand.CommandType = CommandType.StoredProcedure;
                 dbSqlCommand.CommandText = "[ExportExgratia]";
 
