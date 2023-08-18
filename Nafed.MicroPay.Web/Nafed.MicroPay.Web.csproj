@@ -463,6 +463,42 @@
     <Compile Include="Controllers\WagesController.cs" />
     <Compile Include="Controllers\WashingAllowanceController.cs" />
     <Compile Include="Controllers\FileTrackingSystemController.cs" />
+    <Compile Include="CrystalRpts\Payroll\rptSubPayArrearDiffSection.cs">
+      <DependentUpon>rptSubPayArrearDiffSection.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="CrystalRpts\Payroll\rptSubPayArrearPaidSection.cs">
+      <DependentUpon>rptSubPayArrearPaidSection.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="CrystalRpts\Payroll\rptPayArrear.cs">
+      <DependentUpon>rptPayArrear.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CrystalRpts\Payroll\subRptDAArrearDiffrenceSection.cs">
+      <DependentUpon>subRptDAArrearDiffrenceSection.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="CrystalRpts\Payroll\subRptDAArrearPaidSection.cs">
+      <DependentUpon>subRptDAArrearPaidSection.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="CrystalRpts\Payroll\rpDAArrear.cs">
+      <DependentUpon>rpDAArrear.rpt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="CrystalRpts\Payroll\BankAdvice.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -4087,6 +4123,30 @@
     <Service Include="{C0C07587-41A7-46C8-8FBD-3F9C8EBE2DDC}" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="CrystalRpts\Payroll\rptSubPayArrearDiffSection.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptSubPayArrearDiffSection.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CrystalRpts\Payroll\rptSubPayArrearPaidSection.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptSubPayArrearPaidSection.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CrystalRpts\Payroll\rptPayArrear.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptPayArrear.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CrystalRpts\Payroll\subRptDAArrearDiffrenceSection.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>subRptDAArrearDiffrenceSection.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CrystalRpts\Payroll\subRptDAArrearPaidSection.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>subRptDAArrearPaidSection.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CrystalRpts\Payroll\rpDAArrear.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rpDAArrear.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="CrystalRpts\Payroll\BankAdvice.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>BankAdvice.cs</LastGenOutput>

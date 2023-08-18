@@ -7,32 +7,33 @@
 
 <script type="text/javascript">
     function CreateSuccess(data) {
-        var i=@ViewBag.ActiveTab;
+        var i=@ViewBag.ActiveTab;
 
-        $('.nav-tabs li:eq(' + i + ') a').attr('data-toggle','tab').tab('show');
+        $('.nav-tabs li:eq(' + i + ') a').attr('data-toggle','tab').tab('show');
 
-        if ('@messageError' != "") {
+        if ('@messageError' != "") {
 
-            var str = '@WebUtility.HtmlEncode(@messageError)';
-            str = str.replace(/&amp;lt;/g, "<").replace(/&amp;gt;/g, ">").replace(/&amp;#39;/g, "'");
+            var str = '@WebUtility.HtmlEncode(@messageError)';
+            str = str.replace(/&amp;lt;/g, "<").replace(/&amp;gt;/g, ">").replace(/&amp;#39;/g, "'");
 
-            $.bootstrapGrowl("<i class='mdi-android-debug-bridge' aria-hidden='true'></i> " + str + "", {
-                type: 'warning',
-                align: 'center',
-                width: 'auto',
-                allow_dismiss: true,
-                delay: 50000
-            });
-        }
-        if ('@message' != "") {
-            $.bootstrapGrowl("<i class='mdi-checkbox-marked-circle-outline' aria-hidden='true'></i> " + '@message', {
-                type: 'success',
-                align: 'center',
-                width: 'auto',
-                allow_dismiss: true,
-                delay: 20000
-            });
-        }
+            $.bootstrapGrowl("<i class='mdi-android-debug-bridge' aria-hidden='true'></i> " + str + "", {
+                type: 'warning',
+                align: 'center',
+                width: 'auto',
+                allow_dismiss: true,
+                delay: 50000
+            });
+        }
+        if ('@message' != "") {
+            $.bootstrapGrowl("<i class='mdi-checkbox-marked-circle-outline' aria-hidden='true'></i> " + '@message', {
+                type: 'success',
+                align: 'center',
+                width: 'auto',
+                allow_dismiss: true,
+                delay: 20000
+            });
+        }
+
     }
 
 </script>
@@ -396,7 +397,7 @@
                                 @Html.LabelFor(model => model.IsJoinAfterNoon, htmlAttributes: new { @class = "control-label " })
 
                             </div>
-                            <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                                 <div class="form-group">
                                     <label class="switch">
                                         @Html.CheckBoxFor(model => model.IsJoinAfterNoon, new { @class = "form-control" })
@@ -405,7 +406,14 @@
                                     </label>
                                 </div>
                             </div>
-                          
+                             <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                 @Html.LabelFor(model => model.E_Basic, htmlAttributes: new { @class = "control-label" })
+
+                          </div>
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                @Html.EditorFor(model => model.E_Basic, new { htmlAttributes = new { @class = "form-control", @placeholder = "Basic Salary" } })
+                                @Html.ValidationMessageFor(model => model.E_Basic, "", new { @class = "text-danger" })
+                            </div>
                         </div>
                     </div>
 

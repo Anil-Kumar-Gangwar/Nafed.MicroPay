@@ -436,6 +436,7 @@ namespace Nafed.MicroPay.Data.Repositories
                 dbSqlconnection = new SqlConnection(db.Database.Connection.ConnectionString);
                 dbSqlCommand = new SqlCommand();
                 dbSqlCommand.Connection = dbSqlconnection;
+                dbSqlCommand.CommandTimeout = 600;
                 dbSqlCommand.CommandType = CommandType.StoredProcedure;
                 dbSqlCommand.CommandText = "getArrearperiodsdetailsforPay";
                 dbSqlCommand.Parameters.Add("@arrearType", SqlDbType.VarChar).Value = arrerType;
