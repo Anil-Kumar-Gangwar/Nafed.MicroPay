@@ -68,8 +68,8 @@
     <Compile Include="Arrear\ArrearService.cs" />
     <Compile Include="Arrear\IArrearService.cs" />
     <Compile Include="DAtdsServices.cs" />
-    <Compile Include="Employees\NonRegularEmployeesService.cs" />
     <Compile Include="Employees\INonRegularEmployeesService.cs" />
+    <Compile Include="Employees\NonRegularEmployeesService.cs" />
     <Compile Include="InsuranceService.cs" />
     <Compile Include="EmpApprovalProcessService.cs" />
     <Compile Include="HelpDesk\ITicketService.cs" />

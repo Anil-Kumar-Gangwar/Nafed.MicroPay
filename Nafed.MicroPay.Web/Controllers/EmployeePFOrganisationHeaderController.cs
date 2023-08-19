@@ -73,8 +73,7 @@ namespace MicroPay.Web.Controllers
             log.Info("EmployeePFOrganisationHeaderController/Edit");
             try
             {
-                BindDropdowns();
-                bool flag = false;
+                BindDropdowns();               
                 Model.EmployeePFORG EMPPFHVM = new Model.EmployeePFORG();
 
                 var getexgratiaList = EmployeePFOrganisationService.checkexistdata(EmpPFID);
@@ -505,7 +504,7 @@ namespace MicroPay.Web.Controllers
         }
 
         [HttpGet]
-        public FileResult GetImage(string imgPath)
+        public new FileResult GetImage(string imgPath)
         {
             try
             {
