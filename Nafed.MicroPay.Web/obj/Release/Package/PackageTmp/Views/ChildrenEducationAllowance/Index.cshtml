@@ -1,0 +1,26 @@
+﻿@using Nafed.MicroPay.Model;
+@{
+    ViewBag.Title = "Children Education Allowance";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="">
+    <div class="card_new_body">
+        <div id="div-filter">
+            @Html.Action("_Filter")
+        </div>
+    </div>   
+     <div class="card_new_body">
+        <div id="div-list">
+            @Html.Action("_List")
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    function OnCreateSuccess(data) {
+        if (data.part == 2) {
+            if (data.msgType == "Inserted") {
+                window.location.href = "@Url.Action("Edit", "ChildrenEducation")?empID=" + data.empID + "&childrenEduHdrId=" + data.childrenEduHdrId;
+            }
+        }
+    }
+</script>

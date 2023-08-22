@@ -1,0 +1,474 @@
+﻿@model Nafed.MicroPay.Model.Employees.NonRegularEmployee
+@{
+    Layout = null;
+    var message = TempData["Message"] == null ? "" : TempData["Message"].ToString();
+    var messageError = TempData["Error"] == null ? "" : TempData["Error"].ToString();
+    var ddd = Model.PanCardFilePath;
+}
+
+<script type="text/javascript">
+
+    function EditSuccess(data) {
+
+            var i=@ViewBag.ActiveTab;
+
+            $('.nav-tabs li:eq(' + i + ') a').tab('show');
+            if ('@messageError' != "") {
+                var str = '@WebUtility.HtmlEncode(@messageError)';
+                str = str.replace(/&amp;lt;/g, "<").replace(/&amp;gt;/g, ">").replace(/&amp;#39;/g, "'");
+                $.bootstrapGrowl("<i class='mdi-android-debug-bridge' aria-hidden='true'></i> " + str + "", {
+                    type: 'warning',
+                    align: 'center',
+                    width: 'auto',
+                    allow_dismiss: true,
+                    delay: 50000
+                });
+            }
+            if ('@message' != "") {           
+                $.bootstrapGrowl("<i class='mdi-checkbox-marked-circle-outline' aria-hidden='true'></i> " + '@message', {
+                    type: 'success',
+                    align: 'center',
+                    width: 'auto',
+                    allow_dismiss: true,
+                    delay: 20000
+                });
+            }
+    }
+
+</script>
+
+@using (Ajax.BeginForm("_PersonalDetails", "NonRegularEmployees", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "Personal", OnSuccess = "EditSuccess" }, new { enctype = "multipart/form-data", defaultbutton = "submitform" }))
+{
+    @Html.HiddenFor(model => model.EmployeeID)
+    @Html.HiddenFor(model=>model.PanCardUNCFilePath)
+    @Html.HiddenFor(model=>model.AadhaarCardUNCFilePath)
+    @Html.HiddenFor(model=>model.PanCardFilePath)
+    @Html.HiddenFor(model=>model.AadhaarCardFilePath)
+    @Html.HiddenFor(model=>model.BranchID)
+    @Html.HiddenFor(model=>model.BranchCode)
+    @Html.HiddenFor(model=>model.EmployeeCode)
+
+    @Html.AntiForgeryToken()
+
+
+    <script type="text/javascript">
+
+        function OnBegin(){
+
+            $("#EmployeeDependentModal").modal("show");
+        }
+
+        function empDependent_OnSuccess(data){
+
+             $("#div-empDepentent-body").html(data);
+        }
+    </script>
+
+
+    <div class="" style="margin-top:10px;">
+        <div class="">
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">Employee Personal Details</div>
+                        <div class="panel-body">
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                        @Html.LabelFor(model => model.MotherName, htmlAttributes: new { @class = "control-label" })
+                                    </div>
+                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+
+                                        @Html.EditorFor(model => model.MotherName, new { htmlAttributes = new { @class = "form-control", @placeholder = "Mother Name", @maxlength = "50" } })
+
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                        @Html.LabelFor(model => model.HBName, htmlAttributes: new { @class = "control-label" })
+                                    </div>
+
+                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                        @Html.EditorFor(model => model.HBName, new { htmlAttributes = new { @class = "form-control", @placeholder = "Husband/ Father Name", @maxlength = "100" } })
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+
+                                <div class="row">
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                        @Html.LabelFor(model => model.DOB, htmlAttributes: new { @class = "control-label required" })
+                                    </div>
+                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                        @Html.TextBoxFor(model => model.DOB, String.Format("{0:dd/MM/yyyy}", Model.DOB), new { @type = "text", @class = "form-control datepicker", id = "DOB", @placeholder = "dd/mm/yyyy" })
+                                        @*@Html.EditorFor(model => model.DOB, new { htmlAttributes = new { @class = "form-control", @placeholder = "Date Of Birth", max = DateTime.Now.ToString("yyyy-MM-dd") } })*@
+                                        @Html.ValidationMessageFor(model => model.DOB, "", new { @class = "text-danger" })
+                                        @Html.ValidationMessage("InValidDOB", "", new { @class = "text-danger" })
+
+
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+
+                                        @Html.LabelFor(model => model.ReligionID, htmlAttributes: new { @class = "control-label" })
+                                    </div>
+                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                        @Html.DropDownListFor(model => model.ReligionID, (IEnumerable<SelectListItem>)ViewBag.Religion, new { @class = "custom-select" })
+
+
+
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+
+                                <div class="row">
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                        @Html.LabelFor(model => model.MTongueID, htmlAttributes: new { @class = "control-label" })
+                                    </div>
+                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                        @Html.DropDownListFor(model => model.MTongueID, (IEnumerable<SelectListItem>)ViewBag.MotherTongue, new { @class = "custom-select" })
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                        @Html.LabelFor(model => model.MaritalStsID, htmlAttributes: new { @class = "control-label" })
+                                    </div>
+                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                        @Html.DropDownListFor(model => model.MaritalStsID, (IEnumerable<SelectListItem>)ViewBag.MaritalSts, new { @class = "custom-select" })
+                                    </div>
+                                </div>
+
+                                <div class="row">
+
+                                    <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 mb-2">
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+
+                                <div class="row">
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                        @Html.LabelFor(model => model.BGroupID, htmlAttributes: new { @class = "control-label" })
+                                    </div>
+                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                        @Html.DropDownListFor(model => model.BGroupID, (IEnumerable<SelectListItem>)ViewBag.BloodGroup, new { @class = "custom-select" })
+
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                        @Html.LabelFor(model => model.ID_Mark, htmlAttributes: new { @class = "control-label" })
+                                    </div>
+                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+
+                                        @Html.EditorFor(model => model.ID_Mark, new { htmlAttributes = new { @class = "form-control", @placeholder = "Identity Mark", @maxlength = "100" } })
+
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                        @Html.LabelFor(model => model.PassPortNo, htmlAttributes: new { @class = "control-label" })
+
+                                    </div>
+                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+
+                                        @Html.EditorFor(model => model.PassPortNo, new { htmlAttributes = new { @class = "form-control", @placeholder = "Passport No", @maxlength = "12" } })
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                        @Html.LabelFor(model => model.PPIDate, htmlAttributes: new { @class = "control-label " })
+                                    </div>
+                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                        @Html.TextBoxFor(model => model.PPIDate, String.Format("{0:dd/MM/yyyy}", Model.PPIDate), new { @type = "text", @class = "form-control datepicker", id = "PPIDate", @placeholder = "dd/mm/yyyy" })
+                                        @Html.ValidationMessage("InValidPPIDate", "", new { @class = "text-danger" })
+
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <div class="form-group">
+
+                                <div class="row">
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                        @Html.LabelFor(model => model.PPEDate, htmlAttributes: new { @class = "control-label " })
+
+                                    </div>
+                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                        @Html.TextBoxFor(model => model.PPEDate, String.Format("{0:dd/MM/yyyy}", Model.PPEDate), new { @type = "text", @class = "form-control datepicker", id = "PPEDate", @placeholder = "dd/mm/yyyy" })
+                                        @Html.ValidationMessage("InValidPPEDate", "", new { @class = "text-danger" })
+                                    </div>
+
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">Present Address Detail</div>
+                                <div class="panel-body">
+                                    <div class="form-group">
+                                        <div class="row">
+
+                                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                                @Html.LabelFor(model => model.PAdd, htmlAttributes: new { @class = "control-label" })
+                                            </div>
+                                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                                @Html.EditorFor(model => model.PAdd, new { htmlAttributes = new { @class = "form-control", @placeholder = "Present Address", @maxlength = "100" } })
+
+
+                                            </div>
+
+                                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                                @Html.LabelFor(model => model.PState, htmlAttributes: new { @class = "control-label " })
+                                            </div>
+                                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                                @Html.DropDownListFor(model => model.PState, (IEnumerable<SelectListItem>)ViewBag.PresentState, new { @class = "custom-select" })
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+
+                                    <div class="form-group">
+                                        <div class="row">
+
+
+                                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                                @Html.LabelFor(model => model.PStreet, htmlAttributes: new { @class = "control-label " })
+                                            </div>
+                                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                                @Html.EditorFor(model => model.PStreet, new { htmlAttributes = new { @class = "form-control", @placeholder = "Present Street", @maxlength = "20" } })
+                                            </div>
+
+
+                                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                                @Html.LabelFor(model => model.PCity, htmlAttributes: new { @class = "control-label" })
+
+                                            </div>
+                                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                                @Html.EditorFor(model => model.PCity, new { htmlAttributes = new { @class = "form-control", @placeholder = "Present City", @maxlength = "100" } })
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="row">
+
+                                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                                @Html.LabelFor(model => model.PPin, htmlAttributes: new { @class = "control-label" })
+                                            </div>
+                                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                                @Html.EditorFor(model => model.PPin, new { htmlAttributes = new { @class = "form-control integerOnly", @placeholder = "Present Pin", @maxlength = "6" } })
+                                                @Html.ValidationMessageFor(model => model.PPin, "", new { @class = "text-danger" })
+                                            </div>
+
+                                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                                @Html.LabelFor(model => model.TelPh, htmlAttributes: new { @class = "control-label" })
+                                            </div>
+                                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                                @Html.EditorFor(model => model.TelPh, new { htmlAttributes = new { @class = "form-control", @placeholder = "Present Telephone No", @maxlength = "15" } })
+                                                @Html.ValidationMessageFor(model => model.TelPh, "", new { @class = "text-danger" })
+
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">Permanent Address Detail</div>
+                                <div class="panel-body">
+                                    <div class="form-group">
+
+                                        <div class="row">
+                                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                                @Html.LabelFor(model => model.PmtAdd, htmlAttributes: new { @class = "control-label " })
+                                            </div>
+
+                                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                                @Html.EditorFor(model => model.PmtAdd, new { htmlAttributes = new { @class = "form-control", @placeholder = "Permanent Address", @maxlength = "100" } })
+
+                                            </div>
+                                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                                @Html.LabelFor(model => model.PmtState, htmlAttributes: new { @class = "control-label " })
+                                            </div>
+                                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                                @Html.DropDownListFor(model => model.PmtState, (IEnumerable<SelectListItem>)ViewBag.PresentState, new { @class = "custom-select" })
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                                @Html.LabelFor(model => model.PmtStreet, htmlAttributes: new { @class = "control-label " })
+                                            </div>
+                                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                                @Html.EditorFor(model => model.PmtStreet, new { htmlAttributes = new { @class = "form-control", @placeholder = "Permanent Street", @maxlength = "20" } })
+
+                                            </div>
+
+
+                                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                                @Html.LabelFor(model => model.PmtPin, htmlAttributes: new { @class = "control-label " })
+
+                                            </div>
+                                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                                @Html.EditorFor(model => model.PmtPin, new { htmlAttributes = new { @class = "form-control integerOnly", @placeholder = "Permanent Pin", @maxlength = "6" } })
+                                                @Html.ValidationMessageFor(model => model.PmtPin, "", new { @class = "text-danger" })
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                                @Html.LabelFor(model => model.PmtCity, htmlAttributes: new { @class = "control-label" })
+                                            </div>
+                                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                                @Html.EditorFor(model => model.PmtCity, new { htmlAttributes = new { @class = "form-control", @placeholder = "Permanent City", @maxlength = "100" } })
+                                            </div>
+                                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                            </div>
+                                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>                        
+
+                            <div class="panel panel-default">
+                                <div class="panel-heading">Employee Identity Details</div>
+                                <div class="panel-body">
+
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                                @Html.LabelFor(model => model.PensionUAN, htmlAttributes: new { @class = "control-label" })
+                                            </div>
+                                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                                @Html.HiddenFor(model=>model.PensionUAN)
+                                                @Html.EditorFor(model => model.PensionUAN, new { htmlAttributes = new { @class = "form-control integerOnly", @placeholder = "UAN No", @maxlength = "12", @disabled = "disabled" } })
+
+                                            </div>
+
+                                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                                @Html.LabelFor(model => model.PANNo, htmlAttributes: new { @class = "control-label" })
+                                            </div>
+                                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                                @Html.HiddenFor(model=>model.PANNo)
+                                                @Html.EditorFor(model => model.PANNo, new { htmlAttributes = new { @class = "form-control", @placeholder = "PAN Number", @maxlength = "10", @disabled = "disabled" } })
+
+                                            </div>
+                                          
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                                @Html.LabelFor(model => model.AadhaarNo, htmlAttributes: new { @class = "control-label" })
+                                            </div>
+                                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                                @Html.HiddenFor(model=>model.AadhaarNo)
+                                                @Html.EditorFor(model => model.AadhaarNo, new { htmlAttributes = new { @class = "form-control integerOnly", @placeholder = "Aadhaar Number", @maxlength = "12", @disabled = "disabled" } })
+
+                                            </div>
+
+                                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                                @Html.LabelFor(model => model.PensionNumber, htmlAttributes: new { @class = "control-label" })
+                                            </div>
+                                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                                @Html.HiddenFor(model=>model.PensionNumber)
+                                                @Html.EditorFor(model => model.PensionNumber, new { htmlAttributes = new { @class = "form-control", @placeholder = "Pension Number", @maxlength = "20", @disabled = "disabled" } })
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                                @Html.LabelFor(model => model.EPFOMemberID, htmlAttributes: new { @class = "control-label" })
+                                            </div>
+                                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                                @Html.HiddenFor(model=>model.EPFOMemberID)
+                                                @Html.EditorFor(model => model.EPFOMemberID, new { htmlAttributes = new { @class = "form-control integerOnly", @placeholder = "EPFO Member ID", @maxlength = "20", @disabled = "disabled" } })
+
+                                            </div>                                            
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <span class="pull-right">
+
+                                    @Ajax.ActionLink("View Dependent",
+                             "GetEmployeeDependent", new
+                             {
+                                 employeeID = Model.EmployeeID
+                             },
+                             new AjaxOptions
+                             {
+                                 OnBegin = "OnBegin",
+                                 OnSuccess = "empDependent_OnSuccess",
+                                 UpdateTargetId = "div-empDepentent-body",
+                                 InsertionMode = InsertionMode.Replace,
+                                 HttpMethod = "GET"
+                             }, new { @class = "btn btn-primary btn-xs toggle-tooltip", @title = "Click here, to view dependent." })
+                                    @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-light btn-md toggle-tooltip", @title = "Click here, to redirect on list page" })
+                                    <input type="submit" value="Update" class="btn btn-info btn-md pull-center toggle-tooltip" title="Click here, to Create current record" />
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+    </div>
+}
+<script>
+    
+    $("#DOB").datepicker({ dateFormat: 'dd/mm/yy', changeYear: true, maxDate: new Date() });
+    $("#PPEDate").datepicker({ dateFormat: 'dd/mm/yy', changeYear: true });
+    $("#PPIDate").datepicker({ dateFormat: 'dd/mm/yy', changeYear: true });
+</script>
+<div class="modal" id="EmployeeDependentModal" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Employee Dependent</h4>
+                <button type="button" class="close toggle-tooltip" data-dismiss="modal">&times;</button>
+            </div>
+
+          
+            <!-- Modal body -->
+                <div class="modal-body" id="div-empDepentent-body">
+
+                </div>
+
+            <!-- Modal footer -->
+                <div class="modal-footer">
+
+                  
+
+                </div>
+           
+
+        </div>
+    </div>
+</div>
+

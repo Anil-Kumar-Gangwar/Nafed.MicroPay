@@ -238,7 +238,7 @@ namespace MicroPay.Web.Controllers
             }
         }
 
-        public ActionResult View()
+        public new ActionResult View()
         {
             log.Info("EPFNominationController/View");
             try

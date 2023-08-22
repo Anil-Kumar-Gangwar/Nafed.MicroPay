@@ -1,0 +1,117 @@
+﻿
+@using MicroPay.Web.Models.Employees
+@model NREmployeeViewModel
+@{
+    ViewBag.Title = "Non Regular Employee List";
+    ViewBag.NavigationTitle = "Non Regular Employee";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+<div>
+
+    @using (Ajax.BeginForm("_GetEmployeeGridView", "NonRegularEmployees", new AjaxOptions { HttpMethod = "Get", UpdateTargetId = "EmpGridDiv" }, new { defaultbutton = "submitform" }))
+    {
+        <div class="advance-search" style="">
+            
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 pb-1 pt-2 form-inline align-middle">
+                           
+                <i class="fa fa-search fa-2x" style="color:#d4d4d4;" aria-hidden="true"></i><h4 class="desc" style="color:#0bb70b;">
+
+    @Html.Label("Search")
+</h4>
+
+                </div>
+
+               <hr style="background-color:#fff !important;">
+            
+               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+                    <div class="form-group">
+
+                        <div class="row">
+                            <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12 text-secondary">
+
+                                <i class="fas fa-filter"></i> Filter By : 
+
+                            </div>                                                    
+                            <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12 ">
+                                @Html.LabelFor(model => model.EmployeeTypeID, htmlAttributes: new { @class = "" })
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 choices__inner">
+                                @Html.DropDownListFor(model => model.EmployeeTypeID, new SelectList(Model.employeeType, "id", "value"), "Select", new { @class = "selectpicker custom-select" })
+
+                            </div>
+
+                            <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+                                @Html.LabelFor(model => model.EmployeeCode, htmlAttributes: new { @class = "" })
+                            </div>
+
+                            <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+
+                                @Html.EditorFor(model => model.EmployeeCode, new { htmlAttributes = new { @class = "form-control custom-input", autocomplete = "off", @placeholder = "Code", @maxlength = "6" } })
+
+                            </div>
+
+                            <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12 ">
+
+                                @Html.LabelFor(model => model.EmployeeName, htmlAttributes: new { @class = "" })
+                            </div>
+
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 ">
+
+                                @Html.EditorFor(model => model.EmployeeName, new { htmlAttributes = new { @class = "form-control custom-input", autocomplete = "off", @placeholder = "Employee Name", @maxlength = "100" } })
+
+                            </div>
+
+                            <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12 ">
+
+                                @Html.LabelFor(model => model.DesignationID, htmlAttributes: new { @class = "" })
+                            </div>
+
+                            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 ">
+
+                                @Html.DropDownListFor(model => model.DesignationID, new SelectList(Model.designation, "id", "value"), "Select", new { @class = "custom-select" })
+
+                            </div>
+
+
+                        </div>
+                        
+                    </div>
+                </div>
+            <hr style="background-color:#fff !important;">
+            <div class="row mt-3">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-right">
+                    @*@if (Model.userRights != null && Model.userRights.Create)
+                    {*@
+                        @Html.ActionLink("Add New Employee", "Create", "NonRegularEmployees", null, new { @class = "btn btn-info", @style = "", title = "Click here, to add new employee.", @data_toggle = "tooltip" })
+                    @*}*@
+                    <button type="submit"  id="submitform" class="btn btn-warning" title="Click here, to search records.">
+                        <i class="fa fa-search"></i> Search
+                    </button>
+                </div>
+            </div>
+           
+         </div>
+
+
+        <div class="text-right">
+           
+        </div>
+        <div class="card_new_body">
+            <div id="EmpGridDiv">
+            </div>
+        </div>
+    }
+</div>
+
+
+
+
+
+
+
+
+
+

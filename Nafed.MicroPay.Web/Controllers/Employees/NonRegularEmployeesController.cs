@@ -1,5 +1,5 @@
 ﻿using System.Web.Mvc;
-using Nafed.MicroPay.Services.IServices;
+
 using Model = Nafed.MicroPay.Model;
 using System;
 using MicroPay.Web.Models;
@@ -12,6 +12,7 @@ using static Nafed.MicroPay.Common.FileHelper;
 using System.IO;
 using AutoMapper;
 using System.Text;
+using Nafed.MicroPay.Services.IServices;
 
 namespace MicroPay.Web.Controllers.Employees
 {

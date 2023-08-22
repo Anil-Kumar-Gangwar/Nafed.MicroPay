@@ -423,8 +423,7 @@ namespace Nafed.MicroPay.Services
             return list;
         }
         public bool UpdatePFNo(int employeeID, int pfNo)
-        {
-            bool flag = false;
+        {           
             log.Info($"EmployeePFOrganisationService/UpdatePFNo/employeeID:{employeeID}&pfNo:{pfNo}");
             try
             {
