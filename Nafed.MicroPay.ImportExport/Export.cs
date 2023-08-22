@@ -137,7 +137,7 @@ namespace Nafed.MicroPay.ImportExport
                             cell.CellStyle.SetFont(hFont);
                             var colType = column.DataType.Name;
                             ICellStyle cellStyleDouble = workbook.CreateCellStyle();
-                            cellStyleDouble.DataFormat = workbook.CreateDataFormat().GetFormat("0.000");
+                            cellStyleDouble.DataFormat = workbook.CreateDataFormat().GetFormat("0.00");
 
                             foreach (DataRow row in table.Rows)
                             {

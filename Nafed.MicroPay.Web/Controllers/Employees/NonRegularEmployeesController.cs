@@ -89,7 +89,7 @@ namespace MicroPay.Web.Controllers.Employees
                 if (employee.DepartmentID == 0)
                     ModelState.AddModelError("DepartmentRequired", "Select Department");
                 if (employee.DesignationID == 0)
-                    ModelState.AddModelError("DepartmentRequired", "Select Department");
+                    ModelState.AddModelError("DesignationRequired", "Select Designation");
                 if (employee.SectionID == 0)
                     ModelState.AddModelError("SectionRequired", "Select Section");
                 if (!employee.DOJ.HasValue)
@@ -217,7 +217,7 @@ namespace MicroPay.Web.Controllers.Employees
                 if (employee.DepartmentID == 0)
                     ModelState.AddModelError("DepartmentRequired", "Select Department");
                 if (employee.DesignationID == 0)
-                    ModelState.AddModelError("DepartmentRequired", "Select Department");
+                    ModelState.AddModelError("DesignationRequired", "Select Designation");
                 if (employee.SectionID == 0)
                     ModelState.AddModelError("SectionRequired", "Select Section");
 

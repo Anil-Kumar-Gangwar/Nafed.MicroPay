@@ -29,6 +29,8 @@ namespace Nafed.MicroPay.Model
         public ConveyanceFormStatus conveyanceFormState { get; set; }
         public bool ACAR { get; set; }
         public string reportingYr { get; set; }
+        public int selectedBranchId { set; get; }
+        public List<Model.SelectListModel> ddlBranch { get; set; }
     }
 
     public enum CompetencyFormState

@@ -6,6 +6,8 @@ using System;
 using System.Collections.Generic;
 using DTOModel = Nafed.MicroPay.Data.Models;
 using System.Linq;
+using Nafed.MicroPay.ImportExport.Interfaces;
+
 
 namespace Nafed.MicroPay.Services
 {
@@ -13,10 +15,12 @@ namespace Nafed.MicroPay.Services
     {
         private readonly IGenericRepository genericRepo;
         private readonly IChildrenEducationRepository childrenRepo;
-        public ChildrenEducationService(IGenericRepository genericRepo, IChildrenEducationRepository childrenRepo)
+        private readonly IExport exportExcel;
+        public ChildrenEducationService(IGenericRepository genericRepo, IChildrenEducationRepository childrenRepo, IExport exportExcel)
         {
             this.genericRepo = genericRepo;
             this.childrenRepo = childrenRepo;
+            this.exportExcel = exportExcel;
         }
         public bool InsertChildrenEducationData(Model.ChildrenEducationHdr childrenEduForm, out int chldrenHdrId)
         {
@@ -322,7 +326,7 @@ namespace Nafed.MicroPay.Services
             log.Info($"ChildrenEducationService/GetChildrenEducationForAdmin/");
             try
             {
-                var dtoChildrenEducation = genericRepo.Get<DTOModel.ChildrenEducationHdr>(x => (filters.selectedEmployeeID != 0 ? x.EmployeeId == filters.selectedEmployeeID : 1 > 0) && (filters.selectedReportingYear != null ? x.ReportingYear == filters.selectedReportingYear : 1 > 0) && !x.IsDeleted && x.StatusId == (int)ChildrenEducationStatus.SubmitedByEmployee).ToList();
+                var dtoChildrenEducation = genericRepo.Get<DTOModel.ChildrenEducationHdr>(x => (filters.selectedBranchId != 0 ? x.BranchId == filters.selectedBranchId : 1 > 0) && (filters.selectedEmployeeID != 0 ? x.EmployeeId == filters.selectedEmployeeID : 1 > 0) && (filters.selectedReportingYear != null ? x.ReportingYear == filters.selectedReportingYear : 1 > 0) && !x.IsDeleted && x.StatusId == (int)ChildrenEducationStatus.SubmitedByEmployee).ToList();
 
                 if (dtoChildrenEducation != null && dtoChildrenEducation.Count > 0)
                 {
@@ -455,7 +459,7 @@ namespace Nafed.MicroPay.Services
                     {
                         cfg.CreateMap<DTOModel.ChildrenEducationHdr, Model.ChildrenEducationHdr>()
                         .ForMember(d => d.EmployeeId, o => o.MapFrom(s => s.EmployeeId))
-                        .ForMember(d => d.EmployeeName, o => o.MapFrom(s => s.tblMstEmployee.EmployeeCode+"-"+s.tblMstEmployee.Name))
+                        .ForMember(d => d.EmployeeName, o => o.MapFrom(s => s.tblMstEmployee.EmployeeCode + "-" + s.tblMstEmployee.Name))
                         .ForMember(d => d.DesignationName, o => o.MapFrom(s => s.tblMstEmployee.Designation.DesignationName))
                         .ForMember(d => d.DepartmentName, o => o.MapFrom(s => s.tblMstEmployee.Department.DepartmentName))
                         .ForMember(d => d.ReportingYear, o => o.MapFrom(s => s.ReportingYear))
@@ -464,6 +468,22 @@ namespace Nafed.MicroPay.Services
                     });
                 }
                 return Mapper.Map<List<Model.ChildrenEducationHdr>>(dtoChildrenEducation);
+            }
+            catch (Exception ex)
+            {
+                log.Error("Message-" + ex.Message + " StackTrace-" + ex.StackTrace + " DatetimeStamp-" + DateTime.Now);
+                throw ex;
+            }
+        }
+
+        public bool DownloadExcel(System.Data.DataSet dsSource, string sFullPath, string fileName)
+        {
+            try
+            {
+                var flag = false;
+                sFullPath = $"{sFullPath}{fileName}";
+                flag = exportExcel.ExportFormatedExcel(dsSource, sFullPath, fileName);
+                return flag;
             }
             catch (Exception ex)
             {

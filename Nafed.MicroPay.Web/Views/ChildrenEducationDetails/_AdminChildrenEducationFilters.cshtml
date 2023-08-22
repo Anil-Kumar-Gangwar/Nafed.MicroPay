@@ -1,9 +1,42 @@
 ﻿@using Nafed.MicroPay.Model;
 @model AppraisalFormApprovalFilter
+<script>
+    function BindEmployeeOnBranch(e) {
+        let branchId = $("#selectedBranchId").val();
+        if (branchId > 0) {
+            jQuery.post("@Url.Action("GetBranchEmployee", "ChildrenEducationDetails")", {
+                branchID: branchId,
+            }).done(function (data) {
+                debugger;
+                if (data.employees != "") {
+                    $("#selectedEmployeeID").html("");
+                    $.each(data.employees, function (key, value) {
+                        $("#selectedEmployeeID").append($("<option></option>").val(value.Value).html(value.Text));
+                    });
+                }
+            });
+        }
+        else {
+            $("#selectedEmployeeID").html("");         
+                $("#selectedEmployeeID").append($("<option></option>").val('ALL').html('ALL'));
+      
+        }
+    }
+    function ExportExcel() {
+        $.ajax({
+            url: "@Url.Action("DownloadExcel", "ChildrenEducationDetails")",
+            type: "Post",
+            data: {},
+            success: function (reponse) {
+                if (reponse.fileName != "") {
+                    window.location.href = "@Url.RouteUrl(new { Controller = "Base", Action = "DownloadAndDelete" })/?sFileName=" + reponse.fileName + "&sFileFullPath=" + reponse.fullPath;
 
-
+                }
+            }
+        });
+    }
+</script>
 <div class="advance-search" style="">
-
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 pb-1 pt-2 form-inline align-middle">
         <i class="fa fa-search fa-2x" style="color:#d4d4d4;" aria-hidden="true"></i><h4 class="desc" style="color:#0bb70b;">
             @Html.Label("Search")
@@ -11,40 +44,40 @@
     </div>
     @*@Html.HiddenFor(model => model.loggedInEmployeeID)*@
     <hr style="background-color:#fff !important;">
-
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-
         <div class="row">
             <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12 text-secondary pr-0">
                 <i class="fas fa-filter"></i> Filter By :
             </div>
             <div class="col-md-2">
-
                 <div class="form-group">
                     @Html.Label("Reporting Yr", htmlAttributes: new { @class = "" })
-
-                    @Html.DropDownListFor(model => model.selectedReportingYear, new SelectList(Model.reportingYrs, "value", "value"), "Select", new { @class = "custom-select" })
+                    @Html.DropDownListFor(model => model.selectedReportingYear, new SelectList(Model.reportingYrs, "value", "value"), new { @class = "custom-select" })
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    @Html.Label("Branch", htmlAttributes: new { @class = "" })
+                    @Html.DropDownListFor(model => model.selectedBranchId, new SelectList(Model.ddlBranch, "id", "value"), "ALL", new { @class = "custom-select", onchange = "BindEmployeeOnBranch(this)" })
                 </div>
             </div>
             <div class="col-md-3">
                 <div class="form-group">
                     @Html.Label("Employee", htmlAttributes: new { @class = "" })
-
-                    @Html.DropDownListFor(model => model.selectedEmployeeID, new SelectList(Model.employees, "id", "value"), "Select", new { @class = "custom-select" })
+                    @Html.DropDownListFor(model => model.selectedEmployeeID, new SelectList(Model.employees, "id", "value"), "All", new { @class = "custom-select" })
                 </div>
             </div>
-
             <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 pt-lg-4">
                 <button type="submit" id="submitform" value="Search" title="Click here, to search records" class="btn btn-warning toggle-tooltip">
                     <i class="fa fa-search"></i> Search
+                </button>
+                <button type="button" value="Export" onclick="ExportExcel()" title="Click here, to export records" class="btn btn-primary toggle-tooltip">
+                    <i class="fa fa-file-excel"></i> Export
                 </button>
             </div>
         </div>
     </div>
 </div>
-
-
-
 
 
 

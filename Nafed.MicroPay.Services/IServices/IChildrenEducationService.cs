@@ -23,5 +23,6 @@ namespace Nafed.MicroPay.Services.IServices
 
         bool UpdateEmployeeDependent(List<ChildrenEducationDetails> childrenEducationDetails, IEnumerable<ChildrenEducationDetails> deletedResult);
         List<Model.ChildrenEducationHdr> GetEmployeeChildrenEducationYearWise(string reportingYr);
+        bool DownloadExcel(System.Data.DataSet dsSource, string sFullPath, string fileName);
     }
 }
