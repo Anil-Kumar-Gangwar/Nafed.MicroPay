@@ -117,6 +117,41 @@ namespace Nafed.MicroPay.Services.Salary
             bool flag = false;
             try
             {
+                if (!genericRepo.Exists<DTOModel.SalaryHead>(x => x.EmployeeTypeID == salHead.EmployeeTypeID.Value && x.FieldName == "E_Basic"))
+                {
+                    Mapper.Initialize(cfg =>
+                    {
+                        cfg.CreateMap<SalaryHead, DTOModel.SalaryHead>()
+                         .ForMember(d => d.FieldName, o => o.UseValue("E_Basic"))
+                         .ForMember(d => d.FieldDesc, o => o.UseValue("Basic"))
+                         .ForMember(d => d.A, o => o.UseValue(true))
+                         .ForMember(d => d.Abbreviation, o => o.UseValue("BASIC"))
+                         .ForMember(d => d.ActiveField, o => o.UseValue(true))
+                         .ForMember(d => d.AttendanceDep, o => o.UseValue(true))
+                         .ForMember(d => d.C, o => o.UseValue(true))
+                         .ForMember(d => d.CreatedBy, o => o.MapFrom(s => s.CreatedBy))
+                         .ForMember(d => d.CreatedOn, o => o.MapFrom(s => s.CreatedOn))                     
+                         .ForMember(d => d.CT, o => o.UseValue(true))
+                         .ForMember(d => d.CW, o => o.UseValue(true))
+                         .ForMember(d => d.DC, o => o.UseValue(true))
+                         .ForMember(d => d.DW, o => o.UseValue(true))                    
+                         .ForMember(d => d.MT, o => o.UseValue(true))
+                         .ForMember(d => d.Conditional, o => o.UseValue(false))
+                         .ForMember(d => d.FromMaster, o => o.UseValue(false))
+                         .ForMember(d => d.SpecialField, o => o.UseValue(false))
+                         .ForMember(d => d.MonthlyInput, o => o.UseValue(false))
+                         .ForMember(d => d.RoundingUpto, o => o.UseValue(false))
+                         .ForMember(d => d.RoundToHigher, o => o.UseValue(false))
+                         .ForMember(d => d.FormulaColumn, o => o.UseValue(false))
+                         .ForMember(d => d.SeqNo, o => o.UseValue(1))
+                         .ForMember(d => d.SpecialFieldMaster, o => o.UseValue(true))           
+                         .ForMember(d => d.EmployeeTypeID, o => o.MapFrom(s => s.EmployeeTypeID))
+                         .ForAllOtherMembers(d => d.Ignore());
+                    });
+                    var dtoSalaryHeadBasic = Mapper.Map<DTOModel.SalaryHead>(salHead);
+                    genericRepo.Insert<DTOModel.SalaryHead>(dtoSalaryHeadBasic);
+                }
+
                 Mapper.Initialize(cfg =>
                 {
                     cfg.CreateMap<SalaryHead, DTOModel.SalaryHead>()
@@ -1183,7 +1218,7 @@ namespace Nafed.MicroPay.Services.Salary
             try
             {
                 bool flag = false;
-                flag = salaryRepo.GeneralReportsSummation(branchcode,salmonthF,salyearF,salmonthT,salyearT,lst,empType);
+                flag = salaryRepo.GeneralReportsSummation(branchcode, salmonthF, salyearF, salmonthT, salyearT, lst, empType);
                 return flag;
             }
             catch (Exception ex)

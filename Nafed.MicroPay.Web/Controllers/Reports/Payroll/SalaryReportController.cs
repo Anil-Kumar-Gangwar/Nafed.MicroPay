@@ -193,7 +193,7 @@ namespace MicroPay.Web.Controllers.Reports.Payroll
                         parameterList.Add(new ReportParameter { name = "SalYear", value = Convert.ToInt16(year) });
                         parameterList.Add(new ReportParameter { name = "EmployeeTypeID", value = employeeTypeId });
                         parameterList.Add(new ReportParameter { name = "EMPID", value = employeeId });
-                        rptName = "PayslipConsultant.rpt";
+                        rptName = "PaySlipBR.rpt";
                     }
                 }
                 else if (salaryReportFilter.employeeTypeID == 7)
@@ -205,7 +205,7 @@ namespace MicroPay.Web.Controllers.Reports.Payroll
                         parameterList.Add(new ReportParameter { name = "SalYear", value = Convert.ToInt16(year) });
                         parameterList.Add(new ReportParameter { name = "EmployeeTypeID", value = employeeTypeId });
                         parameterList.Add(new ReportParameter { name = "EMPID", value = employeeId });
-                        rptName = "payslipDeputation.rpt";
+                        rptName = "PaySlipBR.rpt";
                     }
                 }
                 else if (salaryReportFilter.employeeTypeID == 4 || salaryReportFilter.employeeTypeID == 1 || salaryReportFilter.employeeTypeID == 2 || salaryReportFilter.employeeTypeID == 6)
@@ -217,7 +217,7 @@ namespace MicroPay.Web.Controllers.Reports.Payroll
                         parameterList.Add(new ReportParameter { name = "SalYear", value = Convert.ToInt16(year) });
                         parameterList.Add(new ReportParameter { name = "EmployeeTypeID", value = employeeTypeId });
                         parameterList.Add(new ReportParameter { name = "EMPID", value = employeeId });
-                        rptName = "PayslipContractMT.rpt";
+                        rptName = "PaySlipBR.rpt";
                     }
                 }
                 else if (salaryReportFilter.employeeTypeID == 3)
@@ -229,7 +229,7 @@ namespace MicroPay.Web.Controllers.Reports.Payroll
                         parameterList.Add(new ReportParameter { name = "SalYear", value = Convert.ToInt16(year) });
                         parameterList.Add(new ReportParameter { name = "EmployeeTypeID", value = employeeTypeId });
                         parameterList.Add(new ReportParameter { name = "EMPID", value = employeeId });
-                        rptName = "PayslipDailyWages.rpt";
+                        rptName = "PaySlipBR.rpt";
                     }
                 }
                 reportModel.reportParameters = parameterList;

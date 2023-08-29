@@ -2135,8 +2135,8 @@ namespace Nafed.MicroPay.Services.Salary
                         && x.SalMonth == salMonth && x.SalYear == salYear).ToList();
                         genericRepo.DeleteAll<DTOModel.tblFinalMonthlySalary>(dtoPrevFinalMonthlySalary);
                     }
-
-                    dtoFinalMonthSalary.FirstOrDefault().EmployeeTypeID = 5;
+                    //===== COMMENTED THIS LINE , BCOZ EmployeeTypeID ALREADY HAS VALUE , NO NEED TO OVERRIGHT IT.
+                    //  dtoFinalMonthSalary.FirstOrDefault().EmployeeTypeID = 5;
                 }
 
                 flag = genericRepo.AddMultipleEntity<DTOModel.tblFinalMonthlySalary>(dtoFinalMonthSalary);
@@ -2231,8 +2231,8 @@ namespace Nafed.MicroPay.Services.Salary
                     var salaryPeriod = $"{salYear.ToString()}{salMonth.ToString("00")}";
                     employeeTypeID = !employeeTypeID.HasValue ? 5 : employeeTypeID.Value;
 
-                    if (!allBranchExceptHO && !branchID.HasValue && !allBranches)
-                        employeeTypeID = 5;
+                    //if (!allBranchExceptHO && !branchID.HasValue && !allBranches)
+                    //    employeeTypeID = 5;
 
                     Mapper.Initialize(cfg =>
                     {
