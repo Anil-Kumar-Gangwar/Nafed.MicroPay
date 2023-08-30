@@ -35,6 +35,8 @@ namespace Nafed.MicroPay.Model
         public int[] CheckBoxList { get; set; }
 
         public string ReportingYear { get; set; }
+        public List<Model.SelectListModel> ddlBranch { get; set; }
+        public List<SelectListModel> ddlEmployees { set; get; } = new List<SelectListModel>();
 
     }
 

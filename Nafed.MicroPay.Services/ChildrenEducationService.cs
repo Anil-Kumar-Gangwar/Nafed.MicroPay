@@ -446,25 +446,28 @@ namespace Nafed.MicroPay.Services
             }
         }
 
-        public List<Model.ChildrenEducationHdr> GetEmployeeChildrenEducationYearWise(string reportingYr)
+        public List<Model.ChildrenEducationHdr> GetEmployeeChildrenEducationYearWise(CommonFilter filters)
         {
             log.Info($"ChildrenEducationService/GetEmployeeChildrenEducationYearWise");
             try
             {
-                var dtoChildrenEducation = genericRepo.Get<DTOModel.ChildrenEducationHdr>(x => x.ReportingYear == reportingYr && !x.IsDeleted).ToList();
-
+                var dtoChildrenEducation = genericRepo.Get<DTOModel.ChildrenEducationHdr>(x => (filters.BranchID.HasValue && filters.BranchID != 0 ? x.BranchId == filters.BranchID.Value : 1 > 0) && (filters.EmployeeID.HasValue && filters.EmployeeID != 0 ? x.EmployeeId == filters.EmployeeID.Value : 1 > 0) && (filters.ReportingYear != null ? x.ReportingYear == filters.ReportingYear : 1 > 0) && !x.IsDeleted).ToList();
                 if (dtoChildrenEducation != null && dtoChildrenEducation.Count > 0)
                 {
                     Mapper.Initialize(cfg =>
                     {
                         cfg.CreateMap<DTOModel.ChildrenEducationHdr, Model.ChildrenEducationHdr>()
                         .ForMember(d => d.EmployeeId, o => o.MapFrom(s => s.EmployeeId))
-                        .ForMember(d => d.EmployeeName, o => o.MapFrom(s => s.tblMstEmployee.EmployeeCode + "-" + s.tblMstEmployee.Name))
+                        .ForMember(d => d.EmployeeCode, o => o.MapFrom(s => s.tblMstEmployee.EmployeeCode))
+                        .ForMember(d => d.EmployeeName, o => o.MapFrom(s => s.tblMstEmployee.Name))
+                        .ForMember(d => d.Branch, o => o.MapFrom(s => s.tblMstEmployee.Branch.BranchName))
                         .ForMember(d => d.DesignationName, o => o.MapFrom(s => s.tblMstEmployee.Designation.DesignationName))
                         .ForMember(d => d.DepartmentName, o => o.MapFrom(s => s.tblMstEmployee.Department.DepartmentName))
                         .ForMember(d => d.ReportingYear, o => o.MapFrom(s => s.ReportingYear))
-                        .ForMember(d => d.ChildrenEduHdrID, o => o.MapFrom(s => s.ChildrenEduHdrID))
-                        .ForMember(d => d.Amount, o => o.MapFrom(s => s.Amount.HasValue ? (s.Amount.Value.ToString("0.##")) : "0"));
+                        .ForMember(d => d.ReceiptNo, o => o.MapFrom(s => s.ReceiptNo))
+                        .ForMember(d => d.ReceiptDate, o => o.MapFrom(s => s.ReceiptDate))
+                        .ForMember(d => d.Amount, o => o.MapFrom(s => s.Amount.HasValue ? (s.Amount.Value.ToString("0.##")) : "0"))
+                        .ForAllOtherMembers(d => d.Ignore());
                     });
                 }
                 return Mapper.Map<List<Model.ChildrenEducationHdr>>(dtoChildrenEducation);

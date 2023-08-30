@@ -47,7 +47,7 @@
                     <tr>
                         <td data-label="S.No.">@sno</td>
                         <td data-label="Reporting Yr">@item.ReportingYear</td>
-                        <td data-label="Employee">@item.EmployeeName</td>
+                        <td data-label="Employee">@(item.EmployeeCode + "-" + item.EmployeeName)</td>
                         <td data-label="Department">@item.DepartmentName</td>
                         <td data-label="Designation">@item.DesignationName</td>
                         <td data-label="Receipt No.">@item.ReceiptNo</td>
