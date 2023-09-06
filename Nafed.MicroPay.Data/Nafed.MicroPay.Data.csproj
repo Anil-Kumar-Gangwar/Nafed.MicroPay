@@ -949,6 +949,9 @@
     <Compile Include="Models\TrainingTopic.cs">
       <DependentUpon>MicroPay.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\UpdatedTDSYearly.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\User.cs">
       <DependentUpon>MicroPay.tt</DependentUpon>
     </Compile>

@@ -858,7 +858,7 @@ namespace Nafed.MicroPay.Services
                 exportHdr = dtTable.Columns.Cast<System.Data.DataColumn>()
                     .Select(x => x.ColumnName).AsEnumerable<string>();
                 sFullPath = $"{sFullPath}{fileName}";
-                var res = ExportToExcel(exportHdr, dtTable, fileName, sFullPath, tFilter);
+                var res = ExportToExcelNew(exportHdr, dtTable, fileName, sFullPath, tFilter);
                 return flag;
             }
             catch (Exception ex)
@@ -868,5 +868,48 @@ namespace Nafed.MicroPay.Services
             }
         }
 
+        public List<Model.LeaveEncashment> GetLeaveEncashment(CommonFilter cFilter)
+        {
+            var Leavelist = new List<Model.LeaveEncashment>();
+            DataTable result = null;
+            try
+            {
+                result = empLeaveRepo.GetLeaveEncashment(cFilter.Year.Value, cFilter.BranchID, cFilter.EmployeeID);
+                Leavelist = Common.ExtensionMethods.ConvertToList<LeaveEncashment>(result);
+            }
+            catch (Exception ex)
+            {
+                log.Error("Message-" + ex.Message + " StackTrace-" + ex.StackTrace + " DatetimeStamp-" + DateTime.Now);
+                throw ex;
+            }
+            return Leavelist;
+        }
+
+        public bool UpdateEncashmentTDS(List<Model.LeaveEncashment> model, int userId)
+        {
+            log.Info($"EmployeeLeaveService/UpdateEncashmentTDS");
+            try
+            {
+                model = model.Where(x => x.TDS > 0 && x.TDS != null).ToList();
+                Mapper.Initialize(cfg =>
+                {
+                    cfg.CreateMap<Model.LeaveEncashment, DTOModel.UpdatedTDSYearly>()
+                    .ForMember(d => d.EmployeeId, o => o.MapFrom(s => s.EmployeeId))
+                    .ForMember(d => d.TDSYear, o => o.MapFrom(s => s.TDSYear))
+                    .ForMember(d => d.TDS, o => o.MapFrom(s => s.TDS))
+                    .ForMember(d => d.CreatedBy, o => o.UseValue(userId))
+                    .ForMember(d => d.CreatedOn, o => o.UseValue(DateTime.Now))
+                    .ForAllOtherMembers(d => d.Ignore());
+                });
+                var dtoEncashment = Mapper.Map<List<DTOModel.UpdatedTDSYearly>>(model);
+                return empLeaveRepo.UpdateEncashmentTDS(dtoEncashment);
+
+            }
+            catch (Exception ex)
+            {
+                log.Error("Message-" + ex.Message + " StackTrace-" + ex.StackTrace + " DatetimeStamp-" + DateTime.Now);
+                throw ex;
+            }
+        }
     }
 }

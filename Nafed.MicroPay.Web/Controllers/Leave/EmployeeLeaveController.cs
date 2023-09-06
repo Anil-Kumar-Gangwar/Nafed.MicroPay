@@ -993,6 +993,8 @@ namespace MicroPay.Web.Controllers
             try
             {
                 Model.CommonFilter cFilter = new Model.CommonFilter();
+                var ddlBranchList = ddlService.ddlBranchList();              
+                cFilter.ddlBranch = ddlBranchList;
                 return PartialView("_EncashmentFilter", cFilter);
             }
             catch (Exception ex)
@@ -1004,6 +1006,122 @@ namespace MicroPay.Web.Controllers
         }
 
         [HttpPost]
+        public ActionResult _EncashmentReport(Model.CommonFilter cFilter, string ButtonType)
+        {
+            log.Info($"EmployeeLeaveController/_EncashmentReport/");
+            try
+            {
+                if (!cFilter.Year.HasValue || cFilter.Year == 0)
+                {
+                    ModelState.AddModelError("Year", "Please select Year.");
+                    var ddlBranchList = ddlService.ddlBranchList();                  
+                    cFilter.ddlBranch = ddlBranchList;
+                    return Json(new
+                    {
+                        message = "error",
+                        htmlData = ConvertViewToString("_EncashmentFilter", cFilter)
+                    }, JsonRequestBehavior.AllowGet);
+
+                }
+                ModelState.Remove("EndDate");
+                if (ModelState.IsValid)
+                {
+                    var getEncashList = leaveService.GetLeaveEncashment(cFilter);
+
+                    if (ButtonType == "Submit")
+                    {
+                        return PartialView("_EncashmentGridView", getEncashList);
+                    }
+                    else
+                    {
+                        string fileName = string.Empty, msg = string.Empty;
+                        string fullPath = Server.MapPath("~/FileDownload/");
+                        if (getEncashList != null && getEncashList.Count > 0)
+                        {
+                            var daPerc = getEncashList.First().DAPercentage + "%";
+                            DataTable exportData = new DataTable();
+                            string tFilter = string.Empty;
+                            fileName = "Leave Encashment Report" + '.' + Nafed.MicroPay.Common.FileExtension.xlsx;
+                            tFilter = $"Period : {new DateTime(cFilter.Year.Value, 1, 1).ToString("dd-MMM-yyyy")} - {new DateTime(cFilter.Year.Value, 12, 31).ToString("dd-MMM-yyyy")}";
+
+                            DataColumn dtc0 = new DataColumn("S.No.");
+                            DataColumn dtc1 = new DataColumn("Employee Code");
+                            DataColumn dtc2 = new DataColumn("Employee Name");
+                            DataColumn dtc3 = new DataColumn("Branch");
+                            DataColumn dtc4 = new DataColumn("EL as on date");
+                            DataColumn dtc5 = new DataColumn("No. of days");
+                            DataColumn dtc6 = new DataColumn("Balance EL");
+                            DataColumn dtc7 = new DataColumn("Basic for one month");
+                            DataColumn dtc8 = new DataColumn("Basic");
+                            DataColumn dtc9 = new DataColumn($"DA@ {daPerc}");
+                            DataColumn dtc10 = new DataColumn("Gross Amount");
+                            DataColumn dtc11 = new DataColumn("TDS");
+                            DataColumn dtc12 = new DataColumn("Net Amount");
+                            DataColumn dtc13 = new DataColumn("Order No.");
+                            DataColumn dtc14 = new DataColumn("Order Date");
+
+
+                            exportData.Columns.Add(dtc0);
+                            exportData.Columns.Add(dtc1);
+                            exportData.Columns.Add(dtc2);
+                            exportData.Columns.Add(dtc3);
+                            exportData.Columns.Add(dtc4);
+                            exportData.Columns.Add(dtc5);
+                            exportData.Columns.Add(dtc6);
+                            exportData.Columns.Add(dtc7);
+                            exportData.Columns.Add(dtc8);
+                            exportData.Columns.Add(dtc9);
+                            exportData.Columns.Add(dtc10);
+                            exportData.Columns.Add(dtc11);
+                            exportData.Columns.Add(dtc12);
+                            exportData.Columns.Add(dtc13);
+                            exportData.Columns.Add(dtc14);
+                            for (int i = 0; i < getEncashList.Count; i++)
+                            {
+                                DataRow row = exportData.NewRow();
+                                row[0] = i + 1;
+                                row[1] = getEncashList[i].EmployeeCode;
+                                row[2] = getEncashList[i].EmployeeName;
+                                row[3] = getEncashList[i].Branch;
+                                row[4] = getEncashList[i].ELBalAsofnow;
+                                row[5] = getEncashList[i].NoofDays;
+                                row[6] = getEncashList[i].ELBal;
+                                row[7] = getEncashList[i].BasicForMonth;
+                                row[8] = getEncashList[i].Basic;
+                                row[9] = getEncashList[i].DA;
+                                row[10] = getEncashList[i].GrossAmount;
+                                row[11] = getEncashList[i].TDS;
+                                row[12] = (getEncashList[i].GrossAmount - (getEncashList[i].TDS ?? 0));
+                                row[13] = getEncashList[i].OrderNo;
+                                row[14] = getEncashList[i].OrderDate;
+                                exportData.Rows.Add(row);
+                            }
+
+                            leaveService.ExportLeaveEncashForF_A(exportData, fullPath, fileName, tFilter);
+                            fullPath = $"{fullPath}{fileName}";
+                            return JavaScript("window.location = '" + Url.Action("DownloadAndDelete", "Base", new { @sFileName = fileName, @sFileFullPath = fullPath }) + "'");
+                        }
+                        else
+                        {
+                            ModelState.AddModelError("OtherValidation", "No Record Found.");
+                        }
+                        return PartialView("_EncashmentFilter", cFilter);
+                    }
+                }
+                return Json(new
+                {
+                    message = "error",
+                    htmlData = ConvertViewToString("_EncashmentFilter", cFilter)
+                }, JsonRequestBehavior.AllowGet);
+
+            }
+            catch (Exception ex)
+            {
+                log.Error("Message-" + ex.Message + " StackTrace-" + ex.StackTrace + " DatetimeStamp-" + DateTime.Now);
+                throw ex;
+            }
+        }
+        [HttpPost]
         public ActionResult _ExportEncashmentReport(Model.CommonFilter cFilter)
         {
 
@@ -1012,9 +1130,9 @@ namespace MicroPay.Web.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    if (!cFilter.StartDate.HasValue || !cFilter.EndDate.HasValue)
+                    if (!cFilter.Year.HasValue)
                     {
-                        ModelState.AddModelError("StartDate", "Please select From and To Date.");
+                        ModelState.AddModelError("StartDate", "Please select Year.");
                         return Json(new
                         {
                             message = "error",
@@ -1022,57 +1140,7 @@ namespace MicroPay.Web.Controllers
                         }, JsonRequestBehavior.AllowGet);
 
                     }
-                    string fileName = string.Empty, msg = string.Empty;
-                    string fullPath = Server.MapPath("~/FileDownload/");
-                    var getEncashList = leaveService.GetLeaveEncashForF_A(cFilter.StartDate.Value, cFilter.EndDate.Value);
-                    if (getEncashList != null && getEncashList.Count > 0)
-                    {
-                        DataTable exportData = new DataTable();
-                        string tFilter = string.Empty;
-                        fileName = "Leave Encashment Report" + '.' + Nafed.MicroPay.Common.FileExtension.xlsx;
-                        tFilter = $"Period : {cFilter.StartDate.Value.ToString("dd-MMM-yyyy")} - {cFilter.EndDate.Value.ToString("dd-MMM-yyyy")}";
 
-                        DataColumn dtc0 = new DataColumn("S.No.");
-                        DataColumn dtc1 = new DataColumn("Employee Code");
-                        DataColumn dtc2 = new DataColumn("Name");
-                        DataColumn dtc3 = new DataColumn("No. of EL");
-                        DataColumn dtc4 = new DataColumn("Basic");
-                        DataColumn dtc5 = new DataColumn("DA");
-                        DataColumn dtc6 = new DataColumn("Gross Amount");
-                        DataColumn dtc7 = new DataColumn("TDS");
-                        DataColumn dtc8 = new DataColumn("Net Amount");
-
-                        exportData.Columns.Add(dtc0);
-                        exportData.Columns.Add(dtc1);
-                        exportData.Columns.Add(dtc2);
-                        exportData.Columns.Add(dtc3);
-                        exportData.Columns.Add(dtc4);
-                        exportData.Columns.Add(dtc5);
-                        exportData.Columns.Add(dtc6);
-                        exportData.Columns.Add(dtc7);
-                        exportData.Columns.Add(dtc8);
-                        for (int i = 0; i < getEncashList.Count; i++)
-                        {
-                            DataRow row = exportData.NewRow();
-                            row[0] = i + 1;
-                            row[1] = getEncashList[i].EmployeeCode;
-                            row[2] = getEncashList[i].EmployeeName;
-                            row[3] = getEncashList[i].Unit;
-                            row[4] = getEncashList[i].CR.Value;
-                            row[5] = getEncashList[i].OB.Value;
-                            row[6] = getEncashList[i].Bal;
-                            exportData.Rows.Add(row);
-                        }
-
-                        leaveService.ExportLeaveEncashForF_A(exportData, fullPath, fileName, tFilter);
-                        fullPath = $"{fullPath}{fileName}";
-                        return JavaScript("window.location = '" + Url.Action("DownloadAndDelete", "Base", new { @sFileName = fileName, @sFileFullPath = fullPath }) + "'");
-                    }
-                    else
-                    {
-                        ModelState.AddModelError("OtherValidation", "No Record Found.");
-                    }
-                    return PartialView("_EncashmentFilter", cFilter);
                 }
             }
             catch (Exception ex)
@@ -1082,6 +1150,33 @@ namespace MicroPay.Web.Controllers
             }
 
             return PartialView("_EncashmentFilter", cFilter);
+        }
+
+        [HttpPost]
+        public ActionResult UpdateEncashmentTDS(List<Model.LeaveEncashment> model)
+        {
+            log.Info($"EmployeeLeaveController/UpdateEncashmentTDS/");
+            try
+            {
+                if (model == null || model.Count == 0)
+                {
+                    ModelState.AddModelError("OtherValidation", "No record to updated.");
+                    model = new List<Model.LeaveEncashment>(); // set new instance to avoid null error in partial view
+                }
+                if (ModelState.IsValid)
+                {
+                    bool res;
+                    res = leaveService.UpdateEncashmentTDS(model, userDetail.UserID);
+                    if (res)
+                        return Json(new { status=res,message="TDS updated successfully."}, JsonRequestBehavior.AllowGet);
+                }
+                return Json(new {htmlData=ConvertViewToString("_EncashmentGridView",model) }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                log.Error("Message-" + ex.Message + " StackTrace-" + ex.StackTrace + " DatetimeStamp-" + DateTime.Now);
+                throw ex;
+            }
         }
         #endregion
     }

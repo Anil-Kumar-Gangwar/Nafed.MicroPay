@@ -359,5 +359,127 @@ namespace Nafed.MicroPay.ImportExport
             }
         }
 
+        public static string ExportToExcelNew(IEnumerable<string> headers, DataTable rowData, string sSheetName, string sFullPath, string tFilter)
+        {
+            log.Info("LeaveForm/ExportToExcel");
+
+            try
+            {
+                XSSFWorkbook workbook = CreateWookBook();
+                using (var file = new FileStream(sFullPath, FileMode.Create, FileAccess.ReadWrite))
+                {
+                    XSSFSheet sheet = (XSSFSheet)workbook.CreateSheet(sSheetName);
+                    XSSFRow dataRow;
+
+                    XSSFFont scFont = CreateFont(workbook);
+                    scFont.FontHeightInPoints = 12;
+                    scFont.FontName = "Calibri";
+                    scFont.Boldweight = (short)NPOI.SS.UserModel.FontBoldWeight.Bold;
+
+                    XSSFFont titleFont = CreateFont(workbook);
+                    titleFont.FontHeightInPoints = 14;
+                    titleFont.FontName = "Calibri";
+                    titleFont.Boldweight = (short)NPOI.SS.UserModel.FontBoldWeight.Bold;
+
+                    XSSFRow titlerow = CreateRow(sheet, 0);
+                    ICell titlecell = titlerow.CreateCell(0);
+                    titlecell.CellStyle = workbook.CreateCellStyle();
+                    titlecell.CellStyle.SetFont(titleFont);
+                    titlecell.CellStyle.WrapText = true;
+                    titlerow.Height = 1000;
+                    titlecell.CellStyle.Alignment = HorizontalAlignment.Center;
+                    titlecell.CellStyle.VerticalAlignment = VerticalAlignment.Center;
+                    titlecell.SetCellValue("National Agricultural Cooperative Marketing Federation of India Ltd.\n Nafed House, Sidhartha Enclave, Ashram Chowk, Ring Road, \nNew Delhi - 110014");
+                    sheet.AddMergedRegion(new CellRangeAddress(0, 0, 0, 14));
+
+                    XSSFRow firstRow = CreateRow(sheet, 1);
+                    ICell firstCell = firstRow.CreateCell(0);
+                    firstCell.CellStyle = workbook.CreateCellStyle();
+                    firstCell.SetCellValue(tFilter);
+                    firstCell.CellStyle.SetFont(scFont);
+                    sheet.AddMergedRegion(new CellRangeAddress(1, 1, 0, 14));                  
+                    
+                    XSSFRow secondrow = CreateRow(sheet, 2);
+                    ICell secondcell = secondrow.CreateCell(0);
+                    secondcell.CellStyle = workbook.CreateCellStyle();
+                    secondcell.SetCellValue("");
+                    sheet.AddMergedRegion(new CellRangeAddress(2, 2, 0, 14));
+
+                    XSSFRow headerRow = CreateRow(sheet, 3);
+                    // Writing Header Row
+                    XSSFFont hFont = CreateFont(workbook);
+                    hFont.FontHeightInPoints = 12;
+                    hFont.FontName = "Calibri";
+                    hFont.Boldweight = (short)NPOI.SS.UserModel.FontBoldWeight.Bold;
+                    int hdrColIndex = 0;
+                    foreach (var hdr in headers)
+                    {
+                        var cell = headerRow.CreateCell(hdrColIndex);
+                        cell.SetCellValue(hdr);
+                        cell.CellStyle = workbook.CreateCellStyle();
+                        cell.CellStyle.BorderTop = BorderStyle.Thin;
+                        cell.CellStyle.BorderLeft = BorderStyle.Thin;
+                        cell.CellStyle.BorderRight = BorderStyle.Thin;
+                        cell.CellStyle.BorderBottom = BorderStyle.Thin;
+                        cell.CellStyle.SetFont(hFont);
+                        cell.CellStyle.Alignment = HorizontalAlignment.Center;
+                        cell.CellStyle.VerticalAlignment = VerticalAlignment.Center;
+                        headerRow.Height = 500;
+                        if (hdr == "Name")
+                        {
+                            sheet.SetColumnWidth(hdrColIndex, 10000);
+                            cell.CellStyle.WrapText = true;
+                        }
+                        else if (hdr == "S.No.")
+                            sheet.AutoSizeColumn(hdrColIndex);
+                        else
+                            sheet.SetColumnWidth(hdrColIndex, 5000);
+
+                        hdrColIndex++;
+                    }
+
+                    foreach (DataColumn column in rowData.Columns)
+                    {
+
+                        int rowIndex = 4;
+                        foreach (DataRow row in rowData.Rows)
+                        {
+                            if (column.Ordinal == 0)
+                                dataRow = (XSSFRow)sheet.CreateRow(rowIndex);
+                            else
+                                dataRow = (XSSFRow)sheet.GetRow(rowIndex);
+
+
+                            ICell Cell = dataRow.CreateCell(column.Ordinal);
+                            Cell.CellStyle = workbook.CreateCellStyle();
+                            Cell.CellStyle.BorderTop = BorderStyle.Thin;
+                            Cell.CellStyle.BorderLeft = BorderStyle.Thin;
+                            Cell.CellStyle.BorderRight = BorderStyle.Thin;
+                            Cell.CellStyle.BorderBottom = BorderStyle.Thin;
+                            if (column.Ordinal > 3 && column.Ordinal<13)
+                            {
+                                Cell.CellStyle.Alignment = HorizontalAlignment.Right;
+                                if (row[column].ToString() != "")
+                                    Cell.SetCellValue(Convert.ToDouble(row[column].ToString()));
+                                Cell.CellStyle.DataFormat = workbook.CreateDataFormat().GetFormat("#,##0.00");
+                            }
+                            else
+                                Cell.SetCellValue(row[column].ToString());
+
+                            rowIndex++;
+                        }
+                    }
+
+                    workbook.Write(file);
+                    return "success";
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error("Message-" + ex.Message + " StackTrace-" + ex.StackTrace + " DatetimeStamp-" + DateTime.Now);
+                return "fail - " + ex.Message;
+            }
+        }
+
     }
 }

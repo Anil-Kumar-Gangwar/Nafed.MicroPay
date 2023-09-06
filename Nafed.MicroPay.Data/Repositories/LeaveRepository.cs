@@ -592,10 +592,74 @@ namespace Nafed.MicroPay.Data.Repositories
             return dbSqlDataTable;
         }
 
-        public List<SP_GetEncashmentForF_A_Result> GetLeaveEncashForF_A(DateTime fromDate,DateTime toDate)
+        public List<SP_GetEncashmentForF_A_Result> GetLeaveEncashForF_A(DateTime fromDate, DateTime toDate)
         {
             return db.SP_GetEncashmentForF_A(fromDate, toDate).ToList();
 
+        }
+        public DataTable GetLeaveEncashment(int year, int? branchId, int? employeeId)
+        {
+            SqlConnection dbSqlconnection;
+            dbSqlconnection = new SqlConnection(db.Database.Connection.ConnectionString);
+            DataTable dt = new DataTable();
+            DataTable dbSqlDataTable = new DataTable();
+            try
+            {
+                SqlCommand dbSqlCommand;
+                SqlDataAdapter dbSqlAdapter;
+                dbSqlCommand = new SqlCommand();
+                dbSqlCommand.Connection = dbSqlconnection;
+                dbSqlCommand.CommandType = CommandType.StoredProcedure;
+                dbSqlCommand.CommandTimeout = 6000;
+                dbSqlCommand.CommandText = "SP_GetEncashment";
+                dbSqlCommand.Parameters.Add("@year", SqlDbType.VarChar).Value = year;
+                dbSqlCommand.Parameters.Add("@branchId", SqlDbType.VarChar).Value = branchId;
+                dbSqlCommand.Parameters.Add("@empId", SqlDbType.VarChar).Value = employeeId;
+                dbSqlDataTable = new DataTable();
+                DataSet ds = new DataSet();
+                dbSqlAdapter = new SqlDataAdapter(dbSqlCommand);
+                if (dbSqlconnection.State == ConnectionState.Closed)
+                    dbSqlconnection.Open();
+                dbSqlAdapter.Fill(dbSqlDataTable);
+                dbSqlconnection.Close();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                dbSqlconnection.Close();
+            }
+            return dbSqlDataTable;
+        }
+
+        public bool UpdateEncashmentTDS(List<UpdatedTDSYearly> model)
+        {
+            bool flag = false;
+            try
+            {
+                foreach (var item in model)
+                {
+                    var empTDS = db.UpdatedTDSYearly.Where(x => x.EmployeeId == item.EmployeeId && x.TDSYear == item.TDSYear).FirstOrDefault();
+                    if (empTDS != null)
+                    {
+                        empTDS.TDS = item.TDS;
+                    }
+                    else
+                    {
+                        db.UpdatedTDSYearly.Add(item);
+                    }
+                }
+                db.SaveChanges();
+                flag = true;
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return flag;
         }
     }
 }

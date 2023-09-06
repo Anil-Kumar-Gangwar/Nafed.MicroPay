@@ -4075,6 +4075,7 @@
     <Content Include="Views\ChildrenEducationAllowance\_ChildrenEducationGridView.cshtml" />
     <Content Include="Views\ChildrenEducationAllowance\_ChildrenEducationForm.cshtml" />
     <Content Include="Views\ChildrenEducationAllowance\_Filters.cshtml" />
+    <Content Include="Views\EmployeeLeave\_EncashmentGridView.cshtml" />
     <None Include="Views\TaxDeduction\_DocumentList.cshtml" />
     <Content Include="Views\TransferApproval\Index.cshtml" />
     <Content Include="Views\TransferApproval\_TransferEmployeeDetails.cshtml" />

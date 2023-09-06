@@ -201,6 +201,7 @@
     <Compile Include="JobsDtl.cs" />
     <Compile Include="LastIncrementMonth.cs" />
     <Compile Include="LeaveAccruedDetails.cs" />
+    <Compile Include="LeaveEncashment.cs" />
     <Compile Include="LeaveBalanceAsOfNow.cs" />
     <Compile Include="LeaveCategory.cs" />
     <Compile Include="LeaveCreditRule.cs" />

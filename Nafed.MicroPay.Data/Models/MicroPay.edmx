@@ -5424,6 +5424,17 @@ warning 6002: The table/view 'HRMS.dbo.TrainingFeedbackFormat' does not have a p
           <Property Name="UpdateBy" Type="int" />
           <Property Name="UpdateOn" Type="datetime" />
         </EntityType>
+        <EntityType Name="UpdatedTDSYearly">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EmployeeId" Type="int" Nullable="false" />
+          <Property Name="TDSYear" Type="int" Nullable="false" />
+          <Property Name="TDS" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="CreatedOn" Type="datetime" Nullable="false" />
+          <Property Name="CreatedBy" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="User">
           <Key>
             <PropertyRef Name="UserID" />
@@ -6134,6 +6145,18 @@ warning 6002: The table/view 'HRMS.dbo.TrainingFeedbackFormat' does not have a p
             </Principal>
             <Dependent Role="tblPFOpBalance">
               <PropertyRef Name="UpdatedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__UpdatedTD__Emplo__73079A1A">
+          <End Role="tblMstEmployee" Type="Self.tblMstEmployee" Multiplicity="1" />
+          <End Role="UpdatedTDSYearly" Type="Self.UpdatedTDSYearly" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblMstEmployee">
+              <PropertyRef Name="EmployeeId" />
+            </Principal>
+            <Dependent Role="UpdatedTDSYearly">
+              <PropertyRef Name="EmployeeId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -14200,6 +14223,7 @@ warning 6002: The table/view 'HRMS.dbo.TrainingFeedbackFormat' does not have a p
           <EntitySet Name="TrainingParticipants" EntityType="Self.TrainingParticipants" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TrainingPrerequisite" EntityType="Self.TrainingPrerequisite" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TrainingTopic" EntityType="Self.TrainingTopic" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UpdatedTDSYearly" EntityType="Self.UpdatedTDSYearly" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserLoginDetails" EntityType="Self.UserLoginDetails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserRights" EntityType="Self.UserRights" Schema="dbo" store:Type="Tables" />
@@ -14532,6 +14556,10 @@ warning 6002: The table/view 'HRMS.dbo.TrainingFeedbackFormat' does not have a p
           <AssociationSet Name="FK__tblPFOpBa__Updat__39A43435" Association="Self.FK__tblPFOpBa__Updat__39A43435">
             <End Role="User" EntitySet="User" />
             <End Role="tblPFOpBalance" EntitySet="tblPFOpBalance" />
+          </AssociationSet>
+          <AssociationSet Name="FK__UpdatedTD__Emplo__73079A1A" Association="Self.FK__UpdatedTD__Emplo__73079A1A">
+            <End Role="tblMstEmployee" EntitySet="tblMstEmployee" />
+            <End Role="UpdatedTDSYearly" EntitySet="UpdatedTDSYearly" />
           </AssociationSet>
           <AssociationSet Name="FK_AcadmicProfessionalDetails_CreatedBy" Association="Self.FK_AcadmicProfessionalDetails_CreatedBy">
             <End Role="User" EntitySet="User" />
@@ -20437,6 +20465,11 @@ warning 6002: The table/view 'HRMS.dbo.TrainingFeedbackFormat' does not have a p
           <AssociationSet Name="FK_MailFailedLog_User" Association="MicroPayModel.FK_MailFailedLog_User">
             <End Role="User" EntitySet="Users" />
             <End Role="MailFailedLog" EntitySet="MailFailedLog" />
+          </AssociationSet>
+          <EntitySet Name="UpdatedTDSYearly" EntityType="MicroPayModel.UpdatedTDSYearly" />
+          <AssociationSet Name="FK__UpdatedTD__Emplo__73079A1A" Association="MicroPayModel.FK__UpdatedTD__Emplo__73079A1A">
+            <End Role="tblMstEmployee" EntitySet="tblMstEmployees" />
+            <End Role="UpdatedTDSYearly" EntitySet="UpdatedTDSYearly" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="AcadmicProfessionalDetail">
@@ -28637,6 +28670,7 @@ warning 6002: The table/view 'HRMS.dbo.TrainingFeedbackFormat' does not have a p
           <NavigationProperty Name="FileWorkflow1" Relationship="MicroPayModel.FK_FileWorkflow_tblMstEmployee1" FromRole="tblMstEmployee" ToRole="FileWorkflow" />
           <NavigationProperty Name="NREmployeesContractExtention" Relationship="MicroPayModel.FK_NREmployeesContractExtention_NREmployeesContractExtention" FromRole="tblMstEmployee" ToRole="NREmployeesContractExtention" />
           <NavigationProperty Name="MailFailedLog" Relationship="MicroPayModel.FK_MailFailedLog_tblMstEmployee" FromRole="tblMstEmployee" ToRole="MailFailedLog" />
+          <NavigationProperty Name="UpdatedTDSYearly" Relationship="MicroPayModel.FK__UpdatedTD__Emplo__73079A1A" FromRole="tblMstEmployee" ToRole="UpdatedTDSYearly" />
           </EntityType>
         <EntityType Name="tblmstprojectedemployee">
           <Key>
@@ -37293,6 +37327,30 @@ warning 6002: The table/view 'HRMS.dbo.TrainingFeedbackFormat' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="UpdatedTDSYearly">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="EmployeeId" Type="Int32" Nullable="false" />
+          <Property Name="TDSYear" Type="Int32" Nullable="false" />
+          <Property Name="TDS" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreatedBy" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="tblMstEmployee" Relationship="MicroPayModel.FK__UpdatedTD__Emplo__73079A1A" FromRole="UpdatedTDSYearly" ToRole="tblMstEmployee" />
+        </EntityType>
+        <Association Name="FK__UpdatedTD__Emplo__73079A1A">
+          <End Type="MicroPayModel.tblMstEmployee" Role="tblMstEmployee" Multiplicity="1" />
+          <End Type="MicroPayModel.UpdatedTDSYearly" Role="UpdatedTDSYearly" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblMstEmployee">
+              <PropertyRef Name="EmployeeId" />
+            </Principal>
+            <Dependent Role="UpdatedTDSYearly">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -44829,6 +44887,18 @@ warning 6002: The table/view 'HRMS.dbo.TrainingFeedbackFormat' does not have a p
                 <ScalarProperty Name="BranchId" ColumnName="BranchId" />
                 <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UpdatedTDSYearly">
+            <EntityTypeMapping TypeName="MicroPayModel.UpdatedTDSYearly">
+              <MappingFragment StoreEntitySet="UpdatedTDSYearly">
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="TDS" ColumnName="TDS" />
+                <ScalarProperty Name="TDSYear" ColumnName="TDSYear" />
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

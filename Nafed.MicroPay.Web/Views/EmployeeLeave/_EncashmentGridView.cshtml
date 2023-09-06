@@ -1,0 +1,124 @@
+﻿@model List<Nafed.MicroPay.Model.LeaveEncashment>
+@using Nafed.MicroPay.Common;
+@{
+    var DAPerc = (Model != null && Model.Count > 0) ? "DA @ " + Model.First().DAPercentage + "%" : "DA @ 0%";
+
+}
+@*@using (Ajax.BeginForm("UpdateEncashmentTDS", "EmployeeLeave", new AjaxOptions { HttpMethod = "POST", OnSuccess = "OnTDSUpdate" }, new { id = "frmUpdateTDS" }))
+    {*@
+<table id="tblGrid" class="table table-centered table-striped dt-responsive w-100">
+    <thead>
+        <tr>
+            <th width="5%">
+                S.No.
+            </th>
+            <th width="5%">
+                Employee Code
+            </th>
+            <th width="10%">
+                Name
+            </th>
+            <th width="10%">
+                Branch
+            </th>
+            <th width="6%">
+                EL as on date
+            </th>
+            <th width="5%">
+                No. of days
+            </th>
+            <th width="5%">
+                Balance EL
+            </th>
+            <th width="6%">
+                Basic for one month
+            </th>
+            <th width="5%">
+                Basic
+            </th>
+            <th width="5%">
+                @DAPerc
+            </th>
+            <th width="6%">
+                Gross Amount
+            </th>
+            <th width="5%">
+                TDS
+            </th>
+            <th width="7%">
+                Net Amount
+            </th>
+            <th width="5%">
+                Order No.
+            </th>
+            <th width="5%">
+                Order Date
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            int index = 1;
+            if (Model != null && Model.Count > 0)
+            {
+                for (int i = 0; i < Model.Count; i++)
+                {
+
+                    <tr>
+                        <td width="5%">@index</td>
+                        <td width="5%">@Model[i].EmployeeCode</td>
+                        <td width="10%">@Model[i].EmployeeName</td>
+                        <td width="10%">@Model[i].Branch</td>
+                        <td width="5%" class="text-center">@Model[i].ELBalAsofnow</td>
+                        <td width="5%" class="text-center">@Model[i].NoofDays.ToString("0")</td>
+                        <td width="5%" class="text-center">@Model[i].ELBal</td>
+                        <td width="5%" class="text-right">@Model[i].BasicForMonth.ToString("0.00")</td>
+                        <td width="5%" class="text-right">@Model[i].Basic.ToString("0.00")</td>
+                        <td width="5%" class="text-right">@Model[i].DA.ToString("0.00")</td>
+                        <td width="5%" class="text-right">@Model[i].GrossAmount.ToString("0.00")</td>
+                        @Html.HiddenFor(model => Model[i].EmployeeCode)
+                        @Html.HiddenFor(model => Model[i].EmployeeName)
+                        @Html.HiddenFor(model => Model[i].Branch)
+                        @Html.HiddenFor(model => Model[i].NoofDays)
+                        @Html.HiddenFor(model => Model[i].ELBal)
+                        @Html.HiddenFor(model => Model[i].BasicForMonth)
+                        @Html.HiddenFor(model => Model[i].Basic)
+                        @Html.HiddenFor(model => Model[i].DA)
+                        @Html.HiddenFor(model => Model[i].GrossAmount)
+                        @Html.HiddenFor(model => Model[i].EmployeeId, new { Name = "empId" })
+                        @Html.HiddenFor(model => Model[i].TDSYear, new { Name = "tDSYear" })
+                        <td width="5%" class="text-right">
+                            @Html.TextBoxFor(model => Model[i].TDS, htmlAttributes: new { @class = "from-control text-right call-tds", @type = "number", @step = "0.01", @max = "9999999", @onblur = "calNetValue(this,'" + i + "','" + Model[i].GrossAmount + "')" })
+                        </td>
+                        <td width="5%" class="text-right" id="tdsnet_@i">@((Convert.ToDecimal(Model[i].GrossAmount) - Model[i].TDS ?? 0).ToString("0.00"))</td>
+                        <td width="5%">@Model[i].OrderNo</td>
+                        <td width="5%">@Model[i].OrderDate</td>
+
+
+                    </tr>
+                    index++;
+                }
+            }
+
+        }
+    </tbody>
+</table>
+
+
+
+@*}*@
+
+<script>
+    ///==== Adding jquery datatable reference to all master grid ====
+    var table = $('#tblGrid').DataTable({
+    });
+    $('#tblGrid_length').find('select').addClass('custom-select');
+    //========= End==================================================
+    function calNetValue(cntrl, indx, grossAmt) {
+        var tds = parseInt(cntrl.value);
+        var gsrAmnt = parseInt(grossAmt);
+        let netAmt = (gsrAmnt + tds).toFixed(2);
+        $("#tdsnet_" + indx).html(netAmt);
+
+    }
+</script>

@@ -38,5 +38,7 @@ namespace Nafed.MicroPay.Services.IServices
 
         List<EmployeeLeave> GetLeaveEncashForF_A(DateTime fromDate, DateTime toDate);
         bool ExportLeaveEncashForF_A(DataTable dtTable, string sFullPath, string fileName, string tFilter);
+        List<Model.LeaveEncashment> GetLeaveEncashment(CommonFilter cFilter);
+        bool UpdateEncashmentTDS(List<Model.LeaveEncashment> model, int userId);
     }
 }

@@ -2,23 +2,70 @@
     ViewBag.Title = "Leave Encashment Report";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<div>
-
-    @using (Ajax.BeginForm("_ExportEncashmentReport", "EmployeeLeave", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "dv-filter-Section", OnSuccess = "OnSuccess" }, new { defaultbutton = "submitform" }))
-    {
-        <div id="dv-filter-Section">
-            @{
-                Html.RenderAction("_GetEncashmentFilters", "EmployeeLeave");
+@using (Ajax.BeginForm("_EncashmentReport", "EmployeeLeave", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "div-result-body", OnSuccess = "OnSuccess" }, new { defaultbutton = "submitform" }))
+{
+    <div id="dv-filter-Section">
+        @{
+            Html.RenderAction("_GetEncashmentFilters", "EmployeeLeave");
+        }
+    </div>
             }
-
-        </div>
- }
+<div class="card_new_body">
+    <div id="div-result-body" @*style="max-height:calc(100vh - 250px);overflow-x:hidden"*@>
+    </div>
 </div>
 <script type="text/javascript">
+    $("#btnUpdateTDS").on('click', function () {
+        debugger;
+        var model = [];
+        var oTable = $('#tblGrid').dataTable();
+        var rowcollection = oTable.$(".call-tds", { "page": "all" });
 
-    function OnSuccess(data) {
-        if (data.message == "error")
-            $("#dv-filter-Section").html(data.htmlData);
+        var checkedCount = rowcollection.length
+        if (checkedCount > 0) {
+            rowcollection.each(function (index, elem) {
+                var tdsVal = parseInt($(elem).val());
+                if (tdsVal > 0) {
+                    var employeeId = $(this).closest("tr").find("input[name='empId']").val();
+                    var tdsYear = $(this).closest("tr").find("input[name='tDSYear']").val();
+                    var LeaveEncashment = {
+                        EmployeeId: employeeId,
+                        TDS: tdsVal,
+                        TDSYear: tdsYear,
+                    };
+                    model.push(LeaveEncashment);
+                }
+
+            });
+
+            $.ajax({
+                url: "@Url.Action("UpdateEncashmentTDS", "EmployeeLeave")",
+                type: "POST",
+                contentType: "application/json",
+                processData: false, // Not to process data
+                data: JSON.stringify(model),
+                success: function (response) {
+                    if (response.status)
+                        commonMessage('success', response.message);
+                    else {
+                        $("#div-result-body").html(response.htmlData);
+                    }
+                }
+            });
+        }
+        else {
+            commonMessage("error", "No record(s) found to update.");
+            return false;
+        }
+
+    });
+
+
+    function OnSuccess(response) {
+        if (response.message == 'error')
+            $("#dv-filter-Section").html(response.htmlData);
+        else {
+            $("#btnUpdateTDS, #btnExport").removeClass('d-none');
+        }
     }
 </script>
