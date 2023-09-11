@@ -493,6 +493,7 @@ namespace Nafed.MicroPay.Data.Repositories
                 SqlDataAdapter dbSqlAdapter;
                 dbSqlCommand = new SqlCommand();
                 dbSqlCommand.Connection = dbSqlconnection;
+                dbSqlCommand.CommandTimeout = 6000;
                 dbSqlCommand.CommandType = CommandType.StoredProcedure;
                 dbSqlCommand.CommandText = "GetEmployeeLeaveBalanceAsOfNowDetails";
                 dbSqlCommand.Parameters.Add("@EmpCode", SqlDbType.VarChar).Value = employeecode;

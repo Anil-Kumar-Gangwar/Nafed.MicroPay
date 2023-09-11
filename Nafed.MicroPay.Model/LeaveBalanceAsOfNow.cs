@@ -24,6 +24,7 @@ namespace Nafed.MicroPay.Model
         [DisplayName("Medical Extra :")]
         public Nullable<double> MLExtraBal { get; set; }
         public string LeaveYear { get; set; }
+        public int EmployeeId { get; set; }
 
     }
 }

@@ -807,7 +807,7 @@ namespace Nafed.MicroPay.Services
             {
                 try
                 {
-                    obj.WorkingArea = (int)WorkingArea.SalaryApproval;
+                    obj.WorkingArea = 1; /*(int)Common.WorkingArea.SalaryApproval*/;
                     obj.EmployeeId = employee.EmployeeId;
                     obj.BranchId = employee.BranchID;
                     obj.EmployeeTypeId = employee.EmployeeTypeID;

@@ -20,7 +20,6 @@ namespace Nafed.MicroPay.Data.Repositories
         
         public void Dispose()
         {
-
         }
     }
     /// <summary>
@@ -29,6 +28,7 @@ namespace Nafed.MicroPay.Data.Repositories
     public class AnonymousSelectList
     {
         public int id { set; get; }
+
         public string value { set; get; }
     }
 }
