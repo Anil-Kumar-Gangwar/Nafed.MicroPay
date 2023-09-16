@@ -36,5 +36,6 @@ namespace Nafed.MicroPay.Data.Repositories.IRepositories
 
         DataTable GetArrearReport(dynamic rFilter);
       void UpdateDateBranch_Pay(int salMonth, int salYear);
+        bool UPdateOrderNumberDate(string DOG, string orderNumber, DateTime? orderDate);
     }
 }

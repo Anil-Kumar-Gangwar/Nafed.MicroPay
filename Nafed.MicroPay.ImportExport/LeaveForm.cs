@@ -397,8 +397,9 @@ namespace Nafed.MicroPay.ImportExport
                     firstCell.CellStyle = workbook.CreateCellStyle();
                     firstCell.SetCellValue(tFilter);
                     firstCell.CellStyle.SetFont(scFont);
-                    sheet.AddMergedRegion(new CellRangeAddress(1, 1, 0, 14));                  
-                    
+                    firstCell.CellStyle.Alignment = HorizontalAlignment.Center;
+                    sheet.AddMergedRegion(new CellRangeAddress(1, 1, 0, 14));
+
                     XSSFRow secondrow = CreateRow(sheet, 2);
                     ICell secondcell = secondrow.CreateCell(0);
                     secondcell.CellStyle = workbook.CreateCellStyle();
@@ -425,22 +426,18 @@ namespace Nafed.MicroPay.ImportExport
                         cell.CellStyle.Alignment = HorizontalAlignment.Center;
                         cell.CellStyle.VerticalAlignment = VerticalAlignment.Center;
                         headerRow.Height = 500;
-                        if (hdr == "Name")
-                        {
-                            sheet.SetColumnWidth(hdrColIndex, 10000);
-                            cell.CellStyle.WrapText = true;
-                        }
-                        else if (hdr == "S.No.")
-                            sheet.AutoSizeColumn(hdrColIndex);
+                        if(hdr.Equals("Basic") || hdr.Equals("TDS"))
+                        sheet.SetColumnWidth(hdrColIndex, 5000);
                         else
-                            sheet.SetColumnWidth(hdrColIndex, 5000);
-
+                            sheet.AutoSizeColumn(hdrColIndex);
+                        cell.CellStyle.WrapText = true;
                         hdrColIndex++;
                     }
-
+                    int lastOrdinal = rowData.Columns.Count - 2; // 
+                    int rowCount = 4 + rowData.Rows.Count;
+                    double basic = 0, da = 0, gross = 0, dalatest = 0, grossleatest = 0, diff = 0, tds = 0, net = 0;
                     foreach (DataColumn column in rowData.Columns)
                     {
-
                         int rowIndex = 4;
                         foreach (DataRow row in rowData.Rows)
                         {
@@ -456,12 +453,47 @@ namespace Nafed.MicroPay.ImportExport
                             Cell.CellStyle.BorderLeft = BorderStyle.Thin;
                             Cell.CellStyle.BorderRight = BorderStyle.Thin;
                             Cell.CellStyle.BorderBottom = BorderStyle.Thin;
-                            if (column.Ordinal > 3 && column.Ordinal<13)
+                            if (column.Ordinal > 3 && column.Ordinal < lastOrdinal)
                             {
                                 Cell.CellStyle.Alignment = HorizontalAlignment.Right;
                                 if (row[column].ToString() != "")
                                     Cell.SetCellValue(Convert.ToDouble(row[column].ToString()));
                                 Cell.CellStyle.DataFormat = workbook.CreateDataFormat().GetFormat("#,##0.00");
+                                #region Sum of all amount columns
+                                switch (column.Ordinal)
+                                {
+                                    case 8:
+                                        {
+                                            if (row[column].ToString() != "")
+                                                basic += Convert.ToDouble(row[column].ToString());
+                                            break;
+                                        }
+                                    case 9:
+                                        {
+                                            if (row[column].ToString() != "")
+                                                da += Convert.ToDouble(row[column].ToString());
+                                            break;
+                                        }
+                                    case 10:
+                                        {
+                                            if (row[column].ToString() != "")
+                                                gross += Convert.ToDouble(row[column].ToString());
+                                            break;
+                                        }
+                                    case 11:
+                                        {
+                                            if (row[column].ToString() != "")
+                                                tds += Convert.ToDouble(row[column].ToString());
+                                            break;
+                                        }
+                                    case 12:
+                                        {
+                                            if (row[column].ToString() != "")
+                                                net += Convert.ToDouble(row[column].ToString());
+                                            break;
+                                        }
+                                }
+                                #endregion
                             }
                             else
                                 Cell.SetCellValue(row[column].ToString());
@@ -470,6 +502,283 @@ namespace Nafed.MicroPay.ImportExport
                         }
                     }
 
+                    XSSFRow totalRow = CreateRow(sheet, rowData.Rows.Count + 4);
+                    ICell Celltotal = totalRow.CreateCell(2);
+                    Celltotal.CellStyle = workbook.CreateCellStyle();
+                    Celltotal.CellStyle.Alignment = HorizontalAlignment.Left;
+                    Celltotal.SetCellValue("TOTAL");
+                    Celltotal.CellStyle.SetFont(hFont);
+
+                    ICell Cellbasic = totalRow.CreateCell(8);
+                    Cellbasic.CellStyle = workbook.CreateCellStyle();
+                    Cellbasic.CellStyle.Alignment = HorizontalAlignment.Right;
+                    Cellbasic.SetCellValue(basic);
+                    Cellbasic.CellStyle.DataFormat = workbook.CreateDataFormat().GetFormat("#,##0.00");
+                    Cellbasic.CellStyle.SetFont(hFont);
+
+                    ICell Cellda = totalRow.CreateCell(9);
+                    Cellda.CellStyle = workbook.CreateCellStyle();
+                    Cellda.CellStyle.Alignment = HorizontalAlignment.Right;
+                    Cellda.SetCellValue(da);
+                    Cellda.CellStyle.DataFormat = workbook.CreateDataFormat().GetFormat("#,##0.00");
+                    Cellda.CellStyle.SetFont(hFont);                  
+
+                    ICell Cellgross = totalRow.CreateCell(10);
+                    Cellgross.CellStyle = workbook.CreateCellStyle();
+                    Cellgross.CellStyle.Alignment = HorizontalAlignment.Right;
+                    Cellgross.SetCellValue(gross);
+                    Cellgross.CellStyle.DataFormat = workbook.CreateDataFormat().GetFormat("#,##0.00");
+                    Cellgross.CellStyle.SetFont(hFont);
+
+                    ICell Celltds = totalRow.CreateCell(11);
+                    Celltds.CellStyle = workbook.CreateCellStyle();
+                    Celltds.CellStyle.Alignment = HorizontalAlignment.Right;
+                    Celltds.SetCellValue(tds);
+                    Celltds.CellStyle.DataFormat = workbook.CreateDataFormat().GetFormat("#,##0.00");
+                    Celltds.CellStyle.SetFont(hFont);
+
+                    ICell Cellnet = totalRow.CreateCell(12);
+                    Cellnet.CellStyle = workbook.CreateCellStyle();
+                    Cellnet.CellStyle.Alignment = HorizontalAlignment.Right;
+                    Cellnet.SetCellValue(net);
+                    Cellnet.CellStyle.DataFormat = workbook.CreateDataFormat().GetFormat("#,##0.00");
+                    Cellnet.CellStyle.SetFont(hFont);
+                
+                workbook.Write(file);
+                return "success";
+            }
+            }
+            catch (Exception ex)
+            {
+                log.Error("Message-" + ex.Message + " StackTrace-" + ex.StackTrace + " DatetimeStamp-" + DateTime.Now);
+                return "fail - " + ex.Message;
+            }
+}
+
+        public static string ExportToExcelDALeaveEncashment(IEnumerable<string> headers, DataTable rowData, string sSheetName, string sFullPath, string tFilter)
+        {
+            log.Info("LeaveForm/ExportToExcelDALeaveEncashment");
+
+            try
+            {
+                XSSFWorkbook workbook = CreateWookBook();
+                using (var file = new FileStream(sFullPath, FileMode.Create, FileAccess.ReadWrite))
+                {
+                    XSSFSheet sheet = (XSSFSheet)workbook.CreateSheet(sSheetName);
+                    XSSFRow dataRow;
+
+                    XSSFFont scFont = CreateFont(workbook);
+                    scFont.FontHeightInPoints = 12;
+                    scFont.FontName = "Calibri";
+                    scFont.Boldweight = (short)NPOI.SS.UserModel.FontBoldWeight.Bold;
+
+                    XSSFFont titleFont = CreateFont(workbook);
+                    titleFont.FontHeightInPoints = 14;
+                    titleFont.FontName = "Calibri";
+                    titleFont.Boldweight = (short)NPOI.SS.UserModel.FontBoldWeight.Bold;
+
+                    XSSFRow titlerow = CreateRow(sheet, 0);
+                    ICell titlecell = titlerow.CreateCell(0);
+                    titlecell.CellStyle = workbook.CreateCellStyle();
+                    titlecell.CellStyle.SetFont(titleFont);
+                    titlecell.CellStyle.WrapText = true;
+                    titlerow.Height = 1000;
+                    titlecell.CellStyle.Alignment = HorizontalAlignment.Center;
+                    titlecell.CellStyle.VerticalAlignment = VerticalAlignment.Center;
+                    titlecell.SetCellValue("National Agricultural Cooperative Marketing Federation of India Ltd.\n Nafed House, Sidhartha Enclave, Ashram Chowk, Ring Road, \nNew Delhi - 110014");
+                    sheet.AddMergedRegion(new CellRangeAddress(0, 0, 0, 14));
+
+                    XSSFRow firstRow = CreateRow(sheet, 1);
+                    ICell firstCell = firstRow.CreateCell(0);
+                    firstCell.CellStyle = workbook.CreateCellStyle();
+                    firstCell.SetCellValue(tFilter);
+                    firstCell.CellStyle.SetFont(scFont);
+                    firstCell.CellStyle.Alignment = HorizontalAlignment.Center;
+                    sheet.AddMergedRegion(new CellRangeAddress(1, 1, 0, 14));
+
+                    XSSFRow secondrow = CreateRow(sheet, 2);
+                    ICell secondcell = secondrow.CreateCell(0);
+                    secondcell.CellStyle = workbook.CreateCellStyle();
+                    secondcell.SetCellValue("");
+                    sheet.AddMergedRegion(new CellRangeAddress(2, 2, 0, 14));
+
+                    XSSFRow headerRow = CreateRow(sheet, 3);
+                    // Writing Header Row
+                    XSSFFont hFont = CreateFont(workbook);
+                    hFont.FontHeightInPoints = 12;
+                    hFont.FontName = "Calibri";
+                    hFont.Boldweight = (short)NPOI.SS.UserModel.FontBoldWeight.Bold;
+                    int hdrColIndex = 0;
+                    foreach (var hdr in headers)
+                    {
+                        var cell = headerRow.CreateCell(hdrColIndex);
+                        cell.SetCellValue(hdr);
+                        cell.CellStyle = workbook.CreateCellStyle();
+                        cell.CellStyle.BorderTop = BorderStyle.Thin;
+                        cell.CellStyle.BorderLeft = BorderStyle.Thin;
+                        cell.CellStyle.BorderRight = BorderStyle.Thin;
+                        cell.CellStyle.BorderBottom = BorderStyle.Thin;
+                        cell.CellStyle.SetFont(hFont);
+                        cell.CellStyle.Alignment = HorizontalAlignment.Center;
+                        cell.CellStyle.VerticalAlignment = VerticalAlignment.Center;
+                        headerRow.Height = 500;
+                        if (hdr.Equals("Basic") || hdr.Equals("TDS"))
+                            sheet.SetColumnWidth(hdrColIndex, 5000);
+                        else
+                            sheet.AutoSizeColumn(hdrColIndex);
+                        cell.CellStyle.WrapText = true;
+                        hdrColIndex++;
+                    }
+                    int lastOrdinal = rowData.Columns.Count - 2; // 
+                    int rowCount = 4 + rowData.Rows.Count;
+                    double basic = 0, da = 0, gross = 0, dalatest = 0, grossleatest = 0, diff = 0, tds = 0, net = 0;
+                    foreach (DataColumn column in rowData.Columns)
+                    {
+                        int rowIndex = 4;
+                        foreach (DataRow row in rowData.Rows)
+                        {
+                            if (column.Ordinal == 0)
+                                dataRow = (XSSFRow)sheet.CreateRow(rowIndex);
+                            else
+                                dataRow = (XSSFRow)sheet.GetRow(rowIndex);
+
+
+                            ICell Cell = dataRow.CreateCell(column.Ordinal);
+                            Cell.CellStyle = workbook.CreateCellStyle();
+                            Cell.CellStyle.BorderTop = BorderStyle.Thin;
+                            Cell.CellStyle.BorderLeft = BorderStyle.Thin;
+                            Cell.CellStyle.BorderRight = BorderStyle.Thin;
+                            Cell.CellStyle.BorderBottom = BorderStyle.Thin;
+                            if (column.Ordinal > 3 && column.Ordinal < lastOrdinal)
+                            {
+                                Cell.CellStyle.Alignment = HorizontalAlignment.Right;
+                                if (row[column].ToString() != "")
+                                    Cell.SetCellValue(Convert.ToDouble(row[column].ToString()));
+                                Cell.CellStyle.DataFormat = workbook.CreateDataFormat().GetFormat("#,##0.00");
+                                #region Sum of all amount columns
+                                switch (column.Ordinal)
+                                {
+                                    case 8:
+                                        {
+                                            if (row[column].ToString() != "")
+                                                basic += Convert.ToDouble(row[column].ToString());
+                                            break;
+                                        }
+                                    case 9:
+                                        {
+                                            if (row[column].ToString() != "")
+                                                da += Convert.ToDouble(row[column].ToString());
+                                            break;
+                                        }
+                                    case 10:
+                                        {
+                                            if (row[column].ToString() != "")
+                                                gross += Convert.ToDouble(row[column].ToString());
+                                            break;
+                                        }
+                                    case 11:
+                                        {
+                                            if (row[column].ToString() != "")
+                                                dalatest += Convert.ToDouble(row[column].ToString());
+                                            break;
+                                        }
+                                    case 12:
+                                        {
+                                            if (row[column].ToString() != "")
+                                                grossleatest += Convert.ToDouble(row[column].ToString());
+                                            break;
+                                        }
+                                    case 13:
+                                        {
+                                            if (row[column].ToString() != "")
+                                                diff += Convert.ToDouble(row[column].ToString());
+                                            break;
+                                        }
+                                    case 14:
+                                        {
+                                            if (row[column].ToString() != "")
+                                                tds += Convert.ToDouble(row[column].ToString());
+                                            break;
+                                        }
+                                    case 15:
+                                        {
+                                            if (row[column].ToString() != "")
+                                                net += Convert.ToDouble(row[column].ToString());
+                                            break;
+                                        }
+                                }
+                                #endregion
+                            }
+                            else
+                                Cell.SetCellValue(row[column].ToString());
+
+                            rowIndex++;
+                        }
+                    }
+
+                    XSSFRow totalRow = CreateRow(sheet, rowData.Rows.Count + 4);
+                    ICell Celltotal = totalRow.CreateCell(2);
+                    Celltotal.CellStyle = workbook.CreateCellStyle();
+                    Celltotal.CellStyle.Alignment = HorizontalAlignment.Left;
+                    Celltotal.SetCellValue("TOTAL");
+                    Celltotal.CellStyle.SetFont(hFont);
+
+                    ICell Cellbasic = totalRow.CreateCell(8);
+                    Cellbasic.CellStyle = workbook.CreateCellStyle();
+                    Cellbasic.CellStyle.Alignment = HorizontalAlignment.Right;
+                    Cellbasic.SetCellValue(basic);
+                    Cellbasic.CellStyle.DataFormat = workbook.CreateDataFormat().GetFormat("#,##0.00");
+                    Cellbasic.CellStyle.SetFont(hFont);
+
+                    ICell Cellda = totalRow.CreateCell(9);
+                    Cellda.CellStyle = workbook.CreateCellStyle();
+                    Cellda.CellStyle.Alignment = HorizontalAlignment.Right;
+                    Cellda.SetCellValue(da);
+                    Cellda.CellStyle.DataFormat = workbook.CreateDataFormat().GetFormat("#,##0.00");
+                    Cellda.CellStyle.SetFont(hFont);
+
+                    ICell Cellgross = totalRow.CreateCell(10);
+                    Cellgross.CellStyle = workbook.CreateCellStyle();
+                    Cellgross.CellStyle.Alignment = HorizontalAlignment.Right;
+                    Cellgross.SetCellValue(gross);
+                    Cellgross.CellStyle.DataFormat = workbook.CreateDataFormat().GetFormat("#,##0.00");
+                    Cellgross.CellStyle.SetFont(hFont);
+
+                    ICell CelldaLatest = totalRow.CreateCell(11);
+                    CelldaLatest.CellStyle = workbook.CreateCellStyle();
+                    CelldaLatest.CellStyle.Alignment = HorizontalAlignment.Right;
+                    CelldaLatest.SetCellValue(dalatest);
+                    CelldaLatest.CellStyle.DataFormat = workbook.CreateDataFormat().GetFormat("#,##0.00");
+                    CelldaLatest.CellStyle.SetFont(hFont);
+
+                    ICell CellgrossLatest = totalRow.CreateCell(12);
+                    CellgrossLatest.CellStyle = workbook.CreateCellStyle();
+                    CellgrossLatest.CellStyle.Alignment = HorizontalAlignment.Right;
+                    CellgrossLatest.SetCellValue(grossleatest);
+                    CellgrossLatest.CellStyle.DataFormat = workbook.CreateDataFormat().GetFormat("#,##0.00");
+                    CellgrossLatest.CellStyle.SetFont(hFont);
+
+
+                    ICell Celldiff = totalRow.CreateCell(13);
+                    Celldiff.CellStyle = workbook.CreateCellStyle();
+                    Celldiff.CellStyle.Alignment = HorizontalAlignment.Right;
+                    Celldiff.SetCellValue(diff);
+                    Celldiff.CellStyle.DataFormat = workbook.CreateDataFormat().GetFormat("#,##0.00");
+                    Celldiff.CellStyle.SetFont(hFont);
+
+                    ICell Celltds = totalRow.CreateCell(14);
+                    Celltds.CellStyle = workbook.CreateCellStyle();
+                    Celltds.CellStyle.Alignment = HorizontalAlignment.Right;
+                    Celltds.SetCellValue(tds);
+                    Celltds.CellStyle.DataFormat = workbook.CreateDataFormat().GetFormat("#,##0.00");
+                    Celltds.CellStyle.SetFont(hFont);
+
+                    ICell Cellnet = totalRow.CreateCell(15);
+                    Cellnet.CellStyle = workbook.CreateCellStyle();
+                    Cellnet.CellStyle.Alignment = HorizontalAlignment.Right;
+                    Cellnet.SetCellValue(net);
+                    Cellnet.CellStyle.DataFormat = workbook.CreateDataFormat().GetFormat("#,##0.00");
+                    Cellnet.CellStyle.SetFont(hFont);
                     workbook.Write(file);
                     return "success";
                 }

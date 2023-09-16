@@ -522,6 +522,30 @@ namespace Nafed.MicroPay.Data.Repositories
 
         }
 
+
+        public bool UPdateOrderNumberDate(string DOG, string orderNumber, DateTime? orderDate)
+        {
+            try
+            {
+                var arrearList = db.TblArrearDetails.Where(x => x.DateOfGenerate.Equals(DOG)).ToList();
+                if (arrearList.Count > 0)
+                {
+                    foreach (var item in arrearList)
+                    {
+                        item.OrderNo = orderNumber;
+                        item.OrderDate = orderDate;
+                    }
+                    db.SaveChanges();
+                    return true;
+                }
+                return false;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }   
 
 

@@ -178,7 +178,7 @@ public partial class tblMstEmployee
 
         this.MailFailedLog = new HashSet<MailFailedLog>();
 
-        this.UpdatedTDSYearly = new HashSet<UpdatedTDSYearly>();
+        this.LeaveEncashmentDetails = new HashSet<LeaveEncashmentDetails>();
 
     }
 
@@ -845,7 +845,7 @@ public partial class tblMstEmployee
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
 
-    public virtual ICollection<UpdatedTDSYearly> UpdatedTDSYearly { get; set; }
+    public virtual ICollection<LeaveEncashmentDetails> LeaveEncashmentDetails { get; set; }
 
 }
 

@@ -48,14 +48,14 @@ namespace Nafed.MicroPay.Services.Arrear
         #region Calculate DA Arrear
 
         DataSet GetMultipleTableDataResult(string fromYear, string toYear);
-        int CalculateDAArrear(int listcount, int[] empIDs, string ArrearType, int arrPeriods, DataSet searchResult, int BranchID, DateTime fromdate, DateTime todate, int vpfRate, string formula);
+        int CalculateDAArrear(int listcount, int[] empIDs, string ArrearType, int arrPeriods, DataSet searchResult, int BranchID, DateTime fromdate, DateTime todate, int vpfRate, string formula, string orderNumber, DateTime? orderDate);
         SalaryHead GetSalaryHeadFormulaRule(string fieldName);
         List<SelectListModel> getemployeeByBranchID(int branchID, string fromDate, string toDate, string empID);
 
         #endregion
 
         #region Calculate PAY Arrear
-        int CalculatePayArrear(int listcount, DataTable dtPayArrear, string ArrearType, int arrPeriods, DataSet searchResult, int BranchID, DateTime fromdate, DateTime todate, int vpfRate);
+        int CalculatePayArrear(int listcount, DataTable dtPayArrear, string ArrearType, int arrPeriods, DataSet searchResult, int BranchID, DateTime fromdate, DateTime todate, int vpfRate, string orderNumber, DateTime? orderDate);
 
         #endregion
 

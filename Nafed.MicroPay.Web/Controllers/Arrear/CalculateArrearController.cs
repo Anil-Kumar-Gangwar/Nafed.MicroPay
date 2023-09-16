@@ -424,7 +424,7 @@ namespace MicroPay.Web.Controllers.Arrear
                                 string formula = obj.LookUpHeadName;
                                 //string formula = salaryHead.LookUpHeadName;
                                 ArrearType = "DA";
-                                int calarrear = arrearService.CalculateDAArrear(Convert.ToInt32(chklistVM.PostedFields?.fieldIds.Count()), chklistVM.PostedFields.fieldIds, ArrearType, arrPeriods, searchResult, branchID, fromdate, todate, VPFrate, formula);
+                                int calarrear = arrearService.CalculateDAArrear(Convert.ToInt32(chklistVM.PostedFields?.fieldIds.Count()), chklistVM.PostedFields.fieldIds, ArrearType, arrPeriods, searchResult, branchID, fromdate, todate, VPFrate, formula, obj.OrderNumber, obj.OrderDate);
                             }
                         }
                     }
@@ -433,7 +433,7 @@ namespace MicroPay.Web.Controllers.Arrear
                         var importDataList = (List<ArrearManualData>)TempData["manualData"];
                         DataTable DT = arrearService.ImportPayArrearDataDetails(importDataList);
                         ArrearType = "Basic";
-                        int calarrear = arrearService.CalculatePayArrear(Convert.ToInt32(DT.Rows.Count), DT, ArrearType, arrPeriods, searchResult, branchID, fromdate, todate, VPFrate);
+                        int calarrear = arrearService.CalculatePayArrear(Convert.ToInt32(DT.Rows.Count), DT, ArrearType, arrPeriods, searchResult, branchID, fromdate, todate, VPFrate, obj.OrderNumber, obj.OrderDate);
                     }
                 }
 

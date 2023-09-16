@@ -15,7 +15,7 @@ namespace Nafed.MicroPay.Data.Models
 using System;
     using System.Collections.Generic;
     
-public partial class UpdatedTDSYearly
+public partial class LeaveEncashmentDetails
 {
 
     public int ID { get; set; }
@@ -29,6 +29,12 @@ public partial class UpdatedTDSYearly
     public System.DateTime CreatedOn { get; set; }
 
     public int CreatedBy { get; set; }
+
+    public Nullable<decimal> GrossAmt { get; set; }
+
+    public Nullable<decimal> NetAmt { get; set; }
+
+    public string RecordType { get; set; }
 
 
 

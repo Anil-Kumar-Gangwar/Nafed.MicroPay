@@ -595,6 +595,9 @@
     <Compile Include="Models\LeaveCreditRule.cs">
       <DependentUpon>MicroPay.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\LeaveEncashmentDetails.cs">
+      <DependentUpon>MicroPay.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\LeavePurpose.cs">
       <DependentUpon>MicroPay.tt</DependentUpon>
     </Compile>
@@ -947,9 +950,6 @@
       <DependentUpon>MicroPay.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\TrainingTopic.cs">
-      <DependentUpon>MicroPay.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\UpdatedTDSYearly.cs">
       <DependentUpon>MicroPay.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\User.cs">

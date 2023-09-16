@@ -924,8 +924,8 @@
         <AssociationConnector Association="MicroPayModel.FK_MailFailedLog_EmployeeType" />
         <AssociationConnector Association="MicroPayModel.FK_MailFailedLog_tblMstEmployee" />
         <AssociationConnector Association="MicroPayModel.FK_MailFailedLog_User" />
-        <EntityTypeShape EntityType="MicroPayModel.UpdatedTDSYearly" Width="1.5" PointX="18" PointY="86.625" />
-        <AssociationConnector Association="MicroPayModel.FK__UpdatedTD__Emplo__73079A1A" />
+        <EntityTypeShape EntityType="MicroPayModel.LeaveEncashmentDetails" Width="1.5" PointX="18" PointY="82.5" />
+        <AssociationConnector Association="MicroPayModel.FK__UpdatedTD__Emplo__73079A1A1" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

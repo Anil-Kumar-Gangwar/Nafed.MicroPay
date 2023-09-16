@@ -54,7 +54,7 @@
 
                                 </div>
 
-                                <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+                                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
                                     @Html.RadioButton("arrearType", 2, new
                                {
                                    id = "rbtn_1",
@@ -75,7 +75,21 @@
                                     @Html.Editor("ToDate", new { htmlAttributes = new { required = "required", @class = "form-control ", @placeholder = "To Date", @type = "date", @id = "lbltodate" } })
                                 </div>
                             </div>
-                            <div class="row mb-3">
+                            <div class="row mb-1">
+                                <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+                                    @Html.Label("Order No", htmlAttributes: new { @class = "Control-label required" })
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                    @Html.TextBoxFor(model=> model.OrderNumber, new {@class = "form-control", required = "required", @maxlength ="150"})
+                                </div>
+                                <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+                                    @Html.Label("Order Date", htmlAttributes: new { @class = "Control-label required" })
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                    @Html.TextBoxFor(model => model.OrderDate,  new { @class = "form-control ", required = "required", @placeholder = "To Date", @type = "date" })
+                                </div>
+                            </div>
+                            <div class="row mb-1">
                                 <div id="DAArrear"  class="col-lg-5 col-md-5 col-sm-12 col-xs-12   p-2 shadow-sm p-3 mb-5 bg-white rounded">
                                     <div class="row p-2 ">
                                         <h6>For DA Arrear</h6>

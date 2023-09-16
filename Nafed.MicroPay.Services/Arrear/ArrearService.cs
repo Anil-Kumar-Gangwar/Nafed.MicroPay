@@ -1054,7 +1054,7 @@ namespace Nafed.MicroPay.Services.Arrear
                 throw;
             }
         }
-        public int CalculateDAArrear(int listcount, int[] empIDs, string ArrearType, int arrPeriods, DataSet searchResult, int BranchID, DateTime fromdate, DateTime todate, int vpfRate, string formula)
+        public int CalculateDAArrear(int listcount, int[] empIDs, string ArrearType, int arrPeriods, DataSet searchResult, int BranchID, DateTime fromdate, DateTime todate, int vpfRate, string formula, string orderNumber, DateTime? orderDate)
         {
             bool ContinueProcess = false;
             int OrgBranchID = BranchID;
@@ -1310,7 +1310,7 @@ namespace Nafed.MicroPay.Services.Arrear
 
                 #region Transfer Data
 
-                int transferdata = TransferData(fromYear, toYear, searchResult, formula);
+                int transferdata = TransferData(fromYear, toYear, searchResult, formula, orderNumber, orderDate);
 
                 #endregion
 
@@ -1559,7 +1559,7 @@ namespace Nafed.MicroPay.Services.Arrear
                 throw ex;
             }
         }
-        public int TransferData(string fromYear, string toYear, DataSet searchResult, string formula)
+        public int TransferData(string fromYear, string toYear, DataSet searchResult, string formula, string orderNumber, DateTime? orderDate)
         {
             int flag = 1;
             double ColValue = 0;
@@ -1676,7 +1676,10 @@ namespace Nafed.MicroPay.Services.Arrear
                     #endregion
                 }
                 int res = arrearRepo.UpdateTblArrearDetail(searchResult.Tables[9]);
-
+                if(res>1)
+                {
+                    arrearRepo.UPdateOrderNumberDate(DOG, orderNumber, orderDate);
+                }
                 return flag;
             }
             catch (Exception ex)
@@ -1849,7 +1852,7 @@ namespace Nafed.MicroPay.Services.Arrear
         #endregion
 
         #region Calculate PAY Arrear
-        public int CalculatePayArrear(int listcount, DataTable dtPayArrear, string ArrearType, int arrPeriods, DataSet searchResult, int BranchID, DateTime fromdate, DateTime todate, int vpfRate)
+        public int CalculatePayArrear(int listcount, DataTable dtPayArrear, string ArrearType, int arrPeriods, DataSet searchResult, int BranchID, DateTime fromdate, DateTime todate, int vpfRate, string orderNumber, DateTime? orderDate)
         {
             bool AllEmployees = false;
             bool ContinueProcess = false, /*colv = false,*/ RND = false, COND = false;
@@ -2233,11 +2236,11 @@ namespace Nafed.MicroPay.Services.Arrear
                     DateTime last_Date = new DateTime(fromdate.Year, fromdate.Month, 1)
                         .AddMonths(1).AddDays(-1);
                     var days = (last_Date - fromdate).TotalDays + 1;
-                    int transferdata = TransferData(fromYear, toYear, searchResult, Convert.ToString(days));
+                    int transferdata = TransferData(fromYear, toYear, searchResult, Convert.ToString(days), orderNumber, orderDate);
                 }
                 else
                 {
-                    int transferdata = TransferData(fromYear, toYear, searchResult, "");
+                    int transferdata = TransferData(fromYear, toYear, searchResult, "", orderNumber,  orderDate);
                 }
 
                 #endregion

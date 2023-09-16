@@ -146,6 +146,11 @@ namespace Nafed.MicroPay.Model
             set; get;
         }
 
+        public string OrderNumber { get; set; }
+        [DataType(DataType.Date, ErrorMessage = "Invalid Date.")]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        public Nullable<System.DateTime> OrderDate { get; set; }
+
     }
 
     public enum FormulaType

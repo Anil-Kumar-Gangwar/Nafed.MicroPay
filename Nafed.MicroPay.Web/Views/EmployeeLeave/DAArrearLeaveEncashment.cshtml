@@ -1,12 +1,12 @@
 ﻿@{
-    ViewBag.Title = "Leave Encashment Report";
+    ViewBag.Title = "DA Arrear Leave Encashment Report";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-@using (Ajax.BeginForm("_EncashmentReport", "EmployeeLeave", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "div-result-body", OnSuccess = "OnSuccess" }, new { defaultbutton = "submitform" }))
+@using (Ajax.BeginForm("_DAArrearEncashmentReport", "EmployeeLeave", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "div-result-body", OnSuccess = "OnSuccess" }, new { defaultbutton = "submitform" }))
 {
     <div id="dv-filter-Section">
         @{
-            Html.RenderAction("_GetEncashmentFilters", "EmployeeLeave");
+            Html.RenderAction("_GetDAArraerEncashmentFilters", "EmployeeLeave");
         }
     </div>
             }
@@ -15,7 +15,7 @@
     </div>
 </div>
 <script type="text/javascript">
-    $("#btnUpdateTDS").on('click', function () {
+        $("#btnUpdateTDS").on('click', function () {
         debugger;
         var model = [];
         var oTable = $('#tblGrid').dataTable();
@@ -28,7 +28,7 @@
                 if (tdsVal > 0) {
                     var employeeId = $(this).closest("tr").find("input[name='empId']").val();
                     var tdsYear = $(this).closest("tr").find("input[name='tDSYear']").val();
-                    var grossAmt = $(this).closest("tr").find("input[name='grossAmt']").val();
+                    var grossAmt = $(this).closest("tr").find("input[name='diff']").val();
                     var netAmt = $(this).closest("tr").find("input[name='netAmt']").val();
                     var LeaveEncashment = {
                         EmployeeId: employeeId,
@@ -36,7 +36,7 @@
                         TDSYear: tdsYear,
                         GrossAmount:grossAmt,
                         NetAmount: netAmt,
-                        RecordType: 'S'
+                        RecordType: 'AD'
                     };
                     model.push(LeaveEncashment);
                 }
@@ -44,7 +44,7 @@
             });
 
             $.ajax({
-                url: "@Url.Action("UpdateEncashmentTDS", "EmployeeLeave")",
+                url: "@Url.Action("UpdateDALeaveEncashmentTDS", "EmployeeLeave")",
                 type: "POST",
                 contentType: "application/json",
                 processData: false, // Not to process data
@@ -64,8 +64,6 @@
         }
 
     });
-
-
     function OnSuccess(response) {
         if (response.message == 'error')
             $("#dv-filter-Section").html(response.htmlData);

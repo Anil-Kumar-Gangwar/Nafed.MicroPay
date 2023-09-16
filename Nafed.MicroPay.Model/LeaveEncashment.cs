@@ -23,15 +23,32 @@ namespace Nafed.MicroPay.Model
         public decimal DAPercentage { get; set; }
         public decimal GrossAmount
         {
-            get { return Convert.ToDecimal(Basic + DA); }
-            set { }
+            get;set;
 
         }
         public decimal? TDS { get; set; }
-        public double NetAmount { get; set; }
+        public decimal NetAmount
+        {
+            get;set;
+        }
         public string OrderNo { get; set; }
         public Nullable<DateTime> OrderDate { get; set; }
         public int TDSYear { get; set; }
+        public double DALatest { get; set; }
+        public decimal DAPercentageLatest { get; set; }
+        public decimal GrossAmountLatest
+        {
+            get { return Convert.ToDecimal(Basic + DALatest); }
+            set { }
+
+        }
+        public decimal DADifference
+        {
+            get { return Convert.ToDecimal(DALatest - DA); }
+            set { }
+
+        }
+        public string RecordType { get; set; }
 
     }
 }

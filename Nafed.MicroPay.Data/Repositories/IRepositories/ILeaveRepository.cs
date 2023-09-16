@@ -32,6 +32,7 @@ namespace Nafed.MicroPay.Data.Repositories.IRepositories
         DataTable chkdateforLE(int EmployeeID);
         List<SP_GetEncashmentForF_A_Result> GetLeaveEncashForF_A(DateTime fromDate, DateTime toDate);
         DataTable GetLeaveEncashment(int year, int? branchId, int? employeeId);
-        bool UpdateEncashmentTDS(List<UpdatedTDSYearly> model);
+        bool UpdateEncashmentTDS(List<LeaveEncashmentDetails> model);
+        DataTable GetDAArrearLeaveEncashment(int year, int? branchId, int? employeeId);
     }
 }

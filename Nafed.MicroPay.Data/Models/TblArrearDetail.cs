@@ -200,6 +200,10 @@ public partial class TblArrearDetail
 
     public Nullable<System.DateTime> UpdatedOn { get; set; }
 
+    public string OrderNo { get; set; }
+
+    public Nullable<System.DateTime> OrderDate { get; set; }
+
 
 
     public virtual Branch Branch { get; set; }
