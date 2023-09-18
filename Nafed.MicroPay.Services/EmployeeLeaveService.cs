@@ -848,7 +848,7 @@ namespace Nafed.MicroPay.Services
             return dtoLeaveEncash;
         }
 
-        public bool ExportLeaveEncashForF_A(DataTable dtTable, string sFullPath, string fileName, string tFilter)
+        public bool ExportLeaveEncashForF_A(DataTable dtTable, string sFullPath, string fileName, string tFilter, string reportType)
         {
             try
             {
@@ -858,7 +858,10 @@ namespace Nafed.MicroPay.Services
                 exportHdr = dtTable.Columns.Cast<System.Data.DataColumn>()
                     .Select(x => x.ColumnName).AsEnumerable<string>();
                 sFullPath = $"{sFullPath}{fileName}";
-                var res = ExportToExcelNew(exportHdr, dtTable, fileName, sFullPath, tFilter);
+                if (reportType.Equals("DA"))
+                    ExportToExcelDALeaveEncashment(exportHdr, dtTable, fileName, sFullPath, tFilter);
+                else
+                    ExportToExcelNew(exportHdr, dtTable, fileName, sFullPath, tFilter);
                 return flag;
             }
             catch (Exception ex)
@@ -893,15 +896,18 @@ namespace Nafed.MicroPay.Services
                 model = model.Where(x => x.TDS > 0 && x.TDS != null).ToList();
                 Mapper.Initialize(cfg =>
                 {
-                    cfg.CreateMap<Model.LeaveEncashment, DTOModel.UpdatedTDSYearly>()
+                    cfg.CreateMap<Model.LeaveEncashment, DTOModel.LeaveEncashmentDetails>()
                     .ForMember(d => d.EmployeeId, o => o.MapFrom(s => s.EmployeeId))
                     .ForMember(d => d.TDSYear, o => o.MapFrom(s => s.TDSYear))
                     .ForMember(d => d.TDS, o => o.MapFrom(s => s.TDS))
+                    .ForMember(d => d.GrossAmt, o => o.MapFrom(s => s.GrossAmount))
+                    .ForMember(d => d.NetAmt, o => o.MapFrom(s => s.NetAmount))
+                    .ForMember(d => d.RecordType, o => o.MapFrom(s => s.RecordType))
                     .ForMember(d => d.CreatedBy, o => o.UseValue(userId))
                     .ForMember(d => d.CreatedOn, o => o.UseValue(DateTime.Now))
                     .ForAllOtherMembers(d => d.Ignore());
                 });
-                var dtoEncashment = Mapper.Map<List<DTOModel.UpdatedTDSYearly>>(model);
+                var dtoEncashment = Mapper.Map<List<DTOModel.LeaveEncashmentDetails>>(model);
                 return empLeaveRepo.UpdateEncashmentTDS(dtoEncashment);
 
             }
@@ -910,6 +916,23 @@ namespace Nafed.MicroPay.Services
                 log.Error("Message-" + ex.Message + " StackTrace-" + ex.StackTrace + " DatetimeStamp-" + DateTime.Now);
                 throw ex;
             }
+        }
+
+        public List<Model.LeaveEncashment> GetDAArrearLeaveEncashment(CommonFilter cFilter)
+        {
+            var Leavelist = new List<Model.LeaveEncashment>();
+            DataTable result = null;
+            try
+            {
+                result = empLeaveRepo.GetDAArrearLeaveEncashment(cFilter.Year.Value, cFilter.BranchID, cFilter.EmployeeID);
+                Leavelist = Common.ExtensionMethods.ConvertToList<LeaveEncashment>(result);
+            }
+            catch (Exception ex)
+            {
+                log.Error("Message-" + ex.Message + " StackTrace-" + ex.StackTrace + " DatetimeStamp-" + DateTime.Now);
+                throw ex;
+            }
+            return Leavelist;
         }
     }
 }
