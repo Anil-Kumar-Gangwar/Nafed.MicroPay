@@ -111,7 +111,7 @@
                         </td>
                         <td width="5%" class="text-right" id="tdsnet_@i">@Model[i].NetAmount.ToString("0.00")</td>
                         <td width="5%">@Model[i].OrderNo</td>
-                        <td width="5%">@Model[i].OrderDate</td>
+                        <td width="5%">@(Model[i].OrderDate.HasValue ? Model[i].OrderDate.Value.ToShortDateString() : null) </td>
                     </tr>
                     index++;
                 }

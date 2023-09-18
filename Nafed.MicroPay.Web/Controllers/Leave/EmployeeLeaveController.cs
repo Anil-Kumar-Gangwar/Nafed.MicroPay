@@ -1077,7 +1077,7 @@ namespace MicroPay.Web.Controllers
                             exportData.Columns.Add(dtc14);
                             for (int i = 0; i < getEncashList.Count; i++)
                             {
-                                var grossAmt = Convert.ToDecimal(getEncashList[i].Basic + getEncashList[i].DA);                             
+                                var grossAmt = Convert.ToDecimal(getEncashList[i].Basic + getEncashList[i].DA);
                                 var netAmt = (grossAmt - getEncashList[i].TDS);
 
                                 DataRow row = exportData.NewRow();
@@ -1095,11 +1095,11 @@ namespace MicroPay.Web.Controllers
                                 row[11] = getEncashList[i].TDS;
                                 row[12] = netAmt;
                                 row[13] = getEncashList[i].OrderNo;
-                                row[14] = getEncashList[i].OrderDate;
+                                row[14] = getEncashList[i].OrderDate.HasValue ? getEncashList[i].OrderDate.Value.ToShortDateString() : string.Empty;
                                 exportData.Rows.Add(row);
                             }
 
-                            leaveService.ExportLeaveEncashForF_A(exportData, fullPath, fileName, tFilter,"E");
+                            leaveService.ExportLeaveEncashForF_A(exportData, fullPath, fileName, tFilter, "E");
                             fullPath = $"{fullPath}{fileName}";
                             return JavaScript("window.location = '" + Url.Action("DownloadAndDelete", "Base", new { @sFileName = fileName, @sFileFullPath = fullPath }) + "'");
                         }
@@ -1310,11 +1310,11 @@ namespace MicroPay.Web.Controllers
                                 row[14] = getEncashList[i].TDS;
                                 row[15] = netAmt;
                                 row[16] = getEncashList[i].OrderNo;
-                                row[17] = getEncashList[i].OrderDate;
+                                row[17] = getEncashList[i].OrderDate.HasValue ? getEncashList[i].OrderDate.Value.ToShortDateString() : string.Empty;
                                 exportData.Rows.Add(row);
                             }
 
-                            leaveService.ExportLeaveEncashForF_A(exportData, fullPath, fileName, tFilter,"DA");
+                            leaveService.ExportLeaveEncashForF_A(exportData, fullPath, fileName, tFilter, "DA");
                             fullPath = $"{fullPath}{fileName}";
                             return JavaScript("window.location = '" + Url.Action("DownloadAndDelete", "Base", new { @sFileName = fileName, @sFileFullPath = fullPath }) + "'");
                         }
