@@ -61,7 +61,7 @@
                 for (int i = 0; i < Model.Count; i++)
                 {
                     var grossAmt = Convert.ToDecimal(Model[i].Basic + Model[i].DA);
-                    var netAmt = (grossAmt - Model[i].TDS ?? 0);
+                    var netAmt =Convert.ToDecimal(grossAmt - Model[i].TDS ?? 0);
                     Model[i].GrossAmount = grossAmt;
                     Model[i].NetAmount = netAmt;
                     <tr>

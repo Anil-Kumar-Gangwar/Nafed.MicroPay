@@ -37,7 +37,7 @@ namespace Nafed.MicroPay.Model
         public string EmployeeName { get; set; }
         public string EmployeeCode { get; set; }
         public string Branch { get; set; }
-        public List<Model.ChildrenEducationDetails> ChildrenEducationDetailsList { get; set; }
+        public List<Model.ChildrenEducationDetails> ChildrenEducationDetailsList { get; set; } = new List<ChildrenEducationDetails>();
         public List<Model.SelectListModel> DependentList { get; set; }
         public string StrReceiptDate { get; set; }
         public string StrReceiptDate2 { get; set; }

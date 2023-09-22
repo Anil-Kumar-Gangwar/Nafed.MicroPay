@@ -96,6 +96,8 @@ namespace MicroPay.Web.Controllers.Children_Education
                 Model.ChildrenEducationHdr childrenEduData = new Model.ChildrenEducationHdr();
                 var reportingYr = DateTime.Now.GetFinancialYr();
                 childrenEduData = _childrenService.GetChildrenEducation(empID, childrenEduHdrId);
+                if (childrenEduData == null)
+                    childrenEduData = new Model.ChildrenEducationHdr();
                 childrenEduData.ChildrenEducationDetailsList = _childrenService.GetChildrenEducationDetails(empID, childrenEduHdrId);
                 childrenEduData.DependentList = _childrenService.GetDependentList(empID);
                 childrenEduData.ChildrenEducationDocumentsList = _childrenService.GetChildrenEducationDocumentsList(empID, childrenEduHdrId);

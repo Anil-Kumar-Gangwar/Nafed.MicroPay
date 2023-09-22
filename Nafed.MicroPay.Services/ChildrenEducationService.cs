@@ -170,7 +170,7 @@ namespace Nafed.MicroPay.Services
             log.Info($"ChildrenEducationService/GetChildrenEducationDetails/{empID}/{childrenEduHdrId}");
             try
             {
-                IEnumerable<ChildrenEducationDetails> childrenEducationDescription = Enumerable.Empty<ChildrenEducationDetails>();
+                //IEnumerable<ChildrenEducationDetails> childrenEducationDescription = Enumerable.Empty<ChildrenEducationDetails>();
                 var formChildrenEducationDTO = childrenRepo.GetChildrenEducationDetails(empID, childrenEduHdrId);
                 Mapper.Initialize(
                   cfg =>
@@ -178,8 +178,10 @@ namespace Nafed.MicroPay.Services
                       cfg.CreateMap<DTOModel.GetChildrenEducationDetails_Result, ChildrenEducationDetails>();
                   }
                   );
-                childrenEducationDescription = Mapper.Map<List<ChildrenEducationDetails>>(formChildrenEducationDTO);
-                return childrenEducationDescription.ToList();
+               var childrenEducationDescription = Mapper.Map<List<ChildrenEducationDetails>>(formChildrenEducationDTO.ToList());
+                if (childrenEducationDescription.Count == 0)
+                    childrenEducationDescription = new List<ChildrenEducationDetails>();
+                return childrenEducationDescription;
             }
             catch (Exception ex)
             {
@@ -466,6 +468,7 @@ namespace Nafed.MicroPay.Services
                         .ForMember(d => d.ReportingYear, o => o.MapFrom(s => s.ReportingYear))
                         .ForMember(d => d.ReceiptNo, o => o.MapFrom(s => s.ReceiptNo))
                         .ForMember(d => d.ReceiptDate, o => o.MapFrom(s => s.ReceiptDate))
+                        .ForMember(d => d.ChildrenEduHdrID, o => o.MapFrom(s => s.ChildrenEduHdrID))
                         .ForMember(d => d.Amount, o => o.MapFrom(s => s.Amount.HasValue ? (s.Amount.Value.ToString("0.##")) : "0"))
                         .ForAllOtherMembers(d => d.Ignore());
                     });
