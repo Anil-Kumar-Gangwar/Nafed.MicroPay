@@ -1,0 +1,72 @@
+﻿@model MicroPay.Web.Models.BranchViewModel
+
+<table id="tblUser" class="table table-centered table-striped dt-responsive w-100">
+    <thead>
+        <tr>
+            <th>
+                Branch Code
+            </th>
+            <th>
+                Branch Name
+            </th>
+            <th>
+                Address
+            </th>
+            <th>
+                Email ID
+            </th>
+            <th>
+                Region
+            </th>
+            <th class="text-center" style="width:60px"
+                Edit
+            </th>
+         
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            if (Model != null && Model.branchList.Count > 0)
+            {
+                foreach (var item in Model.branchList)
+                {
+                    <tr>
+                        <td> @item.BranchCode</td>
+                        <td> @item.BranchName</td>
+                        <td> @item.Address1</td>
+                        <td> @item.EmailId</td>
+                        <td> @item.Region</td>
+                        <td class="text-center">
+                         
+                            <a data-ajax="true" class="toggle-tooltip"
+                               href="@Url.Action("_GetBranchEmail","UpdateBranchEmail",new { @branchId= item.BranchID})"
+                               method="GET" title="Click here, to update branch email Id."
+                               data-ajax-update="#div-email" data-ajax-mode="replace"
+                               data-backdrop="static" data-keyboard="false"
+                               data-toggle="modal" data-target="#BranchEmailModal">
+                                Update Email </a>                
+                            
+                        </td>
+                      
+                    </tr>
+                }
+            }
+
+        }
+
+    </tbody>
+</table>
+<div class="modal" id="BranchEmailModal">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Update E-mail</h4>
+                <button type="button" class="close toggle-tooltip" data-dismiss="modal">&times;</button>
+            </div>
+            <!-- Modal body -->
+            <div class="modal-body" id="div-email">
+            </div>          
+        </div>
+    </div>
+</div>

@@ -141,6 +141,8 @@ public partial class Branch
 
     public Nullable<int> UpdatedBy { get; set; }
 
+    public string EmailId { get; set; }
+
 
 
     public virtual City City { get; set; }
