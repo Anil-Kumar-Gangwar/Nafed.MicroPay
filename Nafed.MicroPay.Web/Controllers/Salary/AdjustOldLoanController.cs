@@ -163,7 +163,7 @@ namespace MicroPay.Web.Controllers.Salary
                     ModelState.Remove("DateofApp");
                     ModelState.Remove("DateRcptApp");
                     ModelState.Remove("ReqAmt");
-                    ModelState.Remove("AssignLoanTypeId");
+                    ModelState.Remove("AssignLoanTypeId");                  
                     if (ModelState.IsValid)
                     {
                         if (sanctionLoan.RemainingPInstNo != null)

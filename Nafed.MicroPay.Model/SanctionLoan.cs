@@ -170,8 +170,8 @@ namespace Nafed.MicroPay.Model
         public Nullable<DateTime> RefundDate { get; set; }
         [Display(Name = "Inst No.")]
         public decimal? InstNo { get; set; }
-        public int oldP1 { get; set; }
-        public int oldI2 { get; set; }
+        public decimal? oldP1 { get; set; }
+        public decimal? oldI2 { get; set; }
         public Nullable<int> RemainingPInstNo1 { get; set; }
         public string DateAvailLoan1 { get; set; }
         public int totlRefundMonthId { get; set; }

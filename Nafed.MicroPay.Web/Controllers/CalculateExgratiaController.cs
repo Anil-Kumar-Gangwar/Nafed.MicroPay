@@ -78,8 +78,6 @@ namespace MicroPay.Web.Controllers
             }
         }
 
-
-
         public JsonResult GetBranchEmployee(int branchID)
         {
             log.Info($"DAArrearReportsController/GetBranchEmployee");
@@ -223,7 +221,7 @@ namespace MicroPay.Web.Controllers
                     //Header information...........................................
                     sbb.Append("<Table border= 1>");
                     sbb.Append("<tr>");
-                    sbb.Append("<td align=center valign=top rowspan=2 colspan=" + 35 + " style=' white-space:nowrap ; ;background-color: #17A2B8; color: #ffffff;'><b>");
+                    sbb.Append("<td align=center valign=top rowspan=2 colspan=" + 36 + " style=' white-space:nowrap ; ;background-color: #17A2B8; color: #ffffff;'><b>");
                     sbb.Append("Ex-gratia Calculation");
                     sbb.Append("</b></td>");
                     sbb.Append("</tr >");
@@ -287,7 +285,7 @@ namespace MicroPay.Web.Controllers
                     sbb.Append("<Table border= 1>");
 
                     sbb.Append("<tr>");
-                    for (int k = 0; k < 35; k++)
+                    for (int k = 0; k < 36; k++)
                     {
                         sbb.Append("<td align=left valign=top  style=' white-space:nowrap ; ;background-color: #17A2B8; color: #ffffff;'><b>");
                         sbb.Append(dtExport.Columns[k].ColumnName);
@@ -298,7 +296,7 @@ namespace MicroPay.Web.Controllers
                     for (int i = 0; i < dtExport.Rows.Count; i++)
                     {
                         sbb.Append("<tr>");
-                        for (int j = 0; j < 35; j++)
+                        for (int j = 0; j < 36; j++)
                         {
                             sbb.Append("<td align=left style=' white-space:nowrap ; '>");
                             sbb.Append(Convert.ToString(dtExport.Rows[i][j]));

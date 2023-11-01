@@ -434,10 +434,10 @@ namespace MicroPay.Web.Controllers.Employees
         public ActionResult _PostExtension(Model.Employees.NonRegularEmployeesExtension frmData)
         {
             log.Info($"NonRegularEmployeesController/_PostExtension/");
-            if ((frmData.ExtentionNoticeDate.HasValue && frmData.ExtentionFromDate.HasValue) && (frmData.ExtentionNoticeDate.Value > frmData.ExtentionFromDate.Value))
-            {
-                ModelState.AddModelError("ExtentionNoticeDate", "Notice date can't be greater than from date.");
-            }
+            //if ((frmData.ExtentionNoticeDate.HasValue && frmData.ExtentionFromDate.HasValue) && (frmData.ExtentionNoticeDate.Value > frmData.ExtentionFromDate.Value))
+            //{
+            //    ModelState.AddModelError("ExtentionNoticeDate", "Notice date can't be greater than from date.");
+            //}
             if (ModelState.IsValid)
             {
                 if (frmData.Id == 0)

@@ -335,7 +335,7 @@ namespace MicroPay.Web.Controllers.Reports.Payroll
 
                             parameterList.Add(new ReportParameter { name = "YEAR1", value = Convert.ToInt32(fYear) });
                             parameterList.Add(new ReportParameter { name = "YEAR2", value = Convert.ToInt32(toYear) });
-                            parameterList.Add(new ReportParameter { name = "PENSIONRATE", value = "8.33%" });                          
+                            parameterList.Add(new ReportParameter { name = "PENSIONRATE", value = "8.33%" });
                             parameterList.Add(new ReportParameter { name = "BRANCHCODE", value = branchCode });
                             parameterList.Add(new ReportParameter { name = "emptype", value = employeeTypeId });
                             parameterList.Add(new ReportParameter { name = "employeeid", value = empId });
@@ -366,7 +366,7 @@ namespace MicroPay.Web.Controllers.Reports.Payroll
                             parameterList.Add(new ReportParameter { name = "employeeid", value = empId });
                             rptName = "FORM3PS.rpt";
                         }
-                          
+
                         #endregion
 
                         #region PF Total
@@ -411,7 +411,7 @@ namespace MicroPay.Web.Controllers.Reports.Payroll
                             parameterList.Add(new ReportParameter { name = "BranchCode", value = branchCode });
                             parameterList.Add(new ReportParameter { name = "EmployeeCode", value = employeeCode });
                             parameterList.Add(new ReportParameter { name = "SalFYear", value = Convert.ToInt16(fYear) });
-                            parameterList.Add(new ReportParameter { name = "SalToYear", value = Convert.ToInt16(toYear) });                           
+                            parameterList.Add(new ReportParameter { name = "SalToYear", value = Convert.ToInt16(toYear) });
 
                             rptName = "REPORT_PF_ANNUAL_NEW.rpt";
                         }
@@ -541,7 +541,7 @@ namespace MicroPay.Web.Controllers.Reports.Payroll
                             parameterList.Add(new ReportParameter { name = "fperiod", value = fperiod });
                             parameterList.Add(new ReportParameter { name = "tperiod", value = tperiod });
                             parameterList.Add(new ReportParameter { name = "brcode", value = branchCode });
-                            parameterList.Add(new ReportParameter { name = "rate", value = Convert.ToInt32(bankRate) });                          
+                            parameterList.Add(new ReportParameter { name = "rate", value = Convert.ToInt32(bankRate) });
 
                             rptName = "HbLoanDeduction.rpt";
                         }
@@ -603,6 +603,8 @@ namespace MicroPay.Web.Controllers.Reports.Payroll
 
                             DateTime fdate;
                             DateTime tdate;
+                            string sfdate = string.Empty;
+                            string stdate = string.Empty;
 
                             if (objYearlyReportFilters.fltrRadio == FilterRadio.rbddateRange)
                             {
@@ -632,7 +634,13 @@ namespace MicroPay.Web.Controllers.Reports.Payroll
                                 }
 
                                 fdate = Convert.ToDateTime(objYearlyReportFilters.fromYear.ToString() + "-" + objYearlyReportFilters.fromMonth.ToString() + "-01");
+
+                                sfdate = fdate.Year + "-" + (fdate.Month.ToString().Length == 1 ? "0" + fdate.Month.ToString() : fdate.Month.ToString()) + "-01";
+
                                 tdate = Convert.ToDateTime(objYearlyReportFilters.toYear.ToString() + "-" + objYearlyReportFilters.toMonth.ToString() + "-" + lastDayOfMonth.ToString());
+
+                                stdate = tdate.Year + "-" + (tdate.Month.ToString().Length == 1 ? "0" + tdate.Month.ToString() : tdate.Month.ToString()) + "-" + (tdate.Day.ToString().Length == 1 ? "0" + tdate.Day.ToString() : tdate.Day.ToString());
+
                             }
                             else
                             {
@@ -640,12 +648,17 @@ namespace MicroPay.Web.Controllers.Reports.Payroll
                                 tperiod = Convert.ToInt32(objYearlyReportFilters.financialYear.Substring(7, 4) + "02");
 
                                 fdate = Convert.ToDateTime(objYearlyReportFilters.financialYear.Substring(0, 4) + "-04-01");
+
+                                sfdate = fdate.Year + "-04-01";
                                 tdate = Convert.ToDateTime(objYearlyReportFilters.financialYear.Substring(7, 4) + "-03-31");
+                                stdate = tdate.Year + "-03-31";
                             }
+
+
                             parameterList.Add(new ReportParameter { name = "FROMPERIOD", value = fperiod });
                             parameterList.Add(new ReportParameter { name = "TOPERIOD", value = tperiod });
-                            parameterList.Add(new ReportParameter { name = "fromdate", value = fdate });
-                            parameterList.Add(new ReportParameter { name = "todate", value = tdate });
+                            parameterList.Add(new ReportParameter { name = "fromdate", value = sfdate });
+                            parameterList.Add(new ReportParameter { name = "todate", value = stdate });
                             parameterList.Add(new ReportParameter { name = "empId", value = empId });
 
                             parameterList.Add(new ReportParameter { name = "emptype", value = employeeTypeId });

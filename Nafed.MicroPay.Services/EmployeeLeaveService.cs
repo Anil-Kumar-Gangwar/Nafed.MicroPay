@@ -853,7 +853,6 @@ namespace Nafed.MicroPay.Services
             try
             {
                 var flag = false;
-
                 IEnumerable<string> exportHdr = Enumerable.Empty<string>();
                 exportHdr = dtTable.Columns.Cast<System.Data.DataColumn>()
                     .Select(x => x.ColumnName).AsEnumerable<string>();

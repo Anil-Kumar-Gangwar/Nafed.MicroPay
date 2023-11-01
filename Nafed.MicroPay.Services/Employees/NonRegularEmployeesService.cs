@@ -78,13 +78,13 @@ namespace Nafed.MicroPay.Services
                 #region Update Last Employee Code in MaxEmpCodeTypeWise table
 
                 var empCode = string.Empty;              
-                    if (data.MaxEmployee.ToString().Length == 1)
+                    if ((data.MaxEmployee + 1).ToString().Length == 1)
                         empCode = data.Prifix + "0000" + (data.MaxEmployee + 1);
-                    else if (data.MaxEmployee.ToString().Length == 2)
+                    else if ((data.MaxEmployee + 1).ToString().Length == 2)
                         empCode = data.Prifix + "000" + (data.MaxEmployee + 1);
-                    else if (data.MaxEmployee.ToString().Length == 3)
+                    else if ((data.MaxEmployee + 1).ToString().Length == 3)
                         empCode = data.Prifix + "00" + (data.MaxEmployee + 1);
-                    else if (data.MaxEmployee.ToString().Length == 4)
+                    else if ((data.MaxEmployee + 1).ToString().Length == 4)
                         empCode = data.Prifix + "0" + (data.MaxEmployee + 1);
                
                 else

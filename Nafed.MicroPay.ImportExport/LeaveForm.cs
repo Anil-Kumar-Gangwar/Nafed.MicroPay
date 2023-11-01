@@ -555,9 +555,10 @@ namespace Nafed.MicroPay.ImportExport
             }
 }
 
+
         public static string ExportToExcelDALeaveEncashment(IEnumerable<string> headers, DataTable rowData, string sSheetName, string sFullPath, string tFilter)
         {
-            log.Info("LeaveForm/ExportToExcelDALeaveEncashment");
+            log.Info("LeaveForm/ExportToExcelDALeaveEncashmentLog");
 
             try
             {

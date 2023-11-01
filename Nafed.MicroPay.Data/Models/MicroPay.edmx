@@ -148,7 +148,7 @@
           <Property Name="AcceptanceAuthSubmissionDueDate" Type="date" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'HRMS.dbo.ArrearDetail' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'HRMSLive.dbo.ArrearDetail' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="ArrearDetail">
           <Key>
             <PropertyRef Name="SalMonth" />
@@ -2380,7 +2380,7 @@ warning 6002: The table/view 'HRMS.dbo.ArrearDetail' does not have a primary key
           <Property Name="IsDeleted" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'HRMS.dbo.LeaveType' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'HRMSLive.dbo.LeaveType' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="LeaveType">
           <Key>
             <PropertyRef Name="LeaveTypeID" />
@@ -5351,7 +5351,7 @@ warning 6002: The table/view 'HRMS.dbo.LeaveType' does not have a primary key de
           <Property Name="UpdatedOn" Type="datetime" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'HRMS.dbo.TrainingFeedbackFormat' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'HRMSLive.dbo.TrainingFeedbackFormat' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="TrainingFeedbackFormat">
           <Key>
             <PropertyRef Name="TFeedbackID" />
@@ -6153,7 +6153,7 @@ warning 6002: The table/view 'HRMS.dbo.TrainingFeedbackFormat' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__UpdatedTD__Emplo__73079A1A">
+        <Association Name="FK__UpdatedTD__Emplo__73A7A1A">
           <End Role="tblMstEmployee" Type="Self.tblMstEmployee" Multiplicity="1" />
           <End Role="LeaveEncashmentDetails" Type="Self.LeaveEncashmentDetails" Multiplicity="*" />
           <ReferentialConstraint>
@@ -14562,7 +14562,7 @@ warning 6002: The table/view 'HRMS.dbo.TrainingFeedbackFormat' does not have a p
             <End Role="User" EntitySet="User" />
             <End Role="tblPFOpBalance" EntitySet="tblPFOpBalance" />
           </AssociationSet>
-          <AssociationSet Name="FK__UpdatedTD__Emplo__73079A1A" Association="Self.FK__UpdatedTD__Emplo__73079A1A">
+          <AssociationSet Name="FK__UpdatedTD__Emplo__73A7A1A" Association="Self.FK__UpdatedTD__Emplo__73A7A1A">
             <End Role="tblMstEmployee" EntitySet="tblMstEmployee" />
             <End Role="LeaveEncashmentDetails" EntitySet="LeaveEncashmentDetails" />
           </AssociationSet>
