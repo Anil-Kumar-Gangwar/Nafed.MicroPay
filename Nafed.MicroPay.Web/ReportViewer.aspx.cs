@@ -60,7 +60,10 @@ namespace MicroPay.Web
                 if (rptModel.reportParameters?.Count > 0)
                 {
                     foreach (var item in rptModel.reportParameters)
-                        objReport.SetParameterValue($"@{item.name}", item.value);
+                    {
+                        if (item?.name != "empId")
+                            objReport.SetParameterValue($"@{item?.name}", item?.value);
+                    }
                 }
                 CrystalReportViewer1.CssFilename = "fff";
                 CrystalReportViewer1.ReportSource = objReport;
