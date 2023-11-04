@@ -11,8 +11,8 @@
     <WebStackScaffolding_ViewDialogWidth>600</WebStackScaffolding_ViewDialogWidth>
     <ToolsVersionPromptShown>3.2</ToolsVersionPromptShown>
     <UseIISExpress>true</UseIISExpress>
-    <NameOfLastUsedPublishProfile>D:\Project\Nafed.MicroPay\Nafed.MicroPay.Web\Properties\PublishProfiles\Nafed.pubxml</NameOfLastUsedPublishProfile>
-    <LastActiveSolutionConfig>Debug|Any CPU</LastActiveSolutionConfig>
+    <NameOfLastUsedPublishProfile>D:\Project\Nafed\Nafed.MicroPay.Web\Properties\PublishProfiles\FolderProfile.pubxml</NameOfLastUsedPublishProfile>
+    <LastActiveSolutionConfig>Release|Any CPU</LastActiveSolutionConfig>
     <Use64BitIISExpress />
     <IISExpressSSLPort>
     </IISExpressSSLPort>
