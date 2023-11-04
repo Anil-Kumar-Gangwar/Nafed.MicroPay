@@ -263,6 +263,7 @@
     <Compile Include="Controllers\Arrear\PayArrearReportsController.cs" />
     <Compile Include="Controllers\Arrear\SalaryManualDataController.cs" />
     <Compile Include="Controllers\AssetmanagementdetailsController.cs" />
+    <Compile Include="Controllers\UpdateBranchEmailController.cs" />
     <Compile Include="Controllers\Children Education\ChildrenEducationAllowanceController.cs" />
     <Compile Include="Controllers\EmpApprovalProcessController.cs" />
     <Compile Include="Controllers\Employees\NonRegularEmployeesController.cs" />
@@ -4078,6 +4079,9 @@
     <Content Include="Views\EmployeeLeave\_EncashmentGridView.cshtml" />
     <Content Include="Views\EmployeeLeave\DAArrearLeaveEncashment.cshtml" />
     <Content Include="Views\EmployeeLeave\_DAArrearEncashmentGridView.cshtml" />
+    <Content Include="Views\UpdateBranchEmail\_BranchGridView.cshtml" />
+    <Content Include="Views\UpdateBranchEmail\Edit.cshtml" />
+    <Content Include="Views\UpdateBranchEmail\Index.cshtml" />
     <None Include="Views\TaxDeduction\_DocumentList.cshtml" />
     <Content Include="Views\TransferApproval\Index.cshtml" />
     <Content Include="Views\TransferApproval\_TransferEmployeeDetails.cshtml" />

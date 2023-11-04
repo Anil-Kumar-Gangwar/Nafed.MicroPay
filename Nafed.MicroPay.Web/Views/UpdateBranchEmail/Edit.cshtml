@@ -1,0 +1,35 @@
+﻿@model Nafed.MicroPay.Model.Branch
+
+
+@using (Ajax.BeginForm("UpdateEmail", "UpdateBranchEmail", new AjaxOptions { HttpMethod = "POST", OnSuccess = "EmailUpdatedSuccess" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <div class="card_new_body">
+        <div class="row">
+            <div class="col-12">
+                @Html.HiddenFor(model => model.BranchID)
+                <div class="row">
+                    @Html.Label("Email Id", htmlAttributes: new { @class = "control-label col-lg-4 col-md-4 col-sm-6 col-xs-12 mb-2 required" })
+                    <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 mb-2">
+                        @Html.EditorFor(model => model.EmailId, new { htmlAttributes = new { @class = "form-control", @placeholder = "E-mail", @maxlength = "100" } })
+                        @Html.ValidationMessageFor(model => model.EmailId, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <span class="pull-right">
+                    <input type="submit" value="Update" class="btn btn-info btn-md pull-center toggle-tooltip" title="Click here, to update current record" />
+                </span>
+            </div>
+        </div>
+    </div>
+}
+
+<script>
+    function EmailUpdatedSuccess(response) {
+        if (response.success) {           
+            $("#BranchEmailModal").modal('hide');
+            window.location.reload();
+        }
+    }
+</script>

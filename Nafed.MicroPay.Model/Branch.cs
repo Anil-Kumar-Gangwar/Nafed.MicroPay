@@ -49,5 +49,6 @@ namespace Nafed.MicroPay.Model
         public Nullable<System.DateTime> UpdatedOn { get; set; }
         public Nullable<int> UpdatedBy { get; set; }
         public string GradeName { get; set; }
+        public string EmailId { get; set; }
     }
 }

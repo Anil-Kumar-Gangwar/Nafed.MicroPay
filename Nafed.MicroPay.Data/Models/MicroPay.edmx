@@ -358,6 +358,7 @@ warning 6002: The table/view 'HRMSLive.dbo.ArrearDetail' does not have a primary
           <Property Name="CreatedBy" Type="int" />
           <Property Name="UpdatedOn" Type="datetime" />
           <Property Name="UpdatedBy" Type="int" />
+          <Property Name="EmailId" Type="nvarchar" MaxLength="250" />
         </EntityType>
         <EntityType Name="BranchSalaryHeadRules">
           <Key>
@@ -20581,6 +20582,7 @@ warning 6002: The table/view 'HRMSLive.dbo.TrainingFeedbackFormat' does not have
           <NavigationProperty Name="EmpAttendanceHdrs" Relationship="MicroPayModel.FK_EmpAttendanceHdr_Branch" FromRole="Branch" ToRole="EmpAttendanceHdr" />
           <NavigationProperty Name="tblPFOpBalances" Relationship="MicroPayModel.FK__tblPFOpBa__Branc__5B052800" FromRole="Branch" ToRole="tblPFOpBalance" />
           <NavigationProperty Name="MailFailedLog" Relationship="MicroPayModel.FK_MailFailedLog_Branch" FromRole="Branch" ToRole="MailFailedLog" />
+          <Property Name="EmailId" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           </EntityType>
         <EntityType Name="Cadre">
           <Key>
@@ -37398,6 +37400,7 @@ warning 6002: The table/view 'HRMSLive.dbo.TrainingFeedbackFormat' does not have
           <EntitySetMapping Name="Branches">
             <EntityTypeMapping TypeName="MicroPayModel.Branch">
               <MappingFragment StoreEntitySet="Branch">
+                <ScalarProperty Name="EmailId" ColumnName="EmailId" />
                 <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
                 <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
                 <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />

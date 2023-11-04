@@ -22,5 +22,6 @@ namespace Nafed.MicroPay.Services.IServices
         BranchManagerDetails GetBranchTransferForm(int? employeeID, int? transID);
         BranchManagerDetails ChangeBranch(BranchManagerDetails branchDtls);
         bool DeleteBranchTransEntry(int transID);
+        bool UpdateBranchEmail(int branchId, string emailId);
     }
 }

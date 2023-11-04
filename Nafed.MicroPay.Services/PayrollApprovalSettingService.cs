@@ -343,11 +343,12 @@ namespace Nafed.MicroPay.Services
                     flag = salaryRepo.PublishSalary(dtoPayrollApprovalRequest);
                     if (flag && !request.BranchID.HasValue)
                     {
-                        var employee = genericRepo.GetByID<DTOModel.tblMstEmployee>(request.Reporting3);
-
+                        var repo3 = genericRepo.GetByID<DTOModel.tblMstEmployee>(request.Reporting3).OfficialEmail;
+                        var repo2 = genericRepo.GetByID<DTOModel.tblMstEmployee>(request.Reporting2).OfficialEmail;
+                        var repo1 = genericRepo.GetByID<DTOModel.tblMstEmployee>(request.Reporting1).OfficialEmail;
                         List<int> logIds = null;
                         Task t2 = Task.Run(() => SendSalaryReportToBM(request, filePath, out logIds)).ContinueWith(t =>
-                        SendFailedMailLogToReporting3(logIds, employee.OfficialEmail)
+                        SendFailedMailLogToReporting3(logIds, repo1, repo2, repo3)
                         );
 
                     }
@@ -799,35 +800,40 @@ namespace Nafed.MicroPay.Services
             });
             emailMessage = Mapper.Map<EmailMessage>(emailsetting);
 
+            var repo1 = genericRepo.GetByID<DTOModel.tblMstEmployee>(request.Reporting1).OfficialEmail;
+            var repo2 = genericRepo.GetByID<DTOModel.tblMstEmployee>(request.Reporting2).OfficialEmail;
+            var repo3 = genericRepo.GetByID<DTOModel.tblMstEmployee>(request.Reporting3).OfficialEmail;
+            // Get All Branch mail for email sending 
+        //    var employeeList = genericRepo.Get<DTOModel.tblMstEmployee>(x => x.BranchID != 44 && x.IsBM == true && x.IsDeleted == false && x.DOLeaveOrg == null).Select(s => new { s.EmployeeId, s.OfficialEmail, s.BranchID, s.Branch.BranchName, s.EmployeeTypeID, s.Branch.EmailId }).ToArray();
 
-            // Get All BM mail for email sending 
-            var employeeList = genericRepo.Get<DTOModel.tblMstEmployee>(x => x.BranchID != 44 && x.IsBM == true && x.IsDeleted == false && x.DOLeaveOrg == null).Select(s => new { s.EmployeeId, s.OfficialEmail, s.BranchID, s.Branch.BranchName, s.EmployeeTypeID }).ToArray();
+            var branchList = genericRepo.Get<DTOModel.Branch>(x => x.IsDeleted == false && x.BranchID != 44);
             int cntr = 0;
-            foreach (var employee in employeeList)
+            foreach (var branch in branchList)
             {
                 try
                 {
                     obj.WorkingArea = 1; /*(int)Common.WorkingArea.SalaryApproval*/;
-                    obj.EmployeeId = employee.EmployeeId;
-                    obj.BranchId = employee.BranchID;
-                    obj.EmployeeTypeId = employee.EmployeeTypeID;
+                    obj.EmployeeId = 1;// employee.EmployeeId;
+                    obj.BranchId = branch.BranchID;
+                    obj.EmployeeTypeId = 5;
                     obj.SalMonth = (byte)month;
                     obj.SalYear = (short)year;
                     obj.CreatedOn = DateTime.Now;
                     obj.CreatedBy = (int)request.UpdatedBy;
 
-                    if (!string.IsNullOrEmpty(employee.OfficialEmail))
+                    if (!string.IsNullOrEmpty(branch.EmailId))
                     {
-                        emailMessage.Subject = $"SALARY REPORT FOR THE {employee.BranchName.ToUpper()} BRANCH";
+                        emailMessage.Subject = $"SALARY REPORT FOR THE {branch.BranchName.ToUpper()} BRANCH";
                         mailBody.Clear();
                         mailBody.AppendFormat("<div>Dear Sir/Madam,</div> <br> ");
                         mailBody.AppendFormat($"<div>Salary report for the month of <b>{request.periodInDateFormat.Value.ToString("MMM, yyyy")}</b> has been generated. Kindly check.<br> <br>");
                         mailBody.AppendFormat($"<div>Regards, </div> <br>");
                         mailBody.AppendFormat($"<div>F & A Team, </div> <br>");
                         mailBody.AppendFormat($"<div>Nafed</div> <br> <br>");
-                        filter.branchID = employee.BranchID;
+                        filter.branchID = branch.BranchID;
                         GenerateEmployeeMonthlySalaryReport(filter);
-                        emailMessage.To = employee.OfficialEmail;
+                        emailMessage.To = branch.EmailId;
+                        emailMessage.Bcc = repo1 + "," + repo2 + "," + repo3;
                         emailMessage.Attachments = GetSalaryReportAttachment(filter.fileName);
                         emailMessage.Body = mailBody.ToString();
                         EmailHelper.SendEmail(emailMessage);
@@ -999,7 +1005,7 @@ namespace Nafed.MicroPay.Services
                 throw ex;
             }
         }
-        public bool SendFailedMailLogToReporting3(List<int> logIds, string emailTo)
+        public bool SendFailedMailLogToReporting3(List<int> logIds, string reporting1Mail, string reporting2Mail, string reporting3Mail)
         {
             log.Info($"PayrollApprovalSettingService/SendFailedMailLogToReporting3");
 
@@ -1031,7 +1037,7 @@ namespace Nafed.MicroPay.Services
                     {
                         cfg.CreateMap<DTOModel.EmailConfiguration, EmailMessage>()
                         .ForMember(d => d.From, o => o.MapFrom(s => $"NAFED HRMS <{s.ToEmail}>"))
-                        .ForMember(d => d.To, o => o.UseValue(emailTo))
+                        .ForMember(d => d.To, o => o.UseValue(reporting1Mail + "," + reporting2Mail + "," + reporting3Mail))
                         .ForMember(d => d.UserName, o => o.MapFrom(s => s.UserName))
                         .ForMember(d => d.Password, o => o.MapFrom(s => s.Password))
                         .ForMember(d => d.SmtpClientHost, o => o.MapFrom(s => s.Server))

@@ -50,6 +50,7 @@ namespace Nafed.MicroPay.Services
                     .ForMember(c => c.CreatedBy, c => c.MapFrom(s => s.CreatedBy))
                     .ForMember(c => c.UpdatedOn, c => c.MapFrom(s => s.UpdatedOn))
                     .ForMember(c => c.UpdatedBy, c => c.MapFrom(s => s.UpdatedBy))
+                    .ForMember(c => c.EmailId, c => c.MapFrom(s => s.EmailId))
                    .ForAllOtherMembers(c => c.Ignore());
                 });
                 var listBranch = Mapper.Map<List<Model.Branch>>(result);
@@ -72,7 +73,7 @@ namespace Nafed.MicroPay.Services
             log.Info($"InsertBranch");
             try
             {
-         
+
 
                 Mapper.Initialize(cfg =>
                 {
@@ -105,7 +106,7 @@ namespace Nafed.MicroPay.Services
             {
                 log.Error("Message-" + ex.Message + " StackTrace-" + ex.StackTrace + " DatetimeStamp-" + DateTime.Now);
                 throw ex;
-            }           
+            }
         }
 
         public bool UpdateBranch(Model.Branch editBranch)
@@ -210,8 +211,6 @@ namespace Nafed.MicroPay.Services
             }
             return flag;
         }
-
-
 
         #region Branch Transfer 
         public BranchTransfer GetBranchTransferDtls(int? employeeID)
@@ -411,5 +410,25 @@ namespace Nafed.MicroPay.Services
         }
 
         #endregion
+
+        public bool UpdateBranchEmail(int branchId, string emailId)
+        {
+            log.Info($"UpdateBranchEmail");
+            bool flag = false;
+            try
+            {
+                var dtoObj = genericRepo.GetByID<DTOModel.Branch>(branchId);
+                dtoObj.EmailId = emailId;
+                genericRepo.Update<DTOModel.Branch>(dtoObj);
+                flag = true;
+            }
+            catch (Exception ex)
+            {
+                log.Error("Message-" + ex.Message + " StackTrace-" + ex.StackTrace + " DatetimeStamp-" + DateTime.Now);
+                throw ex;
+            }
+
+            return flag;
+        }
     }
 }
