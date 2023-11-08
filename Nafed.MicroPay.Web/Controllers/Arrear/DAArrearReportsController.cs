@@ -262,8 +262,8 @@ namespace MicroPay.Web.Controllers.Arrear
                         parameterList.Add(new ReportParameter() { name = "FROMPERIOD", value = fromYear });
                         parameterList.Add(new ReportParameter() { name = "TOPERIOD", value = toYear });
                         parameterList.Add(new ReportParameter() { name = "ArrearType", value = "D" });
-                        parameterList.Add(new ReportParameter() { name = "branchId", value = ARVM.branchID });
-                        parameterList.Add(new ReportParameter() { name = "EmpId", value = ARVM.employeeID == 0 ? null : ARVM.employeeID });
+                        parameterList.Add(new ReportParameter() { name = "branchId", value = ARVM.branchID == null ? 0 : ARVM.branchID });
+                        parameterList.Add(new ReportParameter() { name = "EmpId", value = ARVM.employeeID == null ? 0 : ARVM.employeeID });
                         //parameterList.Add(new ReportParameter() { name = "branchCode", value = ARVM.branchID });
                         //parameterList.Add(new ReportParameter() { name = "EmpCode", value = ARVM.employeeID == 0 ? null : ARVM.employeeID });
                         reportModel.reportParameters = parameterList;
@@ -365,7 +365,10 @@ namespace MicroPay.Web.Controllers.Arrear
                 var result = periodDetails.Where(x => x.DOG.ToLower().Trim() == details.ToLower().Trim()).
                  Select(y => (y.fromperiod + ":" + y.toperiod)).FirstOrDefault();
 
-                return Json(new { DAArrerPeriods = result }, JsonRequestBehavior.AllowGet);
+                var result2 = periodDetails.Where(x => x.DOG.ToLower().Trim() == details.ToLower().Trim()).
+                Select(y => (y.orderNo + ":" + y.orderDate)).FirstOrDefault();
+
+                return Json(new { DAArrerPeriods = result, DAArrerOrderNo= result2 }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {

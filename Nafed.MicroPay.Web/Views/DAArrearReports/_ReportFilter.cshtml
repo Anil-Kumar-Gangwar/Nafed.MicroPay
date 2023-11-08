@@ -143,24 +143,24 @@
         if (reporttypeID == 3) {
             $("#ddlBank").removeAttr('disabled');
             $("#ddlEmployee").attr("disabled", "disabled");
-            $("#txtOrderNo").attr("disabled", "disabled");
-            $("#txtorderdate").attr("disabled", "disabled");
+            //$("#txtOrderNo").attr("disabled", "disabled");
+            //$("#txtorderdate").attr("disabled", "disabled");
 
 
         }
         else if (reporttypeID == 4 || reporttypeID == 2) {
             $("#ddlBank").attr("disabled", "disabled");
             $("#ddlEmployee").attr("disabled", "disabled");
-            $("#txtOrderNo").removeAttr("disabled", "disabled");
-            $("#txtorderdate").removeAttr("disabled", "disabled");
-            
+            //$("#txtOrderNo").removeAttr("disabled", "disabled");
+            //$("#txtorderdate").removeAttr("disabled", "disabled");
+
         }
         else {
             $("#ddlEmployee").removeAttr('disabled');
             $("#ddlBank").attr("disabled", "disabled");
 
-            $("#txtOrderNo").attr("disabled", "disabled");
-            $("#txtorderdate").attr("disabled", "disabled");
+            //$("#txtOrderNo").attr("disabled", "disabled");
+            //$("#txtorderdate").attr("disabled", "disabled");
         }
     }
 
@@ -230,6 +230,32 @@
                 if (data != "" && data.DAArrerPeriods != null) {
                     $("#txtfromdate").val(data.DAArrerPeriods.substring(0, (data.DAArrerPeriods.indexOf(":"))));
                     $("#txttodate").val(data.DAArrerPeriods.substring((data.DAArrerPeriods.indexOf(":") + 1), data.DAArrerPeriods.length));
+                }
+                if (data != "" && data.DAArrerOrderNo != null) {
+                    $("#txtOrderNo").val(data.DAArrerOrderNo.substring(0, (data.DAArrerOrderNo.indexOf(":"))));
+                    let odate = (data.DAArrerOrderNo.substring((data.DAArrerOrderNo.indexOf(":") + 1), data.DAArrerOrderNo.length)).substring(0,10);
+                    if (odate != '') {
+                        var d;
+                        if (odate.indexOf('-') != -1) {
+                            d = new Date(odate.split("-").reverse().join("-"));
+                        }
+                        else if (odate.indexOf('/') != -1) {
+                            d = new Date(odate.split("/").reverse().join("-"));
+                        }
+                        var dd = String(d.getDate()).padStart(2, '0');
+                        /*var mm = d.getMonth() + 1;*/
+                        var mm = String(d.getMonth() + 1).padStart(2, '0');
+                        var yy = d.getFullYear();
+
+                        var date = (yy + "-" + mm + "-" + dd);
+
+                        $("#txtorderdate").val(date);
+                    }
+                    else {
+                        $("#txtorderdate").val('');
+                    }
+                   
+                    //$("#txtorderdate").val(data.DAArrerOrderNo.substring((data.DAArrerOrderNo.indexOf(":") + 1), data.DAArrerOrderNo.length));
                 }
             });
         }

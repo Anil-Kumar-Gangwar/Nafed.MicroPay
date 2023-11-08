@@ -59,5 +59,8 @@ namespace Nafed.MicroPay.Model
         public string toperiod1 { get; set; }
 
         public string mon { get; set; }
+        public DateTime? orderDate { get; set; }
+        public string orderNo { get; set; }
+
     }
 }
