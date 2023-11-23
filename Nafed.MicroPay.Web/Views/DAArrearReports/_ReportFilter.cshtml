@@ -200,6 +200,7 @@
     function BindEmployeeOnBranch(e) {
         debugger;
         //var branchId = 0;
+        BindArrearPeriodsDetails();
         var branchId = $("#ddlBranchList").val();
 
         $("#ddlEmployee").html("");
@@ -219,6 +220,29 @@
             $("#ddlEmployee").append($("<option></option>").val(0).html('Select'));
         }
     }
+
+    function BindArrearPeriodsDetails() {
+        debugger;
+        var branchId = $("#ddlBranchList").val();
+
+        $("#ArrerPeriodDetailsDA").html("");
+        if (branchId != '') {
+            jQuery.post("@Url.Action("GetArrearPeriodsDetails", "DAArrearReports")", {
+                branchId: branchId,
+            }).done(function (data) {
+
+                if (data.arrearPeriods != "") {
+                    $("#ArrerPeriodDetailsDA").html("");
+                    $.each(data.arrearPeriods, function (key, value) {
+                        $("#ArrerPeriodDetailsDA").append($("<option></option>").val(value.Text).html(value.Text));
+                    });
+                }
+            });
+        } else {
+            $("#ArrerPeriodDetailsDA").append($("<option></option>").val(0).html('SELECT'));
+        }
+    }
+
 
     function PeriodDetailsDA() {
         var value = $("#ArrerPeriodDetailsDA").val();
@@ -254,7 +278,7 @@
                     else {
                         $("#txtorderdate").val('');
                     }
-                   
+
                     //$("#txtorderdate").val(data.DAArrerOrderNo.substring((data.DAArrerOrderNo.indexOf(":") + 1), data.DAArrerOrderNo.length));
                 }
             });

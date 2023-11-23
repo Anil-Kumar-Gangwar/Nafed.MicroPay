@@ -77,6 +77,7 @@ namespace Nafed.MicroPay.Data.Models
         public Nullable<int> CreatedBy { get; set; }
         public Nullable<System.DateTime> UpdatedOn { get; set; }
         public Nullable<int> UpdatedBy { get; set; }
+        public string EmailId { get; set; }
     
         public virtual City City { get; set; }
         public virtual User User { get; set; }

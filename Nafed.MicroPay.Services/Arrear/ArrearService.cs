@@ -2633,12 +2633,12 @@ namespace Nafed.MicroPay.Services.Arrear
             }
         }
 
-        public List<ArrerPeriodDetailsForPAYDA> GetArrearPeriodsDetailsforPay(string arrerType)
+        public List<ArrerPeriodDetailsForPAYDA> GetArrearPeriodsDetailsforPay(string arrerType, int? branchId = null)
         {
             log.Info($"AdjustOldLoanService/GetArrearPeriodsDetails");
             try
             {
-                var result = arrearRepo.GetArrearPeriodsDetailsforPay(arrerType);
+                var result = arrearRepo.GetArrearPeriodsDetailsforPay(arrerType, branchId);
                 var arrerperiodDetails = Common.ExtensionMethods.ConvertToList<ArrerPeriodDetailsForPAYDA>(result);
                 return arrerperiodDetails;
             }

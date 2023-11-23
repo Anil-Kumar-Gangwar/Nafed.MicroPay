@@ -423,7 +423,7 @@ namespace Nafed.MicroPay.Data.Repositories
             return db.CreatePayArrearDetail(fROMPERIOD, tOPERIOD, arrearType, eMP, brcode, generateDate);
         }
         
-        public DataTable GetArrearPeriodsDetailsforPay(string arrerType)
+        public DataTable GetArrearPeriodsDetailsforPay(string arrerType, int? branchId)
         {
 
             DataTable dt = new DataTable();
@@ -440,6 +440,7 @@ namespace Nafed.MicroPay.Data.Repositories
                 dbSqlCommand.CommandType = CommandType.StoredProcedure;
                 dbSqlCommand.CommandText = "getArrearperiodsdetailsforPay";
                 dbSqlCommand.Parameters.Add("@arrearType", SqlDbType.VarChar).Value = arrerType;
+                dbSqlCommand.Parameters.Add("@branchId", SqlDbType.Int).Value = branchId;
                 dbSqlDataTable = new DataTable();
                 DataSet ds = new DataSet();
                 dbSqlAdapter = new SqlDataAdapter(dbSqlCommand);

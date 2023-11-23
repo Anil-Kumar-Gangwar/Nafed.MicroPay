@@ -61,6 +61,20 @@ namespace MicroPay.Web.Controllers.Arrear
             }
         }
 
+        public JsonResult GetArrearPeriodsDetails(int? branchId)
+        {
+            var result = ArrearService.GetArrearPeriodsDetailsforPay("AD", branchId);
+            TempData["DAArrerDetails"] = result;
+            var selectLists = result.Select(x => new SelectListModel { id = 0, value = x.DOG }).ToList();
+           
+            var selectListModel = new SelectListModel();
+            selectListModel.id = 0;
+            selectListModel.value = "SELECT";
+            selectLists.Insert(0,selectListModel);
+            var arrearPeriods = new SelectList(selectLists, "id", "value");
+            return Json(new { arrearPeriods = arrearPeriods }, JsonRequestBehavior.AllowGet);
+        }
+
         public JsonResult GetBranchEmployee(int branchID)
         {
             log.Info($"DAArrearReportsController/GetBranchEmployee");

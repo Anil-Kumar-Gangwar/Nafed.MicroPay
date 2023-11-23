@@ -32,7 +32,7 @@ namespace Nafed.MicroPay.Data.Repositories.IRepositories
 
         int CreatePayArrearDetail(string fROMPERIOD, string tOPERIOD, string arrearType, string eMP, string brcode, string generateDate);
 
-        DataTable GetArrearPeriodsDetailsforPay(string arrerType);
+        DataTable GetArrearPeriodsDetailsforPay(string arrerType, int? branchId);
 
         DataTable GetArrearReport(dynamic rFilter);
       void UpdateDateBranch_Pay(int salMonth, int salYear);

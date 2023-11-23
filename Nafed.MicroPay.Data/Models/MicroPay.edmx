@@ -148,7 +148,7 @@
           <Property Name="AcceptanceAuthSubmissionDueDate" Type="date" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'HRMSLive.dbo.ArrearDetail' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'HRMS.dbo.ArrearDetail' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="ArrearDetail">
           <Key>
             <PropertyRef Name="SalMonth" />
@@ -2381,7 +2381,7 @@ warning 6002: The table/view 'HRMSLive.dbo.ArrearDetail' does not have a primary
           <Property Name="IsDeleted" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'HRMSLive.dbo.LeaveType' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'HRMS.dbo.LeaveType' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="LeaveType">
           <Key>
             <PropertyRef Name="LeaveTypeID" />
@@ -5352,7 +5352,7 @@ warning 6002: The table/view 'HRMSLive.dbo.LeaveType' does not have a primary ke
           <Property Name="UpdatedOn" Type="datetime" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'HRMSLive.dbo.TrainingFeedbackFormat' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'HRMS.dbo.TrainingFeedbackFormat' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="TrainingFeedbackFormat">
           <Key>
             <PropertyRef Name="TFeedbackID" />

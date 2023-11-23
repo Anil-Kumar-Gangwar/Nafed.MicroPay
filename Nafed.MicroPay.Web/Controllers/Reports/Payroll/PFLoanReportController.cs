@@ -172,12 +172,12 @@ namespace MicroPay.Web.Controllers.Reports.Payroll
                         }
                         if (objPFLoanReportFilters.pfLoanReportRadio == PFLoanReportRadio.MPFLDSatement)
                         {
-                            parameterList.Add(new ReportParameter { name = "BranchCode", value = branchCode });
+                            parameterList.Add(new ReportParameter { name = "BranchCode", value = branchCode ?? "0" });
                             parameterList.Add(new ReportParameter { name = "SalMonth", value = salMonth });
                             parameterList.Add(new ReportParameter { name = "SalYear", value = salYear });
                             parameterList.Add(new ReportParameter { name = "MONTH", value = vMonth });
                             parameterList.Add(new ReportParameter { name = "emptype", value = employeeTypeId });
-                            parameterList.Add(new ReportParameter { name = "employeeid", value = EmployeeId });
+                            parameterList.Add(new ReportParameter { name = "employeeid", value = EmployeeId ?? 0 });
                             reportModel.reportParameters = parameterList;
                             reportModel.rptName = "PFLoanDeduc.rpt";
                             Session["ReportModel"] = reportModel;

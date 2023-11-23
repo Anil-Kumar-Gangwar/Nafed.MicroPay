@@ -66,7 +66,7 @@ namespace Nafed.MicroPay.Services.Arrear
         #endregion
         int getPayArrearEmployee(string branchCode, int fromYear, int toYear, string DOG);
         //List<ArrerPeriodDetails> GetArrearPeriodsDetails(string arrerType);
-        List<ArrerPeriodDetailsForPAYDA> GetArrearPeriodsDetailsforPay(string arrerType);
+        List<ArrerPeriodDetailsForPAYDA> GetArrearPeriodsDetailsforPay(string arrerType, int? branchId = null);
         bool getemployeebranchDetails(int branchID, out ArrearFilters BRdetail);
 
         string getSelectedEmployeecode(int listcount, int[] empIDs);

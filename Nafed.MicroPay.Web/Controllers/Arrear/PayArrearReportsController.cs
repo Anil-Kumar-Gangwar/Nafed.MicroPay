@@ -289,8 +289,8 @@ namespace MicroPay.Web.Controllers.Arrear
                             parameterList.Add(new ReportParameter() { name = "FROMPERIOD", value = fromYear });
                             parameterList.Add(new ReportParameter() { name = "TOPERIOD", value = toYear });
                             parameterList.Add(new ReportParameter() { name = "ArrearType", value = "B" });
-                            parameterList.Add(new ReportParameter() { name = "branchId", value = ARVM.branchID == 0 ? null : ARVM.branchID });
-                            parameterList.Add(new ReportParameter() { name = "EmpId", value = ARVM.employeeID==0?null:ARVM.employeeID });
+                            parameterList.Add(new ReportParameter() { name = "branchId", value = ARVM.branchID == null ? 0 : ARVM.branchID });
+                            parameterList.Add(new ReportParameter() { name = "EmpId", value = ARVM.employeeID == null ? 0 : ARVM.employeeID });
                             //parameterList.Add(new ReportParameter() { name = "fdate", value = null });
                             //parameterList.Add(new ReportParameter() { name = "tdate", value = null });
                             //parameterList.Add(new ReportParameter() { name = "tax", value = null });
@@ -348,7 +348,7 @@ namespace MicroPay.Web.Controllers.Arrear
 
                             parameterList.Add(new ReportParameter() { name = "FROMPERIOD", value = fromYear });
                             parameterList.Add(new ReportParameter() { name = "TOPERIOD", value = toYear });
-                            parameterList.Add(new ReportParameter() { name = "BRANCH", value = ARVM.branchID});
+                            parameterList.Add(new ReportParameter() { name = "BRANCH", value = ARVM.branchID });
 
                             reportModel.reportParameters = parameterList;
                             reportModel.rptName = "rptPFPAYArrear.rpt";
