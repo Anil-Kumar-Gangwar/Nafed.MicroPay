@@ -10,6 +10,9 @@
                 Branch Name
             </th>
             <th>
+                Email Address
+            </th>
+            <th>
                 Address
             </th>
             <th>
@@ -29,25 +32,26 @@
             {
                 foreach (var item in Model.branchList)
                 {
-                    <tr>
-                        <td> @item.BranchCode</td>
-                        <td> @item.BranchName</td>
-                        <td> @item.Address1</td>
-                        <td> @item.Region</td>
-                        <td class="text-center">
-                            @*<a href="@Url.Action("Edit","Branch",new { branchID = @item.BranchID })" title="Click here, to edit this record">
-                                <span class="fa fa-paperclip fa-2x" aria-hidden="true"></span>
-                            </a>*@
-                            @Html.EncodedImageActionLink("", "Edit", "Branch", new { branchID = @item.BranchID }, new { @class = "toggle-tooltip", title = "Click here, to edit this record" }, "~/Images/edit.png")
-                            
-                        </td>
-                        <td class="text-center">
-                            @*<a data-toggle="confirm" class="toggle-tooltip" href="@Url.Action("Delete","Branch",new { branchID = @item.BranchID })" title="Click here, to delete this record">
-                                    <span class="far fa-trash-alt text-danger" aria-hidden="true"></span>
-                                </a>*@
-                            @Html.EncodedImageActionLink("", "Delete", "Branch", new { branchID = @item.BranchID }, new { @class = "toggle-tooltip", title = "Click here, to delete this record" }, "~/Images/delete.png",true)
-                        </td>
-                    </tr>
+                <tr>
+                    <td> @item.BranchCode</td>
+                    <td> @item.BranchName</td>
+                    <td> @item.EmailId</td>
+                    <td> @item.Address1</td>
+                    <td> @item.Region</td>
+                    <td class="text-center">
+                        @*<a href="@Url.Action("Edit","Branch",new { branchID = @item.BranchID })" title="Click here, to edit this record">
+                <span class="fa fa-paperclip fa-2x" aria-hidden="true"></span>
+            </a>*@
+                        @Html.EncodedImageActionLink("", "Edit", "Branch", new { branchID = @item.BranchID }, new { @class = "toggle-tooltip", title = "Click here, to edit this record" }, "~/Images/edit.png")
+
+                    </td>
+                    <td class="text-center">
+                        @*<a data-toggle="confirm" class="toggle-tooltip" href="@Url.Action("Delete","Branch",new { branchID = @item.BranchID })" title="Click here, to delete this record">
+                <span class="far fa-trash-alt text-danger" aria-hidden="true"></span>
+            </a>*@
+                        @Html.EncodedImageActionLink("", "Delete", "Branch", new { branchID = @item.BranchID }, new { @class = "toggle-tooltip", title = "Click here, to delete this record" }, "~/Images/delete.png", true)
+                    </td>
+                </tr>
                 }
             }
 

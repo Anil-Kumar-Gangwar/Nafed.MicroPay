@@ -96,6 +96,7 @@ namespace Nafed.MicroPay.Services
                     .ForMember(c => c.Remarks, c => c.MapFrom(s => s.Remarks))
                     .ForMember(c => c.CreatedBy, c => c.MapFrom(s => s.CreatedBy))
                      .ForMember(c => c.CreatedOn, c => c.MapFrom(s => s.CreatedOn))
+                     .ForMember(c => c.EmailId, c => c.MapFrom(s => s.EmailId))
                    .ForAllOtherMembers(c => c.Ignore());
                 });
                 var dtoBranch = Mapper.Map<DTOModel.Branch>(createBrach);
@@ -133,6 +134,7 @@ namespace Nafed.MicroPay.Services
                 dtoObj.Remarks = editBranch.Remarks;
                 dtoObj.UpdatedOn = editBranch.UpdatedOn;
                 dtoObj.UpdatedBy = editBranch.UpdatedBy;
+                dtoObj.EmailId = editBranch.EmailId;
                 genericRepo.Update<DTOModel.Branch>(dtoObj);
                 flag = true;
             }
@@ -176,6 +178,7 @@ namespace Nafed.MicroPay.Services
                     .ForMember(c => c.UpdatedBy, c => c.MapFrom(s => s.UpdatedBy))
                     .ForMember(c => c.UpdatedOn, c => c.MapFrom(s => s.UpdatedOn))
                     .ForMember(c => c.IsDeleted, c => c.MapFrom(s => s.IsDeleted))
+                    .ForMember(c => c.EmailId, c => c.MapFrom(s => s.EmailId))
                     .ForAllOtherMembers(c => c.Ignore());
                 });
                 var obj = Mapper.Map<DTOModel.Branch, Model.Branch>(branchObj);
