@@ -101,11 +101,11 @@ namespace MicroPay.Web.Controllers.Reports.Payroll
                     {
                         if (objPFLoanReportFilters.pfLoanReportRadio == PFLoanReportRadio.MPFStatement)
                         {
-                            parameterList.Add(new ReportParameter { name = "BranchCode", value = branchCode });
+                            parameterList.Add(new ReportParameter { name = "BranchCode", value = branchCode ?? "0" });
                             parameterList.Add(new ReportParameter { name = "SalMonth", value = salMonth });
                             parameterList.Add(new ReportParameter { name = "SalYear", value = salYear });
                             parameterList.Add(new ReportParameter { name = "emptype", value = employeeTypeId });
-                            parameterList.Add(new ReportParameter { name = "employeeid", value = EmployeeId });
+                            parameterList.Add(new ReportParameter { name = "employeeid", value = EmployeeId ?? 0 });
                             parameterList.Add(new ReportParameter { name = "isPfNo", value = objPFLoanReportFilters.IsPfNo });
 
 
@@ -129,14 +129,14 @@ namespace MicroPay.Web.Controllers.Reports.Payroll
                             if (objPFLoanReportFilters.dateTypeRadio == DateTypeRadio.rbddateRange)
                             {
                                 if (objPFLoanReportFilters.AllBranch)
-                                    branchCode = null;
+                                    branchCode = "0";
 
                                 parameterList.Add(new ReportParameter { name = "BranchCode", value = branchCode });
                                 parameterList.Add(new ReportParameter { name = "SalMonth", value = objPFLoanReportFilters.fromMonth });
                                 parameterList.Add(new ReportParameter { name = "SalYear", value = salYear });
                                 reportModel.reportParameters = parameterList;
                                 parameterList.Add(new ReportParameter { name = "emptype", value = employeeTypeId });
-                                parameterList.Add(new ReportParameter { name = "employeeid", value = EmployeeId });
+                                parameterList.Add(new ReportParameter { name = "employeeid", value = EmployeeId ?? 0 });
                                 parameterList.Add(new ReportParameter { name = "isPfNo", value = objPFLoanReportFilters.IsPfNo });
                                 reportModel.rptName = "PFSummary.rpt";
                             }
@@ -227,9 +227,9 @@ namespace MicroPay.Web.Controllers.Reports.Payroll
                             parameterList.Add(new ReportParameter { name = "SalMonth", value = salMonth });
                             parameterList.Add(new ReportParameter { name = "MONTH", value = vMonth });
                             parameterList.Add(new ReportParameter { name = "SalYear", value = salYear });
-                            parameterList.Add(new ReportParameter { name = "branchcode", value = branchCode });
+                            parameterList.Add(new ReportParameter { name = "branchcode", value = branchCode ?? "0" });
                             parameterList.Add(new ReportParameter { name = "emptype", value = employeeTypeId });
-                            parameterList.Add(new ReportParameter { name = "employeeid", value = EmployeeId });
+                            parameterList.Add(new ReportParameter { name = "employeeid", value = EmployeeId ?? 0 });
                             reportModel.reportParameters = parameterList;
                             reportModel.rptName = "PFLEDGERNEW.rpt";
                             Session["ReportModel"] = reportModel;
