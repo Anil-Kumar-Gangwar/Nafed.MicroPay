@@ -70,20 +70,20 @@
                         <div class="row">
 
                             <div class="col-lg-2 col-xl-2 col-md-2 col-sm-12 col-xs-12">
-                                @Html.LabelFor(model => model.Abbreviation, htmlAttributes: new { @class = "control-label" })
+                                @Html.LabelFor(model => model.Abbreviation, htmlAttributes: new { @class = "control-label required" })
 
                             </div>
                             <div class="col-lg-4 col-xl-4 col-md-4 col-sm-12 col-xs-12">
-                                @Html.EditorFor(model => model.Abbreviation, new { htmlAttributes = new { @class = "form-control", @placeholder = "Abbreviation", @maxlength = "6" } })
+                                @Html.EditorFor(model => model.Abbreviation, new { htmlAttributes = new { @class = "form-control", @placeholder = "Abbreviation", @maxlength = "6", @required = "required" } })
 
                             </div>
                             <div class="col-lg-2 col-xl-2 col-md-2 col-sm-12 col-xs-12">
-                                @Html.LabelFor(model => model.FieldDesc, htmlAttributes: new { @class = "control-label" })
+                                @Html.LabelFor(model => model.FieldDesc, htmlAttributes: new { @class = "control-label required" })
 
                             </div>
                             <div class="col-lg-4 col-xl-4 col-md-4 col-sm-12 col-xs-12">
 
-                                @Html.EditorFor(model => model.FieldDesc, new { htmlAttributes = new { @class = "form-control", @placeholder = "Description", @maxlength = "50" } })
+                                @Html.EditorFor(model => model.FieldDesc, new { htmlAttributes = new { @class = "form-control", @placeholder = "Description", @maxlength = "50", @required = "required" } })
                             </div>
                         </div>
 

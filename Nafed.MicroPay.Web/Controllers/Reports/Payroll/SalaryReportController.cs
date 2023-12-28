@@ -219,6 +219,58 @@ namespace MicroPay.Web.Controllers.Reports.Payroll
                         parameterList.Add(new ReportParameter { name = "EMPID", value = employeeId });
                         rptName = "PaySlipBR.rpt";
                     }
+
+                    if (salaryReportFilter.salaryReportRadio == SalaryReportRadio.PaySummary)
+                    {
+                        if (branchId == 0)
+                        {
+                            parameterList.Add(new ReportParameter { name = "BranchID", value = branchId });
+                            parameterList.Add(new ReportParameter { name = "SalMonth", value = month });
+                            parameterList.Add(new ReportParameter { name = "SalYear", value = Convert.ToInt16(year) });
+                            parameterList.Add(new ReportParameter { name = "EmployeeTypeID", value = employeeTypeId });
+                            parameterList.Add(new ReportParameter { name = "Emps", value = 0 });
+                            parameterList.Add(new ReportParameter { name = "Br", value = " " });
+                            parameterList.Add(new ReportParameter { name = "flag", value = " " });
+                            rptName = "PaySummaryAllBranch.rpt";
+                        }
+                        else
+                        {
+                            parameterList.Add(new ReportParameter { name = "BranchID", value = branchId });
+                            parameterList.Add(new ReportParameter { name = "SalMonth", value = month });
+                            parameterList.Add(new ReportParameter { name = "SalYear", value = Convert.ToInt16(year) });
+                            parameterList.Add(new ReportParameter { name = "EmployeeTypeID", value = employeeTypeId });
+                            parameterList.Add(new ReportParameter { name = "Emps", value = 0 });
+                            parameterList.Add(new ReportParameter { name = "Br", value = branchName });
+                            parameterList.Add(new ReportParameter { name = "flag", value = " " });
+                            rptName = "PaySummary.rpt";
+                        }
+                    }
+
+                   else if (salaryReportFilter.salaryReportRadio == SalaryReportRadio.PaySummaryAllBranch)
+                    {
+                        if (salaryReportFilter.AllBranch)
+                        {
+                            parameterList.Add(new ReportParameter { name = "BranchID", value = branchId });
+                            parameterList.Add(new ReportParameter { name = "SalMonth", value = month });
+                            parameterList.Add(new ReportParameter { name = "SalYear", value = Convert.ToInt16(year) });
+                            parameterList.Add(new ReportParameter { name = "EmployeeTypeID", value = employeeTypeId });
+                            parameterList.Add(new ReportParameter { name = "Emps", value = 0 });
+                            parameterList.Add(new ReportParameter { name = "Br", value = " " });
+                            parameterList.Add(new ReportParameter { name = "flag", value = "P" });
+                            rptName = "PaySummary.rpt";
+                        }
+                        else if (branchId == 44)
+                        {
+                            parameterList.Add(new ReportParameter { name = "BranchID", value = branchId });
+                            parameterList.Add(new ReportParameter { name = "SalMonth", value = month });
+                            parameterList.Add(new ReportParameter { name = "SalYear", value = Convert.ToInt16(year) });
+                            parameterList.Add(new ReportParameter { name = "EmployeeTypeID", value = employeeTypeId });
+                            parameterList.Add(new ReportParameter { name = "Emps", value = 0 });
+                            parameterList.Add(new ReportParameter { name = "Br", value = " " });
+                            parameterList.Add(new ReportParameter { name = "flag", value = " " });
+                            rptName = "PaySummary.rpt";
+                        }
+                    }
                 }
                 else if (salaryReportFilter.employeeTypeID == 3)
                 {

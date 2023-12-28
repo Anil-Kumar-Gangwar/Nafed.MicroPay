@@ -11,6 +11,8 @@
     var message = Model.Message;
     var updationmsg = ViewBag.Message == null ? "" : ViewBag.Message;
     var procesFurther = Model.projectedIncrement.Any(x => x.ProceedFurther == false);
+
+    var errorMsg = ViewBag.Error == null ? "" : ViewBag.Error;
 }
 
 <style type="text/css">
@@ -31,6 +33,10 @@
 <script type="text/javascript">
     $('.toggle-tooltip').tooltip();
     $(document).ready(function () {
+        if ("@errorMsg" != "") {
+            commonMessage("error", "@errorMsg");
+        }
+
         if ("@updationmsg" != "" && "@procesFurther" == "False") {
             commonMessage("success", "@updationmsg");
         }

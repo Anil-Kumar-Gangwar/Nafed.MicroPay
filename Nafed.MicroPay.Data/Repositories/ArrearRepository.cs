@@ -547,7 +547,38 @@ namespace Nafed.MicroPay.Data.Repositories
                 throw;
             }
         }
-    }   
 
+        public DataTable GetContractEmpExtentionExpireCodeList(DateTime extentionToDate)
+        {
+            log.Info($"ArrearRepository/GetContractEmpExtentionExpireCodeList/");           
+            DataTable dataTable = new DataTable();
+            try
+            {
+                SqlCommand dbSqlCommand;
+                SqlDataAdapter dbSqlAdapter;
+                SqlConnection dbSqlconnection;
+                dbSqlconnection = new SqlConnection(db.Database.Connection.ConnectionString);
+                dbSqlCommand = new SqlCommand
+                {
+                    Connection = dbSqlconnection,
+                    CommandType = CommandType.StoredProcedure,
+                    CommandText = "[GetContractEmpExtentionExpireCodeList]"
+                };
+                dbSqlCommand.Parameters.Add("@extentionToDate", SqlDbType.DateTime).Value = extentionToDate;
+               
+                dbSqlAdapter = new SqlDataAdapter(dbSqlCommand);
+                if (dbSqlconnection.State == ConnectionState.Closed)
+                    dbSqlconnection.Open();
+                dbSqlAdapter.Fill(dataTable);
+                dbSqlconnection.Close();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return dataTable;
+        }
+
+    }
 
 }

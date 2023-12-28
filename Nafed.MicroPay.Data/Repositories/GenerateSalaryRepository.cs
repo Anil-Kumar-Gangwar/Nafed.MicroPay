@@ -19,7 +19,7 @@ namespace Nafed.MicroPay.Data.Repositories
             try
             {
                 var endDateOfSelectedMonth = new DateTime(salYear, salMonth, DateTime.DaysInMonth(salYear, salMonth));
-
+               
                 if (allEmployees && branchesExcecptHO)
 
                     return db.tblMstEmployees.AsNoTracking().Where(x => ((x.BranchID_Pay != null && x.BranchID_Pay != 0) ? x.BranchID_Pay != 44 : x.BranchID != 44)
@@ -32,7 +32,7 @@ namespace Nafed.MicroPay.Data.Repositories
                      (
                         x.DOJ <= endDateOfSelectedMonth
                      )
-                      && !x.IsDeleted && x.EmployeeTypeID == employeeType && !x.IsSalgenrated).Select(y => y.EmployeeCode).ToList();
+                      && !x.IsDeleted && x.EmployeeTypeID == employeeType && !x.IsSalgenrated ).Select(y => y.EmployeeCode).ToList();
 
 
                 else if (allEmployees && branchID.HasValue)

@@ -431,5 +431,14 @@ namespace Nafed.MicroPay.Services.Increment
                 throw ex;
             }
         }
+
+        public string GetDesignationName (int designationId)
+        {
+           var designation =  genericRepo.GetByID<DTOModel.Designation>(designationId);
+            if (designation != null)
+                return designation.DesignationName;
+            else
+                return "";
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Nafed.MicroPay.Model;
+﻿using Nafed.MicroPay.Common;
+using Nafed.MicroPay.Model;
 using Nafed.MicroPay.Services.IServices;
 using System;
 using System.Collections.Generic;
@@ -51,12 +52,30 @@ namespace MicroPay.Web.Controllers.Children_Education
             log.Info($"ChildrenEducationDetailsController/_AdminChildrenEducationFilters");
             try
             {
-                AppraisalFormApprovalFilter filters = new AppraisalFormApprovalFilter();
+                AppraisalFormApprovalFilter filters = new AppraisalFormApprovalFilter
+                {
+                    ddlBranch = ddlServices.ddlBranchList()
+                };
+
                 //filters.employees = ddlServices.GetAllEmployee();  
-                filters.ddlBranch = ddlServices.ddlBranchList();
-                var reportingYrs = ddlServices.GetFinanceYear().OrderByDescending(x => x.value).ToList();
-                filters.reportingYrs = reportingYrs;
-                filters.selectedReportingYear = reportingYrs.First().value; // set default as current year
+
+
+                //var fyear = DateTime.Now.GetFinancialYr();
+                //var reportingYrs = ddlServices.GetFinanceYear().OrderByDescending(x => x.value).ToList();
+                //var listModel = reportingYrs.FirstOrDefault(x => x.value == fyear);
+                //if (listModel == null)
+                //{
+                //    reportingYrs.Add(new SelectListModel
+                //    {
+                //        id = reportingYrs.Count() + 1,
+                //        value = fyear
+                //    });
+                //}
+
+                var reportingYr = ExtensionMethods.GetFinancialYrList(2020, DateTime.Now.Year).Select((x, index) => new SelectListModel { id = index, value = x }).OrderByDescending(x => x.value).ToList();
+
+                filters.reportingYrs = reportingYr;
+                filters.selectedReportingYear = reportingYr.First().value; // set default as current year
                 return PartialView("_AdminChildrenEducationFilters", filters);
             }
             catch (Exception ex)
@@ -97,7 +116,7 @@ namespace MicroPay.Web.Controllers.Children_Education
 
             DataColumn dtc0 = new DataColumn("S.No.", typeof(string));
             DataColumn dtc1 = new DataColumn("Reporting Year", typeof(string));
-            DataColumn dtc2 = new DataColumn("Employee Code",typeof(string));
+            DataColumn dtc2 = new DataColumn("Employee Code", typeof(string));
             DataColumn dtc3 = new DataColumn("Employee Name", typeof(string));
             DataColumn dtc4 = new DataColumn("Branch Name", typeof(string));
             DataColumn dtc5 = new DataColumn("Designation", typeof(string));

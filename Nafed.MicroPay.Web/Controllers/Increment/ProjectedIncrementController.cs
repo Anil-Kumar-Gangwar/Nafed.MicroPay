@@ -508,6 +508,22 @@ namespace MicroPay.Web.Controllers.Increment
                         {
                             for (int x = 1; x <= limit; x++)
                             {
+                                if (Convert.ToString(row["B" + x]) == "")
+                                {
+                                    var projectedInc1 = incrementService.GetProjectedIncrementDetails(pVM.BranchID, pVM.EmployeeCode, pVM.EmployeeName, pVM.incrementMonthId);
+                                    projectedInc1.ForEach(xa => { xa.CurrentBasic = Convert.ToInt32(xa.CurrentBasic); xa.OldBasic = Convert.ToInt32(xa.OldBasic); xa.LastIncrement = Convert.ToInt32(xa.LastIncrement); });
+                                    TempData["ProjectedIncrementDetails"] = projectedInc1;
+                                    projectedVM.projectedIncrement = projectedInc1;
+                                    projectedVM.userRights = userAccessRight;
+                                    projectedVM.incrementMonthId = pVM.incrementMonthId;
+
+                                    int designationID = Convert.ToString(row["DesignationID"]) == "" ? 0 : Convert.ToInt32(row["DesignationID"]);
+                                    string designation = "";
+                                    if (designationID > 0)
+                                        designation = incrementService.GetDesignationName(designationID);
+                                    ViewBag.Error = "Salary Increment is failed, due to pay scale not define for "+ designation + " designation.";
+                                    return PartialView("_ProjectedIncrementGridView", projectedVM);
+                                }
                                 b[x - 1] = Convert.ToDecimal(row["B" + x]);
                                 e[x - 1] = Convert.ToDecimal(row["E" + x]);
                             }

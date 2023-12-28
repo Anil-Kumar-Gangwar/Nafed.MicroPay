@@ -63,11 +63,16 @@ namespace Nafed.MicroPay.Services
             }
         }
 
-        public bool BranchNameExists(string branchName)
+        public bool BranchNameExists(string branchName, int? branchId)
         {
-            return genericRepo.Exists<DTOModel.Branch>(x => x.BranchName == branchName && !x.IsDeleted);
+            return genericRepo.Exists<DTOModel.Branch>(x => x.BranchName == branchName && (!branchId.HasValue || x.BranchID != branchId));
         }
-
+        public bool EmailidExists(string emailId, int? branchId)
+        {
+            if (string.IsNullOrEmpty(emailId))
+                return false;
+            return genericRepo.Exists<DTOModel.Branch>(x => x.EmailId == emailId && (branchId.HasValue ? x.BranchID != branchId : (1 > 0)));
+        }
         public int InsertBranch(Model.Branch createBrach)
         {
             log.Info($"InsertBranch");

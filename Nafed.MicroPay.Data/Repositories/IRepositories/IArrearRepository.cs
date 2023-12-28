@@ -35,7 +35,8 @@ namespace Nafed.MicroPay.Data.Repositories.IRepositories
         DataTable GetArrearPeriodsDetailsforPay(string arrerType, int? branchId);
 
         DataTable GetArrearReport(dynamic rFilter);
-      void UpdateDateBranch_Pay(int salMonth, int salYear);
+        void UpdateDateBranch_Pay(int salMonth, int salYear);
         bool UPdateOrderNumberDate(string DOG, string orderNumber, DateTime? orderDate);
+        DataTable GetContractEmpExtentionExpireCodeList(DateTime extentionToDate);
     }
 }

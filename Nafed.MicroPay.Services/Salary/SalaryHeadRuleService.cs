@@ -130,11 +130,11 @@ namespace Nafed.MicroPay.Services.Salary
                          .ForMember(d => d.AttendanceDep, o => o.UseValue(true))
                          .ForMember(d => d.C, o => o.UseValue(true))
                          .ForMember(d => d.CreatedBy, o => o.MapFrom(s => s.CreatedBy))
-                         .ForMember(d => d.CreatedOn, o => o.MapFrom(s => s.CreatedOn))                     
+                         .ForMember(d => d.CreatedOn, o => o.MapFrom(s => s.CreatedOn))
                          .ForMember(d => d.CT, o => o.UseValue(true))
                          .ForMember(d => d.CW, o => o.UseValue(true))
                          .ForMember(d => d.DC, o => o.UseValue(true))
-                         .ForMember(d => d.DW, o => o.UseValue(true))                    
+                         .ForMember(d => d.DW, o => o.UseValue(true))
                          .ForMember(d => d.MT, o => o.UseValue(true))
                          .ForMember(d => d.Conditional, o => o.UseValue(false))
                          .ForMember(d => d.FromMaster, o => o.UseValue(false))
@@ -144,7 +144,7 @@ namespace Nafed.MicroPay.Services.Salary
                          .ForMember(d => d.RoundToHigher, o => o.UseValue(false))
                          .ForMember(d => d.FormulaColumn, o => o.UseValue(false))
                          .ForMember(d => d.SeqNo, o => o.UseValue(1))
-                         .ForMember(d => d.SpecialFieldMaster, o => o.UseValue(true))           
+                         .ForMember(d => d.SpecialFieldMaster, o => o.UseValue(true))
                          .ForMember(d => d.EmployeeTypeID, o => o.MapFrom(s => s.EmployeeTypeID))
                          .ForAllOtherMembers(d => d.Ignore());
                     });
@@ -911,28 +911,43 @@ namespace Nafed.MicroPay.Services.Salary
             bool flag = false;
             try
             {
-                var getLoanEntry = genericRepo.Get<DTOModel.tblMstLoanPriority>(x => x.MstLoanID == mstLoanID && !x.IsDeleted).FirstOrDefault();
+                var getLoanEntry = genericRepo.Get<DTOModel.tblMstLoanPriority>(x => x.MstLoanID == mstLoanID).FirstOrDefault();
                 if (getLoanEntry != null)
                 {
-                    getLoanEntry.IsDeleted = true;
-                    getLoanEntry.UpdatedBy = updatedBy;
-                    getLoanEntry.UpdatedOn = DateTime.Now;
-                    getLoanEntry.IsNewLoanAfterDevelop = false;
-                    genericRepo.Update(getLoanEntry);
-                    var getLoanHtrEntry = genericRepo.Get<DTOModel.tblMstLoanPriorityHistory>(x => x.RefLoanMstID == mstLoanID && !x.IsDeleted).ToList();
-                    if (getLoanHtrEntry != null && getLoanHtrEntry.Count > 0)
+                    var isExist = genericRepo.Exists<DTOModel.tblLoanTran>(x => x.SerialNo == getLoanEntry.SerialNo);
+                    if (!isExist)
                     {
-                        foreach (var item in getLoanHtrEntry)
-                        {
-                            item.IsDeleted = true;
-                            item.IsNewLoanAfterDevelop = false;
-                            item.UpdatedBy = updatedBy;
-                            item.UpdatedOn = DateTime.Now;
-                            genericRepo.Update(item);
-                        }
+                        var getLoanHtrEntry = genericRepo.Get<DTOModel.tblMstLoanPriorityHistory>(x => x.RefLoanMstID == mstLoanID).ToList();
+
+                        genericRepo.DeleteAll<DTOModel.tblMstLoanPriorityHistory>(getLoanHtrEntry);
+                        genericRepo.Delete<DTOModel.tblMstLoanPriority>(getLoanEntry);
+                        return true;
                     }
+                    return false;
                 }
-                // flag = salaryRepo.DeleteSanction(priorityNo, DateAvailLoan);
+               
+
+                //if (getLoanEntry != null)
+                //{
+                //    getLoanEntry.IsDeleted = true;
+                //    getLoanEntry.UpdatedBy = updatedBy;
+                //    getLoanEntry.UpdatedOn = DateTime.Now;
+                //    getLoanEntry.IsNewLoanAfterDevelop = false;
+                //    genericRepo.Update(getLoanEntry);
+                //    var getLoanHtrEntry = genericRepo.Get<DTOModel.tblMstLoanPriorityHistory>(x => x.RefLoanMstID == mstLoanID && !x.IsDeleted).ToList();
+                //    if (getLoanHtrEntry != null && getLoanHtrEntry.Count > 0)
+                //    {
+                //        foreach (var item in getLoanHtrEntry)
+                //        {
+                //            item.IsDeleted = true;
+                //            item.IsNewLoanAfterDevelop = false;
+                //            item.UpdatedBy = updatedBy;
+                //            item.UpdatedOn = DateTime.Now;
+                //            genericRepo.Update(item);
+                //        }
+                //    }
+                //}
+               
                 flag = true;
             }
             catch (Exception ex)

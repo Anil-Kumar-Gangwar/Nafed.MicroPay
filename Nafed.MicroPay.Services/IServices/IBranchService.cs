@@ -10,7 +10,7 @@ namespace Nafed.MicroPay.Services.IServices
   public interface IBranchService
     {
         List<Model.Branch> GetBranchList();
-        bool BranchNameExists(string branchName);
+        bool BranchNameExists(string branchName, int? branchId);
 
         Model.Branch GetBranchByID(int branchID);
 
@@ -23,5 +23,6 @@ namespace Nafed.MicroPay.Services.IServices
         BranchManagerDetails ChangeBranch(BranchManagerDetails branchDtls);
         bool DeleteBranchTransEntry(int transID);
         bool UpdateBranchEmail(int branchId, string emailId);
+        bool EmailidExists(string emailId, int? branchId);
     }
 }

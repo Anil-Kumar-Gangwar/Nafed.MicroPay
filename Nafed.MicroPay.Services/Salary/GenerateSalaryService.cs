@@ -64,16 +64,45 @@ namespace Nafed.MicroPay.Services.Salary
 
                 List<string> empCodesOfSalaryTable = new List<string>();
                 List<string> empCodesOfMonthlyInput = new List<string>();
+                List<string> empExtentionExpireCode = new List<string>();
 
                 var empCodesFromMaster = generateSalaryRepo.GetEmployeeMasterRecords(regEmpSalary.salMonth,
                     regEmpSalary.salYear, regEmpSalary.BranchesExcecptHO, regEmpSalary.AllEmployees, regEmpSalary.selectedEmployeeTypeID.Value,
                      regEmpSalary.selectedBranchID, regEmpSalary.selectedEmployeeID);
 
+                // Check Emails Address in Branch
+
+                var branchIds = genericRepo.Get<DTOModel.tblMstEmployee>(x => empCodesFromMaster.Contains(x.EmployeeCode)).Select(x => x.BranchID).Distinct().ToList();
+                if (branchIds.Count > 0)
+                {
+                    var branchs = genericRepo.Get<DTOModel.Branch>((x => branchIds.Contains(x.BranchID) && x.EmailId == null)).Select(x => x.BranchName).ToList();
+                    if (branchs.Count > 0)
+                    {
+                        string commaSeparatedBranchs = string.Join(", ", branchs.Select(x => x));
+
+                        regEmpSalary.CustomErrorFound = true;
+                        regEmpSalary.CustomErrorMsg = $"Error :You cannot generate salary because the below branches do not have an email address.\n <br/> {commaSeparatedBranchs}";
+                        return regEmpSalary;
+                    }
+                }
+
+
                 noOfEmpSalaryRows = generateSalaryRepo.NofEmployeeSalaryRows(
-                    regEmpSalary.salMonth, regEmpSalary.salYear,
-                    regEmpSalary.BranchesExcecptHO,
-                    regEmpSalary.AllEmployees, regEmpSalary.selectedEmployeeTypeID.Value,
-                    regEmpSalary.selectedBranchID, regEmpSalary.selectedEmployeeID, out empCodesOfSalaryTable);
+                   regEmpSalary.salMonth, regEmpSalary.salYear,
+                   regEmpSalary.BranchesExcecptHO,
+                   regEmpSalary.AllEmployees, regEmpSalary.selectedEmployeeTypeID.Value,
+                   regEmpSalary.selectedBranchID, regEmpSalary.selectedEmployeeID, out empCodesOfSalaryTable);
+
+                // Remove Contractual Employee if Contract has expired
+                if (regEmpSalary.selectedEmployeeTypeID.Value != 5)
+                {
+                    var endDateOfSelectedMonth = new DateTime(regEmpSalary.salYear, regEmpSalary.salMonth, 1);
+                    empExtentionExpireCode = GetContractEmpExtentionExpireCodeList(endDateOfSelectedMonth);
+                    empCodesFromMaster = empCodesFromMaster.Except(empExtentionExpireCode).ToList();
+
+                    noOfEmpSalaryRows = empCodesOfSalaryTable.Except(empExtentionExpireCode).Count();
+                    empCodesOfSalaryTable = empCodesOfSalaryTable.Except(empExtentionExpireCode).ToList();
+                }
 
                 noOfMonthlyInputRows = generateSalaryRepo.NoOfMonthlyInputRows(regEmpSalary.BranchesExcecptHO,
                     regEmpSalary.AllEmployees, regEmpSalary.salMonth, regEmpSalary.salYear, regEmpSalary.selectedEmployeeTypeID.Value,
@@ -166,7 +195,7 @@ namespace Nafed.MicroPay.Services.Salary
 
                     IList<string> negtvSalEmp;
                     SalaryGenerator salGenerator = new SalaryGenerator(genericRepo, generateSalaryRepo);
-                    regEmpSalary.IsSalaryCalculationDone = salGenerator.CalculateSalary(regEmpSalary, out negtvSalEmp);
+                    regEmpSalary.IsSalaryCalculationDone = salGenerator.CalculateSalary(regEmpSalary, out negtvSalEmp, empExtentionExpireCode);
                     regEmpSalary.NegativeSalEmp = negtvSalEmp
                         ;
                     log.Info($"IsSalaryCalculationDone={regEmpSalary.IsSalaryCalculationDone}");
@@ -232,7 +261,7 @@ namespace Nafed.MicroPay.Services.Salary
 
                     else if (genericRepo.Exists<DTOModel.tblFinalMonthlySalary>(x => x.BranchCode != "99"
                     && x.SalMonth == regEmpSalary.salMonth && x.SalYear == regEmpSalary.salYear && x.Publish
-                    && x.tblMstEmployee.EmployeeTypeID == regEmpSalary.selectedEmployeeTypeID.Value ))
+                    && x.tblMstEmployee.EmployeeTypeID == regEmpSalary.selectedEmployeeTypeID.Value))
 
                     {
                         regEmpSalary.CustomErrorFound = true;
@@ -854,8 +883,29 @@ namespace Nafed.MicroPay.Services.Salary
                 throw ex;
 
             }
-
         }
+
+        public List<string> GetContractEmpExtentionExpireCodeList(DateTime extentionToDate)
+        {
+            try
+            {
+                List<string> empCodes = new List<string>();
+                var dataTable = arrearRepository.GetContractEmpExtentionExpireCodeList(extentionToDate);
+                for (int i = 0; i < dataTable.Rows.Count; i++)
+                {
+                    empCodes.Add(Convert.ToString(dataTable.Rows[i][0]));
+                }
+
+                return empCodes;
+            }
+            catch (Exception ex)
+            {
+                log.Error("Message-" + ex.Message + " StackTrace-" + ex.StackTrace + " DatetimeStamp-" + DateTime.Now);
+                throw ex;
+            }
+        }
+
+
     }
 
 }

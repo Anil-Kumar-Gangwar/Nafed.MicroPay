@@ -7,14 +7,14 @@
     <thead>
         <tr>
             <th rowspan="2">#</th>
-            <th  rowspan="2" >Period </th>
-            <th  rowspan="2" >Type</th>
-            <th colspan="2" >Pay Slip</th>
-            <th colspan="2" >Pay Summary</th>
-           
+            <th rowspan="2">Period </th>
+            <th rowspan="2">Type</th>
+            <th colspan="2">Pay Slip</th>
+            <th colspan="2">Pay Summary</th>
+
         </tr>
         <tr>
-           
+
             <th>Head Office</th>
             <th>All Branches</th>
 
@@ -32,80 +32,119 @@
                 var sno = 1;
                 for (int i = 0; i < Model.Count(); i++)
                 {
-                   <tr>
-                       <td> @sno</td>
-                     
-                       <td>
-                               <text>
-                                   @Model[i].periodInDateFormat.ToString("MMM, yyyy")
-                               </text>
-                          
-                       </td>
+                    <tr>
+                        <td> @sno</td>
 
-                       <td style='vertical-align:middle;'> Regular </td>
+                        <td>
+                            <text>
+                                @Model[i].periodInDateFormat.ToString("MMM, yyyy")
+                            </text>
 
-                     
+                        </td>
 
-                       <td class="text-center" style='vertical-align:middle;'>
+                        <td style='vertical-align:middle;'>
+                            @if (Model[i].EmployeeTypeID == 1)
+                            {
+                                <span>Contract</span>
+                            }
+                            else if (Model[i].EmployeeTypeID == 2)
+                            {
+                                <span>Consolidated Wages</span>
+                            }
+                            else if (Model[i].EmployeeTypeID == 3)
+                            {
+                                <span>Daily Wages</span>
+                            }
+                            else if (Model[i].EmployeeTypeID == 4)
+                            {
+                                <span>Management Trainee</span>
+                            }
+                            else if (Model[i].EmployeeTypeID == 5)
+                            {
+                                <span>Regular</span>
+                            }
+                            else if (Model[i].EmployeeTypeID == 6)
+                            {
+                                <span>Advisor</span>
+                            }
+                            else if (Model[i].EmployeeTypeID == 7)
+                            {
+                                <span>Deputation Case</span>
+                            }
+                            else if (Model[i].EmployeeTypeID == 9)
+                            {
+                                <span>Consultant</span>
+                            }
+                            else if (Model[i].EmployeeTypeID == 10)
+                            {
+                                <span>Board</span>
+                            }
+                            else
+                            {
+                                <span>Other</span>
+                            }
+                        </td>
+
+                        <td class="text-center" style='vertical-align:middle;'>
 
 
-                           <a data-ajax="true" data-toggle="tooltip"
-                              href="@Url.Action("_ExportMonthlyPaySlip", "PublishSalary",
+                            <a data-ajax="true" data-toggle="tooltip"
+                               href="@Url.Action("_ExportMonthlyPaySlip", "PublishSalary",
                 new { branchID = 44, empTypeID= Model[i].EmployeeTypeID,
                     salMonth = Model[i].periodInDateFormat.Month,
                     salYear= Model[i].periodInDateFormat.Year })"
-                              method="GET" title="Click here ,to export monthly pay slip report."
-                              data-ajax-success="OnExportSuccess">
-                               <span class="far fa-file-excel text-info" aria-hidden="true"></span>
-                           </a>
+                               method="GET" title="Click here ,to export monthly pay slip report."
+                               data-ajax-success="OnExportSuccess">
+                                <span class="far fa-file-excel text-info" aria-hidden="true"></span>
+                            </a>
 
-                       </td>
-                       <td class="text-center" style='vertical-align:middle;'>
+                        </td>
+                        <td class="text-center" style='vertical-align:middle;'>
 
 
-                           <a data-ajax="true" data-toggle="tooltip"
-                              href="@Url.Action("_ExportMonthlyPaySlip", "PublishSalary",
+                            <a data-ajax="true" data-toggle="tooltip"
+                               href="@Url.Action("_ExportMonthlyPaySlip", "PublishSalary",
                 new { empTypeID= Model[i].EmployeeTypeID,
                     salMonth = Model[i].periodInDateFormat.Month,
                     salYear= Model[i].periodInDateFormat.Year })"
-                              method="GET" title="Click here ,to export monthly pay slip report."
-                              data-ajax-success="OnExportSuccess">
-                               <span class="far fa-file-excel text-info" aria-hidden="true"></span>
-                           </a>
+                               method="GET" title="Click here ,to export monthly pay slip report."
+                               data-ajax-success="OnExportSuccess">
+                                <span class="far fa-file-excel text-info" aria-hidden="true"></span>
+                            </a>
 
-                       </td>
-                       <td class="text-center" style='vertical-align:middle;'>
+                        </td>
+                        <td class="text-center" style='vertical-align:middle;'>
 
 
-                           <a data-ajax="true" data-toggle="tooltip"
-                              href="@Url.Action("_ExportMonthlyPaySummary", "PublishSalary",
+                            <a data-ajax="true" data-toggle="tooltip"
+                               href="@Url.Action("_ExportMonthlyPaySummary", "PublishSalary",
                 new { branchID = 44, empTypeID= Model[i].EmployeeTypeID,
                     salMonth =  Model[i].periodInDateFormat.Month,
                     salYear=  Model[i].periodInDateFormat.Year})"
-                              method="GET" title="Click here ,to export monthly pay summary report."
-                              data-ajax-success="OnExportSuccess">
+                               method="GET" title="Click here ,to export monthly pay summary report."
+                               data-ajax-success="OnExportSuccess">
 
-                               <span class="far fa-file-excel text-info" aria-hidden="true"></span>
-                           </a>
+                                <span class="far fa-file-excel text-info" aria-hidden="true"></span>
+                            </a>
 
-                       </td>
-                       <td class="text-center" style='vertical-align:middle;'>
+                        </td>
+                        <td class="text-center" style='vertical-align:middle;'>
 
 
-                           <a data-ajax="true" data-toggle="tooltip"
-                              href="@Url.Action("_ExportMonthlyPaySummary", "PublishSalary",
+                            <a data-ajax="true" data-toggle="tooltip"
+                               href="@Url.Action("_ExportMonthlyPaySummary", "PublishSalary",
                 new {  empTypeID= Model[i].EmployeeTypeID,
                     salMonth =  Model[i].periodInDateFormat.Month,
                     salYear=  Model[i].periodInDateFormat.Year
                 })"
-                              method="GET" title="Click here ,to export monthly pay summary report."
-                              data-ajax-success="OnExportSuccess">
+                               method="GET" title="Click here ,to export monthly pay summary report."
+                               data-ajax-success="OnExportSuccess">
 
-                               <span class="far fa-file-excel text-info" aria-hidden="true"></span>
-                           </a>
+                                <span class="far fa-file-excel text-info" aria-hidden="true"></span>
+                            </a>
 
-                       </td>
-                   </tr>
+                        </td>
+                    </tr>
 
 
                     sno++;
@@ -128,7 +167,7 @@
 
 
     function OnExportSuccess(data) {
-      
+
         if (data.fileName == "" || data.fileName == undefined) {
             $("#branchRequired").text('Please select branch.');
         }

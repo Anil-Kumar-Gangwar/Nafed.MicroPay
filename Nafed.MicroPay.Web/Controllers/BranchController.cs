@@ -85,22 +85,22 @@ namespace MicroPay.Web.Controllers
             try
             {
                 BindDropdowns();
-               
+                if (branchService.BranchNameExists(createBranch.BranchName, branchId: null))
+                    ModelState.AddModelError("BranchName", "Branch Name Already Exist");
+                if (branchService.EmailidExists(createBranch.EmailId, branchId: null))
+                    ModelState.AddModelError("EmailId", "Email Address Already Exist");
+
                 if (ModelState.IsValid)
                 {
                     createBranch.BranchCode = "123";
-                    if (branchService.BranchNameExists(createBranch.BranchName))
-                        ModelState.AddModelError("BranchNameAlreadyExist", "Branch Name Already Exist");
-                    else
-                    {
-                        createBranch.CreatedOn = DateTime.Now;
-                        createBranch.CreatedBy = userDetail.UserID;
-                        createBranch.CityID = createBranch.CityID == 0 ? null : createBranch.CityID;
-                        createBranch.GradeID = createBranch.GradeID == 0 ? null : createBranch.GradeID;
-                        int branchID = branchService.InsertBranch(createBranch);
-                        TempData["Message"] = "Successfully Created";
-                        return RedirectToAction("Index");
-                    }
+                    createBranch.CreatedOn = DateTime.Now;
+                    createBranch.CreatedBy = userDetail.UserID;
+                    createBranch.CityID = createBranch.CityID == 0 ? null : createBranch.CityID;
+                    createBranch.GradeID = createBranch.GradeID == 0 ? null : createBranch.GradeID;
+                    int branchID = branchService.InsertBranch(createBranch);
+                    TempData["Message"] = "Successfully Created";
+                    return RedirectToAction("Index");
+
                 }
 
             }
@@ -139,14 +139,13 @@ namespace MicroPay.Web.Controllers
             try
             {
                 BindDropdowns();
+                if (branchService.BranchNameExists(editBranch.BranchName, branchId: editBranch.BranchID))
+                    ModelState.AddModelError("BranchName", "Branch Name Already Exist");
+                if (branchService.EmailidExists(editBranch.EmailId, branchId: editBranch.BranchID))
+                    ModelState.AddModelError("EmailId", "Email Address Already Exist");
                 if (ModelState.IsValid)
                 {
                     editBranch.BranchCode = editBranch.BranchCode.Trim();
-
-                    //if (branchService.BranchNameExists(editBranch.BranchID, editBranch.BranchCode))
-                    //    ModelState.AddModelError("BranchCodeAlreadyExist", "Branch Code Already Exist");
-                    //else
-                    //{
                     editBranch.UpdatedOn = DateTime.Now;
                     editBranch.UpdatedBy = userDetail.UserID;
                     branchService.UpdateBranch(editBranch);
@@ -155,7 +154,6 @@ namespace MicroPay.Web.Controllers
                     return RedirectToAction("Index");
                     //}
                 }
-
             }
             catch (Exception ex)
             {

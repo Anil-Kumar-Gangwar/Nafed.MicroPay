@@ -32,5 +32,6 @@ namespace Nafed.MicroPay.Services.Increment
         List<ValidateNewBasicAmount> GetUpdateValidateNewBasicAmountDetails(int? employeeId, int? incrementMonth);
 
         string ExportIncrement(int? branchId, int? incrementMonth, string employeeName, string employeeCode, string fileName, string fullPath, string type);
+        string GetDesignationName(int designationId);
     }
 }

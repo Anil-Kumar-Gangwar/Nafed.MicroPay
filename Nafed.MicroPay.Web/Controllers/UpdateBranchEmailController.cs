@@ -65,8 +65,24 @@ namespace MicroPay.Web.Controllers
             log.Info("UpdateBranchEmailController/UpdateEmail");
             try
             {
+                if (branchService.EmailidExists(objBranch.EmailId, branchId: objBranch.BranchID))
+                {
+                    return Json(new { success = false, msg = "Email Address Already Exist." }, JsonRequestBehavior.AllowGet);
+                }
+
                 var result = branchService.UpdateBranchEmail(objBranch.BranchID, objBranch.EmailId);
-                return Json(new { success = result, msg = "Branch email updated successfully." }, JsonRequestBehavior.AllowGet);
+                if (result)
+                {
+                    TempData["Message"] = "Branch email updated successfully.";
+                    return Json(new { success = result, msg = "Branch email updated successfully." }, JsonRequestBehavior.AllowGet);
+                }
+
+                else
+                {
+                    return Json(new { success = result, msg = "Branch email updation failed!" }, JsonRequestBehavior.AllowGet);
+                }
+                  
+               
             }
             catch (Exception ex)
             {

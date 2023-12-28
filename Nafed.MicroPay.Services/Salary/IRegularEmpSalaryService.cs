@@ -17,5 +17,6 @@ namespace Nafed.MicroPay.Services.Salary
         FinalMonthlySalary GetEmployeeSalary(int empId, int salYear, int salMonth);
         Task<bool> UpdateEmployeeSalary(FinalMonthlySalary empSalary);
         void UpdateDateBranch_Pay(int salMonth, int salYear);
+        List<string> GetContractEmpExtentionExpireCodeList(DateTime extentionToDate);
     }
 }

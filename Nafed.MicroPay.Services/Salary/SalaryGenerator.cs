@@ -26,7 +26,7 @@ namespace Nafed.MicroPay.Services.Salary
             this.generateSalaryRepo = generateSalaryRepo;
             this.genericRepo = genericRepo;
         }
-        public bool CalculateSalary(RegularEmployeeSalary regEmpSalary, out IList<string> negSalEmp)
+        public bool CalculateSalary(RegularEmployeeSalary regEmpSalary, out IList<string> negSalEmp, List<string> empExtentionExpireCode)
         {
             log.Info($"SalaryGenerator/CalculateSalary");
             try
@@ -41,6 +41,14 @@ namespace Nafed.MicroPay.Services.Salary
                     regEmpSalary.BranchesExcecptHO, regEmpSalary.AllEmployees,
                     regEmpSalary.selectedEmployeeTypeID.Value, regEmpSalary.selectedBranchID,
                     regEmpSalary.selectedEmployeeID);
+
+                // Remove Contractual Employee if Contract has expired
+                if (regEmpSalary.selectedEmployeeTypeID.Value != 5)
+                {
+                    dtoEmpSalaries = dtoEmpSalaries.Where(i => !empExtentionExpireCode.Contains(i.EmployeeCode)).ToList();
+                }
+
+
                 // Added new logic on 16-06-2021,i.e. replace E_Basic value based on E_Basic_Pay column value.
                 Mapper.Initialize(cfg =>
                 {

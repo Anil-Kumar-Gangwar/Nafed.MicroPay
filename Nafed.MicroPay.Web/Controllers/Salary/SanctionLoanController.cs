@@ -225,7 +225,10 @@ namespace MicroPay.Web.Controllers.Salary
             {
 
                var flag = salaryService.DeleteSanction(priorityNo, mstLoanID,userDetail.UserID);
+                if(flag)
                 TempData["Message"] = "Successfully Deleted";
+                else
+                    TempData["Error"] = "Deletion failed!";
             }
             catch (Exception ex)
             {
